@@ -1,0 +1,44 @@
+app-crypt/gcr gtk
+app-crypt/pinentry gtk
+app-misc/tracker -ffmpeg gstreamer
+app-text/ghostscript-gpl cups
+app-text/poppler cairo
+dev-libs/boehm-gc threads
+dev-libs/folks eds
+dev-libs/glib dbus
+dev-libs/libgdata gnome
+dev-libs/libusb udev
+dev-libs/libxml2 python
+gnome-base/gnome-control-center networkmanager
+gnome-base/gnome-settings-daemon policykit
+gnome-base/gvfs cdda gtk udisks
+gnome-extra/evolution-data-server gnome-online-accounts gtk vala
+media-gfx/imagemagick jpeg
+media-gfx/imagemagick png
+media-libs/clutter gtk
+media-libs/grilo playlist
+media-libs/gst-plugins-base X theora
+media-libs/harfbuzz icu
+media-libs/libchamplain gtk
+media-plugins/alsa-plugins pulseaudio
+media-plugins/grilo-plugins upnp-av tracker
+net-dns/avahi dbus
+net-libs/gtk-vnc gtk3
+net-misc/networkmanager introspection modemmanager ppp
+net-print/cups dbus
+net-wireless/wpa_supplicant dbus
+sys-apps/dbus X
+sys-auth/consolekit policykit
+sys-fs/udev gudev
+sys-fs/udev introspection
+virtual/libgudev introspection
+virtual/notification-daemon -gnome
+www-servers/apache apache2_modules_auth_digest apache2_mpms_prefork
+x11-drivers/nvidia-drivers gtk3
+x11-libs/cairo X
+x11-libs/cairo opengl
+x11-libs/gdk-pixbuf jpeg
+x11-libs/gtk+ X
+x11-libs/libxcb xkb
+x11-libs/libxkbcommon X
+x11-libs/pango X

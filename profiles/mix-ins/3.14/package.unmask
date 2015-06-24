@@ -1,0 +1,5 @@
+=app-admin/system-config-printer-1.5.7::dantrell-gnome
+=app-crypt/gnupg-2.0.28::dantrell-gnome
+=app-crypt/gnupg-2.1.6::dantrell-gnome
+=dev-scheme/guile-1.8.8-r1::dantrell-gnome
+=dev-scheme/guile-2.0.11-r2::dantrell-gnome

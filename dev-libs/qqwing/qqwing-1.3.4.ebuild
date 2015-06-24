@@ -1,0 +1,22 @@
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI="5"
+
+inherit eutils
+
+DESCRIPTION="Sudoku puzzle generator and solver"
+HOMEPAGE="http://qqwing.com/"
+SRC_URI="http://qqwing.com/${P}.tar.gz"
+
+LICENSE="GPL-2+"
+SLOT="0/2"
+KEYWORDS="*"
+IUSE=""
+
+RDEPEND=""
+DEPEND="${RDEPEND}"
+
+src_install() {
+	default
+	prune_libtool_files
+}

@@ -1,0 +1,11 @@
+diff -urN gnome-system-log-9999/configure.ac gnome-system-log-9999-patched/configure.ac
+--- gnome-system-log-9999/configure.ac	2014-07-19 01:28:48.616551209 -0400
++++ gnome-system-log-9999-patched/configure.ac	2014-07-19 01:38:27.102579690 -0400
+@@ -1,6 +1,6 @@
+ dnl -*- mode: m4 -*-
+ AC_PREREQ(2.63)
+-AC_INIT([gnome-system-log],[3.9.90],[],[gnome-system-log])
++AC_INIT([gnome-system-log],[20150622],[],[gnome-system-log])
+ 
+ AC_CONFIG_HEADERS(config.h)
+ AC_CONFIG_MACRO_DIR([m4])

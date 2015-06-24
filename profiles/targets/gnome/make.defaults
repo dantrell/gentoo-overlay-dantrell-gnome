@@ -1,0 +1,1 @@
+USE="colord consolekit dbus gnome gnome-keyring gnome-online-accounts gstreamer gtk3 gtkstyle introspection libnotify nautilus policykit pulseaudio tracker"
