@@ -17,7 +17,7 @@ RDEPEND="
 	>=dev-libs/glib-2.28:2
 	>=net-libs/gupnp-0.20.5
 "
-DEPEND="${DEPEND}
+DEPEND="${RDEPEND}
 	virtual/pkgconfig
 "
 
