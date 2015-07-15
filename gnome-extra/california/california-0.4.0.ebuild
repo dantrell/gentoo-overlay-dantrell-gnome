@@ -23,6 +23,7 @@ RDEPEND="
 	>=net-libs/libsoup-2.44:2.4
 	>=gnome-extra/evolution-data-server-3.8
 	<gnome-extra/evolution-data-server-3.13.90
+	<mail-client/evolution-3.13.90
 	>=x11-libs/gtk+-3.12.2:3
 	x11-misc/xdg-utils
 "

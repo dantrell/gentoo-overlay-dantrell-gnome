@@ -79,7 +79,7 @@
 >=gnome-base/gsettings-desktop-schemas-3.16.1
 >=gnome-base/gvfs-1.24.1
 >=gnome-base/nautilus-3.16.2
->=gnome-extra/california-0.4.0
+>=gnome-extra/california-0.5.0
 >=gnome-extra/evolution-data-server-3.16.2
 >=gnome-extra/evolution-ews-3.16.2
 >=gnome-extra/evolution-mapi-3.16.2
