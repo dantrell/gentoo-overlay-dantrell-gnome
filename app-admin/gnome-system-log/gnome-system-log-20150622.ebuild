@@ -37,8 +37,6 @@ src_prepare() {
 
 	epatch_user
 
-	./autogen.sh || die
-
 	gnome2_src_prepare
 }
 
@@ -46,8 +44,4 @@ src_configure() {
 	gnome2_src_configure \
 		--enable-zlib \
 		ITSTOOL=$(type -P true)
-}
-
-pkg_postinst() {
-	ewarn "While this ebuild is tied to a specific git commit, instability can still occur"
 }
