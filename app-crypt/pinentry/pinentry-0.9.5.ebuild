@@ -2,7 +2,7 @@
 
 EAPI="5"
 
-inherit qmake-utils multilib eutils flag-o-matic toolchain-funcs
+inherit autotools qmake-utils multilib eutils flag-o-matic toolchain-funcs
 
 DESCRIPTION="Collection of simple PIN or passphrase entry dialogs which utilize the Assuan protocol"
 HOMEPAGE="http://gnupg.org/aegypten2/index.html"
@@ -11,7 +11,7 @@ SRC_URI="mirror://gnupg/${PN}/${P}.tar.bz2"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="clipboard gtk ncurses qt4 caps gnome-keyring static"
+IUSE="clipboard emacs gtk ncurses qt4 caps gnome-keyring static"
 
 RDEPEND="
 	>=dev-libs/libgpg-error-1.17
@@ -25,8 +25,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	sys-devel/gettext
-	gtk? ( virtual/pkgconfig )
-	qt4? ( virtual/pkgconfig )
+	virtual/pkgconfig
 	gnome-keyring? ( app-crypt/libsecret )
 "
 REQUIRED_USE="
@@ -40,6 +39,8 @@ DOCS=( AUTHORS ChangeLog NEWS README THANKS TODO )
 
 src_prepare() {
 	epatch "${FILESDIR}/${PN}-0.8.2-ncurses.patch"
+	epatch "${FILESDIR}/${P}-build.patch"
+	eautoreconf
 }
 
 src_configure() {
@@ -51,6 +52,7 @@ src_configure() {
 
 	econf \
 		--enable-pinentry-tty \
+		$(use_enable emacs pinentry-emacs) \
 		$(use_enable gtk pinentry-gtk2) \
 		$(use_enable ncurses pinentry-curses) \
 		$(use_enable ncurses fallback-curses) \

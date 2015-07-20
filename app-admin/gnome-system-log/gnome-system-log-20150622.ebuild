@@ -27,6 +27,7 @@ RDEPEND="${COMMON_DEPEND}
 
 DEPEND="${COMMON_DEPEND}
 	>=dev-util/intltool-0.40
+	dev-util/itstool
 	>=sys-devel/gettext-0.17
 	app-text/yelp-tools
 	virtual/pkgconfig
@@ -42,6 +43,5 @@ src_prepare() {
 
 src_configure() {
 	gnome2_src_configure \
-		--enable-zlib \
-		ITSTOOL=$(type -P true)
+		--enable-zlib
 }
