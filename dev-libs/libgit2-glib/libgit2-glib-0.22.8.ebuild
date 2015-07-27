@@ -7,7 +7,7 @@ PYTHON_COMPAT=( python{3_3,3_4} )
 VALA_MIN_API_VERSION="0.22"
 VALA_USE_DEPEND="vapigen"
 
-inherit autotools eutils gnome2 python-r1 vala
+inherit eutils gnome2 python-r1 vala
 
 DESCRIPTION="Git library for GLib"
 HOMEPAGE="https://wiki.gnome.org/Projects/Libgit2-glib"
@@ -21,6 +21,7 @@ REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 RDEPEND="
 	>=dev-libs/libgit2-0.21.0:=
+	<dev-libs/libgit2-0.23
 	>=dev-libs/glib-2.28.0:2
 	>=dev-libs/gobject-introspection-0.10.1
 	python? (

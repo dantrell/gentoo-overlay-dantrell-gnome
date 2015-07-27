@@ -112,13 +112,13 @@ pkg_pretend() {
 		check-reqs_pkg_pretend
 	fi
 
-	if ! test-flag-CXX -std=c++11; then
+	if [[ ${MERGE_TYPE} != "binary" ]] && ! test-flag-CXX -std=c++11; then
 		die "You need at least GCC 4.7.x or Clang >= 3.3 for C++11-specific compiler flags"
 	fi
 }
 
 pkg_setup() {
-	if [[ ${MERGE_TYPE} != "binary" ]] ; then
+	if [[ ${MERGE_TYPE} != "binary" ]] && is-flagq "-g*" && ! is-flagq "-g*0" ; then
 		check-reqs_pkg_setup
 	fi
 
