@@ -26,7 +26,7 @@ RESTRICT="test"
 
 RDEPEND="
 	dev-libs/libxml2:2
-	>=app-emulation/libvirt-0.9.10:=
+	>=app-emulation/libvirt-1.2.6:=
 	>=dev-libs/glib-2.38.0:2
 	introspection? ( >=dev-libs/gobject-introspection-0.10.8:= )
 	python? ( ${PYTHON_DEPS} )

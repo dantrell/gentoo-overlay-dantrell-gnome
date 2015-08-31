@@ -7,7 +7,7 @@ VALA_USE_DEPEND="vapigen"
 inherit eutils mono-env gnome2 vala
 
 DESCRIPTION="Utilities for creating and parsing messages using MIME"
-HOMEPAGE="http://spruce.sourceforge.net/gmime/ http://developer.gnome.org/gmime/stable/"
+HOMEPAGE="http://spruce.sourceforge.net/gmime/ https://developer.gnome.org/gmime/stable/"
 
 SLOT="2.6"
 LICENSE="LGPL-2.1"
@@ -20,13 +20,12 @@ RDEPEND="
 	>=app-crypt/gpgme-1.1.6
 	mono? (
 		dev-lang/mono
-		>=dev-dotnet/glib-sharp-2.4.0:2 )
+		>=dev-dotnet/gtk-sharp-2.12.21:2 )
 "
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.8
 	virtual/pkgconfig
 	doc? ( app-text/docbook-sgml-utils )
-	mono? ( dev-dotnet/gtk-sharp-gapi:2 )
 	vala? (
 		$(vala_depend)
 		>=dev-libs/gobject-introspection-1.30.0 )

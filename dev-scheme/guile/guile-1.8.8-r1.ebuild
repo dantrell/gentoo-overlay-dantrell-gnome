@@ -4,7 +4,7 @@ EAPI="5"
 inherit eutils autotools flag-o-matic elisp-common
 
 DESCRIPTION="Scheme interpreter"
-HOMEPAGE="http://www.gnu.org/software/guile/"
+HOMEPAGE="https://www.gnu.org/software/guile/"
 SRC_URI="mirror://gnu/guile/${P}.tar.gz"
 
 LICENSE="LGPL-2.1"
@@ -15,9 +15,10 @@ RESTRICT="!regex? ( test )"
 RDEPEND="
 	!dev-scheme/guile:2
 
-	>=dev-libs/gmp-4.1
+	>=dev-libs/gmp-4.1:0=
 	>=sys-devel/libtool-1.5.6
 	sys-devel/gettext
+	sys-libs/ncurses:0=
 	emacs? ( virtual/emacs )"
 DEPEND="${RDEPEND}
 	sys-apps/texinfo"

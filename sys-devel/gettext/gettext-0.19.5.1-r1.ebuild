@@ -5,7 +5,7 @@ EAPI="5"
 inherit flag-o-matic eutils multilib toolchain-funcs mono-env libtool java-pkg-opt-2 multilib-minimal
 
 DESCRIPTION="GNU locale utilities"
-HOMEPAGE="http://www.gnu.org/software/gettext/"
+HOMEPAGE="https://www.gnu.org/software/gettext/"
 SRC_URI="mirror://gnu/${PN}/${P}.tar.gz"
 
 LICENSE="GPL-3 LGPL-2"
@@ -37,6 +37,12 @@ MULTILIB_WRAPPED_HEADERS=(
 
 src_prepare() {
 	java-pkg-opt-2_src_prepare
+
+	# This patch should not be included in version bumps (at least to 0.19.2).
+	# Perhaps 0.19.5.2 will be broken in the same way. #556024
+	[[ ${PV} != 0.19.5.1 ]] && die
+	epatch "${FILESDIR}"/${P}-version-hack.patch #556024
+
 	epunt_cxx
 	elibtoolize
 }

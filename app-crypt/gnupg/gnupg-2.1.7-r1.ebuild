@@ -17,7 +17,7 @@ IUSE="bzip2 doc +gnutls ldap nls readline static selinux smartcard tools usb"
 COMMON_DEPEND_LIBS="
 	dev-libs/npth
 	>=dev-libs/libassuan-2
-	>=dev-libs/libgcrypt-1.6.2
+	>=dev-libs/libgcrypt-1.6.2[threads]
 	>=dev-libs/libgpg-error-1.17
 	>=dev-libs/libksba-1.0.7
 	>=net-misc/curl-7.10
@@ -57,7 +57,6 @@ REQUIRED_USE="smartcard? ( !static )"
 S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
-	epatch "${FILESDIR}/${PN}-2.0.17-gpgsm-gencert.patch"
 	epatch_user
 }
 
