@@ -21,7 +21,7 @@
 >=dev-cpp/pangomm-2.36.0
 >=dev-lang/vala-0.28.0
 >=dev-libs/atk-2.16.0
->=dev-libs/folks-0.11.1
+>=dev-libs/folks-0.12.0
 >=dev-libs/gdl-3.16.0
 >=dev-libs/gjs-1.43.3
 >=dev-libs/glib-2.44.1

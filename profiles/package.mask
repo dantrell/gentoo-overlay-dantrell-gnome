@@ -15,6 +15,7 @@ app-text/poppler::gentoo
 dev-cpp/atkmm::gentoo
 dev-cpp/mm-common::gentoo
 dev-lang/vala::gentoo
+dev-libs/folks::gentoo
 dev-libs/gmime::gentoo
 dev-libs/gom::gentoo
 dev-libs/json-glib::gentoo
