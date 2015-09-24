@@ -11,11 +11,12 @@ SRC_URI="mirror://gnupg/${PN}/${P}.tar.bz2"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="clipboard emacs gtk ncurses qt4 caps gnome-keyring static"
+IUSE="emacs gtk ncurses qt4 caps gnome-keyring static"
 
 RDEPEND="
 	>=dev-libs/libgpg-error-1.17
 	>=dev-libs/libassuan-2
+	>=dev-libs/libgcrypt-1.6.3
 	app-eselect/eselect-pinentry
 	caps? ( sys-libs/libcap )
 	gtk? ( x11-libs/gtk+:2 )
@@ -26,7 +27,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	sys-devel/gettext
 	virtual/pkgconfig
-	gnome-keyring? ( app-crypt/libsecret )
+	gnome-keyring? ( app-crypt/libsecret app-crypt/gcr )
 "
 REQUIRED_USE="
 	|| ( ncurses gtk qt4 )
@@ -39,7 +40,7 @@ DOCS=( AUTHORS ChangeLog NEWS README THANKS TODO )
 
 src_prepare() {
 	epatch "${FILESDIR}/${PN}-0.8.2-ncurses.patch"
-	epatch "${FILESDIR}/${P}-build.patch"
+	epatch "${FILESDIR}/${P}-Remove-detection-of-Qt5.patch"
 	eautoreconf
 }
 
@@ -56,8 +57,7 @@ src_configure() {
 		$(use_enable gtk pinentry-gtk2) \
 		$(use_enable ncurses pinentry-curses) \
 		$(use_enable ncurses fallback-curses) \
-		$(use_enable qt4 pinentry-qt4) \
-		$(use qt4 && use_enable clipboard pinentry-qt4-clipboard) \
+		$(use_enable qt4 pinentry-qt) \
 		$(use_with caps libcap) \
 		$(use_enable gnome-keyring libsecret) \
 		$(use_enable gnome-keyring pinentry-gnome3) \
@@ -67,6 +67,10 @@ src_configure() {
 src_install() {
 	default
 	rm -f "${ED}"/usr/bin/pinentry || die
+
+	if use_enable qt4; then
+		dosym pinentry-qt /usr/bin/pinentry-qt4
+	fi
 }
 
 pkg_postinst() {
@@ -79,6 +83,7 @@ pkg_postinst() {
 		elog "USE flag and add the CAP_IPC_LOCK capability to the permitted set of"
 		elog "your users."
 	fi
+
 	eselect pinentry update ifunset
 }
 

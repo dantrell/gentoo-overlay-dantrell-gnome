@@ -21,14 +21,13 @@ RDEPEND=">=dev-libs/libgpg-error-1.12[${MULTILIB_USEDEP}]
 		!app-emulation/emul-linux-x86-baselibs[-abi_x86_32]
 	)"
 DEPEND="${RDEPEND}
-	doc? ( sys-apps/texinfo )"
+	doc? ( virtual/texi2dvi )"
 
 DOCS=( AUTHORS ChangeLog NEWS README THANKS TODO )
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.6.1-uscore.patch
 	"${FILESDIR}"/${PN}-multilib-syspath.patch
-	"${FILESDIR}"/${P}-freebsd-mpi.patch
 )
 
 MULTILIB_CHOST_TOOLS=(
@@ -43,7 +42,6 @@ multilib_src_configure() {
 		append-cflags -Wa,--divide
 	fi
 	local myeconfargs=(
-		--disable-padlock-support # bug 201917
 		--disable-dependency-tracking
 		--enable-noexecstack
 		--disable-O-flag-munging
@@ -64,7 +62,7 @@ multilib_src_configure() {
 
 multilib_src_compile() {
 	emake
-	multilib_is_native_abi && use doc && emake -C doc gcrypt.pdf
+	multilib_is_native_abi && use doc && VARTEXFONTS="${T}/fonts" emake -C doc gcrypt.pdf
 }
 
 multilib_src_install() {

@@ -50,7 +50,7 @@ index f7a89dc..1498f72 100644
  	Build introspectable bindings:  ${found_introspection}
  	Build Vala bindings:            ${enable_vala}
  	Build GdkPixbuf loader:         ${enable_pixbuf_loader}
--        GTK 3.0:                        ${have_gtk_3}
+-        GTK+ $GTK3_REQUIRED or later:           ${have_gtk_3}
 +        GTK 3.0:                        ${with_gtk3}
  	Build miscellaenous tools:      ${build_misc_tools}
  "

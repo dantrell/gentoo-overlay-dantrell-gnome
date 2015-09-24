@@ -17,7 +17,7 @@ IUSE="bzip2 doc ldap nls mta readline static selinux smartcard tools usb"
 COMMON_DEPEND_LIBS="
 	>=dev-libs/libassuan-2
 	>=dev-libs/libgcrypt-1.5:0=
-	>=dev-libs/libgpg-error-1.11
+	>=dev-libs/libgpg-error-1.19
 	>=dev-libs/libksba-1.0.7
 	>=dev-libs/pth-1.3.7
 	>=net-misc/curl-7.10

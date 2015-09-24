@@ -3,7 +3,6 @@
 EAPI="5"
 GCONF_DEBUG="no"
 GNOME2_LA_PUNT="yes"
-VALA_MIN_API_VERSION="0.18"
 VALA_USE_DEPEND="vapigen"
 
 inherit autotools gnome2 multilib-minimal vala
@@ -28,7 +27,7 @@ RDEPEND="
 	>=dev-libs/libcroco-0.6.8-r1[${MULTILIB_USEDEP}]
 	>=x11-libs/gdk-pixbuf-2.30.7:2[introspection?,${MULTILIB_USEDEP}]
 	introspection? ( >=dev-libs/gobject-introspection-0.10.8:= )
-	tools? ( >=x11-libs/gtk+-3.2.0:3 )
+	tools? ( >=x11-libs/gtk+-3.10.0:3 )
 "
 DEPEND="${RDEPEND}
 	dev-libs/gobject-introspection-common
@@ -41,7 +40,7 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	# https://bugzilla.gnome.org/show_bug.cgi?id=653323
-	epatch "${FILESDIR}/${PN}-2.40.7-gtk-optional.patch"
+	epatch "${FILESDIR}/${PN}-2.40.10-gtk-optional.patch"
 
 	# https://bugzilla.gnome.org/show_bug.cgi?id=731826
 	epatch "${FILESDIR}/${PN}-2.40.2-vala-out-of-source.patch"

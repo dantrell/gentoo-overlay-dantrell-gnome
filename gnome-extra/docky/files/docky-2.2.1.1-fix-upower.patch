@@ -1,0 +1,34 @@
+diff '--exclude=.git' -urN docky-2.2.1.1/Docky.Services/Docky.Services/SystemService.cs docky-2.2.1.1-patched/Docky.Services/Docky.Services/SystemService.cs
+--- docky-2.2.1.1/Docky.Services/Docky.Services/SystemService.cs	2014-05-06 14:07:15.000000000 -0400
++++ docky-2.2.1.1-patched/Docky.Services/Docky.Services/SystemService.cs	2015-09-24 17:53:50.004556209 -0400
+@@ -261,7 +261,7 @@
+ 		
+ 		delegate void BoolDelegate (bool val);
+ 		
+-		[Interface(UPowerName)]
++		[Interface("org.freedesktop.DBus.Properties")]
+ 		interface IUPower : org.freedesktop.DBus.Properties
+ 		{
+ 			//bool OnBattery { get; }
+@@ -304,11 +304,16 @@
+ 
+ 		void HandleUPowerChanged ()
+ 		{
+-			bool newState = GetBoolean (upower, UPowerName, "OnBattery");
+-			
+-			if (on_battery != newState) {
+-				on_battery = newState;
+-				OnBatteryStateChanged ();
++			try {
++				bool newState = GetBoolean (upower, UPowerName, "OnBattery");
++				
++				if (on_battery != newState) {
++					on_battery = newState;
++					OnBatteryStateChanged ();
++				}
++			} catch (Exception e) {
++				Log<SystemService>.Error ("Could not initialize power manager dbus: '{0}'", e.Message);
++				Log<SystemService>.Info (e.StackTrace);
+ 			}
+ 		}
+ 

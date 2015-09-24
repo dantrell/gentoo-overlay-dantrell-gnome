@@ -16,16 +16,16 @@ IUSE="+crypt debug +introspection test vala"
 REQUIRED_USE="vala? ( introspection )"
 KEYWORDS="*"
 
-COMMON_DEPEND="
+RDEPEND="
 	>=dev-libs/glib-2.38:2
 	crypt? ( >=dev-libs/libgcrypt-1.2.2:0= )
 	introspection? ( >=dev-libs/gobject-introspection-1.29 )
 "
-PDEPEND="${COMMON_DEPEND}
-	>=gnome-base/gnome-keyring-3
+PDEPEND=">=gnome-base/gnome-keyring-3
 "
-# Add ksecrets to RDEPEND when it's added to portage
-DEPEND="${COMMON_DEPEND}
+# PDEPEND to avoid circular dep (bug #547456)
+# Add ksecrets to PDEPEND when it's added to portage
+DEPEND="${RDEPEND}
 	app-text/docbook-xsl-stylesheets
 	dev-libs/libxslt
 	dev-util/gdbus-codegen

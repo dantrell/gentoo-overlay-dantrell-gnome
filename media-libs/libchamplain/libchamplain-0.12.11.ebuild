@@ -2,7 +2,6 @@
 
 EAPI="5"
 GCONF_DEBUG=no
-VALA_MIN_API_VERSION=0.14
 VALA_USE_DEPEND=vapigen
 
 inherit gnome2 vala
@@ -27,15 +26,13 @@ RDEPEND="
 	gtk? (
 		x11-libs/gtk+:3[introspection?]
 		media-libs/clutter-gtk:1.0 )
-	introspection? ( dev-libs/gobject-introspection )
+	introspection? ( dev-libs/gobject-introspection:= )
 "
 DEPEND="${RDEPEND}
 	dev-util/gtk-doc-am
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
 "
-# segfaults with vala:0.12
-# vala-0.14.2-r1 required for bug #402013
 
 src_prepare() {
 	# Fix documentation slotability
