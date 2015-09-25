@@ -13,22 +13,29 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="emacs gtk ncurses qt4 caps gnome-keyring static"
 
-RDEPEND="
+CDEPEND="
 	>=dev-libs/libgpg-error-1.17
 	>=dev-libs/libassuan-2
 	>=dev-libs/libgcrypt-1.6.3
-	app-eselect/eselect-pinentry
-	caps? ( sys-libs/libcap )
-	gtk? ( x11-libs/gtk+:2 )
 	ncurses? ( sys-libs/ncurses:0= )
+	gtk? ( x11-libs/gtk+:2 )
 	qt4? ( >=dev-qt/qtgui-4.4.1:4 )
+	caps? ( sys-libs/libcap )
 	static? ( >=sys-libs/ncurses-5.7-r5:0=[static-libs,-gpm] )
+	app-eselect/eselect-pinentry
+	gnome-keyring? ( app-crypt/libsecret )
 "
-DEPEND="${RDEPEND}
+
+DEPEND="${CDEPEND}
 	sys-devel/gettext
 	virtual/pkgconfig
-	gnome-keyring? ( app-crypt/libsecret app-crypt/gcr )
 "
+
+RDEPEND="
+	${CDEPEND}
+	gnome-keyring? ( app-crypt/gcr )
+"
+
 REQUIRED_USE="
 	|| ( ncurses gtk qt4 )
 	gtk? ( !static )
