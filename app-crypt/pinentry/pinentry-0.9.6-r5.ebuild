@@ -11,7 +11,7 @@ SRC_URI="mirror://gnupg/${PN}/${P}.tar.bz2"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="emacs gtk ncurses qt4 caps gnome-keyring static"
+IUSE="emacs gtk ncurses qt4 qt5 caps gnome-keyring static"
 
 CDEPEND="
 	>=dev-libs/libgpg-error-1.17
@@ -19,7 +19,13 @@ CDEPEND="
 	>=dev-libs/libgcrypt-1.6.3
 	ncurses? ( sys-libs/ncurses:0= )
 	gtk? ( x11-libs/gtk+:2 )
-	qt4? ( >=dev-qt/qtgui-4.4.1:4 )
+	qt4? (
+		>=dev-qt/qtgui-4.4.1:4
+	     )
+	qt5? (
+		dev-qt/qtgui:5
+		dev-qt/qtwidgets:5
+	     )
 	caps? ( sys-libs/libcap )
 	static? ( >=sys-libs/ncurses-5.7-r5:0=[static-libs,-gpm] )
 	app-eselect/eselect-pinentry
@@ -40,23 +46,39 @@ REQUIRED_USE="
 	|| ( ncurses gtk qt4 )
 	gtk? ( !static )
 	qt4? ( !static )
+	qt5? ( !static )
 	static? ( ncurses )
+	?? ( qt4 qt5 )
 "
 
 DOCS=( AUTHORS ChangeLog NEWS README THANKS TODO )
 
 src_prepare() {
 	epatch "${FILESDIR}/${PN}-0.8.2-ncurses.patch"
-	epatch "${FILESDIR}/${P}-Remove-detection-of-Qt5.patch"
+	epatch "${FILESDIR}/${P}-add-disable-pinentry-qt5-option.patch"
 	eautoreconf
 }
 
 src_configure() {
+	local myconf=()
 	use static && append-ldflags -static
 	[[ "$(gcc-major-version)" -ge 5 ]] && append-cxxflags -std=gnu++11
 
-	# Issues finding qt on multilib systems
-	export QTLIB="${QTDIR}/$(get_libdir)"
+	QT_MOC=""
+	if use qt4; then
+		myconf+=( --enable-pinentry-qt
+			  --disable-pinentry-qt5
+			)
+		QT_MOC="$(qt4_get_bindir)"/moc
+		# Issues finding qt on multilib systems
+		export QTLIB="$(qt4_get_libdir)"
+	elif use qt5; then
+		myconf+=( --enable-pinentry-qt )
+		QT_MOC="$(qt5_get_bindir)"/moc
+		export QTLIB="$(qt5_get_libdir)"
+	else
+		myconf+=( --disable-pinentry-qt )
+	fi
 
 	econf \
 		--enable-pinentry-tty \
@@ -64,18 +86,18 @@ src_configure() {
 		$(use_enable gtk pinentry-gtk2) \
 		$(use_enable ncurses pinentry-curses) \
 		$(use_enable ncurses fallback-curses) \
-		$(use_enable qt4 pinentry-qt) \
 		$(use_with caps libcap) \
 		$(use_enable gnome-keyring libsecret) \
 		$(use_enable gnome-keyring pinentry-gnome3) \
-		MOC="$(qt4_get_bindir)"/moc
+		"${myconf[@]}" \
+		MOC="${QT_MOC}"
 }
 
 src_install() {
 	default
 	rm -f "${ED}"/usr/bin/pinentry || die
 
-	if use_enable qt4; then
+	if use_enable qt4 || use_enable qt5; then
 		dosym pinentry-qt /usr/bin/pinentry-qt4
 	fi
 }
