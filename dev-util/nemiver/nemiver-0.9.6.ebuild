@@ -21,7 +21,7 @@ RDEPEND="
 	>=dev-cpp/gtksourceviewmm-3:3.0
 	>=gnome-base/gsettings-desktop-schemas-0.0.1
 	>=gnome-base/libgtop-2.19
-	>=x11-libs/vte-0.28:2.90
+	x11-libs/vte:2.91
 	>=dev-db/sqlite-3:3
 	sys-devel/gdb
 	dev-libs/boost
@@ -32,6 +32,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	app-text/docbook-xml-dtd:4.1.2
 	>=dev-util/intltool-0.40
+	dev-util/itstool
 	>=sys-devel/gettext-0.17
 	virtual/pkgconfig
 "
@@ -42,6 +43,5 @@ src_configure() {
 		--disable-static \
 		--disable-symsvis \
 		--enable-gsettings \
-		$(use_enable memoryview) \
-		ITSTOOL=$(type -P true)
+		$(use_enable memoryview)
 }

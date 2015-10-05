@@ -25,7 +25,7 @@ COMMON_DEPEND="
 "
 DEPEND="${COMMON_DEPEND}
 	>=dev-util/gtk-doc-am-1.20
-	>=sys-devel/gettext-0.17
+	>=sys-devel/gettext-0.19
 	virtual/pkgconfig
 "
 # librsvg blocker is for the new pixbuf loader API, you lose icons otherwise
