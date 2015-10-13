@@ -13,6 +13,7 @@ app-text/gnome-doc-utils::gentoo
 app-text/libgxps::gentoo
 app-text/poppler::gentoo
 dev-cpp/atkmm::gentoo
+dev-cpp/gtkmm::gentoo
 dev-cpp/mm-common::gentoo
 dev-lang/vala::gentoo
 dev-libs/folks::gentoo

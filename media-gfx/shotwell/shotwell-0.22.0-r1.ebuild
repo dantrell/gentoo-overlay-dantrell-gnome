@@ -23,9 +23,9 @@ KEYWORDS="*"
 IUSE=""
 
 CORE_SUPPORTED_LANGUAGES="
-	af ar as ast bg bn bn_IN ca cs da de el en_GB eo es et eu fi fr gd gl gu he
-	hi hr hu ia id it ja kk km kn ko ky lt lv mk ml mr nb nl nn or pa pl pt
-	pt_BR ro ru sk sl sr sv ta te th tr uk vi zh_CN zh_HK zh_TW"
+	af ar as ast bg bn bn_IN bs ca cs da de el en_GB eo es et eu fi fr gd gl gu
+	he hi hr hu ia id it ja kk km kn ko ky lt lv mk ml mr nb nl nn or pa pl pt
+	pt_BR ro ru sk sl sr sr@latin sv ta te th tr uk vi zh_CN zh_HK zh_TW"
 
 for x in ${CORE_SUPPORTED_LANGUAGES}; do
 	IUSE+="linguas_${x} "
@@ -76,12 +76,21 @@ pkg_setup() {
 }
 
 src_prepare() {
+	local x
 	vala_src_prepare
 	sed \
 		-e 's|CFLAGS :|CFLAGS +|g' \
 		-i plugins/Makefile.plugin.mk || die
 	epatch \
 		"${FILESDIR}"/${PN}-0.13.1-ldflags.patch
+
+	# remove disabled lenguages from build
+	for x in ${CORE_SUPPORTED_LANGUAGES}; do
+		if ! has ${x} ${LINGUAS}; then
+			sed -i "/^${x}$/d" "${S}"/po/LINGUAS || die
+		fi
+	done
+	echo en_GB >> "${S}"/po/LINGUAS
 }
 
 src_configure() {
@@ -98,11 +107,7 @@ src_compile() {
 src_install() {
 	local res
 	gnome2_src_install
-	for x in ${LANGS}; do
-		if ! has ${x} ${LINGUAS}; then
-			find "${D}"/usr/share/locale/${x} -type f -exec rm {} + || die
-		fi
-	done
+
 	doman "${DISTDIR}"/${PN}.1
 	for res in 16 22 24 32 48 256; do
 		doicon -s ${res} "${WORKDIR}"/${res}x${res}/*

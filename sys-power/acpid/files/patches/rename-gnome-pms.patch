@@ -1,0 +1,12 @@
+diff '--exclude=.git' -urN a/samples/powerbtn/powerbtn.sh b/samples/powerbtn/powerbtn.sh
+--- a/samples/powerbtn/powerbtn.sh	2015-10-12 20:36:05.823620128 -0400
++++ b/samples/powerbtn/powerbtn.sh	2015-10-12 20:38:39.520178305 -0400
+@@ -53,7 +53,7 @@
+ # A list of power management system process names.
+ PMS=""
+ PMS="$PMS dalston-power-applet"
+-PMS="$PMS gnome-power-manager"
++PMS="$PMS gnome-settings-daemon"
+ PMS="$PMS guidance-power-manager.py"
+ PMS="$PMS kpowersave"
+ PMS="$PMS xfce4-power-manager"

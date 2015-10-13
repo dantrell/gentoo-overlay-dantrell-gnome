@@ -1,0 +1,12 @@
+diff '--exclude=.git' -urN a/samples/powerbtn/powerbtn.sh b/samples/powerbtn/powerbtn.sh
+--- a/samples/powerbtn/powerbtn.sh	2010-06-15 09:39:15.000000000 -0400
++++ b/samples/powerbtn/powerbtn.sh	2015-10-12 20:30:14.506930413 -0400
+@@ -57,7 +57,7 @@
+ # If one of those is running or any of several others,
+ if pidof x $PMS > /dev/null ||
+ 	( test "$XUSER" != "" && pidof dcopserver > /dev/null && test -x /usr/bin/dcop && /usr/bin/dcop --user $XUSER kded kded loadedModules | grep -q klaptopdaemon) ||
+-	( test "$XUSER" != "" && test -x /usr/bin/qdbus && test -r /proc/$(pidof kded4)/environ && su - $XUSER -c "eval $(echo -n 'export '; cat /proc/$(pidof kded4)/environ |tr '\0' '\n'|grep DBUS_SESSION_BUS_ADDRESS); qdbus org.kde.kded" | grep -q powerdevil) ; then
++	( test "$XUSER" != "" && test -x /usr/bin/qdbus && test -r /proc/$(pgrep -n kded4)/environ && su - $XUSER -c "eval $(echo -n 'export '; cat /proc/$(pgrep -n kded4)/environ |tr '\0' '\n'|grep DBUS_SESSION_BUS_ADDRESS); qdbus org.kde.kded" | grep -q powerdevil) ; then
+ 	# Get out as the power manager that is running will take care of things.
+     exit
+ fi

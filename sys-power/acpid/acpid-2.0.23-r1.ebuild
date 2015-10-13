@@ -2,7 +2,7 @@
 
 EAPI="5"
 
-inherit linux-info systemd
+inherit eutils linux-info systemd
 
 DESCRIPTION="Daemon for Advanced Configuration and Power Interface"
 HOMEPAGE="http://sourceforge.net/projects/acpid2"
@@ -18,7 +18,7 @@ DEPEND="${RDEPEND}
 		>=sys-kernel/linux-headers-3
 		systemd? ( sys-apps/systemd )"
 
-pre_src_compile() {
+pkg_pretend() {
 	local CONFIG_CHECK="~INPUT_EVDEV"
 	local WARNING_INPUT_EVDEV="CONFIG_INPUT_EVDEV is required for ACPI button event support."
 	[[ ${MERGE_TYPE} != buildonly ]] && check_extra_config
@@ -28,8 +28,15 @@ src_prepare() {
 	# From Funtoo:
 	# 	https://bugs.funtoo.org/browse/FL-1329
 	# 	https://bugs.funtoo.org/browse/FL-1439
-	epatch "${FILESDIR}"/patches/rename-gnome-power-management-system-process.patch
-	epatch "${FILESDIR}"/patches/add-cinnamon-power-management-system-process.patch
+	epatch "${FILESDIR}"/patches/sort-pms.patch
+	epatch "${FILESDIR}"/patches/rename-gnome-pms.patch
+	epatch "${FILESDIR}"/patches/add-cinnamon-pms.patch
+
+	# From Gentoo:
+	# 	https://bugs.gentoo.org/show_bug.cgi?id=515088
+	# 	https://bugs.gentoo.org/show_bug.cgi?id=538590
+	epatch "${FILESDIR}"/patches/fix-kde4-pms.patch
+	epatch "${FILESDIR}"/patches/add-mate-pms.patch
 }
 
 src_configure() {
@@ -63,7 +70,7 @@ pkg_postinst() {
 		elog
 		elog "You may wish to read the Gentoo Linux Power Management Guide,"
 		elog "which can be found online at:"
-		elog "https://www.gentoo.org/doc/en/power-management-guide.xml"
+		elog "https://wiki.gentoo.org/wiki/Power_management/Guide"
 		elog
 	fi
 
