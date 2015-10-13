@@ -32,6 +32,7 @@ sys-auth/consolekit policykit
 sys-fs/udev gudev
 sys-fs/udev introspection
 virtual/libgudev introspection
+virtual/libusb udev
 virtual/notification-daemon -gnome
 www-servers/apache apache2_modules_auth_digest apache2_mpms_prefork
 x11-drivers/nvidia-drivers gtk3
