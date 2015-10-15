@@ -9,19 +9,21 @@ SRC_URI="mirror://gnu/guile/${P}.tar.gz"
 
 LICENSE="LGPL-2.1"
 KEYWORDS="*"
-IUSE="networking +regex discouraged +deprecated emacs nls debug-freelist debug-malloc debug +threads"
+IUSE="debug debug-freelist debug-malloc +deprecated discouraged emacs networking nls readline +regex +threads"
+
 RESTRICT="!regex? ( test )"
 
 RDEPEND="
 	!dev-scheme/guile:2
-
 	>=dev-libs/gmp-4.1:0=
-	>=sys-devel/libtool-1.5.6
+	dev-libs/libltdl:0=
 	sys-devel/gettext
 	sys-libs/ncurses:0=
-	emacs? ( virtual/emacs )"
+	emacs? ( virtual/emacs )
+	readline? ( sys-libs/readline:0= )"
 DEPEND="${RDEPEND}
-	sys-apps/texinfo"
+	sys-apps/texinfo
+	sys-devel/libtool"
 
 # Guile seems to contain some slotting support, /usr/share/guile/ is slotted,
 # but there are lots of collisions. Most in /usr/share/libguile. Therefore
@@ -32,12 +34,23 @@ MAJOR="1.8"
 src_prepare() {
 	epatch "${FILESDIR}/${P}-fix_guile-config.patch" \
 		"${FILESDIR}/${P}-gcc46.patch" \
+		"${FILESDIR}/${P}-gcc5.patch" \
 		"${FILESDIR}/${P}-makeinfo-5.patch" \
-		"${FILESDIR}/${P}-gtexinfo-5.patch"
+		"${FILESDIR}/${P}-gtexinfo-5.patch" \
+		"${FILESDIR}/${P}-readline.patch" \
+		"${FILESDIR}/${P}-tinfo.patch" \
+		"${FILESDIR}/${P}-sandbox.patch"
+
 	sed \
 		-e "s/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/g" \
 		-e "/AM_PROG_CC_STDC/d" \
 		-i guile-readline/configure.in
+
+	epatch_user
+
+	mv "${S}"/configure.{in,ac} || die
+	mv "${S}"/guile-readline/configure.{in,ac} || die
+
 	eautoreconf
 }
 
@@ -51,6 +64,7 @@ src_configure() {
 		--disable-static \
 		--enable-posix \
 		$(use_enable networking) \
+		$(use_enable readline) \
 		$(use_enable regex) \
 		$(use deprecated || use_enable discouraged) \
 		$(use_enable deprecated) \
@@ -77,7 +91,7 @@ src_compile()  {
 }
 
 src_install() {
-	einstall
+	emake DESTDIR="${D}" install
 
 	dodoc AUTHORS ChangeLog GUILE-VERSION HACKING NEWS README THANKS
 
