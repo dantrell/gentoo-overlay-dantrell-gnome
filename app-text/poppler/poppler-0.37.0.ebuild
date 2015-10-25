@@ -4,9 +4,15 @@ EAPI="5"
 
 inherit cmake-utils toolchain-funcs
 
-SRC_URI="http://poppler.freedesktop.org/${P}.tar.xz"
+if [[ "${PV}" == "9999" ]] ; then
+	inherit git-r3
+	EGIT_REPO_URI="git://git.freedesktop.org/git/${PN}/${PN}"
+	SLOT="0/9999"
+else
+	SRC_URI="http://poppler.freedesktop.org/${P}.tar.xz"
 KEYWORDS="*"
-SLOT="0/52"   # CHECK THIS WHEN BUMPING!!! SUBSLOT IS libpoppler.so SOVERSION
+	SLOT="0/56"   # CHECK THIS WHEN BUMPING!!! SUBSLOT IS libpoppler.so SOVERSION
+fi
 
 DESCRIPTION="PDF rendering library based on the xpdf-3.0 code base"
 HOMEPAGE="http://poppler.freedesktop.org/"
@@ -102,17 +108,13 @@ src_configure() {
 	cmake-utils_src_configure
 }
 
-src_compile() {
-	cmake-utils_src_compile -j1
-}
-
 src_install() {
 	cmake-utils_src_install
 
-	if use cairo && use doc; then
+	# live version doesn't provide html documentation
+	if use cairo && use doc && [[ ${PV} != 9999 ]]; then
 		# For now install gtk-doc there
 		insinto /usr/share/gtk-doc/html/poppler
-		# nonfatal, because live version doesn't provide html documentation.
-		nonfatal doins -r "${S}"/glib/reference/html/*
+		doins -r "${S}"/glib/reference/html/*
 	fi
 }

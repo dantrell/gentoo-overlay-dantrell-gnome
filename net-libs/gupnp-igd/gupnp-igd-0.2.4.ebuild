@@ -61,7 +61,7 @@ multilib_src_configure() {
 				--enable-python
 		}
 
-		use python && python_parallel_foreach_impl python_configure
+		use python && python_foreach_impl python_configure
 	fi
 }
 
