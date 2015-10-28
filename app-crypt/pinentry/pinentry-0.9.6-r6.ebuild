@@ -43,7 +43,7 @@ RDEPEND="
 "
 
 REQUIRED_USE="
-	|| ( ncurses gtk qt4 )
+	|| ( ncurses gtk qt4 qt5 )
 	gtk? ( !static )
 	qt4? ( !static )
 	qt5? ( !static )
@@ -97,7 +97,7 @@ src_install() {
 	default
 	rm -f "${ED}"/usr/bin/pinentry || die
 
-	if use_enable qt4 || use_enable qt5; then
+	if use qt4 || use qt5; then
 		dosym pinentry-qt /usr/bin/pinentry-qt4
 	fi
 }
