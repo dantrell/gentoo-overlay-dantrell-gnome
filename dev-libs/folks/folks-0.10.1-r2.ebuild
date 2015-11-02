@@ -30,7 +30,7 @@ COMMON_DEPEND="
 	sys-libs/readline:0=
 
 	bluetooth? ( >=net-wireless/bluez-5 )
-	eds? ( <gnome-extra/evolution-data-server-3.13.90:=[vala] )
+	eds? ( >=gnome-extra/evolution-data-server-3.13.90:=[vala] )
 	telepathy? ( >=net-libs/telepathy-glib-0.19[vala] )
 	tracker? ( >=app-misc/tracker-1:0= )
 	zeitgeist? ( >=gnome-extra/zeitgeist-0.9.14 )
@@ -59,6 +59,12 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_prepare() {
+	# From GNOME
+	# 	https://git.gnome.org/browse/folks/commit/?id=baa67c2bd6f07180921fd917f9aecc1e2082ac17
+	# 	https://git.gnome.org/browse/folks/commit/?id=ef70ba956a1acb07a26928a52bd5def466102733
+	epatch "${FILESDIR}"/${PN}-0.10.1-eds-update-to-new-eds-address-book-timeout-api.patch
+	epatch "${FILESDIR}"/${PN}-0.10.1-build-drop-outdated-bluez-conditional-dependency-checks.patch
+
 	vala_src_prepare
 	gnome2_src_prepare
 }

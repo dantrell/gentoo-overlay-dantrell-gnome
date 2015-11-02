@@ -1,0 +1,38 @@
+From ef70ba956a1acb07a26928a52bd5def466102733 Mon Sep 17 00:00:00 2001
+From: Milan Crha <mcrha@redhat.com>
+Date: Wed, 4 Feb 2015 07:44:00 +0000
+Subject: build: Drop outdated BlueZ conditional dependency checks
+
+Since our overall EDS dependency is now higher than that needed for the
+BlueZ backend, we can drop the conditional EDS version checks which
+could previously disable building the BlueZ backend.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=743934
+---
+ configure.ac | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 3d0377a..e4086e0 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -263,7 +263,6 @@ VALA_REQUIRED=0.22.0.28-9090
+ VALADOC_REQUIRED=0.3.1
+ TRACKER_SPARQL_REQUIRED=0.15.2
+ EBOOK_REQUIRED=3.13.90
+-EBOOK_REQUIRED_FOR_BLUEZ=3.13.90
+ EDATASERVER_REQUIRED=3.13.90
+ ZEITGEIST_REQUIRED=0.9.14
+ GEE_REQUIRED=0.8.4
+@@ -333,8 +332,6 @@ AS_IF([test x$enable_tracker_backend = xyes], [
+ AC_SUBST([TRACKER_SPARQL_MAJOR])
+ AC_DEFINE_UNQUOTED(TRACKER_SPARQL_MAJOR, ["$TRACKER_SPARQL_MAJOR"], [Tracker major version])
+ 
+-AS_IF([test x$enable_bluez_backend = xyes], [EBOOK_REQUIRED=$EBOOK_REQUIRED_FOR_BLUEZ])
+-
+ AS_IF([test x$enable_eds_backend = xyes], [
+         PKG_CHECK_MODULES([EBOOK], [libebook-1.2 >= $EBOOK_REQUIRED
+                                     libebook-contacts-1.2 >= $EBOOK_REQUIRED])
+-- 
+cgit v0.11.2
+
