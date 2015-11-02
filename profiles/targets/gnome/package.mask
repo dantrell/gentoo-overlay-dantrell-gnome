@@ -1,0 +1,2 @@
+# Breaks Power Management Utilities (pm-utils) support
+=x11-drivers/nvidia-drivers-358.09
