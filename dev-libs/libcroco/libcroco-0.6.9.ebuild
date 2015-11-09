@@ -14,11 +14,14 @@ SLOT="0.6"
 KEYWORDS="*"
 IUSE="test"
 
-RDEPEND=">=dev-libs/glib-2.34.3:2[${MULTILIB_USEDEP}]
-	>=dev-libs/libxml2-2.9.1-r4[${MULTILIB_USEDEP}]"
+RDEPEND="
+	>=dev-libs/glib-2.34.3:2[${MULTILIB_USEDEP}]
+	>=dev-libs/libxml2-2.9.1-r4[${MULTILIB_USEDEP}]
+"
 DEPEND="${RDEPEND}
 	dev-util/gtk-doc-am
-	>=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}]"
+	>=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}]
+"
 
 src_prepare() {
 	if ! use test; then
