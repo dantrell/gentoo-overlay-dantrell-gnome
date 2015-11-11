@@ -2,3 +2,5 @@
 =app-crypt/gnupg-2.1.9::dantrell-gnome
 =dev-scheme/guile-1.8.8-r2::dantrell-gnome
 =dev-scheme/guile-2.0.11-r2::dantrell-gnome
+=gnome-extra/evolution-data-server-3.12.11::dantrell-gnome
+=mail-client/evolution-3.12.11::dantrell-gnome
