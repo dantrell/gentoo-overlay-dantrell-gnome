@@ -5,7 +5,7 @@ diff -urN gnome-system-log-9999/configure.ac gnome-system-log-9999-patched/confi
  dnl -*- mode: m4 -*-
  AC_PREREQ(2.63)
 -AC_INIT([gnome-system-log],[3.9.90],[],[gnome-system-log])
-+AC_INIT([gnome-system-log],[20150920],[],[gnome-system-log])
++AC_INIT([gnome-system-log],[20151007],[],[gnome-system-log])
  
  AC_CONFIG_HEADERS(config.h)
  AC_CONFIG_MACRO_DIR([m4])
