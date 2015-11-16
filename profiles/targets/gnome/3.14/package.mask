@@ -11,6 +11,7 @@
 >=app-editors/gedit-plugins-3.16.0
 >=app-editors/latexila-3.16.1
 >=app-misc/bijiben-3.16.2
+>=app-misc/geoclue-2.4.0
 >=app-misc/gnote-3.16.1
 >=app-misc/tracker-1.4.0
 >=app-misc/tracker-miner-media-0.1.0
@@ -20,6 +21,7 @@
 >=dev-cpp/gtkmm-3.16.0
 >=dev-cpp/pangomm-2.36.0
 >=dev-lang/vala-0.28.0
+>=dev-libs/appstream-glib-0.5.3
 >=dev-libs/atk-2.16.0
 >=dev-libs/folks-0.12.0
 >=dev-libs/gdl-3.16.0
@@ -31,6 +33,7 @@
 >=dev-libs/libgsystem-2014.1
 >=dev-libs/libgweather-3.16.1
 >=dev-libs/libpeas-1.14.0
+>=dev-libs/libsigc++-2.6.2
 >=dev-libs/libunistring-0.10.0
 >=dev-libs/vala-common-0.28.0
 >=dev-python/pyatspi-2.16.0
@@ -78,6 +81,7 @@
 >=gnome-base/gnome-shell-3.16.2
 >=gnome-base/gsettings-desktop-schemas-3.16.1
 >=gnome-base/gvfs-1.24.1
+>=gnome-base/libgtop-2.32.0
 >=gnome-base/nautilus-3.16.2
 >=gnome-extra/california-0.5.0
 >=gnome-extra/evolution-data-server-3.16.2
@@ -152,10 +156,11 @@
 >=sys-apps/baobab-3.16.1
 >=sys-apps/gnome-disk-utility-3.16.2
 >=www-client/epiphany-3.16.1
->=x11-libs/gdk-pixbuf-2.32.0
+>=x11-libs/gdk-pixbuf-2.33.0
 >=x11-libs/gnome-pty-helper-0.40.2
 >=x11-libs/gtksourceview-3.16.1
 >=x11-libs/gtk+-3.16.3
+>=x11-libs/pango-1.38.1
 >=x11-libs/vte-0.40.2
 >=x11-misc/notification-daemon-3.16.1
 >=x11-terms/gnome-terminal-3.16.2-r2

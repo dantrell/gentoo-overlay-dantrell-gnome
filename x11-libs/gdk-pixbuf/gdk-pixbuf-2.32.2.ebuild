@@ -7,17 +7,17 @@ GNOME2_LA_PUNT="yes"
 inherit eutils flag-o-matic gnome2 multilib libtool multilib-minimal
 
 DESCRIPTION="Image loading library for GTK+"
-HOMEPAGE="http://www.gtk.org/"
+HOMEPAGE="https://git.gnome.org/browse/gdk-pixbuf"
 
 LICENSE="LGPL-2+"
 SLOT="2"
 KEYWORDS="*"
-IUSE="+X debug +introspection jpeg jpeg2k tiff test"
+IUSE="X debug +introspection jpeg jpeg2k tiff test"
 
 COMMON_DEPEND="
 	>=dev-libs/glib-2.37.6:2[${MULTILIB_USEDEP}]
 	>=media-libs/libpng-1.4:0=[${MULTILIB_USEDEP}]
-	introspection? ( >=dev-libs/gobject-introspection-0.9.3 )
+	introspection? ( >=dev-libs/gobject-introspection-0.9.3:= )
 	jpeg? ( virtual/jpeg:0=[${MULTILIB_USEDEP}] )
 	jpeg2k? ( media-libs/jasper:=[${MULTILIB_USEDEP}] )
 	tiff? ( >=media-libs/tiff-3.9.2:0=[${MULTILIB_USEDEP}] )
@@ -34,10 +34,6 @@ RDEPEND="${COMMON_DEPEND}
 	!<gnome-base/librsvg-2.31.0
 	!<x11-libs/gtk+-2.21.3:2
 	!<x11-libs/gtk+-2.90.4:3
-	abi_x86_32? (
-		!<=app-emulation/emul-linux-x86-gtklibs-20131008-r2
-		!app-emulation/emul-linux-x86-gtklibs[-abi_x86_32(-)]
-	)
 "
 
 MULTILIB_CHOST_TOOLS=(

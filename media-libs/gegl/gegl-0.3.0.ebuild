@@ -10,15 +10,13 @@ VALA_USE_DEPEND=vapigen
 
 inherit versionator gnome2-utils eutils autotools python-any-r1 vala
 
-SRC_URI="http://download.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.bz2"
-KEYWORDS="*"
-
 DESCRIPTION="A graph based image processing framework"
 HOMEPAGE="http://www.gegl.org/"
+SRC_URI="http://download.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.bz2"
 
 LICENSE="|| ( GPL-3 LGPL-3 )"
 SLOT="0.3"
-
+KEYWORDS="*"
 IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection jpeg jpeg2k lcms lensfun libav openexr png raw sdl svg test umfpack vala v4l webp"
 REQUIRED_IUSE="vala? ( introspection )"
 

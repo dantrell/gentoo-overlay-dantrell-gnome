@@ -24,7 +24,7 @@ RDEPEND="
 	dev-libs/libxml2:2
 	net-libs/liboauth
 	gtk? ( >=x11-libs/gtk+-3:3 )
-	introspection? ( >=dev-libs/gobject-introspection-0.9 )
+	introspection? ( >=dev-libs/gobject-introspection-0.9:= )
 	network? ( >=net-libs/libsoup-2.41.3:2.4 )
 	playlist? ( >=dev-libs/totem-pl-parser-3.4.1 )
 "

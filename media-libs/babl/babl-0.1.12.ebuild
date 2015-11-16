@@ -4,14 +4,13 @@ EAPI="5"
 
 inherit eutils
 
-SRC_URI="http://ftp.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.bz2"
-KEYWORDS="*"
-
 DESCRIPTION="A dynamic, any to any, pixel format conversion library"
 HOMEPAGE="http://www.gegl.org/babl/"
+SRC_URI="http://ftp.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.bz2"
 
 LICENSE="LGPL-3"
 SLOT="0"
+KEYWORDS="*"
 IUSE="altivec cpu_flags_x86_sse cpu_flags_x86_sse2 cpu_flags_x86_mmx"
 
 RDEPEND=""
