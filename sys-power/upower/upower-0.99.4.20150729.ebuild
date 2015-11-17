@@ -2,16 +2,15 @@
 
 EAPI="5"
 
-inherit autotools eutils git-2 systemd
+inherit autotools eutils systemd
 
 DESCRIPTION="D-Bus abstraction for enumerating power devices and querying history and statistics"
 HOMEPAGE="http://upower.freedesktop.org/"
-EGIT_REPO_URI="git://anongit.freedesktop.org/upower"
-EGIT_COMMIT="fc27cbd5cb098ccf6c70110fe1b894987328fc0d"
+SRC_URI="http://${PN}.freedesktop.org/releases/${PN}-0.99.3.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0/3" # based on SONAME of libupower-glib.so
-KEYWORDS="-*"
+KEYWORDS="~*"
 IUSE="doc +deprecated +introspection ios kernel_FreeBSD kernel_linux"
 
 RDEPEND=">=dev-libs/dbus-glib-0.100
@@ -42,7 +41,27 @@ QA_MULTILIB_PATHS="usr/lib/${PN}/.*"
 
 DOCS="AUTHORS HACKING NEWS README"
 
+S="${WORKDIR}/${PN}-0.99.3"
+
 src_prepare() {
+	# From Upstream:
+	# 	http://cgit.freedesktop.org/upower/commit/?id=95e8a2a316872bf5e6b262ccc3a165cca8240d27
+	# 	http://cgit.freedesktop.org/upower/commit/?id=fe37183fba649b999af3f66b9e0b0d70a054426c
+	# 	http://cgit.freedesktop.org/upower/commit/?id=c9b2e177267b623850b3deedb1242de7d2e413ee
+	# 	http://cgit.freedesktop.org/upower/commit/?id=77239cc4470fc515e1c8c6c21005fa08f3b1b04e
+	# 	http://cgit.freedesktop.org/upower/commit/?id=305f62adf052aa972523d083ca44d3050f659ec9
+	# 	http://cgit.freedesktop.org/upower/commit/?id=1e4f711df426a695c232b4164b1333349cb9512a
+	# 	http://cgit.freedesktop.org/upower/commit/?id=ae9f8521c6f900255df1b6c7bc9f6adfd09abda5
+	# 	http://cgit.freedesktop.org/upower/commit/?id=fc27cbd5cb098ccf6c70110fe1b894987328fc0d
+	epatch "${FILESDIR}"/${PN}-0.99.4-0001-trivial-post-release-version-bump.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0002-lib-fix-memory-leak-in-up-client-get-devices.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0003-linux-fix-possible-double-free.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0004-bsd-add-critical-action-support-for-bsd.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0005-rules-add-support-for-logitech-g700s-g700-gaming-mou.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0006-revert-linux-work-around-broken-battery-on-the-onda.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0007-fix-hid-rules-header-as-per-discussions.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0008-update-upower-hid-rules-supported-devices-list.patch
+
 	if use deprecated; then
 		# From Funtoo:
 		# 	https://bugs.funtoo.org/browse/FL-1329

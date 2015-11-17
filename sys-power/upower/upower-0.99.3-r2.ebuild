@@ -11,7 +11,7 @@ SRC_URI="http://${PN}.freedesktop.org/releases/${P}.tar.xz"
 LICENSE="GPL-2"
 SLOT="0/3" # based on SONAME of libupower-glib.so
 KEYWORDS="*"
-IUSE="+deprecated +introspection ios kernel_FreeBSD kernel_linux"
+IUSE="doc +deprecated +introspection ios kernel_FreeBSD kernel_linux"
 
 RDEPEND=">=dev-libs/dbus-glib-0.100
 	>=dev-libs/glib-2.40
@@ -28,7 +28,8 @@ RDEPEND=">=dev-libs/dbus-glib-0.100
 			>=app-pda/libplist-1:=
 			)
 		)
-	deprecated? ( >=sys-power/pm-utils-1.4.1-r2 )"
+	deprecated? ( >=sys-power/pm-utils-1.4.1-r2 )
+	doc? ( dev-util/gtk-doc )"
 DEPEND="${RDEPEND}
 	dev-libs/gobject-introspection-common
 	dev-libs/libxslt
@@ -41,10 +42,16 @@ QA_MULTILIB_PATHS="usr/lib/${PN}/.*"
 DOCS="AUTHORS HACKING NEWS README"
 
 src_prepare() {
+	# From Upstream:
+	# 	http://cgit.freedesktop.org/upower/commit/?id=fe37183fba649b999af3f66b9e0b0d70a054426c
+	# 	http://cgit.freedesktop.org/upower/commit/?id=c9b2e177267b623850b3deedb1242de7d2e413ee
+	epatch "${FILESDIR}"/${PN}-0.99.4-0002-lib-fix-memory-leak-in-up-client-get-devices.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0003-linux-fix-possible-double-free.patch
+
 	if use deprecated; then
 		# From Funtoo:
 		# 	https://bugs.funtoo.org/browse/FL-1329
-		epatch "${FILESDIR}"/${P}-restore-deprecated-code.patch
+		epatch "${FILESDIR}"/${PN}-0.99.2-restore-deprecated-code.patch
 
 		# From Debian:
 		#	https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718458
@@ -75,6 +82,8 @@ src_configure() {
 		--with-html-dir="${EPREFIX}"/usr/share/doc/${PF}/html \
 		--with-backend=${backend} \
 		$(use_enable deprecated) \
+		$(use_enable doc gtk-doc) \
+		$(use_enable doc gtk-doc-html) \
 		$(use_enable introspection) \
 		$(use_with ios idevice) \
 		"$(systemd_with_utildir)" \
@@ -84,10 +93,12 @@ src_configure() {
 src_install() {
 	default
 
-	# http://bugs.gentoo.org/487400
-	insinto /usr/share/doc/${PF}/html/UPower
-	doins doc/html/*
-	dosym /usr/share/doc/${PF}/html/UPower /usr/share/gtk-doc/html/UPower
+	if use doc; then
+		# http://bugs.gentoo.org/487400
+		insinto /usr/share/doc/${PF}/html/UPower
+		doins doc/html/*
+		dosym /usr/share/doc/${PF}/html/UPower /usr/share/gtk-doc/html/UPower
+	fi
 
 	keepdir /var/lib/upower #383091
 	prune_libtool_files

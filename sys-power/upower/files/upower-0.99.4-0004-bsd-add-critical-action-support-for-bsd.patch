@@ -1,0 +1,492 @@
+From 77239cc4470fc515e1c8c6c21005fa08f3b1b04e Mon Sep 17 00:00:00 2001
+From: Eric Koegel <eric.koegel@gmail.com>
+Date: Mon, 6 Jul 2015 20:25:30 +0300
+Subject: [PATCH 4/8] bsd: Add critical action support for *BSD
+
+This patch adds support for using ConsoleKit2's DBUS API to
+implement the critical action for FreeBSD and OpenBSD. It does so
+by creating a common backend file both can use to implement the
+API calls.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=85242
+---
+ configure.ac                 |   1 +
+ src/Makefile.am              |  16 +++++-
+ src/bsd/Makefile.am          |  31 +++++++++++
+ src/bsd/up-backend-common.c  | 129 +++++++++++++++++++++++++++++++++++++++++++
+ src/freebsd/up-backend.c     |  43 ++++++++++-----
+ src/openbsd/up-backend.c     |  44 ++++++++++-----
+ src/up-backend-bsd-private.h |  38 +++++++++++++
+ 7 files changed, 274 insertions(+), 28 deletions(-)
+ create mode 100644 src/bsd/Makefile.am
+ create mode 100644 src/bsd/up-backend-common.c
+ create mode 100644 src/up-backend-bsd-private.h
+
+diff --git a/configure.ac b/configure.ac
+index fd71c25..478a72b 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -249,6 +249,7 @@ src/dummy/Makefile
+ src/freebsd/Makefile
+ src/openbsd/Makefile
+ src/linux/Makefile
++src/bsd/Makefile
+ tools/Makefile
+ doc/Makefile
+ doc/version.xml
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 784a3c8..314d227 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -1,7 +1,16 @@
+ ## Process this file with automake to produce Makefile.in
+ 
++DIST_SUBDIRS = dummy freebsd linux openbsd bsd
+ SUBDIRS = dummy freebsd linux openbsd
+ 
++if BACKEND_TYPE_FREEBSD
++SUBDIRS += bsd
++endif
++
++if BACKEND_TYPE_OPENBSD
++SUBDIRS += bsd
++endif
++
+ AM_CPPFLAGS = \
+ 	$(PIE_CFLAGS)						\
+ 	-I$(top_builddir)/src -I$(top_srcdir)/src		\
+@@ -78,6 +87,7 @@ upowerd_SOURCES =						\
+ 	up-backend.h						\
+ 	up-native.h						\
+ 	up-main.c						\
++	up-backend-bsd-private.h			\
+ 	$(BUILT_SOURCES)
+ 
+ upowerd_CPPFLAGS =						\
+@@ -98,12 +108,14 @@ endif
+ 
+ if BACKEND_TYPE_FREEBSD
+ upowerd_LDADD +=						\
+-	freebsd/libupshared.la
++	freebsd/libupshared.la				\
++	bsd/libupsharedcommon.la
+ endif
+ 
+ if BACKEND_TYPE_OPENBSD
+ upowerd_LDADD +=						\
+-	openbsd/libupshared.la
++	openbsd/libupshared.la				\
++	bsd/libupsharedcommon.la
+ endif
+ 
+ if BACKEND_TYPE_LINUX
+diff --git a/src/bsd/Makefile.am b/src/bsd/Makefile.am
+new file mode 100644
+index 0000000..5a1223e
+--- /dev/null
++++ b/src/bsd/Makefile.am
+@@ -0,0 +1,31 @@
++## Process this file with automake to produce Makefile.in
++
++AM_CPPFLAGS = \
++	-I$(top_builddir)/src -I$(top_srcdir)/src		\
++	-DUP_COMPILATION					\
++	-DG_LOG_DOMAIN=\"UPower-Unix\"			\
++	-I$(top_srcdir)/libupower-glib				\
++	$(POLKIT_CFLAGS)					\
++	$(DBUS_GLIB_CFLAGS)					\
++	$(GLIB_CFLAGS)						\
++	$(GIO_CFLAGS)
++
++noinst_LTLIBRARIES = libupsharedcommon.la
++
++libupsharedcommon_la_SOURCES =					\
++	up-backend-common.c							\
++	$(BUILT_SOURCES)
++
++libupsharedcommon_la_CFLAGS =					\
++	$(WARNINGFLAGS_C)
++
++EXTRA_DIST = $(libupsharedcommon_la_SOURCES)
++
++libupsharedcommon_la_LIBADD = 					\
++	$(GIO_LIBS)									\
++	$(GLIB_LIBS)
++
++clean-local :
++	rm -f *~
++
++-include $(top_srcdir)/git.mk
+diff --git a/src/bsd/up-backend-common.c b/src/bsd/up-backend-common.c
+new file mode 100644
+index 0000000..4fdad37
+--- /dev/null
++++ b/src/bsd/up-backend-common.c
+@@ -0,0 +1,129 @@
++/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
++ *
++ * Copyright (C) 2015 Eric Koegel <eric.koegel@gmail.com>
++ *
++ * Licensed under the GNU General Public License Version 2
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++ */
++
++#include "up-backend-bsd-private.h"
++
++static gboolean
++check_action_result (GVariant *result)
++{
++	if (result) {
++		const char *s;
++
++		g_variant_get (result, "(s)", &s);
++		if (g_strcmp0 (s, "yes") == 0)
++			return TRUE;
++	}
++	return FALSE;
++}
++
++/**
++ * functions called by upower daemon
++ **/
++
++/**
++ * up_backend_get_critical_action:
++ * @backend: The %UpBackend class instance
++ *
++ * Which action will be taken when %UP_DEVICE_LEVEL_ACTION
++ * warning-level occurs.
++ **/
++const char *
++up_backend_get_critical_action (UpBackend *backend)
++{
++	struct {
++		const gchar *method;
++		const gchar *can_method;
++	} actions[] = {
++		{ "HybridSleep", "CanHybridSleep" },
++		{ "Hibernate", "CanHibernate" },
++		{ "PowerOff", NULL },
++	};
++	guint i = 0;
++	char *action;
++	GDBusProxy *seat_manager_proxy = up_backend_get_seat_manager_proxy (backend);
++	UpConfig *config = up_backend_get_config (backend);
++
++	g_return_val_if_fail (seat_manager_proxy != NULL, NULL);
++	g_return_val_if_fail (config != NULL, NULL);
++
++	/* Find the configured action first */
++	action = up_config_get_string (config, "CriticalPowerAction");
++	if (action != NULL) {
++		for (i = 0; i < G_N_ELEMENTS (actions); i++)
++			if (g_str_equal (actions[i].method, action))
++				break;
++		if (i >= G_N_ELEMENTS (actions))
++			i = 0;
++		g_free (action);
++	}
++
++	for (; i < G_N_ELEMENTS (actions); i++) {
++		GVariant *result;
++
++		if (actions[i].can_method) {
++			gboolean action_available;
++
++			/* Check whether we can use the method */
++			result = g_dbus_proxy_call_sync (seat_manager_proxy,
++							 actions[i].can_method,
++							 NULL,
++							 G_DBUS_CALL_FLAGS_NONE,
++							 -1, NULL, NULL);
++			action_available = check_action_result (result);
++			g_variant_unref (result);
++
++			if (!action_available)
++				continue;
++		}
++
++		return actions[i].method;
++	}
++	g_assert_not_reached ();
++}
++
++/**
++ * up_backend_take_action:
++ * @backend: The %UpBackend class instance
++ *
++ * Act upon the %UP_DEVICE_LEVEL_ACTION warning-level.
++ **/
++void
++up_backend_take_action (UpBackend *backend)
++{
++	const char *method;
++	GDBusProxy *seat_manager_proxy = up_backend_get_seat_manager_proxy (backend);
++
++	method = up_backend_get_critical_action (backend);
++	g_assert (method != NULL);
++
++	/* Take action */
++	g_debug ("About to call ConsoleKit2 method %s", method);
++	g_dbus_proxy_call (seat_manager_proxy,
++			   method,
++			   g_variant_new ("(b)", FALSE),
++			   G_DBUS_CALL_FLAGS_NONE,
++			   G_MAXINT,
++			   NULL,
++			   NULL,
++			   NULL);
++}
++
++
+diff --git a/src/freebsd/up-backend.c b/src/freebsd/up-backend.c
+index 9fcd2b1..68a01dc 100644
+--- a/src/freebsd/up-backend.c
++++ b/src/freebsd/up-backend.c
+@@ -42,6 +42,7 @@
+ #include "up-daemon.h"
+ #include "up-marshal.h"
+ #include "up-device.h"
++#include "up-backend-bsd-private.h"
+ 
+ #define UP_BACKEND_REFRESH_TIMEOUT	30	/* seconds */
+ 
+@@ -62,6 +63,8 @@ struct UpBackendPrivate
+ 	UpDeviceList		*device_list;
+ 	GHashTable		*handle_map;
+ 	guint			poll_timer_id;
++	UpConfig		*config;
++	GDBusProxy		*seat_manager_proxy;
+ };
+ 
+ enum {
+@@ -318,28 +321,31 @@ up_backend_unplug (UpBackend *backend)
+ }
+ 
+ /**
+- * up_backend_get_critical_action:
++ * up_backend_get_seat_manager_proxy:
+  * @backend: The %UpBackend class instance
+  *
+- * Which action will be taken when %UP_DEVICE_LEVEL_ACTION
+- * warning-level occurs.
+- **/
+-const char *
+-up_backend_get_critical_action (UpBackend *backend)
++ * Returns the seat manager object or NULL on error. [transfer none]
++ */
++GDBusProxy *
++up_backend_get_seat_manager_proxy (UpBackend  *backend)
+ {
+-	return "PowerOff";
++	g_return_val_if_fail (UP_IS_BACKEND (backend), NULL);
++
++	return backend->priv->seat_manager_proxy;
+ }
+ 
+ /**
+- * up_backend_take_action:
++ * up_backend_get_config:
+  * @backend: The %UpBackend class instance
+  *
+- * Act upon the %UP_DEVICE_LEVEL_ACTION warning-level.
+- **/
+-void
+-up_backend_take_action (UpBackend *backend)
++ * Returns the UpConfig object or NULL on error. [transfer none]
++ */
++UpConfig *
++up_backend_get_config (UpBackend  *backend)
+ {
+-	/* FIXME: Implement */
++	g_return_val_if_fail (UP_IS_BACKEND (backend), NULL);
++
++	return backend->priv->config;
+ }
+ 
+ /* Return value: a percentage value */
+@@ -411,6 +417,15 @@ up_backend_init (UpBackend *backend)
+ {
+ 	backend->priv = UP_BACKEND_GET_PRIVATE (backend);
+ 	backend->priv->handle_map = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, (GDestroyNotify) g_object_unref);
++	backend->priv->config = up_config_new ();
++	backend->priv->seat_manager_proxy = g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SYSTEM,
++									   0,
++									   NULL,
++									   CONSOLEKIT2_DBUS_NAME,
++									   CONSOLEKIT2_DBUS_PATH,
++									   CONSOLEKIT2_DBUS_INTERFACE,
++									   NULL,
++									   NULL);
+ }
+ 
+ /**
+@@ -425,6 +440,7 @@ up_backend_finalize (GObject *object)
+ 
+ 	backend = UP_BACKEND (object);
+ 
++	g_object_unref (backend->priv->config);
+ 	if (backend->priv->daemon != NULL)
+ 		g_object_unref (backend->priv->daemon);
+ 	if (backend->priv->device_list != NULL)
+@@ -433,6 +449,7 @@ up_backend_finalize (GObject *object)
+ 		g_hash_table_unref (backend->priv->handle_map);
+ 	if (backend->priv->poll_timer_id > 0)
+ 		g_source_remove (backend->priv->poll_timer_id);
++	g_clear_object (&backend->priv->seat_manager_proxy);
+ 
+ 	G_OBJECT_CLASS (up_backend_parent_class)->finalize (object);
+ }
+diff --git a/src/openbsd/up-backend.c b/src/openbsd/up-backend.c
+index 20e86c0..52a03d4 100644
+--- a/src/openbsd/up-backend.c
++++ b/src/openbsd/up-backend.c
+@@ -49,6 +49,8 @@ struct UpBackendPrivate
+ 	UpDevice		*battery;
+ 	GThread			*apm_thread;
+ 	gboolean		is_laptop;
++	UpConfig		*config;
++	GDBusProxy		*seat_manager_proxy;
+ };
+ 
+ enum {
+@@ -166,30 +168,34 @@ up_backend_unplug (UpBackend *backend)
+ }
+ 
+ /**
+- * up_backend_get_critical_action:
++ * up_backend_get_seat_manager_proxy:
+  * @backend: The %UpBackend class instance
+  *
+- * Which action will be taken when %UP_DEVICE_LEVEL_ACTION
+- * warning-level occurs.
+- **/
+-const char *
+-up_backend_get_critical_action (UpBackend *backend)
++ * Returns the seat manager object or NULL on error. [transfer none]
++ */
++GDBusProxy *
++up_backend_get_seat_manager_proxy (UpBackend  *backend)
+ {
+-	return "PowerOff";
++	g_return_val_if_fail (UP_IS_BACKEND (backend), NULL);
++
++	return backend->priv->seat_manager_proxy;
+ }
+ 
+ /**
+- * up_backend_take_action:
++ * up_backend_get_config:
+  * @backend: The %UpBackend class instance
+  *
+- * Act upon the %UP_DEVICE_LEVEL_ACTION warning-level.
+- **/
+-void
+-up_backend_take_action (UpBackend *backend)
++ * Returns the UpConfig object or NULL on error. [transfer none]
++ */
++UpConfig *
++up_backend_get_config (UpBackend  *backend)
+ {
+-	/* FIXME: Implement */
++	g_return_val_if_fail (UP_IS_BACKEND (backend), NULL);
++
++	return backend->priv->config;
+ }
+ 
++
+ /**
+  * OpenBSD specific code
+  **/
+@@ -636,6 +642,16 @@ up_backend_init (UpBackend *backend)
+ 			      "update-time", (guint64) current_time,
+ 			      (void*) NULL);
+ 	}
++
++	backend->priv->config = up_config_new ();
++	backend->priv->seat_manager_proxy = g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SYSTEM,
++									   0,
++									   NULL,
++									   CONSOLEKIT2_DBUS_NAME,
++									   CONSOLEKIT2_DBUS_PATH,
++									   CONSOLEKIT2_DBUS_INTERFACE,
++									   NULL,
++									   NULL);
+ }
+ /**
+  * up_backend_finalize:
+@@ -649,12 +665,14 @@ up_backend_finalize (GObject *object)
+ 
+ 	backend = UP_BACKEND (object);
+ 
++	g_object_unref (backend->priv->config);
+ 	if (backend->priv->daemon != NULL)
+ 		g_object_unref (backend->priv->daemon);
+ 	if (backend->priv->battery != NULL)
+ 		g_object_unref (backend->priv->battery);
+ 	if (backend->priv->ac != NULL)
+ 		g_object_unref (backend->priv->ac);
++	g_clear_object (&backend->priv->seat_manager_proxy);
+ 	/* XXX stop apm_thread ? */
+ 
+ 	G_OBJECT_CLASS (up_backend_parent_class)->finalize (object);
+diff --git a/src/up-backend-bsd-private.h b/src/up-backend-bsd-private.h
+new file mode 100644
+index 0000000..35a54cb
+--- /dev/null
++++ b/src/up-backend-bsd-private.h
+@@ -0,0 +1,38 @@
++/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
++ *
++ * Copyright (C) 2015 Eric Koegel <eric.koegel@gmail.com>
++ *
++ * Licensed under the GNU General Public License Version 2
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++ */
++
++#ifndef __UP_BACKEND_BSD_PRIVATE_H
++#define __UP_BACKEND_BSD_PRIVATE_H
++
++#include <gio/gio.h>
++#include "up-backend.h"
++#include "up-config.h"
++
++#define CONSOLEKIT2_DBUS_NAME                  "org.freedesktop.ConsoleKit"
++#define CONSOLEKIT2_DBUS_PATH                  "/org/freedesktop/ConsoleKit/Manager"
++#define CONSOLEKIT2_DBUS_INTERFACE             "org.freedesktop.ConsoleKit.Manager"
++
++GDBusProxy *up_backend_get_seat_manager_proxy (UpBackend  *backend);
++
++UpConfig   *up_backend_get_config             (UpBackend  *backend);
++
++
++#endif /* __UP_BACKEND_BSD_PRIVATE_H */
+-- 
+2.6.3
+

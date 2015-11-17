@@ -1,12 +1,15 @@
 From c9b2e177267b623850b3deedb1242de7d2e413ee Mon Sep 17 00:00:00 2001
 From: Bastien Nocera <hadess@hadess.net>
 Date: Fri, 26 Jun 2015 14:07:13 +0200
-Subject: linux: Fix possible double-free
+Subject: [PATCH 3/8] linux: Fix possible double-free
 
 When reopening the lockdown daemon with upower as the client, don't
 double-free if the user says "No" to trusting the laptop.
 
 https://bugzilla.redhat.com/show_bug.cgi?id=1231763
+---
+ src/linux/up-device-idevice.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/src/linux/up-device-idevice.c b/src/linux/up-device-idevice.c
 index 9722774..6ab1bf8 100644
@@ -40,5 +43,5 @@ index 9722774..6ab1bf8 100644
  }
  
 -- 
-cgit v0.10.2
+2.6.3
 

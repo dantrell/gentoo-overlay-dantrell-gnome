@@ -2,21 +2,22 @@
 
 EAPI="5"
 
-inherit autotools eutils git-2 systemd
+inherit autotools eutils git-r3 systemd
 
 DESCRIPTION="D-Bus abstraction for enumerating power devices and querying history and statistics"
 HOMEPAGE="http://upower.freedesktop.org/"
 EGIT_REPO_URI="git://anongit.freedesktop.org/upower"
-EGIT_COMMIT="95e8a2a316872bf5e6b262ccc3a165cca8240d27"
+EGIT_COMMIT="7258c4cce01462cb92853a2302cbfba005372e05"
 
 LICENSE="GPL-2"
 SLOT="0/3" # based on SONAME of libupower-glib.so
-KEYWORDS="-*"
+KEYWORDS=""
 IUSE="doc +deprecated +introspection ios kernel_FreeBSD kernel_linux"
 
 RDEPEND=">=dev-libs/dbus-glib-0.100
 	>=dev-libs/glib-2.40
 	dev-util/gdbus-codegen
+	dev-util/gtk-doc
 	sys-apps/dbus:=
 	>=sys-auth/polkit-0.110
 	introspection? ( dev-libs/gobject-introspection )
@@ -29,8 +30,7 @@ RDEPEND=">=dev-libs/dbus-glib-0.100
 			>=app-pda/libplist-1:=
 			)
 		)
-	deprecated? ( >=sys-power/pm-utils-1.4.1-r2 )
-	doc? ( dev-util/gtk-doc )"
+	deprecated? ( >=sys-power/pm-utils-1.4.1-r2 )"
 DEPEND="${RDEPEND}
 	dev-libs/gobject-introspection-common
 	dev-libs/libxslt

@@ -1,0 +1,98 @@
+From 1e4f711df426a695c232b4164b1333349cb9512a Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 16 Jun 2015 11:28:58 +0200
+Subject: [PATCH 6/8] Revert "linux: Work-around broken battery on the Onda
+ v975w"
+
+This reverts commit 31b2b8ec78198c72bc7e139c5cccd178bd835e72.
+
+A better work-around has been found kernel-side:
+https://bugzilla.kernel.org/show_bug.cgi?id=83941
+
+We'll need to add some code to ignore the incorrect "time left" values
+though.
+---
+ src/linux/integration-test   | 27 ---------------------------
+ src/linux/up-device-supply.c | 21 +++------------------
+ 2 files changed, 3 insertions(+), 45 deletions(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index b83f80d..e4a9cd8 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -843,33 +843,6 @@ class Tests(unittest.TestCase):
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+         self.stop_daemon()
+ 
+-    def test_broken_onda_battery(self):
+-        '''Onda v975w battery: https://bugzilla.kernel.org/show_bug.cgi?id=83941'''
+-
+-        batc = self.testbed.add_device('power_supply', 'BATC', None,
+-                                       ['type', 'Battery',
+-                                        'capacity', '0',
+-                                        'capacity_level', 'Normal',
+-                                        'present', '1',
+-                                        'energy_full', '0',
+-                                        'energy_full_design', '0',
+-                                        'energy_now', '5549000',
+-                                        'power_now', '97000',
+-                                        'voltage_now', '3970000'], [])
+-
+-        self.start_daemon()
+-        devs = self.proxy.EnumerateDevices()
+-        self.assertEqual(len(devs), 1)
+-        batc_up = devs[0]
+-
+-        self.assertEqual(self.get_dbus_dev_property(batc_up, 'Percentage'), 100.0)
+-
+-        self.testbed.set_attribute(batc, 'energy_now', '2774500')
+-        time.sleep(5)
+-        self.assertEqual(int(self.get_dbus_dev_property(batc_up, 'Percentage')), 50)
+-
+-        self.stop_daemon()
+-
+     #
+     # libupower-glib tests (through introspection)
+     #
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index b96080b..a132a33 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -584,16 +584,6 @@ up_device_supply_refresh_battery (UpDeviceSupply *supply,
+ 			supply->priv->coldplug_units = UP_DEVICE_SUPPLY_COLDPLUG_UNITS_CHARGE;
+ 		}
+ 
+-		/* Fix broken batteries without energy-full information */
+-		if (energy_full < 0.01 && energy_full_design < 0.01) {
+-			gdouble old_energy_full_design;
+-
+-			g_object_get (device, "energy-full-design", &old_energy_full_design, NULL);
+-			energy_full_design = MAX(old_energy_full_design, energy);
+-			/* Make following warning quiet */
+-			energy_full = energy_full_design;
+-		}
+-
+ 		/* the last full should not be bigger than the design */
+ 		if (energy_full > energy_full_design)
+ 			g_warning ("energy_full (%f) is greater than energy_full_design (%f)",
+@@ -689,14 +679,9 @@ up_device_supply_refresh_battery (UpDeviceSupply *supply,
+         if (sysfs_file_exists (native_path, "capacity")) {
+ 		percentage = sysfs_get_double (native_path, "capacity");
+ 		percentage = CLAMP(percentage, 0.0f, 100.0f);
+-		/* for devices which provide capacity, but not {energy,charge}_now */
+-		if (energy < 0.1f && energy_full > 0.0f) {
+-			energy = energy_full * percentage / 100;
+-		} else if (energy > 0.0f && percentage < 0.01) {
+-			/* capacity isn't set but present */
+-			percentage = 100.0 * energy / energy_full;
+-			percentage = CLAMP(percentage, 0.0f, 100.0f);
+-		}
++                /* for devices which provide capacity, but not {energy,charge}_now */
++                if (energy < 0.1f && energy_full > 0.0f)
++                    energy = energy_full * percentage / 100;
+         } else if (energy_full > 0.0f) {
+ 		percentage = 100.0 * energy / energy_full;
+ 		percentage = CLAMP(percentage, 0.0f, 100.0f);
+-- 
+2.6.3
+
