@@ -1,3 +1,4 @@
+=dev-cpp/cairomm-1.12.0::dantrell-gnome
 =dev-lang/vala-0.30.0::dantrell-gnome
 =dev-libs/libsigc++-2.6.1::dantrell-gnome
 =dev-libs/libsigc++-2.6.2::dantrell-gnome
@@ -12,6 +13,7 @@
 =app-misc/gnote-3.18.0::dantrell-gnome-3-18
 =dev-libs/gdl-3.18.0::dantrell-gnome-3-18
 =dev-libs/gobject-introspection-common-1.46.0::dantrell-gnome-3-18
+=dev-python/pyatspi-2.18.0::dantrell-gnome-3-18
 =dev-util/gdbus-codegen-2.46.2::dantrell-gnome-3-18
 =gnome-extra/evolution-data-server-3.18.0::dantrell-gnome-3-18
 =gnome-extra/evolution-ews-3.18.0::dantrell-gnome-3-18
@@ -24,6 +26,7 @@
 =net-irc/polari-3.18.0::dantrell-gnome-3-18
 =x11-libs/gtksourceview-3.18.0::dantrell-gnome-3-18
 =x11-libs/vte-0.42.1::dantrell-gnome-3-18
+=app-accessibility/at-spi2-atk-2.18.1::dantrell-gnome-3-18
 =app-accessibility/at-spi2-core-2.18.3::dantrell-gnome-3-18
 =app-accessibility/orca-3.18.2::dantrell-gnome-3-18
 =app-crypt/gcr-3.18.0::dantrell-gnome-3-18
@@ -34,6 +37,11 @@
 =app-misc/tracker-1.6.0::dantrell-gnome-3-18
 =app-text/evince-3.18.2::dantrell-gnome-3-18
 =app-text/yelp-tools-3.18.0::dantrell-gnome-3-18
+=dev-cpp/atkmm-2.24.1::dantrell-gnome-3-18
+=dev-cpp/glibmm-2.46.1::dantrell-gnome-3-18
+=dev-cpp/gtkmm-3.18.0::dantrell-gnome-3-18
+=dev-cpp/pangomm-2.38.1::dantrell-gnome-3-18
+=dev-libs/atk-2.18.0::dantrell-gnome-3-18
 =dev-libs/glib-2.46.2::dantrell-gnome-3-18
 =dev-libs/gobject-introspection-1.46.0::dantrell-gnome-3-18
 =dev-libs/libgweather-3.18.1::dantrell-gnome-3-18

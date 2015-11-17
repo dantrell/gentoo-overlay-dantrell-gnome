@@ -7,6 +7,7 @@ app-cdr/brasero::gentoo
 app-crypt/gnupg::gentoo
 app-crypt/libsecret::gentoo
 app-crypt/pinentry::gentoo
+app-editors/ghex::gentoo
 app-emulation/libvirt-glib::gentoo
 app-eselect/eselect-pinentry::gentoo
 app-misc/geoclue::gentoo
@@ -15,9 +16,12 @@ app-text/gspell::gentoo
 app-text/libgxps::gentoo
 app-text/poppler::gentoo
 dev-cpp/atkmm::gentoo
+dev-cpp/cairomm::gentoo
 dev-cpp/gtkmm::gentoo
+dev-cpp/libxmlpp::gentoo
 dev-cpp/mm-common::gentoo
 dev-lang/vala::gentoo
+dev-libs/appstream-glib::gentoo
 dev-libs/folks::gentoo
 dev-libs/gmime::gentoo
 dev-libs/gom::gentoo
@@ -31,6 +35,7 @@ dev-libs/libgit2::gentoo
 dev-libs/libgpg-error::gentoo
 dev-libs/libical::gentoo
 dev-libs/liblouis::gentoo
+dev-libs/libsigc++::gentoo
 dev-libs/libunistring::gentoo
 dev-libs/npth::gentoo
 dev-libs/qqwing::gentoo
@@ -54,6 +59,7 @@ gnome-extra/california::gentoo
 gnome-extra/docky::gentoo
 gnome-extra/evolution-data-server::gentoo
 gnome-extra/evolution-ews::gentoo
+gnome-extra/gnome-shell-frippery::gentoo
 gnome-extra/gnome-user-share::gentoo
 gnome-extra/gtkhtml::gentoo
 gnome-extra/libgsf::gentoo
@@ -62,6 +68,7 @@ gnome-extra/nautilus-sendto::gentoo
 gnome-extra/seahorse-nautilus::gentoo
 mail-client/evolution::gentoo
 mail-client/geary::gentoo
+media-gfx/eog-plugins::gentoo
 media-gfx/gnome-font-viewer::gentoo
 media-gfx/gthumb::gentoo
 media-gfx/shotwell::gentoo

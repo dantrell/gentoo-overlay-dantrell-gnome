@@ -17,6 +17,8 @@
 >=app-misc/tracker-miner-media-0.1.0
 >=app-text/evince-3.16.1
 >=app-text/yelp-tools-3.16.1
+>=dev-cpp/atkmm-2.24.1
+>=dev-cpp/cairomm-1.12.0
 >=dev-cpp/glibmm-2.44.0
 >=dev-cpp/gtkmm-3.16.0
 >=dev-cpp/pangomm-2.36.0
