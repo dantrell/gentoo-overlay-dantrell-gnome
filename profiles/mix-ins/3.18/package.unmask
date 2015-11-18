@@ -60,6 +60,7 @@
 =games-puzzle/swell-foop-3.18.1::dantrell-gnome-3-18
 =gnome-base/dconf-editor-3.18.2::dantrell-gnome-3-18
 =gnome-base/gdm-3.18.0::dantrell-gnome-3-18
+=gnome-base/gdm-3.18.2::dantrell-gnome-3-18
 =gnome-base/gnome-control-center-3.18.2::dantrell-gnome-3-18
 =gnome-base/gnome-desktop-3.18.2::dantrell-gnome-3-18
 =gnome-base/gnome-keyring-3.18.3::dantrell-gnome-3-18
