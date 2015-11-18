@@ -86,6 +86,7 @@
 =gnome-extra/gnome-system-monitor-3.18.2::dantrell-gnome-3-18
 =gnome-extra/gnome-tweak-tool-3.18.1::dantrell-gnome-3-18
 =gnome-extra/gnome-user-docs-3.18.1::dantrell-gnome-3-18
+=gnome-extra/gnome-user-share-3.18.0::dantrell-gnome-3-18
 =gnome-extra/gnome-weather-3.18.1::dantrell-gnome-3-18
 =gnome-extra/gucharmap-3.18.2::dantrell-gnome-3-18
 =gnome-extra/sushi-3.18.0::dantrell-gnome-3-18
@@ -115,6 +116,7 @@
 =sys-apps/gnome-disk-utility-3.18.2::dantrell-gnome-3-18
 =www-client/epiphany-3.18.0::dantrell-gnome-3-18
 =x11-libs/gtk+-3.18.4::dantrell-gnome-3-18
+=x11-libs/gtk+-3.18.5::dantrell-gnome-3-18
 =x11-libs/gtksourceview-3.18.1::dantrell-gnome-3-18
 =x11-terms/gnome-terminal-3.18.2::dantrell-gnome-3-18
 =x11-themes/adwaita-icon-theme-3.18.0::dantrell-gnome-3-18

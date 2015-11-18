@@ -55,7 +55,7 @@ src_configure() {
 }
 
 src_compile() {
-	python_foreach_impl run_in_build_dir gnome2_src_compile -j1;
+	python_foreach_impl run_in_build_dir gnome2_src_compile -j1
 }
 
 src_test() {
@@ -64,6 +64,6 @@ src_test() {
 
 src_install() {
 	dodoc AUTHORS ChangeLog NEWS README
-	python_foreach_impl run_in_build_dir gnome2_src_install -j1;
+	python_foreach_impl run_in_build_dir gnome2_src_install -j1
 	python_replicate_script "${ED}"/usr/bin/xml2po
 }

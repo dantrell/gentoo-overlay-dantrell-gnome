@@ -24,6 +24,7 @@
 =media-sound/gnome-sound-recorder-3.18.0::dantrell-gnome-3-18
 =media-sound/sound-juicer-3.18.0::dantrell-gnome-3-18
 =net-irc/polari-3.18.0::dantrell-gnome-3-18
+=net-libs/libsoup-gnome-2.52.0::dantrell-gnome-3-18
 =x11-libs/gtksourceview-3.18.0::dantrell-gnome-3-18
 =x11-libs/vte-0.42.1::dantrell-gnome-3-18
 =app-accessibility/at-spi2-atk-2.18.1::dantrell-gnome-3-18
@@ -50,6 +51,7 @@
 =dev-util/anjuta-3.18.2::dantrell-gnome-3-18
 =dev-util/devhelp-3.18.1::dantrell-gnome-3-18
 =dev-util/gnome-devel-docs-3.18.1::dantrell-gnome-3-18
+=dev-vcs/gitg-3.18.0::dantrell-gnome-3-18
 =games-arcade/gnome-nibbles-3.18.2::dantrell-gnome-3-18
 =games-arcade/gnome-robots-3.18.1::dantrell-gnome-3-18
 =games-board/four-in-a-row-3.18.2::dantrell-gnome-3-18
@@ -94,6 +96,7 @@
 =gnome-extra/gnome-system-monitor-3.18.2::dantrell-gnome-3-18
 =gnome-extra/gnome-tweak-tool-3.18.1::dantrell-gnome-3-18
 =gnome-extra/gnome-user-docs-3.18.1::dantrell-gnome-3-18
+=gnome-extra/gnome-user-share-3.18.0::dantrell-gnome-3-18
 =gnome-extra/gnome-weather-3.18.1::dantrell-gnome-3-18
 =gnome-extra/gucharmap-3.18.2::dantrell-gnome-3-18
 =gnome-extra/sushi-3.18.0::dantrell-gnome-3-18
@@ -108,6 +111,7 @@
 =media-libs/cogl-1.22.0::dantrell-gnome-3-18
 =media-sound/gnome-music-3.18.0::dantrell-gnome-3-18
 =media-sound/gnome-sound-recorder-3.18.2::dantrell-gnome-3-18
+=media-video/cheese-3.18.1::dantrell-gnome-3-18
 =media-video/totem-3.18.1::dantrell-gnome-3-18
 =net-irc/polari-3.18.1::dantrell-gnome-3-18
 =net-libs/glib-networking-2.46.1::dantrell-gnome-3-18
@@ -123,6 +127,7 @@
 =sys-apps/gnome-disk-utility-3.18.2::dantrell-gnome-3-18
 =www-client/epiphany-3.18.0::dantrell-gnome-3-18
 =x11-libs/gtk+-3.18.4::dantrell-gnome-3-18
+=x11-libs/gtk+-3.18.5::dantrell-gnome-3-18
 =x11-libs/gtksourceview-3.18.1::dantrell-gnome-3-18
 =x11-terms/gnome-terminal-3.18.2::dantrell-gnome-3-18
 =x11-themes/adwaita-icon-theme-3.18.0::dantrell-gnome-3-18
