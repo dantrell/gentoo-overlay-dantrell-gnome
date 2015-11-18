@@ -5,7 +5,7 @@ GCONF_DEBUG="no"
 GNOME2_LA_PUNT="yes"
 PYTHON_COMPAT=( python2_7 )
 
-inherit autotools gnome2 python-any-r1
+inherit autotools eutils gnome2 python-any-r1
 
 DESCRIPTION="An account manager and channel dispatcher for the Telepathy framework"
 HOMEPAGE="http://cgit.freedesktop.org/telepathy/telepathy-mission-control/"
@@ -40,6 +40,10 @@ DEPEND="${RDEPEND}
 RESTRICT="test"
 
 src_prepare() {
+	# From freedesktop:
+	# 	http://cgit.freedesktop.org/telepathy/telepathy-mission-control/commit/?id=3d3a13c561e858853af5c601373be3ea0746f58c
+	epatch "${FILESDIR}"/${P}-server-exit-early-if-we-failed-to-create-mcdservice.patch
+
 	if use deprecated; then
 		# From Funtoo:
 		# 	https://bugs.funtoo.org/browse/FL-1329
