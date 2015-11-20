@@ -1,5 +1,6 @@
 app-accessibility/accerciser::gentoo
 app-accessibility/caribou::gentoo
+app-admin/eselect::gentoo
 app-admin/gnome-system-log::gentoo
 app-admin/system-config-printer::gentoo
 app-arch/file-roller::gentoo
