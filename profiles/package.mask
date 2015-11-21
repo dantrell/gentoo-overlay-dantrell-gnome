@@ -10,6 +10,7 @@ app-crypt/libsecret::gentoo
 app-crypt/pinentry::gentoo
 app-editors/ghex::gentoo
 app-emulation/libvirt-glib::gentoo
+app-emulation/spice-protocol::gentoo
 app-eselect/eselect-pinentry::gentoo
 app-misc/geoclue::gentoo
 app-text/gnome-doc-utils::gentoo
@@ -60,7 +61,6 @@ gnome-extra/california::gentoo
 gnome-extra/docky::gentoo
 gnome-extra/evolution-data-server::gentoo
 gnome-extra/evolution-ews::gentoo
-gnome-extra/gnome-shell-frippery::gentoo
 gnome-extra/gnome-user-share::gentoo
 gnome-extra/gtkhtml::gentoo
 gnome-extra/libgsf::gentoo
@@ -87,13 +87,17 @@ net-im/empathy::gentoo
 net-im/telepathy-mission-control::gentoo
 net-libs/dleyna-connector-dbus::gentoo
 net-libs/dleyna-core::gentoo
+net-libs/dleyna-renderer::gentoo
 net-libs/gssdp::gentoo
 net-libs/gupnp-igd::gentoo
 net-libs/gupnp::gentoo
 net-libs/libzapojit::gentoo
+net-libs/phodav::gentoo
 net-libs/rest::gentoo
 net-libs/webkit-gtk::gentoo
+net-misc/dleyna-server::gentoo
 net-misc/gnome-online-miners::gentoo
+net-misc/spice-gtk::gentoo
 sys-devel/gettext::gentoo
 sys-libs/libosinfo::gentoo
 sys-power/acpid::gentoo
