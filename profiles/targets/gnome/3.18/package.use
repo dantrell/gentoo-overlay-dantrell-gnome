@@ -1,2 +1,3 @@
 app-crypt/pinentry gnome-keyring
 dev-libs/libgdata gnome
+dev-libs/libgusb vala
