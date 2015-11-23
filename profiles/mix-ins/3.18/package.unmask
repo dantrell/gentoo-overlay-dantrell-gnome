@@ -1,5 +1,7 @@
+~app-misc/geoclue-2.4.0::dantrell-gnome
 ~dev-cpp/cairomm-1.12.0::dantrell-gnome
 ~dev-lang/vala-0.30.0::dantrell-gnome
+~dev-libs/appstream-glib-0.5.3::dantrell-gnome
 ~dev-libs/libsigc++-2.6.1::dantrell-gnome
 ~dev-libs/libsigc++-2.6.2::dantrell-gnome
 ~dev-libs/vala-common-0.30.0::dantrell-gnome
