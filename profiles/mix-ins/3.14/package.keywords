@@ -1,0 +1,4 @@
+>=app-misc/tracker-1.4.0 -*
+>=games-board/aisleriot-3.16.0 -*
+>=gnome-extra/nautilus-tracker-tags-1.4.0 -*
+>=x11-wm/metacity-3.16.0 -*

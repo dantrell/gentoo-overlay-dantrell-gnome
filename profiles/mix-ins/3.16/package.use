@@ -1,7 +1,0 @@
-dev-cpp/gtkmm X
-dev-libs/libpeas gtk
-media-libs/clutter X
-media-sound/pulseaudio alsa
-net-libs/webkit-gtk X
-x11-drivers/nvidia-drivers X
-x11-libs/gdk-pixbuf X
