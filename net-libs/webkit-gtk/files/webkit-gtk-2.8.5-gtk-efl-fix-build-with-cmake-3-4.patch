@@ -1,0 +1,22 @@
+diff -urN a/Source/cmake/FindOpenGL.cmake b/Source/cmake/FindOpenGL.cmake
+--- a/Source/cmake/FindOpenGL.cmake	2015-07-23 01:55:39.000000000 -0500
++++ b/Source/cmake/FindOpenGL.cmake	2015-11-14 11:01:33.402195159 -0600
+@@ -59,6 +59,7 @@
+     include(CMakePushCheckState)
+     CMAKE_PUSH_CHECK_STATE()
+     set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${OPENGL_INCLUDE_DIRS})
++    include(CheckIncludeFiles)
+     check_include_files("GL/glx.h" GLX_FOUND)
+     CMAKE_POP_CHECK_STATE()
+ endif ()
+diff -urN a/Source/cmake/FindWebP.cmake b/Source/cmake/FindWebP.cmake
+--- a/Source/cmake/FindWebP.cmake	2015-07-22 07:37:58.000000000 -0500
++++ b/Source/cmake/FindWebP.cmake	2015-11-14 11:02:14.185196825 -0600
+@@ -35,6 +35,7 @@
+ if (NOT(WEBP_FOUND))
+     # Older installations of libwebp do not install a pkgconfig file, so we fall
+     # back to a manual search for a libwebp header file.
++    include(CheckIncludeFiles)
+     check_include_files("webp/decode.h" WEBP_FOUND_HEADER)
+     if (WEBP_FOUND_HEADER)
+         set(WEBP_LIBRARIES "-lwebp")
