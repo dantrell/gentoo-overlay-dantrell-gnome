@@ -1,6 +1,6 @@
 ~dev-cpp/cairomm-1.10.0::dantrell-gnome
 ~dev-libs/libsigc++-2.4.0::dantrell-gnome
 ~dev-libs/libsigc++-2.4.1::dantrell-gnome
+~media-libs/clutter-gtk-1.6.0::dantrell-gnome-3-14
 ~media-libs/grilo-0.2.11::dantrell-gnome
 ~media-plugins/grilo-plugins-0.2.13::dantrell-gnome
-~media-libs/clutter-gtk-1.6.0::dantrell-gnome-3-14
