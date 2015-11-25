@@ -127,6 +127,9 @@ pkg_setup() {
 }
 
 src_prepare() {
+	# https://bugs.gentoo.org/show_bug.cgi?id=565936
+	epatch "${FILESDIR}"/${PN}-2.6.6-gtk-efl-fix-build-with-cmake-3-4.patch
+
 	# Debian patches to fix support for some arches
 	# https://bugs.webkit.org/show_bug.cgi?id=129540
 	epatch "${FILESDIR}"/${PN}-2.6.0-{hppa,ia64}-platform.patch
