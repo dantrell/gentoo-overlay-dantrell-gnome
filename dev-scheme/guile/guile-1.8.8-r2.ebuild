@@ -9,7 +9,9 @@ HOMEPAGE="https://www.gnu.org/software/guile/"
 SRC_URI="mirror://gnu/guile/${P}.tar.gz"
 
 LICENSE="LGPL-2.1"
+SLOT="12"
 KEYWORDS="*"
+
 IUSE="debug debug-freelist debug-malloc +deprecated discouraged emacs networking nls readline +regex +threads"
 
 RESTRICT="!regex? ( test )"
@@ -25,12 +27,6 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	sys-apps/texinfo
 	sys-devel/libtool"
-
-# Guile seems to contain some slotting support, /usr/share/guile/ is slotted,
-# but there are lots of collisions. Most in /usr/share/libguile. Therefore
-# I'm slotting this in the same slot as guile-1.6* for now.
-SLOT="12"
-MAJOR="1.8"
 
 src_prepare() {
 	epatch "${FILESDIR}/${P}-fix_guile-config.patch" \
@@ -56,7 +52,8 @@ src_prepare() {
 }
 
 src_configure() {
-	# see bug #178499
+	# Necessary for LilyPond
+	# 	https://bugs.gentoo.org/show_bug.cgi?id=178499
 	filter-flags -ftree-vectorize
 
 	#will fail for me if posix is disabled or without modules -- hkBst

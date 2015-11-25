@@ -14,8 +14,8 @@ HOMEPAGE="http://cyberelk.net/tim/software/system-config-printer/"
 SRC_URI="http://cyberelk.net/tim/data/system-config-printer/${MY_V}/${P}.tar.xz"
 
 LICENSE="GPL-2"
-KEYWORDS="*"
 SLOT="0"
+KEYWORDS="*"
 
 IUSE="doc gnome-keyring policykit"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"

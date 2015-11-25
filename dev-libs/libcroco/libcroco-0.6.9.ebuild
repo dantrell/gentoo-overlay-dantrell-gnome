@@ -12,6 +12,7 @@ HOMEPAGE="https://git.gnome.org/browse/libcroco/"
 LICENSE="LGPL-2"
 SLOT="0.6"
 KEYWORDS="*"
+
 IUSE="test"
 
 RDEPEND="

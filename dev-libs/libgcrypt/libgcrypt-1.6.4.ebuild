@@ -13,6 +13,7 @@ SRC_URI="mirror://gnupg/${PN}/${P}.tar.bz2"
 LICENSE="LGPL-2.1 MIT"
 SLOT="0/20" # subslot = soname major version
 KEYWORDS="*"
+
 IUSE="doc static-libs +threads"
 
 RDEPEND=">=dev-libs/libgpg-error-1.12[${MULTILIB_USEDEP}]

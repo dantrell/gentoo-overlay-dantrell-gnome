@@ -15,6 +15,7 @@ SRC_URI="https://github.com/liblouis/liblouis/releases/download/v${PV}/${P}.tar.
 LICENSE="LGPL-3"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="python"
 
 RDEPEND="python? ( ${PYTHON_DEPS} )"

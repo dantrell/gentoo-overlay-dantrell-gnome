@@ -10,8 +10,9 @@ HOMEPAGE="https://git.gnome.org/browse/gnome-icon-theme-symbolic/"
 
 LICENSE="CC-BY-SA-3.0"
 SLOT="0"
-IUSE=""
 KEYWORDS="*"
+
+IUSE=""
 
 COMMON_DEPEND=">=x11-themes/hicolor-icon-theme-0.10"
 

@@ -12,9 +12,9 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Empathy"
 
 LICENSE="GPL-2 CC-BY-SA-3.0 FDL-1.3 LGPL-2.1"
 SLOT="0"
+KEYWORDS="*"
 
 IUSE="debug +geoloc gnome gnome-online-accounts +map spell test +v4l"
-KEYWORDS="*"
 
 # False positives caused by nested configure scripts
 QA_CONFIGURE_OPTIONS=".*"

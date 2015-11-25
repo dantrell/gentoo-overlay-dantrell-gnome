@@ -10,6 +10,7 @@ SRC_URI="https://launchpad.net/${PN}/${PV%.*}/${PV}/+download/${P}.tar.xz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="debug nls"
 
 RDEPEND="dev-dotnet/dbus-sharp

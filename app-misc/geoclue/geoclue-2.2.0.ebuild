@@ -13,6 +13,7 @@ SRC_URI="http://www.freedesktop.org/software/${PN}/releases/${MY_PV}/${P}.tar.xz
 LICENSE="LGPL-2"
 SLOT="2.0"
 KEYWORDS="*"
+
 IUSE="+modemmanager"
 
 RDEPEND="

@@ -11,6 +11,7 @@ HOMEPAGE="https://live.gnome.org/Libgee"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="+introspection"
 
 RDEPEND=">=dev-libs/glib-2.12:2

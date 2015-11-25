@@ -12,6 +12,7 @@ HOMEPAGE="https://git.gnome.org/browse/gnome-user-share"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="bluetooth"
 
 # FIXME: could libnotify be made optional ?

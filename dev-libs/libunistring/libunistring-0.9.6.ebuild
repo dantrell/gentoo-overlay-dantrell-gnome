@@ -11,6 +11,7 @@ SRC_URI="mirror://gnu/${PN}/${P}.tar.gz"
 LICENSE="LGPL-3 GPL-3"
 SLOT="0/2"
 KEYWORDS="*"
+
 IUSE="doc static-libs"
 
 src_prepare() {

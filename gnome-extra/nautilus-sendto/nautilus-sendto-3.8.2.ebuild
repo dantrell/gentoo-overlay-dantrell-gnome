@@ -11,6 +11,7 @@ HOMEPAGE="https://git.gnome.org/browse/nautilus-sendto/"
 LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="+introspection"
 
 RDEPEND="

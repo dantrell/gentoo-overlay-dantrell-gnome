@@ -11,6 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Vala"
 LICENSE="LGPL-2.1"
 SLOT="0.28"
 KEYWORDS="*"
+
 IUSE="test"
 
 RDEPEND="

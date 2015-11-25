@@ -12,9 +12,10 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Libsecret"
 
 LICENSE="LGPL-2.1+ Apache-2.0" # Apache-2.0 license is used for tests only
 SLOT="0"
+KEYWORDS="*"
+
 IUSE="+crypt debug +introspection test vala"
 REQUIRED_USE="vala? ( introspection )"
-KEYWORDS="*"
 
 RDEPEND="
 	>=dev-libs/glib-2.38:2

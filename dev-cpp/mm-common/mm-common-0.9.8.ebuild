@@ -11,6 +11,7 @@ HOMEPAGE="http://www.gtkmm.org/"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE=""
 
 RDEPEND=""

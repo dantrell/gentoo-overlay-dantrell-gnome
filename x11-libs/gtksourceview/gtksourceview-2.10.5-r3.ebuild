@@ -13,6 +13,7 @@ HOMEPAGE="https://www.gnome.org/"
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="2.0"
 KEYWORDS="*"
+
 IUSE=""
 
 RDEPEND="

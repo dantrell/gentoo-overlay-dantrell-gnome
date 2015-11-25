@@ -13,6 +13,7 @@ HOMEPAGE="http://gupnp.org"
 LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="+introspection python"
 
 RDEPEND="

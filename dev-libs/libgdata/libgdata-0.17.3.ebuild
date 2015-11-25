@@ -11,10 +11,10 @@ HOMEPAGE="https://wiki.gnome.org/Projects/libgdata"
 
 LICENSE="LGPL-2.1+"
 SLOT="0/22" # subslot = libgdata soname version
+KEYWORDS="*"
+
 IUSE="gnome +introspection static-libs test vala"
 REQUIRED_IUSE="vala? ( introspection )"
-
-KEYWORDS="*"
 
 # gtk+ is needed for gdk
 # configure checks for gtk:3, but only uses it for demos which are not installed

@@ -9,6 +9,7 @@ SRC_URI="http://spice-space.org/download/releases/${P}.tar.bz2"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE=""
 
 DEPEND=""

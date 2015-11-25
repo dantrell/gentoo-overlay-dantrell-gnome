@@ -11,8 +11,9 @@ HOMEPAGE="https://wiki.gnome.org/Apps/FileRoller"
 
 LICENSE="GPL-2+ CC-BY-SA-3.0"
 SLOT="0"
-IUSE="nautilus packagekit"
 KEYWORDS="*"
+
+IUSE="nautilus packagekit"
 
 # gdk-pixbuf used extensively in the source
 # cairo used in eggtreemultidnd.c

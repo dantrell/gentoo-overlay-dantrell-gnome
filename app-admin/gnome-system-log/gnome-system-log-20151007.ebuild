@@ -11,8 +11,9 @@ EGIT_COMMIT="cf5ecade34dab876861122adfa6b8469b145c3e6"
 
 LICENSE="GPL-2+ CC-BY-SA-3.0"
 SLOT="0"
-IUSE=""
 KEYWORDS="*"
+
+IUSE=""
 
 COMMON_DEPEND="
 	>=dev-libs/glib-2.31:2

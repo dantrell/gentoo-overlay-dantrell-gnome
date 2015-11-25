@@ -11,6 +11,7 @@ SRC_URI="http://qqwing.com/${P}.tar.gz"
 LICENSE="GPL-2+"
 SLOT="0/2"
 KEYWORDS="*"
+
 IUSE=""
 
 RDEPEND=""

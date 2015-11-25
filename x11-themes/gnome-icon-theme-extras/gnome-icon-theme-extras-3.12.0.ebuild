@@ -11,6 +11,7 @@ HOMEPAGE="https://www.gnome.org/ https://git.gnome.org/browse/gnome-icon-theme-e
 LICENSE="CC-BY-SA-3.0"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE=""
 
 RDEPEND=">=x11-themes/hicolor-icon-theme-0.10"

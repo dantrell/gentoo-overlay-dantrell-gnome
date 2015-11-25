@@ -11,6 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Vala"
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE=""
 
 # Previously ${PN} was part of dev-lang/vala

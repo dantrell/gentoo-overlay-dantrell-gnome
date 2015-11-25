@@ -10,8 +10,9 @@ HOMEPAGE="https://wiki.gnome.org/Projects/GnomeOnlineMiners"
 
 LICENSE="GPL-2+"
 SLOT="0"
-IUSE="flickr"
 KEYWORDS="*"
+
+IUSE="flickr"
 
 # libgdata[gnome] needed for goa support
 RDEPEND="

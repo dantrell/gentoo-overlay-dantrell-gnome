@@ -11,6 +11,7 @@ SRC_URI="https://dev.gentoo.org/~ulm/eselect/${P}.tar.xz"
 LICENSE="GPL-2+ || ( GPL-2+ CC-BY-SA-3.0 )"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="doc emacs +multischema vim-syntax"
 
 RDEPEND="sys-apps/sed

@@ -12,6 +12,7 @@ HOMEPAGE="https://www.gnome.org"
 LICENSE="LGPL-2+"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="+introspection test"
 
 RDEPEND="

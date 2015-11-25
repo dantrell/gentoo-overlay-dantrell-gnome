@@ -10,6 +10,7 @@ HOMEPAGE="https://git.gnome.org/browse/gnome-common"
 LICENSE="GPL-3"
 SLOT="3"
 KEYWORDS="*"
+
 IUSE="+autoconf-archive"
 
 RDEPEND="autoconf-archive? ( >=sys-devel/autoconf-archive-2015.02.04 )

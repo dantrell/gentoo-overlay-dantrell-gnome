@@ -14,6 +14,7 @@ SRC_URI="${SRC_URI} http://www.ibiblio.org/gentoo/distfiles/gtk+-1.2.10-r8-gento
 LICENSE="LGPL-2.1+"
 SLOT="1"
 KEYWORDS="*"
+
 IUSE="nls debug"
 
 # Supported languages and translated documentation

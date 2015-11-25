@@ -12,6 +12,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/gspell"
 LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="+introspection vala"
 
 RDEPEND="

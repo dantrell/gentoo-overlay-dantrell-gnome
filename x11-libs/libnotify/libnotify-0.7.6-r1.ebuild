@@ -9,6 +9,7 @@ HOMEPAGE="https://git.gnome.org/browse/libnotify"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="+introspection test"
 
 COMMON_DEPEND="app-eselect/eselect-notify-send

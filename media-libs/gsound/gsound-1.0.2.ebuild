@@ -12,6 +12,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/GSound"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="+introspection"
 
 # vala setup required for vapigen check

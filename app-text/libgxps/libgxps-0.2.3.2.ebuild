@@ -12,6 +12,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/libgxps"
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="+introspection jpeg lcms static-libs tiff"
 
 RDEPEND="

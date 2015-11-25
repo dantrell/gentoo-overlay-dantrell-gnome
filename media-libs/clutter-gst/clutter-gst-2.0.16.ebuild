@@ -13,6 +13,7 @@ DESCRIPTION="GStreamer integration library for Clutter"
 LICENSE="LGPL-2.1+"
 SLOT="2.0"
 KEYWORDS="*"
+
 IUSE="examples +introspection"
 
 # FIXME: Support for gstreamer-basevideo-0.10 (HW decoder support) is automagic

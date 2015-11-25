@@ -13,6 +13,7 @@ HOMEPAGE="https://github.com/GNOME/libmediaart"
 LICENSE="LGPL-2.1+"
 SLOT="2.0"
 KEYWORDS="*"
+
 IUSE="gtk +introspection qt4 qt5 vala"
 REQUIRED_USE="
 	?? ( gtk qt4 qt5 )

@@ -11,6 +11,7 @@ HOMEPAGE="https://git.gnome.org/browse/libgtop"
 LICENSE="GPL-2"
 SLOT="2/10" # libgtop soname version
 KEYWORDS="*"
+
 IUSE="+introspection"
 
 RDEPEND=">=dev-libs/glib-2.6:2"

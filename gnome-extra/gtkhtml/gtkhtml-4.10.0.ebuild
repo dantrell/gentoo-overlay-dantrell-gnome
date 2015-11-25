@@ -11,6 +11,7 @@ HOMEPAGE="https://git.gnome.org/browse/gtkhtml"
 LICENSE="GPL-2+ LGPL-2+"
 SLOT="4.0"
 KEYWORDS="*"
+
 IUSE=""
 
 # orbit is referenced in configure, but is not used anywhere else

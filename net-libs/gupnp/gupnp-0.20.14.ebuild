@@ -15,6 +15,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP"
 LICENSE="LGPL-2"
 SLOT="0/4"
 KEYWORDS="*"
+
 IUSE="connman +introspection kernel_linux networkmanager"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}

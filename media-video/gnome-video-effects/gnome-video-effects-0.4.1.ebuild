@@ -11,6 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/GnomeVideoEffects"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE=""
 
 RDEPEND=""

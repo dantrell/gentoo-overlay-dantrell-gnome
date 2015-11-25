@@ -11,6 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/JsonGlib"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="debug +introspection"
 
 RDEPEND="

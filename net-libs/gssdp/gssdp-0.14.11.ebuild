@@ -13,6 +13,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP"
 LICENSE="LGPL-2"
 SLOT="0/3"
 KEYWORDS="*"
+
 IUSE="+introspection +gtk"
 
 RDEPEND="

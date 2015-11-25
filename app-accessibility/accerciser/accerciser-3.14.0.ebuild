@@ -13,6 +13,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Accerciser"
 LICENSE="BSD CC-BY-SA-3.0"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE=""
 
 RDEPEND="

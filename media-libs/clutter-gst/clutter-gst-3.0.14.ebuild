@@ -13,6 +13,7 @@ DESCRIPTION="GStreamer integration library for Clutter"
 LICENSE="LGPL-2.1+"
 SLOT="3.0"
 KEYWORDS="*"
+
 IUSE="examples +introspection"
 
 # >=cogl-1.18 provides cogl-2.0-experimental

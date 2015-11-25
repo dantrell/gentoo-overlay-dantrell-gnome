@@ -10,11 +10,10 @@ HOMEPAGE="https://wiki.gnome.org/dconf"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
+KEYWORDS="*"
 
 # TODO: coverage ?
 IUSE="test"
-
-KEYWORDS="*"
 
 RDEPEND="
 	>=dev-libs/glib-2.39.1:2

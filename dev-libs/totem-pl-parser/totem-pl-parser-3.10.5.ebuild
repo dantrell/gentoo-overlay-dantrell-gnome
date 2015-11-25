@@ -10,8 +10,9 @@ HOMEPAGE="https://developer.gnome.org/totem-pl-parser/stable/"
 
 LICENSE="LGPL-2+"
 SLOT="0/18"
-IUSE="archive crypt +introspection +quvi test"
 KEYWORDS="*"
+
+IUSE="archive crypt +introspection +quvi test"
 
 RDEPEND="
 	>=dev-libs/glib-2.31:2

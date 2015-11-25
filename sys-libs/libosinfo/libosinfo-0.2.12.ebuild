@@ -12,10 +12,10 @@ SRC_URI="http://fedorahosted.org/releases/${PN:0:1}/${PN:1:1}/${PN}/${P}.tar.gz"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
+KEYWORDS="*"
+
 IUSE="+introspection +vala test"
 REQUIRED_USE="vala? ( introspection )"
-
-KEYWORDS="*"
 
 RDEPEND="
 	>=dev-libs/glib-2:2

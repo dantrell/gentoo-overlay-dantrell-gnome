@@ -15,8 +15,10 @@ HOMEPAGE="http://spice-space.org http://gitorious.org/spice-gtk"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-SRC_URI="http://spice-space.org/download/gtk/${P}.tar.bz2"
 KEYWORDS="*"
+
+SRC_URI="http://spice-space.org/download/gtk/${P}.tar.bz2"
+
 IUSE="dbus gstreamer gtk3 +introspection lz4 policykit pulseaudio python sasl smartcard static-libs usbredir vala webdav"
 
 REQUIRED_USE="

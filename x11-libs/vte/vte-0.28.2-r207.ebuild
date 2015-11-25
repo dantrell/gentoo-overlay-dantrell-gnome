@@ -12,6 +12,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Terminal/VTE"
 LICENSE="LGPL-2+"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="debug +introspection python"
 
 RDEPEND="

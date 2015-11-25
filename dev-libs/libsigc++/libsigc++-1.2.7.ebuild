@@ -12,6 +12,7 @@ HOMEPAGE="http://libsigc.sourceforge.net/"
 LICENSE="GPL-2 LGPL-2.1+"
 SLOT="1.2"
 KEYWORDS="*"
+
 IUSE=""
 
 DEPEND="sys-devel/m4"

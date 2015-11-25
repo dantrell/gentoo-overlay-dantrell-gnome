@@ -11,6 +11,7 @@ HOMEPAGE="http://libsigc.sourceforge.net/"
 LICENSE="LGPL-2.1+"
 SLOT="2"
 KEYWORDS="*"
+
 IUSE="doc static-libs test"
 
 RDEPEND=""

@@ -10,9 +10,9 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Gom"
 
 LICENSE="LGPL-2+"
 SLOT="0"
+KEYWORDS="*"
 
 IUSE="+introspection test"
-KEYWORDS="*"
 
 RDEPEND="
 	>=dev-db/sqlite-3.7:3

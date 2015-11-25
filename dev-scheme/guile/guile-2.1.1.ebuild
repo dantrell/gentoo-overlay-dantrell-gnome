@@ -13,6 +13,7 @@ RESTRICT="mirror"
 LICENSE="LGPL-3+"
 SLOT="12"
 KEYWORDS=""
+
 IUSE="debug debug-malloc +deprecated doc emacs networking nls +regex static +threads"
 
 RESTRICT="mirror"

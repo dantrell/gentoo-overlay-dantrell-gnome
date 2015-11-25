@@ -10,8 +10,9 @@ DESCRIPTION="Clutter based world map renderer"
 HOMEPAGE="https://wiki.gnome.org/Projects/libchamplain"
 
 SLOT="0.12"
-LICENSE="LGPL-2"
 KEYWORDS="*"
+
+LICENSE="LGPL-2"
 
 IUSE="debug +gtk +introspection vala"
 REQUIRED_USE="vala? ( introspection )"

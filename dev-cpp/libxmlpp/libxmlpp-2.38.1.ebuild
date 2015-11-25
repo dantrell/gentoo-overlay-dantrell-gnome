@@ -12,6 +12,7 @@ HOMEPAGE="http://libxmlplusplus.sourceforge.net/"
 LICENSE="LGPL-2.1"
 SLOT="2.6"
 KEYWORDS="*"
+
 IUSE="doc"
 
 RDEPEND="

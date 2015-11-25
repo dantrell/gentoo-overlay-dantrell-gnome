@@ -13,6 +13,7 @@ SRC_URI="http://people.freedesktop.org/~hughsient/${PN}/releases/${P}.tar.xz"
 LICENSE="LGPL-2.1"
 SLOT="0/8" # soname version
 KEYWORDS="*"
+
 IUSE="+introspection nls"
 
 # FIXME: yaml is optional with --enable-dep11 but not

@@ -11,6 +11,7 @@ HOMEPAGE="https://developer.gnome.org/gsf/"
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0/114" # libgsf-1.so version
 KEYWORDS="*"
+
 IUSE="bzip2 gtk +introspection"
 
 RDEPEND="

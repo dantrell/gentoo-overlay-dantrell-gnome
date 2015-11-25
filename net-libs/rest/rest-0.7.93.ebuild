@@ -11,8 +11,9 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Librest"
 
 LICENSE="LGPL-2.1"
 SLOT="0.7"
-IUSE="+gnome +introspection test"
 KEYWORDS="*"
+
+IUSE="+gnome +introspection test"
 
 # Coverage testing should not be enabled
 RDEPEND="

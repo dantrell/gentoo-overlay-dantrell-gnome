@@ -13,6 +13,7 @@ HOMEPAGE="https://glade.gnome.org/"
 LICENSE="GPL-2+ FDL-1.1+"
 SLOT="3.10/6" # subslot = suffix of libgladeui-2.so
 KEYWORDS="*"
+
 IUSE="+introspection python"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 

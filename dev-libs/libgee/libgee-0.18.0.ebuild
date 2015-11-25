@@ -11,6 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Libgee"
 LICENSE="LGPL-2.1+"
 SLOT="0.8/2"
 KEYWORDS="*"
+
 IUSE="+introspection"
 
 # FIXME: add doc support, requires valadoc

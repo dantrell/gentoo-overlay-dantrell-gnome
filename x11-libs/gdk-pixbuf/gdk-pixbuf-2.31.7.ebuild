@@ -12,6 +12,7 @@ HOMEPAGE="http://www.gtk.org/"
 LICENSE="LGPL-2+"
 SLOT="2"
 KEYWORDS="*"
+
 IUSE="+X debug +introspection jpeg jpeg2k tiff test"
 
 COMMON_DEPEND="

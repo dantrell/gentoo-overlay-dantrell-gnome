@@ -10,4 +10,5 @@ SRC_URI="mirror://gnupg/${PN}/${P}.tar.bz2"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="static-libs"

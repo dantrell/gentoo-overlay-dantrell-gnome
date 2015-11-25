@@ -11,12 +11,12 @@ HOMEPAGE="http://www.gtk.org/"
 
 LICENSE="LGPL-2+"
 SLOT="2"
+KEYWORDS="*"
+
 IUSE="aqua cups examples +introspection test vim-syntax xinerama"
 REQUIRED_USE="
 	xinerama? ( !aqua )
 "
-
-KEYWORDS="*"
 
 # NOTE: cairo[svg] dep is due to bug 291283 (not patched to avoid eautoreconf)
 COMMON_DEPEND="

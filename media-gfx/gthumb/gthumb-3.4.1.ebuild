@@ -12,6 +12,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/gthumb"
 LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="cdr exif gnome-keyring gstreamer http jpeg json lcms raw slideshow svg tiff test webkit webp"
 
 COMMON_DEPEND="

@@ -10,8 +10,9 @@ HOMEPAGE="https://git.gnome.org/browse/gnome-nettool/"
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="debug"
 KEYWORDS="*"
+
+IUSE="debug"
 
 COMMON_DEPEND="
 	>=dev-libs/glib-2.25.10:2

@@ -13,6 +13,7 @@ HOMEPAGE="https://wiki.gnome.org/phodav"
 LICENSE="LGPL-2.1+"
 SLOT="1.0"
 KEYWORDS="*"
+
 IUSE="avahi spice systemd"
 
 RDEPEND="

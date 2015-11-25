@@ -10,6 +10,7 @@ SRC_URI="http://freedesktop.org/~hadess/${P}.tar.gz"
 LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="connman geonames gps gsmloc gtk hostip manual networkmanager nominatim plazes skyhook static-libs yahoo-geo"
 
 REQUIRED_USE="skyhook? ( networkmanager )"

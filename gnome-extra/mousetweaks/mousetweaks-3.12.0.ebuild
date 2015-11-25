@@ -11,6 +11,7 @@ HOMEPAGE="https://live.gnome.org/Mousetweaks/Home"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE=""
 
 RDEPEND="

@@ -11,6 +11,7 @@ HOMEPAGE="https://live.gnome.org/Vala"
 LICENSE="LGPL-2.1"
 SLOT="0.20"
 KEYWORDS="*"
+
 IUSE="test +vapigen"
 
 RDEPEND="

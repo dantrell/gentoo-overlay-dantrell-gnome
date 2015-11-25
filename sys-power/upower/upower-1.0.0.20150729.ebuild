@@ -12,6 +12,7 @@ EGIT_COMMIT="7258c4cce01462cb92853a2302cbfba005372e05"
 LICENSE="GPL-2"
 SLOT="0/3" # based on SONAME of libupower-glib.so
 KEYWORDS=""
+
 IUSE="doc +deprecated +introspection ios kernel_FreeBSD kernel_linux"
 
 RDEPEND=">=dev-libs/dbus-glib-0.100

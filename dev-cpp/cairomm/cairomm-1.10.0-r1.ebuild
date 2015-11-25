@@ -12,6 +12,7 @@ SRC_URI="http://cairographics.org/releases/${P}.tar.gz"
 LICENSE="LGPL-2+"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="doc +svg"
 
 # FIXME: svg support is automagic

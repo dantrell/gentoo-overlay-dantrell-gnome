@@ -11,6 +11,7 @@ HOMEPAGE="http://cairographics.org/cairomm"
 LICENSE="LGPL-2+"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="doc +svg"
 
 # FIXME: svg support is automagic
