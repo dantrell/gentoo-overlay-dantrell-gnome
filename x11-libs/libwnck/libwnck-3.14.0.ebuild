@@ -45,8 +45,6 @@ src_configure() {
 	fi
 
 	# Don't collide with SLOT=1
-KEYWORDS="*"
-
 	gnome2_src_configure \
 		--disable-static \
 		$(use_enable introspection) \
