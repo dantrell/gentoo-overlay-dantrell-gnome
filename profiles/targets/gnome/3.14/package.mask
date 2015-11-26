@@ -167,4 +167,5 @@
 >=x11-themes/adwaita-icon-theme-3.16.2
 >=x11-themes/gnome-backgrounds-3.16.0
 >=x11-themes/gnome-themes-standard-3.16.2
+>=x11-wm/metacity-3.16.1
 >=x11-wm/mutter-3.16.2
