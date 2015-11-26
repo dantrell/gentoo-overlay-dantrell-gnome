@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
+
 inherit autotools eutils gnome.org multilib-minimal
 
 DESCRIPTION="A library for sending desktop notifications"

@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
+
 inherit cmake-utils
 
 DESCRIPTION="An implementation of basic iCAL protocols"
