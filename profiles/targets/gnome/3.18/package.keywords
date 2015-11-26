@@ -1,0 +1,7 @@
+>=dev-cpp/atkmm-2.24.1 -*
+>=dev-cpp/cairomm-1.12.0 -*
+>=dev-cpp/glibmm-2.46.1 -*
+>=dev-cpp/gtkmm-3.18.0 -*
+>=dev-cpp/gtksourceviewmm-3.18.0 -*
+>=dev-cpp/pangomm-2.38.1 -*
+>=dev-libs/libsigc++-2.6.2 -*
