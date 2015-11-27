@@ -17,14 +17,17 @@ LICENSE="LGPL-2+ BSD"
 SLOT="4/37" # soname version of libwebkit2gtk-4.0
 KEYWORDS="*"
 
-IUSE="coverage doc +egl +geoloc gles2 gnome-keyring +gstreamer +introspection +jit +opengl spell wayland +webgl X"
+IUSE="aqua coverage doc +egl +geoloc gles2 gnome-keyring +gstreamer +introspection +jit nsplugin +opengl spell wayland +webgl X"
+# seccomp
+
 REQUIRED_USE="
 	geoloc? ( introspection )
 	gles2? ( egl )
 	introspection? ( gstreamer )
+	nsplugin? ( X )
 	webgl? ( ^^ ( gles2 opengl ) )
 	!webgl? ( ?? ( gles2 opengl ) )
-	|| ( wayland X )
+	|| ( aqua wayland X )
 "
 
 # Tests fail to link for inexplicable reasons
@@ -53,16 +56,17 @@ RDEPEND="
 	x11-libs/libnotify
 	>=x11-libs/pango-1.30.0
 
-	>=x11-libs/gtk+-2.24.10:2
-
+	aqua? ( >=x11-libs/gtk+-3.14:3[aqua] )
 	egl? ( media-libs/mesa[egl] )
 	geoloc? ( >=app-misc/geoclue-2.1.5:2.0 )
 	gles2? ( media-libs/mesa[gles2] )
 	gnome-keyring? ( app-crypt/libsecret )
 	gstreamer? (
 		>=media-libs/gstreamer-1.2:1.0
-		>=media-libs/gst-plugins-base-1.2:1.0 )
+		>=media-libs/gst-plugins-base-1.2:1.0
+		>=media-libs/gst-plugins-bad-1.5.0:1.0[opengl?] )
 	introspection? ( >=dev-libs/gobject-introspection-1.32.0:= )
+	nsplugin? ( >=x11-libs/gtk+-2.24.10:2 )
 	opengl? ( virtual/opengl
 		x11-libs/cairo[opengl] )
 	spell? ( >=app-text/enchant-0.22:= )
@@ -75,9 +79,12 @@ RDEPEND="
 		x11-libs/cairo[X]
 		>=x11-libs/gtk+-3.14:3[X]
 		x11-libs/libX11
+		x11-libs/libXcomposite
 		x11-libs/libXrender
 		x11-libs/libXt )
 "
+# Control knob is private and set to off
+# seccomp? ( sys-libs/libseccomp )
 
 # paxctl needed for bug #407085
 # Need real bison, not yacc
@@ -92,7 +99,7 @@ DEPEND="${RDEPEND}
 	>=dev-util/gperf-3.0.1
 	>=sys-devel/bison-2.4.3
 	>=sys-devel/flex-2.5.34
-	|| ( >=sys-devel/gcc-4.7 >=sys-devel/clang-3.3 )
+	|| ( >=sys-devel/gcc-4.9 >=sys-devel/clang-3.3 )
 	sys-devel/gettext
 	virtual/pkgconfig
 
@@ -111,13 +118,19 @@ S="${WORKDIR}/${MY_P}"
 CHECKREQS_DISK_BUILD="18G" # and even this might not be enough, bug #417307
 
 pkg_pretend() {
-	if [[ ${MERGE_TYPE} != "binary" ]] && is-flagq "-g*" && ! is-flagq "-g*0" ; then
-		einfo "Checking for sufficient disk space to build ${PN} with debugging CFLAGS"
-		check-reqs_pkg_pretend
-	fi
+	if [[ ${MERGE_TYPE} != "binary" ]] ; then
+		if is-flagq "-g*" && ! is-flagq "-g*0" ; then
+			einfo "Checking for sufficient disk space to build ${PN} with debugging CFLAGS"
+			check-reqs_pkg_pretend
+		fi
 
-	if [[ ${MERGE_TYPE} != "binary" ]] && ! test-flag-CXX -std=c++11; then
-		die "You need at least GCC 4.7.x or Clang >= 3.3 for C++11-specific compiler flags"
+		if ! test-flag-CXX -std=c++11 ; then
+			die "You need at least GCC 4.9.x or Clang >= 3.3 for C++11-specific compiler flags"
+		fi
+
+		if [[ $(tc-getCXX) == *g++* && $(gcc-version) < 4.9 ]] ; then
+			die 'The active compiler needs to be gcc 4.9 (or newer)'
+		fi
 	fi
 }
 
@@ -167,7 +180,7 @@ src_configure() {
 	if ! use ia64; then
 		append-ldflags "-Wl,--no-keep-memory"
 	fi
-	if ! $(tc-getLD) --version | grep -q "GNU gold"; then
+	if ! tc-ld-is-gold ; then
 		append-ldflags "-Wl,--reduce-memory-overheads"
 	fi
 
@@ -196,16 +209,18 @@ src_configure() {
 	#
 	# FTL_JIT requires llvm
 	local mycmakeargs=(
+		$(cmake-utils_use_enable aqua QUARTZ_TARGET)
 		$(cmake-utils_use_enable test API_TESTS)
 		$(cmake-utils_use_enable doc GTKDOC)
 		$(cmake-utils_use_enable geoloc GEOLOCATION)
 		$(cmake-utils_use_find_package gles2 OpenGLES2)
 		$(cmake-utils_use_enable gles2 GLES2)
+		$(cmake-utils_use_enable gnome-keyring CREDENTIAL_STORAGE)
 		$(cmake-utils_use_enable gstreamer VIDEO)
 		$(cmake-utils_use_enable gstreamer WEB_AUDIO)
 		$(cmake-utils_use_enable introspection)
 		$(cmake-utils_use_enable jit)
-		$(cmake-utils_use_enable gnome-keyring CREDENTIAL_STORAGE)
+		$(cmake-utils_use_enable nsplugin PLUGIN_PROCESS_GTK2)
 		$(cmake-utils_use_enable spell SPELLCHECK SPELLCHECK)
 		$(cmake-utils_use_enable wayland WAYLAND_TARGET)
 		$(cmake-utils_use_enable webgl WEBGL)
@@ -214,10 +229,9 @@ src_configure() {
 		$(cmake-utils_use_enable X X11_TARGET)
 		-DCMAKE_BUILD_TYPE=Release
 		-DPORT=GTK
-		-DENABLE_PLUGIN_PROCESS_GTK2=ON
 		${ruby_interpreter}
 	)
-	if $(tc-getLD) --version | grep -q "GNU gold"; then
+	if tc-ld-is-gold ; then
 		mycmakeargs+=( -DUSE_LD_GOLD=ON )
 	else
 		mycmakeargs+=( -DUSE_LD_GOLD=OFF )
@@ -242,5 +256,6 @@ src_install() {
 
 	# Prevents crashes on PaX systems, bug #522808
 	use jit && pax-mark m "${ED}usr/bin/jsc" "${ED}usr/libexec/webkit2gtk-4.0/WebKitWebProcess"
-	pax-mark m "${ED}usr/libexec/webkit2gtk-4.0/WebKitPluginProcess"{,2}
+	pax-mark m "${ED}usr/libexec/webkit2gtk-4.0/WebKitPluginProcess"
+	use nsplugin && pax-mark m "${ED}usr/libexec/webkit2gtk-4.0/WebKitPluginProcess"2
 }

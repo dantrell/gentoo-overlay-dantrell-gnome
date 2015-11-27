@@ -14,13 +14,14 @@ LICENSE="LGPL-2"
 SLOT="2.0"
 KEYWORDS="*"
 
-IUSE="+modemmanager zeroconf"
+IUSE="+introspection +modemmanager zeroconf"
 
 RDEPEND="
 	>=dev-libs/glib-2.34:2
 	>=dev-libs/json-glib-0.14
 	>=net-libs/libsoup-2.42:2.4
 	sys-apps/dbus
+	introspection? ( >=dev-libs/gobject-introspection-0.9.6:= )
 	modemmanager? ( >=net-misc/modemmanager-1 )
 	zeroconf? ( >=net-dns/avahi-0.6.10 )
 	!<sci-geosciences/geocode-glib-3.10.0
@@ -37,6 +38,7 @@ src_configure() {
 	# debug only affects CFLAGS
 	gnome2_src_configure \
 		--with-dbus-service-user=geoclue \
+		$(use_enable introspection) \
 		$(use_enable modemmanager 3g-source) \
 		$(use_enable modemmanager cdma-source) \
 		$(use_enable modemmanager modem-gps-source) \
