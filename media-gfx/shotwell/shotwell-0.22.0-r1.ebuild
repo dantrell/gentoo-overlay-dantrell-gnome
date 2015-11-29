@@ -12,7 +12,6 @@ MY_PV=$(get_version_component_range 1-2)
 DESCRIPTION="Open source photo manager for GNOME"
 HOMEPAGE="https://wiki.gnome.org/Apps/Shotwell"
 SRC_URI="
-
 	mirror://gnome/sources/${PN}/$(get_version_component_range 1-2)/${P}.tar.xz
 	http://pkgs.fedoraproject.org/cgit/shotwell.git/plain/shotwell.1
 	http://pkgs.fedoraproject.org/cgit/shotwell.git/plain/shotwell-icons.tar.bz2

@@ -12,12 +12,11 @@ inherit autotools eutils multibuild python-single-r1 vala
 
 DESCRIPTION="Set of GObject and Gtk objects for connecting to Spice servers and a client GUI"
 HOMEPAGE="http://spice-space.org http://gitorious.org/spice-gtk"
+SRC_URI="http://spice-space.org/download/gtk/${P}.tar.bz2"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
-
-SRC_URI="http://spice-space.org/download/gtk/${P}.tar.bz2"
 
 IUSE="dbus gstreamer gtk3 +introspection lz4 policykit pulseaudio python sasl smartcard static-libs usbredir vala webdav"
 

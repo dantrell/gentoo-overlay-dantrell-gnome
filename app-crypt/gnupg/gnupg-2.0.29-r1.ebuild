@@ -7,7 +7,6 @@ inherit eutils flag-o-matic toolchain-funcs
 DESCRIPTION="The GNU Privacy Guard, a GPL pgp replacement"
 HOMEPAGE="http://www.gnupg.org/"
 SRC_URI="mirror://gnupg/gnupg/${P}.tar.bz2"
-
 # SRC_URI="ftp://ftp.gnupg.org/gcrypt/${PN}/${P}.tar.bz2"
 
 LICENSE="GPL-3"
