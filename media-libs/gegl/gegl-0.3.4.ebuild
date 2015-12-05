@@ -18,13 +18,16 @@ LICENSE="|| ( GPL-3 LGPL-3 )"
 SLOT="0.3"
 KEYWORDS="*"
 
-IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection jpeg jpeg2k lcms lensfun libav openexr png raw sdl svg test umfpack vala v4l webp"
-REQUIRED_IUSE="vala? ( introspection )"
+IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection jpeg jpeg2k lcms lensfun libav openexr png raw sdl svg test tiff umfpack vala v4l webp"
+REQUIRED_IUSE="
+	svg? ( cairo )
+	vala? ( introspection )
+"
 
 RDEPEND="
 	>=dev-libs/glib-2.36:2
 	dev-libs/json-glib
-	>=media-libs/babl-0.1.12
+	>=media-libs/babl-0.1.14
 	sys-libs/zlib
 	>=x11-libs/gdk-pixbuf-2.18:2
 	x11-libs/pango
@@ -41,9 +44,10 @@ RDEPEND="
 	lensfun? ( >=media-libs/lensfun-0.2.5 )
 	openexr? ( media-libs/openexr )
 	png? ( media-libs/libpng:0= )
-	raw? ( =media-libs/libopenraw-0.0.9 )
+	raw? ( >=media-libs/libraw-0.15.4 )
 	sdl? ( media-libs/libsdl )
 	svg? ( >=gnome-base/librsvg-2.14:2 )
+	tiff? ( >=media-libs/tiff-4:0 )
 	umfpack? ( sci-libs/umfpack )
 	v4l? ( >=media-libs/libv4l-1.0.1 )
 	webp? ( media-libs/libwebp )
@@ -79,15 +83,6 @@ src_prepare() {
 		-e '/composite-transform.xml/d' \
 		-i tests/compositions/Makefile.am || die
 
-	# commit 11a283ab : test-image-compare needs >=babl-0.1.13 (not released yet)
-	# for the new CIE conversions
-	sed -e '/test-image-compare/d' \
-		-i tests/simple/Makefile.am || die
-
-	# Skip broken test with >=dev-python/pygobject-3.14
-	sed -e '/test_buffer/ i\    @unittest.skip("broken")\' \
-		-i tests/python/test-gegl-format.py || die
-
 	epatch_user
 	eautoreconf
 
@@ -117,6 +112,9 @@ src_configure() {
 	#  - There are two checks for dot, one controllable by --with(out)-graphviz
 	#    which toggles HAVE_GRAPHVIZ that is not used anywhere.  Yes.
 	#
+	#  - mrg is not in tree and gexiv2 support only has effect when mrg support
+	#    is enabled
+	#
 	# So that's why USE="exif graphviz lua v4l" got resolved.  More at:
 	# https://bugs.gentoo.org/show_bug.cgi?id=451136
 	#
@@ -136,17 +134,20 @@ src_configure() {
 		$(use_with cairo pangocairo) \
 		--without-exiv2 \
 		$(use_with ffmpeg libavformat) \
+		--without-gexiv2 \
 		--without-graphviz \
 		$(use_with jpeg libjpeg) \
 		$(use_with jpeg2k jasper) \
 		$(use_with lcms) \
 		$(use_with lensfun) \
 		--without-lua \
+		--without-mrg \
 		$(use_with openexr) \
 		$(use_with png libpng) \
-		$(use_with raw libopenraw) \
+		$(use_with raw libraw) \
 		$(use_with sdl) \
 		$(use_with svg librsvg) \
+		$(use_with tiff libtiff) \
 		$(use_with umfpack) \
 		$(use_with v4l libv4l) \
 		$(use_with v4l libv4l2) \
