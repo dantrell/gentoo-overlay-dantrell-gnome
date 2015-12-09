@@ -13,14 +13,14 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="bzip2 doc +gnutls ldap nls readline static selinux smartcard tools usb"
+IUSE="bzip2 doc +gnutls ldap nls readline static selinux smartcard tofu tools usb"
 
 COMMON_DEPEND_LIBS="
 	dev-libs/npth
-	>=dev-libs/libassuan-2
+	>=dev-libs/libassuan-2.4.1
 	>=dev-libs/libgcrypt-1.6.2[threads]
 	>=dev-libs/libgpg-error-1.17
-	>=dev-libs/libksba-1.0.7
+	>=dev-libs/libksba-1.2.0
 	>=net-misc/curl-7.10
 	gnutls? ( >=net-libs/gnutls-3.0 )
 	sys-libs/zlib
@@ -28,6 +28,7 @@ COMMON_DEPEND_LIBS="
 	bzip2? ( app-arch/bzip2 )
 	readline? ( sys-libs/readline:= )
 	smartcard? ( usb? ( virtual/libusb:0 ) )
+	tofu? ( >=dev-db/sqlite-3.7 )
 	"
 COMMON_DEPEND_BINS="app-crypt/pinentry
 		   !app-crypt/dirmngr"
@@ -99,6 +100,7 @@ src_configure() {
 		$(use_with ldap) \
 		$(use_enable nls) \
 		$(use_with readline) \
+		$(use_enable tofu) \
 		CC_FOR_BUILD="$(tc-getBUILD_CC)"
 }
 

@@ -18,12 +18,15 @@ LICENSE="|| ( GPL-3 LGPL-3 )"
 SLOT="0.3"
 KEYWORDS="*"
 
-IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection jpeg jpeg2k lcms lensfun libav openexr png raw sdl svg test tiff umfpack vala v4l webp"
+IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection jpeg jpeg2k lcms lensfun openexr png raw sdl svg test tiff umfpack vala v4l webp"
 REQUIRED_IUSE="
 	svg? ( cairo )
 	vala? ( introspection )
 "
 
+# NOTE: Even current libav 11.4 does not have AV_CODEC_CAP_VARIABLE_FRAME_SIZE
+#       so there is no chance to support libav right now (Gentoo bug #567638)
+#       If it returns, please check prior GEGL ebuilds for how libav was integrated.  Thanks!
 RDEPEND="
 	>=dev-libs/glib-2.36:2
 	dev-libs/json-glib
@@ -34,8 +37,7 @@ RDEPEND="
 
 	cairo? ( x11-libs/cairo )
 	ffmpeg? (
-		libav? ( media-video/libav:0= )
-		!libav? ( media-video/ffmpeg:0= )
+		>=media-video/ffmpeg-2.8:0=
 	)
 	introspection? ( >=dev-libs/gobject-introspection-1.32 )
 	jpeg? ( virtual/jpeg:0= )
@@ -70,6 +72,7 @@ pkg_setup() {
 src_prepare() {
 	epatch \
 		"${FILESDIR}"/${PN}-0.3.4-endian.patch \
+		"${FILESDIR}"/${P}-without-jpeg-png.patch \
 		"${FILESDIR}"/${P}-underlinking.patch
 
 	# FIXME: the following should be proper patch sent to upstream
