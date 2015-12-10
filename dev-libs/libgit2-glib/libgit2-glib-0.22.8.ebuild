@@ -17,7 +17,6 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE="python ssh +vala"
-
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 RDEPEND="

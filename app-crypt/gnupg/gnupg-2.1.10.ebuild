@@ -14,6 +14,7 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE="bzip2 doc +gnutls ldap nls readline static selinux smartcard tofu tools usb"
+REQUIRED_USE="smartcard? ( !static )"
 
 COMMON_DEPEND_LIBS="
 	dev-libs/npth
@@ -53,8 +54,6 @@ RDEPEND="!static? ( ${COMMON_DEPEND_LIBS} )
 	${COMMON_DEPEND_BINS}
 	selinux? ( sec-policy/selinux-gpg )
 	nls? ( virtual/libintl )"
-
-REQUIRED_USE="smartcard? ( !static )"
 
 S="${WORKDIR}/${MY_P}"
 

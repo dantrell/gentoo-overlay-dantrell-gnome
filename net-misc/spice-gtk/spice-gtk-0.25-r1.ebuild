@@ -20,7 +20,6 @@ KEYWORDS="*"
 
 IUSE="dbus doc gstreamer gtk3 +introspection policykit pulseaudio
 python sasl smartcard static-libs usbredir vala webdav"
-
 REQUIRED_USE="
 	${PYTHON_REQUIRED_USE}
 	?? ( pulseaudio gstreamer )"

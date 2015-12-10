@@ -9,10 +9,9 @@ inherit gnome2 vala
 DESCRIPTION="Clutter based world map renderer"
 HOMEPAGE="https://wiki.gnome.org/Projects/libchamplain"
 
+LICENSE="LGPL-2"
 SLOT="0.12"
 KEYWORDS="*"
-
-LICENSE="LGPL-2"
 
 IUSE="debug +gtk +introspection vala"
 REQUIRED_USE="vala? ( introspection )"

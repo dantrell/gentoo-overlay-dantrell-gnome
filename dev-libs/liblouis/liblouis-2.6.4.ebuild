@@ -17,11 +17,10 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE="python"
+REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 RDEPEND="python? ( ${PYTHON_DEPS} )"
 DEPEND="${RDEPEND}"
-
-REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 src_prepare() {
 	default

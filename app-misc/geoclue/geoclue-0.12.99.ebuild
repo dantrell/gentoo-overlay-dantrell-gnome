@@ -13,7 +13,6 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE="connman geonames gps gsmloc gtk hostip manual networkmanager nominatim plazes skyhook static-libs yahoo-geo"
-
 REQUIRED_USE="skyhook? ( networkmanager )"
 
 RDEPEND=">=dev-libs/dbus-glib-0.100

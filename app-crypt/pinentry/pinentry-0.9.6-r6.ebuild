@@ -13,6 +13,14 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE="emacs gtk ncurses qt4 qt5 caps gnome-keyring static"
+REQUIRED_USE="
+	|| ( ncurses gtk qt4 qt5 )
+	gtk? ( !static )
+	qt4? ( !static )
+	qt5? ( !static )
+	static? ( ncurses )
+	?? ( qt4 qt5 )
+"
 
 CDEPEND="
 	>=dev-libs/libgpg-error-1.17
@@ -41,15 +49,6 @@ DEPEND="${CDEPEND}
 RDEPEND="
 	${CDEPEND}
 	gnome-keyring? ( app-crypt/gcr )
-"
-
-REQUIRED_USE="
-	|| ( ncurses gtk qt4 qt5 )
-	gtk? ( !static )
-	qt4? ( !static )
-	qt5? ( !static )
-	static? ( ncurses )
-	?? ( qt4 qt5 )
 "
 
 DOCS=( AUTHORS ChangeLog NEWS README THANKS TODO )

@@ -7,8 +7,8 @@ PYTHON_COMPAT=( python2_7 )
 
 inherit autotools eutils gnome2 python-any-r1
 
-HOMEPAGE="https://blogs.gnome.org/clutter/"
 DESCRIPTION="GStreamer integration library for Clutter"
+HOMEPAGE="https://blogs.gnome.org/clutter/"
 
 LICENSE="LGPL-2.1+"
 SLOT="3.0"

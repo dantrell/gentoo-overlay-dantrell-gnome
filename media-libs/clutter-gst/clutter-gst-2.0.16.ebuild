@@ -7,8 +7,8 @@ PYTHON_COMPAT=( python2_7 )
 
 inherit gnome2 python-any-r1
 
-HOMEPAGE="http://www.clutter-project.org/"
 DESCRIPTION="GStreamer integration library for Clutter"
+HOMEPAGE="http://www.clutter-project.org/"
 
 LICENSE="LGPL-2.1+"
 SLOT="2.0"

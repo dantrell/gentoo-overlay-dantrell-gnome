@@ -14,6 +14,7 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE="bzip2 doc ldap nls mta readline static selinux smartcard tools usb"
+REQUIRED_USE="smartcard? ( !static )"
 
 COMMON_DEPEND_LIBS="
 	>=dev-libs/libassuan-2
@@ -51,8 +52,6 @@ RDEPEND="!static? ( ${COMMON_DEPEND_LIBS} )
 	!<=app-crypt/gnupg-2.0.1
 	selinux? ( sec-policy/selinux-gpg )
 	nls? ( virtual/libintl )"
-
-REQUIRED_USE="smartcard? ( !static )"
 
 src_prepare() {
 	epatch "${FILESDIR}/${PN}-2.0.17-gpgsm-gencert.patch"
