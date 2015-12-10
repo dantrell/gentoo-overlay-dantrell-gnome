@@ -21,6 +21,7 @@ media-plugins/grilo-plugins upnp-av
 net-misc/networkmanager modemmanager
 net-misc/networkmanager ppp
 sys-apps/dbus X
+sys-fs/udev gudev
 virtual/libusb udev
 www-servers/apache apache2_modules_auth_digest
 www-servers/apache apache2_mpms_prefork

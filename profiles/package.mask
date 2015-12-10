@@ -6,6 +6,7 @@ app-admin/system-config-printer::gentoo
 app-arch/file-roller::gentoo
 app-cdr/brasero::gentoo
 app-crypt/gnupg::gentoo
+app-crypt/gpgme::gentoo
 app-crypt/libsecret::gentoo
 app-crypt/pinentry::gentoo
 app-editors/ghex::gentoo
@@ -31,6 +32,7 @@ dev-libs/folks::gentoo
 dev-libs/gmime::gentoo
 dev-libs/gom::gentoo
 dev-libs/json-glib::gentoo
+dev-libs/libassuan::gentoo
 dev-libs/libcroco::gentoo
 dev-libs/libgcrypt::gentoo
 dev-libs/libgdata::gentoo
