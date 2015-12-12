@@ -1,0 +1,29 @@
+From 057f1bf338802c02425149d318d3b9317d8cd86b Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Wed, 23 Sep 2015 17:18:46 +0200
+Subject: [PATCH 31/34] rules: Fix distcheck'ing not being able to install udev
+ rules
+
+---
+ Makefile.am | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index 746dd53..13dc902 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -52,8 +52,9 @@ pkgconfigdir = $(libdir)/pkgconfig
+ pkgconfig_DATA = upower-glib.pc
+ 
+ # xsltproc barfs on 'make distcheck'; disable for now
+-DISTCHECK_CONFIGURE_FLAGS=--disable-man-pages --enable-gtk-doc \
+-	--with-systemdsystemunitdir=$$dc_install_base/$(systemdsystemunitdir)
++DISTCHECK_CONFIGURE_FLAGS=--disable-man-pages --enable-gtk-doc			\
++	--with-systemdsystemunitdir=$$dc_install_base/$(systemdsystemunitdir)	\
++	--with-udevrulesdir='$${libdir}/udev/rules.d-distcheck'
+ 
+ clean-local :
+ 	rm -f *~
+-- 
+2.6.4
+

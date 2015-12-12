@@ -1,0 +1,11 @@
+diff '--exclude=.git' -urN a/src/linux/integration-test b/src/linux/integration-test
+--- a/src/linux/integration-test	2015-12-11 19:13:46.617727489 -0500
++++ b/src/linux/integration-test	2015-12-11 19:14:21.239361987 -0500
+@@ -879,7 +879,6 @@
+ 
+         self.start_daemon()
+         client = UPowerGlib.Client.new()
+-        self.assertTrue(client.get_properties_sync(None))
+         self.assertRegex(client.get_daemon_version(), '^[0-9.]+$')
+         self.assertIn(client.get_can_hibernate(), [False, True])
+         self.assertIn(client.get_can_suspend(), [False, True])

@@ -1,0 +1,35 @@
+From db4f9b43dfe6b4d2b5063ae352d8eba017652fce Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 12 Nov 2015 16:25:44 +0100
+Subject: [PATCH 32/34] etc: Change the default low battery policy
+
+It is now based on the percentage of battery left, rather than the
+usually unreliable "time left". See configuration file for more details.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=92920
+---
+ etc/UPower.conf | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/etc/UPower.conf b/etc/UPower.conf
+index 4282948..a727ee3 100644
+--- a/etc/UPower.conf
++++ b/etc/UPower.conf
+@@ -41,9 +41,11 @@ IgnoreLid=false
+ #
+ # Whether battery percentage based policy should be used. The default
+ # is to use the time left, change to true to use the percentage, which
+-# should work around broken firmwares.
+-# default=false
+-UsePercentageForPolicy=false
++# should work around broken firmwares. It is also more reliable than
++# the time left (frantically saving all your files is going to use more
++# battery than letting it rest for example).
++# default=true
++UsePercentageForPolicy=true
+ 
+ # When UsePercentageForPolicy is true, the levels at which UPower will
+ # consider the battery low, critical, or take action for the critical
+-- 
+2.6.4
+

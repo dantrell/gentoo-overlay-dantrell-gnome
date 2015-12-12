@@ -10,7 +10,7 @@ SRC_URI="http://${PN}.freedesktop.org/releases/${PN}-0.99.3.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0/3" # based on SONAME of libupower-glib.so
-KEYWORDS="~*"
+KEYWORDS="-*"
 
 IUSE="doc +deprecated integration-test +introspection ios kernel_FreeBSD kernel_linux"
 
@@ -59,6 +59,16 @@ src_prepare() {
 	# 	http://cgit.freedesktop.org/upower/commit/?id=1e4f711df426a695c232b4164b1333349cb9512a
 	# 	http://cgit.freedesktop.org/upower/commit/?id=ae9f8521c6f900255df1b6c7bc9f6adfd09abda5
 	# 	http://cgit.freedesktop.org/upower/commit/?id=fc27cbd5cb098ccf6c70110fe1b894987328fc0d
+	# 	http://cgit.freedesktop.org/upower/commit/?id=a037cffdeeed92fe7f6e68f04209b9cbe0422f8f
+	# 	http://cgit.freedesktop.org/upower/commit/?id=da7517137e7a67ccfcf60093b2eab466aeaf71ad
+	# 	http://cgit.freedesktop.org/upower/commit/?id=0825c162d3dc909966b10fecabbc2c1da364c1a6
+	# 	http://cgit.freedesktop.org/upower/commit/?id=b6dfa473f81408771d1422242b07974b425a6fd2
+	# 	http://cgit.freedesktop.org/upower/commit/?id=c015e6b21e3cb8f5bc944564850d9ffc35a6a6c7
+	# 	http://cgit.freedesktop.org/upower/commit/?id=d5ec9d4f292726d1695f5154e546ac8536bf454d
+	# 	http://cgit.freedesktop.org/upower/commit/?id=34caba296423c7737be7018279fd44161e8ac86f
+	# 	http://cgit.freedesktop.org/upower/commit/?id=057f1bf338802c02425149d318d3b9317d8cd86b
+	# 	http://cgit.freedesktop.org/upower/commit/?id=db4f9b43dfe6b4d2b5063ae352d8eba017652fce
+	# 	http://cgit.freedesktop.org/upower/commit/?id=3e49e659d06749e04466f7a9501f27face8ef9ef
 	epatch "${FILESDIR}"/${PN}-0.99.4-0001-trivial-post-release-version-bump.patch
 	epatch "${FILESDIR}"/${PN}-0.99.4-0002-lib-fix-memory-leak-in-up-client-get-devices.patch
 	epatch "${FILESDIR}"/${PN}-0.99.4-0003-linux-fix-possible-double-free.patch
@@ -67,6 +77,17 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-0.99.4-0006-revert-linux-work-around-broken-battery-on-the-onda.patch
 	epatch "${FILESDIR}"/${PN}-0.99.4-0007-fix-hid-rules-header-as-per-discussions.patch
 	epatch "${FILESDIR}"/${PN}-1.0.0-0008-update-upower-hid-rules-supported-devices-list.patch
+	epatch "${FILESDIR}"/${PN}-1.0.0-0009-up-tool-remove-unused-variables.patch
+	epatch "${FILESDIR}"/${PN}-1.0.0-0017-integration-test-fix-typo-in-interface-name.patch
+	epatch "${FILESDIR}"/${PN}-1.0.0-0025-support-g-autoptr-for-all-libupower-glib-object-type.patch
+	epatch "${FILESDIR}"/${PN}-1.0.0-0026-build-fix-missing-includes.patch
+	epatch "${FILESDIR}"/${PN}-1.0.0-0028-linux-fix-deprecation-warning-in-integration-test.patch
+	epatch "${FILESDIR}"/${PN}-1.0.0-0029-daemon-print-the-filename-when-the-config-file-is-mi.patch
+	epatch "${FILESDIR}"/${PN}-1.0.0-0030-daemon-fix-self-test-config-file-location-for-newer.patch
+	epatch "${FILESDIR}"/${PN}-1.0.0-0031-rules-fix-distcheck-ing-not-being-able-to-install-ud.patch
+	epatch "${FILESDIR}"/${PN}-1.0.0-0032-etc-change-the-default-low-battery-policy.patch
+	epatch "${FILESDIR}"/${PN}-1.0.0-0034-daemon-lower-the-warning-levels-for-input-devices.patch
+	epatch "${FILESDIR}"/${PN}-1.0.0-9999-build-bump-version-to-1.0.0.patch
 
 	if use deprecated; then
 		# From Funtoo:

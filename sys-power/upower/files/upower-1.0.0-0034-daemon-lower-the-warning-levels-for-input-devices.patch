@@ -1,0 +1,35 @@
+From 3e49e659d06749e04466f7a9501f27face8ef9ef Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 12 Nov 2015 16:34:00 +0100
+Subject: [PATCH 34/34] daemon: Lower the warning levels for input devices
+
+Modern wireless input devices can last for dozens of minutes, or even
+hours with a couple of percentage points of battery, so change the
+warning levels to be more in line with that data.
+
+See https://bugzilla.gnome.org/show_bug.cgi?id=756314
+
+https://bugs.freedesktop.org/show_bug.cgi?id=92920
+---
+ src/up-daemon.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/up-daemon.c b/src/up-daemon.c
+index c61b1b8..be14cbe 100644
+--- a/src/up-daemon.c
++++ b/src/up-daemon.c
+@@ -644,9 +644,9 @@ up_daemon_compute_warning_level (UpDaemon      *daemon,
+ 	 * into critical (or off) before any warnings */
+ 	if (kind == UP_DEVICE_KIND_MOUSE ||
+ 	    kind == UP_DEVICE_KIND_KEYBOARD) {
+-		if (percentage < 13.0f)
++		if (percentage < 5.0f)
+ 			return UP_DEVICE_LEVEL_CRITICAL;
+-		else if (percentage < 26.0f)
++		else if (percentage < 10.0f)
+ 			return  UP_DEVICE_LEVEL_LOW;
+ 		else
+ 			return UP_DEVICE_LEVEL_NONE;
+-- 
+2.6.4
+

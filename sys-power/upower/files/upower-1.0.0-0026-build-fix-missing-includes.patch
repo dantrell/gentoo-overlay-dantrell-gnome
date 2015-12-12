@@ -1,0 +1,92 @@
+From b6dfa473f81408771d1422242b07974b425a6fd2 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Wed, 23 Sep 2015 16:09:50 +0200
+Subject: [PATCH 26/34] build: Fix missing includes
+
+Include $(top_builddir) when building so that we can find the newly
+generated D-Bus helper files. Note that, because we ship generated files
+in the tarball, we'll also need to include $(top_srcdir).
+---
+ src/Makefile.am         | 1 +
+ src/bsd/Makefile.am     | 1 +
+ src/dummy/Makefile.am   | 1 +
+ src/freebsd/Makefile.am | 1 +
+ src/linux/Makefile.am   | 1 +
+ src/openbsd/Makefile.am | 1 +
+ 6 files changed, 6 insertions(+)
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 6301d46..74594a9 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -14,6 +14,7 @@ endif
+ AM_CPPFLAGS = \
+ 	$(PIE_CFLAGS)						\
+ 	-I$(top_builddir)/src -I$(top_srcdir)/src		\
++	-I$(top_builddir)/ -I$(top_srcdir)/			\
+ 	-DPACKAGE_LIBEXEC_DIR=\""$(libexecdir)"\"		\
+ 	-DPACKAGE_SYSCONF_DIR=\""$(sysconfdir)"\"		\
+ 	-DPACKAGE_DATA_DIR=\""$(datadir)"\"			\
+diff --git a/src/bsd/Makefile.am b/src/bsd/Makefile.am
+index 5a1223e..295cf85 100644
+--- a/src/bsd/Makefile.am
++++ b/src/bsd/Makefile.am
+@@ -2,6 +2,7 @@
+ 
+ AM_CPPFLAGS = \
+ 	-I$(top_builddir)/src -I$(top_srcdir)/src		\
++	-I$(top_builddir)/ -I$(top_srcdir)/			\
+ 	-DUP_COMPILATION					\
+ 	-DG_LOG_DOMAIN=\"UPower-Unix\"			\
+ 	-I$(top_srcdir)/libupower-glib				\
+diff --git a/src/dummy/Makefile.am b/src/dummy/Makefile.am
+index 416b4ac..088f856 100644
+--- a/src/dummy/Makefile.am
++++ b/src/dummy/Makefile.am
+@@ -2,6 +2,7 @@
+ 
+ AM_CPPFLAGS = \
+ 	-I$(top_builddir)/src -I$(top_srcdir)/src		\
++	-I$(top_builddir)/ -I$(top_srcdir)/			\
+ 	-DUP_COMPILATION					\
+ 	-DG_LOG_DOMAIN=\"UPower-Dummy\"				\
+ 	-I$(top_srcdir)/libupower-glib				\
+diff --git a/src/freebsd/Makefile.am b/src/freebsd/Makefile.am
+index 0e8d138..c640dc1 100644
+--- a/src/freebsd/Makefile.am
++++ b/src/freebsd/Makefile.am
+@@ -2,6 +2,7 @@
+ 
+ AM_CPPFLAGS = \
+ 	-I$(top_builddir)/src -I$(top_srcdir)/src		\
++	-I$(top_builddir)/ -I$(top_srcdir)/			\
+ 	-DUP_COMPILATION					\
+ 	-DG_LOG_DOMAIN=\"UPower-Freebsd\"			\
+ 	-I$(top_srcdir)/libupower-glib				\
+diff --git a/src/linux/Makefile.am b/src/linux/Makefile.am
+index 91502a2..e92bdd5 100644
+--- a/src/linux/Makefile.am
++++ b/src/linux/Makefile.am
+@@ -2,6 +2,7 @@
+ 
+ AM_CPPFLAGS = \
+ 	-I$(top_builddir)/src -I$(top_srcdir)/src		\
++	-I$(top_builddir)/ -I$(top_srcdir)			\
+ 	-DUP_COMPILATION					\
+ 	-DG_LOG_DOMAIN=\"UPower-Linux\"				\
+ 	-DPACKAGE_SYSCONF_DIR=\""$(sysconfdir)"\"		\
+diff --git a/src/openbsd/Makefile.am b/src/openbsd/Makefile.am
+index 7d05654..b7a501f 100644
+--- a/src/openbsd/Makefile.am
++++ b/src/openbsd/Makefile.am
+@@ -2,6 +2,7 @@
+ 
+ AM_CPPFLAGS = \
+ 	-I$(top_builddir)/src -I$(top_srcdir)/src		\
++	-I$(top_builddir)/ -I$(top_srcdir)/			\
+ 	-DUP_COMPILATION					\
+ 	-DG_LOG_DOMAIN=\"UPower-Openbsd\"			\
+ 	-I$(top_srcdir)/libupower-glib				\
+-- 
+2.6.4
+

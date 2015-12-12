@@ -12,13 +12,17 @@ LICENSE="GPL-2"
 SLOT="0/3" # based on SONAME of libupower-glib.so
 KEYWORDS="*"
 
-IUSE="doc +deprecated +introspection ios kernel_FreeBSD kernel_linux"
+IUSE="doc +deprecated integration-test +introspection ios kernel_FreeBSD kernel_linux"
 
-RDEPEND=">=dev-libs/dbus-glib-0.100
+RDEPEND="
+	>=dev-libs/dbus-glib-0.100
 	>=dev-libs/glib-2.40
 	dev-util/gdbus-codegen
 	sys-apps/dbus:=
 	>=sys-auth/polkit-0.110
+	deprecated? ( >=sys-power/pm-utils-1.4.1-r2 )
+	doc? ( dev-util/gtk-doc )
+	integration-test? ( dev-util/umockdev )
 	introspection? ( dev-libs/gobject-introspection )
 	kernel_linux? (
 		virtual/libusb:1
@@ -27,16 +31,17 @@ RDEPEND=">=dev-libs/dbus-glib-0.100
 		ios? (
 			>=app-pda/libimobiledevice-1:=
 			>=app-pda/libplist-1:=
-			)
 		)
-	deprecated? ( >=sys-power/pm-utils-1.4.1-r2 )
-	doc? ( dev-util/gtk-doc )"
-DEPEND="${RDEPEND}
+	)
+"
+DEPEND="
+	${RDEPEND}
+	app-text/docbook-xsl-stylesheets
 	dev-libs/gobject-introspection-common
 	dev-libs/libxslt
-	app-text/docbook-xsl-stylesheets
 	dev-util/intltool
-	virtual/pkgconfig"
+	virtual/pkgconfig
+"
 
 QA_MULTILIB_PATHS="usr/lib/${PN}/.*"
 
@@ -58,6 +63,12 @@ src_prepare() {
 		#	https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718458
 		#	https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718491
 		epatch "${FILESDIR}"/${PN}-0.99.0-always-use-pm-utils-backend.patch
+
+		if use integration-test; then
+			# From Upstream:
+			# 	http://cgit.freedesktop.org/upower/commit/?id=720680d6855061b136ecc9ff756fb0cc2bc3ae2c
+			epatch "${FILESDIR}"/${PN}-0.99.2-fix-integration-test.patch
+		fi
 	fi
 
 	eautoreconf
@@ -99,6 +110,10 @@ src_install() {
 		insinto /usr/share/doc/${PF}/html/UPower
 		doins doc/html/*
 		dosym /usr/share/doc/${PF}/html/UPower /usr/share/gtk-doc/html/UPower
+	fi
+
+	if use integration-test; then
+		newbin src/linux/integration-test upower-integration-test
 	fi
 
 	keepdir /var/lib/upower #383091

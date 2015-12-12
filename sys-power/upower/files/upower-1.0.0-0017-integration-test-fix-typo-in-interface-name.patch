@@ -1,0 +1,27 @@
+From da7517137e7a67ccfcf60093b2eab466aeaf71ad Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Sat, 30 May 2015 18:55:37 -0700
+Subject: [PATCH 17/34] integration-test: fix typo in interface name
+
+The display device will use the org.freedesktop.UPower.Device interface,
+not org.freedesktop.UPower.
+---
+ src/linux/integration-test | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index e4a9cd8..48c0c1d 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -184,7 +184,7 @@ class Tests(unittest.TestCase):
+         proxy = Gio.DBusProxy.new_sync(
+             self.dbus, Gio.DBusProxyFlags.DO_NOT_AUTO_START, None, UP,
+             UP_DISPLAY_OBJECT_PATH, 'org.freedesktop.DBus.Properties', None)
+-        return proxy.Get('(ss)', UP, name)
++        return proxy.Get('(ss)', UP + '.Device', name)
+ 
+     def get_dbus_dev_property(self, device, name):
+         '''Get property value from an upower device D-Bus path.'''
+-- 
+2.6.4
+

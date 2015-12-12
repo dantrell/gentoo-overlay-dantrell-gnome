@@ -1,0 +1,91 @@
+From 0825c162d3dc909966b10fecabbc2c1da364c1a6 Mon Sep 17 00:00:00 2001
+From: Kalev Lember <klember@redhat.com>
+Date: Tue, 15 Sep 2015 12:49:20 +0200
+Subject: [PATCH 25/34] Support g_autoptr() for all libupower-glib object types
+
+This allows using e.g. g_autoptr(UpDevice) in other programs, but does
+not make upower itself use g_autoptr, or require a new enough glib to
+support it.
+
+Signed-off-by: Richard Hughes <richard@hughsie.com>
+---
+ libupower-glib/Makefile.am       |  1 +
+ libupower-glib/up-autocleanups.h | 40 ++++++++++++++++++++++++++++++++++++++++
+ libupower-glib/upower.h          |  2 ++
+ 3 files changed, 43 insertions(+)
+ create mode 100644 libupower-glib/up-autocleanups.h
+
+diff --git a/libupower-glib/Makefile.am b/libupower-glib/Makefile.am
+index efa47fa..a7bc2f5 100644
+--- a/libupower-glib/Makefile.am
++++ b/libupower-glib/Makefile.am
+@@ -21,6 +21,7 @@ lib_LTLIBRARIES =						\
+ libupower_glib_includedir = $(includedir)/libupower-glib
+ libupower_glib_include_HEADERS =				\
+ 	upower.h						\
++	up-autocleanups.h					\
+ 	up-version.h						\
+ 	up-types.h						\
+ 	up-device.h						\
+diff --git a/libupower-glib/up-autocleanups.h b/libupower-glib/up-autocleanups.h
+new file mode 100644
+index 0000000..534ee80
+--- /dev/null
++++ b/libupower-glib/up-autocleanups.h
+@@ -0,0 +1,40 @@
++/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
++ *
++ * Copyright (C) 2015 Kalev Lember <klember@redhat.com>
++ *
++ * Licensed under the GNU General Public License Version 2
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++ */
++
++#if !defined (__UPOWER_H_INSIDE__) && !defined (UP_COMPILATION)
++#error "Only <upower.h> can be included directly."
++#endif
++
++#ifndef __UP_AUTOCLEANUPS_H
++#define __UP_AUTOCLEANUPS_H
++
++#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
++
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(UpClient, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(UpDevice, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(UpHistoryItem, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(UpStatsItem, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(UpWakeupItem, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(UpWakeups, g_object_unref)
++
++#endif
++
++#endif /* __UP_AUTOCLEANUPS_H */
+diff --git a/libupower-glib/upower.h b/libupower-glib/upower.h
+index a28f7a2..681bc2b 100644
+--- a/libupower-glib/upower.h
++++ b/libupower-glib/upower.h
+@@ -43,6 +43,8 @@
+ #include <libupower-glib/up-wakeup-item.h>
+ #include <libupower-glib/up-wakeups.h>
+ 
++#include <libupower-glib/up-autocleanups.h>
++
+ #undef __UPOWER_H_INSIDE__
+ 
+ #endif /* __UPOWER_H__ */
+-- 
+2.6.4
+

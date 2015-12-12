@@ -1,0 +1,32 @@
+From a037cffdeeed92fe7f6e68f04209b9cbe0422f8f Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Sat, 30 May 2015 12:40:15 -0700
+Subject: [PATCH 09/34] up-tool: remove unused variables
+
+---
+ tools/up-tool.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/tools/up-tool.c b/tools/up-tool.c
+index a2a35b0..44c7a9a 100644
+--- a/tools/up-tool.c
++++ b/tools/up-tool.c
+@@ -120,7 +120,6 @@ up_client_print (UpClient *client)
+ {
+ 	gchar *daemon_version;
+ 	gboolean on_battery;
+-	UpDeviceLevel warning_level;
+ 	gboolean lid_is_closed;
+ 	gboolean lid_is_present;
+ 	char *action;
+@@ -166,7 +165,6 @@ static gboolean
+ up_tool_do_monitor (UpClient *client)
+ {
+ 	GPtrArray *devices;
+-	GError *error = NULL;
+ 	guint i;
+ 
+ 	g_print ("Monitoring activity from the power daemon. Press Ctrl+C to cancel.\n");
+-- 
+2.6.4
+

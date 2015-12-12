@@ -1,0 +1,28 @@
+From 34caba296423c7737be7018279fd44161e8ac86f Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Wed, 23 Sep 2015 17:08:08 +0200
+Subject: [PATCH 30/34] daemon: Fix self test config file location for newer
+ automake
+
+More sub-dirs. We should really find a better way to do that in the
+future.
+---
+ src/up-self-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/up-self-test.c b/src/up-self-test.c
+index f64ecf5..f9f3cf7 100644
+--- a/src/up-self-test.c
++++ b/src/up-self-test.c
+@@ -299,7 +299,7 @@ main (int argc, char **argv)
+ 	if (g_file_test ("../etc/UPower.conf", G_FILE_TEST_EXISTS))
+ 		g_setenv ("UPOWER_CONF_FILE_NAME", "../etc/UPower.conf", TRUE);
+ 	else
+-		g_setenv ("UPOWER_CONF_FILE_NAME", "../../etc/UPower.conf", TRUE);
++		g_setenv ("UPOWER_CONF_FILE_NAME", "../../../etc/UPower.conf", TRUE);
+ 
+ 	/* tests go here */
+ 	g_test_add_func ("/power/backend", up_test_backend_func);
+-- 
+2.6.4
+
