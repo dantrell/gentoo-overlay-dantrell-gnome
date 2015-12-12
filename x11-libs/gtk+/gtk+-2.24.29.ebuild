@@ -71,10 +71,6 @@ RDEPEND="${COMMON_DEPEND}
 	!<gnome-base/gail-1000
 	!<dev-util/gtk-builder-convert-${PV}
 	!<x11-libs/vte-0.28.2-r201:0
-	abi_x86_32? (
-		!<=app-emulation/emul-linux-x86-gtklibs-20140508
-		!app-emulation/emul-linux-x86-gtklibs[-abi_x86_32(-)]
-	)
 "
 # librsvg for svg icons (PDEPEND to avoid circular dep), bug #547710
 PDEPEND="
@@ -192,21 +188,11 @@ multilib_src_configure() {
 }
 
 multilib_src_test() {
-	unset DBUS_SESSION_BUS_ADDRESS
 	Xemake check
 }
 
 multilib_src_install() {
 	gnome2_src_install
-
-	# add -framework Carbon to the .pc files, bug #????
-	# FIXME: Is this still needed? Any reference to try to upstream it?
-#	if use aqua ; then
-#		for i in gtk+-2.0.pc gtk+-quartz-2.0.pc gtk+-unix-print-2.0.pc; do
-#			sed -e "s:Libs\: :Libs\: -framework Carbon :" \
-#				-i "${ED%/}"/usr/$(get_libdir)/pkgconfig/$i || die "sed failed"
-#		done
-#	fi
 }
 
 multilib_src_install_all() {

@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-GCONF_DEBUG=no
-VALA_USE_DEPEND=vapigen
+GCONF_DEBUG="no"
+VALA_USE_DEPEND="vapigen"
 
 inherit gnome2 vala
 

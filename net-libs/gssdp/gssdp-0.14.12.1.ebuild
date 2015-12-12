@@ -2,7 +2,6 @@
 
 EAPI="5"
 GCONF_DEBUG="no"
-VALA_MIN_API_VERSION="0.14"
 VALA_USE_DEPEND="vapigen"
 
 inherit gnome2 multilib-minimal vala
@@ -22,7 +21,7 @@ RDEPEND="
 	gtk? ( >=x11-libs/gtk+-3.0:3 )
 	introspection? (
 		$(vala_depend)
-		>=dev-libs/gobject-introspection-0.6.7 )
+		>=dev-libs/gobject-introspection-0.6.7:= )
 	!<net-libs/gupnp-vala-0.10.3
 "
 DEPEND="${RDEPEND}
@@ -35,7 +34,7 @@ src_prepare() {
 	# Disable functional test as it requires port that might be used by rygel to
 	# be free of use
 	sed 's/\(check_PROGRAMS.*\)test-functional$(EXEEXT)/\1/' \
-		-i "${S}"/tests/gtest/Makefile.in || die
+		-i "${S}"/tests/Makefile.in || die
 
 	use introspection && vala_src_prepare
 	gnome2_src_prepare

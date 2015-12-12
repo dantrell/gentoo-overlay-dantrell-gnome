@@ -52,7 +52,7 @@ index f7a89dc..1498f72 100644
  	Build GdkPixbuf loader:         ${enable_pixbuf_loader}
 -        GTK+ $GTK3_REQUIRED or later:           ${have_gtk_3}
 +        GTK 3.0:                        ${with_gtk3}
- 	Build miscellaenous tools:      ${build_misc_tools}
+ 	Build miscellaneous tools:      ${build_misc_tools}
  "
 -- 
 1.7.10.4

@@ -24,6 +24,7 @@ COMMON_DEPEND="
 	$(vala_depend)
 	>=dev-libs/glib-2.40:2
 	dev-libs/dbus-glib
+	>=dev-libs/gobject-introspection-1.30:=
 	>=dev-libs/libgee-0.10:0.8[introspection]
 	dev-libs/libxml2
 	sys-libs/ncurses:0=
@@ -46,7 +47,6 @@ RDEPEND="${COMMON_DEPEND}
 # FIXME:
 # test? ( bluetooth? ( dbusmock is missing in the tree ) )
 DEPEND="${COMMON_DEPEND}
-	>=dev-libs/gobject-introspection-1.30
 	>=dev-util/intltool-0.50.0
 	sys-devel/gettext
 	virtual/pkgconfig
@@ -55,7 +55,7 @@ DEPEND="${COMMON_DEPEND}
 		sys-apps/dbus
 		bluetooth? (
 			>=gnome-extra/evolution-data-server-3.9.1
-			>=dev-libs/glib-2.40 ) )
+			>=dev-libs/glib-2.40:2 ) )
 	!<dev-lang/vala-0.22.1:0.22
 "
 

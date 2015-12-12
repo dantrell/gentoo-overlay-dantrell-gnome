@@ -15,9 +15,7 @@ SLOT="2"
 KEYWORDS="*"
 
 IUSE="+introspection vala tools"
-REQUIRED_USE="
-	vala? ( introspection )
-"
+REQUIRED_USE="vala? ( introspection )"
 
 RDEPEND="
 	>=dev-libs/glib-2.34.3:2[${MULTILIB_USEDEP}]
@@ -40,7 +38,7 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	# https://bugzilla.gnome.org/show_bug.cgi?id=653323
-	epatch "${FILESDIR}/${PN}-2.40.10-gtk-optional.patch"
+	epatch "${FILESDIR}/${PN}-2.40.12-gtk-optional.patch"
 
 	# https://bugzilla.gnome.org/show_bug.cgi?id=731826
 	epatch "${FILESDIR}/${PN}-2.40.2-vala-out-of-source.patch"
