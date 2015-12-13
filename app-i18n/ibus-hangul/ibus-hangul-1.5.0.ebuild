@@ -3,7 +3,7 @@
 EAPI="5"
 PYTHON_COMPAT=( python2_7 )
 
-inherit eutils python-single-r1
+inherit python-single-r1
 
 DESCRIPTION="The Hangul engine for IBus input platform"
 HOMEPAGE="https://github.com/choehwanjin/${PN}"
