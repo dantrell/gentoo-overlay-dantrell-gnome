@@ -1,0 +1,28 @@
+From 4e4e03897bc90af230ee2051deda44da5804fef7 Mon Sep 17 00:00:00 2001
+From: Changwoo Ryu <cwryu@debian.org>
+Date: Sun, 6 Jul 2014 07:47:52 +0900
+Subject: [PATCH] Update hangul mode property on toggle key
+
+---
+ src/engine.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/src/engine.c b/src/engine.c
+index d608ad6..6d44b9f 100644
+--- a/src/engine.c
++++ b/src/engine.c
+@@ -977,6 +977,14 @@ ibus_hangul_engine_process_key_event (IBusEngine     *engine,
+             ibus_hangul_engine_flush (hangul);
+ 
+         hangul->hangul_mode = !hangul->hangul_mode;
++        if (hangul->hangul_mode) {
++            ibus_property_set_state (hangul->prop_hangul_mode,
++                    PROP_STATE_CHECKED);
++        } else {
++            ibus_property_set_state (hangul->prop_hangul_mode,
++                    PROP_STATE_UNCHECKED);
++        }
++        ibus_engine_update_property (engine, hangul->prop_hangul_mode);
+         return TRUE;
+     }
+ 

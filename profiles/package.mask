@@ -13,6 +13,7 @@ app-editors/ghex::gentoo
 app-emulation/libvirt-glib::gentoo
 app-emulation/spice-protocol::gentoo
 app-eselect/eselect-pinentry::gentoo
+app-i18n/ibus-hangul::gentoo
 app-misc/geoclue::gentoo
 app-text/gnome-doc-utils::gentoo
 app-text/gspell::gentoo
@@ -41,6 +42,7 @@ dev-libs/libgit2-glib::gentoo
 dev-libs/libgit2::gentoo
 dev-libs/libgpg-error::gentoo
 dev-libs/libical::gentoo
+dev-libs/libintl::gentoo
 dev-libs/liblouis::gentoo
 dev-libs/libsigc++::gentoo
 dev-libs/libunistring::gentoo

@@ -1,0 +1,22 @@
+From 374a83bc13b5d159134ee6a3b7e3d71190e05ffe Mon Sep 17 00:00:00 2001
+From: Changwoo Ryu <cwryu@debian.org>
+Date: Sun, 6 Jul 2014 07:53:03 +0900
+Subject: [PATCH] Change property label: "Hangul lock" -> "Hangul mode"
+
+---
+ src/engine.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/engine.c b/src/engine.c
+index 6d44b9f..161f041 100644
+--- a/src/engine.c
++++ b/src/engine.c
+@@ -363,7 +363,7 @@ ibus_hangul_engine_init (IBusHangulEngine *hangul)
+     hangul->prop_list = ibus_prop_list_new ();
+     g_object_ref_sink (hangul->prop_list);
+ 
+-    label = ibus_text_new_from_string (_("Hangul lock"));
++    label = ibus_text_new_from_string (_("Hangul mode"));
+     tooltip = ibus_text_new_from_string (_("Enable/Disable Hangul mode"));
+     prop = ibus_property_new ("hangul_mode",
+                               PROP_TYPE_TOGGLE,
