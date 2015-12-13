@@ -104,6 +104,7 @@ net-misc/dleyna-server::gentoo
 net-misc/gnome-online-miners::gentoo
 net-misc/spice-gtk::gentoo
 net-print/cups-filters::gentoo
+sys-auth/consolekit::gentoo
 sys-devel/gettext::gentoo
 sys-libs/libosinfo::gentoo
 sys-power/acpid::gentoo
