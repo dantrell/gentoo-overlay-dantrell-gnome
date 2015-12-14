@@ -17,6 +17,7 @@ media-libs/grilo playlist
 media-libs/gst-plugins-base X
 media-libs/gst-plugins-base theora
 media-libs/harfbuzz icu
+media-libs/libpng apng
 media-plugins/grilo-plugins upnp-av
 net-misc/networkmanager modemmanager
 net-misc/networkmanager ppp
