@@ -1,2 +1,3 @@
+# Dantrell B. (02 Nov 2015)
 # Breaks Power Management Utilities (pm-utils) support
-=x11-drivers/nvidia-drivers-358.09
+>=x11-drivers/nvidia-drivers-358.09
