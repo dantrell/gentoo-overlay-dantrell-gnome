@@ -16,7 +16,6 @@ KEYWORDS="*"
 IUSE="gnome +introspection static-libs test vala"
 REQUIRED_IUSE="vala? ( introspection )"
 
-# gtk+ is needed for gdk
 # configure checks for gtk:3, but only uses it for demos which are not installed
 RDEPEND="
 	>=dev-libs/glib-2.32:2
@@ -56,7 +55,6 @@ src_configure() {
 
 src_test() {
 	unset ORBIT_SOCKETDIR
-	unset DBUS_SESSION_BUS_ADDRESS
 	export GSETTINGS_BACKEND="memory" #486412
 	dbus-launch emake check
 }
