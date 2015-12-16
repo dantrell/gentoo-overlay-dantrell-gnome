@@ -20,7 +20,10 @@ RDEPEND="
 	dev-util/gdbus-codegen
 	sys-apps/dbus:=
 	>=sys-auth/polkit-0.110
-	deprecated? ( >=sys-power/pm-utils-1.4.1-r2 )
+	deprecated? (
+		sys-power/acpid
+		sys-power/pm-utils
+	)
 	doc? ( dev-util/gtk-doc )
 	integration-test? ( dev-util/umockdev )
 	introspection? ( dev-libs/gobject-introspection )
