@@ -24,7 +24,7 @@ REQUIRED_USE="
 
 CDEPEND="
 	>=dev-libs/libgpg-error-1.17
-	>=dev-libs/libassuan-2
+	>=dev-libs/libassuan-2.1
 	>=dev-libs/libgcrypt-1.6.3
 	ncurses? ( sys-libs/ncurses:0= )
 	gtk? ( x11-libs/gtk+:2 )
@@ -55,7 +55,6 @@ DOCS=( AUTHORS ChangeLog NEWS README THANKS TODO )
 
 src_prepare() {
 	epatch "${FILESDIR}/${PN}-0.8.2-ncurses.patch"
-	epatch "${FILESDIR}/${P}-add-disable-pinentry-qt5-option.patch"
 	eautoreconf
 }
 
