@@ -1,10 +1,12 @@
 app-crypt/gcr gtk
+app-emulation/wine -gstreamer
 app-text/ghostscript-gpl cups
 app-text/poppler cairo
 dev-libs/boehm-gc threads
 dev-libs/folks eds
 dev-libs/libusb udev
 dev-libs/libxml2 python
+dev-vcs/git gtk
 gnome-base/gnome-control-center networkmanager
 gnome-base/gvfs cdda
 gnome-base/gvfs gtk
@@ -19,8 +21,12 @@ media-libs/gst-plugins-base theora
 media-libs/harfbuzz icu
 media-libs/libpng apng
 media-plugins/grilo-plugins upnp-av
+net-analyzer/wireshark -qt4
+net-analyzer/wireshark -qt5
 net-misc/networkmanager modemmanager
 net-misc/networkmanager ppp
+net-misc/spice-gtk -gstreamer
+net-nds/openldap minimal
 sys-apps/dbus X
 sys-fs/udev gudev
 virtual/libusb udev
