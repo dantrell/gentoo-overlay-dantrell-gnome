@@ -106,6 +106,7 @@
 >=gnome-extra/gnome-power-manager-3.16.1
 >=gnome-extra/gnome-shell-extensions-3.16.1
 >=gnome-extra/gnome-shell-frippery-0.10.0
+>=gnome-extra/gnome-software-3.16.6
 >=gnome-extra/gnome-system-monitor-3.16.0
 >=gnome-extra/gnome-todo-3.18.0
 >=gnome-extra/gnome-tweak-tool-3.16.2
