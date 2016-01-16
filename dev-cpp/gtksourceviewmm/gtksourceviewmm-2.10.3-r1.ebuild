@@ -4,10 +4,10 @@ EAPI="5"
 GCONF_DEBUG="no"
 GNOME2_LA_PUNT="yes"
 
-inherit gnome2
+inherit flag-o-matic gnome2
 
 DESCRIPTION="C++ bindings for gtksourceview"
-HOMEPAGE="https://projects.gnome.org/gtksourceviewmm/"
+HOMEPAGE="https://wiki.gnome.org/Projects/GtkSourceView"
 
 LICENSE="LGPL-2.1"
 SLOT="2.0"
@@ -15,21 +15,16 @@ KEYWORDS="*"
 
 IUSE="doc"
 
-RDEPEND=">=dev-cpp/gtkmm-2.12:2.4
+RDEPEND="
+	>=dev-cpp/gtkmm-2.12:2.4
 	dev-cpp/atkmm
 	>=x11-libs/gtksourceview-2.10.0:2.0
-	!>=dev-cpp/libgtksourceviewmm-1"
-
+	!>=dev-cpp/libgtksourceviewmm-1
+"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
-	doc? ( app-doc/doxygen )"
-
-pkg_setup() {
-	DOCS="AUTHORS ChangeLog* NEWS README"
-	G2CONF="${G2CONF}
-		$(use_enable doc documentation)
-		--disable-static"
-}
+	doc? ( app-doc/doxygen )
+"
 
 src_prepare() {
 	gnome2_src_prepare
@@ -38,6 +33,13 @@ src_prepare() {
 	# we handle it in src_install.
 	sed -i -e 's|^\(SUBDIRS =.*\)$(doc_subdirs)\(.*\)|\1\2|' Makefile.in || \
 		die "sed Makefile.in failed"
+}
+
+src_configure() {
+	append-cxxflags -std=c++11
+	gnome2_src_configure \
+		$(use_enable doc documentation) \
+		--disable-static
 }
 
 src_install() {

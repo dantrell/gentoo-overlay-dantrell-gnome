@@ -111,7 +111,7 @@ pkg_postinst() {
 pkg_postrm() {
 	gnome2_pkg_postrm
 
-	if [[ -z ${REPLACED_BY_VERSIONS} ]]; then
+	if [[ -z ${REPLACED_BY_VERSION} ]]; then
 		rm -f "${EROOT}"usr/lib*/${PN}-2.0/2.10.0/loaders.cache
 	fi
 }

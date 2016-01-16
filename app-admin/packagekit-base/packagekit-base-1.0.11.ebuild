@@ -98,10 +98,8 @@ src_configure() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" install || die "emake install failed"
+	emake DESTDIR="${D}" install
 	prune_libtool_files --all
-
-	einstalldocs
 
 	dodoc AUTHORS ChangeLog MAINTAINERS NEWS README
 

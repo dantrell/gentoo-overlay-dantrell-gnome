@@ -3,7 +3,7 @@
 EAPI="5"
 GCONF_DEBUG="no"
 
-inherit eutils gnome2 multilib-minimal
+inherit eutils flag-o-matic gnome2 multilib-minimal
 
 DESCRIPTION="C++ interface for GTK+"
 HOMEPAGE="http://www.gtkmm.org"
@@ -55,6 +55,8 @@ src_prepare() {
 	fi
 
 	gnome2_src_prepare
+
+	append-cxxflags -std=c++11
 }
 
 multilib_src_configure() {

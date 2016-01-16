@@ -31,9 +31,11 @@
 >=dev-libs/glib-2.46.2
 >=dev-libs/gobject-introspection-1.46.0
 >=dev-libs/gobject-introspection-common-1.46.0
+>=dev-libs/gom-0.4.0
 >=dev-libs/libgdata-0.18.0
 >=dev-libs/libgit2-0.23.3
 >=dev-libs/libgit2-glib-0.23.6
+>=dev-libs/libgusb-0.3.0
 >=dev-libs/libgweather-3.18.1
 >=dev-libs/libpeas-1.16.0
 >=dev-libs/libsigc++-2.6.2

@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-GCONF_DEBUG="no"
+GCONF_DEBUG="yes"
 
 inherit eutils gnome2
 
@@ -12,7 +12,7 @@ LICENSE="GPL-2+ LGPL-2+"
 SLOT="3"
 KEYWORDS="*"
 
-IUSE="debug +introspection test"
+IUSE="+introspection test"
 
 COMMON_DEPEND="
 	>=dev-libs/glib-2.29.15:2
@@ -32,6 +32,11 @@ DEPEND="${COMMON_DEPEND}
 src_prepare() {
 	# Don't show KDE standalone settings desktop files in GNOME others menu
 	epatch "${FILESDIR}/${PN}-3.8.0-ignore_kde_standalone.patch"
+
+	# desktop-entries: support multiple desktops in XDG_CURRENT_DESKTOP
+	# (from 'master')
+	epatch "${FILESDIR}"/${P}-multiple-desktop{,2}.patch
+
 	gnome2_src_prepare
 }
 
@@ -41,7 +46,6 @@ src_configure() {
 	# Do NOT compile with --disable-debug/--enable-debug=no
 	# It disables api usage checks
 	gnome2_src_configure \
-		$(usex debug --enable-debug=yes --enable-debug=minimum) \
 		$(use_enable introspection) \
 		--disable-static
 }

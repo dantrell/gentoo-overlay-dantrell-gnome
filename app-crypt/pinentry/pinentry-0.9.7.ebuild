@@ -46,7 +46,7 @@ DEPEND="${CDEPEND}
 	virtual/pkgconfig
 "
 
-RDEPEND="
+PDEPEND="
 	${CDEPEND}
 	gnome-keyring? ( app-crypt/gcr )
 "

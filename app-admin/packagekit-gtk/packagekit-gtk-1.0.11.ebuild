@@ -18,8 +18,9 @@ KEYWORDS="*"
 IUSE=""
 
 RDEPEND="
-	dev-libs/dbus-glib
+	>=dev-libs/glib-2.32:2
 	media-libs/fontconfig
+	>=x11-libs/gtk+-2:2
 	>=x11-libs/gtk+-3:3
 	x11-libs/pango
 	~app-admin/packagekit-base-${PV}[introspection]
@@ -51,12 +52,10 @@ src_configure() {
 }
 
 src_compile() {
-	cd "${S}"/contrib/gtk-module || die
-	emake
+	emake -C contrib/gtk-module
 }
 
 src_install() {
-	cd "${S}"/contrib/gtk-module || die
-	emake DESTDIR="${D}" install
+	emake -C contrib/gtk-module DESTDIR="${D}" install
 	prune_libtool_files --all
 }

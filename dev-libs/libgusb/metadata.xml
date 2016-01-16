@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<herd>gnome</herd>
-<use>
-	<flag name="gnome-online-accounts">Enable <pkg>net-libs/gnome-online-accounts</pkg> support</flag>
-</use>
+  <herd>gnome</herd>
+  <upstream>
+    <remote-id type="github">hughsie/libgusb</remote-id>
+  </upstream>
 </pkgmetadata>

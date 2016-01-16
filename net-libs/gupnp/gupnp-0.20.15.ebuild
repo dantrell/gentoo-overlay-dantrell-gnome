@@ -23,7 +23,7 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}
 # prefix: uuid dependency can be adapted to non-linux platforms
 RDEPEND="
 	${PYTHON_DEPS}
-	>=net-libs/gssdp-0.14.7:0=[introspection?,${MULTILIB_USEDEP}]
+	>=net-libs/gssdp-0.14.13:0=[introspection?,${MULTILIB_USEDEP}]
 	>=net-libs/libsoup-2.48.0:2.4[introspection?,${MULTILIB_USEDEP}]
 	>=dev-libs/glib-2.40:2[${MULTILIB_USEDEP}]
 	>=dev-libs/libxml2-2.9.1-r4[${MULTILIB_USEDEP}]
@@ -31,14 +31,14 @@ RDEPEND="
 		>=sys-apps/util-linux-2.24.1-r3[${MULTILIB_USEDEP}]
 		<sys-libs/e2fsprogs-libs-1.41.8[${MULTILIB_USEDEP}] )
 	introspection? (
-			>=dev-libs/gobject-introspection-0.6.4
+			>=dev-libs/gobject-introspection-1.36:=
 			$(vala_depend) )
 	connman? ( >=dev-libs/glib-2.34.3:2[${MULTILIB_USEDEP}] )
 	networkmanager? ( >=dev-libs/glib-2.34.3:2[${MULTILIB_USEDEP}] )
 	!net-libs/gupnp-vala
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1
+	>=dev-util/gtk-doc-am-1.14
 	sys-devel/gettext
 	>=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}]
 "

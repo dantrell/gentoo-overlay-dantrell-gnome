@@ -59,5 +59,5 @@ src_configure() {
 
 src_test() {
 	# This is required as told by upstream in bgo#629542
-	GVFS_DISABLE_FUSE=1 dbus-launch emake check || die "emake check failed"
+	GVFS_DISABLE_FUSE=1 dbus-run-session emake check || die "emake check failed"
 }

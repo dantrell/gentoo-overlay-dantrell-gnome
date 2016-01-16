@@ -25,7 +25,7 @@ COMMON_DEPEND="
 	zlib? ( sys-libs/zlib )
 	curl? ( net-misc/curl )
 	mta? ( virtual/mta )
-	readline? ( sys-libs/readline )
+	readline? ( sys-libs/readline:0= )
 	smartcard? ( =virtual/libusb-0* )
 	usb? ( =virtual/libusb-0* )"
 

@@ -44,6 +44,7 @@ dev-libs/libgee::gentoo
 dev-libs/libgit2-glib::gentoo
 dev-libs/libgit2::gentoo
 dev-libs/libgpg-error::gentoo
+dev-libs/libgusb::gentoo
 dev-libs/libical::gentoo
 dev-libs/libintl::gentoo
 dev-libs/liblouis::gentoo

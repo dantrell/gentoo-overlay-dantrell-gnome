@@ -64,6 +64,9 @@ src_prepare() {
 	# File providing Gentoo package names for various archivers
 	cp -f "${FILESDIR}"/3.6.0-packages.match data/packages.match || die
 	gnome2_src_prepare
+
+	# https://bugzilla.gnome.org/show_bug.cgi?id=757793
+	epatch "${FILESDIR}"/${P}-bug-757793.patch
 }
 
 src_configure() {

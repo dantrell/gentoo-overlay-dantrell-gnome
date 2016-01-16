@@ -13,8 +13,11 @@ LICENSE="LGPL-2.1+"
 SLOT="0/22" # subslot = libgdata soname version
 KEYWORDS="*"
 
-IUSE="gnome +introspection static-libs test vala"
-REQUIRED_IUSE="vala? ( introspection )"
+IUSE="+crypt gnome-online-accounts +introspection static-libs test vala"
+REQUIRED_IUSE="
+	gnome-online-accounts? ( crypt )
+	vala? ( introspection )
+"
 
 # configure checks for gtk:3, but only uses it for demos which are not installed
 RDEPEND="
@@ -24,9 +27,8 @@ RDEPEND="
 	>=net-libs/liboauth-0.9.4
 	>=net-libs/libsoup-2.42.0:2.4[introspection?]
 	>=x11-libs/gdk-pixbuf-2.14:2
-	gnome? (
-		app-crypt/gcr:=
-		>=net-libs/gnome-online-accounts-3.8 )
+	crypt? ( app-crypt/gcr:= )
+	gnome-online-accounts? ( >=net-libs/gnome-online-accounts-3.8 )
 	introspection? ( >=dev-libs/gobject-introspection-0.9.7:= )
 "
 DEPEND="${RDEPEND}
@@ -45,8 +47,8 @@ src_prepare() {
 src_configure() {
 	DOCS="AUTHORS ChangeLog HACKING NEWS README"
 	gnome2_src_configure \
-		$(use_enable gnome) \
-		$(use_enable gnome goa) \
+		$(use_enable crypt gnome) \
+		$(use_enable gnome-online-accounts goa) \
 		$(use_enable introspection) \
 		$(use_enable vala) \
 		$(use_enable static-libs static) \

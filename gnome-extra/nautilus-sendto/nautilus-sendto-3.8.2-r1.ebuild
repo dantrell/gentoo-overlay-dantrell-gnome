@@ -12,11 +12,10 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="+introspection"
+IUSE=""
 
 RDEPEND="
 	>=x11-libs/gtk+-2.90.3:3[X(+)]
-	introspection? ( >=dev-libs/gobject-introspection-0.6.7 )
 "
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.9
@@ -26,3 +25,10 @@ DEPEND="${RDEPEND}
 "
 # Needed for eautoreconf
 #	>=gnome-base/gnome-common-0.12
+
+src_prepare() {
+	gnome2_src_prepare
+
+	# Does not require introspection at all, bug #561008
+	sed -i -e 's/\(^ \+enable_introspection\)=yes/\1=no/' configure || die
+}
