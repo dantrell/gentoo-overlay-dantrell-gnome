@@ -6,7 +6,7 @@ EAPI="5"
 
 MY_P="gettext-${PV}"
 
-inherit eutils multilib-minimal toolchain-funcs libtool
+inherit multilib-minimal toolchain-funcs libtool
 
 DESCRIPTION="the GNU international library (split out of gettext)"
 HOMEPAGE="https://www.gnu.org/software/gettext/"
@@ -27,8 +27,6 @@ RDEPEND="${DEPEND}
 S="${WORKDIR}/${MY_P}/gettext-runtime"
 
 src_prepare() {
-	epatch "${FILESDIR}"/${PN}-0.19.5-langinfo.patch
-
 	# The libtool files are stored higher up, so make sure we run in the
 	# whole tree and not just the subdir we build.
 	elibtoolize "${WORKDIR}"
@@ -54,6 +52,11 @@ multilib_src_configure() {
 		$(use_enable threads)
 	)
 	ECONF_SOURCE=${S} econf "${myconf[@]}"
+}
+
+multilib_src_compile() {
+	# We only need things in the intl/ subdir.
+	emake -C intl
 }
 
 multilib_src_install() {

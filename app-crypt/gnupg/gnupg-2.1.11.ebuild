@@ -2,7 +2,7 @@
 
 EAPI="5"
 
-inherit eutils autotools flag-o-matic toolchain-funcs
+inherit eutils flag-o-matic toolchain-funcs
 
 DESCRIPTION="The GNU Privacy Guard, a GPL OpenPGP implementation"
 HOMEPAGE="http://www.gnupg.org/"
@@ -20,7 +20,7 @@ COMMON_DEPEND_LIBS="
 	dev-libs/npth
 	>=dev-libs/libassuan-2.4.1
 	>=dev-libs/libgcrypt-1.6.2[threads]
-	>=dev-libs/libgpg-error-1.17
+	>=dev-libs/libgpg-error-1.21
 	>=dev-libs/libksba-1.2.0
 	>=net-misc/curl-7.10
 	gnutls? ( >=net-libs/gnutls-3.0 )
@@ -58,9 +58,7 @@ RDEPEND="!static? ( ${COMMON_DEPEND_LIBS} )
 S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
-	epatch "${FILESDIR}/${P}-pkg-config.patch"
 	epatch_user
-	eautoreconf
 }
 
 src_configure() {
@@ -103,13 +101,6 @@ src_configure() {
 		$(use_with readline) \
 		$(use_enable tofu) \
 		CC_FOR_BUILD="$(tc-getBUILD_CC)"
-
-		# The pkg-config patch specific to 2.1.10 is causing an eautoreconf 
-		# it shows up as being a developer version and with "unknown" suffix
-		# we remove this explicitly for the 2.1.10 release as it does not contain
-		# unstable code
-		sed -i "s/#define IS_DEVELOPMENT_VERSION 1//" config.h || die
-		sed -i "s/2.1.10-unknown/2.1.10/" config.h || die
 }
 
 src_compile() {
