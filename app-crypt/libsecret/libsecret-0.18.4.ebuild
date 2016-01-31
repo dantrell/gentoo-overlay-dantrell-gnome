@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
+GCONF_DEBUG="yes"
 PYTHON_COMPAT=( python2_7 )
-VALA_MIN_API_VERSION=0.18
 VALA_USE_DEPEND=vapigen
 
 inherit gnome2 python-any-r1 vala virtualx
@@ -14,13 +14,13 @@ LICENSE="LGPL-2.1+ Apache-2.0" # Apache-2.0 license is used for tests only
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="+crypt debug +introspection test vala"
+IUSE="+crypt +introspection test vala"
 REQUIRED_USE="vala? ( introspection )"
 
 RDEPEND="
 	>=dev-libs/glib-2.38:2
 	crypt? ( >=dev-libs/libgcrypt-1.2.2:0= )
-	introspection? ( >=dev-libs/gobject-introspection-1.29 )
+	introspection? ( >=dev-libs/gobject-introspection-1.29:= )
 "
 PDEPEND=">=gnome-base/gnome-keyring-3
 "
@@ -50,7 +50,6 @@ src_prepare() {
 }
 
 src_configure() {
-	DOCS="AUTHORS ChangeLog NEWS README"
 	gnome2_src_configure \
 		--enable-manpages \
 		--disable-strict \

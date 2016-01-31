@@ -4,7 +4,7 @@ EAPI="5"
 CMAKE_MAKEFILE_GENERATOR="ninja"
 GCONF_DEBUG="no"
 PYTHON_COMPAT=( python2_7 )
-USE_RUBY="ruby20 ruby21 ruby22"
+USE_RUBY="ruby20 ruby21 ruby22 ruby23"
 
 inherit check-reqs cmake-utils eutils flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs versionator virtualx
 
@@ -36,8 +36,7 @@ RESTRICT="test"
 
 # use sqlite, svg by default
 # Aqua support in gtk3 is untested
-# gtk2 is needed for plugin process support, should we add a USE flag to configure this?
-# Dependencies found at Sources/cmake/OptionsGTK.cmake
+# Dependencies found at Source/cmake/OptionsGTK.cmake
 RDEPEND="
 	dev-db/sqlite:3=
 	>=dev-libs/glib-2.36:2
@@ -195,7 +194,9 @@ src_configure() {
 
 	local ruby_interpreter=""
 
-	if has_version "virtual/rubygems[ruby_targets_ruby22]"; then
+	if has_version "virtual/rubygems[ruby_targets_ruby23]"; then
+		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby23)"
+	elif has_version "virtual/rubygems[ruby_targets_ruby22]"; then
 		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby22)"
 	elif has_version "virtual/rubygems[ruby_targets_ruby21]"; then
 		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby21)"
