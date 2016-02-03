@@ -4,7 +4,7 @@ EAPI="5"
 GCONF_DEBUG="no"
 GNOME2_LA_PUNT="yes"
 
-inherit gnome2
+inherit eutils gnome2
 
 DESCRIPTION="CD/DVD burning application for the GNOME desktop"
 HOMEPAGE="https://wiki.gnome.org/Apps/Brasero"
@@ -27,7 +27,7 @@ COMMON_DEPEND="
 	x11-libs/libICE
 	x11-libs/libSM
 
-	introspection? ( >=dev-libs/gobject-introspection-0.6.3 )
+	introspection? ( >=dev-libs/gobject-introspection-0.6.3:= )
 	libburn? (
 		>=dev-libs/libburn-0.4:=
 		>=dev-libs/libisofs-0.6.4:= )
@@ -51,6 +51,7 @@ RDEPEND="${COMMON_DEPEND}
 "
 DEPEND="${COMMON_DEPEND}
 	>=dev-util/intltool-0.50
+	dev-util/itstool
 	>=dev-util/gtk-doc-am-1.12
 	sys-devel/gettext
 	virtual/pkgconfig
@@ -61,6 +62,12 @@ DEPEND="${COMMON_DEPEND}
 #	gnome-base/gnome-common
 
 PDEPEND="gnome-base/gvfs"
+
+src_prepare() {
+	# https://bugzilla.gnome.org/show_bug.cgi?id=744916
+	epatch "${FILESDIR}"/${PN}-3.12.1-libdvdcss.patch
+	gnome2_src_prepare
+}
 
 src_configure() {
 	DOCS="AUTHORS ChangeLog MAINTAINERS NEWS README"
@@ -74,6 +81,5 @@ src_configure() {
 		$(use_enable libburn libburnia) \
 		$(use_enable nautilus) \
 		$(use_enable playlist) \
-		$(use_enable tracker search) \
-		ITSTOOL=$(type -P true)
+		$(use_enable tracker search)
 }
