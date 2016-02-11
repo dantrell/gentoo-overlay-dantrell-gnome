@@ -58,7 +58,7 @@ src_install() {
 	insinto /etc/acpi/events
 	newins "${FILESDIR}"/${PN}-1.0.4-default default
 
-	newinitd "${FILESDIR}"/${PN}-2.0.16-init.d ${PN}
+	newinitd "${FILESDIR}"/${PN}-2.0.26-init.d ${PN}
 	newconfd "${FILESDIR}"/${PN}-2.0.16-conf.d ${PN}
 
 	if use systemd ; then

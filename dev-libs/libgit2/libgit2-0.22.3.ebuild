@@ -17,7 +17,7 @@ IUSE="examples gssapi ssh test threads trace"
 RDEPEND="
 	dev-libs/openssl:0
 	sys-libs/zlib
-	net-libs/http-parser
+	net-libs/http-parser:=
 	gssapi? ( virtual/krb5 )
 	ssh? ( net-libs/libssh2 )
 "
@@ -61,7 +61,7 @@ src_install() {
 	cmake-utils_src_install
 
 	if use examples ; then
-		find examples -name .gitignore -delete || die
+		egit_clean examples
 		dodoc -r examples
 		docompress -x /usr/share/doc/${PF}/examples
 	fi
