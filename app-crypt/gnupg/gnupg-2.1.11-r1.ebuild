@@ -58,6 +58,7 @@ RDEPEND="!static? ( ${COMMON_DEPEND_LIBS} )
 S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
+	epatch "${FILESDIR}/${P}-tests.patch"
 	epatch_user
 }
 
