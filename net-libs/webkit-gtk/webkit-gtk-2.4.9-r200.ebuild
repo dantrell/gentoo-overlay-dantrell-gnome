@@ -71,6 +71,7 @@ DEPEND="${RDEPEND}
 		virtual/rubygems[ruby_targets_ruby20]
 		virtual/rubygems[ruby_targets_ruby21]
 		virtual/rubygems[ruby_targets_ruby22]
+		virtual/rubygems[ruby_targets_ruby23]
 		virtual/rubygems[ruby_targets_ruby19]
 	)
 	>=dev-libs/atk-2.8.0
@@ -204,7 +205,9 @@ src_configure() {
 
 	local ruby_interpreter=""
 
-	if has_version "virtual/rubygems[ruby_targets_ruby22]"; then
+	if has_version "virtual/rubygems[ruby_targets_ruby23]"; then
+		ruby_interpreter="RUBY=$(type -P ruby23)"
+	elif has_version "virtual/rubygems[ruby_targets_ruby22]"; then
 		ruby_interpreter="RUBY=$(type -P ruby22)"
 	elif has_version "virtual/rubygems[ruby_targets_ruby21]"; then
 		ruby_interpreter="RUBY=$(type -P ruby21)"
