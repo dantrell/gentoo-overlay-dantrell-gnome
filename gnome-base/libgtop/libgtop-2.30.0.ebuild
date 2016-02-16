@@ -6,7 +6,7 @@ GCONF_DEBUG="yes"
 inherit gnome2
 
 DESCRIPTION="A library that provides top functionality to applications"
-HOMEPAGE="https://git.gnome.org/browse/libgtop"
+HOMEPAGE="https://developer.gnome.org/libgtop/stable/"
 
 LICENSE="GPL-2"
 SLOT="2/10" # libgtop soname version

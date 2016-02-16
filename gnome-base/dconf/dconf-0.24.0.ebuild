@@ -6,7 +6,7 @@ GCONF_DEBUG="no"
 inherit gnome2 bash-completion-r1 virtualx
 
 DESCRIPTION="Simple low-level configuration system"
-HOMEPAGE="https://wiki.gnome.org/dconf"
+HOMEPAGE="https://wiki.gnome.org/action/show/Projects/dconf"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
