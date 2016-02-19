@@ -4,20 +4,20 @@ EAPI="5"
 
 inherit autotools eutils git-r3 systemd
 
-DESCRIPTION="D-Bus abstraction for enumerating power devices and querying history and statistics"
+DESCRIPTION="An abstraction for enumerating power devices, listening to device events and querying history and statistics"
 HOMEPAGE="http://upower.freedesktop.org/"
 EGIT_REPO_URI="git://anongit.freedesktop.org/upower"
-EGIT_COMMIT="3e49e659d06749e04466f7a9501f27face8ef9ef"
+EGIT_COMMIT="b68131796a338e24427a04d73ee7efd1745f01ee"
 
 LICENSE="GPL-2"
 SLOT="0/3" # based on SONAME of libupower-glib.so
 KEYWORDS=""
 
-IUSE="+doc +deprecated integration-test +introspection ios kernel_FreeBSD kernel_linux"
+IUSE="+doc +deprecated integration-test +introspection ios kernel_FreeBSD kernel_linux selinux"
 
-RDEPEND="
+COMMON_DEPS="
 	>=dev-libs/dbus-glib-0.100
-	>=dev-libs/glib-2.40
+	>=dev-libs/glib-2.34:2
 	dev-util/gdbus-codegen
 	sys-apps/dbus:=
 	>=sys-auth/polkit-0.110
@@ -25,9 +25,8 @@ RDEPEND="
 		sys-power/acpid
 		sys-power/pm-utils
 	)
-	doc? ( dev-util/gtk-doc )
 	integration-test? ( dev-util/umockdev )
-	introspection? ( dev-libs/gobject-introspection )
+	introspection? ( dev-libs/gobject-introspection:= )
 	kernel_linux? (
 		virtual/libusb:1
 		virtual/libgudev:=
@@ -38,8 +37,13 @@ RDEPEND="
 		)
 	)
 "
+RDEPEND="
+	${COMMON_DEPS}
+	selinux? ( sec-policy/selinux-devicekit )
+"
 DEPEND="
-	${RDEPEND}
+	${COMMON_DEPS}
+	doc? ( dev-util/gtk-doc )
 	app-text/docbook-xsl-stylesheets
 	dev-libs/gobject-introspection-common
 	dev-libs/libxslt

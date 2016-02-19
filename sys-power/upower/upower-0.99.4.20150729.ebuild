@@ -4,7 +4,7 @@ EAPI="5"
 
 inherit autotools eutils systemd
 
-DESCRIPTION="D-Bus abstraction for enumerating power devices and querying history and statistics"
+DESCRIPTION="An abstraction for enumerating power devices, listening to device events and querying history and statistics"
 HOMEPAGE="http://upower.freedesktop.org/"
 SRC_URI="http://${PN}.freedesktop.org/releases/${PN}-0.99.3.tar.xz"
 
@@ -12,11 +12,11 @@ LICENSE="GPL-2"
 SLOT="0/3" # based on SONAME of libupower-glib.so
 KEYWORDS="*"
 
-IUSE="doc +deprecated integration-test +introspection ios kernel_FreeBSD kernel_linux"
+IUSE="doc +deprecated integration-test +introspection ios kernel_FreeBSD kernel_linux selinux"
 
-RDEPEND="
+COMMON_DEPS="
 	>=dev-libs/dbus-glib-0.100
-	>=dev-libs/glib-2.40
+	>=dev-libs/glib-2.34:2
 	dev-util/gdbus-codegen
 	sys-apps/dbus:=
 	>=sys-auth/polkit-0.110
@@ -24,9 +24,8 @@ RDEPEND="
 		sys-power/acpid
 		sys-power/pm-utils
 	)
-	doc? ( dev-util/gtk-doc )
 	integration-test? ( dev-util/umockdev )
-	introspection? ( dev-libs/gobject-introspection )
+	introspection? ( dev-libs/gobject-introspection:= )
 	kernel_linux? (
 		virtual/libusb:1
 		virtual/libgudev:=
@@ -37,8 +36,13 @@ RDEPEND="
 		)
 	)
 "
+RDEPEND="
+	${COMMON_DEPS}
+	selinux? ( sec-policy/selinux-devicekit )
+"
 DEPEND="
-	${RDEPEND}
+	${COMMON_DEPS}
+	doc? ( dev-util/gtk-doc )
 	app-text/docbook-xsl-stylesheets
 	dev-libs/gobject-introspection-common
 	dev-libs/libxslt
@@ -62,6 +66,7 @@ src_prepare() {
 	# 	http://cgit.freedesktop.org/upower/commit/?id=1e4f711df426a695c232b4164b1333349cb9512a
 	# 	http://cgit.freedesktop.org/upower/commit/?id=ae9f8521c6f900255df1b6c7bc9f6adfd09abda5
 	# 	http://cgit.freedesktop.org/upower/commit/?id=fc27cbd5cb098ccf6c70110fe1b894987328fc0d
+	# 	http://cgit.freedesktop.org/upower/commit/?id=b68131796a338e24427a04d73ee7efd1745f01ee
 	epatch "${FILESDIR}"/${PN}-0.99.4-0001-trivial-post-release-version-bump.patch
 	epatch "${FILESDIR}"/${PN}-0.99.4-0002-lib-fix-memory-leak-in-up-client-get-devices.patch
 	epatch "${FILESDIR}"/${PN}-0.99.4-0003-linux-fix-possible-double-free.patch
@@ -69,7 +74,8 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-0.99.4-0005-rules-add-support-for-logitech-g700s-g700-gaming-mou.patch
 	epatch "${FILESDIR}"/${PN}-0.99.4-0006-revert-linux-work-around-broken-battery-on-the-onda.patch
 	epatch "${FILESDIR}"/${PN}-0.99.4-0007-fix-hid-rules-header-as-per-discussions.patch
-	epatch "${FILESDIR}"/${PN}-1.0.0-0008-update-upower-hid-rules-supported-devices-list.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0008-update-upower-hid-rules-supported-devices-list.patch
+	epatch "${FILESDIR}"/${PN}-0.99.5-0037-update-readme.patch
 
 	if use deprecated; then
 		# From Funtoo:

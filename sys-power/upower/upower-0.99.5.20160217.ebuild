@@ -4,7 +4,7 @@ EAPI="5"
 
 inherit autotools eutils systemd
 
-DESCRIPTION="D-Bus abstraction for enumerating power devices and querying history and statistics"
+DESCRIPTION="An abstraction for enumerating power devices, listening to device events and querying history and statistics"
 HOMEPAGE="http://upower.freedesktop.org/"
 SRC_URI="http://${PN}.freedesktop.org/releases/${PN}-0.99.3.tar.xz"
 
@@ -12,11 +12,11 @@ LICENSE="GPL-2"
 SLOT="0/3" # based on SONAME of libupower-glib.so
 KEYWORDS="-*"
 
-IUSE="doc +deprecated integration-test +introspection ios kernel_FreeBSD kernel_linux"
+IUSE="doc +deprecated integration-test +introspection ios kernel_FreeBSD kernel_linux selinux"
 
-RDEPEND="
+COMMON_DEPS="
 	>=dev-libs/dbus-glib-0.100
-	>=dev-libs/glib-2.40
+	>=dev-libs/glib-2.34:2
 	dev-util/gdbus-codegen
 	sys-apps/dbus:=
 	>=sys-auth/polkit-0.110
@@ -24,9 +24,8 @@ RDEPEND="
 		sys-power/acpid
 		sys-power/pm-utils
 	)
-	doc? ( dev-util/gtk-doc )
 	integration-test? ( dev-util/umockdev )
-	introspection? ( dev-libs/gobject-introspection )
+	introspection? ( dev-libs/gobject-introspection:= )
 	kernel_linux? (
 		virtual/libusb:1
 		virtual/libgudev:=
@@ -37,8 +36,13 @@ RDEPEND="
 		)
 	)
 "
+RDEPEND="
+	${COMMON_DEPS}
+	selinux? ( sec-policy/selinux-devicekit )
+"
 DEPEND="
-	${RDEPEND}
+	${COMMON_DEPS}
+	doc? ( dev-util/gtk-doc )
 	app-text/docbook-xsl-stylesheets
 	dev-libs/gobject-introspection-common
 	dev-libs/libxslt
@@ -72,6 +76,9 @@ src_prepare() {
 	# 	http://cgit.freedesktop.org/upower/commit/?id=057f1bf338802c02425149d318d3b9317d8cd86b
 	# 	http://cgit.freedesktop.org/upower/commit/?id=db4f9b43dfe6b4d2b5063ae352d8eba017652fce
 	# 	http://cgit.freedesktop.org/upower/commit/?id=3e49e659d06749e04466f7a9501f27face8ef9ef
+	# 	http://cgit.freedesktop.org/upower/commit/?id=f9b7e936ec2578e58d53542f60c60787e56395f0
+	# 	http://cgit.freedesktop.org/upower/commit/?id=8f088fa5d78b2aa549d4546bd25441b8c6cd5feb
+	# 	http://cgit.freedesktop.org/upower/commit/?id=b68131796a338e24427a04d73ee7efd1745f01ee
 	epatch "${FILESDIR}"/${PN}-0.99.4-0001-trivial-post-release-version-bump.patch
 	epatch "${FILESDIR}"/${PN}-0.99.4-0002-lib-fix-memory-leak-in-up-client-get-devices.patch
 	epatch "${FILESDIR}"/${PN}-0.99.4-0003-linux-fix-possible-double-free.patch
@@ -79,18 +86,20 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-0.99.4-0005-rules-add-support-for-logitech-g700s-g700-gaming-mou.patch
 	epatch "${FILESDIR}"/${PN}-0.99.4-0006-revert-linux-work-around-broken-battery-on-the-onda.patch
 	epatch "${FILESDIR}"/${PN}-0.99.4-0007-fix-hid-rules-header-as-per-discussions.patch
-	epatch "${FILESDIR}"/${PN}-1.0.0-0008-update-upower-hid-rules-supported-devices-list.patch
-	epatch "${FILESDIR}"/${PN}-1.0.0-0009-up-tool-remove-unused-variables.patch
-	epatch "${FILESDIR}"/${PN}-1.0.0-0017-integration-test-fix-typo-in-interface-name.patch
-	epatch "${FILESDIR}"/${PN}-1.0.0-0025-support-g-autoptr-for-all-libupower-glib-object-type.patch
-	epatch "${FILESDIR}"/${PN}-1.0.0-0026-build-fix-missing-includes.patch
-	epatch "${FILESDIR}"/${PN}-1.0.0-0028-linux-fix-deprecation-warning-in-integration-test.patch
-	epatch "${FILESDIR}"/${PN}-1.0.0-0029-daemon-print-the-filename-when-the-config-file-is-mi.patch
-	epatch "${FILESDIR}"/${PN}-1.0.0-0030-daemon-fix-self-test-config-file-location-for-newer.patch
-	epatch "${FILESDIR}"/${PN}-1.0.0-0031-rules-fix-distcheck-ing-not-being-able-to-install-ud.patch
-	epatch "${FILESDIR}"/${PN}-1.0.0-0032-etc-change-the-default-low-battery-policy.patch
-	epatch "${FILESDIR}"/${PN}-1.0.0-0034-daemon-lower-the-warning-levels-for-input-devices.patch
-	epatch "${FILESDIR}"/${PN}-1.0.0-9999-build-bump-version-to-1.0.0.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0008-update-upower-hid-rules-supported-devices-list.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0009-up-tool-remove-unused-variables.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0017-integration-test-fix-typo-in-interface-name.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0025-support-g-autoptr-for-all-libupower-glib-object-type.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0026-build-fix-missing-includes.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0028-linux-fix-deprecation-warning-in-integration-test.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0029-daemon-print-the-filename-when-the-config-file-is-mi.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0030-daemon-fix-self-test-config-file-location-for-newer.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0031-rules-fix-distcheck-ing-not-being-able-to-install-ud.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0032-etc-change-the-default-low-battery-policy.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0034-daemon-lower-the-warning-levels-for-input-devices.patch
+	epatch "${FILESDIR}"/${PN}-0.99.4-0035-released-upower-0.99.4.patch
+	epatch "${FILESDIR}"/${PN}-0.99.5-0036-trivial-post-release-version-bump.patch
+	epatch "${FILESDIR}"/${PN}-0.99.5-0037-update-readme.patch
 
 	if use deprecated; then
 		# From Funtoo:
