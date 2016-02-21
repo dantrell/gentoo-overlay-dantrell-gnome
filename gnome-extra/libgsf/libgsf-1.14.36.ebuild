@@ -19,8 +19,11 @@ RDEPEND="
 	>=dev-libs/libxml2-2.4.16:2
 	sys-libs/zlib
 	bzip2? ( app-arch/bzip2 )
-	gtk? ( x11-libs/gtk+:2 )
-	introspection? ( >=dev-libs/gobject-introspection-1 )
+	gtk? (
+		x11-libs/gdk-pixbuf:2
+		|| ( media-gfx/imagemagick media-gfx/graphicsmagick[imagemagick] )
+		)
+	introspection? ( >=dev-libs/gobject-introspection-1:= )
 "
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.12

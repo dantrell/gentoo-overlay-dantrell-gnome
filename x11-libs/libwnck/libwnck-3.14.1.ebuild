@@ -22,7 +22,7 @@ RDEPEND="
 	x11-libs/libX11
 	x11-libs/libXres
 	x11-libs/libXext
-	introspection? ( >=dev-libs/gobject-introspection-0.6.14 )
+	introspection? ( >=dev-libs/gobject-introspection-0.6.14:= )
 	startup-notification? ( >=x11-libs/startup-notification-0.4 )
 	x86-interix? ( sys-libs/itx-bind )
 "

@@ -5,7 +5,7 @@ GCONF_DEBUG="yes"
 GNOME2_LA_PUNT="yes"
 PYTHON_COMPAT=( python2_7 )
 
-inherit autotools eutils gnome2 python-any-r1
+inherit gnome2 python-any-r1
 
 DESCRIPTION="GStreamer integration library for Clutter"
 HOMEPAGE="https://blogs.gnome.org/clutter/"
@@ -38,19 +38,12 @@ DEPEND="${COMMON_DEPEND}
 	virtual/pkgconfig
 "
 
-src_prepare() {
-	# Make udev support controllable
-	epatch "${FILESDIR}"/${PN}-3.0.14-automagic-udev.patch
-
-	eautoreconf
-}
-
 src_configure() {
 	# --enable-gl-texture-upload is experimental
 	gnome2_src_configure \
 		--disable-maintainer-flags \
 		$(use_enable introspection) \
-		$(use_with udev)
+		$(use_enable udev)
 }
 
 src_compile() {

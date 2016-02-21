@@ -18,7 +18,8 @@ KEYWORDS="*"
 
 IUSE="connman +introspection kernel_linux networkmanager"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
-	?? ( connman networkmanager )"
+	?? ( connman networkmanager )
+"
 
 # prefix: uuid dependency can be adapted to non-linux platforms
 RDEPEND="
@@ -27,9 +28,7 @@ RDEPEND="
 	>=net-libs/libsoup-2.48.0:2.4[introspection?,${MULTILIB_USEDEP}]
 	>=dev-libs/glib-2.40:2[${MULTILIB_USEDEP}]
 	>=dev-libs/libxml2-2.9.1-r4[${MULTILIB_USEDEP}]
-	|| (
-		>=sys-apps/util-linux-2.24.1-r3[${MULTILIB_USEDEP}]
-		<sys-libs/e2fsprogs-libs-1.41.8[${MULTILIB_USEDEP}] )
+	>=sys-apps/util-linux-2.24.1-r3[${MULTILIB_USEDEP}]
 	introspection? (
 			>=dev-libs/gobject-introspection-1.36:=
 			$(vala_depend) )
