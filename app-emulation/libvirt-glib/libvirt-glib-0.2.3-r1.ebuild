@@ -3,10 +3,9 @@
 EAPI="5"
 GCONF_DEBUG="no"
 GNOME2_LA_PUNT="yes"
-VALA_MIN_API_VERSION="0.14"
 PYTHON_COMPAT=( python2_7 )
 
-inherit gnome2 python-single-r1 vala
+inherit gnome2 python-single-r1 vala xdg-utils
 
 DESCRIPTION="GLib and GObject mappings for libvirt"
 HOMEPAGE="http://libvirt.org/git/?p=libvirt-glib.git"
@@ -44,6 +43,7 @@ pkg_setup() {
 }
 
 src_configure() {
+	xdg_environment_reset
 	gnome2_src_configure \
 		--disable-test-coverage \
 		--disable-static \

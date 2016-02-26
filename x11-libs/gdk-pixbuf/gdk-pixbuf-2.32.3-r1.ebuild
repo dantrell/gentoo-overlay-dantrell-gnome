@@ -4,7 +4,7 @@ EAPI="5"
 GCONF_DEBUG="no"
 GNOME2_LA_PUNT="yes"
 
-inherit eutils flag-o-matic gnome2 multilib libtool multilib-minimal
+inherit eutils flag-o-matic gnome2 multilib libtool multilib-minimal xdg-utils
 
 DESCRIPTION="Image loading library for GTK+"
 HOMEPAGE="https://git.gnome.org/browse/gdk-pixbuf"
@@ -55,6 +55,7 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	xdg_environment_reset
 	# png always on to display icons
 	ECONF_SOURCE="${S}" \
 	gnome2_src_configure \

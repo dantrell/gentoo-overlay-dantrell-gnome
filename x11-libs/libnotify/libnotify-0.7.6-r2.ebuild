@@ -2,7 +2,7 @@
 
 EAPI="5"
 
-inherit autotools eutils gnome.org multilib-minimal
+inherit autotools eutils gnome.org multilib-minimal xdg-utils
 
 DESCRIPTION="A library for sending desktop notifications"
 HOMEPAGE="https://git.gnome.org/browse/libnotify"
@@ -42,6 +42,7 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	xdg_environment_reset
 	ECONF_SOURCE=${S} econf \
 		--disable-static \
 		$(multilib_native_use_enable introspection)
