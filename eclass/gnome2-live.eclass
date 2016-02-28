@@ -70,7 +70,7 @@ gnome2-live_get_var() {
 	echo $(sed -ne "s/${var}(\(.*\))/\1/p" "${f}" | tr -d '[]')
 }
 
-# @FUNCTION: gnome2-live_get_var
+# @FUNCTION: gnome2-live_src_unpack
 # @DESCRIPTION:
 # Calls git-2_src_unpack, and unpacks ${A} if required.
 # Also calls gnome2-live_src_prepare for older EAPI.

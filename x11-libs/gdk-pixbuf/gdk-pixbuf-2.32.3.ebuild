@@ -4,7 +4,7 @@ EAPI="5"
 GCONF_DEBUG="no"
 GNOME2_LA_PUNT="yes"
 
-inherit eutils flag-o-matic gnome2 multilib libtool multilib-minimal xdg-utils
+inherit eutils flag-o-matic gnome2 multilib libtool multilib-minimal
 
 DESCRIPTION="Image loading library for GTK+"
 HOMEPAGE="https://git.gnome.org/browse/gdk-pixbuf"
@@ -42,6 +42,9 @@ MULTILIB_CHOST_TOOLS=(
 )
 
 src_prepare() {
+	# See https://bugzilla.gnome.org/show_bug.cgi?id=756590
+	epatch "${FILESDIR}"/${PN}-2.32.3-fix-lowmem-uclibc.patch
+
 	# This will avoid polluting the pkg-config file with versioned libpng,
 	# which is causing problems with libpng14 -> libpng15 upgrade
 	# See upstream bug #667068
@@ -55,7 +58,6 @@ src_prepare() {
 }
 
 multilib_src_configure() {
-	xdg_environment_reset
 	# png always on to display icons
 	ECONF_SOURCE="${S}" \
 	gnome2_src_configure \

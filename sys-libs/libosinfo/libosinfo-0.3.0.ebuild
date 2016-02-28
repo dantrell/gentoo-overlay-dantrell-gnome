@@ -21,7 +21,7 @@ RDEPEND="
 	>=dev-libs/glib-2:2
 	>=dev-libs/libxslt-1.0.0:=
 	dev-libs/libxml2:=
-	net-libs/libsoup-gnome:2.4
+	>=net-libs/libsoup-2.42:2.4
 	sys-apps/hwids
 	introspection? ( >=dev-libs/gobject-introspection-0.9.7:= )
 "
@@ -33,17 +33,16 @@ DEPEND="${RDEPEND}
 	vala? ( $(vala_depend) )
 "
 
+src_prepare() {
+	gnome2_src_prepare
+	use vala && vala_src_prepare
+}
+
 src_configure() {
-	# --enable-udev is only for rules.d file install
 	gnome2_src_configure \
 		--disable-static \
 		$(use_enable test tests) \
 		$(use_enable introspection) \
 		$(use_enable vala) \
-		--enable-udev \
-		--disable-coverage \
-		--with-html-dir=/usr/share/doc/${PF}/html \
-		--with-udev-rulesdir="$(get_udevdir)"/rules.d \
-		--with-usb-ids-path=/usr/share/misc/usb.ids \
-		--with-pci-ids-path=/usr/share/misc/pci.ids
+		--disable-coverage
 }

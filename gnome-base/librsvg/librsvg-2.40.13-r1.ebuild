@@ -43,6 +43,9 @@ src_prepare() {
 	# https://bugzilla.gnome.org/show_bug.cgi?id=731826
 	epatch "${FILESDIR}/${PN}-2.40.2-vala-out-of-source.patch"
 
+	# Don't crash when filters don't exist (included in next release)
+	epatch "${FILESDIR}/${P}-filters-crash.patch"
+
 	eautoreconf
 
 	use vala && vala_src_prepare

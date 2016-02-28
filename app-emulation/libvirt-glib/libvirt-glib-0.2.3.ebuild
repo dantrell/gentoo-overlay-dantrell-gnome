@@ -5,7 +5,7 @@ GCONF_DEBUG="no"
 GNOME2_LA_PUNT="yes"
 PYTHON_COMPAT=( python2_7 )
 
-inherit gnome2 python-single-r1 vala xdg-utils
+inherit gnome2 python-single-r1 vala
 
 DESCRIPTION="GLib and GObject mappings for libvirt"
 HOMEPAGE="http://libvirt.org/git/?p=libvirt-glib.git"
@@ -42,8 +42,12 @@ pkg_setup() {
 	use python && python-single-r1_pkg_setup
 }
 
+src_prepare() {
+	gnome2_src_prepare
+	use vala && vala_src_prepare
+}
+
 src_configure() {
-	xdg_environment_reset
 	gnome2_src_configure \
 		--disable-test-coverage \
 		--disable-static \
