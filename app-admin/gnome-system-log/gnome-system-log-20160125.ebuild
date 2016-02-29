@@ -5,9 +5,9 @@ GCONF_DEBUG="no"
 
 inherit eutils gnome2-live
 
-DESCRIPTION="System log viewer for GNOME"
-HOMEPAGE="https://live.gnome.org/GnomeUtils"
-EGIT_COMMIT="cf5ecade34dab876861122adfa6b8469b145c3e6"
+DESCRIPTION="A graphical user interface to view and monitor system log files"
+HOMEPAGE="https://help.gnome.org/users/gnome-system-log/"
+EGIT_COMMIT="c9a630d1701c6cd7378721c7a0e3ba30aa9f791f"
 
 LICENSE="GPL-2+ CC-BY-SA-3.0"
 SLOT="0"
@@ -21,16 +21,19 @@ COMMON_DEPEND="
 	>=x11-libs/gtk+-3.9.11:3
 	x11-libs/pango
 "
-RDEPEND="${COMMON_DEPEND}
-	gnome-base/gsettings-desktop-schemas
-	!<gnome-extra/gnome-utils-3.4"
 # ${PN} was part of gnome-utils before 3.4
+RDEPEND="
+	${COMMON_DEPEND}
+	gnome-base/gsettings-desktop-schemas
+	!<gnome-extra/gnome-utils-3.4
+"
 
-DEPEND="${COMMON_DEPEND}
+DEPEND="
+	${COMMON_DEPEND}
+	app-text/yelp-tools
 	>=dev-util/intltool-0.40
 	dev-util/itstool
 	>=sys-devel/gettext-0.17
-	app-text/yelp-tools
 	virtual/pkgconfig
 "
 
