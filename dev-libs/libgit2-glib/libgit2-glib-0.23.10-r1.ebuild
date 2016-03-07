@@ -19,6 +19,7 @@ REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 RDEPEND="
 	>=dev-libs/libgit2-0.23.0:=
+	<dev-libs/libgit2-0.24
 	>=dev-libs/glib-2.44.0:2
 	>=dev-libs/gobject-introspection-0.10.1:=
 	python? (
