@@ -61,6 +61,7 @@
 >=games-board/tali-3.18.0
 >=games-puzzle/atomix-3.18.0
 >=games-puzzle/five-or-more-3.18.0
+>=games-puzzle/gnome2048-3.18.2
 >=games-puzzle/gnome-klotski-3.18.2
 >=games-puzzle/gnome-sudoku-3.18.2
 >=games-puzzle/gnome-taquin-3.18.2

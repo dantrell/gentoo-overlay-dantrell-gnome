@@ -38,6 +38,7 @@ dev-libs/gom::gentoo
 dev-libs/json-glib::gentoo
 dev-libs/libassuan::gentoo
 dev-libs/libcroco::gentoo
+dev-libs/libgames-support::gentoo
 dev-libs/libgcrypt::gentoo
 dev-libs/libgdata::gentoo
 dev-libs/libgee::gentoo
