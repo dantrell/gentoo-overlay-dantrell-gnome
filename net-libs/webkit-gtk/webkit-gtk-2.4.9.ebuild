@@ -3,8 +3,9 @@
 EAPI="5"
 GCONF_DEBUG="no"
 PYTHON_COMPAT=( python2_7 )
+USE_RUBY="ruby20 ruby21 ruby22 ruby23"
 
-inherit autotools check-reqs eutils flag-o-matic gnome2 pax-utils python-any-r1 toolchain-funcs versionator virtualx
+inherit autotools check-reqs eutils flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs versionator virtualx
 
 MY_P="webkitgtk-${PV}"
 DESCRIPTION="Open source web browser engine"
@@ -74,13 +75,8 @@ RDEPEND="
 # Need real bison, not yacc
 DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
+	${RUBY_DEPS}
 	>=dev-lang/perl-5.10
-	|| (
-		virtual/rubygems[ruby_targets_ruby23]
-		virtual/rubygems[ruby_targets_ruby22]
-		virtual/rubygems[ruby_targets_ruby21]
-		virtual/rubygems[ruby_targets_ruby20]
-	)
 	>=app-accessibility/at-spi2-core-2.5.3
 	>=dev-libs/atk-2.8.0
 	>=dev-util/gtk-doc-am-1.10
@@ -218,13 +214,13 @@ src_configure() {
 	local ruby_interpreter=""
 
 	if has_version "virtual/rubygems[ruby_targets_ruby23]"; then
-		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby23)"
+		ruby_interpreter="RUBY=$(type -P ruby23)"
 	elif has_version "virtual/rubygems[ruby_targets_ruby22]"; then
-		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby22)"
+		ruby_interpreter="RUBY=$(type -P ruby22)"
 	elif has_version "virtual/rubygems[ruby_targets_ruby21]"; then
-		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby21)"
+		ruby_interpreter="RUBY=$(type -P ruby21)"
 	else
-		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby20)"
+		ruby_interpreter="RUBY=$(type -P ruby20)"
 	fi
 
 	# TODO: Check Web Audio support

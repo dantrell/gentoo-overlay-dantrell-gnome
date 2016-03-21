@@ -4,8 +4,9 @@ EAPI="5"
 CMAKE_MAKEFILE_GENERATOR="ninja"
 GCONF_DEBUG="no"
 PYTHON_COMPAT=( python2_7 )
+USE_RUBY="ruby20 ruby21 ruby22 ruby23"
 
-inherit check-reqs cmake-utils eutils flag-o-matic gnome2 pax-utils python-any-r1 toolchain-funcs versionator virtualx
+inherit check-reqs cmake-utils eutils flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs versionator virtualx
 
 MY_P="webkitgtk-${PV}"
 DESCRIPTION="Open source web browser engine"
@@ -76,13 +77,8 @@ RDEPEND="
 # Need real bison, not yacc
 DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
+	${RUBY_DEPS}
 	>=dev-lang/perl-5.10
-	|| (
-		virtual/rubygems[ruby_targets_ruby23]
-		virtual/rubygems[ruby_targets_ruby22]
-		virtual/rubygems[ruby_targets_ruby21]
-		virtual/rubygems[ruby_targets_ruby20]
-	)
 	>=app-accessibility/at-spi2-core-2.5.3
 	>=dev-libs/atk-2.8.0
 	>=dev-util/gtk-doc-am-1.10
