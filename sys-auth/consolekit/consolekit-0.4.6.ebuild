@@ -10,7 +10,7 @@ MY_P=${MY_PN}-${PV}
 DESCRIPTION="Framework for defining and tracking users, login sessions and seats"
 HOMEPAGE="http://www.freedesktop.org/wiki/Software/ConsoleKit"
 SRC_URI="http://www.freedesktop.org/software/${MY_PN}/dist/${MY_P}.tar.xz
-	mirror://debian/pool/main/${PN:0:1}/${PN}/${PN}_${PV}-4.debian.tar.gz" # for logrotate file
+	https://launchpad.net/debian/+archive/primary/+files/${PN}_${PV}-4.debian.tar.gz" # for logrotate file
 
 LICENSE="GPL-2"
 SLOT="0"
