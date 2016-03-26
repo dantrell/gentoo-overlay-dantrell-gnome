@@ -7,7 +7,7 @@ inherit eutils gnome2-live
 
 DESCRIPTION="A graphical user interface to view and monitor system log files"
 HOMEPAGE="https://help.gnome.org/users/gnome-system-log/"
-EGIT_COMMIT="c9a630d1701c6cd7378721c7a0e3ba30aa9f791f"
+EGIT_COMMIT="d71f51ff6cd7696d2ddb9b8485863eb8527a877c"
 
 LICENSE="GPL-2+ CC-BY-SA-3.0"
 SLOT="0"

@@ -61,6 +61,7 @@ dev-scheme/guile::gentoo
 dev-util/glade::gentoo
 dev-util/gtk-builder-convert::gentoo
 dev-util/gtk-doc::gentoo
+dev-util/meld::gentoo
 dev-util/nemiver::gentoo
 games-puzzle/hitori::gentoo
 gnome-base/dconf::gentoo
