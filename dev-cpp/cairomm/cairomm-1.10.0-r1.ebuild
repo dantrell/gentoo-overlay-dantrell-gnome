@@ -3,7 +3,7 @@
 EAPI="5"
 GCONF_DEBUG="no"
 
-inherit eutils gnome2 multilib-minimal
+inherit gnome2 multilib-minimal
 
 DESCRIPTION="C++ bindings for the Cairo vector graphics library"
 HOMEPAGE="http://cairographics.org/cairomm"
@@ -13,19 +13,13 @@ LICENSE="LGPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="doc +svg"
+IUSE="aqua doc +svg X"
 
-# FIXME: svg support is automagic
-COMMON_DEPEND="
-	>=x11-libs/cairo-1.12.10[svg?,${MULTILIB_USEDEP}]
+RDEPEND="
+	>=x11-libs/cairo-1.12.10[aqua=,svg=,X=,${MULTILIB_USEDEP}]
 	>=dev-libs/libsigc++-2.3.2:2[${MULTILIB_USEDEP}]
 "
-RDEPEND="${COMMON_DEPEND}
-	abi_x86_32? (
-		!<=app-emulation/emul-linux-x86-gtkmmlibs-20140508
-		!app-emulation/emul-linux-x86-gtkmmlibs[-abi_x86_32(-)] )
-"
-DEPEND="${COMMON_DEPEND}
+DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	doc? (
 		app-doc/doxygen

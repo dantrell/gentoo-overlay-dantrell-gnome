@@ -15,6 +15,9 @@ KEYWORDS="*"
 
 IUSE=""
 
+# Requires libhttpmock which is not in portage
+RESTRICT="test"
+
 RDEPEND="
 	dev-db/sqlite:3=
 	>=dev-libs/glib-2.32:2
@@ -30,9 +33,6 @@ DEPEND="${RDEPEND}
 	>=dev-util/intltool-0.35.5
 	virtual/pkgconfig
 "
-
-# Requires libhttpmock which is not in portage
-RESTRICT="test"
 
 src_configure() {
 	# We don't have libmspack, needing internal lzx

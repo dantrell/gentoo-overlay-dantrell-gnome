@@ -17,6 +17,9 @@ KEYWORDS="*"
 IUSE="+introspection static-libs vala"
 REQUIRED_USE="vala? ( introspection )"
 
+# Tests try to access usb devices in /dev
+RESTRICT="test"
+
 # Yes, we really need API from dev-libs/libusb-1.0.19, not virtual/libusb
 RDEPEND="
 	>=dev-libs/glib-2.38:2[${MULTILIB_USEDEP}]
@@ -29,9 +32,6 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig[${MULTILIB_USEDEP}]
 	vala? ( $(vala_depend) )
 "
-
-# Tests try to access usb devices in /dev
-RESTRICT="test"
 
 multilib_src_configure() {
 	ECONF_SOURCE=${S} \

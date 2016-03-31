@@ -4,7 +4,7 @@ EAPI="5"
 
 GENTOO_DEPEND_ON_PERL=no
 
-inherit eutils perl-module autotools systemd
+inherit eutils perl-module systemd
 
 DESCRIPTION="Cups PDF filters"
 HOMEPAGE="http://www.linuxfoundation.org/collaborate/workgroups/openprinting/pdfasstandardprintjobformat"
@@ -40,13 +40,6 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	dev-util/gdbus-codegen
 "
-
-src_prepare() {
-	epatch "${FILESDIR}"/${P}-disable-ijs.patch #574992
-	epatch "${FILESDIR}"/${P}-gstoraster.patch
-	epatch "${FILESDIR}"/${P}-configure-PKG_CONFIG.patch
-	eautoreconf
-}
 
 src_configure() {
 	econf \
@@ -100,7 +93,7 @@ src_install() {
 
 	prune_libtool_files --all
 
-	cp "${FILESDIR}"/cups-browsed.init.d "${T}"/cups-browsed || die
+	cp "${FILESDIR}"/cups-browsed.init.d-r1 "${T}"/cups-browsed || die
 
 	if ! use zeroconf ; then
 		sed -i -e 's:need cupsd avahi-daemon:need cupsd:g' "${T}"/cups-browsed || die

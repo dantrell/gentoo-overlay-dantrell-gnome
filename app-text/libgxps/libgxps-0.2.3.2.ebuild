@@ -15,6 +15,9 @@ KEYWORDS="*"
 
 IUSE="+introspection jpeg lcms static-libs tiff"
 
+# There is no automatic test suite, only an interactive test application
+RESTRICT="test"
+
 RDEPEND="
 	>=app-arch/libarchive-2.8
 	>=dev-libs/glib-2.24:2
@@ -32,9 +35,6 @@ DEPEND="${RDEPEND}
 	dev-util/gtk-doc-am
 	virtual/pkgconfig
 "
-
-# There is no automatic test suite, only an interactive test application
-RESTRICT="test"
 
 src_configure() {
 	gnome2_src_configure \

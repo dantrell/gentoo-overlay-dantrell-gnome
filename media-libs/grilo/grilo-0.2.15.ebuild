@@ -20,7 +20,7 @@ IUSE="gtk examples +introspection +network playlist test vala"
 REQUIRED_USE="test? ( introspection )"
 
 RDEPEND="
-	>=dev-libs/glib-2.34:2
+	>=dev-libs/glib-2.44:2
 	dev-libs/libxml2:2
 	net-libs/liboauth
 	gtk? ( >=x11-libs/gtk+-3:3 )

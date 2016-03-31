@@ -35,7 +35,6 @@ RDEPEND="
 	lua? (
 		>=dev-lang/lua-5.3
 		app-arch/libarchive
-		dev-libs/libxml2:2
 		>=dev-libs/totem-pl-parser-3.4.1 )
 	subtitles? ( net-libs/libsoup:2.4 )
 	thetvdb? (

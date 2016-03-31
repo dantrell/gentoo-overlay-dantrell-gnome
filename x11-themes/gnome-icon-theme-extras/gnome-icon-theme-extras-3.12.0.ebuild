@@ -14,15 +14,15 @@ KEYWORDS="*"
 
 IUSE=""
 
+# This ebuild does not install any binaries
+RESTRICT="binchecks strip"
+# FIXME: double check potential LINGUAS problem
+
 RDEPEND=">=x11-themes/hicolor-icon-theme-0.10"
 DEPEND="${RDEPEND}
 	>=x11-misc/icon-naming-utils-0.8.7
 	virtual/pkgconfig
 "
-
-# This ebuild does not install any binaries
-RESTRICT="binchecks strip"
-# FIXME: double check potential LINGUAS problem
 
 src_prepare() {
 	gnome2_src_prepare

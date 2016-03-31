@@ -14,7 +14,6 @@ SLOT="0/59"   # CHECK THIS WHEN BUMPING!!! SUBSLOT IS libpoppler.so SOVERSION
 KEYWORDS="*"
 
 IUSE="cairo cairo-qt cjk curl cxx debug doc +introspection +jpeg +jpeg2k +lcms nss png qt4 qt5 tiff +utils"
-
 REQUIRED_USE="cairo-qt? ( qt4 )"
 
 # No test data provided

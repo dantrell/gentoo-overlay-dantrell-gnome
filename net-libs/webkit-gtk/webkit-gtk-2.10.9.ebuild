@@ -18,8 +18,6 @@ SLOT="4/37" # soname version of libwebkit2gtk-4.0
 KEYWORDS="*"
 
 IUSE="aqua coverage doc +egl +geoloc gles2 gnome-keyring +gstreamer +introspection +jit nsplugin +opengl spell wayland +webgl X"
-# seccomp
-
 REQUIRED_USE="
 	geoloc? ( introspection )
 	gles2? ( egl )
@@ -30,6 +28,7 @@ REQUIRED_USE="
 	|| ( aqua wayland X )
 "
 
+# seccomp
 # Tests fail to link for inexplicable reasons
 # https://bugs.webkit.org/show_bug.cgi?id=148210
 RESTRICT="test"

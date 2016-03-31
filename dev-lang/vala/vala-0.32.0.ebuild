@@ -8,13 +8,13 @@ inherit gnome2
 DESCRIPTION="Compiler for the GObject type system"
 HOMEPAGE="https://wiki.gnome.org/Projects/Vala"
 
-RESTRICT="mirror"
-
 LICENSE="LGPL-2.1"
 SLOT="0.32"
 KEYWORDS="*"
 
 IUSE="test"
+
+RESTRICT="mirror"
 
 RDEPEND="
 	>=dev-libs/glib-2.24:2

@@ -20,6 +20,11 @@ KEYWORDS="*"
 IUSE="api-doc-extras +gnome-online-accounts +gtk +introspection ipv6 ldap kerberos vala +weather"
 REQUIRED_USE="vala? ( introspection )"
 
+# Some tests fail due to missings locales.
+# Also, dbus tests are flacky, bugs #397975 #501834
+# It looks like a nightmare to disable those for now.
+RESTRICT="test"
+
 RDEPEND="
 	>=app-crypt/gcr-3.4
 	>=app-crypt/libsecret-0.5[crypt]
@@ -60,11 +65,6 @@ DEPEND="${RDEPEND}
 "
 # eautoreconf needs:
 #	>=gnome-base/gnome-common-2
-
-# Some tests fail due to missings locales.
-# Also, dbus tests are flacky, bugs #397975 #501834
-# It looks like a nightmare to disable those for now.
-RESTRICT="test"
 
 pkg_setup() {
 	python-any-r1_pkg_setup

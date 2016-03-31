@@ -34,7 +34,8 @@ RDEPEND="
 	gnome-online-accounts? ( >=net-libs/gnome-online-accounts-3.7.1 )
 	lua? (
 		>=dev-lang/lua-5.2
-		app-arch/libarchive )
+		app-arch/libarchive
+		>=dev-libs/totem-pl-parser-3.4.1 )
 	pocket? (
 		>=net-libs/gnome-online-accounts-3.11.4
 		>=net-libs/rest-0.7.90
@@ -46,12 +47,12 @@ RDEPEND="
 	tracker? ( >=app-misc/tracker-0.10.5:= )
 	youtube? (
 		>=dev-libs/libgdata-0.9.1:=
-		dev-libs/totem-pl-parser )
+		>=dev-libs/totem-pl-parser-3.4.1 )
 	upnp-av? (
 		net-libs/libsoup:2.4
 		net-libs/dleyna-connector-dbus )
 	vimeo? (
-		dev-libs/totem-pl-parser )
+		>=dev-libs/totem-pl-parser-3.4.1 )
 "
 DEPEND="${RDEPEND}
 	app-text/docbook-xml-dtd:4.5

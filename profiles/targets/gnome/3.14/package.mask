@@ -33,6 +33,7 @@
 >=dev-libs/gobject-introspection-common-1.44.0
 >=dev-libs/gom-0.3.2
 >=dev-libs/json-glib-1.1.2
+>=dev-libs/libgames-support-0.2
 >=dev-libs/libgdata-0.17.1
 >=dev-libs/libgit2-0.23.3
 >=dev-libs/libgit2-glib-0.23.6
@@ -48,6 +49,7 @@
 >=dev-util/devhelp-3.16.1
 >=dev-util/dogtail-0.9.0-r2
 >=dev-util/gdbus-codegen-2.44.1
+>=dev-util/glade-3.20.0
 >=dev-util/gnome-devel-docs-3.16.2
 >=dev-util/gtk-update-icon-cache-3.16.3
 >=dev-vcs/gitg-3.16.1
@@ -134,8 +136,8 @@
 >=media-libs/clutter-gst-3.1.0
 >=media-libs/clutter-gtk-1.6.0-r1
 >=media-libs/cogl-1.20.0
->=media-libs/grilo-0.2.13
->=media-plugins/grilo-plugins-0.2.15
+>=media-libs/grilo-0.2.15
+>=media-plugins/grilo-plugins-0.2.16
 >=media-sound/gnome-music-3.16.1
 >=media-sound/gnome-sound-recorder-3.16.0
 >=media-sound/sound-juicer-3.16.1
@@ -151,6 +153,7 @@
 >=net-libs/libsoup-gnome-2.50.0
 >=net-libs/webkit-gtk-2.8.3
 >=net-misc/dleyna-server-0.6.0
+>=net-misc/gnome-online-miners-3.16.0
 >=net-misc/rygel-0.26.1
 >=net-misc/spice-gtk-0.28
 >=net-misc/vinagre-3.16.1

@@ -6,3 +6,5 @@ mix-ins     mix-ins/3.16                    stable
 mix-ins     mix-ins/3.16/extended           stable
 mix-ins     mix-ins/3.18                    stable
 mix-ins     mix-ins/3.18/extended           stable
+mix-ins     mix-ins/3.20                    stable
+mix-ins     mix-ins/3.20/extended           stable

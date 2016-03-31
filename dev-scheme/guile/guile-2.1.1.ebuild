@@ -8,8 +8,6 @@ DESCRIPTION="GNU Ubiquitous Intelligent Language for Extensions"
 HOMEPAGE="https://www.gnu.org/software/guile/"
 SRC_URI="http://alpha.gnu.org/gnu/${PN}/${P}.tar.xz"
 
-RESTRICT="mirror"
-
 LICENSE="LGPL-3+"
 SLOT="12"
 KEYWORDS=""

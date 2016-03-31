@@ -8,13 +8,13 @@ inherit gnome.org
 DESCRIPTION="Build infrastructure for packages that use Vala"
 HOMEPAGE="https://wiki.gnome.org/Projects/Vala"
 
-RESTRICT="mirror"
-
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
 
 IUSE=""
+
+RESTRICT="mirror"
 
 # Previously ${PN} was part of dev-lang/vala
 RDEPEND="

@@ -26,6 +26,8 @@ REQUIRED_USE="
 	vala? ( introspection )
 "
 
+RESTRICT="test"
+
 # While not strictly needed, consolekit is the alternative to systemd-login
 # to get current session's user.
 CDEPEND="
@@ -64,8 +66,6 @@ RDEPEND="${CDEPEND}
 "
 
 S="${WORKDIR}/${MY_P}"
-
-RESTRICT="test"
 
 src_prepare() {
 	use vala && vala_src_prepare

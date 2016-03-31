@@ -14,11 +14,12 @@ KEYWORDS="*"
 
 IUSE=""
 
+# This ebuild does not install any binaries
+RESTRICT="binchecks strip"
+
 RDEPEND=""
 DEPEND="${RDEPEND}
 	>=dev-util/intltool-0.40.0
 	>=sys-devel/gettext-0.17
 "
 
-# This ebuild does not install any binaries
-RESTRICT="binchecks strip"

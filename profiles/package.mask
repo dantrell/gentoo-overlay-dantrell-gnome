@@ -7,6 +7,7 @@ app-admin/packagekit-gtk::gentoo
 app-admin/packagekit::gentoo
 app-admin/system-config-printer::gentoo
 app-arch/file-roller::gentoo
+app-arch/gcab::gentoo
 app-cdr/brasero::gentoo
 app-crypt/gnupg::gentoo
 app-crypt/gpgme::gentoo
@@ -60,6 +61,7 @@ dev-python/pygtk::gentoo
 dev-scheme/guile::gentoo
 dev-util/glade::gentoo
 dev-util/gtk-builder-convert::gentoo
+dev-util/gtk-doc-am::gentoo
 dev-util/gtk-doc::gentoo
 dev-util/meld::gentoo
 dev-util/nemiver::gentoo

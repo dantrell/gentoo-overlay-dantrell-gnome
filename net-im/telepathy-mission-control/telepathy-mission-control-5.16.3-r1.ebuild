@@ -17,6 +17,8 @@ KEYWORDS="*"
 
 IUSE="debug +deprecated networkmanager systemd"
 
+RESTRICT="test"
+
 RDEPEND="
 	>=dev-libs/dbus-glib-0.82
 	>=dev-libs/glib-2.32:2
@@ -37,8 +39,6 @@ DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.17
 	virtual/pkgconfig
 "
-
-RESTRICT="test"
 
 src_prepare() {
 	# From freedesktop:

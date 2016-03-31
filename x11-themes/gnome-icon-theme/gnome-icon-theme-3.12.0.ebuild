@@ -17,6 +17,9 @@ KEYWORDS="*"
 
 IUSE="branding"
 
+# This ebuild does not install any binaries
+RESTRICT="binchecks strip"
+
 RDEPEND=">=x11-themes/hicolor-icon-theme-0.10"
 DEPEND="${RDEPEND}
 	>=x11-misc/icon-naming-utils-0.8.7
@@ -24,9 +27,6 @@ DEPEND="${RDEPEND}
 	sys-devel/gettext
 	virtual/pkgconfig
 "
-
-# This ebuild does not install any binaries
-RESTRICT="binchecks strip"
 
 src_prepare() {
 	if use branding; then

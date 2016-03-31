@@ -14,6 +14,9 @@ KEYWORDS="*"
 
 IUSE=""
 
+# This ebuild does not install any binaries
+RESTRICT="binchecks strip"
+
 COMMON_DEPEND=">=x11-themes/hicolor-icon-theme-0.10"
 
 # gnome-base/librsvg will be needed by apps using this icons, bug #508210
@@ -29,9 +32,6 @@ DEPEND="${COMMON_DEPEND}
 	>=x11-misc/icon-naming-utils-0.8.7
 	virtual/pkgconfig
 "
-
-# This ebuild does not install any binaries
-RESTRICT="binchecks strip"
 
 src_configure() {
 	gnome2_src_configure \

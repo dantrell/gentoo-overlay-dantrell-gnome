@@ -16,6 +16,9 @@ KEYWORDS="*"
 
 IUSE="+introspection python"
 
+# The only existing test is broken
+RESTRICT="test"
+
 RDEPEND="
 	>=dev-libs/glib-2.34.3:2[${MULTILIB_USEDEP}]
 	>=net-libs/gssdp-0.14.7[${MULTILIB_USEDEP}]
@@ -30,9 +33,6 @@ DEPEND="${RDEPEND}
 	sys-devel/gettext
 	>=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}]
 "
-
-# The only existing test is broken
-RESTRICT="test"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.1.11-disable_static_modules.patch
