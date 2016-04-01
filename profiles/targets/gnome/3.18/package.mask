@@ -91,7 +91,7 @@
 >=gnome-base/gnome-shell-3.20.0
 >=gnome-base/gsettings-desktop-schemas-3.20.0
 >=gnome-base/gvfs-1.28.0
->=gnome-base/libgtop-2.34.0
+>=gnome-base/libgtop-2.36.0
 >=gnome-base/nautilus-3.20.0
 >=gnome-extra/california-0.5.0
 >=gnome-extra/evolution-data-server-3.20.0
@@ -164,7 +164,7 @@
 >=sys-apps/baobab-3.20.0
 >=sys-apps/gnome-disk-utility-3.20.0
 >=www-client/epiphany-3.20.0
->=x11-libs/gdk-pixbuf-2.34.0
+>=x11-libs/gdk-pixbuf-2.36.0
 >=x11-libs/gnome-pty-helper-0.44.0
 >=x11-libs/gtksourceview-3.20.0
 >=x11-libs/gtk+-3.20.1
