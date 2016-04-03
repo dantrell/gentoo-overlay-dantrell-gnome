@@ -2,6 +2,7 @@ app-crypt/gcr gtk
 app-emulation/wine -gstreamer
 app-text/ghostscript-gpl cups
 app-text/poppler cairo
+dev-cpp/cairomm X
 dev-libs/boehm-gc threads
 dev-libs/folks eds
 dev-libs/libusb udev

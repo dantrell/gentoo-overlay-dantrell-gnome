@@ -1,0 +1,29 @@
+From 4cefb6bf6d1835776e687f7302967e4ba9c22335 Mon Sep 17 00:00:00 2001
+From: Philip Withnall <philip.withnall@collabora.co.uk>
+Date: Wed, 23 Mar 2016 09:00:16 +0000
+Subject: service-client: Fix comparison against zero
+
+g_variant_n_children() is unsigned, so comparing < 0 will always be
+false; this looks like a typo for <= 0, which would avoid allocating the
+GVariantIter unnecessarily.
+
+Spotted by Coverity (CID: #78509).
+
+https://bugs.freedesktop.org/show_bug.cgi?id=94669
+
+diff --git a/src/gclue-service-client.c b/src/gclue-service-client.c
+index 68564c7..9bb9cd2 100644
+--- a/src/gclue-service-client.c
++++ b/src/gclue-service-client.c
+@@ -238,7 +238,7 @@ on_agent_props_changed (GDBusProxy *agent_proxy,
+         GVariant *value;
+         gchar *key;
+         
+-        if (g_variant_n_children (changed_properties) < 0)
++        if (g_variant_n_children (changed_properties) <= 0)
+                 return;
+ 
+         g_variant_get (changed_properties, "a{sv}", &iter);
+-- 
+cgit v0.10.2
+

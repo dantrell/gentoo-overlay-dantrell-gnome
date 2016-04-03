@@ -10,7 +10,7 @@
 >=app-editors/ghex-3.18.0
 >=app-editors/latexila-3.18.1
 >=app-misc/bijiben-3.18.2
->=app-misc/geoclue-2.4.0
+>=app-misc/geoclue-2.6.0
 >=app-misc/gnote-3.18.0
 >=app-misc/tracker-1.6.0
 >=app-text/evince-3.18.2
