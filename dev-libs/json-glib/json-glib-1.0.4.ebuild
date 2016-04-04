@@ -16,7 +16,7 @@ IUSE="debug +introspection"
 
 RDEPEND="
 	>=dev-libs/glib-2.37.6:2[${MULTILIB_USEDEP}]
-	introspection? ( >=dev-libs/gobject-introspection-0.9.5 )
+	introspection? ( >=dev-libs/gobject-introspection-0.9.5:= )
 "
 DEPEND="${RDEPEND}
 	~app-text/docbook-xml-dtd-4.1.2

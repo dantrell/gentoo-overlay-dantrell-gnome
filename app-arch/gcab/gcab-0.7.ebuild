@@ -1,9 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-
-GCONF_DEBUG=no
-VALA_USE_DEPEND=vapigen
+GCONF_DEBUG="no"
+VALA_USE_DEPEND="vapigen"
 
 inherit gnome2 vala
 
@@ -20,7 +19,7 @@ REQUIRED_USE="vala? ( introspection )"
 RDEPEND="
 	>=dev-libs/glib-2.22:2
 	sys-libs/zlib
-	introspection? ( >=dev-libs/gobject-introspection-0.9.4 )
+	introspection? ( >=dev-libs/gobject-introspection-0.9.4:= )
 "
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.14

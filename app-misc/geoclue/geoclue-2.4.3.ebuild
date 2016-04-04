@@ -16,8 +16,6 @@ KEYWORDS="~*"
 
 IUSE="+introspection +modemmanager zeroconf"
 
-RESTRICT="mirror"
-
 RDEPEND="
 	>=dev-libs/glib-2.34:2
 	>=dev-libs/json-glib-0.14
@@ -47,6 +45,7 @@ src_prepare() {
 src_configure() {
 	# debug only affects CFLAGS
 	gnome2_src_configure \
+		--enable-backend \
 		--with-dbus-service-user=geoclue \
 		$(use_enable introspection) \
 		$(use_enable modemmanager 3g-source) \
@@ -59,4 +58,5 @@ src_configure() {
 pkg_preinst() {
 	enewgroup geoclue
 	enewuser geoclue -1 -1 /var/lib/geoclue geoclue
+	gnome2_pkg_preinst
 }

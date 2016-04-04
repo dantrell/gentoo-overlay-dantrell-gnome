@@ -127,6 +127,7 @@ x11-libs/libnotify::gentoo
 x11-libs/libwnck::gentoo
 x11-libs/pango::gentoo
 x11-libs/vte::gentoo
+x11-misc/colord::gentoo
 x11-themes/gnome-icon-theme-extras::gentoo
 x11-themes/gnome-icon-theme-symbolic::gentoo
 x11-themes/gnome-icon-theme::gentoo

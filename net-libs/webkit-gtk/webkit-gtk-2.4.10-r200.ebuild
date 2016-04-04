@@ -16,7 +16,7 @@ LICENSE="LGPL-2+ BSD"
 SLOT="2" # no usable subslot
 KEYWORDS="*"
 
-IUSE="aqua coverage debug +egl +geoloc gles2 +gstreamer +introspection +jit libsecret +opengl spell +webgl +X"
+IUSE="aqua coverage debug +egl +geoloc gles2 gnome-keyring +gstreamer +introspection +jit +opengl spell +webgl +X"
 # bugs 372493, 416331
 REQUIRED_USE="
 	geoloc? ( introspection )
@@ -50,11 +50,11 @@ RDEPEND="
 	egl? ( media-libs/mesa[egl] )
 	geoloc? ( >=app-misc/geoclue-2.1.5:2.0 )
 	gles2? ( media-libs/mesa[gles2] )
+	gnome-keyring? ( app-crypt/libsecret )
 	gstreamer? (
 		>=media-libs/gstreamer-1.2:1.0
 		>=media-libs/gst-plugins-base-1.2:1.0 )
-	introspection? ( >=dev-libs/gobject-introspection-1.32.0 )
-	libsecret? ( app-crypt/libsecret )
+	introspection? ( >=dev-libs/gobject-introspection-1.32.0:= )
 	opengl? ( virtual/opengl )
 	spell? ( >=app-text/enchant-0.22:= )
 	webgl? (
@@ -137,19 +137,6 @@ src_prepare() {
 		-e 's/-D_FORTIFY_SOURCE=2//g' \
 		-i Source/autotools/SetupCompilerFlags.m4 || die
 
-	# Failing tests
-	# * webinspector -> https://bugs.webkit.org/show_bug.cgi?id=50744
-	# * keyevents is interactive
-	# * mimehandling test sometimes fails under Xvfb (works fine manually), bug #???
-	# * webdatasource test needs a network connection and intermittently fails with icedtea-web
-	# * webplugindatabase intermittently fails with icedtea-web, bug #????
-#	sed -e '/Programs\/TestWebKitAPI\/WebKitGtk\/testwebinspector/ d' \
-#		-e '/Programs\/TestWebKitAPI\/WebKitGtk\/testkeyevents/ d' \
-#		-e '/Programs\/TestWebKitAPI\/WebKitGtk\/testmimehandling/ d' \
-#		-e '/Programs\/TestWebKitAPI\/WebKitGtk\/testwebdatasource/ d' \
-#		-e '/Programs\/TestWebKitAPI\/WebKitGtk\/testwebplugindatabase/ d' \
-#		-i Tools/TestWebKitAPI/GNUmakefile.am || die
-
 	# bug #459978, upstream bug #113397
 	epatch "${FILESDIR}"/${PN}-1.11.90-gtk-docize-fix.patch
 
@@ -221,11 +208,11 @@ src_configure() {
 		$(use_enable egl) \
 		$(use_enable geoloc geolocation) \
 		$(use_enable gles2) \
+		$(use_enable gnome-keyring credential_storage) \
 		$(use_enable gstreamer video) \
 		$(use_enable gstreamer web-audio) \
 		$(use_enable introspection) \
 		$(use_enable jit) \
-		$(use_enable libsecret credential_storage) \
 		$(use_enable opengl glx) \
 		$(use_enable spell spellcheck) \
 		$(use_enable webgl) \
