@@ -114,7 +114,7 @@
 >=gnome-extra/gnome-shell-frippery-3.20.0
 >=gnome-extra/gnome-software-3.20.0
 >=gnome-extra/gnome-system-monitor-3.20.0
->=gnome-extra/gnome-todo-3.20.0
+>=gnome-extra/gnome-todo-3.19.90
 >=gnome-extra/gnome-tweak-tool-3.20.0
 >=gnome-extra/gnome-user-docs-3.20.0
 >=gnome-extra/gnome-user-share-3.18.1
