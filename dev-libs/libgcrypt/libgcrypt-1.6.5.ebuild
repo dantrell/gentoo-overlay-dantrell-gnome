@@ -17,10 +17,7 @@ KEYWORDS="*"
 IUSE="doc static-libs +threads"
 
 RDEPEND=">=dev-libs/libgpg-error-1.12[${MULTILIB_USEDEP}]
-	abi_x86_32? (
-		!<=app-emulation/emul-linux-x86-baselibs-20131008-r19
-		!app-emulation/emul-linux-x86-baselibs[-abi_x86_32]
-	)"
+"
 DEPEND="${RDEPEND}
 	doc? ( virtual/texi2dvi )"
 

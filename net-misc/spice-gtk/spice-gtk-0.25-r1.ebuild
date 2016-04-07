@@ -43,7 +43,7 @@ RDEPEND="${PYTHON_DEPS}
 	virtual/jpeg
 	sys-libs/zlib
 	dbus? ( dev-libs/dbus-glib )
-	introspection? ( dev-libs/gobject-introspection )
+	introspection? ( dev-libs/gobject-introspection:= )
 	python? ( dev-python/pygtk:2 )
 	sasl? ( dev-libs/cyrus-sasl )
 	smartcard? ( app-emulation/qemu[smartcard] )

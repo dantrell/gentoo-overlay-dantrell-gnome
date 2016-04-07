@@ -1,0 +1,27 @@
+From 62ec4693bbf3c16eb1566b2cb499650f996f898f Mon Sep 17 00:00:00 2001
+From: Murray Cumming <murrayc@murrayc.com>
+Date: Wed, 23 Sep 2015 12:48:12 +0200
+Subject: Reduce the cairomm dependency back to 1.2.2.
+
+Because it probably works, and this is kinder.
+Bug #755460 (Daniel Stone)
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 2afd141..2ef998a 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -47,7 +47,7 @@ MM_AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])
+ AC_DISABLE_STATIC
+ LT_INIT([win32-dll])
+ 
+-AC_SUBST([PANGOMM_MODULES], ['glibmm-2.4 >= 2.46.1 cairomm-1.0 >= 1.12.0 pangocairo >= 1.38.0'])
++AC_SUBST([PANGOMM_MODULES], ['glibmm-2.4 >= 2.46.1 cairomm-1.0 >= 1.2.2 pangocairo >= 1.38.0'])
+ PKG_CHECK_MODULES([PANGOMM], [$PANGOMM_MODULES])
+ 
+ MM_PKG_CONFIG_SUBST([GTHREAD_CFLAGS], [--cflags-only-other gthread-2.0])
+-- 
+cgit v0.11.2
+

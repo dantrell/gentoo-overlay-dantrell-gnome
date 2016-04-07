@@ -22,7 +22,7 @@ RDEPEND="
 	dev-libs/libxml2:2[${MULTILIB_USEDEP}]
 	net-libs/libsoup:2.4[${MULTILIB_USEDEP}]
 	gnome? ( >=net-libs/libsoup-gnome-2.25.1:2.4[${MULTILIB_USEDEP}] )
-	introspection? ( >=dev-libs/gobject-introspection-0.6.7 )
+	introspection? ( >=dev-libs/gobject-introspection-0.6.7:= )
 "
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.13

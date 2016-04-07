@@ -13,10 +13,9 @@ LICENSE="GPL-2 FDL-1.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="doc emacs highlight vim test"
+IUSE="doc emacs highlight vim"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-# dev-tex/tex4ht blocker needed due bug #315287
 RDEPEND="
 	>=dev-libs/glib-2.6:2
 	>=dev-lang/perl-5.6
@@ -32,14 +31,11 @@ RDEPEND="
 		vim? ( || ( app-editors/vim app-editors/gvim ) )
 		!vim? ( dev-util/source-highlight )
 	)
-	!!<dev-tex/tex4ht-20090611_p1038-r1
 "
 DEPEND="${RDEPEND}
 	~dev-util/gtk-doc-am-${PV}
 	app-text/yelp-tools
-	>=app-text/scrollkeeper-0.3.14
 	virtual/pkgconfig
-	test? ( app-text/scrollkeeper-dtd )
 "
 
 pkg_setup() {
@@ -58,7 +54,7 @@ src_prepare() {
 		-i gtkdoc-mkpdf.in || die "sed failed"
 
 	# Remove global Emacs keybindings, bug #184588
-	epatch "${FILESDIR}/${PN}-1.8-emacs-keybindings.patch"
+	epatch "${FILESDIR}"/${PN}-1.8-emacs-keybindings.patch
 
 	gnome2_src_prepare
 }
@@ -68,11 +64,11 @@ src_configure() {
 	if use vim; then
 		myconf="${myconf} $(use_with highlight highlight vim)"
 	else
-		G2CONF="${myconf} $(use_with highlight highlight source-highlight)"
+		myconf="${myconf} $(use_with highlight highlight source-highlight)"
 	fi
 
 	gnome2_src_configure \
-		--with-xml-catalog="${EPREFIX}/etc/xml/catalog" \
+		--with-xml-catalog="${EPREFIX}"/etc/xml/catalog \
 		${myconf}
 }
 

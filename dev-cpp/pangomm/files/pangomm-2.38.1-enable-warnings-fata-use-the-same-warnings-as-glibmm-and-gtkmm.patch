@@ -1,0 +1,25 @@
+From 52eb5216a89a0805a46cba39450d633b2c7ca4d4 Mon Sep 17 00:00:00 2001
+From: Murray Cumming <murrayc@murrayc.com>
+Date: Tue, 27 Oct 2015 09:56:45 +0100
+Subject: --enable-warnings=fatal: Use the same warnings as glibmm and gtkmm.
+
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 2ef998a..d9a9add 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -63,7 +63,7 @@ MM_ARG_WITH_TAGFILE_DOC([cairomm-1.0.tag], [cairomm-1.0])
+ AC_LANG([C++])
+ MM_ARG_ENABLE_WARNINGS([PANGOMM_WXXFLAGS],
+                        [-Wall],
+-                       [-pedantic -Wall -Wextra -Wno-long-long -DGSEAL_ENABLE],
++                       [-pedantic -Wall -Wextra -Wformat-security -Wsuggest-override -Wshadow -Wno-long-long],
+                        [G PANGO GLIBMM])
+ 
+ AC_CONFIG_FILES([Makefile
+-- 
+cgit v0.11.2
+

@@ -23,13 +23,13 @@ RDEPEND="
 	app-arch/libarchive
 	dev-db/sqlite:3
 	>=dev-libs/glib-2.16.1:2
+	dev-libs/libyaml
 	>=media-libs/fontconfig-2.11
 	>=media-libs/freetype-2.4:2
 	>=net-libs/libsoup-2.24:2.4
 	>=x11-libs/gdk-pixbuf-2.14:2
 	x11-libs/gtk+:3
 	x11-libs/pango
-	dev-libs/libyaml
 	introspection? ( >=dev-libs/gobject-introspection-0.9.8:= )
 "
 DEPEND="${RDEPEND}

@@ -15,7 +15,7 @@ KEYWORDS="*"
 
 IUSE="doc examples introspection static-libs"
 
-RDEPEND="introspection? ( dev-libs/gobject-introspection )"
+RDEPEND="introspection? ( dev-libs/gobject-introspection:= )"
 DEPEND="${RDEPEND}
 	dev-lang/perl"
 

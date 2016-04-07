@@ -15,8 +15,8 @@ KEYWORDS="*"
 
 IUSE=""
 
-DEPEND="sys-devel/m4"
 RDEPEND=""
+DEPEND="sys-devel/m4"
 
 src_prepare() {
 	DOCS="AUTHORS ChangeLog FEATURES IDEAS README NEWS TODO"

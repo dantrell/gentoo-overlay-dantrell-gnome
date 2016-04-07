@@ -17,10 +17,7 @@ IUSE="static-libs"
 
 RDEPEND=">=dev-libs/libgpg-error-1.12[${MULTILIB_USEDEP}]
 	!dev-libs/libgcrypt:11
-	abi_x86_32? (
-		!<=app-emulation/emul-linux-x86-baselibs-20131008-r19
-		!app-emulation/emul-linux-x86-baselibs[-abi_x86_32]
-	)"
+"
 DEPEND="${RDEPEND}"
 
 DOCS=( AUTHORS ChangeLog NEWS README THANKS TODO )

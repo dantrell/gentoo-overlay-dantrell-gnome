@@ -8,7 +8,7 @@ PYTHON_COMPAT=( python2_7 )
 inherit gnome2 python-any-r1
 
 DESCRIPTION="GStreamer integration library for Clutter"
-HOMEPAGE="http://www.clutter-project.org/"
+HOMEPAGE="https://blogs.gnome.org/clutter/"
 
 LICENSE="LGPL-2.1+"
 SLOT="2.0"
@@ -24,7 +24,7 @@ COMMON_DEPEND="
 	>=media-libs/gstreamer-1.2.0:1.0[introspection?]
 	>=media-libs/gst-plugins-bad-1.2.0:1.0
 	>=media-libs/gst-plugins-base-1.2.0:1.0[introspection?]
-	introspection? ( >=dev-libs/gobject-introspection-0.6.8 )
+	introspection? ( >=dev-libs/gobject-introspection-0.6.8:= )
 "
 # uses goom from gst-plugins-good
 RDEPEND="${COMMON_DEPEND}

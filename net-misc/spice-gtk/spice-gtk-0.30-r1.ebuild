@@ -43,7 +43,7 @@ RDEPEND="
 	>=x11-libs/cairo-1.2
 	virtual/jpeg:0=
 	sys-libs/zlib
-	introspection? ( dev-libs/gobject-introspection )
+	introspection? ( dev-libs/gobject-introspection:= )
 	lz4? ( app-arch/lz4 )
 	python? ( dev-python/pygtk:2 )
 	sasl? ( dev-libs/cyrus-sasl )

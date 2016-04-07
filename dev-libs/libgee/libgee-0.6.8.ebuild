@@ -6,7 +6,7 @@ GCONF_DEBUG="no"
 inherit gnome2
 
 DESCRIPTION="GObject-based interfaces and classes for commonly used data structures"
-HOMEPAGE="https://live.gnome.org/Libgee"
+HOMEPAGE="https://wiki.gnome.org/Projects/Libgee"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
@@ -14,10 +14,13 @@ KEYWORDS="*"
 
 IUSE="+introspection"
 
-RDEPEND=">=dev-libs/glib-2.12:2
-	introspection? ( >=dev-libs/gobject-introspection-0.9.6:= )"
+RDEPEND="
+	>=dev-libs/glib-2.12:2
+	introspection? ( >=dev-libs/gobject-introspection-0.9.6:= )
+"
 DEPEND="${RDEPEND}
-	virtual/pkgconfig"
+	virtual/pkgconfig
+"
 
 src_configure() {
 	DOCS="AUTHORS ChangeLog* MAINTAINERS NEWS README"

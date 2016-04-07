@@ -12,7 +12,7 @@ LICENSE="GPL-2"
 SLOT="2/10" # libgtop soname version
 KEYWORDS="*"
 
-IUSE="debug +introspection"
+IUSE="+introspection"
 
 RDEPEND=">=dev-libs/glib-2.6:2"
 DEPEND="${RDEPEND}

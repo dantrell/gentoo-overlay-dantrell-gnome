@@ -23,7 +23,6 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	app-text/docbook-xml-dtd:4.4
-	app-text/scrollkeeper-dtd
 	>=dev-util/intltool-0.35
 	sys-devel/gettext
 	virtual/awk

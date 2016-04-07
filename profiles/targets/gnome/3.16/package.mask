@@ -151,7 +151,6 @@
 >=net-libs/gnome-online-accounts-3.18.2.1
 >=net-libs/libsoup-2.52.2
 >=net-libs/libsoup-gnome-2.52.2
->=net-libs/webkit-gtk-2.10.4
 >=net-misc/dleyna-server-0.6.0
 >=net-misc/gnome-online-miners-3.18.0
 >=net-misc/rygel-0.28.1

@@ -30,7 +30,6 @@ COMMON_DEPEND="
 	libnotify? ( >=x11-libs/libnotify-0.7:= )
 "
 DEPEND="${COMMON_DEPEND}
-	>=app-text/scrollkeeper-0.3
 	>=dev-util/gtk-doc-am-1.9
 	>=dev-util/intltool-0.35
 	sys-devel/gettext

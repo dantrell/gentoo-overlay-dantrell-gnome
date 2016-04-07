@@ -14,10 +14,7 @@ KEYWORDS="*"
 
 IUSE="doc static-libs test"
 
-RDEPEND="abi_x86_32? (
-	!<=app-emulation/emul-linux-x86-cpplibs-20140508-r1
-	!app-emulation/emul-linux-x86-cpplibs[-abi_x86_32(-)] )
-"
+RDEPEND=""
 DEPEND="sys-devel/m4"
 # Needs mm-common for eautoreconf
 

@@ -53,7 +53,7 @@ RDEPEND="
 	>=net-libs/libsoup-2.42:2.4[introspection?]
 	virtual/jpeg:0=
 	>=x11-libs/cairo-1.10.2:=
-	>=x11-libs/gtk+-3.14:3[introspection?]
+	>=x11-libs/gtk+-3.14:3=[introspection?]
 	x11-libs/libnotify
 	>=x11-libs/pango-1.30.0
 

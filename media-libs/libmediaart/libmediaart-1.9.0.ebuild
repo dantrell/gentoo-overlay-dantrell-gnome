@@ -23,7 +23,7 @@ REQUIRED_USE="
 RDEPEND="
 	>=dev-libs/glib-2.38.0:2
 	gtk? ( >=x11-libs/gdk-pixbuf-2.12:2 )
-	introspection? ( >=dev-libs/gobject-introspection-1.30 )
+	introspection? ( >=dev-libs/gobject-introspection-1.30:= )
 	qt4? ( dev-qt/qtgui:4 )
 	qt5? ( dev-qt/qtgui:5 )
 "

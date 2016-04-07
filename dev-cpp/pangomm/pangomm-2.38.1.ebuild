@@ -3,7 +3,7 @@
 EAPI="5"
 GCONF_DEBUG="no"
 
-inherit gnome2 multilib-minimal
+inherit eutils gnome2 multilib-minimal
 
 DESCRIPTION="C++ interface for pango"
 HOMEPAGE="http://www.gtkmm.org"
@@ -15,9 +15,9 @@ KEYWORDS="*"
 IUSE="doc"
 
 COMMON_DEPEND="
-	>=x11-libs/pango-1.36[${MULTILIB_USEDEP}]
-	>=dev-cpp/glibmm-2.36.0:2[${MULTILIB_USEDEP}]
-	>=dev-cpp/cairomm-1.10.0-r1[${MULTILIB_USEDEP}]
+	>=x11-libs/pango-1.38.0[${MULTILIB_USEDEP}]
+	>=dev-cpp/glibmm-2.46.1:2[${MULTILIB_USEDEP}]
+	>=dev-cpp/cairomm-1.2.2[${MULTILIB_USEDEP}]
 	>=dev-libs/libsigc++-2.3.2:2[${MULTILIB_USEDEP}]
 "
 DEPEND="${COMMON_DEPEND}
@@ -30,6 +30,16 @@ DEPEND="${COMMON_DEPEND}
 RDEPEND="${COMMON_DEPEND}
 	!<dev-cpp/gtkmm-2.13:2.4
 "
+
+src_prepare() {
+	# From GNOME
+	# 	https://git.gnome.org/browse/pangomm/patch/?id=62ec4693bbf3c16eb1566b2cb499650f996f898f
+	# 	https://git.gnome.org/browse/pangomm/patch/?id=52eb5216a89a0805a46cba39450d633b2c7ca4d4
+	epatch "${FILESDIR}"/${P}-reduce-the-cairomm-dependency-back-to-1.2.2.patch
+	epatch "${FILESDIR}"/${P}-enable-warnings-fata-use-the-same-warnings-as-glibmm-and-gtkmm.patch
+
+	gnome2_src_prepare
+}
 
 multilib_src_configure() {
 	ECONF_SOURCE="${S}" gnome2_src_configure \

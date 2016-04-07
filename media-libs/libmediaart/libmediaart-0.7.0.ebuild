@@ -23,7 +23,7 @@ REQUIRED_USE="
 RDEPEND="
 	>=dev-libs/glib-2.38.0:2
 	gtk? ( >=x11-libs/gdk-pixbuf-2.12:2 )
-	introspection? ( >=dev-libs/gobject-introspection-1.30 )
+	introspection? ( >=dev-libs/gobject-introspection-1.30:= )
 	qt4? ( dev-qt/qtgui:4 )
 	qt5? ( dev-qt/qtgui:5 )
 "
@@ -34,9 +34,11 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	use vala && vala_src_prepare
 	epatch "${FILESDIR}/${P}-qt5.patch" #523122
+
 	eautoreconf
+
+	use vala && vala_src_prepare
 	gnome2_src_prepare
 }
 

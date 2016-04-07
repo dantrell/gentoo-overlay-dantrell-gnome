@@ -15,8 +15,8 @@ KEYWORDS="*"
 IUSE="doc"
 
 COMMON_DEPEND="
-	>=dev-cpp/glibmm-2.36.0:2[doc?,${MULTILIB_USEDEP}]
-	>=dev-libs/atk-2.8.0[${MULTILIB_USEDEP}]
+	>=dev-cpp/glibmm-2.46.2:2[doc?,${MULTILIB_USEDEP}]
+	>=dev-libs/atk-2.18.0[${MULTILIB_USEDEP}]
 	>=dev-libs/libsigc++-2.3.2:2[${MULTILIB_USEDEP}]
 "
 RDEPEND="${COMMON_DEPEND}

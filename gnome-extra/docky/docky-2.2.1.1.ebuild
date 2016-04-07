@@ -1,18 +1,19 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
+GCONF_DEBUG="yes"
 
 inherit autotools eutils gnome2 mono-env
 
-DESCRIPTION="Elegant, powerful, clean dock"
-HOMEPAGE="https://wiki.go-docky.com"
+DESCRIPTION="A full fledged dock application that makes opening common applications and managing windows easier and quicker"
+HOMEPAGE="http://wiki.go-docky.com"
 SRC_URI="https://launchpad.net/${PN}/2.2/${PV}/+download/${P}.tar.xz"
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="debug nls"
+IUSE="nls"
 
 RDEPEND=">=dev-dotnet/dbus-sharp-0.8.0:2.0
 	>=dev-dotnet/dbus-sharp-glib-0.6.0:2.0

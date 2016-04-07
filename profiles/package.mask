@@ -25,7 +25,6 @@ app-text/libgxps::gentoo
 app-text/poppler::gentoo
 dev-cpp/atkmm::gentoo
 dev-cpp/cairomm::gentoo
-dev-cpp/glibmm::gentoo
 dev-cpp/gtkmm::gentoo
 dev-cpp/gtksourceviewmm::gentoo
 dev-cpp/libxmlpp::gentoo
@@ -68,6 +67,7 @@ dev-util/nemiver::gentoo
 games-puzzle/hitori::gentoo
 gnome-base/dconf::gentoo
 gnome-base/gnome-common::gentoo
+gnome-base/gnome-desktop::gentoo
 gnome-base/gnome-menus::gentoo
 gnome-base/libgnomekbd::gentoo
 gnome-base/libgtop::gentoo

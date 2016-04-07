@@ -41,7 +41,7 @@ RDEPEND="
 	lensfun? ( >=media-libs/lensfun-0.2.5 )
 "
 #	>=media-libs/babl-0.1.10[introspection?]
-#	introspection? ( >=dev-libs/gobject-introspection-0.10
+#	introspection? ( >=dev-libs/gobject-introspection-0.10:=
 #			>=dev-python/pygobject-2.26:2 )
 DEPEND="${RDEPEND}
 	>=dev-util/intltool-0.40.1

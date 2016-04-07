@@ -21,7 +21,7 @@ RDEPEND="
 	net-libs/rest
 	net-libs/gnome-online-accounts
 
-	introspection? ( >=dev-libs/gobject-introspection-1.30.0 )
+	introspection? ( >=dev-libs/gobject-introspection-1.30.0:= )
 "
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.11

@@ -1,10 +1,14 @@
 app-crypt/gcr gtk
+app-crypt/pinentry gnome-keyring
 app-emulation/wine -gstreamer
 app-text/ghostscript-gpl cups
 app-text/poppler cairo
 dev-cpp/cairomm X
 dev-libs/boehm-gc threads
 dev-libs/folks eds
+dev-libs/libgit2 ssh
+dev-libs/libgit2 threads
+dev-libs/libgit2-glib ssh
 dev-libs/libusb udev
 dev-libs/libxml2 python
 dev-vcs/git gtk
@@ -15,6 +19,7 @@ gnome-base/gvfs udisks
 gnome-extra/evolution-data-server vala
 media-gfx/imagemagick jpeg
 media-gfx/imagemagick png
+media-libs/clutter X
 media-libs/clutter gtk
 media-libs/grilo playlist
 media-libs/gst-plugins-base X

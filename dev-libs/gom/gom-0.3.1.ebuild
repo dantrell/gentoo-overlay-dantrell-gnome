@@ -17,7 +17,7 @@ IUSE="+introspection test"
 RDEPEND="
 	>=dev-db/sqlite-3.7:3
 	>=dev-libs/glib-2.36:2
-	introspection? ( >=dev-libs/gobject-introspection-1.30.0 )
+	introspection? ( >=dev-libs/gobject-introspection-1.30.0:= )
 "
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.14

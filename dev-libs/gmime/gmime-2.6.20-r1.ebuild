@@ -29,7 +29,7 @@ DEPEND="${RDEPEND}
 	doc? ( app-text/docbook-sgml-utils )
 	vala? (
 		$(vala_depend)
-		>=dev-libs/gobject-introspection-1.30.0 )
+		>=dev-libs/gobject-introspection-1.30.0:= )
 "
 
 pkg_setup() {

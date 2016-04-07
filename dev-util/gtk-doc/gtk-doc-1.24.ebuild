@@ -16,7 +16,6 @@ KEYWORDS="*"
 IUSE="doc emacs highlight vim"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-# dev-tex/tex4ht blocker needed due bug #315287
 RDEPEND="
 	>=dev-libs/glib-2.6:2
 	>=dev-lang/perl-5.6
@@ -32,7 +31,6 @@ RDEPEND="
 		vim? ( || ( app-editors/vim app-editors/gvim ) )
 		!vim? ( dev-util/source-highlight )
 	)
-	!!<dev-tex/tex4ht-20090611_p1038-r1
 "
 DEPEND="${RDEPEND}
 	~dev-util/gtk-doc-am-${PV}

@@ -6,7 +6,7 @@ GCONF_DEBUG="no"
 inherit gnome2
 
 DESCRIPTION="Compiler for the GObject type system"
-HOMEPAGE="https://live.gnome.org/Vala"
+HOMEPAGE="https://wiki.gnome.org/Vala"
 
 LICENSE="LGPL-2.1"
 SLOT="0.20"
@@ -16,7 +16,8 @@ IUSE="test +vapigen"
 
 RDEPEND="
 	>=dev-libs/glib-2.18:2
-	>=dev-libs/vala-common-${PV}"
+	>=dev-libs/vala-common-${PV}
+"
 DEPEND="${RDEPEND}
 	!${CATEGORY}/${PN}:0
 	dev-libs/libxslt
@@ -25,7 +26,8 @@ DEPEND="${RDEPEND}
 	virtual/yacc
 	test? (
 		dev-libs/dbus-glib
-		>=dev-libs/glib-2.26:2 )"
+		>=dev-libs/glib-2.26:2 )
+"
 
 src_configure() {
 	DOCS="AUTHORS ChangeLog MAINTAINERS NEWS README"

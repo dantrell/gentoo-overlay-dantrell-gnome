@@ -6,7 +6,7 @@ GCONF_DEBUG="no"
 inherit gnome2
 
 DESCRIPTION="Mouse accessibility enhancements for the GNOME desktop"
-HOMEPAGE="https://live.gnome.org/Mousetweaks/Home"
+HOMEPAGE="https://wiki.gnome.org/Projects/Mousetweaks"
 
 LICENSE="GPL-3"
 SLOT="0"
