@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 CMAKE_WARN_UNUSED_CLI=1
 
 inherit cmake-utils toolchain-funcs xdg-utils

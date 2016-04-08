@@ -25,7 +25,7 @@ RDEPEND="
 	>=net-libs/gupnp-0.20.10[${MULTILIB_USEDEP}]
 	introspection? ( >=dev-libs/gobject-introspection-0.10:= )
 	python? (
-		>=dev-libs/gobject-introspection-0.10
+		>=dev-libs/gobject-introspection-0.10:=
 		>=dev-python/pygobject-2.16:2[${PYTHON_USEDEP}]
 	)"
 DEPEND="${RDEPEND}

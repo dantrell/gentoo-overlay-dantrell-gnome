@@ -55,6 +55,7 @@ dev-libs/npth::gentoo
 dev-libs/qqwing::gentoo
 dev-libs/totem-pl-parser::gentoo
 dev-libs/vala-common::gentoo
+dev-python/pycups::gentoo
 dev-python/pygobject::gentoo
 dev-python/pygtk::gentoo
 dev-scheme/guile::gentoo

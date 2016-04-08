@@ -3,7 +3,7 @@
 EAPI="5"
 GCONF_DEBUG="no"
 GNOME2_LA_PUNT="yes"
-PYTHON_COMPAT=( python2_7 python3_{3,4} )
+PYTHON_COMPAT=( python2_7 python3_{3,4,5} )
 
 inherit gnome2 autotools python-any-r1 virtualx
 

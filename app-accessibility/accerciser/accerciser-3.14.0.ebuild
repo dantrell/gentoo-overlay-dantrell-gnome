@@ -2,7 +2,7 @@
 
 EAPI="5"
 GCONF_DEBUG="no"
-PYTHON_COMPAT=( python{3_3,3_4} )
+PYTHON_COMPAT=( python{3_3,3_4,3_5} )
 PYTHON_REQ_USE="xml"
 
 inherit gnome2 python-r1
@@ -23,7 +23,7 @@ RDEPEND="
 
 	dev-libs/atk[introspection]
 	>=dev-libs/glib-2.28:2
-	dev-libs/gobject-introspection
+	dev-libs/gobject-introspection:=
 	>=dev-python/ipython-0.11[${PYTHON_USEDEP}]
 	>=dev-python/pyatspi-2.1.5[${PYTHON_USEDEP}]
 	dev-python/pycairo[${PYTHON_USEDEP}]

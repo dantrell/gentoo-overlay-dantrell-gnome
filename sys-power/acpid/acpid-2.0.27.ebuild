@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
 inherit eutils linux-info systemd
 
@@ -15,9 +15,9 @@ KEYWORDS="*"
 IUSE="selinux systemd"
 
 RDEPEND="selinux? ( sec-policy/selinux-apm )"
-DEPEND="${RDEPEND}
-		>=sys-kernel/linux-headers-3
-		systemd? ( sys-apps/systemd )"
+DEPEND=">=sys-kernel/linux-headers-3
+	systemd? ( sys-apps/systemd )
+"
 
 pkg_pretend() {
 	local CONFIG_CHECK="~INPUT_EVDEV"
@@ -25,24 +25,20 @@ pkg_pretend() {
 	[[ ${MERGE_TYPE} != buildonly ]] && check_extra_config
 }
 
-src_prepare() {
+PATCHES=(
 	# From Funtoo:
 	# 	https://bugs.funtoo.org/browse/FL-1329
 	# 	https://bugs.funtoo.org/browse/FL-1439
-	epatch "${FILESDIR}"/patches/sort-pms.patch
-	epatch "${FILESDIR}"/patches/rename-gnome-pms.patch
-	epatch "${FILESDIR}"/patches/add-cinnamon-pms.patch
+	"${FILESDIR}"/patches/sort-pms.patch
+	"${FILESDIR}"/patches/rename-gnome-pms.patch
+	"${FILESDIR}"/patches/add-cinnamon-pms.patch
 
 	# From Gentoo:
 	# 	https://bugs.gentoo.org/show_bug.cgi?id=515088
 	# 	https://bugs.gentoo.org/show_bug.cgi?id=538590
-	epatch "${FILESDIR}"/patches/fix-kde4-pms.patch
-	epatch "${FILESDIR}"/patches/add-mate-pms.patch
-}
-
-src_configure() {
-	econf --docdir=/usr/share/doc/${PF}
-}
+	"${FILESDIR}"/patches/fix-kde4-pms.patch
+	"${FILESDIR}"/patches/add-mate-pms.patch
+)
 
 src_install() {
 	emake DESTDIR="${D}" install

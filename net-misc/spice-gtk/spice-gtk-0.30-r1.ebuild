@@ -6,7 +6,7 @@ WANT_AUTOMAKE="1.12"
 VALA_MIN_API_VERSION="0.14"
 VALA_USE_DEPEND="vapigen"
 
-PYTHON_COMPAT=( python2_7 python3_4 )
+PYTHON_COMPAT=( python2_7 python3_{4,5} )
 
 inherit autotools eutils multibuild python-single-r1 vala
 

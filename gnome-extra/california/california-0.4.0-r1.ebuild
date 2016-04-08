@@ -17,7 +17,7 @@ IUSE=""
 
 RDEPEND="
 	>=dev-libs/glib-2.38:2
-	>=dev-libs/gobject-introspection-1.38
+	>=dev-libs/gobject-introspection-1.38:=
 	>=dev-libs/libgdata-0.14
 	>=dev-libs/libgee-0.10.5:0.8
 	>=net-libs/gnome-online-accounts-3.8.3
