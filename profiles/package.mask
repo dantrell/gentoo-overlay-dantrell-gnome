@@ -25,6 +25,7 @@ app-text/libgxps::gentoo
 app-text/poppler::gentoo
 dev-cpp/atkmm::gentoo
 dev-cpp/cairomm::gentoo
+dev-cpp/gdlmm::gentoo
 dev-cpp/gtkmm::gentoo
 dev-cpp/gtksourceviewmm::gentoo
 dev-cpp/libxmlpp::gentoo

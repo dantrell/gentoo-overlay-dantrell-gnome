@@ -2,7 +2,7 @@
 
 EAPI="5"
 
-inherit eutils autotools flag-o-matic elisp-common
+inherit autotools elisp-common eutils flag-o-matic
 
 DESCRIPTION="GNU Ubiquitous Intelligent Language for Extensions"
 HOMEPAGE="https://www.gnu.org/software/guile/"
@@ -10,14 +10,16 @@ SRC_URI="mirror://gnu/guile/${P}.tar.gz"
 
 LICENSE="LGPL-2.1"
 SLOT="12"
+MAJOR="1.8"
 KEYWORDS="*"
 
-IUSE="debug debug-freelist debug-malloc +deprecated discouraged emacs networking nls readline +regex +threads"
+IUSE="debug debug-freelist debug-malloc +deprecated discouraged doc emacs networking nls readline +regex +threads"
 
 RESTRICT="!regex? ( test )"
 
 RDEPEND="
 	!dev-scheme/guile:2
+
 	>=dev-libs/gmp-4.1:0=
 	dev-libs/libltdl:0=
 	sys-devel/gettext
@@ -52,28 +54,31 @@ src_prepare() {
 }
 
 src_configure() {
+	# Seems to have issues with -Os, switch to -O2
+	# 	https://bugs.funtoo.org/browse/FL-2584
+	replace-flags -Os -O2
+
 	# Necessary for LilyPond
 	# 	https://bugs.gentoo.org/show_bug.cgi?id=178499
 	filter-flags -ftree-vectorize
 
-	#will fail for me if posix is disabled or without modules -- hkBst
 	econf \
 		--disable-error-on-warning \
+		--disable-rpath \
 		--disable-static \
 		--enable-posix \
-		$(use_enable networking) \
-		$(use_enable readline) \
-		$(use_enable regex) \
+		--with-modules \
 		$(use deprecated || use_enable discouraged) \
+		$(use_enable debug-freelist) \
+		$(use_enable debug guile-debug) \
+		$(use_enable debug-malloc) \
 		$(use_enable deprecated) \
 		$(use_enable emacs elisp) \
+		$(use_enable networking) \
 		$(use_enable nls) \
-		--disable-rpath \
-		$(use_enable debug-freelist) \
-		$(use_enable debug-malloc) \
-		$(use_enable debug guile-debug) \
+		$(use_enable readline) \
+		$(use_enable regex) \
 		$(use_with threads) \
-		--with-modules \
 		EMACS=no
 }
 
@@ -91,24 +96,37 @@ src_compile()  {
 src_install() {
 	emake DESTDIR="${D}" install
 
-	dodoc AUTHORS ChangeLog GUILE-VERSION HACKING NEWS README THANKS
-
-	# texmacs needs this, closing bug #23493
-	dodir /etc/env.d
-	echo "GUILE_LOAD_PATH=\"${EPREFIX}/usr/share/guile/${MAJOR}\"" > "${ED}"/etc/env.d/50guile
-
-	# necessary for registering slib, see bug 206896
-	keepdir /usr/share/guile/site
+	if use doc; then
+		dodoc AUTHORS ChangeLog GUILE-VERSION HACKING NEWS README THANKS
+	fi
 
 	if use emacs; then
 		elisp-install ${PN} emacs/*.{el,elc} || die
 		elisp-site-file-install "${FILESDIR}/50${PN}-gentoo.el" || die
 	fi
+
+	# Necessary for TeXmacs
+	# 	https://bugs.gentoo.org/show_bug.cgi?id=23493
+	dodir /etc/env.d
+	echo "GUILE_LOAD_PATH=\"${EPREFIX}/usr/share/guile/${MAJOR}\"" > "${ED}"/etc/env.d/50guile
+
+	# Necessary for registering SLIB
+	# 	https://bugs.gentoo.org/show_bug.cgi?id=206896
+	keepdir /usr/share/guile/site
+
+	# Necessary for avoiding ldconfig warnings
+	# 	https://bugzilla.novell.com/show_bug.cgi?id=874028#c0
+	dodir /usr/share/gdb/auto-load/$(get_libdir)
+	mv ${D}/usr/$(get_libdir)/libguile-*-gdb.scm ${D}/usr/share/gdb/auto-load/$(get_libdir)
 }
 
 pkg_postinst() {
 	[ "${EROOT}" == "/" ] && pkg_config
 	use emacs && elisp-site-regen
+}
+
+pkg_prerm() {
+	rm -f "${EROOT}"/usr/share/guile/site/slibcat
 }
 
 pkg_postrm() {
@@ -120,8 +138,4 @@ pkg_config() {
 		einfo "Registering slib with guile"
 		install_slib_for_guile
 	fi
-}
-
-_pkg_prerm() {
-	rm -f "${EROOT}"/usr/share/guile/site/slibcat
 }

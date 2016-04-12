@@ -13,7 +13,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="memoryview"
+IUSE="dynamiclayout memoryview"
 
 RDEPEND="
 	>=dev-libs/glib-2.16:2
@@ -26,10 +26,9 @@ RDEPEND="
 	>=dev-db/sqlite-3:3
 	sys-devel/gdb
 	dev-libs/boost
+	dynamiclayout? ( >=dev-cpp/gdlmm-3.0:3 )
 	memoryview? ( >=app-editors/ghex-2.90:2 )
 "
-# FIXME: dynamiclayout needs unreleased stable gdlmm:3
-# dynamiclayout? ( >=dev-cpp/gdlmm-3.0:3 )
 DEPEND="${RDEPEND}
 	app-text/docbook-xml-dtd:4.1.2
 	>=dev-util/intltool-0.40
@@ -40,9 +39,9 @@ DEPEND="${RDEPEND}
 
 src_configure() {
 	gnome2_src_configure \
-		--disable-dynamiclayout \
 		--disable-static \
 		--disable-symsvis \
 		--enable-gsettings \
+		$(use_enable dynamiclayout)
 		$(use_enable memoryview)
 }

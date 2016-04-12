@@ -10,6 +10,8 @@
 	debugger that integrates well in the GNOME environment.
   </longdescription>
   <use>
+	<flag name="dynamiclayout">Enable the optional dynamic layout which lets the
+	user re-organise the way the debugging widgets are laid out.</flag>
 	<flag name="memoryview">Enable the optional hexadecimal memory inspection
 	with <pkg>app-editors/ghex</pkg>.</flag>
   </use>

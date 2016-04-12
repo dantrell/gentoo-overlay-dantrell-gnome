@@ -2,14 +2,15 @@
 
 EAPI="5"
 
-inherit eutils flag-o-matic
+inherit elisp-common eutils flag-o-matic
 
 DESCRIPTION="GNU Ubiquitous Intelligent Language for Extensions"
 HOMEPAGE="https://www.gnu.org/software/guile/"
-SRC_URI="mirror://gnu/guile/${P}.tar.gz"
+SRC_URI="mirror://gnu/guile/${P}.tar.xz"
 
 LICENSE="LGPL-3+"
 SLOT="12"
+MAJOR="2.0"
 KEYWORDS="*"
 
 IUSE="debug debug-malloc +deprecated doc emacs networking nls +regex static +threads"
@@ -65,7 +66,7 @@ src_install() {
 	einstall
 
 	if use doc; then
-		dodoc AUTHORS COPYING COPYING.LESSER ChangeLog GUILE-VERSION HACKING LICENSE NEWS README THANKS || die
+		dodoc AUTHORS ChangeLog GUILE-VERSION HACKING NEWS README THANKS
 	fi
 
 	# Necessary for TeXmacs
@@ -83,13 +84,22 @@ src_install() {
 	mv ${D}/usr/$(get_libdir)/libguile-*-gdb.scm ${D}/usr/share/gdb/auto-load/$(get_libdir)
 }
 
+pkg_postinst() {
+	[ "${EROOT}" == "/" ] && pkg_config
+	use emacs && elisp-site-regen
+}
+
+pkg_prerm() {
+	rm -f "${EROOT}"/usr/share/guile/site/slibcat
+}
+
+pkg_postrm() {
+	use emacs && elisp-site-regen
+}
+
 pkg_config() {
 	if has_version dev-scheme/slib; then
 		einfo "Registering slib with guile"
 		install_slib_for_guile
 	fi
-}
-
-_pkg_prerm() {
-	rm -f "${EROOT}"/usr/share/guile/site/slibcat
 }
