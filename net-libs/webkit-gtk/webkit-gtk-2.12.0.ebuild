@@ -33,7 +33,7 @@ REQUIRED_USE="
 # seccomp
 # Tests fail to link for inexplicable reasons
 # https://bugs.webkit.org/show_bug.cgi?id=148210
-RESTRICT="test"
+RESTRICT="mirror test"
 
 # use sqlite, svg by default
 # Aqua support in gtk3 is untested

@@ -13,10 +13,10 @@ HOMEPAGE="http://www.webkitgtk.org/"
 SRC_URI="http://www.webkitgtk.org/releases/${MY_P}.tar.xz"
 
 LICENSE="LGPL-2+ BSD"
-SLOT="3/25" # soname version of libwebkit2gtk-3.0
+SLOT="2" # no usable subslot
 KEYWORDS="*"
 
-IUSE="aqua coverage debug +egl +geoloc gles2 gnome-keyring +gstreamer +introspection +jit +opengl spell wayland +webgl +X"
+IUSE="aqua coverage debug +egl +geoloc gles2 gnome-keyring +gstreamer +introspection +jit +opengl spell +webgl +X"
 # bugs 372493, 416331
 REQUIRED_USE="
 	geoloc? ( introspection )
@@ -24,13 +24,12 @@ REQUIRED_USE="
 	introspection? ( gstreamer )
 	webgl? ( ^^ ( gles2 opengl ) )
 	!webgl? ( ?? ( gles2 opengl ) )
-	|| ( aqua wayland X )
+	|| ( aqua X )
 "
 
+RESTRICT="mirror"
+
 # use sqlite, svg by default
-# Aqua support in gtk3 is untested
-# gtk2 is needed for plugin process support
-# gtk3-3.10 required for wayland
 RDEPEND="
 	dev-db/sqlite:3=
 	>=dev-libs/glib-2.36:2
@@ -44,11 +43,11 @@ RDEPEND="
 	media-libs/libwebp:=
 	>=net-libs/libsoup-2.42:2.4[introspection?]
 	virtual/jpeg:0=
-	>=x11-libs/cairo-1.10:=[X?]
-	>=x11-libs/gtk+-3.6.0:3[X?,aqua?,introspection?]
+	>=x11-libs/cairo-1.10:=[X]
+	>=x11-libs/gtk+-2.24.10:2[aqua?,introspection?]
+	x11-libs/libXrender
+	x11-libs/libXt
 	>=x11-libs/pango-1.30.0
-
-	>=x11-libs/gtk+-2.24.10:2
 
 	egl? ( media-libs/mesa[egl] )
 	geoloc? ( >=app-misc/geoclue-2.1.5:2.0 )
@@ -60,15 +59,10 @@ RDEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-1.32.0:= )
 	opengl? ( virtual/opengl )
 	spell? ( >=app-text/enchant-0.22:= )
-	wayland? ( >=x11-libs/gtk+-3.10:3[wayland] )
 	webgl? (
 		x11-libs/cairo[opengl]
 		x11-libs/libXcomposite
 		x11-libs/libXdamage )
-	X? (
-		x11-libs/libX11
-		x11-libs/libXrender
-		x11-libs/libXt )
 "
 
 # paxctl needed for bug #407085
@@ -77,7 +71,6 @@ DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
 	${RUBY_DEPS}
 	>=dev-lang/perl-5.10
-	>=app-accessibility/at-spi2-core-2.5.3
 	>=dev-libs/atk-2.8.0
 	>=dev-util/gtk-doc-am-1.10
 	>=dev-util/gperf-3.0.1
@@ -155,10 +148,6 @@ src_prepare() {
 	# https://bugs.webkit.org/show_bug.cgi?id=129542
 	epatch "${FILESDIR}"/${PN}-2.4.1-ia64-malloc.patch
 
-	# Fix building on ppc (from OpenBSD, only needed on slot 3)
-	# https://bugs.webkit.org/show_bug.cgi?id=130837
-	epatch "${FILESDIR}"/${PN}-2.4.4-atomic-ppc.patch
-
 	# Fix build with recent libjpeg, bug #481688
 	# https://bugs.webkit.org/show_bug.cgi?id=122412
 	epatch "${FILESDIR}"/${PN}-2.4.4-jpeg-9a.patch
@@ -213,7 +202,6 @@ src_configure() {
 	# TODO: Check Web Audio support
 	# should somehow let user select between them?
 	#
-	# * Aqua support in gtk3 is untested
 	# * dependency-tracking is required so parallel builds won't fail
 	gnome2_src_configure \
 		$(use_enable aqua quartz-target) \
@@ -231,9 +219,9 @@ src_configure() {
 		$(use_enable spell spellcheck) \
 		$(use_enable webgl) \
 		$(use_enable webgl accelerated-compositing) \
-		$(use_enable wayland wayland-target) \
 		$(use_enable X x11-target) \
-		--with-gtk=3.0 \
+		--with-gtk=2.0 \
+		--disable-webkit2 \
 		--enable-dependency-tracking \
 		--disable-gtk-doc \
 		${ruby_interpreter}
@@ -268,7 +256,10 @@ src_install() {
 	newdoc Source/JavaScriptCore/ChangeLog ChangeLog.JavaScriptCore
 	newdoc Source/WebCore/ChangeLog ChangeLog.WebCore
 
-	# Prevents crashes on PaX systems, bug #522808
-	use jit && pax-mark m "${ED}usr/bin/jsc-3" "${ED}usr/libexec/WebKitWebProcess"
-	pax-mark m "${ED}usr/libexec/WebKitPluginProcess"
+	# Prevents crashes on PaX systems
+	use jit && pax-mark m "${ED}usr/bin/jsc-1"
+
+	# File collisions with slot 3
+	# bug #402699, https://bugs.webkit.org/show_bug.cgi?id=78134
+	rm -rf "${ED}usr/share/gtk-doc" || die
 }

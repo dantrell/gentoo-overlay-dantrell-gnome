@@ -96,6 +96,7 @@ media-libs/gegl::gentoo
 media-libs/grilo::gentoo
 media-libs/gsound::gentoo
 media-libs/libchamplain::gentoo
+media-libs/libdiscid::gentoo
 media-libs/libmediaart::gentoo
 media-plugins/grilo-plugins::gentoo
 media-video/gnome-video-effects::gentoo

@@ -35,8 +35,8 @@
 >=dev-libs/json-glib-1.3.0
 >=dev-libs/libgames-support-1.0
 >=dev-libs/libgdata-0.18.0
->=dev-libs/libgit2-0.25.0
->=dev-libs/libgit2-glib-0.25.0
+>=dev-libs/libgit2-0.24.0
+>=dev-libs/libgit2-glib-0.24.0
 >=dev-libs/libgusb-0.3.0
 >=dev-libs/libgweather-3.20.0
 >=dev-libs/libpeas-1.18.0
@@ -117,7 +117,7 @@
 >=gnome-extra/gnome-todo-3.19.90
 >=gnome-extra/gnome-tweak-tool-3.20.0
 >=gnome-extra/gnome-user-docs-3.20.0
->=gnome-extra/gnome-user-share-3.18.1
+>=gnome-extra/gnome-user-share-3.20.0
 >=gnome-extra/gnome-weather-3.20.0
 >=gnome-extra/gucharmap-8.0.0
 >=gnome-extra/nautilus-tracker-tags-1.8.0

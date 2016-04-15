@@ -1,6 +1,3 @@
 dev-cpp/gtkmm X
 dev-libs/libgusb vala
-media-libs/clutter X
 media-libs/clutter-gst X
-media-libs/gst-plugins-bad X
-media-libs/gst-plugins-bad opengl

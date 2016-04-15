@@ -1,6 +1,8 @@
 dev-cpp/gtkmm X
 dev-libs/libgusb vala
-media-libs/clutter X
 media-libs/clutter-gst X
-media-libs/gst-plugins-bad X
-media-libs/gst-plugins-bad opengl
+media-libs/gegl jpeg
+media-libs/gegl jpeg2k
+media-libs/gegl png
+media-libs/gegl raw
+media-plugins/grilo-plugins flickr

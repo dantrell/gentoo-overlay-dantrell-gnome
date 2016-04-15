@@ -11,7 +11,7 @@ HOMEPAGE="https://git.gnome.org/browse/gdk-pixbuf"
 
 LICENSE="LGPL-2+"
 SLOT="2"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="X debug +introspection jpeg jpeg2k tiff test"
 
