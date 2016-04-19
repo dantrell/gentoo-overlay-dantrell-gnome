@@ -28,10 +28,10 @@ RESTRICT="test"
 
 COMMON_DEPEND="
 	dev-db/sqlite:3=
-	>=dev-libs/glib-2.36:2[${MULTILIB_USEDEP}]
+	>=dev-libs/glib-2.44:2[${MULTILIB_USEDEP}]
 	>=media-libs/lcms-2.6:2=[${MULTILIB_USEDEP}]
 	argyllcms? ( media-gfx/argyllcms )
-	gusb? ( >=dev-libs/libgusb-0.2.2[introspection?,${MULTILIB_USEDEP}] )
+	gusb? ( >=dev-libs/libgusb-0.2.7[introspection?,${MULTILIB_USEDEP}] )
 	introspection? ( >=dev-libs/gobject-introspection-0.9.8:= )
 	policykit? ( >=sys-auth/polkit-0.103 )
 	scanner? (
