@@ -28,7 +28,7 @@ RESTRICT="test"
 
 COMMON_DEPEND="
 	dev-db/sqlite:3=
-	>=dev-libs/glib-2.44:2[${MULTILIB_USEDEP}]
+	>=dev-libs/glib-2.46:2[${MULTILIB_USEDEP}]
 	>=media-libs/lcms-2.6:2=[${MULTILIB_USEDEP}]
 	argyllcms? ( media-gfx/argyllcms )
 	gusb? ( >=dev-libs/libgusb-0.2.7[introspection?,${MULTILIB_USEDEP}] )
