@@ -5,8 +5,8 @@ EAPI="5"
 inherit autotools eutils systemd
 
 DESCRIPTION="An abstraction for enumerating power devices, listening to device events and querying history and statistics"
-HOMEPAGE="http://upower.freedesktop.org/"
-SRC_URI="http://${PN}.freedesktop.org/releases/${PN}-0.99.3.tar.xz"
+HOMEPAGE="https://upower.freedesktop.org/"
+SRC_URI="https://${PN}.freedesktop.org/releases/${PN}-0.99.3.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0/3" # based on SONAME of libupower-glib.so
@@ -58,26 +58,26 @@ S="${WORKDIR}/${PN}-0.99.3"
 
 src_prepare() {
 	# From Upstream:
-	# 	http://cgit.freedesktop.org/upower/commit/?id=95e8a2a316872bf5e6b262ccc3a165cca8240d27
-	# 	http://cgit.freedesktop.org/upower/commit/?id=fe37183fba649b999af3f66b9e0b0d70a054426c
-	# 	http://cgit.freedesktop.org/upower/commit/?id=c9b2e177267b623850b3deedb1242de7d2e413ee
-	# 	http://cgit.freedesktop.org/upower/commit/?id=77239cc4470fc515e1c8c6c21005fa08f3b1b04e
-	# 	http://cgit.freedesktop.org/upower/commit/?id=305f62adf052aa972523d083ca44d3050f659ec9
-	# 	http://cgit.freedesktop.org/upower/commit/?id=1e4f711df426a695c232b4164b1333349cb9512a
-	# 	http://cgit.freedesktop.org/upower/commit/?id=ae9f8521c6f900255df1b6c7bc9f6adfd09abda5
-	# 	http://cgit.freedesktop.org/upower/commit/?id=fc27cbd5cb098ccf6c70110fe1b894987328fc0d
-	# 	http://cgit.freedesktop.org/upower/commit/?id=a037cffdeeed92fe7f6e68f04209b9cbe0422f8f
-	# 	http://cgit.freedesktop.org/upower/commit/?id=da7517137e7a67ccfcf60093b2eab466aeaf71ad
-	# 	http://cgit.freedesktop.org/upower/commit/?id=0825c162d3dc909966b10fecabbc2c1da364c1a6
-	# 	http://cgit.freedesktop.org/upower/commit/?id=b6dfa473f81408771d1422242b07974b425a6fd2
-	# 	http://cgit.freedesktop.org/upower/commit/?id=c015e6b21e3cb8f5bc944564850d9ffc35a6a6c7
-	# 	http://cgit.freedesktop.org/upower/commit/?id=d5ec9d4f292726d1695f5154e546ac8536bf454d
-	# 	http://cgit.freedesktop.org/upower/commit/?id=34caba296423c7737be7018279fd44161e8ac86f
-	# 	http://cgit.freedesktop.org/upower/commit/?id=057f1bf338802c02425149d318d3b9317d8cd86b
-	# 	http://cgit.freedesktop.org/upower/commit/?id=db4f9b43dfe6b4d2b5063ae352d8eba017652fce
-	# 	http://cgit.freedesktop.org/upower/commit/?id=3e49e659d06749e04466f7a9501f27face8ef9ef
-	# 	http://cgit.freedesktop.org/upower/commit/?id=f9b7e936ec2578e58d53542f60c60787e56395f0
-	# 	http://cgit.freedesktop.org/upower/commit/?id=b68131796a338e24427a04d73ee7efd1745f01ee
+	# 	https://cgit.freedesktop.org/upower/commit/?id=95e8a2a316872bf5e6b262ccc3a165cca8240d27
+	# 	https://cgit.freedesktop.org/upower/commit/?id=fe37183fba649b999af3f66b9e0b0d70a054426c
+	# 	https://cgit.freedesktop.org/upower/commit/?id=c9b2e177267b623850b3deedb1242de7d2e413ee
+	# 	https://cgit.freedesktop.org/upower/commit/?id=77239cc4470fc515e1c8c6c21005fa08f3b1b04e
+	# 	https://cgit.freedesktop.org/upower/commit/?id=305f62adf052aa972523d083ca44d3050f659ec9
+	# 	https://cgit.freedesktop.org/upower/commit/?id=1e4f711df426a695c232b4164b1333349cb9512a
+	# 	https://cgit.freedesktop.org/upower/commit/?id=ae9f8521c6f900255df1b6c7bc9f6adfd09abda5
+	# 	https://cgit.freedesktop.org/upower/commit/?id=fc27cbd5cb098ccf6c70110fe1b894987328fc0d
+	# 	https://cgit.freedesktop.org/upower/commit/?id=a037cffdeeed92fe7f6e68f04209b9cbe0422f8f
+	# 	https://cgit.freedesktop.org/upower/commit/?id=da7517137e7a67ccfcf60093b2eab466aeaf71ad
+	# 	https://cgit.freedesktop.org/upower/commit/?id=0825c162d3dc909966b10fecabbc2c1da364c1a6
+	# 	https://cgit.freedesktop.org/upower/commit/?id=b6dfa473f81408771d1422242b07974b425a6fd2
+	# 	https://cgit.freedesktop.org/upower/commit/?id=c015e6b21e3cb8f5bc944564850d9ffc35a6a6c7
+	# 	https://cgit.freedesktop.org/upower/commit/?id=d5ec9d4f292726d1695f5154e546ac8536bf454d
+	# 	https://cgit.freedesktop.org/upower/commit/?id=34caba296423c7737be7018279fd44161e8ac86f
+	# 	https://cgit.freedesktop.org/upower/commit/?id=057f1bf338802c02425149d318d3b9317d8cd86b
+	# 	https://cgit.freedesktop.org/upower/commit/?id=db4f9b43dfe6b4d2b5063ae352d8eba017652fce
+	# 	https://cgit.freedesktop.org/upower/commit/?id=3e49e659d06749e04466f7a9501f27face8ef9ef
+	# 	https://cgit.freedesktop.org/upower/commit/?id=f9b7e936ec2578e58d53542f60c60787e56395f0
+	# 	https://cgit.freedesktop.org/upower/commit/?id=b68131796a338e24427a04d73ee7efd1745f01ee
 	epatch "${FILESDIR}"/${PN}-0.99.4-0001-trivial-post-release-version-bump.patch
 	epatch "${FILESDIR}"/${PN}-0.99.4-0002-lib-fix-memory-leak-in-up-client-get-devices.patch
 	epatch "${FILESDIR}"/${PN}-0.99.4-0003-linux-fix-possible-double-free.patch
@@ -111,7 +111,7 @@ src_prepare() {
 
 		if use integration-test; then
 			# From Upstream:
-			# 	http://cgit.freedesktop.org/upower/commit/?id=720680d6855061b136ecc9ff756fb0cc2bc3ae2c
+			# 	https://cgit.freedesktop.org/upower/commit/?id=720680d6855061b136ecc9ff756fb0cc2bc3ae2c
 			epatch "${FILESDIR}"/${PN}-0.99.2-fix-integration-test.patch
 		fi
 	fi

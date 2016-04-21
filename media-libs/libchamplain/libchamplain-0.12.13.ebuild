@@ -11,7 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/libchamplain"
 
 LICENSE="LGPL-2"
 SLOT="0.12"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="debug +gtk +introspection vala"
 REQUIRED_USE="vala? ( introspection )"

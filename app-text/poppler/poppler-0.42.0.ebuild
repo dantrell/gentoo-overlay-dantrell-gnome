@@ -6,8 +6,8 @@ CMAKE_WARN_UNUSED_CLI=1
 inherit cmake-utils toolchain-funcs xdg-utils
 
 DESCRIPTION="PDF rendering library based on the xpdf-3.0 code base"
-HOMEPAGE="http://poppler.freedesktop.org/"
-SRC_URI="http://poppler.freedesktop.org/${P}.tar.xz"
+HOMEPAGE="https://poppler.freedesktop.org/"
+SRC_URI="https://poppler.freedesktop.org/${P}.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0/59"   # CHECK THIS WHEN BUMPING!!! SUBSLOT IS libpoppler.so SOVERSION
