@@ -18,9 +18,9 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="dbus gstreamer gtk3 +introspection lz4 policykit pulseaudio python sasl smartcard static-libs usbredir vala webdav"
+IUSE="dbus gstreamer gtk3 +introspection lz4 policykit pulseaudio python sasl smartcard static-libs usbredir vala webdav libressl"
 REQUIRED_USE="
-	python? ( ${PYTHON_REQUIRED_USE} )
+	${PYTHON_REQUIRED_USE}
 	?? ( pulseaudio gstreamer )
 "
 
@@ -29,14 +29,16 @@ REQUIRED_USE="
 # * use external pnp.ids as soon as that means not pulling in gnome-desktop
 RDEPEND="
 	${PYTHON_DEPS}
+	!libressl? ( dev-libs/openssl:0= )
+	libressl? ( dev-libs/libressl:0= )
 	pulseaudio? ( media-sound/pulseaudio[glib] )
 	gstreamer? (
 		media-libs/gstreamer:1.0
-		media-libs/gst-plugins-base:1.0 )
+		media-libs/gst-plugins-base:1.0
+		media-libs/gst-plugins-good:1.0 )
 	>=x11-libs/pixman-0.17.7
 	>=media-libs/celt-0.5.1.1:0.5.1
 	media-libs/opus
-	dev-libs/openssl:0=
 	gtk3? ( x11-libs/gtk+:3[introspection?] )
 	x11-libs/gtk+:2[introspection?]
 	>=dev-libs/glib-2.28:2
