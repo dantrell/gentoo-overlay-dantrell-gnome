@@ -5,7 +5,6 @@ EAPI="5"
 PYTHON_COMPAT=( python2_7 )
 
 # vala and introspection support is broken, bug #468208
-VALA_MIN_API_VERSION=0.20
 VALA_USE_DEPEND=vapigen
 
 inherit versionator gnome2-utils eutils autotools python-any-r1 vala

@@ -2,7 +2,6 @@
 
 EAPI="5"
 GCONF_DEBUG="yes"
-VALA_MIN_API_VERSION="0.20"
 VALA_USE_DEPEND="vapigen"
 
 inherit gnome2 vala
