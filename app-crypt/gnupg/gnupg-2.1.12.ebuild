@@ -13,8 +13,7 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="bzip2 doc +gnutls ldap nls readline static selinux smartcard tofu tools usb"
-REQUIRED_USE="smartcard? ( !static )"
+IUSE="bzip2 doc +gnutls ldap nls readline selinux smartcard tofu tools usb"
 
 COMMON_DEPEND_LIBS="
 	dev-libs/npth
@@ -23,7 +22,7 @@ COMMON_DEPEND_LIBS="
 	>=dev-libs/libgpg-error-1.21
 	>=dev-libs/libksba-1.2.0
 	>=net-misc/curl-7.10
-	gnutls? ( >=net-libs/gnutls-3.0 )
+	gnutls? ( >=net-libs/gnutls-3.0:0= )
 	sys-libs/zlib
 	ldap? ( net-nds/openldap )
 	bzip2? ( app-arch/bzip2 )
@@ -37,20 +36,10 @@ COMMON_DEPEND_BINS="app-crypt/pinentry
 # Existence of executables is checked during configuration.
 DEPEND="${COMMON_DEPEND_LIBS}
 	${COMMON_DEPEND_BINS}
-	static? (
-		>=dev-libs/libassuan-2[static-libs]
-		>=dev-libs/libgcrypt-1.6.2[static-libs]
-		>=dev-libs/libgpg-error-1.17[static-libs]
-		>=dev-libs/libksba-1.0.7[static-libs]
-		dev-libs/npth[static-libs]
-		>=net-misc/curl-7.10[static-libs]
-		sys-libs/zlib[static-libs]
-		bzip2? ( app-arch/bzip2[static-libs] )
-	)
 	nls? ( sys-devel/gettext )
 	doc? ( sys-apps/texinfo )"
 
-RDEPEND="!static? ( ${COMMON_DEPEND_LIBS} )
+RDEPEND="${COMMON_DEPEND_LIBS}
 	${COMMON_DEPEND_BINS}
 	selinux? ( sec-policy/selinux-gpg )
 	nls? ( virtual/libintl )"
@@ -58,17 +47,13 @@ RDEPEND="!static? ( ${COMMON_DEPEND_LIBS} )
 S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
-	epatch "${FILESDIR}/${P}-tests.patch"
+	epatch "${FILESDIR}/${P}-fix-signature-checking.patch" \
+		"${FILESDIR}/${PN}-2.1-fix-gentoo-dash-issue.patch"
 	epatch_user
 }
 
 src_configure() {
 	local myconf=()
-
-	# 'USE=static' support was requested:
-	# gnupg1: bug #29299
-	# gnupg2: bug #159623
-	use static && append-ldflags -static
 
 	if use smartcard; then
 		myconf+=(
