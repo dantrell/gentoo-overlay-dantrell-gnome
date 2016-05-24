@@ -10,7 +10,7 @@ inherit distutils-r1
 
 DESCRIPTION="An open-source braille translator, back-translator and formatter"
 HOMEPAGE="http://www.liblouis.org/ https://github.com/liblouis/liblouis"
-SRC_URI="https://github.com/liblouis/liblouis/releases/download/v${PV}/${P}.tar.gz"
+SRC_URI="https://liblouis.googlecode.com/files/${P}.tar.gz"
 
 LICENSE="LGPL-3"
 SLOT="0"
@@ -26,7 +26,9 @@ src_prepare() {
 	default
 
 	if use python; then
+		pushd python > /dev/null
 		distutils-r1_src_prepare
+		popd > /dev/null
 	fi
 }
 
@@ -34,31 +36,31 @@ src_configure() {
 	econf --enable-ucs4
 }
 
-python_compile() {
+src_compile() {
 	default
 
 	if use python; then
-		LD_LIBRARY_PATH="${S}/liblouis/.libs" distutils-r1_src_compile
+		pushd python > /dev/null
+		# setup.py imports liblouis to get the version number,
+		# and this causes the shared library to be dlopened
+		# at build-time.  Hack around it with LD_PRELOAD.
+		# Thanks ArchLinux.
+		LD_PRELOAD+=':../liblouis/.libs/liblouis.so'
+			distutils-r1_src_compile
+		popd > /dev/null
 	fi
 }
 
-python_install() {
-	DOCS="AUTHORS ChangeLog NEWS README" default
+src_install() {
+	emake install DESTDIR="${D}" || die
+
+	if use python; then
+		pushd python > /dev/null
+		LD_PRELOAD+=':../liblouis/.libs/liblouis.so' \
+			distutils-r1_src_install
+		popd > /dev/null
+	fi
+
+	dodoc README AUTHORS NEWS ChangeLog || die
 	dohtml doc/liblouis.html
-
-	if use python; then
-		LD_LIBRARY_PATH="${S}/liblouis/.libs" distutils-r1_src_install
-	fi
-}
-
-pkg_postinst() {
-	if use python; then
-		distutils-r1_pkg_postinst
-	fi
-}
-
-pkg_postrm() {
-	if use python; then
-		distutils-r1_pkg_postrm
-	fi
 }
