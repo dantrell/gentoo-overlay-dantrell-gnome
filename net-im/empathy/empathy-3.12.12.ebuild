@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 PYTHON_COMPAT=( python2_7 python3_{3,4,5} )
 
@@ -55,7 +54,7 @@ COMMON_DEPEND="
 	geoloc? (
 		>=app-misc/geoclue-2.1:2.0
 		>=sci-geosciences/geocode-glib-3.10 )
-	gnome-online-accounts? ( >=net-libs/gnome-online-accounts-3.5.1 )
+	gnome-online-accounts? ( >=net-libs/gnome-online-accounts-3.5.1:= )
 	map? (
 		>=media-libs/clutter-1.7.14:1.0
 		>=media-libs/clutter-gtk-0.90.3:1.0
@@ -74,7 +73,7 @@ RDEPEND="${COMMON_DEPEND}
 	media-libs/gst-plugins-base:1.0
 	net-im/telepathy-connection-managers
 	!<net-voip/telepathy-rakia-0.7
-	x11-themes/gnome-icon-theme-symbolic
+	x11-themes/adwaita-icon-theme
 	gnome? ( gnome-extra/gnome-contacts )
 "
 DEPEND="${COMMON_DEPEND}
@@ -122,5 +121,5 @@ src_configure() {
 }
 
 src_test() {
-	dbus-launch Xemake check #504516
+	dbus-launch virtx emake check #504516
 }

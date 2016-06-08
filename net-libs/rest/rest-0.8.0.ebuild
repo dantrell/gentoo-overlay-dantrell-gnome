@@ -10,9 +10,9 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Librest"
 
 LICENSE="LGPL-2.1"
 SLOT="0.7"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="+gnome +introspection test"
+IUSE="+introspection test"
 
 # Coverage testing should not be enabled
 RDEPEND="
@@ -20,7 +20,6 @@ RDEPEND="
 	>=dev-libs/glib-2.24:2[${MULTILIB_USEDEP}]
 	dev-libs/libxml2:2[${MULTILIB_USEDEP}]
 	net-libs/libsoup:2.4[${MULTILIB_USEDEP}]
-	gnome? ( >=net-libs/libsoup-gnome-2.25.1:2.4[${MULTILIB_USEDEP}] )
 	introspection? ( >=dev-libs/gobject-introspection-0.6.7:= )
 "
 DEPEND="${RDEPEND}
@@ -31,12 +30,14 @@ DEPEND="${RDEPEND}
 "
 
 multilib_src_configure() {
+	# gnome support only adds dependency on obsolete libsoup-gnome
+	# https://bugzilla.gnome.org/show_bug.cgi?id=758166
 	ECONF_SOURCE=${S} \
 	gnome2_src_configure \
 		--disable-static \
 		--disable-gcov \
+		--without-gnome \
 		--with-ca-certificates="${EPREFIX}"/etc/ssl/certs/ca-certificates.crt \
-		$(use_with gnome) \
 		$(multilib_native_use_enable introspection)
 
 	if multilib_is_native_abi; then

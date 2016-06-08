@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 VALA_USE_DEPEND="vapigen"
 
 inherit gnome2 multilib-minimal vala
@@ -13,7 +12,7 @@ LICENSE="LGPL-2"
 SLOT="0/3"
 KEYWORDS="*"
 
-IUSE="+introspection +gtk"
+IUSE="+introspection gtk"
 
 RDEPEND="
 	>=dev-libs/glib-2.34.3:2[${MULTILIB_USEDEP}]

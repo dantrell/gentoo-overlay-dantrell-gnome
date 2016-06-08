@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 
 inherit eutils gnome2 multilib-minimal virtualx
@@ -11,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Librest"
 
 LICENSE="LGPL-2.1"
 SLOT="0.7"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+introspection test"
 
@@ -48,7 +47,7 @@ multilib_src_configure() {
 
 multilib_src_test() {
 	# Tests need dbus
-	Xemake check
+	virtx emake check
 }
 
 multilib_src_compile() {

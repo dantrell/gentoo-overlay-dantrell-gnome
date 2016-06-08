@@ -1,11 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 PYTHON_COMPAT=( python2_7 )
 USE_RUBY="ruby20 ruby21 ruby22 ruby23"
 
-inherit autotools check-reqs eutils flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs versionator virtualx
+inherit autotools check-reqs flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs versionator virtualx
 
 MY_P="webkitgtk-${PV}"
 DESCRIPTION="Open source web browser engine"
@@ -26,8 +25,6 @@ REQUIRED_USE="
 	!webgl? ( ?? ( gles2 opengl ) )
 	|| ( aqua wayland X )
 "
-
-RESTRICT="mirror"
 
 # use sqlite, svg by default
 # Aqua support in gtk3 is untested
@@ -140,7 +137,7 @@ pkg_setup() {
 src_prepare() {
 	# intermediate MacPorts hack while upstream bug is not fixed properly
 	# https://bugs.webkit.org/show_bug.cgi?id=28727
-	use aqua && epatch "${FILESDIR}"/${PN}-1.6.1-darwin-quartz.patch
+	use aqua && eapply "${FILESDIR}"/${PN}-1.6.1-darwin-quartz.patch
 
 	# Leave optimization level to user CFLAGS
 	# FORTIFY_SOURCE is enabled by default in Gentoo
@@ -149,25 +146,28 @@ src_prepare() {
 		-i Source/autotools/SetupCompilerFlags.m4 || die
 
 	# bug #459978, upstream bug #113397
-	epatch "${FILESDIR}"/${PN}-1.11.90-gtk-docize-fix.patch
+	eapply "${FILESDIR}"/${PN}-1.11.90-gtk-docize-fix.patch
 
 	# Debian patches to fix support for some arches
 	# https://bugs.webkit.org/show_bug.cgi?id=129540
-	epatch "${FILESDIR}"/${PN}-2.2.5-{hppa,ia64}-platform.patch
+	eapply "${FILESDIR}"/${PN}-2.2.5-{hppa,ia64}-platform.patch
 	# https://bugs.webkit.org/show_bug.cgi?id=129542
-	epatch "${FILESDIR}"/${PN}-2.4.1-ia64-malloc.patch
+	eapply "${FILESDIR}"/${PN}-2.4.1-ia64-malloc.patch
 
 	# Fix building on ppc (from OpenBSD, only needed on slot 3)
 	# https://bugs.webkit.org/show_bug.cgi?id=130837
-	epatch "${FILESDIR}"/${PN}-2.4.4-atomic-ppc.patch
+	eapply "${FILESDIR}"/${PN}-2.4.4-atomic-ppc.patch
 
 	# Fix build with recent libjpeg, bug #481688
 	# https://bugs.webkit.org/show_bug.cgi?id=122412
-	epatch "${FILESDIR}"/${PN}-2.4.4-jpeg-9a.patch
+	eapply "${FILESDIR}"/${PN}-2.4.4-jpeg-9a.patch
 
 	# Fix building with --disable-webgl, bug #500966
 	# https://bugs.webkit.org/show_bug.cgi?id=131267
-	epatch "${FILESDIR}"/${PN}-2.4.7-disable-webgl.patch
+	eapply "${FILESDIR}"/${PN}-2.4.7-disable-webgl.patch
+
+	# https://bugs.webkit.org/show_bug.cgi?id=156510
+	eapply "${FILESDIR}"/${PN}-2.4.11-video-web-audio.patch
 
 	AT_M4DIR=Source/autotools eautoreconf
 
@@ -241,12 +241,6 @@ src_configure() {
 		${ruby_interpreter}
 }
 
-src_compile() {
-	# Try to avoid issues like bug #463960
-	unset DISPLAY
-	gnome2_src_compile
-}
-
 src_test() {
 	# Tests expect an out-of-source build in WebKitBuild
 	ln -s . WebKitBuild || die "ln failed"
@@ -254,10 +248,9 @@ src_test() {
 	# Prevents test failures on PaX systems
 	use jit && pax-mark m $(list-paxables Programs/*[Tt]ests/*) # Programs/unittests/.libs/test*
 
-	unset DISPLAY
 	# Tests need virtualx, bug #294691, bug #310695
 	# Parallel tests sometimes fail
-	Xemake -j1 check
+	virtx emake -j1 check
 }
 
 src_install() {

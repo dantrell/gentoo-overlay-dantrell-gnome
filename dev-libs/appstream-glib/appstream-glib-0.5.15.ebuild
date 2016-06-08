@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 
 inherit bash-completion-r1 gnome2
@@ -12,7 +11,7 @@ SRC_URI="https://people.freedesktop.org/~hughsient/${PN}/releases/${P}.tar.xz"
 
 LICENSE="LGPL-2.1"
 SLOT="0/8" # soname version
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="+introspection nls"
 
@@ -23,8 +22,9 @@ RDEPEND="
 	app-arch/libarchive
 	dev-db/sqlite:3
 	>=dev-libs/glib-2.45.8:2
+	>=dev-libs/json-glib-1.1.1
 	dev-libs/libyaml
-	>=media-libs/fontconfig-2.11
+	>=media-libs/fontconfig-2.11:1.0
 	>=media-libs/freetype-2.4:2
 	>=net-libs/libsoup-2.51.92:2.4
 	sys-apps/util-linux

@@ -13,15 +13,15 @@ LICENSE="LGPL-2.1"
 SLOT="2.6"
 KEYWORDS="*"
 
-IUSE="doc mono static-libs vala"
+IUSE="doc mono smime static-libs vala"
 
 RDEPEND="
 	>=dev-libs/glib-2.18:2
 	sys-libs/zlib
-	>=app-crypt/gpgme-1.1.6
 	mono? (
 		dev-lang/mono
 		>=dev-dotnet/gtk-sharp-2.12.21:2 )
+	smime? ( >=app-crypt/gpgme-1.1.6 )
 "
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.8
@@ -46,6 +46,7 @@ src_configure() {
 		--enable-cryptography \
 		--disable-strict-parser \
 		$(use_enable mono) \
+		$(use_enable smime) \
 		$(use_enable static-libs static) \
 		$(use_enable vala)
 }
