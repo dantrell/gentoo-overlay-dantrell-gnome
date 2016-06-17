@@ -11,7 +11,7 @@ HOMEPAGE="http://www.gtk.org/"
 
 LICENSE="LGPL-2+"
 SLOT="2"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="aqua cups examples +introspection test vim-syntax xinerama"
 REQUIRED_USE="

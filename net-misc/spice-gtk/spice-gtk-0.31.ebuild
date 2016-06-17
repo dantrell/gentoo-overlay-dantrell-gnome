@@ -10,7 +10,7 @@ PYTHON_COMPAT=( python2_7 python3_{4,5} )
 inherit autotools eutils multibuild python-single-r1 vala
 
 DESCRIPTION="Set of GObject and Gtk objects for connecting to Spice servers and a client GUI"
-HOMEPAGE="http://spice-space.org http://gitorious.org/spice-gtk"
+HOMEPAGE="http://spice-space.org https://cgit.freedesktop.org/spice/spice-gtk/"
 SRC_URI="http://spice-space.org/download/gtk/${P}.tar.bz2"
 
 LICENSE="LGPL-2.1"
@@ -80,6 +80,10 @@ DEPEND="${RDEPEND}
 # Hard-deps while building from git:
 # dev-lang/vala:0.14
 # dev-lang/perl
+
+# Prevent sandbox violations, bug #581836
+# https://bugzilla.gnome.org/show_bug.cgi?id=581836
+addpredict /dev
 
 src_prepare() {
 	epatch_user

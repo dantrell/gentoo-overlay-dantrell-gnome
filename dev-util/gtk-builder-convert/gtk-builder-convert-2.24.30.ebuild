@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 GNOME_ORG_MODULE="gtk+"
 PYTHON_COMPAT=( python2_7 )
 PYTHON_REQ_USE="xml"
@@ -12,7 +12,7 @@ HOMEPAGE="http://www.gtk.org/"
 
 LICENSE="LGPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
