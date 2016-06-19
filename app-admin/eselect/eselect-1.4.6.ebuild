@@ -39,7 +39,10 @@ src_install() {
 	emake DESTDIR="${D}" install
 	newbashcomp misc/${PN}.bashcomp ${PN}
 	dodoc AUTHORS ChangeLog NEWS README TODO doc/*.txt
-	use doc && dohtml *.html doc/*
+	if use doc; then
+		docinto html
+		dodoc *.html doc/*.html doc/*.css
+	fi
 
 	# needed by news module
 	keepdir /var/lib/gentoo/news

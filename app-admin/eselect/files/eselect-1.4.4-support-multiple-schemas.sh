@@ -1,12 +1,11 @@
 # -*-eselect-*-  vim: ft=eselect
 # Distributed under the terms of the GNU GPL version 2 or later
-# $Id: $
 
 # This uses a portage-only module.
 
 if [[ ! $(grep "gentoo:funtoo/1.0/linux-gnu/" /etc/portage/make.profile/parent 2> /dev/null) ]]; then
 
-	# Copyright 2005-2015 Gentoo Foundation
+	# Copyright 2005-2016 Gentoo Foundation
 
 	inherit package-manager
 
