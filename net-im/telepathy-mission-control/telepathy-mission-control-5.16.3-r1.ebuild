@@ -45,11 +45,9 @@ src_prepare() {
 	# 	https://cgit.freedesktop.org/telepathy/telepathy-mission-control/commit/?id=3d3a13c561e858853af5c601373be3ea0746f58c
 	epatch "${FILESDIR}"/${P}-server-exit-early-if-we-failed-to-create-mcdservice.patch
 
-	if use deprecated; then
-		# From Funtoo:
-		# 	https://bugs.funtoo.org/browse/FL-1329
-		epatch "${FILESDIR}"/${P}-restore-deprecated-code.patch
-	fi
+	# From Funtoo:
+	# 	https://bugs.funtoo.org/browse/FL-1329
+	epatch "${FILESDIR}"/${P}-restore-deprecated-code.patch
 
 	epatch_user
 
