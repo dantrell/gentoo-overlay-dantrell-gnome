@@ -15,10 +15,10 @@ KEYWORDS="*"
 IUSE="doc"
 
 COMMON_DEPEND="
-	>=x11-libs/pango-1.32.5[${MULTILIB_USEDEP}]
-	>=dev-cpp/glibmm-2.36.0:2[${MULTILIB_USEDEP}]
+	>=x11-libs/pango-1.36[${MULTILIB_USEDEP}]
+	>=dev-cpp/glibmm-2.36.0:2=[${MULTILIB_USEDEP}]
 	>=dev-cpp/cairomm-1.10.0-r1[${MULTILIB_USEDEP}]
-	>=dev-libs/libsigc++-2.3.2:2[${MULTILIB_USEDEP}]
+	>=dev-libs/libsigc++-2.3.2:2=[${MULTILIB_USEDEP}]
 "
 DEPEND="${COMMON_DEPEND}
 	virtual/pkgconfig

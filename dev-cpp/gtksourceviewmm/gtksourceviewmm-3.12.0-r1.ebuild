@@ -15,7 +15,7 @@ KEYWORDS="*"
 IUSE="doc"
 
 RDEPEND="
-	>=dev-cpp/glibmm-2.28:2
+	>=dev-cpp/glibmm-2.28:2=
 	>=dev-cpp/gtkmm-3.2:3.0
 	>=x11-libs/gtksourceview-3.12:3.0
 

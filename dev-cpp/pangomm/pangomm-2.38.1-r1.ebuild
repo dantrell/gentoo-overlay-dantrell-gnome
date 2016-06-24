@@ -16,9 +16,9 @@ IUSE="doc"
 
 COMMON_DEPEND="
 	>=x11-libs/pango-1.38.0[${MULTILIB_USEDEP}]
-	>=dev-cpp/glibmm-2.46.1:2[${MULTILIB_USEDEP}]
+	>=dev-cpp/glibmm-2.46.1:2=[${MULTILIB_USEDEP}]
 	>=dev-cpp/cairomm-1.2.2[${MULTILIB_USEDEP}]
-	>=dev-libs/libsigc++-2.3.2:2[${MULTILIB_USEDEP}]
+	>=dev-libs/libsigc++-2.3.2:2=[${MULTILIB_USEDEP}]
 "
 DEPEND="${COMMON_DEPEND}
 	virtual/pkgconfig

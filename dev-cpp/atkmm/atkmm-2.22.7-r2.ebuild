@@ -5,30 +5,25 @@ GCONF_DEBUG="no"
 
 inherit gnome2 multilib-minimal
 
-DESCRIPTION="C++ interface for pango"
+DESCRIPTION="C++ interface for the ATK library"
 HOMEPAGE="http://www.gtkmm.org"
 
 LICENSE="LGPL-2.1+"
-SLOT="1.4"
+SLOT="0"
 KEYWORDS="*"
 
 IUSE="doc"
 
 COMMON_DEPEND="
-	>=x11-libs/pango-1.36[${MULTILIB_USEDEP}]
-	>=dev-cpp/glibmm-2.36.0:2[${MULTILIB_USEDEP}]
-	>=dev-cpp/cairomm-1.10.0-r1[${MULTILIB_USEDEP}]
-	>=dev-libs/libsigc++-2.3.2:2[${MULTILIB_USEDEP}]
+	>=dev-cpp/glibmm-2.36.0:2=[doc?,${MULTILIB_USEDEP}]
+	>=dev-libs/atk-2.8.0[${MULTILIB_USEDEP}]
+	>=dev-libs/libsigc++-2.3.2:2=[${MULTILIB_USEDEP}]
+"
+RDEPEND="${COMMON_DEPEND}
+	!<dev-cpp/gtkmm-2.22.0
 "
 DEPEND="${COMMON_DEPEND}
 	virtual/pkgconfig
-	doc? (
-		media-gfx/graphviz
-		dev-libs/libxslt
-		app-doc/doxygen )
-"
-RDEPEND="${COMMON_DEPEND}
-	!<dev-cpp/gtkmm-2.13:2.4
 "
 
 multilib_src_configure() {
