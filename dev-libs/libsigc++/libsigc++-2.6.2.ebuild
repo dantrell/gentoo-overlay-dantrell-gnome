@@ -9,7 +9,7 @@ DESCRIPTION="Typesafe callback system for standard C++"
 HOMEPAGE="http://libsigc.sourceforge.net/"
 
 LICENSE="LGPL-2.1+"
-SLOT="2/4"
+SLOT="2"
 KEYWORDS="*"
 
 IUSE="doc static-libs test"

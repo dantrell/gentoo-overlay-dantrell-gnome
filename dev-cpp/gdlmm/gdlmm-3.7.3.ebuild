@@ -2,15 +2,14 @@
 
 EAPI="5"
 GCONF_DEBUG="no"
-GNOME_ORG_MODULE="${PN/pp/++}"
 
 inherit gnome2 multilib-minimal
 
-DESCRIPTION="C++ wrapper for the libxml2 XML parser library"
-HOMEPAGE="http://libxmlplusplus.sourceforge.net/"
+DESCRIPTION="C++ bindings for the gdl library"
+HOMEPAGE="http://www.gtkmm.org"
 
-LICENSE="LGPL-2.1"
-SLOT="2.6"
+LICENSE="LGPL-2.1+"
+SLOT="3"
 KEYWORDS="*"
 
 IUSE="doc"
@@ -18,20 +17,17 @@ IUSE="doc"
 RESTRICT="mirror"
 
 RDEPEND="
-	>=dev-libs/libxml2-2.7.7[${MULTILIB_USEDEP}]
-	>=dev-cpp/glibmm-2.32=[${MULTILIB_USEDEP}]
+	>=dev-libs/gdl-3.7[${MULTILIB_USEDEP}]
+	>=dev-cpp/glibmm-2.16[${MULTILIB_USEDEP}]
+	>=dev-cpp/gtkmm-3.0[${MULTILIB_USEDEP}]
 "
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 "
 
-multilib_src_prepare() {
-	gnome2_src_prepare
-}
-
 multilib_src_configure() {
 	ECONF_SOURCE="${S}" gnome2_src_configure \
-		$(use_enable doc documentation)
+		$(multilib_native_use_enable doc documentation)
 }
 
 multilib_src_install() {

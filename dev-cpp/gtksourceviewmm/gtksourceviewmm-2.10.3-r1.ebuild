@@ -17,9 +17,11 @@ IUSE="doc"
 
 RDEPEND="
 	>=dev-cpp/gtkmm-2.12:2.4
-	dev-cpp/atkmm
 	>=x11-libs/gtksourceview-2.10.0:2.0
+
 	!>=dev-cpp/libgtksourceviewmm-1
+
+	dev-cpp/atkmm
 "
 DEPEND="${RDEPEND}
 	virtual/pkgconfig

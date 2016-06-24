@@ -17,7 +17,7 @@ IUSE="doc"
 
 RDEPEND="
 	>=dev-libs/libxml2-2.7.7[${MULTILIB_USEDEP}]
-	>=dev-cpp/glibmm-2.32=[${MULTILIB_USEDEP}]
+	>=dev-cpp/glibmm-2.32[${MULTILIB_USEDEP}]
 "
 DEPEND="${RDEPEND}
 	virtual/pkgconfig

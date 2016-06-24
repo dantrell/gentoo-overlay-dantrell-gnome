@@ -19,7 +19,7 @@ RESTRICT="mirror"
 
 RDEPEND="
 	>=x11-libs/cairo-1.12.10[aqua=,svg=,X=,${MULTILIB_USEDEP}]
-	>=dev-libs/libsigc++-2.3.2:2=[${MULTILIB_USEDEP}]
+	>=dev-libs/libsigc++-2.3.2:2[${MULTILIB_USEDEP}]
 "
 DEPEND="${RDEPEND}
 	virtual/pkgconfig

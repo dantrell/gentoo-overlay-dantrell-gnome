@@ -3,10 +3,10 @@
 EAPI="5"
 GCONF_DEBUG="no"
 
-inherit gnome2 eutils
+inherit gnome2
 
 DESCRIPTION="C++ bindings for gtksourceview"
-HOMEPAGE="https://projects.gnome.org/gtksourceviewmm/"
+HOMEPAGE="https://wiki.gnome.org/Projects/GtkSourceView"
 
 LICENSE="LGPL-2.1"
 SLOT="3.0"
@@ -15,7 +15,7 @@ KEYWORDS="*"
 IUSE="doc"
 
 RDEPEND="
-	>=dev-cpp/glibmm-2.28:2=
+	>=dev-cpp/glibmm-2.28:2
 	>=dev-cpp/gtkmm-3.2:3.0
 	>=x11-libs/gtksourceview-3.12:3.0
 
