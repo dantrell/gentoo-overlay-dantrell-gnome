@@ -3,7 +3,7 @@
 EAPI="6"
 
 # Keep cmake-utils at the end
-inherit eutils gnome2 vala cmake-utils
+inherit gnome2 vala cmake-utils
 
 DESCRIPTION="A lightweight, easy-to-use, feature-rich email client"
 HOMEPAGE="https://wiki.gnome.org/Apps/Geary"
@@ -41,13 +41,13 @@ DEPEND="${DEPEND}
 
 src_prepare() {
 	# https://bugzilla.gnome.org/show_bug.cgi?id=751556
-	epatch "${FILESDIR}"/${PN}-0.7.2-cflags.patch
+	eapply "${FILESDIR}"/${PN}-0.7.2-cflags.patch
 
 	# https://bugzilla.gnome.org/show_bug.cgi?id=751557
-	epatch "${FILESDIR}"/${PN}-0.5.3-vapigen.patch
+	eapply "${FILESDIR}"/${PN}-0.5.3-vapigen.patch
 
 	# https://bugzilla.gnome.org/show_bug.cgi?id=751558
-	epatch "${FILESDIR}"/${PN}-0.6.0-desktopfile.patch
+	eapply "${FILESDIR}"/${PN}-0.6.0-desktopfile.patch
 
 	local i
 	if use nls ; then

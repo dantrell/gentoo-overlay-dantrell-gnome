@@ -79,8 +79,6 @@ src_prepare() {
 		sed -i -e 's/#ifdef __APPLE__/#if 0/' gegl/opencl/* || die
 	fi
 
-	#epatch "${FILESDIR}"/${P}-g_log_domain.patch
-
 	# commit 7c78497b : tests that use gegl.png are broken on non-amd64
 	sed -e '/clones.xml/d' \
 		-e '/composite-transform.xml/d' \

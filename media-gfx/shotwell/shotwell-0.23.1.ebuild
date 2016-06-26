@@ -57,8 +57,6 @@ DEPEND="${RDEPEND}
 	>=sys-devel/m4-1.4.13
 "
 
-DOCS=( AUTHORS MAINTAINERS NEWS README THANKS )
-
 # This probably comes from libraries that
 # shotwell-video-thumbnailer links to.
 # Nothing we can do at the moment. #435048

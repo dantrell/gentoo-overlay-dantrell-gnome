@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit eutils linux-info systemd
+inherit linux-info systemd
 
 DESCRIPTION="Daemon for Advanced Configuration and Power Interface"
 HOMEPAGE="http://sourceforge.net/projects/acpid2"

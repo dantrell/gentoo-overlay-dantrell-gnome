@@ -1,10 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 
-inherit eutils flag-o-matic gnome2 multilib libtool multilib-minimal
+inherit flag-o-matic gnome2 multilib libtool multilib-minimal
 
 DESCRIPTION="Image loading library for GTK+"
 HOMEPAGE="https://git.gnome.org/browse/gdk-pixbuf"
@@ -14,8 +13,6 @@ SLOT="2"
 KEYWORDS="*"
 
 IUSE="X debug +introspection jpeg jpeg2k tiff test"
-
-RESTRICT="mirror"
 
 COMMON_DEPEND="
 	>=dev-libs/glib-2.37.6:2[${MULTILIB_USEDEP}]
@@ -45,7 +42,7 @@ MULTILIB_CHOST_TOOLS=(
 
 src_prepare() {
 	# See https://bugzilla.gnome.org/show_bug.cgi?id=756590
-	epatch "${FILESDIR}"/${PN}-2.32.3-fix-lowmem-uclibc.patch
+	eapply "${FILESDIR}"/${PN}-2.32.3-fix-lowmem-uclibc.patch
 
 	# This will avoid polluting the pkg-config file with versioned libpng,
 	# which is causing problems with libpng14 -> libpng15 upgrade

@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 
 inherit gnome2
 
@@ -33,7 +32,6 @@ DEPEND="${RDEPEND}
 "
 
 src_configure() {
-	DOCS="AUTHORS BUGS ChangeLog HACKING NEWS README TODO"
 	gnome2_src_configure \
 		--disable-static \
 		$(use_with bzip2 bz2) \

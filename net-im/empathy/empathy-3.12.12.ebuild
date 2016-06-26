@@ -96,14 +96,13 @@ pkg_setup() {
 
 src_prepare() {
 	# https://bugzilla.gnome.org/show_bug.cgi?id=685837
-	epatch "${FILESDIR}/${PN}-3.12.7-Fix-parallel-build-in-extensions.patch"
+	eapply "${FILESDIR}/${PN}-3.12.7-Fix-parallel-build-in-extensions.patch"
 
 	eautoreconf
 	gnome2_src_prepare
 }
 
 src_configure() {
-	DOCS="CONTRIBUTORS AUTHORS ChangeLog NEWS README"
 	gnome2_src_configure \
 		--disable-Werror \
 		--disable-coding-style-checks \

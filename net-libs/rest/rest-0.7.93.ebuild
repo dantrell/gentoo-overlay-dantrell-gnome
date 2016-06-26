@@ -3,7 +3,7 @@
 EAPI="6"
 GNOME2_LA_PUNT="yes"
 
-inherit eutils gnome2 multilib-minimal virtualx
+inherit gnome2 multilib-minimal virtualx
 
 DESCRIPTION="Helper library for RESTful services"
 HOMEPAGE="https://wiki.gnome.org/Projects/Librest"

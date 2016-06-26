@@ -15,7 +15,7 @@ SRC_URI="http://download.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.bz2"
 
 LICENSE="|| ( GPL-3 LGPL-3 )"
 SLOT="0.3"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection jpeg jpeg2k lcms lensfun openexr png raw sdl svg test tiff umfpack vala v4l webp"
 REQUIRED_IUSE="
@@ -69,10 +69,7 @@ pkg_setup() {
 }
 
 src_prepare() {
-	epatch \
-		"${FILESDIR}"/${PN}-0.3.4-endian.patch \
-		"${FILESDIR}"/${P}-without-jpeg-png.patch \
-		"${FILESDIR}"/${P}-underlinking.patch
+	epatch "${FILESDIR}"/${PN}-0.3.4-without-jpeg-png.patch
 
 	# FIXME: the following should be proper patch sent to upstream
 	# fix OSX loadable module filename extension

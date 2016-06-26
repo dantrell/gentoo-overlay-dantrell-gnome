@@ -240,8 +240,6 @@ src_test() {
 }
 
 src_install() {
-	DOCS="ChangeLog NEWS" # other ChangeLog files handled by src_install
-
 	# https://bugs.webkit.org/show_bug.cgi?id=129242
 	MAKEOPTS="${MAKEOPTS} -j1" gnome2_src_install
 

@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 
 inherit gnome2 multilib-minimal
 
@@ -16,7 +15,7 @@ IUSE="doc"
 
 COMMON_DEPEND="
 	>=x11-libs/pango-1.38.0[${MULTILIB_USEDEP}]
-	>=dev-cpp/glibmm-2.46.1:2[${MULTILIB_USEDEP}]
+	>=dev-cpp/glibmm-2.48.0:2[${MULTILIB_USEDEP}]
 	>=dev-cpp/cairomm-1.12.0[${MULTILIB_USEDEP}]
 	>=dev-libs/libsigc++-2.3.2:2[${MULTILIB_USEDEP}]
 "
