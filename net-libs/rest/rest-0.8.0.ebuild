@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Librest"
 
 LICENSE="LGPL-2.1"
 SLOT="0.7"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+introspection test"
 

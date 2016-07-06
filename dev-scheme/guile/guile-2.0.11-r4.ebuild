@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
-inherit elisp-common eutils flag-o-matic
+inherit elisp-common flag-o-matic
 
 DESCRIPTION="GNU Ubiquitous Intelligent Language for Extensions"
 HOMEPAGE="https://www.gnu.org/software/guile/"
@@ -63,10 +63,10 @@ src_configure() {
 }
 
 src_install() {
-	einstall
+	default
 
 	if use doc; then
-		dodoc AUTHORS ChangeLog GUILE-VERSION HACKING NEWS README THANKS
+		dodoc GUILE-VERSION HACKING
 	fi
 
 	# Necessary for TeXmacs

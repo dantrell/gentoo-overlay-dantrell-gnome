@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
-inherit autotools eutils systemd
+inherit autotools systemd
 
 DESCRIPTION="An abstraction for enumerating power devices, listening to device events and querying history and statistics"
 HOMEPAGE="https://upower.freedesktop.org/"
@@ -52,8 +52,6 @@ DEPEND="
 
 QA_MULTILIB_PATHS="usr/lib/${PN}/.*"
 
-DOCS="AUTHORS HACKING NEWS README"
-
 S="${WORKDIR}/${PN}-0.99.3"
 
 src_prepare() {
@@ -79,44 +77,46 @@ src_prepare() {
 	# 	https://cgit.freedesktop.org/upower/commit/?id=f9b7e936ec2578e58d53542f60c60787e56395f0
 	# 	https://cgit.freedesktop.org/upower/commit/?id=8f088fa5d78b2aa549d4546bd25441b8c6cd5feb
 	# 	https://cgit.freedesktop.org/upower/commit/?id=b68131796a338e24427a04d73ee7efd1745f01ee
-	epatch "${FILESDIR}"/${PN}-0.99.4-0001-trivial-post-release-version-bump.patch
-	epatch "${FILESDIR}"/${PN}-0.99.4-0002-lib-fix-memory-leak-in-up-client-get-devices.patch
-	epatch "${FILESDIR}"/${PN}-0.99.4-0003-linux-fix-possible-double-free.patch
-	epatch "${FILESDIR}"/${PN}-0.99.4-0004-bsd-add-critical-action-support-for-bsd.patch
-	epatch "${FILESDIR}"/${PN}-0.99.4-0005-rules-add-support-for-logitech-g700s-g700-gaming-mou.patch
-	epatch "${FILESDIR}"/${PN}-0.99.4-0006-revert-linux-work-around-broken-battery-on-the-onda.patch
-	epatch "${FILESDIR}"/${PN}-0.99.4-0007-fix-hid-rules-header-as-per-discussions.patch
-	epatch "${FILESDIR}"/${PN}-0.99.4-0008-update-upower-hid-rules-supported-devices-list.patch
-	epatch "${FILESDIR}"/${PN}-0.99.4-0009-up-tool-remove-unused-variables.patch
-	epatch "${FILESDIR}"/${PN}-0.99.4-0017-integration-test-fix-typo-in-interface-name.patch
-	epatch "${FILESDIR}"/${PN}-0.99.4-0025-support-g-autoptr-for-all-libupower-glib-object-type.patch
-	epatch "${FILESDIR}"/${PN}-0.99.4-0026-build-fix-missing-includes.patch
-	epatch "${FILESDIR}"/${PN}-0.99.4-0028-linux-fix-deprecation-warning-in-integration-test.patch
-	epatch "${FILESDIR}"/${PN}-0.99.4-0029-daemon-print-the-filename-when-the-config-file-is-mi.patch
-	epatch "${FILESDIR}"/${PN}-0.99.4-0030-daemon-fix-self-test-config-file-location-for-newer.patch
-	epatch "${FILESDIR}"/${PN}-0.99.4-0031-rules-fix-distcheck-ing-not-being-able-to-install-ud.patch
-	epatch "${FILESDIR}"/${PN}-0.99.4-0032-etc-change-the-default-low-battery-policy.patch
-	epatch "${FILESDIR}"/${PN}-0.99.4-0034-daemon-lower-the-warning-levels-for-input-devices.patch
-	epatch "${FILESDIR}"/${PN}-0.99.4-0035-released-upower-0.99.4.patch
-	epatch "${FILESDIR}"/${PN}-0.99.5-0036-trivial-post-release-version-bump.patch
-	epatch "${FILESDIR}"/${PN}-0.99.5-0037-update-readme.patch
+	eapply "${FILESDIR}"/${PN}-0.99.4-0001-trivial-post-release-version-bump.patch
+	eapply "${FILESDIR}"/${PN}-0.99.4-0002-lib-fix-memory-leak-in-up-client-get-devices.patch
+	eapply "${FILESDIR}"/${PN}-0.99.4-0003-linux-fix-possible-double-free.patch
+	eapply "${FILESDIR}"/${PN}-0.99.4-0004-bsd-add-critical-action-support-for-bsd.patch
+	eapply "${FILESDIR}"/${PN}-0.99.4-0005-rules-add-support-for-logitech-g700s-g700-gaming-mou.patch
+	eapply "${FILESDIR}"/${PN}-0.99.4-0006-revert-linux-work-around-broken-battery-on-the-onda.patch
+	eapply "${FILESDIR}"/${PN}-0.99.4-0007-fix-hid-rules-header-as-per-discussions.patch
+	eapply "${FILESDIR}"/${PN}-0.99.4-0008-update-upower-hid-rules-supported-devices-list.patch
+	eapply "${FILESDIR}"/${PN}-0.99.4-0009-up-tool-remove-unused-variables.patch
+	eapply "${FILESDIR}"/${PN}-0.99.4-0017-integration-test-fix-typo-in-interface-name.patch
+	eapply "${FILESDIR}"/${PN}-0.99.4-0025-support-g-autoptr-for-all-libupower-glib-object-type.patch
+	eapply "${FILESDIR}"/${PN}-0.99.4-0026-build-fix-missing-includes.patch
+	eapply "${FILESDIR}"/${PN}-0.99.4-0028-linux-fix-deprecation-warning-in-integration-test.patch
+	eapply "${FILESDIR}"/${PN}-0.99.4-0029-daemon-print-the-filename-when-the-config-file-is-mi.patch
+	eapply "${FILESDIR}"/${PN}-0.99.4-0030-daemon-fix-self-test-config-file-location-for-newer.patch
+	eapply "${FILESDIR}"/${PN}-0.99.4-0031-rules-fix-distcheck-ing-not-being-able-to-install-ud.patch
+	eapply "${FILESDIR}"/${PN}-0.99.4-0032-etc-change-the-default-low-battery-policy.patch
+	eapply "${FILESDIR}"/${PN}-0.99.4-0034-daemon-lower-the-warning-levels-for-input-devices.patch
+	eapply "${FILESDIR}"/${PN}-0.99.4-0035-released-upower-0.99.4.patch
+	eapply "${FILESDIR}"/${PN}-0.99.5-0036-trivial-post-release-version-bump.patch
+	eapply "${FILESDIR}"/${PN}-0.99.5-0037-update-readme.patch
 
 	if use deprecated; then
 		# From Funtoo:
 		# 	https://bugs.funtoo.org/browse/FL-1329
-		epatch "${FILESDIR}"/${PN}-0.99.2-restore-deprecated-code.patch
+		eapply "${FILESDIR}"/${PN}-0.99.2-restore-deprecated-code.patch
 
 		# From Debian:
 		#	https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718458
 		#	https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718491
-		epatch "${FILESDIR}"/${PN}-0.99.0-always-use-pm-utils-backend.patch
+		eapply "${FILESDIR}"/${PN}-0.99.0-always-use-pm-utils-backend.patch
 
 		if use integration-test; then
 			# From Upstream:
 			# 	https://cgit.freedesktop.org/upower/commit/?id=720680d6855061b136ecc9ff756fb0cc2bc3ae2c
-			epatch "${FILESDIR}"/${PN}-0.99.2-fix-integration-test.patch
+			eapply "${FILESDIR}"/${PN}-0.99.2-fix-integration-test.patch
 		fi
 	fi
+
+	eapply_user
 
 	eautoreconf
 }
@@ -133,20 +133,20 @@ src_configure() {
 	fi
 
 	econf \
+		--disable-static \
+		--disable-tests \
+		--enable-man-pages \
 		--libexecdir="${EPREFIX}"/usr/lib/${PN} \
 		--localstatedir="${EPREFIX}"/var \
-		--disable-static \
-		--enable-man-pages \
-		--disable-tests \
-		--with-html-dir="${EPREFIX}"/usr/share/doc/${PF}/html \
 		--with-backend=${backend} \
+		--with-html-dir="${EPREFIX}"/usr/share/doc/${PF}/html \
+		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)" \
+		--with-systemdutildir="$(systemd_get_utildir)" \
 		$(use_enable deprecated) \
 		$(use_enable doc gtk-doc) \
 		$(use_enable doc gtk-doc-html) \
 		$(use_enable introspection) \
-		$(use_with ios idevice) \
-		"$(systemd_with_utildir)" \
-		"$(systemd_with_unitdir)"
+		$(use_with ios idevice)
 }
 
 src_install() {

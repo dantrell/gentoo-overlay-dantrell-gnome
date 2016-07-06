@@ -80,6 +80,7 @@ gnome-extra/evolution-data-server::gentoo
 gnome-extra/evolution-ews::gentoo
 gnome-extra/gnome-user-share::gentoo
 gnome-extra/gtkhtml::gentoo
+gnome-extra/gucharmap::gentoo
 gnome-extra/libgsf::gentoo
 gnome-extra/mousetweaks::gentoo
 gnome-extra/nautilus-sendto::gentoo

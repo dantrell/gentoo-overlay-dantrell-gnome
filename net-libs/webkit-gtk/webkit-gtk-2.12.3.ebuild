@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CMAKE_MAKEFILE_GENERATOR="ninja"
 GCONF_DEBUG="no"
+CMAKE_MAKEFILE_GENERATOR="ninja"
 PYTHON_COMPAT=( python2_7 )
 USE_RUBY="ruby20 ruby21 ruby22 ruby23"
 
@@ -33,7 +33,7 @@ REQUIRED_USE="
 # seccomp
 # Tests fail to link for inexplicable reasons
 # https://bugs.webkit.org/show_bug.cgi?id=148210
-RESTRICT="mirror test"
+RESTRICT="test"
 
 # use sqlite, svg by default
 # Aqua support in gtk3 is untested
@@ -41,6 +41,7 @@ RESTRICT="mirror test"
 RDEPEND="
 	dev-db/sqlite:3=
 	>=dev-libs/glib-2.36:2
+	dev-libs/hyphen
 	>=dev-libs/icu-3.8.1-r1:=
 	>=dev-libs/libxml2-2.8:2
 	>=dev-libs/libxslt-1.1.7
@@ -54,7 +55,6 @@ RDEPEND="
 	virtual/jpeg:0=
 	>=x11-libs/cairo-1.10.2:=
 	>=x11-libs/gtk+-3.14:3=[introspection?]
-	x11-libs/libnotify
 	>=x11-libs/pango-1.30.0
 
 	aqua? ( >=x11-libs/gtk+-3.14:3[aqua] )
@@ -67,6 +67,7 @@ RDEPEND="
 		>=media-libs/gst-plugins-base-1.2:1.0
 		>=media-libs/gst-plugins-bad-1.5.0:1.0[opengl?] )
 	introspection? ( >=dev-libs/gobject-introspection-1.32.0:= )
+	x11-libs/libnotify
 	nsplugin? ( >=x11-libs/gtk+-2.24.10:2 )
 	opengl? ( virtual/opengl
 		x11-libs/cairo[opengl] )
@@ -95,7 +96,6 @@ DEPEND="${RDEPEND}
 	>=dev-lang/perl-5.10
 	>=app-accessibility/at-spi2-core-2.5.3
 	>=dev-libs/atk-2.8.0
-	dev-libs/hyphen
 	>=dev-util/gtk-doc-am-1.10
 	>=dev-util/gperf-3.0.1
 	>=sys-devel/bison-2.4.3
@@ -129,7 +129,7 @@ pkg_pretend() {
 			die "You need at least GCC 4.9.x or Clang >= 3.3 for C++11-specific compiler flags"
 		fi
 
-		if [[ $(tc-getCXX) == *g++* && $(gcc-version) < 4.9 ]] ; then
+		if tc-is-gcc && [[ $(tc-getCXX) == *g++* && $(gcc-version) < 4.9 ]] ; then
 			die 'The active compiler needs to be gcc 4.9 (or newer)'
 		fi
 	fi

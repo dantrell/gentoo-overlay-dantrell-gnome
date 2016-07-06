@@ -22,7 +22,6 @@
 >=dev-cpp/gtkmm-3.20.0
 >=dev-cpp/libxmlpp-3.0.0
 >=dev-cpp/pangomm-2.39.1
->=dev-lang/vala-0.32.0
 >=dev-libs/appstream-glib-0.5.11
 >=dev-libs/atk-2.20.0
 >=dev-libs/folks-0.12.0
@@ -42,7 +41,6 @@
 >=dev-libs/libpeas-1.18.0
 >=dev-libs/libsigc++-2.8.0
 >=dev-libs/libunistring-0.10.0
->=dev-libs/vala-common-0.32.0
 >=dev-python/pyatspi-2.20.0
 >=dev-python/pygobject-3.20.0
 >=dev-util/anjuta-3.20.0
@@ -119,7 +117,6 @@
 >=gnome-extra/gnome-user-docs-3.20.0
 >=gnome-extra/gnome-user-share-3.20.0
 >=gnome-extra/gnome-weather-3.20.0
->=gnome-extra/gucharmap-8.0.0
 >=gnome-extra/nautilus-tracker-tags-1.8.0
 >=gnome-extra/sushi-3.19.90
 >=gnome-extra/yelp-3.20.0

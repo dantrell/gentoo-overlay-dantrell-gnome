@@ -22,6 +22,8 @@ media-gfx/imagemagick jpeg
 media-gfx/imagemagick png
 media-libs/clutter X
 media-libs/clutter gtk
+media-libs/clutter-gtk X
+media-libs/clutter-gtk gtk
 media-libs/grilo playlist
 media-libs/gst-plugins-bad X
 media-libs/gst-plugins-bad opengl

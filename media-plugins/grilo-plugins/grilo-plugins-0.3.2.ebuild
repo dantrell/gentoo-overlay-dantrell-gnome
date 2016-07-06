@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Grilo"
 
 LICENSE="LGPL-2.1+"
 SLOT="0.3"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="daap dvd examples chromaprint flickr freebox gnome-online-accounts lua subtitles thetvdb tracker upnp-av vimeo +youtube"
 

@@ -9,7 +9,7 @@ DESCRIPTION="Library for code commong to Gnome games"
 HOMEPAGE="https://wiki.gnome.org/Apps/Games"
 
 LICENSE="LGPL-3+"
-SLOT="1.0"
+SLOT="0"
 KEYWORDS="*"
 
 IUSE=""

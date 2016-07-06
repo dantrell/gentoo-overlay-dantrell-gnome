@@ -1,13 +1,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-
+EAPI="6"
 PYTHON_COMPAT=( python2_7 )
 
 # vala and introspection support is broken, bug #468208
 VALA_USE_DEPEND=vapigen
 
-inherit versionator gnome2-utils eutils autotools python-any-r1 vala
+inherit versionator gnome2-utils autotools python-any-r1 vala
 
 DESCRIPTION="A graph based image processing framework"
 HOMEPAGE="http://www.gegl.org/"
@@ -15,7 +14,7 @@ SRC_URI="http://download.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.bz2"
 
 LICENSE="|| ( GPL-3 LGPL-3 )"
 SLOT="0.3"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection jpeg jpeg2k lcms lensfun openexr png raw sdl svg test tiff umfpack vala v4l webp"
 REQUIRED_IUSE="
@@ -69,7 +68,8 @@ pkg_setup() {
 }
 
 src_prepare() {
-	epatch "${FILESDIR}"/${PN}-0.3.4-without-jpeg-png.patch
+	default
+	eapply "${FILESDIR}"/${PN}-0.3.4-without-jpeg-png.patch
 
 	# FIXME: the following should be proper patch sent to upstream
 	# fix OSX loadable module filename extension
@@ -84,8 +84,9 @@ src_prepare() {
 		-e '/composite-transform.xml/d' \
 		-i tests/compositions/Makefile.am || die
 
-	epatch_user
 	eautoreconf
+
+	gnome2_environment_reset
 
 	use vala && vala_src_prepare
 }
@@ -157,13 +158,7 @@ src_configure() {
 		$(use_with webp)
 }
 
-src_test() {
-	gnome2_environment_reset  # sandbox issues
-	default
-}
-
 src_compile() {
-	gnome2_environment_reset  # sandbox issues (bug #396687)
 	default
 }
 
