@@ -1,3 +1,4 @@
+~net-misc/networkmanager-1.2.2
 >=app-accessibility/at-spi2-atk-2.18.1
 >=app-accessibility/at-spi2-core-2.18.3
 >=app-accessibility/orca-3.18.2
