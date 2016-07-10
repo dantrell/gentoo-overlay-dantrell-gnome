@@ -40,7 +40,7 @@ CDEPEND="
 	${PYTHON_DEPS}
 	connman? ( net-misc/connman )
 	introspection? ( >=dev-libs/gobject-introspection-0.9.9:=[${PYTHON_USEDEP}] )
-	networkmanager? ( >=net-misc/networkmanager-0.6.4 )
+	networkmanager? ( >=net-misc/networkmanager-0.6.4:= )
 	nsplugin? (
 		>=dev-libs/nspr-4.8
 		x11-libs/cairo

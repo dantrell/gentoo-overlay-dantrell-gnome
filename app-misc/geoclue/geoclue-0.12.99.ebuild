@@ -21,7 +21,7 @@ RDEPEND=">=dev-libs/dbus-glib-0.100
 	sys-apps/dbus
 	gps? ( sci-geosciences/gpsd )
 	gtk? ( x11-libs/gtk+:2 )
-	networkmanager? ( net-misc/networkmanager )
+	networkmanager? ( net-misc/networkmanager:= )
 	skyhook? ( net-libs/libsoup )"
 DEPEND="${RDEPEND}
 	dev-util/gtk-doc-am

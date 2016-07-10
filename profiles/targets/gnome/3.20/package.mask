@@ -1,3 +1,2 @@
-~net-misc/networkmanager-1.2.2
 >=dev-libs/libgit2-0.25.0
 >=dev-libs/libgit2-glib-0.25.0
