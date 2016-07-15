@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI="5"
 PYTHON_COMPAT=( python{2_7,3_3,3_4,3_5} pypy )
 
 inherit distutils-r1
@@ -10,8 +10,8 @@ HOMEPAGE="http://cyberelk.net/tim/data/pycups/"
 SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.bz2"
 
 LICENSE="GPL-2"
-KEYWORDS="*"
 SLOT="0"
+KEYWORDS="*"
 
 IUSE="doc examples"
 

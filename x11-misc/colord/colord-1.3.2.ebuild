@@ -1,11 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 VALA_USE_DEPEND="vapigen"
 
-inherit autotools bash-completion-r1 check-reqs eutils gnome2 user systemd udev vala multilib-minimal
+inherit autotools bash-completion-r1 check-reqs gnome2 user systemd udev vala multilib-minimal
 
 DESCRIPTION="System service to accurately color manage input and output devices"
 HOMEPAGE="https://www.freedesktop.org/software/colord/"
@@ -40,7 +39,7 @@ COMMON_DEPEND="
 	systemd? ( >=sys-apps/systemd-44:0= )
 	udev? (
 		virtual/udev
-		virtual/libgudev:=
+		virtual/libgudev:=[${MULTILIB_USEDEP}]
 		virtual/libudev:=[${MULTILIB_USEDEP}]
 	)
 "
@@ -81,6 +80,7 @@ src_prepare() {
 	eautoreconf
 	use vala && vala_src_prepare
 	gnome2_src_prepare
+	multilib_copy_sources
 }
 
 multilib_src_configure() {
@@ -105,16 +105,8 @@ multilib_src_configure() {
 		$(use_enable udev)
 		--with-udevrulesdir="$(get_udevdir)"/rules.d
 		$(multilib_native_use_enable vala)
-		"$(systemd_with_unitdir)"
+		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
 	)
-
-	if ! multilib_is_native_abi; then
-		# disable some extraneous checks
-		myconf+=(
-			SQLITE_{CFLAGS,LIBS}=' '
-			GUDEV_{CFLAGS,LIBS}=' '
-		)
-	fi
 
 	ECONF_SOURCE=${S} \
 	gnome2_src_configure "${myconf[@]}"
@@ -144,15 +136,14 @@ multilib_src_install() {
 	if multilib_is_native_abi; then
 		gnome2_src_install
 	else
-		gnome2_src_install -C lib/colord
-		use gusb && gnome2_src_install -C lib/colorhug
-		gnome2_src_install -C lib/compat
-		gnome2_src_install -C contrib/session-helper install-libcolord_includeHEADERS
+		gnome2_src_install -j1 -C lib/colord
+		use gusb && gnome2_src_install -j1 -C lib/colorhug
+		gnome2_src_install -j1 -C lib/compat
+		gnome2_src_install -j1 -C contrib/session-helper install-libcolord_includeHEADERS
 	fi
 }
 
 multilib_src_install_all() {
-	DOCS="AUTHORS ChangeLog MAINTAINERS NEWS README.md TODO"
 	einstalldocs
 
 	newbashcomp data/colormgr colormgr

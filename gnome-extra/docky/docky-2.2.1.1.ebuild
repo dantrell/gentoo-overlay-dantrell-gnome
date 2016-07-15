@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-GCONF_DEBUG="yes"
 
 inherit autotools eutils gnome2 mono-env
 
@@ -13,7 +12,7 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="nls"
+IUSE="debug nls"
 
 RDEPEND=">=dev-dotnet/dbus-sharp-0.8.0:2.0
 	>=dev-dotnet/dbus-sharp-glib-0.6.0:2.0
