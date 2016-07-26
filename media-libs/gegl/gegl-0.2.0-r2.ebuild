@@ -3,8 +3,8 @@
 EAPI="5"
 
 WANT_AUTOMAKE=1.11  # see bug 471990, comment 3
-
 # vala and introspection support is broken, bug #468208
+#VALA_MIN_API_VERSION=0.14
 #VALA_USE_DEPEND=vapigen
 
 inherit versionator gnome2-utils eutils autotools #vala

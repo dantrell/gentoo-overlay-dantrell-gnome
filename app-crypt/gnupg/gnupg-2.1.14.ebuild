@@ -16,7 +16,7 @@ KEYWORDS="*"
 IUSE="bzip2 doc +gnutls ldap nls readline selinux smartcard tofu tools usb"
 
 COMMON_DEPEND_LIBS="
-	dev-libs/npth
+	>=dev-libs/npth-1.2
 	>=dev-libs/libassuan-2.4.3
 	>=dev-libs/libgcrypt-1.7.1
 	>=dev-libs/libgpg-error-1.24
