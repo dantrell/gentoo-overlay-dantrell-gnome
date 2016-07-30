@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
+GNOME2_LA_PUNT="yes"
 VALA_MIN_API_VERSION="0.28"
 
 inherit gnome2 multilib toolchain-funcs vala versionator
@@ -11,17 +12,17 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Shotwell"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 
 CORE_SUPPORTED_LANGUAGES="
-	af ar as ast bg bn bn_IN bs ca cs da de el en_GB eo es et eu fi fr gd gl gu
+	af ar as ast bg bn bn-IN bs ca cs da de el en-GB eo es et eu fi fr gd gl gu
 	he hi hr hu ia id it ja kk km kn ko ky lt lv mk ml mr nb nl nn or pa pl pt
-	pt_BR ro ru sk sl sr sr@latin sv ta te th tr uk vi zh_CN zh_HK zh_TW"
+	pt-BR ro ru sk sl sr sr-Latn sv ta te th tr uk vi zh-CN zh-HK zh-TW"
 
 for x in ${CORE_SUPPORTED_LANGUAGES}; do
-	IUSE+="linguas_${x} "
+	IUSE+="l10n_${x} "
 done
 
 RDEPEND="
@@ -63,11 +64,7 @@ src_prepare() {
 
 	vala_src_prepare
 
-	sed \
-		-e 's|CFLAGS :|CFLAGS +|g' \
-		-i plugins/Makefile.plugin.mk || die
-
-	# remove disabled lenguages from build
+	# remove disabled languages from build
 	for x in ${CORE_SUPPORTED_LANGUAGES}; do
 		if ! has ${x} ${linguas}; then
 			sed -i "/^${x}$/d" "${S}"/po/LINGUAS || die
@@ -75,22 +72,4 @@ src_prepare() {
 	done
 
 	gnome2_src_prepare
-}
-
-src_configure() {
-	# Not a normal configure
-	./configure \
-		--disable-schemas-compile \
-		--disable-desktop-update \
-		--disable-icon-update \
-		--prefix=/usr \
-		--lib=$(get_libdir) || die
-}
-
-src_compile() {
-	tc-export CC
-	local valaver="$(vala_best_api_version)"
-
-	# Parallel build fixed in next version
-	MAKEOPTS="${MAKEOPTS} -j1" gnome2_src_compile VALAC="$(type -p valac-${valaver})"
 }

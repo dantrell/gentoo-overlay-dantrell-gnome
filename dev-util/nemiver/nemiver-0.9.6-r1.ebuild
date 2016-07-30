@@ -1,0 +1,56 @@
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI="6"
+GNOME2_LA_PUNT="yes"
+
+inherit gnome2
+
+DESCRIPTION="A gtkmm front end to the GNU Debugger (gdb)"
+HOMEPAGE="https://wiki.gnome.org/Apps/Nemiver"
+
+LICENSE="GPL-2"
+SLOT="0"
+KEYWORDS="*"
+
+IUSE="debug dynamiclayout memoryview"
+
+RDEPEND="
+	>=dev-libs/glib-2.16:2[dbus]
+	>=dev-cpp/glibmm-2.30:2
+	>=dev-cpp/gtkmm-3:3.0
+	>=dev-cpp/gtksourceviewmm-3:3.0
+	>=gnome-base/gsettings-desktop-schemas-0.0.1
+	>=gnome-base/libgtop-2.19
+	x11-libs/vte:2.91
+	>=dev-db/sqlite-3:3
+	sys-devel/gdb
+	dev-libs/boost
+	dynamiclayout? ( >=dev-cpp/gdlmm-3.0:3 )
+	memoryview? ( >=app-editors/ghex-2.90:2 )
+"
+DEPEND="${RDEPEND}
+	app-text/docbook-xml-dtd:4.1.2
+	>=dev-util/intltool-0.40
+	dev-util/itstool
+	>=sys-devel/gettext-0.17
+	virtual/pkgconfig
+"
+
+PATCHES=(
+	# Use RefPtr::bool() operator in the conditions, fixed in next
+	# version
+	"${FILESDIR}/${P}-bool-build.patch"
+
+	# Fix compiliation warnings & errors, fixed in next version
+	"${FILESDIR}/${P}-fix-build.patch"
+)
+
+src_configure() {
+	gnome2_src_configure \
+		--disable-static \
+		--disable-symsvis \
+		--enable-gsettings \
+		$(use_enable debug) \
+		$(use_enable dynamiclayout)
+		$(use_enable memoryview)
+}

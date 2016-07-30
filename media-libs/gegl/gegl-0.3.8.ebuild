@@ -6,7 +6,7 @@ PYTHON_COMPAT=( python2_7 )
 # vala and introspection support is broken, bug #468208
 VALA_USE_DEPEND=vapigen
 
-inherit versionator gnome2-utils autotools python-any-r1 vala
+inherit versionator gnome2-utils eutils autotools python-any-r1 vala
 
 DESCRIPTION="A graph based image processing framework"
 HOMEPAGE="http://www.gegl.org/"
