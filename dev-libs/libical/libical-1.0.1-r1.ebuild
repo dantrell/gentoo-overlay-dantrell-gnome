@@ -24,6 +24,8 @@ DOCS=(
 	doc/{AddingOrModifyingComponents,UsingLibical}.txt
 )
 
+PATCHES=( "${FILESDIR}/${PN}-1.0.1-fix-libdir-location.patch" )
+
 src_configure() {
 	local mycmakeargs=( $(cmake-utils_use introspection GOBJECT_INTROSPECTION) )
 	use static-libs || mycmakeargs+=( -DSHARED_ONLY=ON )
