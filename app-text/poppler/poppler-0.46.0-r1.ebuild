@@ -61,6 +61,8 @@ PATCHES=(
 	"${FILESDIR}/${PN}-0.28.1-respect-cflags.patch"
 	"${FILESDIR}/${PN}-0.33.0-openjpeg2.patch"
 	"${FILESDIR}/${PN}-0.40-FindQt4.patch"
+	"${FILESDIR}/${P}-crashfix-1.patch"
+	"${FILESDIR}/${P}-crashfix-2.patch"
 )
 
 src_prepare() {

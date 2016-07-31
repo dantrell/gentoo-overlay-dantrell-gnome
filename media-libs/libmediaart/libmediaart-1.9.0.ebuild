@@ -27,6 +27,7 @@ RDEPEND="
 	qt5? ( dev-qt/qtgui:5 )
 "
 DEPEND="${RDEPEND}
+	dev-libs/gobject-introspection-common
 	>=dev-util/gtk-doc-am-1.8
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
