@@ -105,6 +105,11 @@ src_install() {
 		elisp-site-file-install "${FILESDIR}/50${PN}-gentoo.el" || die
 	fi
 
+	# Necessary for avoiding ldconfig warnings
+	# 	https://bugzilla.novell.com/show_bug.cgi?id=874028#c0
+	dodir /usr/share/gdb/auto-load/$(get_libdir)
+	mv ${D}/usr/$(get_libdir)/libguile-*-gdb.scm ${D}/usr/share/gdb/auto-load/$(get_libdir)
+
 	# Necessary for TeXmacs
 	# 	https://bugs.gentoo.org/show_bug.cgi?id=23493
 	dodir /etc/env.d
@@ -113,11 +118,6 @@ src_install() {
 	# Necessary for registering SLIB
 	# 	https://bugs.gentoo.org/show_bug.cgi?id=206896
 	keepdir /usr/share/guile/site
-
-	# Necessary for avoiding ldconfig warnings
-	# 	https://bugzilla.novell.com/show_bug.cgi?id=874028#c0
-	dodir /usr/share/gdb/auto-load/$(get_libdir)
-	mv ${D}/usr/$(get_libdir)/libguile-*-gdb.scm ${D}/usr/share/gdb/auto-load/$(get_libdir)
 }
 
 pkg_postinst() {

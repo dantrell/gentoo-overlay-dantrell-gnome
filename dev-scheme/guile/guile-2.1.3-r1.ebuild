@@ -6,12 +6,12 @@ inherit elisp-common flag-o-matic
 
 DESCRIPTION="GNU Ubiquitous Intelligent Language for Extensions"
 HOMEPAGE="https://www.gnu.org/software/guile/"
-SRC_URI="mirror://gnu/guile/${P}.tar.xz"
+SRC_URI="http://alpha.gnu.org/gnu/${PN}/${P}.tar.xz"
 
 LICENSE="LGPL-3+"
 SLOT="12"
-MAJOR="2.0"
-KEYWORDS="*"
+MAJOR="2.2"
+KEYWORDS=""
 
 IUSE="debug debug-malloc +deprecated doc emacs networking nls +regex static +threads"
 
@@ -22,7 +22,7 @@ RDEPEND="
 
 	>=dev-libs/boehm-gc-7.0[threads?]
 	dev-libs/gmp:0
-	dev-libs/libffi
+	virtual/libffi
 	dev-libs/libunistring
 	sys-devel/gettext
 	>=sys-devel/libtool-1.5.6
@@ -72,20 +72,23 @@ src_install() {
 	# Necessary for avoiding ldconfig warnings
 	# 	https://bugzilla.novell.com/show_bug.cgi?id=874028#c0
 	dodir /usr/share/gdb/auto-load/$(get_libdir)
-	mv ${D}/usr/$(get_libdir)/libguile-*-gdb.scm ${D}/usr/share/gdb/auto-load/$(get_libdir)
+	mv "${D}"/usr/$(get_libdir)/libguile-*-gdb.scm "${D}"/usr/share/gdb/auto-load/$(get_libdir) || die
 
 	# Necessary for TeXmacs
 	# 	https://bugs.gentoo.org/show_bug.cgi?id=23493
 	dodir /etc/env.d
-	echo "GUILE_LOAD_PATH=\"${EPREFIX}/usr/share/guile/${MAJOR}\"" > "${ED}"/etc/env.d/50guile
+	echo "GUILE_LOAD_PATH=\"${EPREFIX}/usr/share/guile/${MAJOR}\"" > "${ED}"/etc/env.d/50guile || die
 
 	# Necessary for registering SLIB
 	# 	https://bugs.gentoo.org/show_bug.cgi?id=206896
 	keepdir /usr/share/guile/site
+
+	# Necessary for some dependencies
+	dosym /usr/$(get_libdir)/libguile-2.0.so /usr/$(get_libdir)/libguile.so
 }
 
 pkg_postinst() {
-	[ "${EROOT}" == "/" ] && pkg_config
+	[[ "${EROOT}" == "/" ]] && pkg_config
 	use emacs && elisp-site-regen
 }
 

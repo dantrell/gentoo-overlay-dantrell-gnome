@@ -7,7 +7,7 @@ GENTOO_DEPEND_ON_PERL=no
 inherit eutils perl-module systemd
 
 DESCRIPTION="Cups PDF filters"
-HOMEPAGE="http://www.linuxfoundation.org/collaborate/workgroups/openprinting/pdfasstandardprintjobformat"
+HOMEPAGE="https://wiki.linuxfoundation.org/openprinting/pdf_as_standard_print_job_format"
 SRC_URI="http://www.openprinting.org/download/${PN}/${P}.tar.xz"
 
 LICENSE="MIT GPL-2"
