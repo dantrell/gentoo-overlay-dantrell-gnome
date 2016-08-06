@@ -17,10 +17,10 @@ LICENSE="LGPL-2+ BSD"
 SLOT="4/37" # soname version of libwebkit2gtk-4.0
 KEYWORDS="*"
 
-IUSE="aqua coverage doc +egl +geoloc gles2 gnome-keyring +gstreamer +introspection +jit nsplugin +opengl spell wayland +webgl X"
+IUSE="aqua coverage doc +egl +geolocation gles2 gnome-keyring +gstreamer +introspection +jit libnotify nsplugin +opengl spell wayland +webgl X"
 # webgl needs gstreamer, bug #560612
 REQUIRED_USE="
-	geoloc? ( introspection )
+	geolocation? ( introspection )
 	gles2? ( egl )
 	introspection? ( gstreamer )
 	nsplugin? ( X )
@@ -59,7 +59,7 @@ RDEPEND="
 
 	aqua? ( >=x11-libs/gtk+-3.14:3[aqua] )
 	egl? ( media-libs/mesa[egl] )
-	geoloc? ( >=app-misc/geoclue-2.1.5:2.0 )
+	geolocation? ( >=app-misc/geoclue-2.1.5:2.0 )
 	gles2? ( media-libs/mesa[gles2] )
 	gnome-keyring? ( app-crypt/libsecret )
 	gstreamer? (
@@ -67,7 +67,7 @@ RDEPEND="
 		>=media-libs/gst-plugins-base-1.2:1.0
 		>=media-libs/gst-plugins-bad-1.5.0:1.0[opengl?] )
 	introspection? ( >=dev-libs/gobject-introspection-1.32.0:= )
-	x11-libs/libnotify
+	libnotify? ( x11-libs/libnotify )
 	nsplugin? ( >=x11-libs/gtk+-2.24.10:2 )
 	opengl? ( virtual/opengl
 		x11-libs/cairo[opengl] )
@@ -105,7 +105,7 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 
 	doc? ( >=dev-util/gtk-doc-1.10 )
-	geoloc? ( dev-util/gdbus-codegen )
+	geolocation? ( dev-util/gdbus-codegen )
 	introspection? ( jit? ( sys-apps/paxctl ) )
 	test? (
 		dev-lang/python:2.7
@@ -181,9 +181,11 @@ src_configure() {
 	if ! use ia64; then
 		append-ldflags "-Wl,--no-keep-memory"
 	fi
-	if ! tc-ld-is-gold ; then
-		append-ldflags "-Wl,--reduce-memory-overheads"
-	fi
+
+	# We try to use gold when possible for this package
+#	if ! tc-ld-is-gold ; then
+#		append-ldflags "-Wl,--reduce-memory-overheads"
+#	fi
 
 	# older glibc needs this for INTPTR_MAX, bug #533976
 	if has_version "<sys-libs/glibc-2.18" ; then
@@ -219,11 +221,19 @@ src_configure() {
 		opengl_enabled=OFF
 	fi
 
+	# support for webgl (aka 2d-canvas accelerating)
+	local canvas_enabled
+	if use webgl && ! use gles2 ; then
+		canvas_enabled=ON
+	else
+		canvas_enabled=OFF
+	fi
+
 	local mycmakeargs=(
 		$(cmake-utils_use_enable aqua QUARTZ_TARGET)
 		$(cmake-utils_use_enable test API_TESTS)
 		$(cmake-utils_use_enable doc GTKDOC)
-		$(cmake-utils_use_enable geoloc GEOLOCATION)
+		$(cmake-utils_use_enable geolocation GEOLOCATION)
 		$(cmake-utils_use_find_package gles2 OpenGLES2)
 		$(cmake-utils_use_enable gles2 GLES2)
 		$(cmake-utils_use_enable gnome-keyring CREDENTIAL_STORAGE)
@@ -231,6 +241,7 @@ src_configure() {
 		$(cmake-utils_use_enable gstreamer WEB_AUDIO)
 		$(cmake-utils_use_enable introspection)
 		$(cmake-utils_use_enable jit)
+		$(cmake-utils_use_use libnotify)
 		$(cmake-utils_use_enable nsplugin PLUGIN_PROCESS_GTK2)
 		$(cmake-utils_use_enable spell SPELLCHECK SPELLCHECK)
 		$(cmake-utils_use_enable wayland WAYLAND_TARGET)
@@ -239,15 +250,20 @@ src_configure() {
 		$(cmake-utils_use_find_package opengl OpenGL)
 		$(cmake-utils_use_enable X X11_TARGET)
 		-DENABLE_OPENGL=${opengl_enabled}
+		-DENABLE_ACCELERATED_2D_CANVAS=${canvas_enabled}
 		-DCMAKE_BUILD_TYPE=Release
 		-DPORT=GTK
 		${ruby_interpreter}
 	)
-	if tc-ld-is-gold ; then
-		mycmakeargs+=( -DUSE_LD_GOLD=ON )
-	else
-		mycmakeargs+=( -DUSE_LD_GOLD=OFF )
-	fi
+
+	# Allow it to use GOLD when possible as it has all the magic to
+	# detect when to use it and using gold for this concrete package has
+	# multiple advantages and is also the upstream default, bug #585788
+#	if tc-ld-is-gold ; then
+#		mycmakeargs+=( -DUSE_LD_GOLD=ON )
+#	else
+#		mycmakeargs+=( -DUSE_LD_GOLD=OFF )
+#	fi
 
 	cmake-utils_src_configure
 }

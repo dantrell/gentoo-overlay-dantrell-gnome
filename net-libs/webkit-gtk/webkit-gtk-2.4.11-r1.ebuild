@@ -15,10 +15,10 @@ LICENSE="LGPL-2+ BSD"
 SLOT="3/25" # soname version of libwebkit2gtk-3.0
 KEYWORDS="*"
 
-IUSE="aqua coverage debug +egl +geoloc gles2 gnome-keyring +gstreamer +introspection +jit +opengl spell wayland +webgl +X"
+IUSE="aqua coverage debug +egl +geolocation gles2 gnome-keyring +gstreamer +introspection +jit +opengl spell wayland +webgl +X"
 # bugs 372493, 416331
 REQUIRED_USE="
-	geoloc? ( introspection )
+	geolocation? ( introspection )
 	gles2? ( egl )
 	introspection? ( gstreamer )
 	webgl? ( ^^ ( gles2 opengl ) )
@@ -30,6 +30,8 @@ REQUIRED_USE="
 # Aqua support in gtk3 is untested
 # gtk2 is needed for plugin process support
 # gtk3-3.10 required for wayland
+# gtk3-3.20 is needed to ensure we get fixed theming:
+# https://bugzilla.gnome.org/show_bug.cgi?id=757503
 RDEPEND="
 	dev-db/sqlite:3=
 	>=dev-libs/glib-2.36:2
@@ -44,13 +46,13 @@ RDEPEND="
 	>=net-libs/libsoup-2.42:2.4[introspection?]
 	virtual/jpeg:0=
 	>=x11-libs/cairo-1.10:=[X?]
-	>=x11-libs/gtk+-3.6.0:3[X?,aqua?,introspection?]
+	>=x11-libs/gtk+-3.6.0:3=[X?,aqua?,introspection?]
 	>=x11-libs/pango-1.30.0
 
 	>=x11-libs/gtk+-2.24.10:2
 
 	egl? ( media-libs/mesa[egl] )
-	geoloc? ( >=app-misc/geoclue-2.1.5:2.0 )
+	geolocation? ( >=app-misc/geoclue-2.1.5:2.0 )
 	gles2? ( media-libs/mesa[gles2] )
 	gnome-keyring? ( app-crypt/libsecret )
 	gstreamer? (
@@ -87,7 +89,7 @@ DEPEND="${RDEPEND}
 	>=sys-devel/make-3.82-r4
 	virtual/pkgconfig
 
-	geoloc? ( dev-util/gdbus-codegen )
+	geolocation? ( dev-util/gdbus-codegen )
 	introspection? ( jit? ( sys-apps/paxctl ) )
 	test? (
 		dev-lang/python:2.7
@@ -222,7 +224,7 @@ src_configure() {
 		$(use_enable coverage) \
 		$(use_enable debug) \
 		$(use_enable egl) \
-		$(use_enable geoloc geolocation) \
+		$(use_enable geolocation) \
 		$(use_enable gles2) \
 		$(use_enable gnome-keyring credential_storage) \
 		$(use_enable gstreamer video) \
