@@ -37,6 +37,8 @@ DEPEND="
 	virtual/pkgconfig
 "
 
+PATCHES=( "${FILESDIR}/${P}-build-includes.patch" ) #bug 590528 patched by upstream
+
 src_configure() {
 	# Seems to have issues with -Os, switch to -O2
 	# 	https://bugs.funtoo.org/browse/FL-2584
@@ -84,7 +86,7 @@ src_install() {
 	keepdir /usr/share/guile/site
 
 	# Necessary for some dependencies
-	dosym /usr/$(get_libdir)/libguile-2.0.so /usr/$(get_libdir)/libguile.so
+	dosym libguile-2.0.so /usr/$(get_libdir)/libguile.so
 }
 
 pkg_postinst() {
