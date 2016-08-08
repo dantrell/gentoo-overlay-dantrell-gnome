@@ -9,7 +9,7 @@ HOMEPAGE="https://www.gnu.org/software/guile/"
 SRC_URI="mirror://gnu/guile/${P}.tar.xz"
 
 LICENSE="LGPL-3+"
-SLOT="12"
+SLOT="12/22" # subslot is soname version
 MAJOR="2.0"
 KEYWORDS="*"
 
