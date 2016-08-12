@@ -4,7 +4,7 @@ EAPI="5"
 
 inherit autotools qmake-utils multilib eutils flag-o-matic toolchain-funcs
 
-DESCRIPTION="Collection of simple PIN or passphrase entry dialogs which utilize the Assuan protocol"
+DESCRIPTION="Simple passphrase entry dialogs which utilize the Assuan protocol"
 HOMEPAGE="http://gnupg.org/aegypten2/index.html"
 SRC_URI="mirror://gnupg/${PN}/${P}.tar.bz2"
 
@@ -55,7 +55,8 @@ PDEPEND="
 DOCS=( AUTHORS ChangeLog NEWS README THANKS TODO )
 
 src_prepare() {
-	epatch "${FILESDIR}/${PN}-0.8.2-ncurses.patch"
+	epatch "${FILESDIR}/${PN}-0.8.2-ncurses.patch" \
+		   "${FILESDIR}/${P}-require-CPP11-for-qt-5-7.patches"
 	eautoreconf
 }
 

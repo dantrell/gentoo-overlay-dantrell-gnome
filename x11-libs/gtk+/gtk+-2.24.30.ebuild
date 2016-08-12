@@ -18,6 +18,10 @@ REQUIRED_USE="
 	xinerama? ( !aqua )
 "
 
+# Upstream wants us to do their job:
+# https://bugzilla.gnome.org/show_bug.cgi?id=768663#c1
+RESTRICT="test"
+
 # NOTE: cairo[svg] dep is due to bug 291283 (not patched to avoid eautoreconf)
 COMMON_DEPEND="
 	>=dev-libs/atk-2.10.0[introspection?,${MULTILIB_USEDEP}]

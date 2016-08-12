@@ -23,13 +23,11 @@ src_configure() {
 }
 
 src_install() {
-	dodoc AUTHORS README ChangeLog || die "dodoc failed"
+	default
 	if use doc; then
-		dohtml doc/*.html || die "dohtml failed"
-		doinfo doc/*.info || die "doinfo failed"
+		dohtml doc/*.html
+		doinfo doc/*.info
 	fi
-
-	emake DESTDIR="${D}" install || die "Install failed"
 
 	prune_libtool_files
 }
