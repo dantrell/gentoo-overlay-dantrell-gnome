@@ -11,9 +11,9 @@ SRC_URI="mirror://gnu/guile/${P}.tar.xz"
 LICENSE="LGPL-3+"
 SLOT="12/22" # subslot is soname version
 MAJOR="2.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
-IUSE="debug debug-malloc +deprecated doc emacs +networking +nls +regex static-libs +threads" # upstream recommended +networking +nls
+IUSE="debug debug-malloc +deprecated doc emacs networking nls +regex static-libs +threads"
 
 RESTRICT="mirror"
 

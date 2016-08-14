@@ -46,8 +46,7 @@ DEPEND="${CDEPEND}
 	virtual/pkgconfig
 "
 
-# Gentoo bug #570512
-PDEPEND="
+RDEPEND="
 	${CDEPEND}
 	gnome-keyring? ( app-crypt/gcr )
 "

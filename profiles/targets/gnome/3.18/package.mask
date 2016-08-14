@@ -164,6 +164,7 @@
 >=x11-libs/gnome-pty-helper-0.44.0
 >=x11-libs/gtksourceview-3.20.0
 >=x11-libs/gtk+-3.20.0
+>=x11-libs/libwnck-3.20.0
 >=x11-libs/pango-1.40.0
 >=x11-libs/vte-0.44.0
 >=x11-misc/colord-1.4.0
