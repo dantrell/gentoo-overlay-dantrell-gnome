@@ -3,9 +3,10 @@
 EAPI="5"
 GCONF_DEBUG="no"
 WANT_AUTOMAKE="1.12"
+VALA_MIN_API_VERSION="0.14"
 VALA_USE_DEPEND="vapigen"
 
-inherit autotools eutils vala
+inherit autotools eutils vala readme.gentoo-r1
 
 DESCRIPTION="Set of GObject and Gtk objects for connecting to Spice servers and a client GUI"
 HOMEPAGE="http://spice-space.org https://cgit.freedesktop.org/spice/spice-gtk/"
@@ -13,12 +14,10 @@ SRC_URI="http://spice-space.org/download/gtk/${P}.tar.bz2"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
-IUSE="dbus gstreamer gtk3 +introspection lz4 mjpeg policykit pulseaudio sasl smartcard static-libs usbredir vala webdav libressl"
-REQUIRED_USE="
-	?? ( pulseaudio gstreamer )
-"
+IUSE="dbus gstaudio gstvideo gtk3 +introspection lz4 mjpeg policykit pulseaudio sasl smartcard static-libs usbredir vala webdav libressl"
+REQUIRED_USE="?? ( pulseaudio gstaudio )"
 
 # TODO:
 # * check if sys-freebsd/freebsd-lib (from virtual/acl) provides acl/libacl.h
@@ -27,10 +26,16 @@ RDEPEND="
 	!libressl? ( dev-libs/openssl:0= )
 	libressl? ( dev-libs/libressl:0= )
 	pulseaudio? ( media-sound/pulseaudio[glib] )
-	gstreamer? (
+	gstvideo? (
 		media-libs/gstreamer:1.0
 		media-libs/gst-plugins-base:1.0
-		media-libs/gst-plugins-good:1.0 )
+		media-libs/gst-plugins-good:1.0
+		)
+	gstaudio? (
+		media-libs/gstreamer:1.0
+		media-libs/gst-plugins-base:1.0
+		media-libs/gst-plugins-good:1.0
+		)
 	>=x11-libs/pixman-0.17.7
 	>=media-libs/celt-0.5.1.1:0.5.1
 	media-libs/opus
@@ -59,7 +64,7 @@ RDEPEND="
 		>=net-libs/libsoup-2.49.91 )
 "
 DEPEND="${RDEPEND}
-	~app-emulation/spice-protocol-0.12.11
+	>=app-emulation/spice-protocol-0.12.11
 	dev-perl/Text-CSV
 	>=dev-util/gtk-doc-am-1.14
 	>=dev-util/intltool-0.40.0
@@ -77,6 +82,7 @@ DEPEND="${RDEPEND}
 addpredict /dev
 
 src_prepare() {
+	epatch "${FILESDIR}"/${P}-x11-libs.patch
 	epatch_user
 
 	AT_NO_RECURSIVE="yes" eautoreconf
@@ -104,8 +110,8 @@ src_configure() {
 		$(use_with gtk3 gtk 3.0) \
 		$(use_enable policykit polkit) \
 		$(use_enable pulseaudio pulse) \
-		$(use_enable gstreamer gstaudio) \
-		$(use_enable gstreamer gstvideo) \
+		$(use_enable gstaudio) \
+		$(use_enable gstvideo) \
 		$(use_enable mjpeg builtin-mjpeg) \
 		$(use_enable vala) \
 		$(use_enable webdav) \
@@ -126,4 +132,5 @@ src_install() {
 	use static-libs || prune_libtool_files
 
 	make_desktop_entry spicy Spicy "utilities-terminal" "Network;RemoteAccess;"
+	readme.gentoo_create_doc
 }
