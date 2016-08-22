@@ -137,6 +137,7 @@
 >=media-plugins/grilo-plugins-0.2.16
 >=media-sound/gnome-music-3.16.1
 >=media-sound/gnome-sound-recorder-3.16.0
+>=media-sound/rhythmbox-3.4
 >=media-sound/sound-juicer-3.16.1
 >=media-video/cheese-3.16.1
 >=media-video/totem-3.16.1

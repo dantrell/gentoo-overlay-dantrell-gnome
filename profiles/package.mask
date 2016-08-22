@@ -16,6 +16,7 @@ app-crypt/pinentry::gentoo
 app-editors/ghex::gentoo
 app-emulation/libvirt-glib::gentoo
 app-emulation/spice-protocol::gentoo
+app-emulation/spice::gentoo
 app-eselect/eselect-pinentry::gentoo
 app-i18n/ibus-hangul::gentoo
 app-i18n/unicode-data::gentoo
