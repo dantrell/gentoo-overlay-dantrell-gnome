@@ -28,6 +28,7 @@ app-text/poppler::gentoo
 dev-cpp/atkmm::gentoo
 dev-cpp/cairomm::gentoo
 dev-cpp/gdlmm::gentoo
+dev-cpp/glibmm::gentoo
 dev-cpp/gtkmm::gentoo
 dev-cpp/gtksourceviewmm::gentoo
 dev-cpp/libxmlpp::gentoo
@@ -36,6 +37,7 @@ dev-cpp/pangomm::gentoo
 dev-lang/vala::gentoo
 dev-libs/appstream-glib::gentoo
 dev-libs/folks::gentoo
+dev-libs/glib::gentoo
 dev-libs/gmime::gentoo
 dev-libs/gom::gentoo
 dev-libs/json-glib::gentoo
@@ -62,6 +64,7 @@ dev-python/pycups::gentoo
 dev-python/pygobject::gentoo
 dev-python/pygtk::gentoo
 dev-scheme/guile::gentoo
+dev-util/gdbus-codegen::gentoo
 dev-util/glade::gentoo
 dev-util/gtk-builder-convert::gentoo
 dev-util/gtk-doc-am::gentoo

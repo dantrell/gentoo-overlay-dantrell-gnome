@@ -13,7 +13,7 @@ SLOT="12"
 MAJOR="2.2"
 KEYWORDS=""
 
-IUSE="debug debug-malloc +deprecated doc emacs networking nls +regex static +threads"
+IUSE="debug debug-malloc +deprecated doc emacs +networking +nls +regex static-libs +threads" # upstream recommended +networking +nls
 
 RESTRICT="mirror"
 
@@ -21,20 +21,18 @@ RDEPEND="
 	!dev-scheme/guile:2
 
 	>=dev-libs/boehm-gc-7.0[threads?]
-	dev-libs/gmp:0
+	>=dev-libs/gmp-4.2:0=
 	virtual/libffi
-	dev-libs/libunistring
-	sys-devel/gettext
+	dev-libs/libltdl:=
+	>=dev-libs/libunistring-0.9.3
 	>=sys-devel/libtool-1.5.6
-	virtual/libiconv
-	virtual/libintl
-
-	doc? ( sys-apps/texinfo )
-	emacs? ( virtual/emacs )
 "
 DEPEND="
 	${RDEPEND}
 	virtual/pkgconfig
+	doc? ( sys-apps/texinfo )
+	emacs? ( virtual/emacs )
+	sys-devel/gettext
 "
 
 src_configure() {
@@ -58,7 +56,7 @@ src_configure() {
 		$(use_enable networking) \
 		$(use_enable nls) \
 		$(use_enable regex) \
-		$(use_enable static) \
+		$(use_enable static-libs static) \
 		$(use_with threads)
 }
 
@@ -72,7 +70,7 @@ src_install() {
 	# Necessary for avoiding ldconfig warnings
 	# 	https://bugzilla.novell.com/show_bug.cgi?id=874028#c0
 	dodir /usr/share/gdb/auto-load/$(get_libdir)
-	mv "${D}"/usr/$(get_libdir)/libguile-*-gdb.scm "${D}"/usr/share/gdb/auto-load/$(get_libdir) || die
+	mv "${ED}"/usr/$(get_libdir)/libguile-*-gdb.scm "${ED}"/usr/share/gdb/auto-load/$(get_libdir) || die
 
 	# Necessary for TeXmacs
 	# 	https://bugs.gentoo.org/show_bug.cgi?id=23493
@@ -84,7 +82,7 @@ src_install() {
 	keepdir /usr/share/guile/site
 
 	# Necessary for some dependencies
-	dosym /usr/$(get_libdir)/libguile-2.0.so /usr/$(get_libdir)/libguile.so
+	dosym libguile-2.0.so /usr/$(get_libdir)/libguile.so
 }
 
 pkg_postinst() {

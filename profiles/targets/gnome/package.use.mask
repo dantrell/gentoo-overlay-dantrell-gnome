@@ -1,1 +1,2 @@
+gnome-base/gnome-extra-apps flashback
 x11-wm/mutter kms

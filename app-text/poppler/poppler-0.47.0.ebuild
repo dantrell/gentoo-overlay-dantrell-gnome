@@ -2,7 +2,6 @@
 
 EAPI="6"
 
-CMAKE_WARN_UNUSED_CLI=1
 inherit cmake-utils toolchain-funcs xdg-utils
 
 DESCRIPTION="PDF rendering library based on the xpdf-3.0 code base"
@@ -10,8 +9,8 @@ HOMEPAGE="https://poppler.freedesktop.org/"
 SRC_URI="https://poppler.freedesktop.org/${P}.tar.xz"
 
 LICENSE="GPL-2"
-SLOT="0/61"   # CHECK THIS WHEN BUMPING!!! SUBSLOT IS libpoppler.so SOVERSION
-KEYWORDS="*"
+SLOT="0/63"   # CHECK THIS WHEN BUMPING!!! SUBSLOT IS libpoppler.so SOVERSION
+KEYWORDS="~*"
 
 IUSE="cairo cairo-qt cjk curl cxx debug doc +introspection +jpeg +jpeg2k +lcms nss png qt4 qt5 tiff +utils"
 
@@ -53,6 +52,8 @@ DEPEND="${COMMON_DEPEND}
 RDEPEND="${COMMON_DEPEND}
 	cjk? ( >=app-text/poppler-data-0.4.7 )
 "
+
+DOCS=(AUTHORS NEWS README README-XPDF TODO)
 
 PATCHES=(
 	"${FILESDIR}/${PN}-0.26.0-qt5-dependencies.patch"

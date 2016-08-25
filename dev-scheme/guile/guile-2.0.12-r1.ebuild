@@ -77,7 +77,7 @@ src_install() {
 	# Necessary for avoiding ldconfig warnings
 	# 	https://bugzilla.novell.com/show_bug.cgi?id=874028#c0
 	dodir /usr/share/gdb/auto-load/$(get_libdir)
-	mv "${D}"/usr/$(get_libdir)/libguile-*-gdb.scm "${D}"/usr/share/gdb/auto-load/$(get_libdir) || die
+	mv "${ED}"/usr/$(get_libdir)/libguile-*-gdb.scm "${ED}"/usr/share/gdb/auto-load/$(get_libdir) || die
 
 	# Necessary for TeXmacs
 	# 	https://bugs.gentoo.org/show_bug.cgi?id=23493

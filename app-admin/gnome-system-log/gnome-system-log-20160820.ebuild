@@ -7,7 +7,7 @@ inherit eutils gnome2-live
 
 DESCRIPTION="A graphical user interface to view and monitor system log files"
 HOMEPAGE="https://help.gnome.org/users/gnome-system-log/"
-EGIT_COMMIT="29716593fe7acaa4df0992d44859bd3e104ac38c"
+EGIT_COMMIT="0b0754505dec9d52e14c8e77b019d44182b561e9"
 
 LICENSE="GPL-2+ CC-BY-SA-3.0"
 SLOT="0"
@@ -18,7 +18,7 @@ IUSE=""
 COMMON_DEPEND="
 	>=dev-libs/glib-2.31:2
 	sys-libs/zlib:=
-	>=x11-libs/gtk+-3.9.11:3
+	>=x11-libs/gtk+-3.11.4:3
 	x11-libs/pango
 "
 # ${PN} was part of gnome-utils before 3.4
