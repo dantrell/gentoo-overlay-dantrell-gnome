@@ -25,6 +25,7 @@ app-text/gnome-doc-utils::gentoo
 app-text/gspell::gentoo
 app-text/libgxps::gentoo
 app-text/poppler::gentoo
+app-text/yelp-tools::gentoo
 dev-cpp/atkmm::gentoo
 dev-cpp/cairomm::gentoo
 dev-cpp/gdlmm::gentoo
@@ -99,6 +100,7 @@ media-gfx/gthumb::gentoo
 media-gfx/shotwell::gentoo
 media-libs/babl::gentoo
 media-libs/clutter-gst::gentoo
+media-libs/cogl::gentoo
 media-libs/gegl::gentoo
 media-libs/grilo::gentoo
 media-libs/gsound::gentoo

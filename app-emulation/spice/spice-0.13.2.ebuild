@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-PYTHON_COMPAT=( python{2_7,3_4} )
+PYTHON_COMPAT=( python{2_7,3_4,3_5} )
 
 inherit eutils python-any-r1 readme.gentoo-r1
 

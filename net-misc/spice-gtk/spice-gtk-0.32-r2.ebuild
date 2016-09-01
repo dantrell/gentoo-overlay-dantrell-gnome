@@ -3,7 +3,6 @@
 EAPI="5"
 GCONF_DEBUG="no"
 WANT_AUTOMAKE="1.12"
-VALA_MIN_API_VERSION="0.14"
 VALA_USE_DEPEND="vapigen"
 
 inherit autotools eutils vala readme.gentoo-r1
