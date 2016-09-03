@@ -13,12 +13,12 @@ LICENSE="LGPL-2.1+"
 SLOT="0.2"
 KEYWORDS="*"
 
-IUSE="daap +dvd flickr freebox gnome-online-accounts lua subtitles thetvdb tracker upnp-av +vimeo +youtube"
+IUSE="daap dvd flickr freebox gnome-online-accounts lua subtitles thetvdb tracker upnp-av vimeo +youtube"
 
 # Bump gom requirement to avoid segfaults
 RDEPEND="
 	>=dev-libs/glib-2.44:2
-	>=media-libs/grilo-0.2.12:${SLOT}[network,playlist]
+	>=media-libs/grilo-0.2.12:${SLOT}=[network,playlist]
 	media-libs/libmediaart:2.0
 	>=dev-libs/gom-0.3.1
 
@@ -31,10 +31,11 @@ RDEPEND="
 	dvd? ( >=dev-libs/totem-pl-parser-3.4.1 )
 	flickr? ( net-libs/liboauth )
 	freebox? ( net-dns/avahi )
-	gnome-online-accounts? ( >=net-libs/gnome-online-accounts-3.17.91 )
+	gnome-online-accounts? ( >=net-libs/gnome-online-accounts-3.17.91:= )
 	lua? (
 		>=dev-lang/lua-5.3
 		app-arch/libarchive
+		dev-libs/libxml2:2
 		>=dev-libs/totem-pl-parser-3.4.1 )
 	subtitles? ( net-libs/libsoup:2.4 )
 	thetvdb? (

@@ -37,7 +37,7 @@ DEPEND="${RDEPEND}
 		$(python_gen_any_dep '
 			dev-python/pygobject:2[${PYTHON_USEDEP}]
 			dev-python/pygobject:3[${PYTHON_USEDEP}]')
-		media-plugins/grilo-plugins:0.2 )
+		media-plugins/grilo-plugins:${SLOT%/*} )
 "
 # eautoreconf requires gnome-common
 

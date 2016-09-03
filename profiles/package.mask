@@ -19,6 +19,7 @@ app-emulation/spice-protocol::gentoo
 app-emulation/spice::gentoo
 app-eselect/eselect-pinentry::gentoo
 app-i18n/ibus-hangul::gentoo
+app-i18n/ibus::gentoo
 app-i18n/unicode-data::gentoo
 app-misc/geoclue::gentoo
 app-text/gnome-doc-utils::gentoo
@@ -91,6 +92,7 @@ gnome-extra/gucharmap::gentoo
 gnome-extra/libgsf::gentoo
 gnome-extra/mousetweaks::gentoo
 gnome-extra/nautilus-sendto::gentoo
+gnome-extra/nm-applet::gentoo
 gnome-extra/seahorse-nautilus::gentoo
 mail-client/evolution::gentoo
 mail-client/geary::gentoo
@@ -124,6 +126,13 @@ net-libs/rest::gentoo
 net-libs/webkit-gtk::gentoo
 net-misc/dleyna-server::gentoo
 net-misc/gnome-online-miners::gentoo
+net-misc/networkmanager-openconnect::gentoo
+net-misc/networkmanager-openswan::gentoo
+net-misc/networkmanager-openvpn::gentoo
+net-misc/networkmanager-pptp::gentoo
+net-misc/networkmanager-sstp::gentoo
+net-misc/networkmanager-vpnc::gentoo
+net-misc/networkmanager::gentoo
 net-misc/spice-gtk::gentoo
 net-print/cups-filters::gentoo
 sys-auth/consolekit::gentoo

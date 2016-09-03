@@ -1,3 +1,10 @@
+# Requires GLibmm 2.48 (or greater) and Libsigc++ 2.8 (or greater)
+>=media-gfx/inkscape-0.91-r3
+
+# Requires GLib 2.48 (or greater)
+>=x11-misc/colord-1.4.0
+
+# Masked to freeze the state of GNOME
 >=app-accessibility/at-spi2-atk-2.20.0
 >=app-accessibility/at-spi2-core-2.20.0
 >=app-accessibility/orca-3.20.0
@@ -18,7 +25,9 @@
 >=app-text/yelp-tools-3.20.0
 >=dev-cpp/atkmm-2.26.0
 >=dev-cpp/cairomm-1.14.0
+>=dev-cpp/glibmm-2.48.0
 >=dev-cpp/gtkmm-3.20.0
+>=dev-cpp/gtksourceviewmm-3.20.0
 >=dev-cpp/libxmlpp-3.0.0
 >=dev-cpp/pangomm-2.39.1
 >=dev-libs/appstream-glib-0.5.11
@@ -26,6 +35,7 @@
 >=dev-libs/folks-0.12.0
 >=dev-libs/gdl-3.20.0
 >=dev-libs/gjs-1.45.3
+>=dev-libs/glib-2.48.0
 >=dev-libs/gobject-introspection-1.48.0
 >=dev-libs/gobject-introspection-common-1.48.0
 >=dev-libs/gom-0.4.0
@@ -37,12 +47,14 @@
 >=dev-libs/libgusb-0.3.0
 >=dev-libs/libgweather-3.20.0
 >=dev-libs/libpeas-1.18.0
+>=dev-libs/libsigc++-2.8.0
 >=dev-libs/libunistring-0.10.0
 >=dev-python/pyatspi-2.20.0
 >=dev-python/pygobject-3.20.0
 >=dev-util/anjuta-3.20.0
 >=dev-util/devhelp-3.20.0
 >=dev-util/dogtail-0.9.0-r2
+>=dev-util/gdbus-codegen-2.48.0
 >=dev-util/glade-3.20.0
 >=dev-util/gnome-devel-docs-3.20.0
 >=dev-util/gtk-update-icon-cache-3.20.0
@@ -165,7 +177,7 @@
 >=x11-libs/libwnck-3.20.0
 >=x11-libs/pango-1.40.0
 >=x11-libs/vte-0.44.0
->=x11-misc/colord-1.4.0
+>=x11-misc/gpaste-3.20.0
 >=x11-misc/notification-daemon-3.20.0
 >=x11-terms/gnome-terminal-3.20.0
 >=x11-themes/adwaita-icon-theme-3.20

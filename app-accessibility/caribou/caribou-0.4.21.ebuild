@@ -12,7 +12,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Caribou"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
