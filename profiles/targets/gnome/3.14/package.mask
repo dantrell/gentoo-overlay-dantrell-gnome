@@ -61,7 +61,6 @@
 >=dev-python/pygobject-3.16.1
 >=dev-util/anjuta-3.16.0
 >=dev-util/devhelp-3.16.1
->=dev-util/dogtail-0.9.0-r2
 >=dev-util/gdbus-codegen-2.44.0
 >=dev-util/glade-3.20.0
 >=dev-util/gnome-devel-docs-3.16.2

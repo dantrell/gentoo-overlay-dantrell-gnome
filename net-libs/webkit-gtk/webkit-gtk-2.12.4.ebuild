@@ -14,7 +14,7 @@ SRC_URI="http://www.webkitgtk.org/releases/${MY_P}.tar.xz"
 
 LICENSE="LGPL-2+ BSD"
 SLOT="4/37" # soname version of libwebkit2gtk-4.0
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="aqua coverage doc +egl +geolocation gles2 gnome-keyring +gstreamer +introspection +jit libnotify nsplugin +opengl spell wayland +webgl X"
 # webgl needs gstreamer, bug #560612
@@ -65,7 +65,7 @@ RDEPEND="
 	gstreamer? (
 		>=media-libs/gstreamer-1.2:1.0
 		>=media-libs/gst-plugins-base-1.2:1.0
-		>=media-libs/gst-plugins-bad-1.5.0:1.0[opengl?] )
+		>=media-libs/gst-plugins-bad-1.6.0:1.0[opengl?] )
 	introspection? ( >=dev-libs/gobject-introspection-1.32.0:= )
 	libnotify? ( x11-libs/libnotify )
 	nsplugin? ( >=x11-libs/gtk+-2.24.10:2 )

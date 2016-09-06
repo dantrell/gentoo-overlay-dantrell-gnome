@@ -3,7 +3,7 @@
 EAPI="5"
 GCONF_DEBUG="no"
 
-inherit eutils flag-o-matic gnome2 multilib-minimal
+inherit flag-o-matic gnome2 multilib-minimal
 
 DESCRIPTION="C++ interface for GTK+"
 HOMEPAGE="http://www.gtkmm.org"
@@ -33,11 +33,6 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	# Apply fixes from 2.24 branch
-	epatch "${FILESDIR}"/${P}-papersize.patch
-	epatch "${FILESDIR}"/${P}-missing-includes.patch
-	epatch "${FILESDIR}"/${P}-newer-glibmm.patch
-
 	if ! use test; then
 		# don't waste time building tests
 		sed 's/^\(SUBDIRS =.*\)tests\(.*\)$/\1\2/' -i Makefile.am Makefile.in \
@@ -51,8 +46,6 @@ src_prepare() {
 	fi
 
 	gnome2_src_prepare
-
-	append-cxxflags -std=c++11
 }
 
 multilib_src_configure() {

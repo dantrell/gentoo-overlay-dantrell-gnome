@@ -3,7 +3,6 @@
 EAPI="5"
 GCONF_DEBUG="no"
 PYTHON_COMPAT=( python{3_3,3_4,3_5} )
-VALA_MIN_API_VERSION="0.22"
 VALA_USE_DEPEND="vapigen"
 
 inherit eutils gnome2 python-r1 vala
@@ -21,13 +20,12 @@ REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 # Specify libgit2 dependency with subslot because libgit2 upstream has a habit
 # of changing their API in each release in ways that break libgit2-glib
 RDEPEND="
-	>=dev-libs/libgit2-0.22.0:0/22
+	>=dev-libs/libgit2-0.22.0:0/22[ssh?]
 	>=dev-libs/glib-2.28.0:2
 	>=dev-libs/gobject-introspection-0.10.1:=
 	python? (
 		${PYTHON_DEPS}
 		dev-python/pygobject:3[${PYTHON_USEDEP}] )
-	ssh? ( dev-libs/libgit2[ssh] )
 "
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.11
