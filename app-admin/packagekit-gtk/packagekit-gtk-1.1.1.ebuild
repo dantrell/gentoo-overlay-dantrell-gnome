@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
 inherit eutils
 
@@ -16,8 +16,6 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE=""
-
-RESTRICT="mirror"
 
 RDEPEND="
 	>=dev-libs/glib-2.46:2
@@ -36,7 +34,6 @@ S="${WORKDIR}/${MY_P}"
 src_configure() {
 	econf \
 		--disable-bash-completion \
-		--disable-browser-plugin \
 		--disable-command-not-found \
 		--disable-cron \
 		--disable-gstreamer-plugin \

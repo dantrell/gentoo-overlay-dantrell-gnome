@@ -5,7 +5,7 @@ EAPI="6"
 inherit gnome2
 
 DESCRIPTION="A library that provides top functionality to applications"
-HOMEPAGE="https://developer.gnome.org/libgtop/stable/"
+HOMEPAGE="https://git.gnome.org/browse/libgtop"
 
 LICENSE="GPL-2"
 SLOT="2/10" # libgtop soname version
@@ -19,7 +19,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.4
-	>=dev-util/intltool-0.35
+	>=sys-devel/gettext-0.19.4
 	virtual/pkgconfig
 "
 

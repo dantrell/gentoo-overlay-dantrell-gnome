@@ -1,32 +1,30 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
 # PackageKit supports 3.2+, but entropy and portage backends are untested
 # Future note: use --enable-python3
 PYTHON_COMPAT=( python2_7 )
 VALA_USE_DEPEND="vapigen"
 
-inherit bash-completion-r1 multilib nsplugins python-single-r1 systemd vala
+inherit bash-completion-r1 multilib python-single-r1 systemd vala
 
 MY_PN="PackageKit"
 MY_P=${MY_PN}-${PV}
 
 DESCRIPTION="Manage packages in a secure way using a cross-distro and cross-architecture API"
-HOMEPAGE="https://www.freedesktop.org/software/PackageKit/"
+HOMEPAGE="http://www.packagekit.org/"
 SRC_URI="https://www.freedesktop.org/software/${MY_PN}/releases/${MY_P}.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0/18"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="connman cron command-not-found +introspection networkmanager nsplugin entropy systemd test vala"
+IUSE="connman cron command-not-found +introspection networkmanager entropy systemd test vala"
 REQUIRED_USE="
 	${PYTHON_REQUIRED_USE}
 	vala? ( introspection )
 "
-
-RESTRICT="mirror test"
 
 # While not strictly needed, consolekit is the alternative to systemd-login
 # to get current session's user.
@@ -41,12 +39,6 @@ CDEPEND="
 	connman? ( net-misc/connman )
 	introspection? ( >=dev-libs/gobject-introspection-0.9.9:=[${PYTHON_USEDEP}] )
 	networkmanager? ( >=net-misc/networkmanager-0.6.4:= )
-	nsplugin? (
-		>=dev-libs/nspr-4.8
-		x11-libs/cairo
-		>=x11-libs/gtk+-2.14.0:2
-		x11-libs/pango
-	)
 	systemd? ( >=sys-apps/systemd-204 )
 "
 DEPEND="${CDEPEND}
@@ -55,7 +47,6 @@ DEPEND="${CDEPEND}
 	>=dev-util/intltool-0.35.0
 	sys-devel/gettext
 	virtual/pkgconfig
-	nsplugin? ( >=net-misc/npapi-sdk-0.27 )
 	vala? ( $(vala_depend) )
 "
 RDEPEND="${CDEPEND}
@@ -68,6 +59,24 @@ RDEPEND="${CDEPEND}
 S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
+	# Fixes QA Notices: https://github.com/gentoo/gentoo/pull/1760 and https://github.com/hughsie/PackageKit/issues/143
+	eapply "${FILESDIR}/${P}-cache-qafix.patch"
+
+	# Disable unittests not working with portage backend
+	# console: requires terminal input
+	sed -e 's:^\(.*/packagekit-glib2/control\)://\1:' \
+		-e 's:^\(.*/packagekit-glib2/transaction-list\)://\1:' \
+		-e 's:^\(.*/packagekit-glib2/client"\)://\1:' \
+		-e 's:^\(.*/packagekit-glib2/package-sack\)://\1:' \
+		-e 's:^\(.*/packagekit-glib2/task\)://\1:' \
+		-e 's:^\(.*/packagekit-glib2/console\)://\1:' \
+		-i lib/packagekit-glib2/pk-test-daemon.c || die
+	sed -e 's:^\(.*/packagekit/spawn\)://\1:' \
+	    -e 's:^\(.*/packagekit/transaction-db\)://\1:' \
+	    -e 's:^\(.*/packagekit/backend\)://\1:' \
+		-i src/pk-self-test.c || die
+
+	eapply_user
 	use vala && vala_src_prepare
 }
 
@@ -89,12 +98,11 @@ src_configure() {
 		$(use_enable entropy) \
 		$(use_enable introspection) \
 		$(use_enable networkmanager) \
-		$(use_enable nsplugin browser-plugin) \
 		$(use_enable systemd) \
 		$(use_enable test daemon-tests) \
+		$(use_enable test local) \
 		$(use_enable vala) \
-		$(systemd_with_unitdir)
-		#$(use_enable test local)
+		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
 }
 
 src_install() {
@@ -102,10 +110,4 @@ src_install() {
 	prune_libtool_files --all
 
 	dodoc AUTHORS ChangeLog MAINTAINERS NEWS README
-
-	if use nsplugin; then
-		dodir "/usr/$(get_libdir)/${PLUGINS_DIR}"
-		mv "${D}/usr/$(get_libdir)/mozilla/plugins"/* \
-			"${D}/usr/$(get_libdir)/${PLUGINS_DIR}/" || die
-	fi
 }

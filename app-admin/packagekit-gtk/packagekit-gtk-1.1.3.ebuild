@@ -13,12 +13,12 @@ SRC_URI="http://www.packagekit.org/releases/${MY_P}.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE=""
 
 RDEPEND="
-	>=dev-libs/glib-2.32:2
+	>=dev-libs/glib-2.46:2
 	media-libs/fontconfig
 	>=x11-libs/gtk+-2:2
 	>=x11-libs/gtk+-3:3
@@ -34,7 +34,6 @@ S="${WORKDIR}/${MY_P}"
 src_configure() {
 	econf \
 		--disable-bash-completion \
-		--disable-browser-plugin \
 		--disable-command-not-found \
 		--disable-cron \
 		--disable-gstreamer-plugin \

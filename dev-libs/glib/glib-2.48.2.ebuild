@@ -10,8 +10,8 @@ PYTHON_COMPAT=( python2_7 )
 # pkg-config
 GNOME2_LA_PUNT="yes"
 
-inherit autotools bash-completion-r1 gnome2 libtool flag-o-matic multilib \
-	pax-utils python-r1 toolchain-funcs versionator virtualx linux-info multilib-minimal
+inherit autotools bash-completion-r1 flag-o-matic gnome2 libtool linux-info \
+	multilib multilib-minimal pax-utils python-r1  toolchain-funcs versionator virtualx
 
 DESCRIPTION="The GLib library of C routines"
 HOMEPAGE="http://www.gtk.org/"
@@ -30,7 +30,7 @@ REQUIRED_USE="
 
 RDEPEND="
 	!<dev-util/gdbus-codegen-${PV}
-	>=dev-libs/libpcre-8.13:3[${MULTILIB_USEDEP}]
+	>=dev-libs/libpcre-8.13:3[${MULTILIB_USEDEP},static-libs?]
 	>=virtual/libiconv-0-r1[${MULTILIB_USEDEP}]
 	>=virtual/libffi-3.0.13-r1[${MULTILIB_USEDEP}]
 	>=virtual/libintl-0-r2[${MULTILIB_USEDEP}]

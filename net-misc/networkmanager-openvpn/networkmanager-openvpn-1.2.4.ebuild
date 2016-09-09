@@ -15,12 +15,11 @@ KEYWORDS="~*"
 IUSE="gtk test"
 
 RDEPEND="
-	>=dev-libs/dbus-glib-0.74
 	>=dev-libs/glib-2.32:2
 	>=net-misc/networkmanager-1.2.0:=
 	>=net-misc/openvpn-2.1_rc9
 	gtk? (
-		app-crypt/libsecret
+		>=app-crypt/libsecret-0.18
 		>=gnome-extra/nm-applet-1.2.0
 		>=x11-libs/gtk+-3.4:3
 	)
@@ -42,9 +41,8 @@ src_prepare() {
 	sed '/test_non_utf8_import (plugin, test_dir)/ d' \
 		-i properties/tests/test-import-export.c || die "sed failed"
 
-	# From Arch Linux:
-	# 	https://git.archlinux.org/svntogit/packages.git/commit/?id=0e094dca722650b4b979202d682f86069063e811
-	eapply "${FILESDIR}"/${PN}-1.2.4-correct-linking-order.patch
+	# Fix underlinking issue, bug #588388, upstream #769783
+	eapply "${FILESDIR}"/${PN}-1.2.4-underlinking-*.patch
 
 	eautoreconf
 	gnome2_src_prepare
@@ -57,6 +55,5 @@ src_configure() {
 		--disable-more-warnings \
 		--disable-static \
 		--with-dist-version=Gentoo \
-		$(use_with gtk gnome) \
-		$(use_with test tests)
+		$(use_with gtk gnome)
 }

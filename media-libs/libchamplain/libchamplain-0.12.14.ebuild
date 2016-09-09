@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 VALA_USE_DEPEND="vapigen"
 
 inherit gnome2 vala
@@ -21,7 +20,7 @@ RDEPEND="
 	>=dev-libs/glib-2.16:2
 	>=media-libs/clutter-1.12:1.0[introspection?]
 	media-libs/cogl:=
-	>=net-libs/libsoup-2.34:2.4
+	>=net-libs/libsoup-2.42:2.4
 	>=x11-libs/cairo-1.4
 	x11-libs/gtk+:3
 	gtk? (
@@ -59,5 +58,6 @@ src_configure() {
 		--disable-vala-demos \
 		$(use_enable debug) \
 		$(use_enable gtk) \
-		$(use_enable introspection)
+		$(use_enable introspection) \
+		$(use_enable vala)
 }

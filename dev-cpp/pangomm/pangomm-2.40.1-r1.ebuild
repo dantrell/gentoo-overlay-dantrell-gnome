@@ -21,7 +21,7 @@ COMMON_DEPEND="
 	>=dev-libs/libsigc++-2.3.2:2[${MULTILIB_USEDEP}]
 "
 DEPEND="${COMMON_DEPEND}
-	virtual/pkgconfig
+	virtual/pkgconfig[${MULTILIB_USEDEP}]
 	doc? (
 		media-gfx/graphviz
 		dev-libs/libxslt

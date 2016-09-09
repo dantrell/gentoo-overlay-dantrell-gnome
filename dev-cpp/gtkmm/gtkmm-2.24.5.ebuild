@@ -1,9 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 
-inherit flag-o-matic gnome2 multilib-minimal
+inherit gnome2 multilib-minimal
 
 DESCRIPTION="C++ interface for GTK+"
 HOMEPAGE="http://www.gtkmm.org"
@@ -25,7 +24,7 @@ RDEPEND="
 	>=dev-libs/libsigc++-2.3.2:2[${MULTILIB_USEDEP}]
 "
 DEPEND="${RDEPEND}
-	virtual/pkgconfig
+	virtual/pkgconfig[${MULTILIB_USEDEP}]
 	doc? (
 		media-gfx/graphviz
 		dev-libs/libxslt
@@ -49,7 +48,8 @@ src_prepare() {
 }
 
 multilib_src_configure() {
-	ECONF_SOURCE="${S}" gnome2_src_configure \
+	ECONF_SOURCE="${S}" \
+	gnome2_src_configure \
 		--enable-api-atkmm \
 		$(multilib_native_use_enable doc documentation)
 }
@@ -59,6 +59,5 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
-	DOCS="AUTHORS ChangeLog PORTING NEWS README"
 	einstalldocs
 }

@@ -1,9 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="yes"
+EAPI="6"
 
-inherit eutils gnome2 multilib virtualx
+inherit gnome2 multilib virtualx
 
 DESCRIPTION="A library for using 3D graphics hardware to draw pretty pictures"
 HOMEPAGE="http://www.cogl3d.org/"
@@ -13,7 +12,7 @@ SLOT="1.0/20" # subslot = .so version
 KEYWORDS="*"
 
 # doc and profile disable for now due to bugs #484750 and #483332
-IUSE="examples gles2 gstreamer +introspection +kms +opengl +pango test video_cards_fglrx wayland" # doc profile
+IUSE="debug examples gles2 gstreamer +introspection +kms +opengl +pango test video_cards_fglrx wayland" # doc profile
 REQUIRED_USE="
 	wayland? ( gles2 )
 	|| ( gles2 opengl )
@@ -53,7 +52,7 @@ RDEPEND="${COMMON_DEPEND}
 "
 DEPEND="${COMMON_DEPEND}
 	>=dev-util/gtk-doc-am-1.13
-	sys-devel/gettext
+	>=sys-devel/gettext-0.19
 	virtual/pkgconfig
 	test? (
 		app-eselect/eselect-opengl
@@ -63,7 +62,7 @@ DEPEND="${COMMON_DEPEND}
 src_prepare() {
 	# Let cogl work with fglrx driver, bug #567168
 	# https://bugzilla.gnome.org/show_bug.cgi?id=756306
-	use video_cards_fglrx && epatch	"${FILESDIR}"/${PN}-1.22.0-fglrx.patch
+	use video_cards_fglrx && eapply "${FILESDIR}"/${PN}-1.22.0-fglrx.patch
 
 	# Do not build examples
 	sed -e "s/^\(SUBDIRS +=.*\)examples\(.*\)$/\1\2/" \
@@ -93,6 +92,7 @@ src_configure() {
 		--enable-deprecated        \
 		--enable-gdk-pixbuf        \
 		--enable-glib              \
+		$(use_enable debug)        \
 		$(use_enable opengl glx)   \
 		$(use_enable opengl gl)    \
 		$(use_enable gles2)        \
@@ -119,7 +119,7 @@ src_test() {
 		ewarn "# eselect opengl set xorg-x11"
 		return
 	fi
-	LIBGL_DRIVERS_PATH="${EROOT}/usr/$(get_libdir)/mesa" Xemake check
+	virtx emake check LIBGL_DRIVERS_PATH="${EROOT}/usr/$(get_libdir)/mesa"
 }
 
 src_install() {
