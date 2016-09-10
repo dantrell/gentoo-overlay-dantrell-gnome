@@ -44,3 +44,15 @@ src_configure() {
 		$(use_enable ssh) \
 		$(use_enable vala)
 }
+
+src_install() {
+	gnome2_src_install
+
+	if use python ; then
+		install_gi_override() {
+			python_moduleinto "$(python_get_sitedir)/gi/overrides"
+			python_domodule "${S}"/${PN}/Ggit.py
+		}
+		python_foreach_impl install_gi_override
+	fi
+}

@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 
 inherit gnome2
 
@@ -20,10 +19,10 @@ RDEPEND="
 	>=dev-libs/glib-2.35.1:2
 	>=dev-libs/libgdata-0.15.2:0=[crypt,gnome-online-accounts]
 	>=media-libs/grilo-0.2.6:0.2
-	>=net-libs/gnome-online-accounts-3.13.3
+	>=net-libs/gnome-online-accounts-3.13.3:=
 	>=net-libs/libgfbgraph-0.2.2:0.2
 	>=net-libs/libzapojit-0.0.2
-	flickr? ( media-plugins/grilo-plugins[flickr] )
+	flickr? ( media-plugins/grilo-plugins:0.2[flickr] )
 "
 DEPEND="${RDEPEND}
 	virtual/pkgconfig

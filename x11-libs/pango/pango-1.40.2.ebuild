@@ -29,7 +29,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.20
-	virtual/pkgconfig
+	virtual/pkgconfig[${MULTILIB_USEDEP}]
 	test? ( media-fonts/cantarell )
 	X? ( >=x11-proto/xproto-7.0.24[${MULTILIB_USEDEP}] )
 	!<=sys-devel/autoconf-2.63:2.5
