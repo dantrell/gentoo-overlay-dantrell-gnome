@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 
 inherit bash-completion-r1 gnome2
@@ -16,8 +15,6 @@ KEYWORDS="*"
 
 IUSE="+introspection nls"
 
-# FIXME: yaml is optional with --enable-dep11 but not
-# properly handled in autofoo bug#????
 RDEPEND="
 	app-arch/gcab
 	app-arch/libarchive

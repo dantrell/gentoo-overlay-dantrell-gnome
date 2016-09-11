@@ -15,8 +15,6 @@ KEYWORDS="*"
 
 IUSE="+introspection nls"
 
-# FIXME: yaml is optional with --enable-dep11 but not
-# properly handled in autofoo bug#????
 RDEPEND="
 	app-arch/gcab
 	app-arch/libarchive
