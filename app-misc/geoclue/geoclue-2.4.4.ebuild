@@ -3,7 +3,7 @@
 EAPI="5"
 GCONF_DEBUG="no"
 
-inherit eutils gnome2 systemd user versionator
+inherit gnome2 systemd user versionator
 
 MY_PV=$(get_version_component_range 1-2)
 DESCRIPTION="A geoinformation D-Bus service"
@@ -17,7 +17,7 @@ KEYWORDS="*"
 IUSE="+introspection +modemmanager zeroconf"
 
 RDEPEND="
-	>=dev-libs/glib-2.34:2
+	>=dev-libs/glib-2.44:2
 	>=dev-libs/json-glib-0.14
 	>=net-libs/libsoup-2.42:2.4
 	sys-apps/dbus
@@ -35,11 +35,7 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	# From Upstream:
-	#.	https://cgit.freedesktop.org/geoclue/commit/?id=1194c23407f04153e541d4dc636e1dfa83786624
-	#.	https://cgit.freedesktop.org/geoclue/commit/?id=4cefb6bf6d1835776e687f7302967e4ba9c22335
-	epatch "${FILESDIR}"/${P}-main-remove-stray-semicolon.patch
-	epatch "${FILESDIR}"/${P}-service-client-fix-comparison-against-zero.patch
+	epatch "${FILESDIR}"/${PN}-2.4.1-fix-GLIBC-features.patch
 }
 
 src_configure() {

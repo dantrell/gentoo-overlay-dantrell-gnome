@@ -140,7 +140,7 @@ pkg_setup() {
 		check-reqs_pkg_setup
 	fi
 
-	[[ ${MERGE_TYPE} = "binary" ]] || python-any-r1_pkg_setup
+	python-any-r1_pkg_setup
 }
 
 src_prepare() {
@@ -230,25 +230,25 @@ src_configure() {
 	fi
 
 	local mycmakeargs=(
-		-DENABLE_QUARTZ_TARGET="$(usex aqua)"
-		-DENABLE_API_TESTS="$(usex test)"
-		-DENABLE_GTKDOC="$(usex doc)"
-		-DENABLE_GEOLOCATION="$(usex geolocation)"
+		-DENABLE_QUARTZ_TARGET=$(usex aqua)
+		-DENABLE_API_TESTS=$(usex test)
+		-DENABLE_GTKDOC=$(usex doc)
+		-DENABLE_GEOLOCATION=$(usex geolocation)
 		$(cmake-utils_use_find_package gles2 OpenGLES2)
-		-DENABLE_GLES2="$(usex gles2)"
-		-DENABLE_CREDENTIAL_STORAGE="$(usex gnome-keyring)"
-		-DENABLE_VIDEO="$(usex gstreamer)"
-		-DENABLE_WEB_AUDIO="$(usex gstreamer)"
-		-DENABLE_INTROSPECTION="$(usex introspection)"
-		-DENABLE_JIT="$(usex jit)"
-		-DUSE_LIBNOTIFY="$(usex libnotify)"
-		-DENABLE_PLUGIN_PROCESS_GTK2="$(usex nsplugin)"
-		-DENABLE_SPELLCHECK="$(usex spell SPELLCHECK)"
-		-DENABLE_WAYLAND_TARGET="$(usex wayland)"
-		-DENABLE_WEBGL="$(usex webgl)"
+		-DENABLE_GLES2=$(usex gles2)
+		-DENABLE_CREDENTIAL_STORAGE=$(usex gnome-keyring)
+		-DENABLE_VIDEO=$(usex gstreamer)
+		-DENABLE_WEB_AUDIO=$(usex gstreamer)
+		-DENABLE_INTROSPECTION=$(usex introspection)
+		-DENABLE_JIT=$(usex jit)
+		-DUSE_LIBNOTIFY=$(usex libnotify)
+		-DENABLE_PLUGIN_PROCESS_GTK2=$(usex nsplugin)
+		-DENABLE_SPELLCHECK=$(usex spell)
+		-DENABLE_WAYLAND_TARGET=$(usex wayland)
+		-DENABLE_WEBGL=$(usex webgl)
 		$(cmake-utils_use_find_package egl EGL)
 		$(cmake-utils_use_find_package opengl OpenGL)
-		-DENABLE_X11_TARGET="$(usex X)"
+		-DENABLE_X11_TARGET=$(usex X)
 		-DENABLE_OPENGL=${opengl_enabled}
 		-DENABLE_ACCELERATED_2D_CANVAS=${canvas_enabled}
 		-DCMAKE_BUILD_TYPE=Release

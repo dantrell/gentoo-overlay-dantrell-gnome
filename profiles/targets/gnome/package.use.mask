@@ -1,2 +1,3 @@
 gnome-base/gnome-extra-apps flashback
+net-misc/networkmanager consolekit
 x11-wm/mutter kms

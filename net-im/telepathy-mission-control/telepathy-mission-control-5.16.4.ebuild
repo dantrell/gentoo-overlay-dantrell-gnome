@@ -4,7 +4,7 @@ EAPI="6"
 GNOME2_LA_PUNT="yes"
 PYTHON_COMPAT=( python2_7 )
 
-inherit autotools eutils gnome2 python-any-r1
+inherit autotools gnome2 python-any-r1
 
 DESCRIPTION="An account manager and channel dispatcher for the Telepathy framework"
 HOMEPAGE="https://cgit.freedesktop.org/telepathy/telepathy-mission-control/"
@@ -12,7 +12,7 @@ SRC_URI="https://telepathy.freedesktop.org/releases/${PN}/${P}.tar.gz"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="debug +deprecated networkmanager systemd"
 
@@ -23,7 +23,7 @@ RDEPEND="
 	>=dev-libs/glib-2.32:2
 	>=sys-apps/dbus-0.95
 	>=net-libs/telepathy-glib-0.20
-	networkmanager? ( >=net-misc/networkmanager-0.7:= )
+	networkmanager? ( >=net-misc/networkmanager-1:= )
 
 	!deprecated? (
 		systemd? ( >=sys-apps/systemd-186:0= )
@@ -40,13 +40,9 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	# From freedesktop:
-	# 	https://cgit.freedesktop.org/telepathy/telepathy-mission-control/commit/?id=3d3a13c561e858853af5c601373be3ea0746f58c
-	eapply "${FILESDIR}"/${P}-server-exit-early-if-we-failed-to-create-mcdservice.patch
-
 	# From Funtoo:
 	# 	https://bugs.funtoo.org/browse/FL-1329
-	eapply "${FILESDIR}"/${P}-restore-deprecated-code.patch
+	eapply "${FILESDIR}"/${PN}-5.16.4-restore-deprecated-code.patch
 
 	eautoreconf
 	gnome2_src_prepare

@@ -13,7 +13,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="+introspection"
+IUSE="+introspection modemmanager teamd"
 
 RDEPEND="
 	app-crypt/libsecret
@@ -26,16 +26,18 @@ RDEPEND="
 	>=x11-libs/libnotify-0.7.0
 
 	app-text/iso-codes
-	>=net-misc/networkmanager-1.3:=[introspection?]
+	>=net-misc/networkmanager-1.3:=[introspection?,modemmanager?,teamd?]
 	net-misc/mobile-broadband-provider-info
 
 	introspection? ( >=dev-libs/gobject-introspection-0.9.6:= )
 	virtual/freedesktop-icon-theme
 	virtual/libgudev:=
+	modemmanager? ( net-misc/modemmanager )
+	teamd? ( >=dev-libs/jansson-2.3 )
 "
 DEPEND="${RDEPEND}
-	virtual/pkgconfig
 	>=dev-util/intltool-0.50.1
+	virtual/pkgconfig
 "
 
 PDEPEND="virtual/notification-daemon" #546134
@@ -46,5 +48,7 @@ src_configure() {
 		--disable-more-warnings \
 		--disable-static \
 		--localstatedir=/var \
-		$(use_enable introspection)
+		$(use_enable introspection) \
+		$(use_with modemmanager wwan) \
+		$(use_with teamd team)
 }

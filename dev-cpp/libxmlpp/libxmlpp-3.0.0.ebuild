@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME_ORG_MODULE="${PN/pp/++}"
 
 inherit gnome2 multilib-minimal
@@ -10,19 +9,17 @@ DESCRIPTION="C++ wrapper for the libxml2 XML parser library"
 HOMEPAGE="http://libxmlplusplus.sourceforge.net/"
 
 LICENSE="LGPL-2.1"
-SLOT="2.6"
+SLOT="3.0"
 KEYWORDS="*"
 
 IUSE="doc"
-
-RESTRICT="mirror"
 
 RDEPEND="
 	>=dev-libs/libxml2-2.7.7[${MULTILIB_USEDEP}]
 	>=dev-cpp/glibmm-2.32[${MULTILIB_USEDEP}]
 "
 DEPEND="${RDEPEND}
-	virtual/pkgconfig
+	virtual/pkgconfig[${MULTILIB_USEDEP}]
 "
 
 multilib_src_prepare() {

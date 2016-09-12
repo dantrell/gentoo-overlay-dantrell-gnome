@@ -25,7 +25,7 @@
 >=app-editors/ghex-3.20.0
 >=app-editors/latexila-3.16.1
 >=app-misc/bijiben-3.16.2
->=app-misc/geoclue-2.6.0
+>=app-misc/geoclue-2.4.0
 >=app-misc/gnote-3.16.1
 >=app-misc/tracker-1.4.0
 >=app-text/evince-3.16.1

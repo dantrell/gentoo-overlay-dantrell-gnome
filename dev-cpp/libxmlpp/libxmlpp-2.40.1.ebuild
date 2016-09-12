@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME_ORG_MODULE="${PN/pp/++}"
 
 inherit gnome2 multilib-minimal
@@ -20,7 +19,7 @@ RDEPEND="
 	>=dev-cpp/glibmm-2.32[${MULTILIB_USEDEP}]
 "
 DEPEND="${RDEPEND}
-	virtual/pkgconfig
+	virtual/pkgconfig[${MULTILIB_USEDEP}]
 "
 
 multilib_src_prepare() {
