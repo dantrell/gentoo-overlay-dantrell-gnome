@@ -1,0 +1,45 @@
+diff '--exclude=.git' -urN a/configure.ac b/configure.ac
+--- a/configure.ac	2016-08-31 11:56:33.000000000 -0400
++++ b/configure.ac	2016-09-15 14:08:06.639213038 -0400
+@@ -99,14 +99,16 @@
+ 
+ dnl ==========================================================================
+ dnl systemd user unit directory
+-PKG_CHECK_EXISTS([systemd],, [AC_MSG_ERROR([systemd development headers not found])])
+ AC_ARG_WITH([systemduserunitdir],
+-	    AS_HELP_STRING([--with-systemduserunitdir=DIR], [Directory for systemd user service files]),
+-	    [],
+-	    [with_systemduserunitdir=$($PKG_CONFIG --variable=systemduserunitdir systemd)])
+-if test x$with_systemduserunitdir != xno; then
+-	AC_SUBST([systemduserunitdir], [$with_systemduserunitdir])
+-fi
++  [AS_HELP_STRING([--with-systemduserunitdir=DIR],
++    [Directory for systemd user service files])],
++  [],
++  [PKG_CHECK_EXISTS([systemd],
++    [with_systemduserunitdir=$($PKG_CONFIG --variable=systemduserunitdir systemd)],
++    [with_systemduserunitdir='${libdir}/systemd/user'])])
++AS_IF([test x$with_systemduserunitdir != xno],
++  [AC_SUBST([systemduserunitdir], [$with_systemduserunitdir])])
++AM_CONDITIONAL([INSTALL_USER_UNITS], [test -n "$with_systemduserunitdir" -a "x$with_systemduserunitdir" != xno])
+ 
+ dnl ==========================================================================
+ dnl Check for SELinux
+diff '--exclude=.git' -urN a/data/Makefile.am b/data/Makefile.am
+--- a/data/Makefile.am	2016-08-30 06:30:44.000000000 -0400
++++ b/data/Makefile.am	2016-09-15 14:04:57.893250160 -0400
+@@ -12,12 +12,14 @@
+ @INTLTOOL_XML_NOMERGE_RULE@
+ @GSETTINGS_RULES@
+ 
++if INSTALL_USER_UNITS
+ systemdservicedir = $(systemduserunitdir)
+ systemdservice_in_files = gnome-user-share-webdav.service.in
+ systemdservice_DATA = gnome-user-share-webdav.service
+ 
+ $(systemdservice_DATA): gnome-user-share-webdav.service.in Makefile
+ 	$(AM_V_GEN) $(SED) -e "s|\@libexecdir\@|$(libexecdir)|" $< > $@
++endif
+ 
+ convertdir = $(datadir)/GConf/gsettings
+ convert_DATA = gnome-user-share.convert

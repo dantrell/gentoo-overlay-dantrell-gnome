@@ -3,7 +3,7 @@
 EAPI="6"
 GNOME2_LA_PUNT="yes"
 
-inherit gnome2 multilib systemd
+inherit autotools gnome2 multilib systemd
 
 DESCRIPTION="Personal file sharing for the GNOME desktop"
 HOMEPAGE="https://git.gnome.org/browse/gnome-user-share"
@@ -40,6 +40,11 @@ src_prepare() {
 	# https://bugzilla.gnome.org/show_bug.cgi?id=750525#c2
 	eapply "${FILESDIR}"/${PN}-3.18.1-no-prefork.patch
 
+	# From GNOME:
+	# 	https://git.gnome.org/browse/vino/commit/?id=1538798a89653b8921ca574aebb3f153543b4921
+	eapply "${FILESDIR}"/${PN}-3.18.2-allow-building-on-non-systemd-systems.patch
+
+	eautoreconf
 	gnome2_src_prepare
 }
 

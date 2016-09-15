@@ -1,5 +1,6 @@
---- gnome-user-share-3.14.2/data/dav_user_2.4.conf.orig 2015-06-03 20:21:27.512774376 -0600
-+++ gnome-user-share-3.14.2/data/dav_user_2.4.conf      2015-06-03 20:21:33.588774303 -0600
+diff '--exclude=.git' -urN a/data/dav_user_2.4.conf b/data/dav_user_2.4.conf
+--- a/data/dav_user_2.4.conf	2016-03-21 08:01:50.000000000 -0400
++++ b/data/dav_user_2.4.conf	2016-09-15 15:21:28.738904414 -0400
 @@ -9,7 +9,6 @@
  LimitXMLRequestBody 100000
  

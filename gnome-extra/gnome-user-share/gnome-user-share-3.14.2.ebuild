@@ -1,10 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 
-inherit eutils gnome2 multilib
+inherit gnome2 multilib
 
 DESCRIPTION="Personal file sharing for the GNOME desktop"
 HOMEPAGE="https://git.gnome.org/browse/gnome-user-share"
@@ -42,7 +41,8 @@ src_prepare() {
 	# Upstream forces to use prefork because of Fedora defaults, but
 	# that is problematic for us (bug #551012)
 	# https://bugzilla.gnome.org/show_bug.cgi?id=750525#c2
-	epatch "${FILESDIR}"/${PN}-3.18.1-no-prefork.patch
+	eapply "${FILESDIR}"/${PN}-3.18.1-no-prefork.patch
+
 	gnome2_src_prepare
 }
 
