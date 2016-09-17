@@ -14,7 +14,7 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE="+introspection python"
-REQUIRED_IUSE="python? ( ${PYTHON_REQUIRED_USE} introspection )"
+REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} introspection )"
 
 RDEPEND="
 	>=dev-db/sqlite-3.7:3

@@ -13,7 +13,7 @@ SLOT="0/1" # subslot = libgspell-1 soname version
 KEYWORDS="*"
 
 IUSE="+introspection vala"
-REQUIRED_IUSE="vala? ( introspection )"
+REQUIRED_USE="vala? ( introspection )"
 
 RDEPEND="
 	>=app-text/enchant-1.6.0

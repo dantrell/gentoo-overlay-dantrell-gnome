@@ -99,6 +99,7 @@ mail-client/geary::gentoo
 media-gfx/eog-plugins::gentoo
 media-gfx/gnome-font-viewer::gentoo
 media-gfx/gthumb::gentoo
+media-gfx/inkscape::gentoo
 media-gfx/shotwell::gentoo
 media-libs/babl::gentoo
 media-libs/clutter-gst::gentoo

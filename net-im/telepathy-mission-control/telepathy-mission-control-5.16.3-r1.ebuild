@@ -40,7 +40,7 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	# From freedesktop:
+	# From Telepathy Mission Control:
 	# 	https://cgit.freedesktop.org/telepathy/telepathy-mission-control/commit/?id=3d3a13c561e858853af5c601373be3ea0746f58c
 	eapply "${FILESDIR}"/${P}-server-exit-early-if-we-failed-to-create-mcdservice.patch
 

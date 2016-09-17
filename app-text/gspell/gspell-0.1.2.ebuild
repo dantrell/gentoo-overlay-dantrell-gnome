@@ -14,7 +14,7 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE="+introspection vala"
-REQUIRED_IUSE="vala? ( introspection )"
+REQUIRED_USE="vala? ( introspection )"
 
 RDEPEND="
 	>=app-text/enchant-1.6.0

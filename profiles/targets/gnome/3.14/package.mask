@@ -1,5 +1,5 @@
 # Requires GLibmm 2.48 (or greater) and Libsigc++ 2.8 (or greater)
->=media-gfx/inkscape-0.91-r3
+>=media-gfx/inkscape-0.91-r200
 
 # Requires GLib 2.46 (or greater)
 >=x11-misc/colord-1.3.0

@@ -1,11 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 VALA_USE_DEPEND="vapigen"
 
-inherit autotools bash-completion-r1 check-reqs eutils gnome2 user systemd udev vala multilib-minimal
+inherit autotools bash-completion-r1 check-reqs gnome2 user systemd udev vala multilib-minimal
 
 DESCRIPTION="System service to accurately color manage input and output devices"
 HOMEPAGE="https://www.freedesktop.org/software/colord/"
@@ -27,7 +26,7 @@ REQUIRED_USE="
 RESTRICT="test"
 
 COMMON_DEPEND="
-	dev-db/sqlite:3=
+	dev-db/sqlite:3=[${MULTILIB_USEDEP}]
 	>=dev-libs/glib-2.36:2[${MULTILIB_USEDEP}]
 	>=media-libs/lcms-2.6:2=[${MULTILIB_USEDEP}]
 	argyllcms? ( media-gfx/argyllcms )
@@ -40,7 +39,7 @@ COMMON_DEPEND="
 	systemd? ( >=sys-apps/systemd-44:0= )
 	udev? (
 		virtual/udev
-		virtual/libgudev:=
+		virtual/libgudev:=[${MULTILIB_USEDEP}]
 		virtual/libudev:=[${MULTILIB_USEDEP}]
 	)
 "
@@ -81,6 +80,7 @@ src_prepare() {
 	eautoreconf
 	use vala && vala_src_prepare
 	gnome2_src_prepare
+	multilib_copy_sources
 }
 
 multilib_src_configure() {
@@ -105,7 +105,7 @@ multilib_src_configure() {
 		$(use_enable udev)
 		--with-udevrulesdir="$(get_udevdir)"/rules.d
 		$(multilib_native_use_enable vala)
-		"$(systemd_with_unitdir)"
+		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
 	)
 
 	if ! multilib_is_native_abi; then
@@ -152,7 +152,6 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
-	DOCS="AUTHORS ChangeLog MAINTAINERS NEWS README.md TODO"
 	einstalldocs
 
 	newbashcomp data/colormgr colormgr

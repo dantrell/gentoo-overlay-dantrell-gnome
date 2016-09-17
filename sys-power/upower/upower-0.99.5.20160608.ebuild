@@ -55,7 +55,7 @@ QA_MULTILIB_PATHS="usr/lib/${PN}/.*"
 S="${WORKDIR}/${PN}-0.99.3"
 
 src_prepare() {
-	# From Upstream:
+	# From UPower:
 	# 	https://cgit.freedesktop.org/upower/commit/?id=95e8a2a316872bf5e6b262ccc3a165cca8240d27
 	# 	https://cgit.freedesktop.org/upower/commit/?id=fe37183fba649b999af3f66b9e0b0d70a054426c
 	# 	https://cgit.freedesktop.org/upower/commit/?id=c9b2e177267b623850b3deedb1242de7d2e413ee
@@ -118,7 +118,7 @@ src_prepare() {
 		eapply "${FILESDIR}"/${PN}-0.99.0-always-use-pm-utils-backend.patch
 
 		if use integration-test; then
-			# From Upstream:
+			# From UPower:
 			# 	https://cgit.freedesktop.org/upower/commit/?id=720680d6855061b136ecc9ff756fb0cc2bc3ae2c
 			eapply "${FILESDIR}"/${PN}-0.99.2-fix-integration-test.patch
 		fi
