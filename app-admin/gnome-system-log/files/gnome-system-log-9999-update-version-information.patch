@@ -1,0 +1,11 @@
+diff '--exclude=.git' -urN a/configure.ac b/configure.ac
+--- a/configure.ac	2016-09-18 23:43:18.833748272 -0400
++++ b/configure.ac	2016-09-18 23:43:51.542556757 -0400
+@@ -1,6 +1,6 @@
+ dnl -*- mode: m4 -*-
+ AC_PREREQ(2.63)
+-AC_INIT([gnome-system-log],[3.9.90],[],[gnome-system-log])
++AC_INIT([gnome-system-log],[20160913],[],[gnome-system-log])
+ 
+ AC_CONFIG_HEADERS(config.h)
+ AC_CONFIG_MACRO_DIR([m4])
