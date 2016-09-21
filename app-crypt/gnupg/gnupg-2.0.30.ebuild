@@ -25,7 +25,7 @@ COMMON_DEPEND_LIBS="
 	>=net-misc/curl-7.10
 	sys-libs/zlib
 	bzip2? ( app-arch/bzip2 )
-	readline? ( sys-libs/readline:= )
+	readline? ( sys-libs/readline:0= )
 	smartcard? ( usb? ( virtual/libusb:0 ) )
 	ldap? ( net-nds/openldap )"
 COMMON_DEPEND_BINS="app-crypt/pinentry"

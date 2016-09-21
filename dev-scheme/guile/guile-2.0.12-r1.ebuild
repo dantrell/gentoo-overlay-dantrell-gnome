@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit elisp-common flag-o-matic autotools
+inherit autotools elisp-common flag-o-matic
 
 DESCRIPTION="GNU Ubiquitous Intelligent Language for Extensions"
 HOMEPAGE="https://www.gnu.org/software/guile/"
@@ -11,7 +11,7 @@ SRC_URI="mirror://gnu/guile/${P}.tar.xz"
 LICENSE="LGPL-3+"
 SLOT="12/22" # subslot is soname version
 MAJOR="2.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="debug debug-malloc +deprecated doc emacs +networking +nls +regex static-libs +threads" # upstream recommended +networking +nls
 
@@ -26,6 +26,7 @@ RDEPEND="
 	dev-libs/libltdl:=
 	>=dev-libs/libunistring-0.9.3
 	>=sys-devel/libtool-1.5.6
+	sys-libs/readline:0=
 "
 DEPEND="
 	${RDEPEND}

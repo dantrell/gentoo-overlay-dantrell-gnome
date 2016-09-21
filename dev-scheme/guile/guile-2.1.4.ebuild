@@ -26,6 +26,7 @@ RDEPEND="
 	dev-libs/libltdl:=
 	>=dev-libs/libunistring-0.9.3
 	>=sys-devel/libtool-1.5.6
+	sys-libs/readline:0=
 "
 DEPEND="
 	${RDEPEND}
