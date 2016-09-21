@@ -36,7 +36,13 @@ DEPEND="
 	sys-devel/gettext
 "
 
-PATCHES=( "${FILESDIR}/${P}-build_includes2.patch" ) #bug 590528 patched by upstream second try
+PATCHES=(
+	# From Gentoo:
+	# 	https://bugs.gentoo.org/show_bug.cgi?id=590528
+	# 	https://bugs.gentoo.org/show_bug.cgi?id=594010
+	"${FILESDIR}/${P}-build_includes2.patch"
+	"${FILESDIR}/${P}-workaround-ice-ssa-corruption.patch"
+)
 
 src_prepare() {
 	default
