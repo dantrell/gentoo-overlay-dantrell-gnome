@@ -2,5 +2,5 @@
 >=dev-libs/libgit2-0.26.0
 >=dev-libs/libgit2-glib-0.26.0
 >=dev-libs/libsigc++-2.12.0
->=media-libs/clutter-1.30.0
+>=media-libs/clutter-1.28.0
 >=media-libs/clutter-gtk-1.8.4

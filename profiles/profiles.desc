@@ -8,6 +8,8 @@ amd64       default/amd64/3.18              stable
 amd64       default/amd64/3.18/extended     stable
 amd64       default/amd64/3.20              stable
 amd64       default/amd64/3.20/extended     stable
+amd64       default/amd64/3.22              stable
+amd64       default/amd64/3.22/extended     stable
 
 x86         default/x86/3.14                stable
 x86         default/x86/3.14/extended       stable
@@ -17,3 +19,5 @@ x86         default/x86/3.18                stable
 x86         default/x86/3.18/extended       stable
 x86         default/x86/3.20                stable
 x86         default/x86/3.20/extended       stable
+x86         default/x86/3.22                stable
+x86         default/x86/3.22/extended       stable

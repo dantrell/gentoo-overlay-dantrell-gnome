@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 
 inherit flag-o-matic gnome2
@@ -36,8 +35,6 @@ DEPEND="${RDEPEND}
 #	gnome-base/gnome-common
 
 src_configure() {
-	DOCS="AUTHORS ChangeLog HACKING NEWS README"
-
 	if use x86-interix; then
 		# activate the itx-bind package...
 		append-flags "-I${EPREFIX}/usr/include/bind"

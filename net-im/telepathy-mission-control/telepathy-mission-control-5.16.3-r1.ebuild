@@ -4,7 +4,7 @@ EAPI="6"
 GNOME2_LA_PUNT="yes"
 PYTHON_COMPAT=( python2_7 )
 
-inherit autotools eutils gnome2 python-any-r1
+inherit autotools gnome2 python-any-r1
 
 DESCRIPTION="An account manager and channel dispatcher for the Telepathy framework"
 HOMEPAGE="https://cgit.freedesktop.org/telepathy/telepathy-mission-control/"

@@ -6,7 +6,7 @@ inherit gnome2-live
 
 DESCRIPTION="A graphical user interface to view and monitor system log files"
 HOMEPAGE="https://help.gnome.org/users/gnome-system-log/"
-EGIT_COMMIT="43ba3c0754b6515f01e4622d5a326a0077661e23"
+EGIT_COMMIT="2460e9df6e33156cee8807e84c832f05ff2065e0"
 
 LICENSE="GPL-2+ CC-BY-SA-3.0"
 SLOT="0"

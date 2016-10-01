@@ -1,7 +1,11 @@
+# Masked to test on GNOME 3.22 first
+>=net-libs/webkit-gtk-2.14.0
+
 # Masked to freeze the state of GNOME
+>=app-accessibility/accerciser-3.22.0
 >=app-accessibility/at-spi2-atk-2.22.0
 >=app-accessibility/at-spi2-core-2.22.0
->=app-accessibility/orca-3.22.0
+>=app-accessibility/orca-3.21.92
 >=app-arch/file-roller-3.22.0
 >=app-crypt/gcr-3.22.0
 >=app-crypt/seahorse-3.22.0
@@ -10,7 +14,7 @@
 >=app-editors/gedit-plugins-3.22.0
 >=app-editors/ghex-3.22.0
 >=app-editors/latexila-3.22.0
->=app-misc/bijiben-3.22.0
+>=app-misc/bijiben-3.21.2
 >=app-misc/geoclue-2.6.0
 >=app-misc/gnote-3.22.0
 >=app-misc/tracker-1.10.0
@@ -120,7 +124,7 @@
 >=gnome-extra/gnome-user-share-3.22.0
 >=gnome-extra/gnome-weather-3.22.0
 >=gnome-extra/nautilus-tracker-tags-1.10.0
->=gnome-extra/sushi-3.22.0
+>=gnome-extra/sushi-3.21.91
 >=gnome-extra/yelp-3.22.0
 >=gnome-extra/yelp-xsl-3.22.0
 >=gnome-extra/zenity-3.22.0
@@ -138,7 +142,7 @@
 >=media-libs/grilo-0.4.0
 >=media-plugins/grilo-plugins-0.4.0
 >=media-sound/gnome-music-3.22.0
->=media-sound/gnome-sound-recorder-3.22.0
+>=media-sound/gnome-sound-recorder-3.21.92
 >=media-sound/rhythmbox-3.6
 >=media-sound/sound-juicer-3.22.0
 >=media-video/cheese-3.22.0
@@ -170,7 +174,7 @@
 >=x11-libs/libwnck-3.22.0
 >=x11-libs/pango-1.42.0
 >=x11-libs/vte-0.46.0
->=x11-misc/gpaste-3.22.0
+>=x11-misc/gpaste-3.21.91
 >=x11-misc/notification-daemon-3.22.0
 >=x11-terms/gnome-terminal-3.22.0
 >=x11-themes/adwaita-icon-theme-3.22
