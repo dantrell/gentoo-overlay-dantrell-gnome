@@ -88,14 +88,6 @@ DEPEND="${COMMON_DEPEND}
 	)
 "
 
-PATCHES=(
-	# Fix with Fedora patches for:
-	# https://bugzilla.gnome.org/show_bug.cgi?id=770456
-	"${FILESDIR}"/${P}-wifi-mac{1,2}.patch
-	# and dhcp (both fixed in 1.4.1)
-	"${FILESDIR}"/${P}-dhcp-helper.patch
-)
-
 python_check_deps() {
 	if use test; then
 		has_version "dev-python/dbus-python[${PYTHON_USEDEP}]" &&

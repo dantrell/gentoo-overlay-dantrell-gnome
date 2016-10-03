@@ -64,6 +64,12 @@ src_configure() {
 		--disable-static \
 		--enable-posix \
 		--with-modules \
+		--without-libgmp-prefix \
+		--without-libiconv-prefix \
+		--without-libintl-prefix \
+		--without-libltdl-prefix \
+		--without-libreadline-prefix \
+		--without-libunistring-prefix \
 		$(use_enable debug guile-debug) \
 		$(use_enable debug-malloc) \
 		$(use_enable deprecated) \

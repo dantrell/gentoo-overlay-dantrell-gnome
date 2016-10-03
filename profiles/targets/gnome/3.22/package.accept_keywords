@@ -1,2 +1,2 @@
-gnome-extra/nm-applet::dantrell-gnome **
-net-misc/networkmanager::dantrell-gnome **
+gnome-extra/nm-applet::dantrell-gnome ~*
+net-misc/networkmanager::dantrell-gnome ~*
