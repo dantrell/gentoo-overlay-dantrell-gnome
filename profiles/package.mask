@@ -183,4 +183,3 @@ x11-misc/notification-daemon::gentoo
 x11-themes/gnome-icon-theme-extras::gentoo
 x11-themes/gnome-icon-theme-symbolic::gentoo
 x11-themes/gnome-icon-theme::gentoo
-x11-themes/gnome-themes-standard::gentoo
