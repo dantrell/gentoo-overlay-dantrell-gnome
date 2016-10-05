@@ -15,7 +15,7 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="+introspection python +vala"
+IUSE="+introspection nls python +vala"
 REQUIRED_USE="
 	python? ( ${PYTHON_REQUIRED_USE} )
 	vala? ( introspection )
@@ -52,6 +52,7 @@ src_configure() {
 		--disable-test-coverage \
 		--disable-static \
 		$(use_enable introspection) \
+		$(use_enable nls) \
 		$(use_enable vala) \
 		$(use_with python)
 }

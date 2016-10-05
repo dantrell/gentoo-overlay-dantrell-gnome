@@ -3,7 +3,7 @@
 EAPI="6"
 GNOME_ORG_MODULE="NetworkManager-${PN##*-}"
 
-inherit autotools gnome2 user
+inherit gnome2 user
 
 DESCRIPTION="NetworkManager OpenVPN plugin"
 HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
@@ -41,10 +41,6 @@ src_prepare() {
 	sed '/test_non_utf8_import (plugin, test_dir)/ d' \
 		-i properties/tests/test-import-export.c || die "sed failed"
 
-	# Fix underlinking issue, bug #588388, upstream #769783
-	eapply "${FILESDIR}"/${PN}-1.2.4-underlinking-*.patch
-
-	eautoreconf
 	gnome2_src_prepare
 }
 
