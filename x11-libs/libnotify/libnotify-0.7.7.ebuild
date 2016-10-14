@@ -27,21 +27,11 @@ DEPEND="${RDEPEND}
 "
 PDEPEND="virtual/notification-daemon"
 
-src_prepare() {
-	xdg_environment_reset
-	sed -i -e 's:noinst_PROG:check_PROG:' tests/Makefile.am || die
-
-	if ! use test; then
-		sed -i -e '/PKG_CHECK_MODULES(TESTS/d' configure.ac || die
-	fi
-
-	eautoreconf
-}
-
 multilib_src_configure() {
 	ECONF_SOURCE=${S} econf \
 		--disable-static \
-		$(multilib_native_use_enable introspection)
+		$(multilib_native_use_enable introspection) \
+		$(multilib_native_use_enable test tests)
 
 	# work-around gtk-doc out-of-source brokedness
 	if multilib_is_native_abi; then
