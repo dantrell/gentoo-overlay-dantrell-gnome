@@ -24,7 +24,7 @@ RDEPEND="
 	x11-libs/vte:2.91
 	>=dev-db/sqlite-3:3
 	sys-devel/gdb
-	dev-libs/boost
+	dev-libs/boost:=
 	dynamiclayout? ( >=dev-cpp/gdlmm-3.0:3 )
 	memoryview? ( >=app-editors/ghex-2.90:2 )
 "

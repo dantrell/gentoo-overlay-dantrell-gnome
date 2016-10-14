@@ -186,5 +186,6 @@
 >=x11-themes/adwaita-icon-theme-3.18
 >=x11-themes/gnome-backgrounds-3.18
 >=x11-themes/gnome-themes-standard-3.18
+>=x11-themes/gtk-engines-adwaita-3.18.0
 >=x11-wm/metacity-3.18.0
 >=x11-wm/mutter-3.18.0

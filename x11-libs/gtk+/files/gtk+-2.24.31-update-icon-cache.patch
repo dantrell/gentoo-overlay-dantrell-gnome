@@ -1,15 +1,16 @@
-From 2537d97e4685767ce22834c0dd24d37ba715fb52 Mon Sep 17 00:00:00 2001
+From 260f94f3914ba18a256e6f1c222f643a57854e80 Mon Sep 17 00:00:00 2001
 From: Gilles Dartiguelongue <eva@gentoo.org>
 Date: Sat, 9 May 2015 23:30:58 +0200
 Subject: [PATCH] Always use external gtk-update-icon-cache
 
 ---
- configure.ac    |  8 +++-----
- gtk/Makefile.am | 13 ++-----------
- 2 files changed, 5 insertions(+), 16 deletions(-)
+ configure.ac                   |  8 +++-----
+ docs/reference/gtk/Makefile.am |  2 +-
+ gtk/Makefile.am                | 13 ++-----------
+ 3 files changed, 6 insertions(+), 17 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 2671a3d..fa46004 100644
+index 4e11b40..7ef8cb6 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -913,11 +913,9 @@ dnl Look for a host system's gdk-pixbuf-csource if we are cross-compiling
@@ -27,11 +28,24 @@ index 2671a3d..fa46004 100644
  fi
  
  AC_PATH_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource, no)
+diff --git a/docs/reference/gtk/Makefile.am b/docs/reference/gtk/Makefile.am
+index c239445..60b5265 100644
+--- a/docs/reference/gtk/Makefile.am
++++ b/docs/reference/gtk/Makefile.am
+@@ -368,7 +368,7 @@ EXTRA_DIST += version.xml.in
+ 
+ if ENABLE_MAN
+ 
+-man_MANS = gtk-query-immodules-2.0.1 gtk-update-icon-cache.1 gtk-builder-convert.1
++man_MANS = gtk-query-immodules-2.0.1 gtk-builder-convert.1
+ 
+ %.1 : %.xml 
+ 	@XSLTPROC@ -nonet http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl $<
 diff --git a/gtk/Makefile.am b/gtk/Makefile.am
-index 248220d..42e4c23 100644
+index 8cc4536..a7afbf3 100644
 --- a/gtk/Makefile.am
 +++ b/gtk/Makefile.am
-@@ -1039,8 +1039,7 @@ endif
+@@ -1087,8 +1087,7 @@ endif
  # Installed tools
  #
  bin_PROGRAMS = \
@@ -41,7 +55,7 @@ index 248220d..42e4c23 100644
  
  bin_SCRIPTS = gtk-builder-convert
  
-@@ -1390,16 +1389,8 @@ stamp-icons: $(STOCK_ICONS)
+@@ -1438,16 +1437,8 @@ stamp-icons: $(STOCK_ICONS)
  	) done 								\
  	&& touch stamp-icons
  
@@ -60,5 +74,5 @@ index 248220d..42e4c23 100644
  	   --source builtin_icons stock-icons > gtkbuiltincache.h.tmp &&        \
  	mv gtkbuiltincache.h.tmp gtkbuiltincache.h
 -- 
-2.3.6
+2.10.0
 

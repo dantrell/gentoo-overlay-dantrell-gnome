@@ -15,13 +15,13 @@ KEYWORDS="~*"
 IUSE="gtk test"
 
 RDEPEND="
-	>=net-misc/networkmanager-0.9.10:=
+	>=net-misc/networkmanager-1.2.0:=
 	>=dev-libs/dbus-glib-0.74
 	>=dev-libs/glib-2.32:2
 	>=net-misc/vpnc-0.5.3_p550
 	gtk? (
-		app-crypt/libsecret
-		>=gnome-extra/nm-applet-1.0.5
+		>=app-crypt/libsecret-0.18
+		>=gnome-extra/nm-applet-1.2.0
 		>=x11-libs/gtk+-3.4:3
 	)
 "
@@ -33,7 +33,7 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	# Test will fail if the machine doesn't have a particular locale installed
-	# upstream bug #742708
+	# https://bugzilla.gnome.org/show_bug.cgi?id=742708
 	sed '/test_non_utf8_import (plugin/ d' \
 		-i properties/tests/test-import-export.c || die "sed failed"
 
@@ -45,6 +45,5 @@ src_configure() {
 		--disable-more-warnings \
 		--disable-static \
 		--with-dist-version=Gentoo \
-		$(use_with gtk gnome) \
-		$(use_with test tests)
+		$(use_with gtk gnome)
 }

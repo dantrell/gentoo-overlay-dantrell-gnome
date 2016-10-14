@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="yes"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 VALA_USE_DEPEND="vapigen"
 
@@ -16,7 +15,7 @@ KEYWORDS="*"
 
 # TODO: --enable-profiling
 # Vala isn't really optional, https://bugzilla.gnome.org/show_bug.cgi?id=701099
-IUSE="bluetooth eds +telepathy test tracker utils zeitgeist"
+IUSE="bluetooth debug eds +telepathy test tracker utils zeitgeist"
 REQUIRED_USE="bluetooth? ( eds )"
 
 COMMON_DEPEND="
@@ -55,7 +54,6 @@ DEPEND="${COMMON_DEPEND}
 		bluetooth? (
 			>=gnome-extra/evolution-data-server-3.9.1
 			>=dev-libs/glib-2.40:2 ) )
-	!<dev-lang/vala-0.22.1:0.22
 "
 
 src_prepare() {
@@ -67,6 +65,7 @@ src_configure() {
 	# Rebuilding docs needs valadoc, which has no release
 	gnome2_src_configure \
 		$(use_enable bluetooth bluez-backend) \
+		$(use_enable debug) \
 		$(use_enable eds eds-backend) \
 		$(use_enable eds ofono-backend) \
 		$(use_enable telepathy telepathy-backend) \
@@ -82,5 +81,5 @@ src_configure() {
 }
 
 src_test() {
-	dbus-launch Xemake check
+	dbus-launch virtx emake check
 }

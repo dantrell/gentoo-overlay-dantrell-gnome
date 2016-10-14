@@ -34,6 +34,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	app-text/yelp-tools
 	>=dev-util/intltool-0.35
+	dev-util/itstool
 	sys-devel/gettext
 	virtual/pkgconfig
 "
@@ -48,8 +49,7 @@ src_prepare() {
 }
 
 src_configure() {
-	python_foreach_impl run_in_build_dir gnome2_src_configure \
-		ITSTOOL=$(type -P true)
+	python_foreach_impl run_in_build_dir gnome2_src_configure
 }
 
 src_compile() {

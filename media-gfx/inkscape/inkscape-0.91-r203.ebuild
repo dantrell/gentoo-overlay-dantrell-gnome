@@ -86,7 +86,7 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 DEPEND="${COMMON_DEPEND}
-	>=dev-libs/boost-1.36
+	>=dev-libs/boost-1.36:=
 	>=dev-util/intltool-0.40
 	>=sys-devel/gettext-0.17
 	virtual/pkgconfig

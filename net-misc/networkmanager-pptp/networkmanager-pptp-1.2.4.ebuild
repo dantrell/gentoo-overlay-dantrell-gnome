@@ -15,14 +15,14 @@ KEYWORDS="~*"
 IUSE="gtk"
 
 RDEPEND="
-	>=net-misc/networkmanager-1.1:=
+	>=net-misc/networkmanager-1.2.0:=
 	>=dev-libs/dbus-glib-0.74
 	>=dev-libs/glib-2.32:2
 	net-dialup/ppp:=
 	net-dialup/pptpclient
 	gtk? (
-		app-crypt/libsecret
-		>=gnome-extra/nm-applet-0.9.10
+		>=app-crypt/libsecret-0.18
+		>=gnome-extra/nm-applet-1.2.0
 		>=x11-libs/gtk+-3.4:3
 	)
 "

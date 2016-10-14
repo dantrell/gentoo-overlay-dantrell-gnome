@@ -5,7 +5,7 @@
 >=app-accessibility/accerciser-3.22.0
 >=app-accessibility/at-spi2-atk-2.22.0
 >=app-accessibility/at-spi2-core-2.22.0
->=app-accessibility/orca-3.21.92
+>=app-accessibility/orca-3.22.0
 >=app-arch/file-roller-3.22.0
 >=app-crypt/gcr-3.22.0
 >=app-crypt/seahorse-3.22.0
@@ -174,11 +174,12 @@
 >=x11-libs/libwnck-3.22.0
 >=x11-libs/pango-1.42.0
 >=x11-libs/vte-0.46.0
->=x11-misc/gpaste-3.21.91
+>=x11-misc/gpaste-3.22.0
 >=x11-misc/notification-daemon-3.22.0
 >=x11-terms/gnome-terminal-3.22.0
 >=x11-themes/adwaita-icon-theme-3.22
 >=x11-themes/gnome-backgrounds-3.22
 >=x11-themes/gnome-themes-standard-3.22
+>=x11-themes/gtk-engines-adwaita-3.22.0
 >=x11-wm/metacity-3.22.0
 >=x11-wm/mutter-3.22.0

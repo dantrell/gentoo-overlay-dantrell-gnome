@@ -38,10 +38,8 @@ DEPEND="
 
 PATCHES=(
 	# From Gentoo:
-	# 	https://bugs.gentoo.org/show_bug.cgi?id=590528
 	# 	https://bugs.gentoo.org/show_bug.cgi?id=594010
-	"${FILESDIR}/${P}-build_includes2.patch"
-	"${FILESDIR}/${P}-workaround-ice-ssa-corruption.patch"
+	"${FILESDIR}/${PN}-2.0.12-workaround-ice-ssa-corruption.patch"
 )
 
 src_prepare() {

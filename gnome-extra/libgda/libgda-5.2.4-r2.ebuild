@@ -1,14 +1,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
-GCONF_DEBUG="yes"
 PYTHON_COMPAT=( python2_7 )
-VALA_MIN_API_VERSION="0.26"
-VALA_MAX_API_VERSION="0.26" # configure explicitly checks for that version
 VALA_USE_DEPEND="vapigen"
 
-inherit autotools db-use eutils flag-o-matic gnome2 java-pkg-opt-2 python-single-r1 vala
+inherit autotools db-use flag-o-matic gnome2 java-pkg-opt-2 python-single-r1 vala
 
 DESCRIPTION="GNOME database access library"
 HOMEPAGE="http://www.gnome-db.org/"
@@ -17,7 +14,7 @@ LICENSE="GPL-2+ LGPL-2+"
 SLOT="5/4" # subslot = libgda-5.0 soname version
 KEYWORDS="*"
 
-IUSE="berkdb canvas firebird gnome-keyring gtk graphviz http +introspection json ldap mdb mysql oci8 postgres reports sourceview ssl vala"
+IUSE="berkdb canvas debug firebird gnome-keyring gtk graphviz http +introspection json ldap mdb mysql oci8 postgres reports sourceview ssl vala"
 REQUIRED_USE="
 	reports? ( ${PYTHON_REQUIRED_USE} )
 	canvas? ( gtk )
@@ -84,10 +81,14 @@ pkg_setup() {
 
 src_prepare() {
 	# Fix compilation with -Werror=format-security (from 'master')
-	epatch "${FILESDIR}"/${PN}-5.2.4-format-security.patch
+	eapply "${FILESDIR}"/${PN}-5.2.4-format-security.patch
 
 	# Support JRE 1.8 (from Fedora)
-	epatch "${FILESDIR}"/${PN}-5.2.4-jre18.patch
+	eapply "${FILESDIR}"/${PN}-5.2.4-jre18.patch
+
+	# Fix vala test,
+	# https://bugzilla.gnome.org/show_bug.cgi?id=761424
+	eapply "${FILESDIR}"/${PN}-5.2.4-vala-check.patch
 
 	use berkdb && append-cppflags "-I$(db_includedir)"
 
@@ -97,9 +98,9 @@ src_prepare() {
 			-i libgda-report/RML/Makefile.{am,in} || die
 
 	# Prevent file collisions with libgda:4
-	epatch "${FILESDIR}/${PN}-4.99.1-gda-browser-doc-collision.patch"
-	epatch "${FILESDIR}/${PN}-4.99.1-control-center-icon-collision.patch"
-	# Move files with mv (since epatch can't handle rename diffs) and
+	eapply "${FILESDIR}/${PN}-4.99.1-gda-browser-doc-collision.patch"
+	eapply "${FILESDIR}/${PN}-4.99.1-control-center-icon-collision.patch"
+	# Move files with mv (since eapply can't handle rename diffs) and
 	# update pre-generated gtk-doc files (for non-git versions of libgda)
 	local f
 	for f in tools/browser/doc/gda-browser* ; do
@@ -125,7 +126,7 @@ src_configure() {
 	local myconf=( )
 	if use introspection ; then
 		myconf+=( $(use_enable gtk gdaui-gi) )
-	else:
+	else
 		myconf+=( --disable-gdaui-gi )
 	fi
 	if use vala ; then
@@ -141,6 +142,7 @@ src_configure() {
 		--enable-system-sqlite \
 		$(use_with berkdb bdb /usr) \
 		$(use_with canvas goocanvas) \
+		$(use_enable debug) \
 		$(use_with firebird firebird /usr) \
 		$(use_with gnome-keyring libsecret) \
 		$(use_with graphviz) \
