@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
-inherit autotools eutils gnome.org multilib-minimal xdg-utils
+inherit gnome.org multilib-minimal xdg-utils
 
 DESCRIPTION="A library for sending desktop notifications"
 HOMEPAGE="https://git.gnome.org/browse/libnotify"
@@ -27,11 +27,17 @@ DEPEND="${RDEPEND}
 "
 PDEPEND="virtual/notification-daemon"
 
+src_prepare() {
+	default
+	xdg_environment_reset
+}
+
 multilib_src_configure() {
 	ECONF_SOURCE=${S} econf \
+		--disable-gtk-doc \
 		--disable-static \
 		$(multilib_native_use_enable introspection) \
-		$(multilib_native_use_enable test tests)
+		$(use_enable test tests)
 
 	# work-around gtk-doc out-of-source brokedness
 	if multilib_is_native_abi; then
@@ -43,7 +49,7 @@ multilib_src_install() {
 	default
 	prune_libtool_files
 
-	mv "${ED}"/usr/bin/{,libnotify-}notify-send #379941
+	mv "${ED}"/usr/bin/{,libnotify-}notify-send || die #379941
 }
 
 pkg_postinst() {
