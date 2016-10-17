@@ -16,7 +16,8 @@ KEYWORDS="*"
 IUSE="+exif +flickr map picasa +python"
 REQUIRED_USE="
 	map? ( exif )
-	python? ( ^^ ( $(python_gen_useflags '*') ) )"
+	python? ( ^^ ( $(python_gen_useflags '*') ) )
+"
 
 RDEPEND="
 	>=dev-libs/glib-2.38:2
