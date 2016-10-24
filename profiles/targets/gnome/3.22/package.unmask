@@ -110,6 +110,7 @@
 ~gnome-extra/gnome-packagekit-3.22.1::dantrell-gnome-3-22
 ~gnome-extra/gnome-power-manager-3.22.1::dantrell-gnome-3-22
 ~gnome-extra/gnome-shell-extensions-3.22.1::dantrell-gnome-3-22
+~gnome-extra/gnome-shell-frippery-3.22.0::dantrell-gnome-3-22
 ~gnome-extra/gnome-software-3.22.1::dantrell-gnome-3-22
 ~gnome-extra/gnome-system-monitor-3.22.0::dantrell-gnome-3-22
 ~gnome-extra/gnome-todo-3.20.2::dantrell-gnome

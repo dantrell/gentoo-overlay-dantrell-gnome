@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 
 inherit gnome2
@@ -13,10 +12,7 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE=""
-
-# Requires libhttpmock which is not in portage
-RESTRICT="test"
+IUSE="test"
 
 RDEPEND="
 	dev-db/sqlite:3=
@@ -32,9 +28,12 @@ DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.9
 	>=dev-util/intltool-0.35.5
 	virtual/pkgconfig
+	test? ( net-libs/uhttpmock )
 "
 
 src_configure() {
 	# We don't have libmspack, needing internal lzx
-	gnome2_src_configure --with-internal-lzx
+	gnome2_src_configure \
+		--with-internal-lzx \
+		$(use_enable test tests)
 }

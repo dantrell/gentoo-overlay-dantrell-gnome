@@ -57,7 +57,3 @@ multilib_src_configure() {
 multilib_src_install() {
 	gnome2_src_install
 }
-
-multilib_src_install_all() {
-	einstalldocs
-}

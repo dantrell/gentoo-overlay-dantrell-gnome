@@ -42,7 +42,7 @@ pkg_setup() {
 src_prepare() {
 	sed -i -e "/warnaserror/d" configure.ac || die
 
-	# From Funtoo
+	# From Funtoo:
 	# 	https://bugs.funtoo.org/browse/FL-1715
 	epatch "${FILESDIR}/${P}"-fix-upower.patch
 

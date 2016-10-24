@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 PYTHON_COMPAT=( python{3_3,3_4,3_5} )
 VALA_MIN_API_VERSION="0.30"
 VALA_USE_DEPEND="vapigen"
@@ -66,5 +65,5 @@ src_test() {
 	# FIXME: this should be handled at eclass level
 	"${EROOT}${GLIB_COMPILE_SCHEMAS}" --allow-any-name "${S}/data/gsettings" || die
 
-	GSETTINGS_SCHEMA_DIR="${S}/data/gsettings" Xemake check
+	GSETTINGS_SCHEMA_DIR="${S}/data/gsettings" virtx emake check
 }

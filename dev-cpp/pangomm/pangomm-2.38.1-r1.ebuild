@@ -33,7 +33,7 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 src_prepare() {
-	# From GNOME
+	# From GNOME:
 	# 	https://git.gnome.org/browse/pangomm/patch/?id=62ec4693bbf3c16eb1566b2cb499650f996f898f
 	# 	https://git.gnome.org/browse/pangomm/patch/?id=52eb5216a89a0805a46cba39450d633b2c7ca4d4
 	epatch "${FILESDIR}"/${P}-reduce-the-cairomm-dependency-back-to-1.2.2.patch

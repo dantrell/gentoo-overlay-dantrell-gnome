@@ -19,7 +19,7 @@ RDEPEND="
 	>=net-libs/libsoup-2.38:2.4
 	dev-libs/json-glib
 	net-libs/rest
-	net-libs/gnome-online-accounts
+	net-libs/gnome-online-accounts:=
 
 	introspection? ( >=dev-libs/gobject-introspection-1.30.0:= )
 "

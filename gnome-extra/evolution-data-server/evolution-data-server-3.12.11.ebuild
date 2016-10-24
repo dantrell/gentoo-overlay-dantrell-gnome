@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 PYTHON_COMPAT=( python2_7 python3_{4,5} pypy )
 VALA_USE_DEPEND="vapigen"
@@ -16,7 +15,7 @@ LICENSE="|| ( LGPL-2 LGPL-3 ) BSD Sleepycat"
 SLOT="0/49" # subslot = libcamel-1.2 soname version
 KEYWORDS="*"
 
-IUSE="api-doc-extras +berkdb +gnome-online-accounts +gtk +introspection ipv6 ldap kerberos vala +weather"
+IUSE="api-doc-extras +berkdb +gnome-online-accounts +gtk google +introspection ipv6 ldap kerberos vala +weather"
 REQUIRED_USE="vala? ( introspection )"
 
 # Some tests fail due to missings locales.
@@ -48,7 +47,11 @@ RDEPEND="
 		>=app-crypt/gcr-3.4[gtk]
 		>=x11-libs/gtk+-3.2:3
 	)
-	gnome-online-accounts? ( >=net-libs/gnome-online-accounts-3.8 )
+	google? (
+		>=dev-libs/json-glib-1.0.4
+		>=dev-libs/libgdata-0.15.1:=
+	)
+	gnome-online-accounts? ( >=net-libs/gnome-online-accounts-3.8:= )
 	introspection? ( >=dev-libs/gobject-introspection-0.9.12:= )
 	kerberos? ( virtual/krb5:= )
 	ldap? ( >=net-nds/openldap-2:= )
@@ -60,7 +63,6 @@ DEPEND="${RDEPEND}
 	dev-util/gperf
 	>=dev-util/gtk-doc-am-1.14
 	>=dev-util/intltool-0.35.5
-	>=gnome-base/gnome-common-3.5.5
 	>=sys-devel/gettext-0.17
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
@@ -94,29 +96,27 @@ src_configure() {
 	gnome2_src_configure \
 		$(use_enable api-doc-extras gtk-doc) \
 		$(use_with api-doc-extras private-docs) \
+		$(usex berkdb --with-libdb="${EPREFIX}"/usr --with-libdb=no) \
 		$(use_enable gnome-online-accounts goa) \
 		$(use_enable gtk) \
+		$(use_enable google) \
 		$(use_enable introspection) \
 		$(use_enable ipv6) \
 		$(use_with kerberos krb5 "${EPREFIX}"/usr) \
 		$(use_with ldap openldap) \
 		$(use_enable vala vala-bindings) \
 		$(use_enable weather) \
-		--enable-google \
 		--enable-largefile \
 		--enable-smime \
-		--with-libdb="${EPREFIX}"/usr \
 		--without-phonenumber \
 		--disable-examples \
 		--disable-uoa
 }
 
 src_test() {
-	unset DBUS_SESSION_BUS_ADDRESS
 	unset ORBIT_SOCKETDIR
 	unset SESSION_MANAGER
-	unset DISPLAY
-	Xemake check
+	virtx emake check
 }
 
 src_install() {
