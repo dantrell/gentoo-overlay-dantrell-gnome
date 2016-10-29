@@ -29,7 +29,6 @@ REQUIRED_USE="
 	|| ( aqua wayland X )
 "
 
-# seccomp
 # Tests fail to link for inexplicable reasons
 # https://bugs.webkit.org/show_bug.cgi?id=148210
 RESTRICT="test"
@@ -51,11 +50,11 @@ RDEPEND="
 	media-libs/libwebp:=
 	>=net-libs/gnutls-3
 	>=net-libs/libsoup-2.42:2.4[introspection?]
-	virtual/jpeg:0=
 	>=x11-libs/cairo-1.10.2:=
 	x11-libs/gtk+:3=
 	>=x11-libs/gtk+-3.14:3[introspection?]
 	>=x11-libs/pango-1.30.0
+	virtual/jpeg:0=
 
 	aqua? ( >=x11-libs/gtk+-3.14:3[aqua] )
 	egl? ( media-libs/mesa[egl] )
@@ -65,7 +64,7 @@ RDEPEND="
 	gstreamer? (
 		>=media-libs/gstreamer-1.2:1.0
 		>=media-libs/gst-plugins-base-1.2:1.0
-		>=media-libs/gst-plugins-bad-1.6.0:1.0[opengl?] )
+		>=media-libs/gst-plugins-bad-1.8:1.0[opengl?] )
 	introspection? ( >=dev-libs/gobject-introspection-1.32.0:= )
 	libnotify? ( x11-libs/libnotify )
 	nsplugin? ( >=x11-libs/gtk+-2.24.10:2 )
@@ -85,8 +84,6 @@ RDEPEND="
 		x11-libs/libXrender
 		x11-libs/libXt )
 "
-# Control knob is private and set to off
-# seccomp? ( sys-libs/libseccomp )
 
 # paxctl needed for bug #407085
 # Need real bison, not yacc

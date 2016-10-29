@@ -1,10 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
+
 VALA_USE_DEPEND="vapigen"
 
-inherit autotools eutils gnome2 vala virtualx
+inherit autotools flag-o-matic gnome2 vala virtualx
 
 DESCRIPTION="Manages, extracts and handles media art caches"
 HOMEPAGE="https://github.com/GNOME/libmediaart"
@@ -13,9 +13,9 @@ LICENSE="LGPL-2.1+"
 SLOT="2.0"
 KEYWORDS="*"
 
-IUSE="gtk +introspection qt4 qt5 vala"
+IUSE="gtk +introspection qt5 vala"
 REQUIRED_USE="
-	?? ( gtk qt4 qt5 )
+	?? ( gtk qt5 )
 	vala? ( introspection )
 "
 
@@ -23,7 +23,6 @@ RDEPEND="
 	>=dev-libs/glib-2.38.0:2
 	gtk? ( >=x11-libs/gdk-pixbuf-2.12:2 )
 	introspection? ( >=dev-libs/gobject-introspection-1.30:= )
-	qt4? ( dev-qt/qtgui:4 )
 	qt5? ( dev-qt/qtgui:5 )
 "
 DEPEND="${RDEPEND}
@@ -35,10 +34,10 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	# Fix QT automagic selection, bug #523122
-	epatch "${FILESDIR}"/${PN}-0.7.0-qt5.patch
+	eapply "${FILESDIR}"/${PN}-0.7.0-qt5.patch
 
 	# Make doc parallel installable
-	cd "${S}"/docs/reference/${PN}
+	cd "${S}"/docs/reference/${PN} || die
 	sed -e "s/\(DOC_MODULE.*=\).*/\1${PN}-${SLOT}/" \
 		-e "s/\(DOC_MAIN_SGML_FILE.*=\).*/\1${PN}-docs-${SLOT}.sgml/" \
 		-i Makefile.am Makefile.in || die
@@ -47,8 +46,8 @@ src_prepare() {
 	mv libmediaart-docs{,-${SLOT}}.sgml || die
 	mv libmediaart-overrides{,-${SLOT}}.txt || die
 	mv libmediaart-sections{,-${SLOT}}.txt || die
-	mv html/libmediaart{,-${SLOT}}.devhelp2
-	cd "${S}"
+	mv html/libmediaart{,-${SLOT}}.devhelp2 || die
+	cd "${S}" || die
 
 	eautoreconf
 
@@ -57,23 +56,20 @@ src_prepare() {
 }
 
 src_configure() {
-	local myconf=""
-	if use qt4 ; then
-		myconf="${myconf} --enable-qt --with-qt-version=4"
-	elif use qt5 ; then
-		myconf="${myconf} --enable-qt --with-qt-version=5"
-	else
-		myconf="${myconf} --disable-qt"
+	if use qt5 ; then
+		local myconf="--with-qt-version=5"
+		append-cxxflags -std=c++11
 	fi
 
 	gnome2_src_configure \
 		--enable-unit-tests \
 		$(use_enable gtk gdkpixbuf) \
 		$(use_enable introspection) \
+		$(use_enable qt5 qt) \
 		$(use_enable vala) \
 		${myconf}
 }
 
 src_test() {
-	dbus-launch Xemake check #513502
+	dbus-launch virtx emake check #513502
 }

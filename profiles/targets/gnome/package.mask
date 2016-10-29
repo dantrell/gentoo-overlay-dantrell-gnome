@@ -1,4 +1,1 @@
-# GNOME still uses the StartCom certificate
-# Ref. Gentoo bug #598072
-# Ref. GNOME bug #772897
->=app-misc/ca-certificates-20160104.3.27.1-r1
+

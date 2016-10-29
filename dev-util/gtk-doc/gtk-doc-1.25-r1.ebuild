@@ -1,10 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="yes"
+EAPI="6"
 PYTHON_COMPAT=( python2_7 )
 
-inherit eutils elisp-common gnome2 python-single-r1 readme.gentoo
+inherit elisp-common gnome2 python-single-r1 readme.gentoo-r1
 
 DESCRIPTION="GTK+ Documentation Generator"
 HOMEPAGE="http://www.gtk.org/gtk-doc/"
@@ -13,13 +12,13 @@ LICENSE="GPL-2 FDL-1.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="doc emacs highlight vim"
+IUSE="debug doc emacs highlight vim"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RDEPEND="
+	${PYTHON_DEPS}
 	>=dev-libs/glib-2.6:2
-	>=dev-lang/perl-5.6
-	>=app-text/openjade-1.3.1
+	>=dev-lang/perl-5.18
 	dev-libs/libxslt
 	>=dev-libs/libxml2-2.3.6:2
 	~app-text/docbook-xml-dtd-4.3
@@ -48,7 +47,7 @@ pkg_setup() {
 
 src_prepare() {
 	# Remove global Emacs keybindings, bug #184588
-	epatch "${FILESDIR}"/${PN}-1.8-emacs-keybindings.patch
+	eapply "${FILESDIR}"/${PN}-1.8-emacs-keybindings.patch
 
 	gnome2_src_prepare
 }
@@ -63,6 +62,7 @@ src_configure() {
 
 	gnome2_src_configure \
 		--with-xml-catalog="${EPREFIX}"/etc/xml/catalog \
+		$(use_enable debug) \
 		${myconf}
 }
 

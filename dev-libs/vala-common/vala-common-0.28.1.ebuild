@@ -1,12 +1,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 GNOME_ORG_MODULE="vala"
 
 inherit gnome.org
 
 DESCRIPTION="Build infrastructure for packages that use Vala"
-HOMEPAGE="https://wiki.gnome.org/Vala"
+HOMEPAGE="https://wiki.gnome.org/Projects/Vala"
 
 LICENSE="LGPL-2.1"
 SLOT="0"

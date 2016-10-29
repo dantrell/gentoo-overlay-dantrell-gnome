@@ -44,11 +44,11 @@ RDEPEND="
 	>=media-libs/libpng-1.4:0=
 	media-libs/libwebp:=
 	>=net-libs/libsoup-2.42:2.4[introspection?]
-	virtual/jpeg:0=
 	>=x11-libs/cairo-1.10:=[X?]
 	x11-libs/gtk+:3=
 	>=x11-libs/gtk+-3.6.0:3[X?,aqua?,introspection?]
 	>=x11-libs/pango-1.30.0
+	virtual/jpeg:0=
 
 	>=x11-libs/gtk+-2.24.10:2
 

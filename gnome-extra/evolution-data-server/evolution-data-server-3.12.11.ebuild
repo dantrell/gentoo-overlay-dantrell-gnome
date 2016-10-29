@@ -63,12 +63,11 @@ DEPEND="${RDEPEND}
 	dev-util/gperf
 	>=dev-util/gtk-doc-am-1.14
 	>=dev-util/intltool-0.35.5
+	>=gnome-base/gnome-common-2
 	>=sys-devel/gettext-0.17
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
 "
-# eautoreconf needs:
-#	>=gnome-base/gnome-common-2
 
 pkg_setup() {
 	python-any-r1_pkg_setup

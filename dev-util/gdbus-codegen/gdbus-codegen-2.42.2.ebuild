@@ -1,11 +1,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 GNOME_ORG_MODULE="glib"
-PYTHON_COMPAT=( python{2_7,3_3,3_4,3_5} )
+PYTHON_COMPAT=( python{2_7,3_4,3_5} )
 PYTHON_REQ_USE="xml"
 
-inherit eutils gnome.org distutils-r1
+inherit gnome.org distutils-r1
 
 DESCRIPTION="GDBus code and documentation generator"
 HOMEPAGE="http://www.gtk.org/"
@@ -25,9 +25,7 @@ PDEPEND=">=dev-libs/glib-${PV}:2"
 S="${WORKDIR}/glib-${PV}/gio/gdbus-2.0/codegen"
 
 python_prepare_all() {
-	PATCHES=(
-		"${FILESDIR}/${PN}-2.40.0-sitedir.patch"
-	)
+	eapply -p4 "${FILESDIR}/${PN}-2.40.0-sitedir.patch"
 	distutils-r1_python_prepare_all
 
 	sed -e 's:#!@PYTHON@:#!/usr/bin/env python:' gdbus-codegen.in > gdbus-codegen || die

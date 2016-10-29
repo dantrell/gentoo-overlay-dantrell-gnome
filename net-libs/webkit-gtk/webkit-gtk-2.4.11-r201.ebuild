@@ -39,12 +39,12 @@ RDEPEND="
 	>=media-libs/libpng-1.4:0=
 	media-libs/libwebp:=
 	>=net-libs/libsoup-2.42:2.4[introspection?]
-	virtual/jpeg:0=
 	>=x11-libs/cairo-1.10:=[X]
 	>=x11-libs/gtk+-2.24.10:2[aqua?,introspection?]
 	x11-libs/libXrender
 	x11-libs/libXt
 	>=x11-libs/pango-1.30.0
+	virtual/jpeg:0=
 
 	egl? ( media-libs/mesa[egl] )
 	geolocation? ( >=app-misc/geoclue-2.1.5:2.0 )

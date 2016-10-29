@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 GNOME_ORG_MODULE="gtk-doc"
 
 inherit gnome.org
@@ -12,7 +12,7 @@ LICENSE="GPL-2 FDL-1.1"
 SLOT="0"
 KEYWORDS="*"
 
-RDEPEND=">=dev-lang/perl-5.6"
+RDEPEND=">=dev-lang/perl-5.18"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	!<dev-util/gtk-doc-${GNOME_ORG_PVP}
@@ -26,7 +26,7 @@ src_configure() {
 	local PERL=$(type -P perl)
 
 	test -n "${PERL}" || die "Perl not found!"
-	"${PERL}" -e "require v5.6.0" || die "perl >= 5.6.0 is required for gtk-doc"
+	"${PERL}" -e "require v5.18.0" || die "perl >= 5.18.0 is required for gtk-doc"
 
 	# Replicate AC_SUBST
 	sed -e "s:@PERL@:${PERL}:g" -e "s:@VERSION@:${PV}:g" \
