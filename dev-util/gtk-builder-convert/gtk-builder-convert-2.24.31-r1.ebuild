@@ -17,20 +17,27 @@ KEYWORDS="*"
 IUSE=""
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-# gtk-builder-convert was part of gtk+ until 2.24.10-r1
 COMMON_DEPEND="${PYTHON_DEPS}"
 
+# gtk-builder-convert was part of gtk+ until 2.24.10-r1
+# man page transitioned in 2.24.31-r1
 RDEPEND="${COMMON_DEPEND}
-	!<=x11-libs/gtk+-2.24.10:2
+	!<x11-libs/gtk+-2.24.31-r1:2
 "
 
-DEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}
+	app-text/docbook-xml-dtd:4.3
+	app-text/docbook-xsl-stylesheets
+	dev-libs/libxslt
+"
 
 src_configure() { :; }
 
-src_compile() { :; }
+src_compile() {
+	xsltproc -nonet http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl docs/reference/gtk/gtk-builder-convert.xml
+}
 
 src_install() {
-	cd gtk || die
-	python_doscript gtk-builder-convert
+	doman gtk-builder-convert.1
+	python_doscript gtk/gtk-builder-convert
 }

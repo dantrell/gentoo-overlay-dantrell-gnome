@@ -11,7 +11,7 @@ LICENSE="LGPL-2.1+ GPL-2+" # GPL-2+ applies only to the build system
 SLOT="2"
 KEYWORDS="*"
 
-IUSE="doc debug examples test"
+IUSE="doc debug test"
 
 RDEPEND="
 	dev-libs/libsigc++:2=[${MULTILIB_USEDEP}]
@@ -61,12 +61,7 @@ multilib_src_install() {
 multilib_src_install_all() {
 	einstalldocs
 
-	if ! use doc && ! use examples; then
-		rm -fr "${ED}usr/share/doc/glibmm*"
-	fi
-
-	if use examples; then
-		find examples -type d -name '.deps' -exec rm -rf {} \; 2>/dev/null
-		dodoc -r examples
-	fi
+	find examples -type d -name '.deps' -exec rm -rf {} \; 2>/dev/null
+	find examples -type f -name 'Makefile*' -exec rm -f {} \; 2>/dev/null
+	dodoc -r examples
 }

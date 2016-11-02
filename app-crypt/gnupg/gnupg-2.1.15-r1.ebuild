@@ -13,7 +13,7 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="bzip2 doc +gnutls ldap nls readline selinux smartcard system-cert-store tofu tools usb"
+IUSE="bzip2 doc +gnutls ldap nls readline selinux smartcard +system-cert-store tofu tools usb"
 
 COMMON_DEPEND_LIBS="
 	>=dev-libs/npth-1.2
@@ -51,7 +51,7 @@ src_prepare() {
 	# This provides use of gnutls system cert store for hkps://
 	# Gentoo-Bug: 597934
 	if use system-cert-store; then
-		sed -i 's/HTTP_FLAG_TRUST_DEF/HTTP_FLAG_TRUST_SYS/g' \
+		sed -i 's/HTTP_FLAG_TRUST_DEF/HTTP_FLAG_TRUST_DEF | HTTP_FLAG_TRUST_SYS/g' \
            "${S}/dirmngr/ks-engine-hkp.c" || die
 		einfo "Using system TLS certificate store"
 	fi

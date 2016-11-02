@@ -14,9 +14,13 @@ KEYWORDS="*"
 
 IUSE="doc emacs +multischema vim-syntax"
 
-RDEPEND="sys-apps/sed"
+RDEPEND="sys-apps/sed
+	|| (
+		sys-apps/coreutils
+		sys-freebsd/freebsd-bin
+		app-misc/realpath
+	)"
 DEPEND="${RDEPEND}
-	app-arch/xz-utils
 	doc? ( dev-python/docutils )"
 RDEPEND="${RDEPEND}
 	sys-apps/file

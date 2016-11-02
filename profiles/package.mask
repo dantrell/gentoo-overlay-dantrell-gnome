@@ -8,6 +8,7 @@ app-admin/packagekit::gentoo
 app-admin/system-config-printer::gentoo
 app-arch/file-roller::gentoo
 app-arch/gcab::gentoo
+app-arch/gnome-autoar::gentoo
 app-cdr/brasero::gentoo
 app-crypt/gcr::gentoo
 app-crypt/gnupg::gentoo
@@ -28,6 +29,7 @@ app-misc/geoclue::gentoo
 app-text/gnome-doc-utils::gentoo
 app-text/gspell::gentoo
 app-text/gtkspell::gentoo
+app-text/libgepub::gentoo
 app-text/libgxps::gentoo
 app-text/poppler::gentoo
 app-text/yelp-tools::gentoo
@@ -45,7 +47,6 @@ dev-libs/appstream-glib::gentoo
 dev-libs/folks::gentoo
 dev-libs/glib::gentoo
 dev-libs/gmime::gentoo
-dev-libs/gnome-autoar::gentoo
 dev-libs/gom::gentoo
 dev-libs/json-glib::gentoo
 dev-libs/libassuan::gentoo
@@ -54,7 +55,6 @@ dev-libs/libgames-support::gentoo
 dev-libs/libgcrypt::gentoo
 dev-libs/libgdata::gentoo
 dev-libs/libgee::gentoo
-dev-libs/libgepub::gentoo
 dev-libs/libgit2-glib::gentoo
 dev-libs/libgit2::gentoo
 dev-libs/libgnome-games-support::gentoo

@@ -2,30 +2,28 @@
 
 EAPI="6"
 
-inherit gnome2 vala
+inherit gnome2
 
 DESCRIPTION="Library for code commong to Gnome games"
-HOMEPAGE="https://wiki.gnome.org/Apps/Games"
+HOMEPAGE="https://git.gnome.org/browse/libgames-support/"
 
 LICENSE="LGPL-3+"
-SLOT="0"
+SLOT="1/2"
 KEYWORDS="*"
 
 IUSE=""
 
 RDEPEND="
 	>=dev-libs/glib-2.40:2
-	>=x11-libs/gtk+-3.19.2:3
 	dev-libs/libgee:0.8=
+	>=x11-libs/gtk+-3.19.2:3
 "
 DEPEND="${DEPEND}
-	$(vala_depend)
-	>=dev-util/intltool-0.50.2
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 "
 
-src_prepare() {
-	gnome2_src_prepare
-	vala_src_prepare
+src_configure() {
+	gnome2_src_configure \
+		VALAC=$(type -P true)
 }

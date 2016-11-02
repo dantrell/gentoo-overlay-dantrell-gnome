@@ -4,7 +4,7 @@ EAPI="6"
 
 inherit autotools gnome2
 
-DESCRIPTION="A simplistic personal task manager"
+DESCRIPTION="Personnal task manager"
 HOMEPAGE="https://wiki.gnome.org/Apps/Todo"
 
 LICENSE="GPL-3+"
@@ -13,14 +13,14 @@ KEYWORDS="*"
 
 IUSE=""
 
-RESTRICT="mirror"
-
 RDEPEND="
 	>=dev-libs/glib-2.43.4:2
+	>=dev-libs/gobject-introspection-1.42:=
 	>=dev-libs/libical-0.43
+	>=dev-libs/libpeas-1.17
 	>=gnome-extra/evolution-data-server-3.17.1[gtk]
 	>=net-libs/gnome-online-accounts-3.2:=
-	>=x11-libs/gtk+-3.16:3
+	>=x11-libs/gtk+-3.19.5:3
 "
 DEPEND="${RDEPEND}
 	>=dev-util/intltool-0.40.6
@@ -36,4 +36,8 @@ src_prepare() {
 
 	eautoreconf
 	gnome2_src_prepare
+}
+
+src_configure() {
+	gnome2_src_configure --enable-eds-plugin
 }

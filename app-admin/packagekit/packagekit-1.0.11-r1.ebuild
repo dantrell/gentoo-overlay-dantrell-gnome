@@ -10,9 +10,9 @@ LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="gtk qt4"
+IUSE="gtk qt5"
 
 RDEPEND="gtk? ( ~app-admin/packagekit-gtk-${PV} )
-	qt4? ( >=app-admin/packagekit-qt-0.9[qt5(-)] )"
+	qt5? ( >=app-admin/packagekit-qt-0.9.6 )"
 
 DEPEND="${RDEPEND}"

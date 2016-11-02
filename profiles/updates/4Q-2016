@@ -1,0 +1,2 @@
+move dev-libs/gnome-autoar app-arch/gnome-autoar
+move dev-libs/libgepub app-text/libgepub

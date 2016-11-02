@@ -20,6 +20,7 @@
 ~app-misc/tracker-1.10.1::dantrell-gnome-3-22
 ~app-text/evince-3.22.1::dantrell-gnome-3-22
 ~app-text/gspell-1.0.3::dantrell-gnome
+~app-text/libgepub-0.4::dantrell-gnome
 ~app-text/libgxps-0.2.4::dantrell-gnome
 ~app-text/yelp-tools-3.18.0::dantrell-gnome
 ~dev-cpp/atkmm-2.24.2::dantrell-gnome
@@ -42,7 +43,7 @@
 ~dev-libs/libcroco-0.6.11::dantrell-gnome
 ~dev-libs/libgdata-0.17.6::dantrell-gnome
 ~dev-libs/libgee-0.18.1::dantrell-gnome
-~dev-libs/libgepub-0.4::dantrell-gnome
+~dev-libs/libgnome-games-support-1.2.1::dantrell-gnome
 ~dev-libs/libgweather-3.20.3::dantrell-gnome
 ~dev-libs/libpeas-1.20.0::dantrell-gnome-3-22
 ~dev-libs/libsigc++-2.10.0::dantrell-gnome

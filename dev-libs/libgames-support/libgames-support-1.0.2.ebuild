@@ -5,7 +5,7 @@ EAPI="6"
 inherit gnome2 vala
 
 DESCRIPTION="Library for code commong to Gnome games"
-HOMEPAGE="https://wiki.gnome.org/Apps/Games"
+HOMEPAGE="https://git.gnome.org/browse/libgames-support/"
 
 LICENSE="LGPL-3+"
 SLOT="0"
@@ -15,8 +15,8 @@ IUSE=""
 
 RDEPEND="
 	>=dev-libs/glib-2.40:2
-	>=x11-libs/gtk+-3.19.2:3
 	dev-libs/libgee:0.8=
+	>=x11-libs/gtk+-3.19.2:3
 "
 DEPEND="${DEPEND}
 	$(vala_depend)

@@ -77,7 +77,6 @@ DEPEND="${RDEPEND}
 # dev-lang/perl
 
 src_prepare() {
-	epatch "${FILESDIR}"/${P}-x11-libs.patch
 	epatch_user
 
 	AT_NO_RECURSIVE="yes" eautoreconf

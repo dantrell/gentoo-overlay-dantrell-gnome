@@ -2,7 +2,7 @@
 
 EAPI="5"
 GCONF_DEBUG="yes"
-PYTHON_COMPAT=( python{3_3,3_4,3_5} )
+PYTHON_COMPAT=( python{3_4,3_5} )
 VALA_USE_DEPEND=vapigen
 
 inherit gnome2 python-any-r1 vala virtualx

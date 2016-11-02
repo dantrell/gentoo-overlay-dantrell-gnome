@@ -7,7 +7,7 @@ EAPI="6"
 PYTHON_COMPAT=( python2_7 )
 VALA_USE_DEPEND="vapigen"
 
-inherit bash-completion-r1 multilib python-single-r1 systemd vala
+inherit bash-completion-r1 multilib python-single-r1 systemd vala xdg
 
 MY_PN="PackageKit"
 MY_P=${MY_PN}-${PV}
@@ -59,8 +59,10 @@ RDEPEND="${CDEPEND}
 S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
-	# Fixes QA Notices: https://github.com/gentoo/gentoo/pull/1760 and https://github.com/hughsie/PackageKit/issues/143
-	eapply "${FILESDIR}/${P}-cache-qafix.patch"
+	# Fixes QA Notices:
+	# - https://github.com/gentoo/gentoo/pull/1760
+	# - https://github.com/hughsie/PackageKit/issues/143
+	eapply "${FILESDIR}"/${PN}-1.1.1-cache-qafix.patch
 
 	# Disable unittests not working with portage backend
 	# console: requires terminal input
@@ -78,6 +80,7 @@ src_prepare() {
 
 	eapply_user
 	use vala && vala_src_prepare
+	xdg_src_prepare
 }
 
 src_configure() {
