@@ -3,7 +3,7 @@
 ~app-accessibility/at-spi2-core-2.22.0::dantrell-gnome-3-22
 ~app-accessibility/caribou-0.4.21::dantrell-gnome
 ~app-accessibility/orca-3.22.2::dantrell-gnome-3-22
-~app-admin/gnome-system-log-20160922::dantrell-gnome
+~app-admin/gnome-system-log-20161012::dantrell-gnome
 ~app-arch/file-roller-3.22.2::dantrell-gnome-3-22
 ~app-arch/gcab-0.7::dantrell-gnome
 ~app-crypt/gcr-3.20.0::dantrell-gnome
@@ -19,7 +19,7 @@
 ~app-misc/gnote-3.22.0::dantrell-gnome-3-22
 ~app-misc/tracker-1.10.1::dantrell-gnome-3-22
 ~app-text/evince-3.22.1::dantrell-gnome-3-22
-~app-text/gspell-1.0.3::dantrell-gnome
+~app-text/gspell-1.2.1::dantrell-gnome
 ~app-text/libgepub-0.4::dantrell-gnome
 ~app-text/libgxps-0.2.4::dantrell-gnome
 ~app-text/yelp-tools-3.18.0::dantrell-gnome
@@ -30,6 +30,7 @@
 ~dev-cpp/mm-common-0.9.10::dantrell-gnome
 ~dev-cpp/pangomm-2.40.1::dantrell-gnome
 ~dev-lang/vala-0.34.2::dantrell-gnome
+~dev-libs/appstream-glib-0.6.5::dantrell-gnome
 ~dev-libs/atk-2.22.0::dantrell-gnome-3-22
 ~dev-libs/folks-0.11.3::dantrell-gnome
 ~dev-libs/gdl-3.22.0::dantrell-gnome-3-22
@@ -162,7 +163,7 @@
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/phodav-2.0::dantrell-gnome
 ~net-libs/rest-0.8.0::dantrell-gnome
-~net-libs/webkit-gtk-2.14.1::dantrell-gnome
+~net-libs/webkit-gtk-2.14.2::dantrell-gnome
 ~net-misc/gnome-online-miners-3.22.0::dantrell-gnome-3-22
 ~net-misc/networkmanager-1.4.2::dantrell-gnome
 ~net-misc/rygel-0.32.1::dantrell-gnome-3-22

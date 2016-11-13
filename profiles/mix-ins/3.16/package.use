@@ -1,5 +1,7 @@
 app-crypt/gcr gtk
 dev-cpp/gtkmm X
+dev-libs/gobject-introspection -python_single_target_python3_4
+dev-libs/gobject-introspection -python_single_target_python3_5
 dev-libs/libpeas gtk
 gnome-base/gvfs gtk
 gnome-extra/evolution-data-server gtk
@@ -11,7 +13,6 @@ media-video/totem -python_single_target_python3_4
 media-video/totem -python_single_target_python3_5
 net-dns/dnsmasq script
 net-libs/webkit-gtk X
-net-misc/spice-gtk -python_single_target_python3_3
 net-misc/spice-gtk -python_single_target_python3_4
 net-misc/spice-gtk -python_single_target_python3_5
 x11-drivers/nvidia-drivers X

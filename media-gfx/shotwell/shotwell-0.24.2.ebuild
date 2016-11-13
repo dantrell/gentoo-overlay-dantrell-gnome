@@ -17,13 +17,11 @@ KEYWORDS="*"
 IUSE=""
 
 RDEPEND="
-	app-text/gnome-doc-utils
 	>=dev-db/sqlite-3.5.9:3
 	>=dev-libs/glib-2.30.0:2
 	>=dev-libs/json-glib-0.7.6
 	>=dev-libs/libgee-0.8.5:0.8
 	>=dev-libs/libxml2-2.6.32:2
-	>=dev-util/desktop-file-utils-0.13
 	gnome-base/dconf
 	>=media-libs/gexiv2-0.4.90
 	media-libs/gst-plugins-base:1.0
@@ -33,6 +31,7 @@ RDEPEND="
 	>=media-libs/libexif-0.6.16:=
 	>=media-libs/libgphoto2-2.5:=
 	>=media-libs/libraw-0.13.2:=
+	media-plugins/gst-plugins-gdkpixbuf:1.0
 	>=net-libs/libsoup-2.26.0:2.4
 	net-libs/webkit-gtk:4
 	virtual/libgudev:=[introspection]
@@ -43,6 +42,7 @@ DEPEND="${RDEPEND}
 	dev-util/itstool
 	>=sys-devel/gettext-0.19.7
 	>=sys-devel/m4-1.4.13
+	virtual/pkgconfig
 "
 
 # This probably comes from libraries that

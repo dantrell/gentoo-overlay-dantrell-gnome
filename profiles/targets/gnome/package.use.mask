@@ -3,3 +3,4 @@ gnome-base/gnome-extra-apps flashback
 gnome-base/gnome-shell xephyr
 net-misc/networkmanager consolekit
 x11-wm/mutter kms
+x11-wm/mutter wayland

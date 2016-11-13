@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 VALA_USE_DEPEND="vapigen"
 
 inherit gnome2 vala
@@ -17,8 +16,8 @@ IUSE="+introspection vala"
 REQUIRED_USE="vala? ( introspection )"
 
 RDEPEND="
-	>=app-text/enchant-1.6.0
 	>=app-text/iso-codes-0.35
+	>=app-text/enchant-1.6.0
 	>=dev-libs/glib-2.44:2
 	>=dev-libs/libxml2-2.5.0:2
 	>=x11-libs/gtk+-3.16:3[introspection?]

@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/gspell"
 
 LICENSE="LGPL-2.1+"
 SLOT="0/1" # subslot = libgspell-1 soname version
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="+introspection vala"
 REQUIRED_USE="vala? ( introspection )"
