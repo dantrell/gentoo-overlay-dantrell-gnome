@@ -42,6 +42,11 @@ PDEPEND="
 	net-im/telepathy-mission-control
 "
 
+src_prepare() {
+	use vala && vala_src_prepare
+	gnome2_src_prepare
+}
+
 src_configure() {
 	gnome2_src_configure \
 		--disable-static \

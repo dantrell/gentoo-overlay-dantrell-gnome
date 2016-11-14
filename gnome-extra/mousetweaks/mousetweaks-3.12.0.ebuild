@@ -16,7 +16,7 @@ IUSE=""
 
 RDEPEND="
 	>=dev-libs/glib-2.25.9:2
-	>=x11-libs/gtk+-3:3
+	>=x11-libs/gtk+-3:3[X]
 	>=gnome-base/gsettings-desktop-schemas-0.1
 
 	x11-libs/libX11

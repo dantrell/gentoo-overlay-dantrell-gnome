@@ -95,6 +95,7 @@
 ~gnome-base/gnome-shell-3.22.2::dantrell-gnome-3-22
 ~gnome-base/gsettings-desktop-schemas-3.22.0::dantrell-gnome-3-22
 ~gnome-base/gvfs-1.30.2::dantrell-gnome-3-22
+~gnome-base/libgnomekbd-3.22.0.1::dantrell-gnome
 ~gnome-base/libgtop-2.34.1::dantrell-gnome
 ~gnome-base/librsvg-2.40.16::dantrell-gnome
 ~gnome-base/nautilus-3.22.1::dantrell-gnome-3-22

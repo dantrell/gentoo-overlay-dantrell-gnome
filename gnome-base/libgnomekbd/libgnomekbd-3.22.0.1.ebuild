@@ -8,8 +8,8 @@ DESCRIPTION="Gnome keyboard configuration library"
 HOMEPAGE="https://www.gnome.org"
 
 LICENSE="LGPL-2+"
-SLOT="0"
-KEYWORDS="*"
+SLOT="0/8"
+KEYWORDS="~*"
 
 IUSE="+introspection test"
 
@@ -21,7 +21,7 @@ RDEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-0.6.7:= )
 "
 DEPEND="${RDEPEND}
-	>=dev-util/intltool-0.35
+	>=sys-devel/gettext-0.19.4
 	virtual/pkgconfig
 "
 
