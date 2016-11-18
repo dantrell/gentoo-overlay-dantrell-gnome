@@ -24,7 +24,7 @@ COMMON_DEPEND="
 	>=media-libs/freetype-2.3.9
 	sys-libs/zlib
 	cairo? (
-		dev-libs/glib:2
+		>=dev-libs/glib-2.41:2
 		>=x11-libs/cairo-1.10.0
 		introspection? ( >=dev-libs/gobject-introspection-1.32.1:= )
 	)
