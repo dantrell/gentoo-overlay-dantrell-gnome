@@ -13,7 +13,7 @@ SRC_URI="mirror://gnupg/gpgme/${P}.tar.bz2"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="1/11" # subslot = soname major version
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="common-lisp static-libs cxx python qt5"
 REQUIRED_USE="qt5? ( cxx )"
@@ -38,6 +38,7 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.1.8-et_EE.patch
+	"${FILESDIR}"/${P}-cmake.patch
 )
 
 do_python() {
