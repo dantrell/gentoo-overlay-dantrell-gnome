@@ -32,7 +32,7 @@ RDEPEND="
 	gstreamer? ( media-libs/gstreamer:1.0 )"
 
 DEPEND="
-	~app-emulation/spice-protocol-0.12.12
+	>=app-emulation/spice-protocol-0.12.12
 	virtual/pkgconfig
 	$(python_gen_any_dep '
 		>=dev-python/pyparsing-1.5.6-r2[${PYTHON_USEDEP}]

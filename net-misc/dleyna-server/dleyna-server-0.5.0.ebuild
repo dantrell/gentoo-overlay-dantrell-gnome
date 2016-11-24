@@ -28,6 +28,12 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 "
 
+src_prepare() {
+	# Fix build with recent gupnp, bug #597952
+	epatch "${FILESDIR}"/${P}-fix-references-to-GUPnPContextManager.patch
+	default
+}
+
 src_install() {
 	default
 	prune_libtool_files

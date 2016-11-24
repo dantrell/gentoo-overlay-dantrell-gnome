@@ -16,10 +16,13 @@ IUSE="doc static-libs test"
 RDEPEND=""
 DEPEND="sys-devel/m4
 	doc? ( app-doc/doxygen )
-	test? ( dev-libs/boost:= )"
+	test? ( dev-libs/boost:=[${MULTILIB_USEDEP}] )"
 # Needs mm-common for eautoreconf
 
 src_prepare() {
+	# properly interpret --{enable,disable}-benchmark configure option (bug 599764)
+	eapply "${FILESDIR}"/${P}-make-disable-benchmarks-work.patch
+
 	# don't waste time building examples
 	sed -i 's|^\(SUBDIRS =.*\)examples\(.*\)$|\1\2|' \
 		Makefile.am Makefile.in || die "sed examples failed"

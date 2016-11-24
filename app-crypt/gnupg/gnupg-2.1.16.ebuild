@@ -13,7 +13,7 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="bzip2 doc +gnutls ldap nls readline selinux +smartcard tofu +tools usb wks-server"
+IUSE="bzip2 doc +gnutls ldap nls readline selinux +smartcard tofu tools usb wks-server"
 
 COMMON_DEPEND_LIBS="
 	>=dev-libs/npth-1.2
@@ -48,6 +48,7 @@ S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
 	default
+	epatch "${FILESDIR}/${PN}-2.1.16-gpgscm-Use-shorter-socket-path-lengts-to-improve-tes.patch"
 	epatch_user
 }
 
@@ -86,7 +87,7 @@ src_configure() {
 		$(use_enable nls) \
 		$(use_with readline) \
 		$(use_enable tofu) \
-		$(use_enable tools) \
+		--enable-tools \
 		$(use_enable wks-server wks-tools) \
 		CC_FOR_BUILD="$(tc-getBUILD_CC)"
 }
