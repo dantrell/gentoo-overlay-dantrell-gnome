@@ -1,6 +1,1 @@
-# Causes build failures
->=dev-libs/libgudev-231
->=sys-fs/udev-231
->=virtual/libgudev-231
->=virtual/libudev-231
->=virtual/udev-231
+

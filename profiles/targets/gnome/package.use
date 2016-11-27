@@ -3,7 +3,6 @@ app-emulation/qemu smartcard
 app-emulation/qemu spice
 app-emulation/qemu usbredir
 app-emulation/spice smartcard
-app-misc/ca-certificates insecure_certs
 app-misc/tracker gstreamer
 app-text/ghostscript-gpl cups
 app-text/poppler cairo

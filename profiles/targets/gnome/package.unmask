@@ -1,4 +1,4 @@
-~app-crypt/gnupg-2.1.15::dantrell-gnome
+~app-crypt/gnupg-2.1.16::dantrell-gnome
 ~app-office/gnucash-2.6.13::gnome
-~dev-lang/vala-0.34.2::dantrell-gnome
-~dev-libs/vala-common-0.34.2::dantrell-gnome
+~dev-lang/vala-0.34.3::dantrell-gnome
+~dev-libs/vala-common-0.34.3::dantrell-gnome
