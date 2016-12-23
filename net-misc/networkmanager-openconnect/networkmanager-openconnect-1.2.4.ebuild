@@ -15,13 +15,13 @@ KEYWORDS="~*"
 IUSE="gtk"
 
 RDEPEND="
-	>=net-misc/networkmanager-1.1:=
+	>=net-misc/networkmanager-1.2:=
 	>=dev-libs/glib-2.32:2
 	>=dev-libs/dbus-glib-0.74
 	dev-libs/libxml2:2
 	>=net-misc/openconnect-3.02:=
 	gtk? (
-		app-crypt/libsecret
+		>=app-crypt/libsecret-0.18
 		>=x11-libs/gtk+-3.4:3 )
 "
 DEPEND="${RDEPEND}
@@ -34,6 +34,7 @@ src_configure() {
 	gnome2_src_configure \
 		--disable-more-warnings \
 		--disable-static \
+		--without-libnm-glib \
 		$(use_with gtk gnome) \
 		$(use_with gtk authdlg)
 }

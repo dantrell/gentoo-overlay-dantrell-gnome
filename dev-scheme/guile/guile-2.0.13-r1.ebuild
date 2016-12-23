@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit autotools elisp-common flag-o-matic
+inherit elisp-common flag-o-matic
 
 DESCRIPTION="GNU Ubiquitous Intelligent Language for Extensions"
 HOMEPAGE="https://www.gnu.org/software/guile/"
@@ -10,7 +10,6 @@ SRC_URI="mirror://gnu/guile/${P}.tar.xz"
 
 LICENSE="LGPL-3+"
 SLOT="12/22" # subslot is soname version
-MAJOR="2.0"
 KEYWORDS="*"
 
 IUSE="debug debug-malloc +deprecated doc emacs +networking +nls +regex static-libs +threads" # upstream recommended +networking +nls
@@ -35,17 +34,6 @@ DEPEND="
 	emacs? ( virtual/emacs )
 	sys-devel/gettext
 "
-
-PATCHES=(
-	# From Gentoo:
-	# 	https://bugs.gentoo.org/show_bug.cgi?id=594010
-	"${FILESDIR}/${PN}-2.0.12-workaround-ice-ssa-corruption.patch"
-)
-
-src_prepare() {
-	default
-	eautoreconf
-}
 
 src_configure() {
 	# Seems to have issues with -Os, switch to -O2
@@ -89,11 +77,6 @@ src_install() {
 	# 	https://bugzilla.novell.com/show_bug.cgi?id=874028#c0
 	dodir /usr/share/gdb/auto-load/$(get_libdir)
 	mv "${ED}"/usr/$(get_libdir)/libguile-*-gdb.scm "${ED}"/usr/share/gdb/auto-load/$(get_libdir) || die
-
-	# Necessary for TeXmacs
-	# 	https://bugs.gentoo.org/show_bug.cgi?id=23493
-	dodir /etc/env.d
-	echo "GUILE_LOAD_PATH=\"${EPREFIX}/usr/share/guile/${MAJOR}\"" > "${ED}"/etc/env.d/50guile || die
 
 	# Necessary for registering SLIB
 	# 	https://bugs.gentoo.org/show_bug.cgi?id=206896

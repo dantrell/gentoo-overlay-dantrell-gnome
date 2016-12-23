@@ -10,7 +10,6 @@ SRC_URI="http://alpha.gnu.org/gnu/${PN}/${P}.tar.xz"
 
 LICENSE="LGPL-3+"
 SLOT="12"
-MAJOR="2.2"
 KEYWORDS=""
 
 IUSE="debug debug-malloc +deprecated doc emacs +networking +nls +regex static-libs +threads" # upstream recommended +networking +nls
@@ -78,11 +77,6 @@ src_install() {
 	# 	https://bugzilla.novell.com/show_bug.cgi?id=874028#c0
 	dodir /usr/share/gdb/auto-load/$(get_libdir)
 	mv "${ED}"/usr/$(get_libdir)/libguile-*-gdb.scm "${ED}"/usr/share/gdb/auto-load/$(get_libdir) || die
-
-	# Necessary for TeXmacs
-	# 	https://bugs.gentoo.org/show_bug.cgi?id=23493
-	dodir /etc/env.d
-	echo "GUILE_LOAD_PATH=\"${EPREFIX}/usr/share/guile/${MAJOR}\"" > "${ED}"/etc/env.d/50guile || die
 
 	# Necessary for registering SLIB
 	# 	https://bugs.gentoo.org/show_bug.cgi?id=206896

@@ -8,10 +8,10 @@ MY_PV=${PV/_/}
 MY_P="${PN}-${MY_PV}"
 DESCRIPTION="A library for file management"
 HOMEPAGE="http://pcmanfm.sourceforge.net/"
-SRC_URI="https://github.com/lxde/libfm/archive/1.2.4.tar.gz -> ${MY_P}.tar.gz"
+SRC_URI="https://github.com/lxde/libfm/archive/${PV}.tar.gz -> ${MY_P}.tar.gz"
 
 LICENSE="GPL-2"
-SLOT="0/4.4.0" #copy ABI_VERSION because it seems upstream change it randomly
+SLOT="0/4.5.0" #copy ABI_VERSION because it seems upstream change it randomly
 KEYWORDS="*"
 
 IUSE="+automount debug doc examples exif gtk udisks vala"

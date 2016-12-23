@@ -18,23 +18,20 @@ KEYWORDS="~*"
 IUSE="common-lisp static-libs cxx python qt5"
 REQUIRED_USE="qt5? ( cxx )"
 
-RDEPEND="app-crypt/gnupg
+COMMON_DEPEND="app-crypt/gnupg
 	>=dev-libs/libassuan-2.0.2
 	>=dev-libs/libgpg-error-1.11
-	cxx? (
-		!kde-apps/gpgmepp:4
-		!kde-apps/kdepimlibs:4
-	)
-	qt5? (
-		dev-qt/qtcore:5
-		!kde-apps/gpgmepp:4
-		!kde-apps/kdepimlibs:4
-	)
-	python? ( ${PYTHON_DEPS} )"
-		#doc? ( app-doc/doxygen[dot] )
-DEPEND="${RDEPEND}
+	python? ( ${PYTHON_DEPS} )
+	qt5? ( dev-qt/qtcore:5 )"
+	#doc? ( app-doc/doxygen[dot] )
+DEPEND="${COMMON_DEPEND}
 	python? ( dev-lang/swig )
 	qt5? ( dev-qt/qttest:5 )"
+RDEPEND="${COMMON_DEPEND}
+	cxx? (
+		!kde-apps/gpgmepp
+		!kde-apps/kdepimlibs:4
+	)"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.1.8-et_EE.patch

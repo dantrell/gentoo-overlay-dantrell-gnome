@@ -122,7 +122,7 @@
 ~gnome-extra/gnome-user-share-3.18.3::dantrell-gnome
 ~gnome-extra/gnome-weather-3.20.2::dantrell-gnome
 ~gnome-extra/gucharmap-9.0.2::dantrell-gnome
-~gnome-extra/libgsf-1.14.40::dantrell-gnome
+~gnome-extra/libgsf-1.14.41::dantrell-gnome
 ~gnome-extra/mousetweaks-3.12.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.4::dantrell-gnome
 ~gnome-extra/nautilus-tracker-tags-1.10.1::dantrell-gnome-3-22
@@ -137,7 +137,7 @@
 ~media-gfx/gnome-screenshot-3.22.0::dantrell-gnome-3-22
 ~media-gfx/simple-scan-3.22.0.1::dantrell-gnome-3-22
 ~media-libs/clutter-1.26.0::dantrell-gnome
-~media-libs/clutter-gst-3.0.20::dantrell-gnome
+~media-libs/clutter-gst-3.0.22::dantrell-gnome
 ~media-libs/clutter-gtk-1.8.2::dantrell-gnome-3-22
 ~media-libs/cogl-1.22.2::dantrell-gnome
 ~media-libs/grilo-0.3.2::dantrell-gnome
@@ -176,7 +176,7 @@
 ~sys-apps/baobab-3.22.1::dantrell-gnome-3-22
 ~sys-apps/gnome-disk-utility-3.22.1::dantrell-gnome-3-22
 ~www-client/epiphany-3.22.3::dantrell-gnome-3-22
-~x11-libs/gdk-pixbuf-2.36.0::dantrell-gnome
+~x11-libs/gdk-pixbuf-2.36.2::dantrell-gnome
 ~x11-libs/gtksourceview-3.22.1::dantrell-gnome-3-22
 ~x11-libs/gtk+-3.22.4::dantrell-gnome-3-22
 ~x11-libs/libnotify-0.7.7::dantrell-gnome

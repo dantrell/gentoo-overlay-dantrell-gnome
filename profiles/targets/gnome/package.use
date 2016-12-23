@@ -44,6 +44,7 @@ media-plugins/grilo-plugins upnp-av
 media-sound/audacious -qt5
 net-analyzer/wireshark -qt4
 net-analyzer/wireshark -qt5
+net-fs/samba client
 net-misc/dhcpcd-ui -qt4
 net-misc/networkmanager modemmanager
 net-misc/networkmanager ppp
@@ -51,6 +52,9 @@ net-misc/spice-gtk smartcard
 net-nds/openldap minimal
 sys-apps/dbus X
 sys-devel/llvm clang
+sys-libs/ntdb python
+sys-libs/tdb python
+sys-libs/tevent python
 virtual/libusb udev
 www-servers/apache apache2_modules_auth_digest
 x11-libs/cairo X

@@ -131,6 +131,7 @@ media-libs/libdiscid::gentoo
 media-libs/libmediaart::gentoo
 media-libs/memphis::gentoo
 media-plugins/grilo-plugins::gentoo
+media-sound/rhythmbox::gentoo
 media-video/gnome-video-effects::gentoo
 net-analyzer/gnome-nettool::gentoo
 net-im/empathy::gentoo

@@ -46,12 +46,6 @@ src_configure() {
 		$(use_enable udev)
 }
 
-src_compile() {
-	# Clutter tries to access dri without userpriv, upstream bug #661873
-	# Massive failure of a hack, see bug 360219, bug 360073, bug 363917
-	gnome2_src_compile
-}
-
 src_install() {
 	gnome2_src_install
 
