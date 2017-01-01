@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
 inherit eutils
 
@@ -21,7 +21,7 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	epatch_user
+	default
 }
 
 src_configure() {
