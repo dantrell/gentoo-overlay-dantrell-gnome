@@ -48,7 +48,8 @@ S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
 	default
-	epatch "${FILESDIR}/${PN}-2.1.16-gpgscm-Use-shorter-socket-path-lengts-to-improve-tes.patch"
+	epatch "${FILESDIR}/${PN}-2.1.16-gpgscm-Use-shorter-socket-path-lengts-to-improve-tes.patch" \
+		   "${FILESDIR}/${P}-dirmngr-Strip-root-zone-suffix-from-libdns-cname-res.patch"
 	epatch_user
 }
 
@@ -79,7 +80,6 @@ src_configure() {
 		--enable-gpg \
 		--enable-gpgsm \
 		--enable-large-secmem \
-		--without-adns \
 		"${myconf[@]}" \
 		$(use_enable bzip2) \
 		$(use_enable gnutls) \
