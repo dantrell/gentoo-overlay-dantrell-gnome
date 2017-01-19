@@ -1,10 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 VALA_USE_DEPEND="vapigen"
 
-inherit eutils mono-env gnome2 vala
+inherit mono-env gnome2 vala
 
 DESCRIPTION="Utilities for creating and parsing messages using MIME"
 HOMEPAGE="http://spruce.sourceforge.net/gmime/ https://developer.gnome.org/gmime/stable/"
@@ -16,15 +15,16 @@ KEYWORDS="*"
 IUSE="doc mono smime static-libs vala"
 
 RDEPEND="
-	>=dev-libs/glib-2.18:2
+	>=dev-libs/glib-2.32.0:2
 	sys-libs/zlib
 	mono? (
 		dev-lang/mono
 		>=dev-dotnet/gtk-sharp-2.12.21:2 )
-	smime? ( >=app-crypt/gpgme-1.1.6 )
+	smime? ( >=app-crypt/gpgme-1.1.6:1= )
 "
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.8
+	virtual/libiconv
 	virtual/pkgconfig
 	doc? ( app-text/docbook-sgml-utils )
 	vala? (

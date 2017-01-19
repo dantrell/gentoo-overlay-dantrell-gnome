@@ -1,10 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 
-inherit autotools gnome2 systemd udev
+inherit gnome2 systemd udev
 
 DESCRIPTION="WebDav server implementation using libsoup"
 HOMEPAGE="https://wiki.gnome.org/phodav"
@@ -28,31 +27,13 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 "
 
-src_prepare() {
-	# Make doc parallel installable
-	cd "${S}"/doc/reference
-	sed -e "s/\(<book.*name=\"\)${PN}/\1${PN}-${SLOT}/" \
-		-i html/${PN}.devhelp2 || die
-	mv ${PN}-docs{,-${SLOT}}.sgml || die
-	mv ${PN}-overrides{,-${SLOT}}.txt || die
-	mv ${PN}-sections{,-${SLOT}}.txt || die
-	mv html/${PN}{,-${SLOT}}.devhelp2
-	cd "${S}"
-
-	# Fix locale slottability, from master
-	epatch "${FILESDIR}"/${P}-slot.patch
-	eautoreconf
-
-	gnome2_src_prepare
-}
-
 src_configure() {
 	gnome2_src_configure \
 		--disable-static \
 		--program-suffix=-${SLOT} \
 		$(use_with zeroconf avahi) \
 		--with-udevdir=$(get_udevdir) \
-		--with-systemdsystemunitdir=$(systemd_get_unitdir)
+		--with-systemdsystemunitdir=$(systemd_get_systemunitdir)
 
 	if ! use zeroconf ; then
 		sed -i -e 's|avahi-daemon.service||' data/spice-webdavd.service || die
@@ -69,6 +50,6 @@ src_install() {
 			rm -r "${D}$(systemd_get_unitdir)" || die
 		fi
 	else
-		rm -r "${D}"{/usr/sbin,$(get_udevdir),$(systemd_get_unitdir)} || die
+		rm -r "${D}"{/usr/sbin,$(get_udevdir),$(systemd_get_systemunitdir)} || die
 	fi
 }

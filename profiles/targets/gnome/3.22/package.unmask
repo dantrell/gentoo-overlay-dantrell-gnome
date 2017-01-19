@@ -36,7 +36,7 @@
 ~dev-libs/gdl-3.22.0::dantrell-gnome-3-22
 ~dev-libs/gjs-1.46.0::dantrell-gnome-3-22
 ~dev-libs/glib-2.50.2::dantrell-gnome
-~dev-libs/gmime-2.6.20::dantrell-gnome
+~dev-libs/gmime-2.6.22::dantrell-gnome
 ~dev-libs/gobject-introspection-1.50.0::dantrell-gnome-3-22
 ~dev-libs/gobject-introspection-common-1.50.0::dantrell-gnome-3-22
 ~dev-libs/gom-0.3.2::dantrell-gnome
@@ -45,7 +45,7 @@
 ~dev-libs/libgdata-0.17.6::dantrell-gnome
 ~dev-libs/libgee-0.18.1::dantrell-gnome
 ~dev-libs/libgnome-games-support-1.2.1::dantrell-gnome
-~dev-libs/libgweather-3.20.3::dantrell-gnome
+~dev-libs/libgweather-3.20.4::dantrell-gnome
 ~dev-libs/libpeas-1.20.0::dantrell-gnome-3-22
 ~dev-libs/libsigc++-2.10.0::dantrell-gnome
 ~dev-libs/totem-pl-parser-3.10.7::dantrell-gnome
@@ -164,11 +164,11 @@
 ~net-libs/libsoup-2.56.0::dantrell-gnome-3-22
 ~net-libs/libsoup-gnome-2.56.0::dantrell-gnome-3-22
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
-~net-libs/phodav-2.0::dantrell-gnome
+~net-libs/phodav-2.1::dantrell-gnome
 ~net-libs/rest-0.8.0::dantrell-gnome
 ~net-libs/webkit-gtk-2.14.2::dantrell-gnome
 ~net-misc/gnome-online-miners-3.22.0::dantrell-gnome-3-22
-~net-misc/networkmanager-1.4.2::dantrell-gnome
+~net-misc/networkmanager-1.4.4::dantrell-gnome
 ~net-misc/rygel-0.32.1::dantrell-gnome-3-22
 ~net-misc/vinagre-3.22.0::dantrell-gnome-3-22
 ~net-misc/vino-3.22.0::dantrell-gnome-3-22

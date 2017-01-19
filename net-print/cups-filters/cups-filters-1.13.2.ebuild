@@ -12,9 +12,9 @@ SRC_URI="http://www.openprinting.org/download/${PN}/${P}.tar.xz"
 
 LICENSE="MIT GPL-2"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="dbus +foomatic jpeg ldap perl png +postscript static-libs tiff zeroconf"
+IUSE="dbus +foomatic jpeg ldap pdf perl png +postscript static-libs tiff zeroconf"
 
 RDEPEND="
 	postscript? ( >=app-text/ghostscript-gpl-9.09[cups] )
@@ -32,6 +32,7 @@ RDEPEND="
 	foomatic? ( !net-print/foomatic-filters )
 	jpeg? ( virtual/jpeg:0 )
 	ldap? ( net-nds/openldap )
+	pdf? ( app-text/mupdf )
 	perl? ( dev-lang/perl:= )
 	png? ( media-libs/libpng:0= )
 	tiff? ( media-libs/tiff:0 )
@@ -51,6 +52,7 @@ src_configure() {
 		$(use_enable static-libs static) \
 		$(use_enable foomatic) \
 		$(use_enable ldap) \
+		$(use_enable pdf mutool) \
 		$(use_enable postscript ghostscript) \
 		$(use_enable postscript ijs) \
 		--with-fontdir="fonts/conf.avail" \
@@ -65,7 +67,7 @@ src_configure() {
 }
 
 src_compile() {
-	MAKEOPTS=-j1 default
+	default
 
 	if use perl; then
 		pushd "${S}/scripting/perl" > /dev/null
@@ -102,6 +104,10 @@ src_install() {
 
 	doinitd "${T}"/cups-browsed
 	systemd_dounit "${S}/utils/cups-browsed.service"
+}
+
+src_test() {
+	emake check
 }
 
 pkg_postinst() {
