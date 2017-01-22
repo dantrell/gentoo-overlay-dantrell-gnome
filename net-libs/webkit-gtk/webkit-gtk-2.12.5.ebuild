@@ -3,7 +3,7 @@
 EAPI="6"
 CMAKE_MAKEFILE_GENERATOR="ninja"
 PYTHON_COMPAT=( python2_7 )
-USE_RUBY="ruby20 ruby21 ruby22 ruby23"
+USE_RUBY="ruby21 ruby22 ruby23 ruby24"
 
 inherit check-reqs cmake-utils flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs versionator virtualx
 
@@ -145,6 +145,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-2.8.5-fix-ia64-build.patch
 
 	# https://bugs.gentoo.org/show_bug.cgi?id=564352
+	# https://bugs.webkit.org/show_bug.cgi?id=167283
 	eapply "${FILESDIR}"/${PN}-2.8.5-fix-alpha-build.patch
 
 	# https://bugs.webkit.org/show_bug.cgi?id=148379
@@ -194,14 +195,14 @@ src_configure() {
 
 	local ruby_interpreter=""
 
-	if has_version "virtual/rubygems[ruby_targets_ruby23]"; then
+	if has_version "virtual/rubygems[ruby_targets_ruby24]"; then
+		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby24)"
+	elif has_version "virtual/rubygems[ruby_targets_ruby23]"; then
 		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby23)"
 	elif has_version "virtual/rubygems[ruby_targets_ruby22]"; then
 		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby22)"
-	elif has_version "virtual/rubygems[ruby_targets_ruby21]"; then
-		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby21)"
 	else
-		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby20)"
+		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby21)"
 	fi
 
 	# TODO: Check Web Audio support

@@ -3,7 +3,7 @@
 EAPI="6"
 PYTHON_COMPAT=( python{2_7,3_4,3_5} )
 
-inherit gnome2 python-r1
+inherit gnome2 python-r1 versionator
 
 DESCRIPTION="Python binding to at-spi library"
 HOMEPAGE="https://wiki.gnome.org/Accessibility"
@@ -23,7 +23,7 @@ COMMON_DEPEND="${PYTHON_DEPS}
 "
 RDEPEND="${COMMON_DEPEND}
 	>=sys-apps/dbus-1
-	>=app-accessibility/at-spi2-core-${PV}[introspection]
+	>=app-accessibility/at-spi2-core-$(get_version_component_range 1-2)[introspection]
 	!<gnome-extra/at-spi-1.32.0-r1
 "
 DEPEND="${COMMON_DEPEND}

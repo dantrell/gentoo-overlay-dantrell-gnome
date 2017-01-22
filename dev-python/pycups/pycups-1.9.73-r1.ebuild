@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 PYTHON_COMPAT=( python{2_7,3_4,3_5} pypy )
 
 inherit distutils-r1
@@ -18,7 +18,10 @@ IUSE="doc examples"
 RDEPEND="
 	net-print/cups
 "
-DEPEND="${RDEPEND}"
+DEPEND="
+	dev-python/setuptools[${PYTHON_USEDEP}]
+	${RDEPEND}
+"
 
 # epydoc kinda sucks and supports python2 only (it's dead too),
 # and since we're dealing with a binary module we need exact version
@@ -34,21 +37,24 @@ pkg_setup() {
 	use doc && DISTUTILS_ALL_SUBPHASE_IMPLS=( python2.7 )
 }
 
-python_compile_all() {
-	if use doc; then
-		# we can't use Makefile since it relies on hardcoded paths
-		epydoc -o html --html cups || die "doc build failed"
-	fi
-}
-
 python_compile() {
 	python_is_python3 || local -x CFLAGS="${CFLAGS} -fno-strict-aliasing"
 	distutils-r1_python_compile
 }
 
-python_install_all() {
-	use doc && local HTML_DOCS=( html/ )
-	use examples && local EXAMPLES=( examples/ )
+python_compile_all() {
+	if use doc; then
+		# we can't use Makefile since it relies on hardcoded paths
+		epydoc -o html --html cups || die "doc build failed"
 
+		HTML_DOCS=( html/. )
+	fi
+}
+
+python_install_all() {
+	if use examples; then
+		dodoc -r examples
+		docompress -x /usr/share/doc/${PF}/examples
+	fi
 	distutils-r1_python_install_all
 }
