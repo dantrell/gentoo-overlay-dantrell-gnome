@@ -28,7 +28,7 @@ REQUIRED_USE="
 
 # While not strictly needed, consolekit is the alternative to systemd-login
 # to get current session's user.
-CDEPEND="
+COMMON_DEPEND="
 	>=app-shells/bash-completion-2
 	dev-db/sqlite:3
 	>=dev-libs/dbus-glib-0.74
@@ -41,7 +41,8 @@ CDEPEND="
 	networkmanager? ( >=net-misc/networkmanager-0.6.4:= )
 	systemd? ( >=sys-apps/systemd-204 )
 "
-DEPEND="${CDEPEND}
+DEPEND="${COMMON_DEPEND}
+	>=dev-cpp/glibmm-2.4
 	dev-libs/libxslt[${PYTHON_USEDEP}]
 	>=dev-util/gtk-doc-am-1.11
 	>=dev-util/intltool-0.35.0
@@ -49,7 +50,7 @@ DEPEND="${CDEPEND}
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
 "
-RDEPEND="${CDEPEND}
+RDEPEND="${COMMON_DEPEND}
 	>=app-portage/layman-2[${PYTHON_USEDEP}]
 	>=sys-apps/portage-2.2[${PYTHON_USEDEP}]
 	entropy? ( >=sys-apps/entropy-234[${PYTHON_USEDEP}] )

@@ -30,13 +30,13 @@
 ~dev-cpp/mm-common-0.9.10::dantrell-gnome
 ~dev-cpp/pangomm-2.40.1::dantrell-gnome
 ~dev-lang/vala-0.34.3::dantrell-gnome
-~dev-libs/appstream-glib-0.6.5::dantrell-gnome
+~dev-libs/appstream-glib-0.6.7::dantrell-gnome
 ~dev-libs/atk-2.22.0::dantrell-gnome-3-22
 ~dev-libs/folks-0.11.3::dantrell-gnome
 ~dev-libs/gdl-3.22.0::dantrell-gnome-3-22
 ~dev-libs/gjs-1.46.0::dantrell-gnome-3-22
 ~dev-libs/glib-2.50.2::dantrell-gnome
-~dev-libs/gmime-2.6.22::dantrell-gnome
+~dev-libs/gmime-2.6.23::dantrell-gnome
 ~dev-libs/gobject-introspection-1.50.0::dantrell-gnome-3-22
 ~dev-libs/gobject-introspection-common-1.50.0::dantrell-gnome-3-22
 ~dev-libs/gom-0.3.2::dantrell-gnome

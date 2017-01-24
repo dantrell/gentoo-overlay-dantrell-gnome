@@ -21,15 +21,15 @@ RDEPEND="
 		dev-lang/mono
 		>=dev-dotnet/gtk-sharp-2.12.21:2 )
 	smime? ( >=app-crypt/gpgme-1.1.6:1= )
+	vala? (
+		$(vala_depend)
+		>=dev-libs/gobject-introspection-1.30.0:= )
 "
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.8
 	virtual/libiconv
 	virtual/pkgconfig
 	doc? ( app-text/docbook-sgml-utils )
-	vala? (
-		$(vala_depend)
-		>=dev-libs/gobject-introspection-1.30.0:= )
 "
 
 pkg_setup() {

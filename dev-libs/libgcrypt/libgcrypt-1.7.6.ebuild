@@ -26,7 +26,6 @@ DOCS=( AUTHORS ChangeLog NEWS README THANKS TODO )
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.6.1-uscore.patch
 	"${FILESDIR}"/${PN}-multilib-syspath.patch
-	"${FILESDIR}"/${P}-fix-nehalem.patch
 )
 
 MULTILIB_CHOST_TOOLS=(
