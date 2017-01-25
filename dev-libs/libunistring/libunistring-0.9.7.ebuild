@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit eutils multilib-minimal
+inherit eutils multilib-minimal libtool
 
 DESCRIPTION="Library for manipulating Unicode strings and C strings according to the Unicode standard"
 HOMEPAGE="https://www.gnu.org/software/libunistring/"
@@ -17,6 +17,11 @@ IUSE="doc static-libs"
 PATCHES=(
 	"${FILESDIR}"/${PN}-nodocs.patch
 )
+
+src_prepare() {
+	default
+	elibtoolize  # for Solaris shared libraries
+}
 
 multilib_src_configure() {
 	ECONF_SOURCE="${S}" \
