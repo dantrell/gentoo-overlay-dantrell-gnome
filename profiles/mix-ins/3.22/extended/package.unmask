@@ -30,7 +30,7 @@
 ~dev-cpp/mm-common-0.9.10::dantrell-gnome
 ~dev-cpp/pangomm-2.40.1::dantrell-gnome
 ~dev-lang/vala-0.34.3::dantrell-gnome
-~dev-libs/appstream-glib-0.6.7::dantrell-gnome
+~dev-libs/appstream-glib-0.6.8::dantrell-gnome
 ~dev-libs/atk-2.22.0::dantrell-gnome-3-22
 ~dev-libs/folks-0.11.3::dantrell-gnome
 ~dev-libs/gdl-3.22.0::dantrell-gnome-3-22
@@ -100,8 +100,8 @@
 ~gnome-base/librsvg-2.40.16::dantrell-gnome
 ~gnome-base/nautilus-3.22.1::dantrell-gnome-3-22
 ~gnome-base/nautilus-3.22.2::dantrell-gnome-3-22
-~gnome-extra/evolution-data-server-3.22.3::dantrell-gnome-3-22
-~gnome-extra/evolution-ews-3.22.3::dantrell-gnome-3-22
+~gnome-extra/evolution-data-server-3.22.4::dantrell-gnome-3-22
+~gnome-extra/evolution-ews-3.22.4::dantrell-gnome-3-22
 ~gnome-extra/gnome-boxes-3.22.3::dantrell-gnome-3-22
 ~gnome-extra/gnome-builder-3.22.4::dantrell-gnome-3-22
 ~gnome-extra/gnome-calculator-3.22.2::dantrell-gnome-3-22
@@ -132,7 +132,7 @@
 ~gnome-extra/sushi-3.21.91::dantrell-gnome-3-22
 ~gnome-extra/yelp-3.22.0::dantrell-gnome-3-22
 ~gnome-extra/zenity-3.22.0::dantrell-gnome-3-22
-~mail-client/evolution-3.22.3::dantrell-gnome-3-22
+~mail-client/evolution-3.22.4::dantrell-gnome-3-22
 ~media-gfx/eog-3.20.5::dantrell-gnome
 ~media-gfx/gnome-font-viewer-3.22.0::dantrell-gnome-3-22
 ~media-gfx/gnome-photos-3.22.3::dantrell-gnome-3-22

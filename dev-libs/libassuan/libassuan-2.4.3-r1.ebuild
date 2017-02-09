@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
 inherit libtool eutils
 
@@ -17,17 +17,25 @@ IUSE="static-libs"
 RDEPEND=">=dev-libs/libgpg-error-1.8"
 DEPEND="${RDEPEND}"
 
-DOCS=( AUTHORS ChangeLog NEWS README THANKS TODO )
-
 src_prepare() {
 	default
 
 	# for Solaris .so
 	elibtoolize
+
+	if [[ ${CHOST} == *-solaris* ]] ; then
+		# fix standards conflict
+		sed -i \
+			-e '/_XOPEN_SOURCE/s/500/600/' \
+			-e 's/_XOPEN_SOURCE_EXTENDED/_NO&/' \
+			-e 's/__EXTENSIONS__/_NO&/' \
+			configure || die
+	fi
 }
 
 src_configure() {
-	econf $(use_enable static-libs static)
+	econf \
+		$(use_enable static-libs static)
 }
 
 src_install() {

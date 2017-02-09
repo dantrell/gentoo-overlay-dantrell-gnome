@@ -20,7 +20,6 @@ RDEPEND="
 	>=x11-libs/gtk+-2.12:2
 	>=dev-libs/libxml2-2.5:2
 	>=dev-libs/glib-2.14:2
-	kernel_Darwin? ( x11-libs/ige-mac-integration )
 "
 DEPEND="${RDEPEND}
 	dev-util/gtk-doc-am

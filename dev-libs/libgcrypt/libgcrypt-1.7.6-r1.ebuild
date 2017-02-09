@@ -1,10 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-AUTOTOOLS_AUTORECONF=1
-WANT_AUTOMAKE=1.14
+EAPI="6"
 
-inherit autotools-multilib flag-o-matic
+inherit autotools flag-o-matic multilib-minimal
 
 DESCRIPTION="General purpose crypto library based on the code used in GnuPG"
 HOMEPAGE="http://www.gnupg.org/"
@@ -32,6 +30,11 @@ MULTILIB_CHOST_TOOLS=(
 	/usr/bin/libgcrypt-config
 )
 
+src_prepare() {
+	default
+	eautoreconf
+}
+
 multilib_src_configure() {
 	if [[ ${CHOST} == *86*-solaris* ]] ; then
 		# ASM code uses GNU ELF syntax, divide in particular, we need to
@@ -54,11 +57,11 @@ multilib_src_configure() {
 		$([[ ${CHOST} == *86*-darwin* ]] && echo "--disable-asm")
 		$([[ ${CHOST} == sparcv9-*-solaris* ]] && echo "--disable-asm")
 	)
-	autotools-utils_src_configure
+	ECONF_SOURCE="${S}" econf "${myeconfargs[@]}"
 }
 
 multilib_src_compile() {
-	emake
+	default
 	multilib_is_native_abi && use doc && VARTEXFONTS="${T}/fonts" emake -C doc gcrypt.pdf
 }
 

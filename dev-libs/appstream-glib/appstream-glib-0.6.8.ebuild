@@ -37,6 +37,7 @@ DEPEND="${RDEPEND}
 	dev-libs/libxslt
 	>=dev-util/gtk-doc-am-1.9
 	>=sys-devel/gettext-0.19.7
+	dev-util/gperf
 "
 # ${PN} superseeds appdata-tools, require dummy package until all ebuilds
 # are migrated to appstream-glib
@@ -48,6 +49,7 @@ src_configure() {
 	gnome2_src_configure \
 		--enable-builder \
 		--enable-firmware \
+		--enable-fonts \
 		--disable-rpm \
 		--disable-static \
 		--enable-dep11 \

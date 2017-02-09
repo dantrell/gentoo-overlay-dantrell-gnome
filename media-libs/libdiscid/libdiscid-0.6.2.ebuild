@@ -1,8 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-
-inherit autotools-utils
+EAPI="6"
 
 DESCRIPTION="Client library to create MusicBrainz enabled tagging applications"
 HOMEPAGE="http://musicbrainz.org/doc/libdiscid"
@@ -15,3 +13,6 @@ KEYWORDS="*"
 IUSE="static-libs"
 
 DOCS=( AUTHORS ChangeLog examples/discid.c README )
+src_configure() {
+	econf $(use_enable static-libs static)
+}
