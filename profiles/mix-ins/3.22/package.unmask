@@ -166,7 +166,7 @@
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/phodav-2.1::dantrell-gnome
 ~net-libs/rest-0.8.0::dantrell-gnome
-~net-libs/webkit-gtk-2.14.3::dantrell-gnome
+~net-libs/webkit-gtk-2.14.4::dantrell-gnome
 ~net-misc/gnome-online-miners-3.22.0::dantrell-gnome-3-22
 ~net-misc/networkmanager-1.4.4::dantrell-gnome
 ~net-misc/rygel-0.32.1::dantrell-gnome-3-22
