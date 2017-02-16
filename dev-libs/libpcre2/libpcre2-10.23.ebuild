@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit libtool flag-o-matic toolchain-funcs multilib-minimal
+inherit eutils libtool flag-o-matic toolchain-funcs multilib-minimal
 
 DESCRIPTION="Perl-compatible regular expression library"
 HOMEPAGE="http://www.pcre.org/"
