@@ -12,9 +12,7 @@ LICENSE="GPL-2"
 SLOT="0/66"   # CHECK THIS WHEN BUMPING!!! SUBSLOT IS libpoppler.so SOVERSION
 KEYWORDS="*"
 
-IUSE="cairo cairo-qt cjk curl cxx debug doc +introspection +jpeg +jpeg2k +lcms nss png qt4 qt5 tiff +utils"
-
-REQUIRED_USE="cairo-qt? ( qt4 )"
+IUSE="cairo cjk curl cxx debug doc +introspection +jpeg +jpeg2k +lcms nss png qt4 qt5 tiff +utils"
 
 # No test data provided
 RESTRICT="test"
@@ -28,7 +26,6 @@ COMMON_DEPEND="
 		>=x11-libs/cairo-1.10.0
 		introspection? ( >=dev-libs/gobject-introspection-1.32.1:= )
 	)
-	cairo-qt? ( >=x11-libs/cairo-1.10.0 )
 	curl? ( net-misc/curl )
 	jpeg? ( virtual/jpeg:0 )
 	jpeg2k? ( media-libs/openjpeg:2= )
@@ -70,16 +67,6 @@ src_prepare() {
 	# cmake just uses it, so remove it if we use clang
 	if [[ ${CC} == clang ]] ; then
 		sed -i -e 's/-fno-check-new//' cmake/modules/PopplerMacros.cmake || die
-	fi
-
-	# Enable experimental patchset for subpixel font rendering using cairo
-	# backend for poppler-qt4 from https://github.com/giddie/poppler-qt4-cairo-backend.
-	if use cairo-qt; then
-		ewarn "Enabling unsupported, experimental cairo-qt patchset. Please do not report bugs."
-		eapply "${FILESDIR}/cairo-qt-experimental/0001-Cairo-backend-added-to-Qt4-wrapper.patch"
-		eapply "${FILESDIR}/cairo-qt-experimental/0002-Setting-default-Qt4-backend-to-Cairo.patch"
-		eapply "${FILESDIR}/cairo-qt-experimental/0003-Forcing-subpixel-rendering-in-Cairo-backend.patch"
-		eapply "${FILESDIR}/cairo-qt-experimental/0004-Enabling-slight-hinting-in-Cairo-Backend.patch"
 	fi
 }
 
