@@ -44,6 +44,10 @@ src_configure() {
 	# 	https://bugs.gentoo.org/show_bug.cgi?id=178499
 	filter-flags -ftree-vectorize
 
+	# Seems to have issues with -gddb3, switch to -gddb2
+	# 	https://bugs.gentoo.org/show_bug.cgi?id=608190
+	replace-flags -ggdb[3-9] -ggdb2
+
 	econf \
 		--disable-error-on-warning \
 		--disable-rpath \
