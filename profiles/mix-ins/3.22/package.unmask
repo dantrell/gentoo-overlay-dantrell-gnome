@@ -35,7 +35,7 @@
 ~dev-libs/folks-0.11.3::dantrell-gnome
 ~dev-libs/gdl-3.22.0::dantrell-gnome-3-22
 ~dev-libs/gjs-1.46.0::dantrell-gnome-3-22
-~dev-libs/glib-2.50.2::dantrell-gnome
+~dev-libs/glib-2.50.3::dantrell-gnome
 ~dev-libs/gmime-2.6.23::dantrell-gnome
 ~dev-libs/gobject-introspection-1.50.0::dantrell-gnome-3-22
 ~dev-libs/gobject-introspection-common-1.50.0::dantrell-gnome-3-22
@@ -54,7 +54,7 @@
 ~dev-python/pygobject-3.22.0::dantrell-gnome-3-22
 ~dev-util/anjuta-3.22.0::dantrell-gnome-3-22
 ~dev-util/devhelp-3.22.0::dantrell-gnome-3-22
-~dev-util/gdbus-codegen-2.50.2::dantrell-gnome
+~dev-util/gdbus-codegen-2.50.3::dantrell-gnome
 ~dev-util/glade-3.20.0::dantrell-gnome
 ~dev-util/gnome-devel-docs-3.22.1::dantrell-gnome-3-22
 ~dev-util/gtk-doc-1.25::dantrell-gnome
@@ -92,13 +92,12 @@
 ~gnome-base/gnome-light-3.22.0::dantrell-gnome-3-22
 ~gnome-base/gnome-session-3.22.2::dantrell-gnome-3-22
 ~gnome-base/gnome-settings-daemon-3.22.1::dantrell-gnome-3-22
-~gnome-base/gnome-shell-3.22.2::dantrell-gnome-3-22
+~gnome-base/gnome-shell-3.22.3::dantrell-gnome-3-22
 ~gnome-base/gsettings-desktop-schemas-3.22.0::dantrell-gnome-3-22
 ~gnome-base/gvfs-1.30.3::dantrell-gnome-3-22
 ~gnome-base/libgnomekbd-3.22.0.1::dantrell-gnome
 ~gnome-base/libgtop-2.34.2::dantrell-gnome
 ~gnome-base/librsvg-2.40.16::dantrell-gnome
-~gnome-base/nautilus-3.22.1::dantrell-gnome-3-22
 ~gnome-base/nautilus-3.22.2::dantrell-gnome-3-22
 ~gnome-extra/evolution-data-server-3.22.4::dantrell-gnome-3-22
 ~gnome-extra/evolution-ews-3.22.4::dantrell-gnome-3-22
@@ -192,4 +191,4 @@
 ~x11-themes/gnome-themes-standard-3.22.2::dantrell-gnome-3-22
 ~x11-themes/gtk-engines-adwaita-3.22.2::dantrell-gnome-3-22
 ~x11-wm/metacity-3.22.1::dantrell-gnome-3-22
-~x11-wm/mutter-3.22.2::dantrell-gnome-3-22
+~x11-wm/mutter-3.22.3::dantrell-gnome-3-22

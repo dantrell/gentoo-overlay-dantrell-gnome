@@ -200,7 +200,6 @@ multilib_src_configure() {
 }
 
 multilib_src_test() {
-	unset DBUS_SESSION_BUS_ADDRESS
 	export XDG_CONFIG_DIRS=/etc/xdg
 	export XDG_DATA_DIRS=/usr/local/share:/usr/share
 	export G_DBUS_COOKIE_SHA1_KEYRING_DIR="${T}/temp"

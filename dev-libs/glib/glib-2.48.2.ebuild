@@ -188,6 +188,7 @@ multilib_src_test() {
 	export XDG_CONFIG_DIRS=/etc/xdg
 	export XDG_DATA_DIRS=/usr/local/share:/usr/share
 	export G_DBUS_COOKIE_SHA1_KEYRING_DIR="${T}/temp"
+	unset GSETTINGS_BACKEND # bug 352451
 	export LC_TIME=C # bug #411967
 	python_setup
 
