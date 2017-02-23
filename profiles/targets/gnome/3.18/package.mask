@@ -174,7 +174,7 @@
 >=sys-apps/baobab-3.20.0
 >=sys-apps/gnome-disk-utility-3.20.0
 >=www-client/epiphany-3.20.0
->=x11-libs/gdk-pixbuf-2.36.0
+>=x11-libs/gdk-pixbuf-2.36.5
 >=x11-libs/gnome-pty-helper-0.44.0
 >=x11-libs/gtksourceview-3.20.0
 >=x11-libs/gtk+-3.20.0

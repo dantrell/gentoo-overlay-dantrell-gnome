@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Gucharmap"
 
 LICENSE="GPL-3"
 SLOT="2.90"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="debug +introspection test vala"
 REQUIRED_USE="vala? ( introspection )"
