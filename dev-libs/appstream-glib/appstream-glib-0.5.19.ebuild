@@ -3,7 +3,7 @@
 EAPI="6"
 GNOME2_LA_PUNT="yes"
 
-inherit bash-completion-r1 gnome2
+inherit bash-completion-r1 flag-o-matic gnome2
 
 DESCRIPTION="Provides GObjects and helper methods to read and write AppStream metadata"
 HOMEPAGE="https://people.freedesktop.org/~hughsient/appstream-glib/"
@@ -45,6 +45,9 @@ RDEPEND="${RDEPEND}
 "
 
 src_configure() {
+	# ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+	append-cflags -std=gnu11
+
 	gnome2_src_configure \
 		--enable-builder \
 		--enable-firmware \
