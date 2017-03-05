@@ -6,7 +6,9 @@ app-emulation/spice smartcard
 app-misc/tracker gstreamer
 app-text/ghostscript-gpl cups
 app-text/poppler cairo
+app-text/xmlto text
 dev-cpp/cairomm X
+dev-cpp/gtkmm X
 dev-libs/boehm-gc threads
 dev-libs/folks eds
 dev-libs/libgit2 ssh
@@ -28,6 +30,8 @@ media-libs/clutter gtk
 media-libs/clutter-gtk X
 media-libs/clutter-gtk gtk
 media-libs/gegl cairo
+media-libs/gegl jpeg2k
+media-libs/gegl raw
 media-libs/grilo playlist
 media-libs/gst-plugins-bad X
 media-libs/gst-plugins-bad opengl
@@ -55,6 +59,8 @@ sys-devel/llvm clang
 sys-libs/ntdb python
 sys-libs/tdb python
 sys-libs/tevent python
+virtual/imagemagick-tools jpeg
+virtual/imagemagick-tools png
 virtual/libusb udev
 www-servers/apache apache2_modules_auth_digest
 x11-libs/cairo X

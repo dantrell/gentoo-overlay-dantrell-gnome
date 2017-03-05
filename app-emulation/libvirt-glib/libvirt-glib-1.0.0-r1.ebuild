@@ -1,11 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
-PYTHON_COMPAT=( python2_7 )
 
-inherit gnome2 python-single-r1 vala
+inherit gnome2 vala
 
 DESCRIPTION="GLib and GObject mappings for libvirt"
 HOMEPAGE="http://libvirt.org/git/?p=libvirt-glib.git"
@@ -15,11 +13,8 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="+introspection nls python +vala"
-REQUIRED_USE="
-	python? ( ${PYTHON_REQUIRED_USE} )
-	vala? ( introspection )
-"
+IUSE="+introspection nls +vala"
+REQUIRED_USE="vala? ( introspection )"
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=1093633
 RESTRICT="test"
@@ -29,7 +24,6 @@ RDEPEND="
 	>=app-emulation/libvirt-1.2.6:=
 	>=dev-libs/glib-2.38.0:2
 	introspection? ( >=dev-libs/gobject-introspection-0.10.8:= )
-	python? ( ${PYTHON_DEPS} )
 "
 DEPEND="${RDEPEND}
 	dev-util/gtk-doc-am
@@ -37,10 +31,6 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
 "
-
-pkg_setup() {
-	use python && python-single-r1_pkg_setup
-}
 
 src_prepare() {
 	gnome2_src_prepare
@@ -53,15 +43,5 @@ src_configure() {
 		--disable-static \
 		$(use_enable introspection) \
 		$(use_enable nls) \
-		$(use_enable vala) \
-		$(use_with python)
-}
-
-src_compile() {
-	# https://bugzilla.redhat.com/show_bug.cgi?id=1093631
-	if use vala; then
-		gnome2_src_compile -j1
-	else
-		gnome2_src_compile
-	fi
+		$(use_enable vala)
 }

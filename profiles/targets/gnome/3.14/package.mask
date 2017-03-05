@@ -1,5 +1,5 @@
-# Masked to test on GNOME 3.22 first
->=net-libs/webkit-gtk-2.14.0
+# Masked to test on GNOME 3.24 first
+>=net-libs/webkit-gtk-2.16.0
 
 # Requires GLibmm 2.48 (or greater) and Libsigc++ 2.8 (or greater)
 >=media-gfx/inkscape-0.91-r200

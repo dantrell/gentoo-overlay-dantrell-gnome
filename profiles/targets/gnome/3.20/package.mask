@@ -1,5 +1,5 @@
-# Masked to test on GNOME 3.22 first
->=net-libs/webkit-gtk-2.14.0
+# Masked to test on GNOME 3.24 first
+>=net-libs/webkit-gtk-2.16.0
 
 # Masked to freeze the state of GNOME
 >=app-accessibility/accerciser-3.22.0

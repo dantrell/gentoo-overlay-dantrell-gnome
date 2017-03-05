@@ -3,7 +3,7 @@
 EAPI="6"
 VALA_USE_DEPEND="vapigen"
 
-inherit gnome2 vala
+inherit autotools gnome2 vala
 
 DESCRIPTION="GLib-based library for accessing online service APIs using the GData protocol"
 HOMEPAGE="https://wiki.gnome.org/Projects/libgdata"
@@ -39,6 +39,11 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
+	# From GNOME:
+	# 	https://git.gnome.org/browse/libgdata/commit/?id=16fc166d3b1f048231fa4c504d4d0fb1725ddfa0
+	eapply "${FILESDIR}"/${PN}-0.17.7-build-pass-goa-1-0-dependency-to-vapi-build-rule.patch
+
+	eautoreconf
 	use vala && vala_src_prepare
 	gnome2_src_prepare
 }

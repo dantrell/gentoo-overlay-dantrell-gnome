@@ -1,7 +1,4 @@
-dev-cpp/gtkmm X
 dev-libs/libgusb vala
 media-libs/clutter-gst X
 media-libs/gegl jpeg
-media-libs/gegl jpeg2k
 media-libs/gegl png
-media-libs/gegl raw
