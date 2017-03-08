@@ -3,7 +3,7 @@
 EAPI="6"
 GNOME2_LA_PUNT="yes"
 
-inherit gnome2 multilib multilib-minimal toolchain-funcs
+inherit gnome2 multilib-minimal toolchain-funcs
 
 DESCRIPTION="Internationalized text layout and rendering library"
 HOMEPAGE="http://www.pango.org/"
@@ -34,6 +34,13 @@ DEPEND="${RDEPEND}
 	X? ( >=x11-proto/xproto-7.0.24[${MULTILIB_USEDEP}] )
 	!<=sys-devel/autoconf-2.63:2.5
 "
+
+src_prepare() {
+	default
+	# This should be updated if next release fails to pre-generate the manpage as well, or src_prepare removed if is properly generated
+	# https://bugzilla.gnome.org/show_bug.cgi?id=779704
+	cp -v "${FILESDIR}"/${PV}-pango-view.1.in "${S}/pango-view/pango-view.1.in" || die
+}
 
 multilib_src_configure() {
 	tc-export CXX
