@@ -3,7 +3,7 @@
 EAPI="6"
 VALA_USE_DEPEND="vapigen"
 
-inherit autotools gnome2 vala
+inherit gnome2 vala
 
 DESCRIPTION="GLib-based library for accessing online service APIs using the GData protocol"
 HOMEPAGE="https://wiki.gnome.org/Projects/libgdata"
@@ -31,7 +31,7 @@ RDEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-0.9.7:= )
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.14
+	>=dev-util/gtk-doc-am-1.25
 	>=dev-util/intltool-0.40
 	virtual/pkgconfig
 	test? ( >=net-libs/uhttpmock-0.5 )
@@ -39,11 +39,13 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	# From GNOME:
-	# 	https://git.gnome.org/browse/libgdata/commit/?id=16fc166d3b1f048231fa4c504d4d0fb1725ddfa0
-	eapply "${FILESDIR}"/${PN}-0.17.7-build-pass-goa-1-0-dependency-to-vapi-build-rule.patch
+	# https://bugzilla.gnome.org/show_bug.cgi?id=780081 - remove with 0.17.8
+	if use test && ! has_version '>=net-libs/libsoup-2.55.90:2.4'; then
+		eapply -R "${FILESDIR}/${PV}"-streams-https-tests.patch
+	fi
+	# x86 test fix from upstream git post-0.17.7
+	eapply "${FILESDIR}/${PV}"-fix-x86-tests.patch
 
-	eautoreconf
 	use vala && vala_src_prepare
 	gnome2_src_prepare
 }
