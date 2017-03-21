@@ -33,9 +33,6 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	# Fix QT automagic selection, bug #523122
-	eapply "${FILESDIR}"/${PN}-0.7.0-qt5.patch
-
 	# Make doc parallel installable
 	cd "${S}"/docs/reference/${PN} || die
 	sed -e "s/\(DOC_MODULE.*=\).*/\1${PN}-${SLOT}/" \

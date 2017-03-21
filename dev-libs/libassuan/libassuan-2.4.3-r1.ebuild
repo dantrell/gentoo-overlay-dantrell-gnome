@@ -20,10 +20,9 @@ DEPEND="${RDEPEND}"
 src_prepare() {
 	default
 
-	# for Solaris .so
-	elibtoolize
-
 	if [[ ${CHOST} == *-solaris* ]] ; then
+		elibtoolize
+
 		# fix standards conflict
 		sed -i \
 			-e '/_XOPEN_SOURCE/s/500/600/' \

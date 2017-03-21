@@ -111,6 +111,9 @@ src_prepare() {
 		sed -i -e 's/ tests//' {.,gio,glib}/Makefile.am || die
 	fi
 
+	# Fix tests with timezone-data-2017a and newer
+	eapply "${FILESDIR}"/${PN}-2.50.3-fix-gdatetime-tests.patch
+
 	# gdbus-codegen is a separate package
 	eapply "${FILESDIR}"/${PN}-2.40.0-external-gdbus-codegen.patch
 

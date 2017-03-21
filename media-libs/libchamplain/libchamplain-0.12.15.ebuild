@@ -52,7 +52,6 @@ src_prepare() {
 src_configure() {
 	# Vala demos are only built, so just disable them
 	gnome2_src_configure \
-		--disable-maemo \
 		--disable-memphis \
 		--disable-static \
 		--disable-vala-demos \

@@ -14,7 +14,7 @@
 >=app-editors/gedit-plugins-3.22.0
 >=app-editors/ghex-3.22.0
 >=app-editors/latexila-3.22.0
->=app-misc/bijiben-3.21.2
+>=app-misc/bijiben-3.21.0
 >=app-misc/geoclue-2.6.0
 >=app-misc/gnote-3.22.0
 >=app-misc/tracker-1.10.0
@@ -125,7 +125,7 @@
 >=gnome-extra/gnome-user-share-3.22.0
 >=gnome-extra/gnome-weather-3.22.0
 >=gnome-extra/nautilus-tracker-tags-1.10.0
->=gnome-extra/sushi-3.21.91
+>=gnome-extra/sushi-3.21.0
 >=gnome-extra/yelp-3.22.0
 >=gnome-extra/yelp-xsl-3.22.0
 >=gnome-extra/zenity-3.22.0
@@ -143,7 +143,7 @@
 >=media-libs/grilo-0.4.0
 >=media-plugins/grilo-plugins-0.4.0
 >=media-sound/gnome-music-3.22.0
->=media-sound/gnome-sound-recorder-3.21.92
+>=media-sound/gnome-sound-recorder-3.21.0
 >=media-sound/rhythmbox-3.6
 >=media-sound/sound-juicer-3.22.0
 >=media-video/cheese-3.22.0

@@ -124,7 +124,7 @@ src_prepare() {
 
 	local PATCHES=(
 		# https://bugs.gentoo.org/590432
-		"${FILESDIR}/1.2.4-upower.patch"
+		"${FILESDIR}"/${PN}-1.2.4-upower.patch
 	)
 
 	use vala && vala_src_prepare

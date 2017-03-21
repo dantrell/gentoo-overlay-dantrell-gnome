@@ -12,7 +12,7 @@ LICENSE="LGPL-2.1"
 SLOT="2.6"
 KEYWORDS="*"
 
-IUSE="doc mono smime static-libs vala"
+IUSE="doc mono smime static-libs test vala"
 
 RDEPEND="
 	>=dev-libs/glib-2.32.0:2
@@ -30,7 +30,9 @@ DEPEND="${RDEPEND}
 	virtual/libiconv
 	virtual/pkgconfig
 	doc? ( app-text/docbook-sgml-utils )
+	test? ( app-crypt/gnupg )
 "
+# gnupg is needed for tests if --enable-cryptography is enabled, which we do unconditionally
 
 pkg_setup() {
 	use mono && mono-env_pkg_setup
