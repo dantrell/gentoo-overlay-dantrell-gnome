@@ -5,7 +5,7 @@
 
 if [[ ! $(grep "gentoo:funtoo/1.0/linux-gnu/" /etc/portage/make.profile/parent 2> /dev/null) ]]; then
 
-	# Copyright 2005-2016 Gentoo Foundation
+	# Copyright 2005-2017 Gentoo Foundation
 
 	inherit package-manager
 

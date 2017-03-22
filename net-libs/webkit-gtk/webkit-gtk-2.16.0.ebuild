@@ -14,7 +14,7 @@ SRC_URI="http://www.webkitgtk.org/releases/${MY_P}.tar.xz"
 
 LICENSE="LGPL-2+ BSD"
 SLOT="4/37" # soname version of libwebkit2gtk-4.0
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="aqua coverage doc +egl +geolocation gles2 gnome-keyring +gstreamer +introspection +jit libnotify nsplugin +opengl spell wayland +webgl X"
 # webgl needs gstreamer, bug #560612
@@ -91,7 +91,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
 	${RUBY_DEPS}
-	>=dev-lang/perl-5.10
+	>=dev-lang/perl-5.10[ithreads]
 	>=app-accessibility/at-spi2-core-2.5.3
 	>=dev-libs/atk-2.8.0
 	>=dev-util/gtk-doc-am-1.10
@@ -123,9 +123,6 @@ PATCHES=(
 	# https://bugs.gentoo.org/show_bug.cgi?id=564352
 	# https://bugs.webkit.org/show_bug.cgi?id=167283
 	"${FILESDIR}"/${PN}-2.8.5-fix-alpha-build.patch
-
-	# https://bugs.webkit.org/show_bug.cgi?id=148379
-	"${FILESDIR}"/${PN}-2.8.5-webkit2gtkinjectedbundle-j1.patch
 )
 
 pkg_pretend() {
