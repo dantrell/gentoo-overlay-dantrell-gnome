@@ -19,7 +19,7 @@ RESTRICT="test"
 
 RDEPEND="
 	>=app-arch/libarchive-2.8
-	>=dev-libs/glib-2.24:2
+	>=dev-libs/glib-2.36:2
 	media-libs/freetype:2
 	media-libs/libpng:0
 	>=x11-libs/cairo-1.10[svg]

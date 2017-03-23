@@ -36,6 +36,7 @@ RDEPEND="
 	teamd? ( >=dev-libs/jansson-2.3 )
 "
 DEPEND="${RDEPEND}
+	>=dev-util/gtk-doc-am-1.0
 	>=dev-util/intltool-0.50.1
 	virtual/pkgconfig
 "

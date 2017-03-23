@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 
 inherit gnome2 multilib-minimal
 
@@ -28,7 +27,7 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	# Do not touch CFLAGS
+	# Do not touch CFLAGS with --enable-debug=yes
 	sed -e 's/CFLAGS -g/CFLAGS/' -i "${S}"/configure || die
 	gnome2_src_prepare
 }

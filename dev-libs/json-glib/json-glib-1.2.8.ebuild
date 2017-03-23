@@ -27,7 +27,7 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	# Do not touch CFLAGS
+	# Do not touch CFLAGS with --enable-debug=yes
 	sed -e 's/CFLAGS -g/CFLAGS/' -i "${S}"/configure || die
 	gnome2_src_prepare
 }

@@ -1,9 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no" # --enable-debug only changes CFLAGS
+EAPI="6"
 GNOME2_LA_PUNT="yes"
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6} )
 VALA_MIN_API_VERSION="0.27"
 VALA_USE_DEPEND="vapigen"
 
@@ -34,19 +33,14 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
 	test? (
-		$(python_gen_any_dep '
-			dev-python/pygobject:2[${PYTHON_USEDEP}]
-			dev-python/pygobject:3[${PYTHON_USEDEP}]')
+		${PYTHON_DEPS}
 		media-plugins/grilo-plugins:${SLOT%/*} )
 "
 # eautoreconf requires gnome-common
 
-python_check_deps() {
-	has_version "dev-python/pygobject:2[${PYTHON_USEDEP}]" && \
-		has_version "dev-python/pygobject:3[${PYTHON_USEDEP}]"
-}
-
 pkg_setup() {
+	# Python tests are currently commented out, but this is done via in exit(0) in testrunner.py
+	# thus it still needs $PYTHON set up, which python-any-r1_pkg_setup will do for us
 	use test && python-any-r1_pkg_setup
 }
 
