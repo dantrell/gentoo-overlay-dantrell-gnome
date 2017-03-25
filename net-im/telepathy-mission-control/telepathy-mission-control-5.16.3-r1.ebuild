@@ -57,5 +57,6 @@ src_configure() {
 		 --disable-static \
 		$(use_enable debug) \
 		$(use_enable deprecated) \
+		$(use_enable deprecated upower) \
 		$(use_with networkmanager connectivity nm)
 }
