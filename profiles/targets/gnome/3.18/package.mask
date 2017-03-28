@@ -5,6 +5,7 @@
 >=media-gfx/inkscape-0.91-r200
 
 # Requires GLib 2.48 (or greater)
+>=media-sound/pasystray-0.6.0
 >=x11-misc/colord-1.4.0
 
 # Masked to freeze the state of GNOME

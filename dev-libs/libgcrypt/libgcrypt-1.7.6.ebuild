@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit autotools flag-o-matic multilib-minimal
+inherit autotools flag-o-matic ltprune multilib-minimal
 
 DESCRIPTION="General purpose crypto library based on the code used in GnuPG"
 HOMEPAGE="http://www.gnupg.org/"
@@ -66,4 +66,9 @@ multilib_src_compile() {
 multilib_src_install() {
 	emake DESTDIR="${D}" install
 	multilib_is_native_abi && use doc && dodoc doc/gcrypt.pdf
+}
+
+multilib_src_install_all() {
+	default
+	prune_libtool_files
 }

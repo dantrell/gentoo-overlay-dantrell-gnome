@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
+GNOME2_EAUTORECONF="yes"
 GNOME2_LA_PUNT="yes"
 GNOME_ORG_MODULE="network-manager-applet"
 
@@ -42,6 +43,13 @@ DEPEND="${RDEPEND}
 "
 
 PDEPEND="virtual/notification-daemon" #546134
+
+PATCHES=(
+	"${FILESDIR}"/${PN}-1.4.6-fix-nma-bindings.patch # NMA bindings fix to be usable in python etc
+	"${FILESDIR}"/${PN}-1.4.6-fix-translations-in-g-c-c.patch # g-c-c == gnome-control-center
+	"${FILESDIR}"/${PN}-1.4.6-CVE-2017-6590.patch # bug 613768
+	"${FILESDIR}"/${PN}-1.4.6-improved-certfile-error-msg.patch # bug 613646
+)
 
 src_configure() {
 	gnome2_src_configure \
