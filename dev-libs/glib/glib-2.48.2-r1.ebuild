@@ -4,18 +4,14 @@
 # adding new dependencies end up making stage3 to grow. Every addition needs
 # then to be think very closely.
 
-EAPI="5"
+EAPI="6"
 PYTHON_COMPAT=( python2_7 )
-# Building with --disable-debug highly unrecommended.  It will build glib in
-# an unusable form as it disables some commonly used API.  Please do not
-# convert this to the use_enable form, as it results in a broken build.
-GCONF_DEBUG="yes"
 # Completely useless with or without USE static-libs, people need to use
 # pkg-config
 GNOME2_LA_PUNT="yes"
 
-inherit autotools bash-completion-r1 gnome2 libtool eutils flag-o-matic multilib \
-	pax-utils python-r1 toolchain-funcs versionator virtualx linux-info multilib-minimal
+inherit autotools bash-completion-r1 flag-o-matic gnome2 libtool linux-info \
+	multilib multilib-minimal pax-utils python-r1 toolchain-funcs versionator virtualx
 
 DESCRIPTION="The GLib library of C routines"
 HOMEPAGE="http://www.gtk.org/"
@@ -23,10 +19,10 @@ SRC_URI="${SRC_URI}
 	https://pkgconfig.freedesktop.org/releases/pkg-config-0.28.tar.gz" # pkg.m4 for eautoreconf
 
 LICENSE="LGPL-2+"
-SLOT="2/46"
+SLOT="2/48"
 KEYWORDS="*"
 
-IUSE="dbus fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
+IUSE="dbus debug fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
 REQUIRED_USE="
 	utils? ( ${PYTHON_REQUIRED_USE} )
 	test? ( ${PYTHON_REQUIRED_USE} )
@@ -34,8 +30,10 @@ REQUIRED_USE="
 
 RDEPEND="
 	!<dev-util/gdbus-codegen-${PV}
+	>=dev-libs/libpcre-8.13:3[${MULTILIB_USEDEP},static-libs?]
 	>=virtual/libiconv-0-r1[${MULTILIB_USEDEP}]
 	>=virtual/libffi-3.0.13-r1[${MULTILIB_USEDEP}]
+	>=virtual/libintl-0-r2[${MULTILIB_USEDEP}]
 	>=sys-libs/zlib-1.2.8-r1[${MULTILIB_USEDEP}]
 	selinux? ( >=sys-libs/libselinux-2.2.2-r5[${MULTILIB_USEDEP}] )
 	xattr? ( >=sys-apps/attr-2.4.47-r1[${MULTILIB_USEDEP}] )
@@ -83,9 +81,6 @@ pkg_setup() {
 }
 
 src_prepare() {
-	# GDBusProxy: Fix a memory leak during initialization (from 2.46 branch)
-	epatch "${FILESDIR}"/${P}-memleak.patch
-
 	# Prevent build failure in stage3 where pkgconfig is not available, bug #481056
 	mv -f "${WORKDIR}"/pkg-config-*/pkg.m4 "${S}"/m4macros/ || die
 
@@ -105,56 +100,28 @@ src_prepare() {
 			sed -i -e "/appinfo\/launch/d" gio/tests/appinfo.c || die
 		fi
 
-		# Disable tests requiring dbus-python and pygobject; bugs #349236, #377549, #384853
-		if ! has_version dev-python/dbus-python || ! has_version 'dev-python/pygobject:3' ; then
-			ewarn "Some tests will be skipped due to dev-python/dbus-python or dev-python/pygobject:3"
-			ewarn "not being present on your system, think on installing them to get these tests run."
-			sed -i -e "/connection\/filter/d" gio/tests/gdbus-connection.c || die
-			sed -i -e "/connection\/large_message/d" gio/tests/gdbus-connection-slow.c || die
-			sed -i -e "/gdbus\/proxy/d" gio/tests/gdbus-proxy.c || die
-			sed -i -e "/gdbus\/proxy-well-known-name/d" gio/tests/gdbus-proxy-well-known-name.c || die
-			sed -i -e "/gdbus\/introspection-parser/d" gio/tests/gdbus-introspection.c || die
-			sed -i -e "/g_test_add_func/d" gio/tests/gdbus-threading.c || die
-			sed -i -e "/gdbus\/method-calls-in-thread/d" gio/tests/gdbus-threading.c || die
-			# needed to prevent gdbus-threading from asserting
-			ln -sfn $(type -P true) gio/tests/gdbus-testserver.py
-		fi
-
-		# Some tests need ipv6, upstream bug #667468
-		# https://bugs.gentoo.org/show_bug.cgi?id=508752
-		if [[ ! -f /proc/net/if_inet6 ]]; then
-			sed -i -e "/gdbus\/peer-to-peer/d" gio/tests/gdbus-peer.c || die
-			sed -i -e "/gdbus\/delayed-message-processing/d" gio/tests/gdbus-peer.c || die
-			sed -i -e "/gdbus\/nonce-tcp/d" gio/tests/gdbus-peer.c || die
-		fi
-
-		# This test is prone to fail, bug #504024, upstream bug #723719
-		sed -i -e '/gdbus-close-pending/d' gio/tests/Makefile.am || die
-
 		# https://bugzilla.gnome.org/show_bug.cgi?id=722604
 		sed -i -e "/timer\/stop/d" glib/tests/timer.c || die
 		sed -i -e "/timer\/basic/d" glib/tests/timer.c || die
+
+		ewarn "Tests for search-utils have been skipped"
+		sed -i -e "/search-utils/d" glib/tests/Makefile.am || die
 	else
 		# Don't build tests, also prevents extra deps, bug #512022
 		sed -i -e 's/ tests//' {.,gio,glib}/Makefile.am || die
 	fi
 
+	# Fix tests with timezone-data-2017a and newer
+	eapply "${FILESDIR}"/${PN}-2.50.3-fix-gdatetime-tests.patch
+
 	# gdbus-codegen is a separate package
-	epatch "${FILESDIR}"/${PN}-2.40.0-external-gdbus-codegen.patch
+	eapply "${FILESDIR}"/${PN}-2.40.0-external-gdbus-codegen.patch
 
-	# crash in Firefox when choosing default application, fixed in 2.48.1; bug #577686
-	epatch "${FILESDIR}"/${PN}-2.48.0-GContextSpecificGroup.patch
-
-	# leave python shebang alone
+	# Leave python shebang alone - handled by python_replicate_script
+	# We could call python_setup and give configure a valid --with-python
+	# arg, but that would mean a build dep on python when USE=utils.
 	sed -e '/${PYTHON}/d' \
 		-i glib/Makefile.{am,in} || die
-
-	# Prevent m4_copy error when running aclocal
-	# m4_copy: won't overwrite defined macro: glib_DEFUN
-	sed -e "s/m4_copy/m4_copy_force/" \
-		-i m4macros/glib-gettext.m4 || die
-
-	epatch_user
 
 	# Also needed to prevent cross-compile failures, see bug #267603
 	eautoreconf
@@ -197,9 +164,9 @@ multilib_src_configure() {
 		*)        myconf="${myconf} --with-threads=posix" ;;
 	esac
 
-	# Always use internal libpcre, bug #254659
 	# libelf used only by the gresource bin
 	ECONF_SOURCE="${S}" gnome2_src_configure ${myconf} \
+		$(usex debug --enable-debug=yes ' ') \
 		$(use_enable xattr) \
 		$(use_enable fam) \
 		$(use_enable selinux) \
@@ -209,7 +176,7 @@ multilib_src_configure() {
 		$(multilib_native_use_enable utils libelf) \
 		--disable-compile-warnings \
 		--enable-man \
-		--with-pcre=internal \
+		--with-pcre=system \
 		--with-xml-catalog="${EPREFIX}/etc/xml/catalog"
 
 	if multilib_is_native_abi; then
@@ -226,7 +193,7 @@ multilib_src_test() {
 	export G_DBUS_COOKIE_SHA1_KEYRING_DIR="${T}/temp"
 	unset GSETTINGS_BACKEND # bug 352451
 	export LC_TIME=C # bug #411967
-	python_export_best
+	python_setup
 
 	# Related test is a bit nitpicking
 	mkdir "$G_DBUS_COOKIE_SHA1_KEYRING_DIR"
@@ -239,7 +206,7 @@ multilib_src_test() {
 	fi
 
 	# Need X for dbus-launch session X11 initialization
-	Xemake check
+	virtx emake check
 }
 
 multilib_src_install() {
@@ -248,7 +215,6 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
-	DOCS="AUTHORS ChangeLog* NEWS* README"
 	einstalldocs
 
 	if use utils ; then
@@ -279,7 +245,7 @@ pkg_preinst() {
 
 	multilib_pkg_preinst() {
 		# Make giomodule.cache belong to glib alone
-		local cache="usr/$(get_libdir)/gio/giomodule.cache"
+		local cache="usr/$(get_libdir)/gio/modules/giomodule.cache"
 
 		if [[ -e ${EROOT}${cache} ]]; then
 			cp "${EROOT}"${cache} "${ED}"/${cache} || die
@@ -288,7 +254,11 @@ pkg_preinst() {
 		fi
 	}
 
-	multilib_foreach_abi multilib_pkg_preinst
+	# Don't run the cache ownership when cross-compiling, as it would end up with an empty cache
+	# file due to inability to create it and GIO might not look at any of the modules there
+	if ! tc-is-cross-compiler ; then
+		multilib_foreach_abi multilib_pkg_preinst
+	fi
 }
 
 pkg_postinst() {
@@ -301,7 +271,14 @@ pkg_postinst() {
 		gnome2_giomodule_cache_update \
 			|| die "Update GIO modules cache failed (for ${ABI})"
 	}
-	multilib_foreach_abi multilib_pkg_postinst
+	if ! tc-is-cross-compiler ; then
+		multilib_foreach_abi multilib_pkg_postinst
+	else
+		ewarn "Updating of GIO modules cache skipped due to cross-compilation."
+		ewarn "You might want to run gio-querymodules manually on the target for"
+		ewarn "your final image for performance reasons and re-run it when packages"
+		ewarn "installing GIO modules get upgraded or added to the image."
+	fi
 }
 
 pkg_postrm() {
@@ -309,7 +286,7 @@ pkg_postrm() {
 
 	if [[ -z ${REPLACED_BY_VERSION} ]]; then
 		multilib_pkg_postrm() {
-			rm -f "${EROOT}"usr/$(get_libdir)/gio/giomodule.cache
+			rm -f "${EROOT}"usr/$(get_libdir)/gio/modules/giomodule.cache
 		}
 		multilib_foreach_abi multilib_pkg_postrm
 		rm -f "${EROOT}"usr/share/glib-2.0/schemas/gschemas.compiled

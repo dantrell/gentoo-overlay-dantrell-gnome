@@ -3,11 +3,11 @@
 EAPI="6"
 GNOME2_LA_PUNT="yes"
 
-inherit flag-o-matic gnome2
+inherit autotools flag-o-matic gnome2
 
 DESCRIPTION="A window navigation construction kit"
 HOMEPAGE="https://developer.gnome.org/libwnck/stable/"
-SRC_URI="https://git.gnome.org/browse/${GNOME_ORG_MODULE}/snapshot/${GNOME_ORG_MODULE}-${PV}.tar.xz"
+SRC_URI="https://git.gnome.org/browse/${PN}/snapshot/${P}.tar.xz"
 
 LICENSE="LGPL-2+"
 SLOT="3"
@@ -29,24 +29,19 @@ DEPEND="${RDEPEND}
 	dev-util/gtk-doc
 	dev-util/gtk-doc-am
 	>=dev-util/intltool-0.40.6
+	gnome-base/gnome-common
 	sys-devel/gettext
 	virtual/pkgconfig
 "
 # eautoreconf needs
 #	gnome-base/gnome-common
 
-S="${WORKDIR}/${GNOME_ORG_MODULE}-${PV}/${PN}"
-
 src_prepare() {
-	cd "${WORKDIR}/${GNOME_ORG_MODULE}-${PV}"
-	./autogen.sh
-
+	eautoreconf
 	gnome2_src_prepare
 }
 
 src_configure() {
-	cd "${WORKDIR}/${GNOME_ORG_MODULE}-${PV}"
-
 	# Don't collide with SLOT=1
 	gnome2_src_configure \
 		--disable-static \

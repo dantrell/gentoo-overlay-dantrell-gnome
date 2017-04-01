@@ -11,7 +11,7 @@ PYTHON_COMPAT=( python2_7 )
 GNOME2_LA_PUNT="yes"
 
 inherit autotools bash-completion-r1 flag-o-matic gnome2 libtool linux-info \
-	multilib multilib-minimal pax-utils python-r1  toolchain-funcs versionator virtualx
+	multilib multilib-minimal pax-utils python-r1 toolchain-funcs versionator virtualx
 
 DESCRIPTION="The GLib library of C routines"
 HOMEPAGE="http://www.gtk.org/"
@@ -251,7 +251,7 @@ pkg_preinst() {
 
 	multilib_pkg_preinst() {
 		# Make giomodule.cache belong to glib alone
-		local cache="usr/$(get_libdir)/gio/giomodule.cache"
+		local cache="usr/$(get_libdir)/gio/modules/giomodule.cache"
 
 		if [[ -e ${EROOT}${cache} ]]; then
 			cp "${EROOT}"${cache} "${ED}"/${cache} || die
@@ -260,7 +260,11 @@ pkg_preinst() {
 		fi
 	}
 
-	multilib_foreach_abi multilib_pkg_preinst
+	# Don't run the cache ownership when cross-compiling, as it would end up with an empty cache
+	# file due to inability to create it and GIO might not look at any of the modules there
+	if ! tc-is-cross-compiler ; then
+		multilib_foreach_abi multilib_pkg_preinst
+	fi
 }
 
 pkg_postinst() {
@@ -273,7 +277,14 @@ pkg_postinst() {
 		gnome2_giomodule_cache_update \
 			|| die "Update GIO modules cache failed (for ${ABI})"
 	}
-	multilib_foreach_abi multilib_pkg_postinst
+	if ! tc-is-cross-compiler ; then
+		multilib_foreach_abi multilib_pkg_postinst
+	else
+		ewarn "Updating of GIO modules cache skipped due to cross-compilation."
+		ewarn "You might want to run gio-querymodules manually on the target for"
+		ewarn "your final image for performance reasons and re-run it when packages"
+		ewarn "installing GIO modules get upgraded or added to the image."
+	fi
 }
 
 pkg_postrm() {
@@ -281,7 +292,7 @@ pkg_postrm() {
 
 	if [[ -z ${REPLACED_BY_VERSION} ]]; then
 		multilib_pkg_postrm() {
-			rm -f "${EROOT}"usr/$(get_libdir)/gio/giomodule.cache
+			rm -f "${EROOT}"usr/$(get_libdir)/gio/modules/giomodule.cache
 		}
 		multilib_foreach_abi multilib_pkg_postrm
 		rm -f "${EROOT}"usr/share/glib-2.0/schemas/gschemas.compiled

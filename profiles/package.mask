@@ -97,7 +97,6 @@ gnome-extra/california::gentoo
 gnome-extra/docky::gentoo
 gnome-extra/evolution-data-server::gentoo
 gnome-extra/evolution-ews::gentoo
-gnome-extra/gnome-builder::gentoo
 gnome-extra/gnome-dvb-daemon::gentoo
 gnome-extra/gnome-user-share::gentoo
 gnome-extra/gnome-weather::gentoo
@@ -163,6 +162,8 @@ net-misc/spice-gtk::gentoo
 net-print/cups-filters::gentoo
 net-wireless/gnome-bluetooth::gentoo
 sci-geosciences/geocode-glib::gentoo
+sys-apps/osinfo-db-tools::gentoo
+sys-apps/osinfo-db::gentoo
 sys-auth/consolekit::gentoo
 sys-devel/gettext::gentoo
 sys-libs/libosinfo::gentoo
