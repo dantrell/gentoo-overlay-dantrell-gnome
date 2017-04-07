@@ -25,7 +25,7 @@
 ~app-text/yelp-tools-3.18.0::dantrell-gnome
 ~dev-cpp/atkmm-2.24.2::dantrell-gnome
 ~dev-cpp/cairomm-1.12.0::dantrell-gnome
-~dev-cpp/glibmm-2.50.0::dantrell-gnome
+~dev-cpp/glibmm-2.50.1::dantrell-gnome
 ~dev-cpp/gtkmm-3.22.0::dantrell-gnome-3-22
 ~dev-cpp/mm-common-0.9.10::dantrell-gnome
 ~dev-cpp/pangomm-2.40.1::dantrell-gnome
@@ -41,7 +41,7 @@
 ~dev-libs/gobject-introspection-common-1.50.0::dantrell-gnome-3-22
 ~dev-libs/gom-0.3.2::dantrell-gnome
 ~dev-libs/json-glib-1.2.8::dantrell-gnome
-~dev-libs/libcroco-0.6.11::dantrell-gnome
+~dev-libs/libcroco-0.6.12::dantrell-gnome
 ~dev-libs/libgdata-0.17.7::dantrell-gnome
 ~dev-libs/libgee-0.18.1::dantrell-gnome
 ~dev-libs/libgnome-games-support-1.2.1::dantrell-gnome
@@ -89,6 +89,7 @@
 ~gnome-base/gnome-core-libs-3.22.0::dantrell-gnome-3-22
 ~gnome-base/gnome-desktop-3.22.2::dantrell-gnome-3-22
 ~gnome-base/gnome-extra-apps-3.22.0::dantrell-gnome-3-22
+~gnome-base/gnome-flashback-3.22.1::dantrell-gnome-3-22
 ~gnome-base/gnome-light-3.22.0::dantrell-gnome-3-22
 ~gnome-base/gnome-session-3.22.3::dantrell-gnome-3-22
 ~gnome-base/gnome-settings-daemon-3.22.2::dantrell-gnome-3-22
@@ -165,7 +166,7 @@
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/phodav-2.1::dantrell-gnome
 ~net-libs/rest-0.8.0::dantrell-gnome
-~net-libs/webkit-gtk-2.14.5::dantrell-gnome
+~net-libs/webkit-gtk-2.14.6::dantrell-gnome
 ~net-misc/gnome-online-miners-3.22.0::dantrell-gnome-3-22
 ~net-misc/networkmanager-1.4.4::dantrell-gnome
 ~net-misc/rygel-0.32.1::dantrell-gnome-3-22

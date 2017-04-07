@@ -30,7 +30,7 @@ RDEPEND="
 	dev-libs/json-glib
 	>=media-libs/babl-0.1.24
 	sys-libs/zlib
-	>=x11-libs/gdk-pixbuf-2.18:2
+	>=x11-libs/gdk-pixbuf-2.32:2
 	x11-libs/pango
 
 	cairo? ( x11-libs/cairo )
@@ -86,6 +86,7 @@ src_prepare() {
 		-i tests/compositions/Makefile.am || die
 
 	eapply "${FILESDIR}"/${PN}-0.3.12-failing-tests.patch
+	eapply "${FILESDIR}"/${P}-implicit-declaration.patch
 
 	eautoreconf
 
