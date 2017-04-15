@@ -14,7 +14,7 @@ GCONF_DEBUG="yes"
 # pkg-config
 GNOME2_LA_PUNT="yes"
 
-inherit autotools bash-completion-r1 gnome2 libtool eutils flag-o-matic multilib \
+inherit autotools bash-completion-r1 gnome2 libtool epatch epunt-cxx flag-o-matic multilib \
 	pax-utils python-r1 toolchain-funcs versionator virtualx linux-info multilib-minimal
 
 DESCRIPTION="The GLib library of C routines"
@@ -224,8 +224,8 @@ multilib_src_test() {
 	export XDG_CONFIG_DIRS=/etc/xdg
 	export XDG_DATA_DIRS=/usr/local/share:/usr/share
 	export G_DBUS_COOKIE_SHA1_KEYRING_DIR="${T}/temp"
-	unset GSETTINGS_BACKEND # bug 352451
 	export LC_TIME=C # bug #411967
+	unset GSETTINGS_BACKEND # bug #596380
 	python_export_best
 
 	# Related test is a bit nitpicking

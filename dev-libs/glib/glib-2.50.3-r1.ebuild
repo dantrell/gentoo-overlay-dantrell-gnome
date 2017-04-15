@@ -10,7 +10,7 @@ PYTHON_COMPAT=( python2_7 )
 # pkg-config
 GNOME2_LA_PUNT="yes"
 
-inherit autotools bash-completion-r1 flag-o-matic gnome2 libtool linux-info \
+inherit autotools bash-completion-r1 epunt-cxx flag-o-matic gnome2 libtool linux-info \
 	multilib multilib-minimal pax-utils python-r1 toolchain-funcs versionator virtualx
 
 DESCRIPTION="The GLib library of C routines"
@@ -147,6 +147,8 @@ multilib_src_configure() {
 		fi
 		export LIBFFI_CFLAGS="-I$(echo /usr/$(get_libdir)/libffi-*/include)"
 		export LIBFFI_LIBS="-lffi"
+		export PCRE_CFLAGS=" " # test -n "$PCRE_CFLAGS" needs to pass
+		export PCRE_LIBS="-lpcre"
 	fi
 
 	# These configure tests don't work when cross-compiling.
@@ -197,8 +199,8 @@ multilib_src_test() {
 	export XDG_CONFIG_DIRS=/etc/xdg
 	export XDG_DATA_DIRS=/usr/local/share:/usr/share
 	export G_DBUS_COOKIE_SHA1_KEYRING_DIR="${T}/temp"
-	unset GSETTINGS_BACKEND # bug 352451
 	export LC_TIME=C # bug #411967
+	unset GSETTINGS_BACKEND # bug #596380
 	python_setup
 
 	# Related test is a bit nitpicking
