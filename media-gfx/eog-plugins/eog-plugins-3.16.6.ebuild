@@ -4,7 +4,7 @@ EAPI="6"
 GNOME2_LA_PUNT="yes"
 PYTHON_COMPAT=( python{3_4,3_5,3_6} )
 
-inherit gnome2 python-r1
+inherit gnome2 python-single-r1
 
 DESCRIPTION="Eye of GNOME plugins"
 HOMEPAGE="https://wiki.gnome.org/Apps/EyeOfGnome/Plugins"
@@ -16,7 +16,7 @@ KEYWORDS="*"
 IUSE="+exif flickr map picasa +python"
 REQUIRED_USE="
 	map? ( exif )
-	python? ( ^^ ( $(python_gen_useflags '*') ) )
+	python? ( ${PYTHON_REQUIRED_USE} )
 "
 
 RDEPEND="
@@ -48,7 +48,7 @@ DEPEND="${RDEPEND}
 "
 
 pkg_setup() {
-	use python && [[ ${MERGE_TYPE} != binary ]] && python_setup
+	use python && python-single-r1_pkg_setup
 }
 
 src_configure() {
