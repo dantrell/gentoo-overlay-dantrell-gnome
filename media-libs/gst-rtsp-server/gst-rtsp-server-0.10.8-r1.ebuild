@@ -34,7 +34,10 @@ RDEPEND="
 	>=media-libs/gst-plugins-base-0.10.29:0.10[introspection?,${MULTILIB_USEDEP}]
 
 	introspection? ( >=dev-libs/gobject-introspection-0.6.3:= )
-	python? ( dev-python/gst-python:0.10[${PYTHON_USEDEP}] )
+	python? (
+		${PYTHON_DEPS}
+		dev-python/gst-python:0.10[${PYTHON_USEDEP}]
+	)
 	vala? ( $(vala_depend) )
 "
 DEPEND="${RDEPEND}

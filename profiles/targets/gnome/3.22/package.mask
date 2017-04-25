@@ -1,6 +1,9 @@
 # Masked to test on GNOME 3.24 first
 >=net-libs/webkit-gtk-2.16.0
 
+# Requires GLib 2.52 (or greater)
+>=net-libs/phodav-2.2
+
 # Masked to freeze the state of GNOME
 >=app-accessibility/accerciser-3.24.0
 >=app-accessibility/at-spi2-atk-2.24.0

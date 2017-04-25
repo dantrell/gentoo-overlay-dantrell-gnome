@@ -1,0 +1,26 @@
+From b1115818eb0aa8d8f171df06c7a2e9a6fbac073c Mon Sep 17 00:00:00 2001
+From: Emmanuele Bassi <ebassi@gnome.org>
+Date: Sat, 25 Mar 2017 15:16:48 +0000
+Subject: demos: Use non-deprecated API
+
+Otherwise the build will fail with the default -Werror settings.
+---
+ demos/scrapbook/scrapbook.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/demos/scrapbook/scrapbook.c b/demos/scrapbook/scrapbook.c
+index 399fba7..5c97db3 100644
+--- a/demos/scrapbook/scrapbook.c
++++ b/demos/scrapbook/scrapbook.c
+@@ -35,7 +35,7 @@
+ static void
+ open_in_web_browser (GtkWidget *widget, gchar *uri) /* quicky wrapper for gtk_show_uri */
+ {
+-	gtk_show_uri			(gtk_widget_get_screen (widget), uri, GDK_CURRENT_TIME, NULL);
++	gtk_show_uri_on_window (gtk_widget_get_toplevel (widget), uri, GDK_CURRENT_TIME, NULL);
+ }
+ 
+ static void
+-- 
+cgit v0.12
+

@@ -15,8 +15,9 @@ SLOT="2"
 KEYWORDS="*"
 
 IUSE="doc examples test"
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-RDEPEND="
+RDEPEND="${PYTHON_DEPS}
 	>=dev-libs/glib-2.8:2
 	>=x11-libs/pango-1.16
 	>=dev-libs/atk-1.12

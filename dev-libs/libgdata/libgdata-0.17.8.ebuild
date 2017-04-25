@@ -20,7 +20,7 @@ REQUIRED_USE="
 
 # configure checks for gtk:3, but only uses it for demos which are not installed
 RDEPEND="
-	>=dev-libs/glib-2.32:2
+	>=dev-libs/glib-2.38.0:2
 	>=dev-libs/json-glib-0.15
 	>=dev-libs/libxml2-2:2
 	>=net-libs/liboauth-0.9.4
@@ -34,17 +34,21 @@ DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.25
 	>=dev-util/intltool-0.40
 	virtual/pkgconfig
-	test? ( >=net-libs/uhttpmock-0.5 )
+	test? (
+		>=net-libs/libsoup-2.55.90:2.4[introspection?]
+		>=net-libs/uhttpmock-0.5
+	)
 	vala? ( $(vala_depend) )
 "
 
 src_prepare() {
-	# https://bugzilla.gnome.org/show_bug.cgi?id=780081 - remove with 0.17.8
-	if use test && ! has_version '>=net-libs/libsoup-2.55.90:2.4'; then
-		eapply -R "${FILESDIR}"/${PN}-0.17.7-streams-https-tests.patch
+	if has_version "<net-libs/libsoup-2.55.90:2.4"; then
+		# From GNOME:
+		# 	https://git.gnome.org/browse/libgdata/commit/?id=b87141e748b108cd9e56a70635a6ade097d54ab5
+		# 	https://git.gnome.org/browse/libgdata/commit/?id=b1115818eb0aa8d8f171df06c7a2e9a6fbac073c
+		eapply -R "${FILESDIR}"/${PN}-0.17.8-use-the-correct-type-for-gtk-show-uri-for-window.patch
+		eapply -R "${FILESDIR}"/${PN}-0.17.8-demos-use-non-deprecated-api.patch
 	fi
-	# x86 test fix from upstream git post-0.17.7
-	eapply "${FILESDIR}"/${PN}-0.17.7-fix-x86-tests.patch
 
 	use vala && vala_src_prepare
 	gnome2_src_prepare

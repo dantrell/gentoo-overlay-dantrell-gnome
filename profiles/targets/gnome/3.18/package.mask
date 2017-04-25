@@ -1,6 +1,9 @@
 # Masked to test on GNOME 3.24 first
 >=net-libs/webkit-gtk-2.16.0
 
+# Requires GLib 2.52 (or greater)
+>=net-libs/phodav-2.2
+
 # Requires GLibmm 2.48 (or greater) and Libsigc++ 2.8 (or greater)
 >=media-gfx/inkscape-0.91-r200
 

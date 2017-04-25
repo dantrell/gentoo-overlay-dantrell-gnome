@@ -13,6 +13,7 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE="debug +introspection python"
+REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 RDEPEND="
 	>=dev-libs/glib-2.26:2

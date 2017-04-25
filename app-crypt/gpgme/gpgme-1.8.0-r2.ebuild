@@ -16,7 +16,7 @@ SLOT="1/11" # subslot = soname major version
 KEYWORDS="~*"
 
 IUSE="common-lisp static-libs cxx python qt5"
-REQUIRED_USE="qt5? ( cxx )"
+REQUIRED_USE="qt5? ( cxx ) python? ( ${PYTHON_REQUIRED_USE} )"
 
 COMMON_DEPEND="app-crypt/gnupg
 	>=dev-libs/libassuan-2.0.2

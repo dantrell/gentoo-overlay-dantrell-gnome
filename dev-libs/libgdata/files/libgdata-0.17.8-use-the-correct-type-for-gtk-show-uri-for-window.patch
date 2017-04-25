@@ -1,0 +1,25 @@
+From b87141e748b108cd9e56a70635a6ade097d54ab5 Mon Sep 17 00:00:00 2001
+From: Emmanuele Bassi <ebassi@gnome.org>
+Date: Sat, 25 Mar 2017 15:27:33 +0000
+Subject: Use the correct type for gtk_show_uri_for_window()
+
+---
+ demos/scrapbook/scrapbook.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/demos/scrapbook/scrapbook.c b/demos/scrapbook/scrapbook.c
+index 5c97db3..d909ab0 100644
+--- a/demos/scrapbook/scrapbook.c
++++ b/demos/scrapbook/scrapbook.c
+@@ -35,7 +35,7 @@
+ static void
+ open_in_web_browser (GtkWidget *widget, gchar *uri) /* quicky wrapper for gtk_show_uri */
+ {
+-	gtk_show_uri_on_window (gtk_widget_get_toplevel (widget), uri, GDK_CURRENT_TIME, NULL);
++	gtk_show_uri_on_window (GTK_WINDOW (gtk_widget_get_toplevel (widget)), uri, GDK_CURRENT_TIME, NULL);
+ }
+ 
+ static void
+-- 
+cgit v0.12
+

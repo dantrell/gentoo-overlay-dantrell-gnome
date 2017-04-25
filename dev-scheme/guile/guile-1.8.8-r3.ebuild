@@ -38,7 +38,8 @@ src_prepare() {
 		"${FILESDIR}/${P}-gtexinfo-5.patch" \
 		"${FILESDIR}/${P}-readline.patch" \
 		"${FILESDIR}/${P}-tinfo.patch" \
-		"${FILESDIR}/${P}-sandbox.patch"
+		"${FILESDIR}/${P}-sandbox.patch" \
+		"${FILESDIR}/${P}-mkdir-mask.patch"
 
 	sed \
 		-e "s/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/g" \

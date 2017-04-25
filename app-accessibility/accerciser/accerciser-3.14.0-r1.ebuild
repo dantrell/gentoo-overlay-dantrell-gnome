@@ -14,6 +14,7 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE=""
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RDEPEND="
 	>=app-accessibility/at-spi2-core-2.5.2:2

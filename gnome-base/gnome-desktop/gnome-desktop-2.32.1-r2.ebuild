@@ -16,6 +16,7 @@ SLOT="2"
 KEYWORDS="*"
 
 IUSE="license-docs"
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 # Note: gnome-desktop:2 and :3 install identical files in /usr/share/gnome/help
 # and /usr/share/omf when --enable-desktop-docs is passed to configure. To avoid

@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit elisp-common flag-o-matic
+inherit autotools elisp-common flag-o-matic
 
 DESCRIPTION="GNU Ubiquitous Intelligent Language for Extensions"
 HOMEPAGE="https://www.gnu.org/software/guile/"
@@ -34,6 +34,13 @@ DEPEND="
 	emacs? ( virtual/emacs )
 	sys-devel/gettext
 "
+
+PATCHES=( "${FILESDIR}/${PN}-2-snarf.patch" )
+
+src_prepare() {
+	default
+	eautoreconf
+}
 
 src_configure() {
 	# Seems to have issues with -Os, switch to -O2

@@ -15,6 +15,7 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE="+introspection python"
+REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 # The only existing test is broken
 RESTRICT="test"
@@ -25,6 +26,7 @@ RDEPEND="
 	>=net-libs/gupnp-0.20.10[${MULTILIB_USEDEP}]
 	introspection? ( >=dev-libs/gobject-introspection-0.10:= )
 	python? (
+		${PYTHON_DEPS}
 		>=dev-libs/gobject-introspection-0.10:=
 		>=dev-python/pygobject-2.16:2[${PYTHON_USEDEP}]
 	)"
