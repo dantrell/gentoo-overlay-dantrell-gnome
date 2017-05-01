@@ -13,9 +13,9 @@ SRC_URI="mirror://gnupg/gpgme/${P}.tar.bz2"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="1/11" # subslot = soname major version
-KEYWORDS="~*"
+KEYWORDS="*"
 
-IUSE="common-lisp static-libs cxx python qt5"
+IUSE="common-lisp cxx python qt5 static-libs"
 REQUIRED_USE="qt5? ( cxx ) python? ( ${PYTHON_REQUIRED_USE} )"
 
 COMMON_DEPEND="app-crypt/gnupg
@@ -29,8 +29,10 @@ DEPEND="${COMMON_DEPEND}
 	qt5? ( dev-qt/qttest:5 )"
 RDEPEND="${COMMON_DEPEND}
 	cxx? (
-		!kde-apps/gpgmepp
-		!kde-apps/kdepimlibs:4
+		!<kde-apps/gpgmepp-4.14.11_pre20160611:4
+		!kde-apps/gpgmepp:5
+		!<kde-apps/kdepimlibs-4.14.10_p20160611:4
+		!=kde-apps/kdepimlibs-4.14.11_pre20160211*:4
 	)"
 
 PATCHES=(
