@@ -29,7 +29,7 @@
 ~dev-cpp/gtkmm-3.22.0::dantrell-gnome-3-22
 ~dev-cpp/mm-common-0.9.10::dantrell-gnome
 ~dev-cpp/pangomm-2.40.1::dantrell-gnome
-~dev-lang/vala-0.34.7::dantrell-gnome
+~dev-lang/vala-0.34.8::dantrell-gnome
 ~dev-libs/appstream-glib-0.6.11::dantrell-gnome
 ~dev-libs/atk-2.22.0::dantrell-gnome-3-22
 ~dev-libs/folks-0.11.3::dantrell-gnome
@@ -49,7 +49,7 @@
 ~dev-libs/libpeas-1.20.0::dantrell-gnome-3-22
 ~dev-libs/libsigc++-2.10.0::dantrell-gnome
 ~dev-libs/totem-pl-parser-3.10.7::dantrell-gnome
-~dev-libs/vala-common-0.34.7::dantrell-gnome
+~dev-libs/vala-common-0.34.8::dantrell-gnome
 ~dev-python/pyatspi-2.20.3::dantrell-gnome
 ~dev-python/pygobject-3.22.0::dantrell-gnome-3-22
 ~dev-util/anjuta-3.22.0::dantrell-gnome-3-22
@@ -62,7 +62,7 @@
 ~dev-vcs/gitg-3.22.0::dantrell-gnome-3-22
 ~games-arcade/gnome-nibbles-3.22.2.2::dantrell-gnome-3-22
 ~games-arcade/gnome-robots-3.22.1::dantrell-gnome-3-22
-~games-board/aisleriot-3.22.1::dantrell-gnome-3-22
+~games-board/aisleriot-3.22.2::dantrell-gnome-3-22
 ~games-board/four-in-a-row-3.22.1::dantrell-gnome-3-22
 ~games-board/gnome-chess-3.22.2::dantrell-gnome-3-22
 ~games-board/gnome-mahjongg-3.22.0::dantrell-gnome-3-22
@@ -76,7 +76,7 @@
 ~games-puzzle/gnome-sudoku-3.22.2::dantrell-gnome-3-22
 ~games-puzzle/gnome-taquin-3.22.0::dantrell-gnome-3-22
 ~games-puzzle/gnome-tetravex-3.22.0::dantrell-gnome-3-22
-~games-puzzle/hitori-3.22.2::dantrell-gnome-3-22
+~games-puzzle/hitori-3.22.3::dantrell-gnome-3-22
 ~games-puzzle/lightsoff-3.22.2::dantrell-gnome-3-22
 ~games-puzzle/quadrapassel-3.22.0::dantrell-gnome-3-22
 ~games-puzzle/swell-foop-3.22.2::dantrell-gnome-3-22
@@ -123,7 +123,7 @@
 ~gnome-extra/gnome-user-docs-3.22.0::dantrell-gnome-3-22
 ~gnome-extra/gnome-user-share-3.18.3::dantrell-gnome
 ~gnome-extra/gnome-weather-3.20.2::dantrell-gnome
-~gnome-extra/gucharmap-9.0.3::dantrell-gnome
+~gnome-extra/gucharmap-9.0.4::dantrell-gnome
 ~gnome-extra/libgsf-1.14.41::dantrell-gnome
 ~gnome-extra/mousetweaks-3.12.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.4::dantrell-gnome

@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 
 inherit gnome2 multilib-minimal
@@ -23,6 +22,11 @@ DEPEND="${RDEPEND}
 	dev-util/gtk-doc-am
 	>=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}]
 "
+
+PATCHES=(
+	"${FILESDIR}"/${PN}-0.6.12-CVE-2017-7960.patch
+	"${FILESDIR}"/${PN}-0.6.12-CVE-2017-7961.patch
+)
 
 src_prepare() {
 	if ! use test; then
@@ -50,6 +54,5 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
-	DOCS="AUTHORS ChangeLog HACKING NEWS README TODO"
 	einstalldocs
 }
