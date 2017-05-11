@@ -135,7 +135,7 @@
 ~mail-client/evolution-3.22.6::dantrell-gnome-3-22
 ~media-gfx/eog-3.20.5::dantrell-gnome
 ~media-gfx/gnome-font-viewer-3.22.0::dantrell-gnome-3-22
-~media-gfx/gnome-photos-3.22.5::dantrell-gnome-3-22
+~media-gfx/gnome-photos-3.22.6::dantrell-gnome-3-22
 ~media-gfx/gnome-screenshot-3.22.0::dantrell-gnome-3-22
 ~media-gfx/simple-scan-3.22.0.1::dantrell-gnome-3-22
 ~media-libs/clutter-1.26.0::dantrell-gnome
@@ -166,7 +166,7 @@
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/phodav-2.2::dantrell-gnome
 ~net-libs/rest-0.8.0::dantrell-gnome
-~net-libs/webkit-gtk-2.14.6::dantrell-gnome
+~net-libs/webkit-gtk-2.14.7::dantrell-gnome
 ~net-misc/gnome-online-miners-3.22.0::dantrell-gnome-3-22
 ~net-misc/networkmanager-1.4.4::dantrell-gnome
 ~net-misc/rygel-0.32.1::dantrell-gnome-3-22
@@ -180,7 +180,7 @@
 ~www-client/epiphany-3.22.7::dantrell-gnome-3-22
 ~x11-libs/gdk-pixbuf-2.36.6::dantrell-gnome
 ~x11-libs/gtksourceview-3.22.2::dantrell-gnome-3-22
-~x11-libs/gtk+-3.22.12::dantrell-gnome-3-22
+~x11-libs/gtk+-3.22.14::dantrell-gnome-3-22
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.20.1::dantrell-gnome
 ~x11-libs/pango-1.40.5::dantrell-gnome
