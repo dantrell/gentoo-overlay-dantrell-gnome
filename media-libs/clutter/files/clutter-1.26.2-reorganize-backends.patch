@@ -1,0 +1,31 @@
+diff '--exclude=.git' -urN a/clutter/clutter-backend.c b/clutter/clutter-backend.c
+--- a/clutter/clutter-backend.c	2017-05-03 06:53:12.000000000 -0400
++++ b/clutter/clutter-backend.c	2017-05-14 05:13:34.444817584 -0400
+@@ -542,21 +542,21 @@
+ #ifdef CLUTTER_WINDOWING_WIN32
+   { CLUTTER_WINDOWING_WIN32, clutter_backend_win32_new },
+ #endif
+-#ifdef CLUTTER_WINDOWING_GDK
+-  { CLUTTER_WINDOWING_GDK, clutter_backend_gdk_new },
+-#endif
+-#ifdef CLUTTER_WINDOWING_WAYLAND
+-  { CLUTTER_WINDOWING_WAYLAND, clutter_backend_wayland_new },
+-#endif
+ #ifdef CLUTTER_WINDOWING_X11
+   { CLUTTER_WINDOWING_X11, clutter_backend_x11_new },
+ #endif
++#ifdef CLUTTER_WINDOWING_GDK
++  { CLUTTER_WINDOWING_GDK, clutter_backend_gdk_new },
++#endif
+ #ifdef CLUTTER_WINDOWING_EGL
+   { CLUTTER_WINDOWING_EGL, clutter_backend_egl_native_new },
+ #endif
+ #ifdef CLUTTER_WINDOWING_MIR
+   { CLUTTER_WINDOWING_MIR, clutter_backend_mir_new },
+ #endif
++#ifdef CLUTTER_WINDOWING_WAYLAND
++  { CLUTTER_WINDOWING_WAYLAND, clutter_backend_wayland_new },
++#endif
+   { NULL, NULL },
+ };
+ 

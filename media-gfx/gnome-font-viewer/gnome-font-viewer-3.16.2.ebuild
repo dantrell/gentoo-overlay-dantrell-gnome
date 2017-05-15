@@ -13,8 +13,9 @@ KEYWORDS="*"
 
 IUSE=""
 
+# Rebuild between GLib slot changes to prevent "--usepkg" merge conflicts
 RDEPEND="
-	>=dev-libs/glib-2.35.1:2
+	>=dev-libs/glib-2.35.1:2=
 	gnome-base/gnome-desktop:3=
 	media-libs/fontconfig:1.0
 	media-libs/freetype:2

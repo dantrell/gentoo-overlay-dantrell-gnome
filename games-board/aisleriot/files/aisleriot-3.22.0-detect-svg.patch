@@ -1,0 +1,28 @@
+Do not require a particular SVG library unless actually found.
+
+--- a/configure.ac	2015-05-11 00:13:51.180002639 +0200
++++ b/configure.ac	2015-05-11 00:13:40.365069049 +0200
+@@ -319,7 +319,9 @@
+ 
+   PKG_CHECK_EXISTS([librsvg-2.0 >= $RSVG_REQUIRED],[have_rsvg=yes],[have_rsvg=no])
+ 
+-  PKGS="$PKGS librsvg-2.0 >= $RSVG_REQUIRED cairo >= $CAIRO_REQUIRED"
++  if test "$have_rsvg" = "yes" ; then
++    PKGS="$PKGS librsvg-2.0 >= $RSVG_REQUIRED cairo >= $CAIRO_REQUIRED"
++  fi
+ 
+   AC_DEFINE([HAVE_RSVG],[1],[Refine if librsvg is available])
+ fi
+@@ -334,8 +336,10 @@
+ 
+   PKG_CHECK_EXISTS([QtSvg >= $QT_SVG_REQUIRED],[have_qtsvg=yes],[have_qtsvg=no])
+ 
+-  PKGS="$PKGS Qt5Svg >= $QT_SVG_REQUIRED"
+-  EXTRA_CXX_LIBS="$EXTRA_CXX_LIBS -lstdc++"
++  if test "$have_qtsvg" = "yes" ; then
++    PKGS="$PKGS Qt5Svg >= $QT_SVG_REQUIRED"
++    EXTRA_CXX_LIBS="$EXTRA_CXX_LIBS -lstdc++"
++  fi
+ 
+   AC_DEFINE([HAVE_QTSVG],[1],[Refine if QtSvg is available])
+ fi

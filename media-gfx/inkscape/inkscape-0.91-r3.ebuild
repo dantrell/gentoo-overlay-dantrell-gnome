@@ -16,7 +16,7 @@ LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="cdr dia dbus exif gnome imagemagick openmp postscript inkjar jpeg latex"
+IUSE="cdr dia dbus deprecated exif gnome imagemagick openmp postscript inkjar jpeg latex"
 IUSE+=" lcms nls spell static-libs visio wpg"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
@@ -53,6 +53,7 @@ COMMON_DEPEND="
 		${WPG_DEPS}
 	)
 	dbus? ( dev-libs/dbus-glib )
+	!deprecated? ( >=dev-cpp/glibmm-2.48 )
 	exif? ( media-libs/libexif )
 	gnome? ( >=gnome-base/gnome-vfs-2.0 )
 	imagemagick? ( media-gfx/imagemagick:=[cxx] )
@@ -115,6 +116,10 @@ src_prepare() {
 	sed -i "s#@EPYTHON@#${EPYTHON}#" \
 		src/extension/implementation/script.cpp || die
 
+	if ! use deprecated; then
+		eapply "${FILESDIR}/${PN}-0.91-fix-gtkmm-2.48.patch"
+	fi
+
 	eautoreconf
 
 	# bug 421111
@@ -124,13 +129,19 @@ src_prepare() {
 src_configure() {
 	# aliasing unsafe wrt #310393
 	append-flags -fno-strict-aliasing
-	# enable c++11 as needed for sigc++-2.6, #566318
-	# remove it when upstream solves the issue
-	# https://bugs.launchpad.net/inkscape/+bug/1488079
-	append-cxxflags -std=c++11
 
-	# disabling strict build required due to glibmm / glib2 deprecation misconfiguration
-	# https://trac.macports.org/ticket/52248
+
+	if use deprecated; then
+		# enable c++11 as needed for sigc++-2.6, #566318
+		# remove it when upstream solves the issue
+		# https://bugs.launchpad.net/inkscape/+bug/1488079
+		append-cxxflags -std=c++11
+
+		# disabling strict build required due to glibmm / glib2 deprecation misconfiguration
+		# https://trac.macports.org/ticket/52248
+		local myconf="--disable-strict-build"
+	fi
+
 	econf \
 		$(use_enable static-libs static) \
 		$(use_enable nls) \
@@ -148,7 +159,7 @@ src_configure() {
 		$(use_with inkjar) \
 		$(use_with spell gtkspell) \
 		$(use_with spell aspell) \
-		--disable-strict-build
+		${myconf}
 }
 
 src_compile() {

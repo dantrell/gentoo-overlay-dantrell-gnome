@@ -12,15 +12,16 @@
 # Always to be imported *AFTER* gnome2.eclass
 #
 
-inherit autotools eutils gnome2 gnome2-utils libtool git-r3
+inherit autotools eutils gnome2 gnome2-utils libtool git-r3 xdg
 
-# Stolen from git.eclass
-EXPORTED_FUNCTIONS="src_unpack pkg_postinst"
+EXPORTED_FUNCTIONS=" "
 case "${EAPI:-0}" in
-    6) EXPORTED_FUNCTIONS="${EXPORTED_FUNCTIONS} src_prepare" ;;
-    *) die "EAPI=${EAPI} is not supported" ;;
+	6)
+		EXPORT_FUNCTIONS src_prepare pkg_postinst
+		;;
+	*)
+		die "EAPI=${EAPI} is not supported" ;;
 esac
-EXPORT_FUNCTIONS ${EXPORTED_FUNCTIONS}
 
 # DEPEND on
 # app-text/gnome-doc-utils for gnome-doc-*
@@ -72,11 +73,7 @@ gnome2-live_get_var() {
 # Calls git-2_src_unpack, and unpacks ${A} if required.
 # Also calls gnome2-live_src_prepare for older EAPI.
 gnome2-live_src_unpack() {
-	if test -n "${A}"; then
-		unpack ${A}
-	fi
-	git-r3_src_unpack
-	has src_prepare ${EXPORTED_FUNCTIONS} || gnome2-live_src_prepare
+	die "gnome2-live_src_unpack is banned starting with EAPI=6"
 }
 
 # @FUNCTION: gnome2-live_src_prepare
@@ -97,9 +94,6 @@ gnome2-live_src_prepare() {
 		echo > ChangeLog
 	fi
 
-	# eautoreconf is smart enough to run all necessary commands
-	eautoreconf
-
 	### Keep this in-sync with gnome2.eclass!
 
 	xdg_src_prepare
@@ -108,17 +102,14 @@ gnome2-live_src_prepare() {
 	gnome2_environment_reset
 
 	# Prevent scrollkeeper access violations
-	# We stop to run it from eapi6 as scrollkeeper helpers from
+	# We stop to run it from EAPI=6 as scrollkeeper helpers from
 	# rarian are not running anything and, then, access violations
 	# shouldn't occur.
 	has ${EAPI:-0} 4 5 && gnome2_omf_fix
 
-	# Disable all deprecation warnings
-	gnome2_disable_deprecation_warning
-
-	# Run libtoolize
-	# https://bugzilla.gnome.org/show_bug.cgi?id=655517
-	elibtoolize ${ELTCONF}
+	# Run eautoreconf
+	# https://bugzilla.gnome.org/show_bug.cgi?id=591584
+	eautoreconf
 }
 
 # @FUNCTION: gnome2_src_unpack
