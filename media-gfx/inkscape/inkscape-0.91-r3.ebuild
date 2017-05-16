@@ -129,14 +129,12 @@ src_prepare() {
 src_configure() {
 	# aliasing unsafe wrt #310393
 	append-flags -fno-strict-aliasing
-
+	# enable c++11 as needed for sigc++-2.6, #566318
+	# remove it when upstream solves the issue
+	# https://bugs.launchpad.net/inkscape/+bug/1488079
+	append-cxxflags -std=c++11
 
 	if use deprecated; then
-		# enable c++11 as needed for sigc++-2.6, #566318
-		# remove it when upstream solves the issue
-		# https://bugs.launchpad.net/inkscape/+bug/1488079
-		append-cxxflags -std=c++11
-
 		# disabling strict build required due to glibmm / glib2 deprecation misconfiguration
 		# https://trac.macports.org/ticket/52248
 		local myconf="--disable-strict-build"
