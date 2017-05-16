@@ -165,7 +165,7 @@
 ~net-misc/gnome-online-miners-3.22.0::dantrell-gnome
 ~net-misc/networkmanager-1.4.4::dantrell-gnome
 ~net-misc/rygel-0.32.1::dantrell-gnome-3-22
-~net-misc/vinagre-3.22.0::dantrell-gnome-3-22
+~net-misc/vinagre-3.22.0::dantrell-gnome
 ~net-misc/vino-3.22.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.20.1::dantrell-gnome
 ~sci-geosciences/geocode-glib-3.20.1::dantrell-gnome

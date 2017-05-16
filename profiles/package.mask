@@ -186,6 +186,7 @@ net-misc/networkmanager-sstp::gentoo
 net-misc/networkmanager-vpnc::gentoo
 net-misc/networkmanager::gentoo
 net-misc/spice-gtk::gentoo
+net-misc/vinagre::gentoo
 net-misc/vino::gentoo
 net-print/cups-filters::gentoo
 net-wireless/gnome-bluetooth::gentoo

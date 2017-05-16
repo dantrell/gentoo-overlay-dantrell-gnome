@@ -53,9 +53,7 @@ DOCS=(
 )
 
 PATCHES=(
-	"${FILESDIR}/${P}-gpg-Fix-typo.patch"
-	"${FILESDIR}/${P}-gpg-Properly-account-for-ring-trust-packets.patch"
-	"${FILESDIR}/${P}-gpgscm-Use-shorter-socket-path-lengts-to-improve-tes.patch"
+	"${FILESDIR}/${PN}-2.1.20-gpgscm-Use-shorter-socket-path-lengts-to-improve-tes.patch"
 )
 
 src_configure() {
