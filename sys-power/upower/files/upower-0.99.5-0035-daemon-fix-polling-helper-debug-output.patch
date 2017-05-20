@@ -1,0 +1,68 @@
+From 2b45b82af57bfaa2f2c0e9ce812d8c3e706d9045 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 24 Mar 2017 15:42:22 +0100
+Subject: [PATCH 35/55] daemon: Fix polling helper debug output
+
+When setting up polling for our devices, it's possible that the device
+hasn't yet been exported on D-Bus, meaning that the object would be
+unhelpfully empty.
+
+Use the "native path" instead, so we don't get null in debug outputs, or
+timeout names.
+---
+ src/up-daemon.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/src/up-daemon.c b/src/up-daemon.c
+index e95f904..7caa915 100644
+--- a/src/up-daemon.c
++++ b/src/up-daemon.c
+@@ -770,7 +770,8 @@ fire_timeout_callback (gpointer user_data)
+ 	g_assert (data);
+ 
+ 	g_debug ("Firing timeout for '%s' after %u seconds",
+-		 up_device_get_object_path (device), data->timeout);
++		 up_exported_device_get_native_path (UP_EXPORTED_DEVICE (device)),
++		 data->timeout);
+ 
+ 	/* Fire the actual callback */
+ 	(data->callback) (device);
+@@ -799,14 +800,16 @@ up_daemon_start_poll (GObject     *object,
+ 	TimeoutData *data;
+ 	guint timeout;
+ 	gulong handler_id;
++	const char *path;
+ 	char *name;
+ 
+ 	device = UP_DEVICE (object);
+ 	daemon = up_device_get_daemon (device);
+ 
++	path = up_exported_device_get_native_path (UP_EXPORTED_DEVICE (device));
++
+ 	if (g_hash_table_lookup (daemon->priv->poll_timeouts, device) != NULL) {
+-		g_warning ("Poll already started for device '%s'",
+-			   up_device_get_object_path (device));
++		g_warning ("Poll already started for device '%s'", path);
+ 		goto out;
+ 	}
+ 
+@@ -824,14 +827,13 @@ up_daemon_start_poll (GObject     *object,
+ 
+ 	data->id = g_timeout_add_seconds (timeout, fire_timeout_callback, device);
+ 	name = g_strdup_printf ("[upower] UpDevice::poll for %s (%u secs)",
+-				up_device_get_object_path (device), timeout);
++				path, timeout);
+ 	g_source_set_name_by_id (data->id, name);
+ 	g_free (name);
+ 
+ 	g_hash_table_insert (daemon->priv->poll_timeouts, device, data);
+ 
+-	g_debug ("Setup poll for '%s' every %u seconds",
+-		 up_device_get_object_path (device), timeout);
++	g_debug ("Setup poll for '%s' every %u seconds", path, timeout);
+ out:
+ 	g_object_unref (daemon);
+ }
+-- 
+2.13.0
+

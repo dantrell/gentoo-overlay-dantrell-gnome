@@ -1,0 +1,30 @@
+From 71e3bb02f94f859ce66773d59513622ba5a8c2c6 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Marco=20Trevisan=20=28Trevi=C3=B1o=29?= <mail@3v1n0.net>
+Date: Wed, 25 May 2016 17:46:37 +0200
+Subject: [PATCH 08/55] UpKbdBacklight: don't check the *end value when using
+ g_ascii_strtoll
+
+g_ascii_strtoll would set end to match buf when a parsing error occurred,
+so there's no reason to also check what this is pointing to
+
+https://bugs.freedesktop.org/show_bug.cgi?id=96215
+---
+ src/up-kbd-backlight.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/up-kbd-backlight.c b/src/up-kbd-backlight.c
+index ebd79dd..925a5ed 100644
+--- a/src/up-kbd-backlight.c
++++ b/src/up-kbd-backlight.c
+@@ -70,7 +70,7 @@ up_kbd_backlight_brightness_read (UpKbdBacklight *kbd_backlight)
+ 
+ 		if (brightness < 0 ||
+ 		    brightness > kbd_backlight->priv->max_brightness ||
+-		    end == buf || *end != '\0') {
++		    end == buf) {
+ 			brightness = -1;
+ 			g_warning ("failed to convert brightness: %s", buf);
+ 		}
+-- 
+2.13.0
+

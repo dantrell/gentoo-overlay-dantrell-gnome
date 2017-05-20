@@ -1,0 +1,112 @@
+From 003b5e201b8dcfa6b7c512d787756c04eb063077 Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Mon, 1 Jun 2015 10:13:08 -0700
+Subject: [PATCH 21/90] daemon: make UpKbdBacklight a subclass of
+ UpExportedKbdBacklightSkeleton
+
+Simplifies some state tracking.
+---
+ src/up-kbd-backlight.c | 18 ++++++------------
+ src/up-kbd-backlight.h |  6 +++---
+ 2 files changed, 9 insertions(+), 15 deletions(-)
+
+diff --git a/src/up-kbd-backlight.c b/src/up-kbd-backlight.c
+index 43d03d9..58bbfaa 100644
+--- a/src/up-kbd-backlight.c
++++ b/src/up-kbd-backlight.c
+@@ -35,7 +35,6 @@
+ #include "up-kbd-backlight.h"
+ #include "up-marshal.h"
+ #include "up-daemon.h"
+-#include "up-kbd-backlight-generated.h"
+ #include "up-types.h"
+ 
+ static void     up_kbd_backlight_finalize   (GObject	*object);
+@@ -47,10 +46,9 @@ struct UpKbdBacklightPrivate
+ 	gint			 fd;
+ 	gint			 brightness;
+ 	gint			 max_brightness;
+-	UpExportedKbdBacklight  *skeleton;
+ };
+ 
+-G_DEFINE_TYPE (UpKbdBacklight, up_kbd_backlight, G_TYPE_OBJECT)
++G_DEFINE_TYPE (UpKbdBacklight, up_kbd_backlight, UP_TYPE_EXPORTED_KBD_BACKLIGHT_SKELETON)
+ 
+ /**
+  * up_kbd_backlight_brightness_write:
+@@ -88,7 +86,7 @@ up_kbd_backlight_brightness_write (UpKbdBacklight *kbd_backlight, gint value)
+ 
+ 	/* emit signal */
+ 	kbd_backlight->priv->brightness = value;
+-	up_exported_kbd_backlight_emit_brightness_changed (kbd_backlight->priv->skeleton,
++	up_exported_kbd_backlight_emit_brightness_changed (UP_EXPORTED_KBD_BACKLIGHT (kbd_backlight),
+ 							   kbd_backlight->priv->brightness);
+ 
+ out:
+@@ -259,13 +257,11 @@ up_kbd_backlight_init (UpKbdBacklight *kbd_backlight)
+ {
+ 	kbd_backlight->priv = UP_KBD_BACKLIGHT_GET_PRIVATE (kbd_backlight);
+ 
+-	kbd_backlight->priv->skeleton = up_exported_kbd_backlight_skeleton_new ();
+-
+-	g_signal_connect (kbd_backlight->priv->skeleton, "handle-get-brightness",
++	g_signal_connect (kbd_backlight, "handle-get-brightness",
+ 			  G_CALLBACK (up_kbd_backlight_get_brightness), kbd_backlight);
+-	g_signal_connect (kbd_backlight->priv->skeleton, "handle-get-max-brightness",
++	g_signal_connect (kbd_backlight, "handle-get-max-brightness",
+ 			  G_CALLBACK (up_kbd_backlight_get_max_brightness), kbd_backlight);
+-	g_signal_connect (kbd_backlight->priv->skeleton, "handle-set-brightness",
++	g_signal_connect (kbd_backlight, "handle-set-brightness",
+ 			  G_CALLBACK (up_kbd_backlight_set_brightness), kbd_backlight);
+ }
+ 
+@@ -287,8 +283,6 @@ up_kbd_backlight_finalize (GObject *object)
+ 	if (kbd_backlight->priv->fd >= 0)
+ 		close (kbd_backlight->priv->fd);
+ 
+-	g_object_unref (kbd_backlight->priv->skeleton);
+-
+ 	G_OBJECT_CLASS (up_kbd_backlight_parent_class)->finalize (object);
+ }
+ 
+@@ -313,7 +307,7 @@ up_kbd_backlight_register (UpKbdBacklight *kbd_backlight,
+ 		return;
+ 	}
+ 
+-	g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (kbd_backlight->priv->skeleton),
++	g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (kbd_backlight),
+ 					  connection,
+ 					  "/org/freedesktop/UPower/KbdBacklight",
+ 					  &error);
+diff --git a/src/up-kbd-backlight.h b/src/up-kbd-backlight.h
+index 547fe4f..802d71a 100644
+--- a/src/up-kbd-backlight.h
++++ b/src/up-kbd-backlight.h
+@@ -23,7 +23,7 @@
+ #ifndef __UP_KBD_BACKLIGHT_H
+ #define __UP_KBD_BACKLIGHT_H
+ 
+-#include <gio/gio.h>
++#include <dbus/up-kbd-backlight-generated.h>
+ 
+ G_BEGIN_DECLS
+ 
+@@ -38,13 +38,13 @@ typedef struct UpKbdBacklightPrivate UpKbdBacklightPrivate;
+ 
+ typedef struct
+ {
+-	GObject		  parent;
++	UpExportedKbdBacklightSkeleton parent;
+ 	UpKbdBacklightPrivate	 *priv;
+ } UpKbdBacklight;
+ 
+ typedef struct
+ {
+-	GObjectClass	parent_class;
++	UpExportedKbdBacklightSkeletonClass parent_class;
+ } UpKbdBacklightClass;
+ 
+ UpKbdBacklight	*up_kbd_backlight_new			(void);
+-- 
+2.13.0
+

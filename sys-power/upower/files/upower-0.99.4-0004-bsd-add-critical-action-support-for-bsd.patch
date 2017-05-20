@@ -1,7 +1,7 @@
 From 77239cc4470fc515e1c8c6c21005fa08f3b1b04e Mon Sep 17 00:00:00 2001
 From: Eric Koegel <eric.koegel@gmail.com>
 Date: Mon, 6 Jul 2015 20:25:30 +0300
-Subject: [PATCH 4/8] bsd: Add critical action support for *BSD
+Subject: [PATCH 04/90] bsd: Add critical action support for *BSD
 
 This patch adds support for using ConsoleKit2's DBUS API to
 implement the critical action for FreeBSD and OpenBSD. It does so
@@ -488,5 +488,5 @@ index 0000000..35a54cb
 +
 +#endif /* __UP_BACKEND_BSD_PRIVATE_H */
 -- 
-2.6.3
+2.13.0
 

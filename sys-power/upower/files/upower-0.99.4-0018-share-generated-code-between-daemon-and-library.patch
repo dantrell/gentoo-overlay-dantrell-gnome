@@ -1,0 +1,1051 @@
+From c108a8e8a4126a0e0c13fd3022e71fca8e3bdd31 Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Sat, 30 May 2015 19:59:13 -0700
+Subject: [PATCH 18/90] Share generated code between daemon and library
+
+Since we use the same GDBus code in libupower-glib and the daemon,
+auto-generate a private library that can be used by both.
+---
+ Makefile.am                                        |   2 +-
+ configure.ac                                       |   1 +
+ dbus/Makefile.am                                   |  64 ++++++
+ {src => dbus}/org.freedesktop.UPower.Device.xml    |   0
+ .../org.freedesktop.UPower.KbdBacklight.xml        |   0
+ {src => dbus}/org.freedesktop.UPower.Wakeups.xml   |   0
+ {src => dbus}/org.freedesktop.UPower.xml           |   0
+ doc/dbus/Makefile.am                               |   8 +-
+ libupower-glib/Makefile.am                         |  47 +----
+ libupower-glib/up-client.c                         |  50 ++---
+ libupower-glib/up-device.c                         | 232 ++++++++++-----------
+ libupower-glib/up-wakeups.c                        |  34 +--
+ src/Makefile.am                                    |  52 +----
+ 13 files changed, 236 insertions(+), 254 deletions(-)
+ create mode 100644 dbus/Makefile.am
+ rename {src => dbus}/org.freedesktop.UPower.Device.xml (100%)
+ rename {src => dbus}/org.freedesktop.UPower.KbdBacklight.xml (100%)
+ rename {src => dbus}/org.freedesktop.UPower.Wakeups.xml (100%)
+ rename {src => dbus}/org.freedesktop.UPower.xml (100%)
+
+diff --git a/Makefile.am b/Makefile.am
+index b2e6693..746dd53 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -2,7 +2,7 @@
+ 
+ ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
+ 
+-SUBDIRS = etc libupower-glib src doc tools po
++SUBDIRS = etc dbus libupower-glib src doc tools po
+ 
+ if BACKEND_TYPE_LINUX
+ SUBDIRS += rules
+diff --git a/configure.ac b/configure.ac
+index 8895721..8a9d889 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -242,6 +242,7 @@ AC_CONFIG_FILES([
+ Makefile
+ upower-glib.pc
+ etc/Makefile
++dbus/Makefile
+ src/Makefile
+ src/dummy/Makefile
+ src/freebsd/Makefile
+diff --git a/dbus/Makefile.am b/dbus/Makefile.am
+new file mode 100644
+index 0000000..017c7eb
+--- /dev/null
++++ b/dbus/Makefile.am
+@@ -0,0 +1,64 @@
++noinst_LTLIBRARIES=libupower-dbus.la
++
++AM_CPPFLAGS = \
++	$(GIO_CFLAGS)		\
++	$(GIO_UNIX_CFLAGS)	\
++	$(GLIB_CFLAGS)
++
++libupower_dbus_la_LIBADD = \
++	$(GIO_LIBS)		\
++	$(GIO_UNIX_LIBS)	\
++	$(GLIB_LIBS)
++
++BUILT_SOURCES =		\
++	up-daemon-generated.h		\
++	up-daemon-generated.c		\
++	up-device-generated.h		\
++	up-device-generated.c		\
++	up-kbd-backlight-generated.h	\
++	up-kbd-backlight-generated.c	\
++	up-wakeups-generated.h		\
++	up-wakeups-generated.c
++
++libupower_dbus_la_SOURCES = $(BUILT_SOURCES)
++
++up-daemon-generated.h: org.freedesktop.UPower.xml Makefile.am
++	$(AM_V_GEN) gdbus-codegen --interface-prefix org.freedesktop.UPower. \
++	--generate-c-code up-daemon-generated \
++	--c-namespace Up \
++	--annotate "org.freedesktop.UPower" "org.gtk.GDBus.C.Name" ExportedDaemon \
++	$(srcdir)/org.freedesktop.UPower.xml
++up-daemon-generated.c: up-daemon-generated.h
++
++up-device-generated.h: org.freedesktop.UPower.Device.xml Makefile.am
++	$(AM_V_GEN) gdbus-codegen --interface-prefix org.freedesktop.UPower.Device. \
++	--generate-c-code up-device-generated \
++	--c-namespace Up \
++	--annotate "org.freedesktop.UPower.Device" "org.gtk.GDBus.C.Name" ExportedDevice \
++	$(srcdir)/org.freedesktop.UPower.Device.xml
++up-device-generated.c: up-device-generated.h
++
++up-kbd-backlight-generated.h: org.freedesktop.UPower.KbdBacklight.xml Makefile.am
++	$(AM_V_GEN) gdbus-codegen --interface-prefix org.freedesktop.UPower.KbdBacklight. \
++	--generate-c-code up-kbd-backlight-generated \
++	--c-namespace Up \
++	--annotate "org.freedesktop.UPower.KbdBacklight" "org.gtk.GDBus.C.Name" ExportedKbdBacklight \
++	$(srcdir)/org.freedesktop.UPower.KbdBacklight.xml
++up-kbd-backlight-generated.c: up-kbd-backlight-generated.h
++
++up-wakeups-generated.h: org.freedesktop.UPower.Wakeups.xml Makefile.am
++	$(AM_V_GEN) gdbus-codegen --interface-prefix org.freedesktop.UPower.Wakeups. \
++	--generate-c-code up-wakeups-generated \
++	--c-namespace Up \
++	--annotate "org.freedesktop.UPower.Wakeups" "org.gtk.GDBus.C.Name" ExportedWakeups \
++	$(srcdir)/org.freedesktop.UPower.Wakeups.xml
++up-wakeups-generated.c: up-wakeups-generated.h
++
++dbusifdir = $(datadir)/dbus-1/interfaces
++dist_dbusif_DATA =						\
++	org.freedesktop.UPower.xml				\
++	org.freedesktop.UPower.Device.xml			\
++	org.freedesktop.UPower.KbdBacklight.xml			\
++	org.freedesktop.UPower.Wakeups.xml
++
++-include $(top_srcdir)/git.mk
+diff --git a/src/org.freedesktop.UPower.Device.xml b/dbus/org.freedesktop.UPower.Device.xml
+similarity index 100%
+rename from src/org.freedesktop.UPower.Device.xml
+rename to dbus/org.freedesktop.UPower.Device.xml
+diff --git a/src/org.freedesktop.UPower.KbdBacklight.xml b/dbus/org.freedesktop.UPower.KbdBacklight.xml
+similarity index 100%
+rename from src/org.freedesktop.UPower.KbdBacklight.xml
+rename to dbus/org.freedesktop.UPower.KbdBacklight.xml
+diff --git a/src/org.freedesktop.UPower.Wakeups.xml b/dbus/org.freedesktop.UPower.Wakeups.xml
+similarity index 100%
+rename from src/org.freedesktop.UPower.Wakeups.xml
+rename to dbus/org.freedesktop.UPower.Wakeups.xml
+diff --git a/src/org.freedesktop.UPower.xml b/dbus/org.freedesktop.UPower.xml
+similarity index 100%
+rename from src/org.freedesktop.UPower.xml
+rename to dbus/org.freedesktop.UPower.xml
+diff --git a/doc/dbus/Makefile.am b/doc/dbus/Makefile.am
+index 4ac2710..78c12fb 100644
+--- a/doc/dbus/Makefile.am
++++ b/doc/dbus/Makefile.am
+@@ -1,19 +1,19 @@
+ 
+ all : org.freedesktop.UPower.ref.xml org.freedesktop.UPower.Device.ref.xml org.freedesktop.UPower.KbdBacklight.ref.xml org.freedesktop.UPower.Wakeups.ref.xml
+ 
+-org.freedesktop.UPower.ref.xml : $(top_srcdir)/src/org.freedesktop.UPower.xml $(top_srcdir)/doc/dbus/spec-to-docbook.xsl
++org.freedesktop.UPower.ref.xml : $(top_srcdir)/dbus/org.freedesktop.UPower.xml $(top_srcdir)/doc/dbus/spec-to-docbook.xsl
+ 	echo "<?xml version=\"1.0\"?>""<!DOCTYPE refentry PUBLIC \"-//OASIS//DTD DocBook XML V4.1.2//EN\" \"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd\">" > $@
+ 	$(XSLTPROC) $(top_srcdir)/doc/dbus/spec-to-docbook.xsl $< | tail -n +2 >> $@
+ 
+-org.freedesktop.UPower.Device.ref.xml : $(top_srcdir)/src/org.freedesktop.UPower.Device.xml $(top_srcdir)/doc/dbus/spec-to-docbook.xsl
++org.freedesktop.UPower.Device.ref.xml : $(top_srcdir)/dbus/org.freedesktop.UPower.Device.xml $(top_srcdir)/doc/dbus/spec-to-docbook.xsl
+ 	echo "<?xml version=\"1.0\"?>""<!DOCTYPE refentry PUBLIC \"-//OASIS//DTD DocBook XML V4.1.2//EN\" \"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd\">" > $@
+ 	$(XSLTPROC) $(top_srcdir)/doc/dbus/spec-to-docbook.xsl $< | tail -n +2 >> $@
+ 
+-org.freedesktop.UPower.KbdBacklight.ref.xml : $(top_srcdir)/src/org.freedesktop.UPower.KbdBacklight.xml $(top_srcdir)/doc/dbus/spec-to-docbook.xsl
++org.freedesktop.UPower.KbdBacklight.ref.xml : $(top_srcdir)/dbus/org.freedesktop.UPower.KbdBacklight.xml $(top_srcdir)/doc/dbus/spec-to-docbook.xsl
+ 	echo "<?xml version=\"1.0\"?>""<!DOCTYPE refentry PUBLIC \"-//OASIS//DTD DocBook XML V4.1.2//EN\" \"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd\">" > $@
+ 	$(XSLTPROC) $(top_srcdir)/doc/dbus/spec-to-docbook.xsl $< | tail -n +2 >> $@
+ 
+-org.freedesktop.UPower.Wakeups.ref.xml : $(top_srcdir)/src/org.freedesktop.UPower.Wakeups.xml $(top_srcdir)/doc/dbus/spec-to-docbook.xsl
++org.freedesktop.UPower.Wakeups.ref.xml : $(top_srcdir)/dbus/org.freedesktop.UPower.Wakeups.xml $(top_srcdir)/doc/dbus/spec-to-docbook.xsl
+ 	echo "<?xml version=\"1.0\"?>""<!DOCTYPE refentry PUBLIC \"-//OASIS//DTD DocBook XML V4.1.2//EN\" \"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd\">" > $@
+ 	$(XSLTPROC) $(top_srcdir)/doc/dbus/spec-to-docbook.xsl $< | tail -n +2 >> $@
+ 
+diff --git a/libupower-glib/Makefile.am b/libupower-glib/Makefile.am
+index 8b1d4ad..efa47fa 100644
+--- a/libupower-glib/Makefile.am
++++ b/libupower-glib/Makefile.am
+@@ -3,6 +3,7 @@ AM_CPPFLAGS = \
+ 	$(GIO_UNIX_CFLAGS)					\
+ 	-I$(top_builddir)					\
+ 	-I$(top_srcdir)						\
++	-I$(top_srcdir)/dbus					\
+ 	-I$(top_srcdir)/libupower-glib				\
+ 	-DUP_COMPILATION					\
+ 	-DG_LOG_DOMAIN=\"libupower-glib\"			\
+@@ -14,44 +15,6 @@ INTROSPECTION_GIRS =
+ INTROSPECTION_SCANNER_ARGS = --add-include-path=$(srcdir)
+ INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir)
+ 
+-BUILT_SOURCES = $(NULL)
+-
+-up_client_dbus_built_sources = up-client-glue.c up-client-glue.h
+-BUILT_SOURCES += $(up_client_dbus_built_sources)
+-
+-$(up_client_dbus_built_sources) : Makefile.am $(top_srcdir)/src/org.freedesktop.UPower.xml
+-	$(AM_V_GEN) gdbus-codegen                                       \
+-		--interface-prefix org.freedesktop.UPower.              \
+-		--generate-c-code up-client-glue                        \
+-		--c-namespace Up                                        \
+-		--annotate "org.freedesktop.UPower"                     \
+-		"org.gtk.GDBus.C.Name" ClientGlue                       \
+-		$(top_srcdir)/src/org.freedesktop.UPower.xml
+-
+-up_device_dbus_built_sources = up-device-glue.c up-device-glue.h
+-BUILT_SOURCES += $(up_device_dbus_built_sources)
+-
+-$(up_device_dbus_built_sources) : Makefile.am $(top_srcdir)/src/org.freedesktop.UPower.Device.xml
+-	$(AM_V_GEN) gdbus-codegen                                       \
+-		--interface-prefix org.freedesktop.UPower.Device.       \
+-		--generate-c-code up-device-glue                        \
+-		--c-namespace Up                                        \
+-		--annotate "org.freedesktop.UPower.Device"              \
+-		"org.gtk.GDBus.C.Name" DeviceGlue                       \
+-		$(top_srcdir)/src/org.freedesktop.UPower.Device.xml
+-
+-up_wakeups_dbus_built_sources = up-wakeups-glue.c up-wakeups-glue.h
+-BUILT_SOURCES += $(up_wakeups_dbus_built_sources)
+-
+-$(up_wakeups_dbus_built_sources) : Makefile.am $(top_srcdir)/src/org.freedesktop.UPower.Wakeups.xml
+-	$(AM_V_GEN) gdbus-codegen                                       \
+-		--interface-prefix org.freedesktop.UPower.Wakeups.      \
+-		--generate-c-code up-wakeups-glue                       \
+-		--c-namespace Up                                        \
+-		--annotate "org.freedesktop.UPower.Wakeups"             \
+-		"org.gtk.GDBus.C.Name" WakeupsGlue                      \
+-		$(top_srcdir)/src/org.freedesktop.UPower.Wakeups.xml
+-
+ lib_LTLIBRARIES =						\
+ 	libupower-glib.la
+ 
+@@ -74,15 +37,13 @@ libupower_glib_la_SOURCES =					\
+ 	up-wakeup-item.c					\
+ 	up-stats-item.c						\
+ 	up-history-item.c					\
+-	up-device.c						\
+-	$(up_client_dbus_built_sources)				\
+-	$(up_device_dbus_built_sources)				\
+-	$(up_wakeups_dbus_built_sources)
++	up-device.c
+ 
+ libupower_glib_la_LIBADD =					\
+ 	$(INTLLIBS)						\
+ 	$(GLIB_LIBS)						\
+-	$(GIO_UNIX_LIBS)
++	$(GIO_UNIX_LIBS)					\
++	$(top_builddir)/dbus/libupower-dbus.la
+ 
+ libupower_glib_la_LDFLAGS =					\
+ 	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)	\
+diff --git a/libupower-glib/up-client.c b/libupower-glib/up-client.c
+index 4780aa5..5b2218f 100644
+--- a/libupower-glib/up-client.c
++++ b/libupower-glib/up-client.c
+@@ -36,7 +36,7 @@
+ #include <glib-object.h>
+ 
+ #include "up-client.h"
+-#include "up-client-glue.h"
++#include "up-daemon-generated.h"
+ #include "up-device.h"
+ 
+ static void	up_client_class_init	(UpClientClass	*klass);
+@@ -52,7 +52,7 @@ static void	up_client_finalize	(GObject	*object);
+  **/
+ struct _UpClientPrivate
+ {
+-	UpClientGlue		*proxy;
++	UpExportedDaemon *proxy;
+ };
+ 
+ enum {
+@@ -95,10 +95,10 @@ up_client_get_devices (UpClient *client)
+ 
+ 	g_return_val_if_fail (UP_IS_CLIENT (client), NULL);
+ 
+-	if (up_client_glue_call_enumerate_devices_sync (client->priv->proxy,
+-							&devices,
+-							NULL,
+-							&error) == FALSE) {
++	if (up_exported_daemon_call_enumerate_devices_sync (client->priv->proxy,
++							    &devices,
++							    NULL,
++							    &error) == FALSE) {
+ 		g_warning ("up_client_get_devices failed: %s", error->message);
+ 		g_error_free (error);
+ 		return NULL;
+@@ -166,9 +166,9 @@ up_client_get_critical_action (UpClient *client)
+ 	char *action;
+ 
+ 	g_return_val_if_fail (UP_IS_CLIENT (client), NULL);
+-	if (!up_client_glue_call_get_critical_action_sync (client->priv->proxy,
+-							   &action,
+-							   NULL, NULL)) {
++	if (!up_exported_daemon_call_get_critical_action_sync (client->priv->proxy,
++							       &action,
++							       NULL, NULL)) {
+ 		return NULL;
+ 	}
+ 	return action;
+@@ -188,7 +188,7 @@ const gchar *
+ up_client_get_daemon_version (UpClient *client)
+ {
+ 	g_return_val_if_fail (UP_IS_CLIENT (client), NULL);
+-	return up_client_glue_get_daemon_version (client->priv->proxy);
++	return up_exported_daemon_get_daemon_version (client->priv->proxy);
+ }
+ 
+ /**
+@@ -205,7 +205,7 @@ gboolean
+ up_client_get_lid_is_closed (UpClient *client)
+ {
+ 	g_return_val_if_fail (UP_IS_CLIENT (client), FALSE);
+-	return up_client_glue_get_lid_is_closed (client->priv->proxy);
++	return up_exported_daemon_get_lid_is_closed (client->priv->proxy);
+ }
+ 
+ /**
+@@ -222,7 +222,7 @@ gboolean
+ up_client_get_lid_is_present (UpClient *client)
+ {
+ 	g_return_val_if_fail (UP_IS_CLIENT (client), FALSE);
+-	return up_client_glue_get_lid_is_present (client->priv->proxy);
++	return up_exported_daemon_get_lid_is_present (client->priv->proxy);
+ }
+ 
+ /**
+@@ -239,7 +239,7 @@ gboolean
+ up_client_get_on_battery (UpClient *client)
+ {
+ 	g_return_val_if_fail (UP_IS_CLIENT (client), FALSE);
+-	return up_client_glue_get_on_battery (client->priv->proxy);
++	return up_exported_daemon_get_on_battery (client->priv->proxy);
+ }
+ 
+ /*
+@@ -281,7 +281,7 @@ up_client_notify_cb (GObject    *gobject,
+  * up_client_added_cb:
+  */
+ static void
+-up_device_added_cb (UpClientGlue *proxy, const gchar *object_path, UpClient *client)
++up_device_added_cb (UpExportedDaemon *proxy, const gchar *object_path, UpClient *client)
+ {
+ 	up_client_add (client, object_path);
+ }
+@@ -290,7 +290,7 @@ up_device_added_cb (UpClientGlue *proxy, const gchar *object_path, UpClient *cli
+  * up_client_removed_cb:
+  */
+ static void
+-up_device_removed_cb (UpClientGlue *proxy, const gchar *object_path, UpClient *client)
++up_device_removed_cb (UpExportedDaemon *proxy, const gchar *object_path, UpClient *client)
+ {
+ 	g_signal_emit (client, signals [UP_CLIENT_DEVICE_REMOVED], 0, object_path);
+ }
+@@ -309,16 +309,16 @@ up_client_get_property (GObject *object,
+ 
+ 	switch (prop_id) {
+ 	case PROP_DAEMON_VERSION:
+-		g_value_set_string (value, up_client_glue_get_daemon_version (client->priv->proxy));
++		g_value_set_string (value, up_exported_daemon_get_daemon_version (client->priv->proxy));
+ 		break;
+ 	case PROP_ON_BATTERY:
+-		g_value_set_boolean (value, up_client_glue_get_on_battery (client->priv->proxy));
++		g_value_set_boolean (value, up_exported_daemon_get_on_battery (client->priv->proxy));
+ 		break;
+ 	case PROP_LID_IS_CLOSED:
+-		g_value_set_boolean (value, up_client_glue_get_lid_is_closed (client->priv->proxy));
++		g_value_set_boolean (value, up_exported_daemon_get_lid_is_closed (client->priv->proxy));
+ 		break;
+ 	case PROP_LID_IS_PRESENT:
+-		g_value_set_boolean (value, up_client_glue_get_lid_is_present (client->priv->proxy));
++		g_value_set_boolean (value, up_exported_daemon_get_lid_is_present (client->priv->proxy));
+ 		break;
+ 	default:
+ 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+@@ -442,12 +442,12 @@ up_client_init (UpClient *client)
+ 	client->priv = UP_CLIENT_GET_PRIVATE (client);
+ 
+ 	/* connect to main interface */
+-	client->priv->proxy = up_client_glue_proxy_new_for_bus_sync (G_BUS_TYPE_SYSTEM,
+-								     G_DBUS_PROXY_FLAGS_NONE,
+-								     "org.freedesktop.UPower",
+-								     "/org/freedesktop/UPower",
+-								     NULL,
+-								     &error);
++	client->priv->proxy = up_exported_daemon_proxy_new_for_bus_sync (G_BUS_TYPE_SYSTEM,
++									 G_DBUS_PROXY_FLAGS_NONE,
++									 "org.freedesktop.UPower",
++									 "/org/freedesktop/UPower",
++									 NULL,
++									 &error);
+ 	if (client->priv->proxy == NULL) {
+ 		g_warning ("Couldn't connect to proxy: %s", error->message);
+ 		g_error_free (error);
+diff --git a/libupower-glib/up-device.c b/libupower-glib/up-device.c
+index f053f3d..ec1b25b 100644
+--- a/libupower-glib/up-device.c
++++ b/libupower-glib/up-device.c
+@@ -37,7 +37,7 @@
+ #include <string.h>
+ 
+ #include "up-device.h"
+-#include "up-device-glue.h"
++#include "up-device-generated.h"
+ #include "up-stats-item.h"
+ #include "up-history-item.h"
+ 
+@@ -54,7 +54,7 @@ static void	up_device_finalize	(GObject		*object);
+  **/
+ struct _UpDevicePrivate
+ {
+-	UpDeviceGlue		*proxy_device;
++	UpExportedDevice		*proxy_device;
+ 
+ 	/* For use when a UpDevice isn't backed by a D-Bus object
+ 	 * by the UPower daemon */
+@@ -100,7 +100,7 @@ G_DEFINE_TYPE (UpDevice, up_device, G_TYPE_OBJECT)
+  * up_device_changed_cb:
+  */
+ static void
+-up_device_changed_cb (UpDeviceGlue *proxy, GParamSpec *pspec, UpDevice *device)
++up_device_changed_cb (UpExportedDevice *proxy, GParamSpec *pspec, UpDevice *device)
+ {
+ 	if (g_strcmp0 (pspec->name, "type") == 0)
+ 		g_object_notify (G_OBJECT (device), "kind");
+@@ -124,7 +124,7 @@ up_device_changed_cb (UpDeviceGlue *proxy, GParamSpec *pspec, UpDevice *device)
+ gboolean
+ up_device_set_object_path_sync (UpDevice *device, const gchar *object_path, GCancellable *cancellable, GError **error)
+ {
+-	UpDeviceGlue *proxy_device;
++	UpExportedDevice *proxy_device;
+ 	gboolean ret = TRUE;
+ 
+ 	g_return_val_if_fail (UP_IS_DEVICE (device), FALSE);
+@@ -144,12 +144,12 @@ up_device_set_object_path_sync (UpDevice *device, const gchar *object_path, GCan
+ 	g_clear_pointer (&device->priv->offline_props, g_hash_table_unref);
+ 
+ 	/* connect to the correct path for all the other methods */
+-	proxy_device = up_device_glue_proxy_new_for_bus_sync (G_BUS_TYPE_SYSTEM,
+-							      G_DBUS_PROXY_FLAGS_NONE,
+-							      "org.freedesktop.UPower",
+-							      object_path,
+-							      cancellable,
+-							      error);
++	proxy_device = up_exported_device_proxy_new_for_bus_sync (G_BUS_TYPE_SYSTEM,
++								  G_DBUS_PROXY_FLAGS_NONE,
++								  "org.freedesktop.UPower",
++								  object_path,
++								  cancellable,
++								  error);
+ 	if (proxy_device == NULL)
+ 		return FALSE;
+ 
+@@ -271,77 +271,77 @@ up_device_to_text (UpDevice *device)
+ 	is_display = (g_strcmp0 ("/org/freedesktop/UPower/devices/DisplayDevice", up_device_get_object_path (device)) == 0);
+ 
+ 	/* get a human readable time */
+-	t = (time_t) up_device_glue_get_update_time (priv->proxy_device);
++	t = (time_t) up_exported_device_get_update_time (priv->proxy_device);
+ 	time_tm = localtime (&t);
+ 	strftime (time_buf, sizeof time_buf, "%c", time_tm);
+ 
+ 	string = g_string_new ("");
+ 	if (!is_display)
+-		g_string_append_printf (string, "  native-path:          %s\n", up_device_glue_get_native_path (priv->proxy_device));
+-	vendor = up_device_glue_get_vendor (priv->proxy_device);
++		g_string_append_printf (string, "  native-path:          %s\n", up_exported_device_get_native_path (priv->proxy_device));
++	vendor = up_exported_device_get_vendor (priv->proxy_device);
+ 	if (vendor != NULL && vendor[0] != '\0')
+ 		g_string_append_printf (string, "  vendor:               %s\n", vendor);
+-	model = up_device_glue_get_model (priv->proxy_device);
++	model = up_exported_device_get_model (priv->proxy_device);
+ 	if (model != NULL && model[0] != '\0')
+ 		g_string_append_printf (string, "  model:                %s\n", model);
+-	serial = up_device_glue_get_serial (priv->proxy_device);
++	serial = up_exported_device_get_serial (priv->proxy_device);
+ 	if (serial != NULL && serial[0] != '\0')
+ 		g_string_append_printf (string, "  serial:               %s\n", serial);
+-	g_string_append_printf (string, "  power supply:         %s\n", up_device_bool_to_string (up_device_glue_get_power_supply (priv->proxy_device)));
+-	g_string_append_printf (string, "  updated:              %s (%d seconds ago)\n", time_buf, (int) (time (NULL) - up_device_glue_get_update_time (priv->proxy_device)));
+-	g_string_append_printf (string, "  has history:          %s\n", up_device_bool_to_string (up_device_glue_get_has_history (priv->proxy_device)));
+-	g_string_append_printf (string, "  has statistics:       %s\n", up_device_bool_to_string (up_device_glue_get_has_statistics (priv->proxy_device)));
++	g_string_append_printf (string, "  power supply:         %s\n", up_device_bool_to_string (up_exported_device_get_power_supply (priv->proxy_device)));
++	g_string_append_printf (string, "  updated:              %s (%d seconds ago)\n", time_buf, (int) (time (NULL) - up_exported_device_get_update_time (priv->proxy_device)));
++	g_string_append_printf (string, "  has history:          %s\n", up_device_bool_to_string (up_exported_device_get_has_history (priv->proxy_device)));
++	g_string_append_printf (string, "  has statistics:       %s\n", up_device_bool_to_string (up_exported_device_get_has_statistics (priv->proxy_device)));
+ 
+-	kind = up_device_glue_get_type_ (priv->proxy_device);
++	kind = up_exported_device_get_type_ (priv->proxy_device);
+ 	g_string_append_printf (string, "  %s\n", up_device_kind_to_string (kind));
+ 
+ 	if (kind == UP_DEVICE_KIND_BATTERY ||
+ 	    kind == UP_DEVICE_KIND_MOUSE ||
+ 	    kind == UP_DEVICE_KIND_KEYBOARD ||
+ 	    kind == UP_DEVICE_KIND_UPS)
+-		g_string_append_printf (string, "    present:             %s\n", up_device_bool_to_string (up_device_glue_get_is_present (priv->proxy_device)));
++		g_string_append_printf (string, "    present:             %s\n", up_device_bool_to_string (up_exported_device_get_is_present (priv->proxy_device)));
+ 	if ((kind == UP_DEVICE_KIND_PHONE ||
+ 	     kind == UP_DEVICE_KIND_BATTERY ||
+ 	     kind == UP_DEVICE_KIND_MOUSE ||
+ 	     kind == UP_DEVICE_KIND_KEYBOARD) &&
+ 	    !is_display)
+-		g_string_append_printf (string, "    rechargeable:        %s\n", up_device_bool_to_string (up_device_glue_get_is_rechargeable (priv->proxy_device)));
++		g_string_append_printf (string, "    rechargeable:        %s\n", up_device_bool_to_string (up_exported_device_get_is_rechargeable (priv->proxy_device)));
+ 	if (kind == UP_DEVICE_KIND_BATTERY ||
+ 	    kind == UP_DEVICE_KIND_MOUSE ||
+ 	    kind == UP_DEVICE_KIND_KEYBOARD ||
+ 	    kind == UP_DEVICE_KIND_UPS)
+-		g_string_append_printf (string, "    state:               %s\n", up_device_state_to_string (up_device_glue_get_state (priv->proxy_device)));
+-	g_string_append_printf (string, "    warning-level:       %s\n", up_device_level_to_string (up_device_glue_get_warning_level (priv->proxy_device)));
++		g_string_append_printf (string, "    state:               %s\n", up_device_state_to_string (up_exported_device_get_state (priv->proxy_device)));
++	g_string_append_printf (string, "    warning-level:       %s\n", up_device_level_to_string (up_exported_device_get_warning_level (priv->proxy_device)));
+ 	if (kind == UP_DEVICE_KIND_BATTERY) {
+-		g_string_append_printf (string, "    energy:              %g Wh\n", up_device_glue_get_energy (priv->proxy_device));
++		g_string_append_printf (string, "    energy:              %g Wh\n", up_exported_device_get_energy (priv->proxy_device));
+ 		if (!is_display)
+-			g_string_append_printf (string, "    energy-empty:        %g Wh\n", up_device_glue_get_energy_empty (priv->proxy_device));
+-		g_string_append_printf (string, "    energy-full:         %g Wh\n", up_device_glue_get_energy_full (priv->proxy_device));
++			g_string_append_printf (string, "    energy-empty:        %g Wh\n", up_exported_device_get_energy_empty (priv->proxy_device));
++		g_string_append_printf (string, "    energy-full:         %g Wh\n", up_exported_device_get_energy_full (priv->proxy_device));
+ 		if (!is_display)
+-			g_string_append_printf (string, "    energy-full-design:  %g Wh\n", up_device_glue_get_energy_full_design (priv->proxy_device));
++			g_string_append_printf (string, "    energy-full-design:  %g Wh\n", up_exported_device_get_energy_full_design (priv->proxy_device));
+ 	}
+ 	if (kind == UP_DEVICE_KIND_BATTERY ||
+ 	    kind == UP_DEVICE_KIND_MONITOR)
+-		g_string_append_printf (string, "    energy-rate:         %g W\n", up_device_glue_get_energy_rate (priv->proxy_device));
++		g_string_append_printf (string, "    energy-rate:         %g W\n", up_exported_device_get_energy_rate (priv->proxy_device));
+ 	if (kind == UP_DEVICE_KIND_UPS ||
+ 	    kind == UP_DEVICE_KIND_BATTERY ||
+ 	    kind == UP_DEVICE_KIND_MONITOR) {
+-		if (up_device_glue_get_voltage (priv->proxy_device) > 0)
+-			g_string_append_printf (string, "    voltage:             %g V\n", up_device_glue_get_voltage (priv->proxy_device));
++		if (up_exported_device_get_voltage (priv->proxy_device) > 0)
++			g_string_append_printf (string, "    voltage:             %g V\n", up_exported_device_get_voltage (priv->proxy_device));
+ 	}
+ 	if (kind == UP_DEVICE_KIND_KEYBOARD) {
+-		if (up_device_glue_get_luminosity (priv->proxy_device) > 0)
+-			g_string_append_printf (string, "    luminosity:          %g lx\n", up_device_glue_get_luminosity (priv->proxy_device));
++		if (up_exported_device_get_luminosity (priv->proxy_device) > 0)
++			g_string_append_printf (string, "    luminosity:          %g lx\n", up_exported_device_get_luminosity (priv->proxy_device));
+ 	}
+ 	if (kind == UP_DEVICE_KIND_BATTERY ||
+ 	    kind == UP_DEVICE_KIND_UPS) {
+-		if (up_device_glue_get_time_to_full (priv->proxy_device) > 0) {
+-			time_str = up_device_to_text_time_to_string (up_device_glue_get_time_to_full (priv->proxy_device));
++		if (up_exported_device_get_time_to_full (priv->proxy_device) > 0) {
++			time_str = up_device_to_text_time_to_string (up_exported_device_get_time_to_full (priv->proxy_device));
+ 			g_string_append_printf (string, "    time to full:        %s\n", time_str);
+ 			g_free (time_str);
+ 		}
+-		if (up_device_glue_get_time_to_empty (priv->proxy_device) > 0) {
+-			time_str = up_device_to_text_time_to_string (up_device_glue_get_time_to_empty (priv->proxy_device));
++		if (up_exported_device_get_time_to_empty (priv->proxy_device) > 0) {
++			time_str = up_device_to_text_time_to_string (up_exported_device_get_time_to_empty (priv->proxy_device));
+ 			g_string_append_printf (string, "    time to empty:       %s\n", time_str);
+ 			g_free (time_str);
+ 		}
+@@ -354,24 +354,24 @@ up_device_to_text (UpDevice *device)
+ 	    kind == UP_DEVICE_KIND_COMPUTER ||
+ 	    kind == UP_DEVICE_KIND_MEDIA_PLAYER ||
+ 	    kind == UP_DEVICE_KIND_UPS)
+-		g_string_append_printf (string, "    percentage:          %g%%\n", up_device_glue_get_percentage (priv->proxy_device));
++		g_string_append_printf (string, "    percentage:          %g%%\n", up_exported_device_get_percentage (priv->proxy_device));
+ 	if (kind == UP_DEVICE_KIND_BATTERY) {
+-		if (up_device_glue_get_temperature (priv->proxy_device) > 0)
+-			g_string_append_printf (string, "    temperature:         %g degrees C\n", up_device_glue_get_temperature (priv->proxy_device));
+-		if (up_device_glue_get_capacity (priv->proxy_device) > 0)
+-			g_string_append_printf (string, "    capacity:            %g%%\n", up_device_glue_get_capacity (priv->proxy_device));
++		if (up_exported_device_get_temperature (priv->proxy_device) > 0)
++			g_string_append_printf (string, "    temperature:         %g degrees C\n", up_exported_device_get_temperature (priv->proxy_device));
++		if (up_exported_device_get_capacity (priv->proxy_device) > 0)
++			g_string_append_printf (string, "    capacity:            %g%%\n", up_exported_device_get_capacity (priv->proxy_device));
+ 	}
+ 	if (kind == UP_DEVICE_KIND_BATTERY) {
+-		if (up_device_glue_get_technology (priv->proxy_device) != UP_DEVICE_TECHNOLOGY_UNKNOWN)
+-			g_string_append_printf (string, "    technology:          %s\n", up_device_technology_to_string (up_device_glue_get_technology (priv->proxy_device)));
++		if (up_exported_device_get_technology (priv->proxy_device) != UP_DEVICE_TECHNOLOGY_UNKNOWN)
++			g_string_append_printf (string, "    technology:          %s\n", up_device_technology_to_string (up_exported_device_get_technology (priv->proxy_device)));
+ 	}
+ 	if (kind == UP_DEVICE_KIND_LINE_POWER)
+-		g_string_append_printf (string, "    online:              %s\n", up_device_bool_to_string (up_device_glue_get_online (priv->proxy_device)));
++		g_string_append_printf (string, "    online:              %s\n", up_device_bool_to_string (up_exported_device_get_online (priv->proxy_device)));
+ 
+-	g_string_append_printf (string, "    icon-name:          '%s'\n", up_device_glue_get_icon_name (priv->proxy_device));
++	g_string_append_printf (string, "    icon-name:          '%s'\n", up_exported_device_get_icon_name (priv->proxy_device));
+ 
+ 	/* if we can, get history */
+-	if (up_device_glue_get_has_history (priv->proxy_device)) {
++	if (up_exported_device_get_has_history (priv->proxy_device)) {
+ 		up_device_to_text_history (device, string, "charge");
+ 		up_device_to_text_history (device, string, "rate");
+ 	}
+@@ -398,7 +398,7 @@ up_device_refresh_sync (UpDevice *device, GCancellable *cancellable, GError **er
+ 	g_return_val_if_fail (UP_IS_DEVICE (device), FALSE);
+ 	g_return_val_if_fail (device->priv->proxy_device != NULL, FALSE);
+ 
+-	return up_device_glue_call_refresh_sync (device->priv->proxy_device, cancellable, error);
++	return up_exported_device_call_refresh_sync (device->priv->proxy_device, cancellable, error);
+ }
+ 
+ /**
+@@ -433,13 +433,13 @@ up_device_get_history_sync (UpDevice *device, const gchar *type, guint timespec,
+ 	g_return_val_if_fail (device->priv->proxy_device != NULL, NULL);
+ 
+ 	/* get compound data */
+-	ret = up_device_glue_call_get_history_sync (device->priv->proxy_device,
+-						    type,
+-						    timespec,
+-						    resolution,
+-						    &gva,
+-						    NULL,
+-						    &error_local);
++	ret = up_exported_device_call_get_history_sync (device->priv->proxy_device,
++							type,
++							timespec,
++							resolution,
++							&gva,
++							NULL,
++							&error_local);
+ 	if (!ret) {
+ 		g_set_error (error, 1, 0, "GetHistory(%s,%i) on %s failed: %s", type, timespec,
+ 			     up_device_get_object_path (device), error_local->message);
+@@ -513,11 +513,11 @@ up_device_get_statistics_sync (UpDevice *device, const gchar *type, GCancellable
+ 	g_return_val_if_fail (device->priv->proxy_device != NULL, NULL);
+ 
+ 	/* get compound data */
+-	ret = up_device_glue_call_get_statistics_sync (device->priv->proxy_device,
+-						       type,
+-						       &gva,
+-						       NULL,
+-						       &error_local);
++	ret = up_exported_device_call_get_statistics_sync (device->priv->proxy_device,
++							   type,
++							   &gva,
++							   NULL,
++							   &error_local);
+ 	if (!ret) {
+ 		g_set_error (error, 1, 0, "GetStatistics(%s) on %s failed: %s", type,
+ 				      up_device_get_object_path (device), error_local->message);
+@@ -582,88 +582,88 @@ up_device_set_property (GObject *object, guint prop_id, const GValue *value, GPa
+ 
+ 	switch (prop_id) {
+ 	case PROP_NATIVE_PATH:
+-		up_device_glue_set_native_path (device->priv->proxy_device, g_value_get_string (value));
++		up_exported_device_set_native_path (device->priv->proxy_device, g_value_get_string (value));
+ 		break;
+ 	case PROP_VENDOR:
+-		up_device_glue_set_vendor (device->priv->proxy_device, g_value_get_string (value));
++		up_exported_device_set_vendor (device->priv->proxy_device, g_value_get_string (value));
+ 		break;
+ 	case PROP_MODEL:
+-		up_device_glue_set_model (device->priv->proxy_device, g_value_get_string (value));
++		up_exported_device_set_model (device->priv->proxy_device, g_value_get_string (value));
+ 		break;
+ 	case PROP_SERIAL:
+-		up_device_glue_set_serial (device->priv->proxy_device, g_value_get_string (value));
++		up_exported_device_set_serial (device->priv->proxy_device, g_value_get_string (value));
+ 		break;
+ 	case PROP_UPDATE_TIME:
+-		up_device_glue_set_update_time (device->priv->proxy_device, g_value_get_uint64 (value));
++		up_exported_device_set_update_time (device->priv->proxy_device, g_value_get_uint64 (value));
+ 		break;
+ 	case PROP_KIND:
+-		up_device_glue_set_type_ (device->priv->proxy_device, g_value_get_uint (value));
++		up_exported_device_set_type_ (device->priv->proxy_device, g_value_get_uint (value));
+ 		break;
+ 	case PROP_POWER_SUPPLY:
+-		up_device_glue_set_power_supply (device->priv->proxy_device, g_value_get_boolean (value));
++		up_exported_device_set_power_supply (device->priv->proxy_device, g_value_get_boolean (value));
+ 		break;
+ 	case PROP_ONLINE:
+-		up_device_glue_set_online (device->priv->proxy_device, g_value_get_boolean (value));
++		up_exported_device_set_online (device->priv->proxy_device, g_value_get_boolean (value));
+ 		break;
+ 	case PROP_IS_PRESENT:
+-		up_device_glue_set_is_present (device->priv->proxy_device, g_value_get_boolean (value));
++		up_exported_device_set_is_present (device->priv->proxy_device, g_value_get_boolean (value));
+ 		break;
+ 	case PROP_IS_RECHARGEABLE:
+-		up_device_glue_set_is_rechargeable (device->priv->proxy_device, g_value_get_boolean (value));
++		up_exported_device_set_is_rechargeable (device->priv->proxy_device, g_value_get_boolean (value));
+ 		break;
+ 	case PROP_HAS_HISTORY:
+-		up_device_glue_set_has_history (device->priv->proxy_device, g_value_get_boolean (value));
++		up_exported_device_set_has_history (device->priv->proxy_device, g_value_get_boolean (value));
+ 		break;
+ 	case PROP_HAS_STATISTICS:
+-		up_device_glue_set_has_statistics (device->priv->proxy_device, g_value_get_boolean (value));
++		up_exported_device_set_has_statistics (device->priv->proxy_device, g_value_get_boolean (value));
+ 		break;
+ 	case PROP_STATE:
+-		up_device_glue_set_state (device->priv->proxy_device, g_value_get_uint (value));
++		up_exported_device_set_state (device->priv->proxy_device, g_value_get_uint (value));
+ 		break;
+ 	case PROP_CAPACITY:
+-		up_device_glue_set_capacity (device->priv->proxy_device, g_value_get_double (value));
++		up_exported_device_set_capacity (device->priv->proxy_device, g_value_get_double (value));
+ 		break;
+ 	case PROP_ENERGY:
+-		up_device_glue_set_energy (device->priv->proxy_device, g_value_get_double (value));
++		up_exported_device_set_energy (device->priv->proxy_device, g_value_get_double (value));
+ 		break;
+ 	case PROP_ENERGY_EMPTY:
+-		up_device_glue_set_energy_empty (device->priv->proxy_device, g_value_get_double (value));
++		up_exported_device_set_energy_empty (device->priv->proxy_device, g_value_get_double (value));
+ 		break;
+ 	case PROP_ENERGY_FULL:
+-		up_device_glue_set_energy_full (device->priv->proxy_device, g_value_get_double (value));
++		up_exported_device_set_energy_full (device->priv->proxy_device, g_value_get_double (value));
+ 		break;
+ 	case PROP_ENERGY_FULL_DESIGN:
+-		up_device_glue_set_energy_full_design (device->priv->proxy_device, g_value_get_double (value));
++		up_exported_device_set_energy_full_design (device->priv->proxy_device, g_value_get_double (value));
+ 		break;
+ 	case PROP_ENERGY_RATE:
+-		up_device_glue_set_energy_rate (device->priv->proxy_device, g_value_get_double (value));
++		up_exported_device_set_energy_rate (device->priv->proxy_device, g_value_get_double (value));
+ 		break;
+ 	case PROP_VOLTAGE:
+-		up_device_glue_set_voltage (device->priv->proxy_device, g_value_get_double (value));
++		up_exported_device_set_voltage (device->priv->proxy_device, g_value_get_double (value));
+ 		break;
+ 	case PROP_LUMINOSITY:
+-		up_device_glue_set_luminosity (device->priv->proxy_device, g_value_get_double (value));
++		up_exported_device_set_luminosity (device->priv->proxy_device, g_value_get_double (value));
+ 		break;
+ 	case PROP_TIME_TO_EMPTY:
+-		up_device_glue_set_time_to_empty (device->priv->proxy_device, g_value_get_int64 (value));
++		up_exported_device_set_time_to_empty (device->priv->proxy_device, g_value_get_int64 (value));
+ 		break;
+ 	case PROP_TIME_TO_FULL:
+-		up_device_glue_set_time_to_full (device->priv->proxy_device, g_value_get_int64 (value));
++		up_exported_device_set_time_to_full (device->priv->proxy_device, g_value_get_int64 (value));
+ 		break;
+ 	case PROP_PERCENTAGE:
+-		up_device_glue_set_percentage (device->priv->proxy_device, g_value_get_double (value));
++		up_exported_device_set_percentage (device->priv->proxy_device, g_value_get_double (value));
+ 		break;
+ 	case PROP_TEMPERATURE:
+-		up_device_glue_set_temperature (device->priv->proxy_device, g_value_get_double (value));
++		up_exported_device_set_temperature (device->priv->proxy_device, g_value_get_double (value));
+ 		break;
+ 	case PROP_TECHNOLOGY:
+-		up_device_glue_set_technology (device->priv->proxy_device, g_value_get_uint (value));
++		up_exported_device_set_technology (device->priv->proxy_device, g_value_get_uint (value));
+ 		break;
+ 	case PROP_WARNING_LEVEL:
+-		up_device_glue_set_warning_level (device->priv->proxy_device, g_value_get_uint (value));
++		up_exported_device_set_warning_level (device->priv->proxy_device, g_value_get_uint (value));
+ 		break;
+ 	case PROP_ICON_NAME:
+-		up_device_glue_set_icon_name (device->priv->proxy_device, g_value_get_string (value));
++		up_exported_device_set_icon_name (device->priv->proxy_device, g_value_get_string (value));
+ 		break;
+ 	default:
+ 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+@@ -693,88 +693,88 @@ up_device_get_property (GObject *object, guint prop_id, GValue *value, GParamSpe
+ 
+ 	switch (prop_id) {
+ 	case PROP_UPDATE_TIME:
+-		g_value_set_uint64 (value, up_device_glue_get_update_time (device->priv->proxy_device));
++		g_value_set_uint64 (value, up_exported_device_get_update_time (device->priv->proxy_device));
+ 		break;
+ 	case PROP_VENDOR:
+-		g_value_set_string (value, up_device_glue_get_vendor (device->priv->proxy_device));
++		g_value_set_string (value, up_exported_device_get_vendor (device->priv->proxy_device));
+ 		break;
+ 	case PROP_MODEL:
+-		g_value_set_string (value, up_device_glue_get_model (device->priv->proxy_device));
++		g_value_set_string (value, up_exported_device_get_model (device->priv->proxy_device));
+ 		break;
+ 	case PROP_SERIAL:
+-		g_value_set_string (value, up_device_glue_get_serial (device->priv->proxy_device));
++		g_value_set_string (value, up_exported_device_get_serial (device->priv->proxy_device));
+ 		break;
+ 	case PROP_NATIVE_PATH:
+-		g_value_set_string (value, up_device_glue_get_native_path (device->priv->proxy_device));
++		g_value_set_string (value, up_exported_device_get_native_path (device->priv->proxy_device));
+ 		break;
+ 	case PROP_POWER_SUPPLY:
+-		g_value_set_boolean (value, up_device_glue_get_power_supply (device->priv->proxy_device));
++		g_value_set_boolean (value, up_exported_device_get_power_supply (device->priv->proxy_device));
+ 		break;
+ 	case PROP_ONLINE:
+-		g_value_set_boolean (value, up_device_glue_get_online (device->priv->proxy_device));
++		g_value_set_boolean (value, up_exported_device_get_online (device->priv->proxy_device));
+ 		break;
+ 	case PROP_IS_PRESENT:
+-		g_value_set_boolean (value, up_device_glue_get_is_present (device->priv->proxy_device));
++		g_value_set_boolean (value, up_exported_device_get_is_present (device->priv->proxy_device));
+ 		break;
+ 	case PROP_IS_RECHARGEABLE:
+-		g_value_set_boolean (value, up_device_glue_get_is_rechargeable (device->priv->proxy_device));
++		g_value_set_boolean (value, up_exported_device_get_is_rechargeable (device->priv->proxy_device));
+ 		break;
+ 	case PROP_HAS_HISTORY:
+-		g_value_set_boolean (value, up_device_glue_get_has_history (device->priv->proxy_device));
++		g_value_set_boolean (value, up_exported_device_get_has_history (device->priv->proxy_device));
+ 		break;
+ 	case PROP_HAS_STATISTICS:
+-		g_value_set_boolean (value, up_device_glue_get_has_statistics (device->priv->proxy_device));
++		g_value_set_boolean (value, up_exported_device_get_has_statistics (device->priv->proxy_device));
+ 		break;
+ 	case PROP_KIND:
+-		g_value_set_uint (value, up_device_glue_get_type_ (device->priv->proxy_device));
++		g_value_set_uint (value, up_exported_device_get_type_ (device->priv->proxy_device));
+ 		break;
+ 	case PROP_STATE:
+-		g_value_set_uint (value, up_device_glue_get_state (device->priv->proxy_device));
++		g_value_set_uint (value, up_exported_device_get_state (device->priv->proxy_device));
+ 		break;
+ 	case PROP_TECHNOLOGY:
+-		g_value_set_uint (value, up_device_glue_get_technology (device->priv->proxy_device));
++		g_value_set_uint (value, up_exported_device_get_technology (device->priv->proxy_device));
+ 		break;
+ 	case PROP_CAPACITY:
+-		g_value_set_double (value, up_device_glue_get_capacity (device->priv->proxy_device));
++		g_value_set_double (value, up_exported_device_get_capacity (device->priv->proxy_device));
+ 		break;
+ 	case PROP_ENERGY:
+-		g_value_set_double (value, up_device_glue_get_energy (device->priv->proxy_device));
++		g_value_set_double (value, up_exported_device_get_energy (device->priv->proxy_device));
+ 		break;
+ 	case PROP_ENERGY_EMPTY:
+-		g_value_set_double (value, up_device_glue_get_energy_empty (device->priv->proxy_device));
++		g_value_set_double (value, up_exported_device_get_energy_empty (device->priv->proxy_device));
+ 		break;
+ 	case PROP_ENERGY_FULL:
+-		g_value_set_double (value, up_device_glue_get_energy_full (device->priv->proxy_device));
++		g_value_set_double (value, up_exported_device_get_energy_full (device->priv->proxy_device));
+ 		break;
+ 	case PROP_ENERGY_FULL_DESIGN:
+-		g_value_set_double (value, up_device_glue_get_energy_full_design (device->priv->proxy_device));
++		g_value_set_double (value, up_exported_device_get_energy_full_design (device->priv->proxy_device));
+ 		break;
+ 	case PROP_ENERGY_RATE:
+-		g_value_set_double (value, up_device_glue_get_energy_rate (device->priv->proxy_device));
++		g_value_set_double (value, up_exported_device_get_energy_rate (device->priv->proxy_device));
+ 		break;
+ 	case PROP_VOLTAGE:
+-		g_value_set_double (value, up_device_glue_get_voltage (device->priv->proxy_device));
++		g_value_set_double (value, up_exported_device_get_voltage (device->priv->proxy_device));
+ 		break;
+ 	case PROP_LUMINOSITY:
+-		g_value_set_double (value, up_device_glue_get_luminosity (device->priv->proxy_device));
++		g_value_set_double (value, up_exported_device_get_luminosity (device->priv->proxy_device));
+ 		break;
+ 	case PROP_TIME_TO_EMPTY:
+-		g_value_set_int64 (value, up_device_glue_get_time_to_empty (device->priv->proxy_device));
++		g_value_set_int64 (value, up_exported_device_get_time_to_empty (device->priv->proxy_device));
+ 		break;
+ 	case PROP_TIME_TO_FULL:
+-		g_value_set_int64 (value, up_device_glue_get_time_to_full (device->priv->proxy_device));
++		g_value_set_int64 (value, up_exported_device_get_time_to_full (device->priv->proxy_device));
+ 		break;
+ 	case PROP_PERCENTAGE:
+-		g_value_set_double (value, up_device_glue_get_percentage (device->priv->proxy_device));
++		g_value_set_double (value, up_exported_device_get_percentage (device->priv->proxy_device));
+ 		break;
+ 	case PROP_TEMPERATURE:
+-		g_value_set_double (value, up_device_glue_get_temperature (device->priv->proxy_device));
++		g_value_set_double (value, up_exported_device_get_temperature (device->priv->proxy_device));
+ 		break;
+ 	case PROP_WARNING_LEVEL:
+-		g_value_set_uint (value, up_device_glue_get_warning_level (device->priv->proxy_device));
++		g_value_set_uint (value, up_exported_device_get_warning_level (device->priv->proxy_device));
+ 		break;
+ 	case PROP_ICON_NAME:
+-		g_value_set_string (value, up_device_glue_get_icon_name (device->priv->proxy_device));
++		g_value_set_string (value, up_exported_device_get_icon_name (device->priv->proxy_device));
+ 		break;
+ 	default:
+ 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+diff --git a/libupower-glib/up-wakeups.c b/libupower-glib/up-wakeups.c
+index c4dfec8..f4f3ec1 100644
+--- a/libupower-glib/up-wakeups.c
++++ b/libupower-glib/up-wakeups.c
+@@ -26,7 +26,7 @@
+ #include <glib-object.h>
+ 
+ #include "up-wakeups.h"
+-#include "up-wakeups-glue.h"
++#include "up-wakeups-generated.h"
+ 
+ static void	up_wakeups_class_init	(UpWakeupsClass	*klass);
+ static void	up_wakeups_init		(UpWakeups	*wakeups);
+@@ -36,7 +36,7 @@ static void	up_wakeups_finalize	(GObject	*object);
+ 
+ struct UpWakeupsPrivate
+ {
+-	UpWakeupsGlue		*proxy;
++	UpExportedWakeups *proxy;
+ };
+ 
+ enum {
+@@ -70,8 +70,8 @@ up_wakeups_get_total_sync (UpWakeups *wakeups, GCancellable *cancellable, GError
+ 	g_return_val_if_fail (UP_IS_WAKEUPS (wakeups), FALSE);
+ 	g_return_val_if_fail (wakeups->priv->proxy != NULL, FALSE);
+ 
+-	ret = up_wakeups_glue_call_get_total_sync (wakeups->priv->proxy, &total,
+-						   cancellable, error);
++	ret = up_exported_wakeups_call_get_total_sync (wakeups->priv->proxy, &total,
++						       cancellable, error);
+ 	if (!ret)
+ 		total = 0;
+ 	return total;
+@@ -104,10 +104,10 @@ up_wakeups_get_data_sync (UpWakeups *wakeups, GCancellable *cancellable, GError
+ 	g_return_val_if_fail (wakeups->priv->proxy != NULL, NULL);
+ 
+ 	/* get compound data */
+-	ret = up_wakeups_glue_call_get_data_sync (wakeups->priv->proxy,
+-						  &gva,
+-						  NULL,
+-						  &error_local);
++	ret = up_exported_wakeups_call_get_data_sync (wakeups->priv->proxy,
++						      &gva,
++						      NULL,
++						      &error_local);
+ 
+ 	if (!ret) {
+ 		g_warning ("GetData on failed: %s", error_local->message);
+@@ -192,14 +192,14 @@ gboolean
+ up_wakeups_get_has_capability (UpWakeups *wakeups)
+ {
+ 	g_return_val_if_fail (UP_IS_WAKEUPS (wakeups), FALSE);
+-	return up_wakeups_glue_get_has_capability (wakeups->priv->proxy);
++	return up_exported_wakeups_get_has_capability (wakeups->priv->proxy);
+ }
+ 
+ /**
+  * up_wakeups_total_changed_cb:
+  **/
+ static void
+-up_wakeups_total_changed_cb (UpWakeupsGlue *proxy, guint value, UpWakeups *wakeups)
++up_wakeups_total_changed_cb (UpExportedWakeups *proxy, guint value, UpWakeups *wakeups)
+ {
+ 	g_signal_emit (wakeups, signals [UP_WAKEUPS_TOTAL_CHANGED], 0, value);
+ }
+@@ -208,7 +208,7 @@ up_wakeups_total_changed_cb (UpWakeupsGlue *proxy, guint value, UpWakeups *wakeu
+  * up_wakeups_data_changed_cb:
+  **/
+ static void
+-up_wakeups_data_changed_cb (UpWakeupsGlue *proxy, UpWakeups *wakeups)
++up_wakeups_data_changed_cb (UpExportedWakeups *proxy, UpWakeups *wakeups)
+ {
+ 	g_signal_emit (wakeups, signals [UP_WAKEUPS_DATA_CHANGED], 0);
+ }
+@@ -249,12 +249,12 @@ up_wakeups_init (UpWakeups *wakeups)
+ 	wakeups->priv = UP_WAKEUPS_GET_PRIVATE (wakeups);
+ 
+ 	/* connect to main interface */
+-	wakeups->priv->proxy = up_wakeups_glue_proxy_new_for_bus_sync (G_BUS_TYPE_SYSTEM,
+-								       G_DBUS_PROXY_FLAGS_NONE,
+-								       "org.freedesktop.UPower",
+-								       "/org/freedesktop/UPower/Wakeups",
+-								       NULL,
+-								       &error);
++	wakeups->priv->proxy = up_exported_wakeups_proxy_new_for_bus_sync (G_BUS_TYPE_SYSTEM,
++									   G_DBUS_PROXY_FLAGS_NONE,
++									   "org.freedesktop.UPower",
++									   "/org/freedesktop/UPower/Wakeups",
++									   NULL,
++									   &error);
+ 	if (wakeups->priv->proxy == NULL) {
+ 		g_warning ("Couldn't connect to proxy: %s", error->message);
+ 		g_error_free (error);
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 16ae5e9..c0f4e36 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -25,6 +25,7 @@ AM_CPPFLAGS = \
+ 	-D_POSIX_PTHREAD_SEMANTICS -D_REENTRANT			\
+ 	-DUP_COMPILATION					\
+ 	-DG_LOG_DOMAIN=\"UPower\"				\
++	-I$(top_srcdir)/dbus					\
+ 	-I$(top_srcdir)/libupower-glib				\
+ 	-I$(top_srcdir)						\
+ 	$(GIO_CFLAGS)						\
+@@ -32,17 +33,11 @@ AM_CPPFLAGS = \
+ 	$(GUDEV_CFLAGS)						\
+ 	$(GLIB_CFLAGS)
+ 
+-UPOWER_LIBS = $(top_builddir)/libupower-glib/libupower-glib.la
++UPOWER_LIBS = \
++	$(top_builddir)/dbus/libupower-dbus.la			\
++	$(top_builddir)/libupower-glib/libupower-glib.la
+ 
+ BUILT_SOURCES =							\
+-	up-daemon-generated.h					\
+-	up-daemon-generated.c					\
+-	up-device-generated.h					\
+-	up-device-generated.c					\
+-	up-kbd-backlight-generated.h				\
+-	up-kbd-backlight-generated.c				\
+-	up-wakeups-generated.h					\
+-	up-wakeups-generated.c					\
+ 	up-marshal.h						\
+ 	up-marshal.c
+ 
+@@ -52,43 +47,8 @@ up-marshal.h: up-marshal.list
+ up-marshal.c: up-marshal.list
+ 	echo "#include \"up-marshal.h\"" > $@ && glib-genmarshal $< --prefix=up_marshal --body >> $@
+ 
+-up-daemon-generated.h: org.freedesktop.UPower.xml Makefile.am
+-	$(AM_V_GEN) gdbus-codegen --interface-prefix org.freedesktop.UPower. \
+-	--generate-c-code up-daemon-generated \
+-	--c-namespace Up \
+-	--annotate "org.freedesktop.UPower" "org.gtk.GDBus.C.Name" ExportedDaemon \
+-	$(srcdir)/org.freedesktop.UPower.xml
+-
+-up-device-generated.h: org.freedesktop.UPower.Device.xml Makefile.am
+-	$(AM_V_GEN) gdbus-codegen --interface-prefix org.freedesktop.UPower.Device. \
+-	--generate-c-code up-device-generated \
+-	--c-namespace Up \
+-	--annotate "org.freedesktop.UPower.Device" "org.gtk.GDBus.C.Name" ExportedDevice \
+-	$(srcdir)/org.freedesktop.UPower.Device.xml
+-
+-up-kbd-backlight-generated.h: org.freedesktop.UPower.KbdBacklight.xml Makefile.am
+-	$(AM_V_GEN) gdbus-codegen --interface-prefix org.freedesktop.UPower.KbdBacklight. \
+-	--generate-c-code up-kbd-backlight-generated \
+-	--c-namespace Up \
+-	--annotate "org.freedesktop.UPower.KbdBacklight" "org.gtk.GDBus.C.Name" ExportedKbdBacklight \
+-	$(srcdir)/org.freedesktop.UPower.KbdBacklight.xml
+-
+-up-wakeups-generated.h: org.freedesktop.UPower.Wakeups.xml Makefile.am
+-	$(AM_V_GEN) gdbus-codegen --interface-prefix org.freedesktop.UPower.Wakeups. \
+-	--generate-c-code up-wakeups-generated \
+-	--c-namespace Up \
+-	--annotate "org.freedesktop.UPower.Wakeups" "org.gtk.GDBus.C.Name" ExportedWakeups \
+-	$(srcdir)/org.freedesktop.UPower.Wakeups.xml
+-
+ libexec_PROGRAMS = upowerd
+ 
+-dbusifdir = $(datadir)/dbus-1/interfaces
+-dbusif_DATA =							\
+-	org.freedesktop.UPower.xml				\
+-	org.freedesktop.UPower.Device.xml			\
+-	org.freedesktop.UPower.KbdBacklight.xml			\
+-	org.freedesktop.UPower.Wakeups.xml
+-
+ upowerd_SOURCES =						\
+ 	up-daemon.h						\
+ 	up-daemon.c						\
+@@ -237,10 +197,6 @@ MAINTAINERCLEANFILES =						\
+ 	$(dbusservice_DATA)
+ 
+ EXTRA_DIST =							\
+-	org.freedesktop.UPower.xml				\
+-	org.freedesktop.UPower.Device.xml			\
+-	org.freedesktop.UPower.KbdBacklight.xml			\
+-	org.freedesktop.UPower.Wakeups.xml			\
+ 	up-marshal.list						\
+ 	$(systemdservice_in_files)				\
+ 	$(dbusservice_in_files)					\
+-- 
+2.13.0
+

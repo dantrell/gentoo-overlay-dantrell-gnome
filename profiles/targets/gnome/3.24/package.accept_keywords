@@ -1,2 +1,7 @@
+dev-lang/spidermonkey:38::gentoo ~*
 gnome-extra/nm-applet::dantrell-gnome ~*
 net-misc/networkmanager::dantrell-gnome ~*
+sys-apps/accountsservice::dantrell-gnome ~*
+sys-auth/elogind::dantrell-gnome ~*
+sys-auth/polkit::gentoo ~*
+sys-power/upower::dantrell-gnome ~*

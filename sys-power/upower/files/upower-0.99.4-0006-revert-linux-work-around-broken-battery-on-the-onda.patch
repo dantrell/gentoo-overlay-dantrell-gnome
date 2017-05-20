@@ -1,7 +1,7 @@
 From 1e4f711df426a695c232b4164b1333349cb9512a Mon Sep 17 00:00:00 2001
 From: Bastien Nocera <hadess@hadess.net>
 Date: Tue, 16 Jun 2015 11:28:58 +0200
-Subject: [PATCH 6/8] Revert "linux: Work-around broken battery on the Onda
+Subject: [PATCH 06/90] Revert "linux: Work-around broken battery on the Onda
  v975w"
 
 This reverts commit 31b2b8ec78198c72bc7e139c5cccd178bd835e72.
@@ -94,5 +94,5 @@ index b96080b..a132a33 100644
  		percentage = 100.0 * energy / energy_full;
  		percentage = CLAMP(percentage, 0.0f, 100.0f);
 -- 
-2.6.3
+2.13.0
 

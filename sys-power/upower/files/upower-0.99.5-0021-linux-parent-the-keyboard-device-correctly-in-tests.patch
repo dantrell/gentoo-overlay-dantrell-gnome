@@ -1,0 +1,47 @@
+From caf53bd982e159e3f08a802a9c2819abdb98c513 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 24 Jan 2017 16:17:52 +0100
+Subject: [PATCH 21/55] linux: Parent the keyboard device correctly in tests
+
+---
+ src/linux/integration-test | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 0867c35..0ddf2df 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -888,21 +888,22 @@ class Tests(unittest.TestCase):
+     def test_bluetooth_keyboard(self):
+         '''bluetooth keyboard battery'''
+ 
+-        self.testbed.add_device('bluetooth',
+-                                'usb2/bluetooth/hci0/hci0:1',
+-                                None,
+-                                [], [])
++        dev = self.testbed.add_device('bluetooth',
++                                      'usb2/bluetooth/hci0/hci0:1',
++                                      None,
++                                      [], [])
+ 
++        parent = dev
+         self.testbed.add_device(
+             'input',
+-            'usb2/bluetooth/hci0/hci0:1/input3/event4',
+-            None,
++            'input3/event4',
++            parent,
+             [], ['DEVNAME', 'input/event4', 'ID_INPUT_KEYBOARD', '1'])
+ 
+         self.testbed.add_device(
+             'power_supply',
+-            'usb2/bluetooth/hci0/hci0:1/power_supply/hid-00:22:33:44:55:66-battery',
+-            None,
++            'power_supply/hid-00:22:33:44:55:66-battery',
++            parent,
+             ['type', 'Battery',
+              'scope', 'Device',
+              'present', '1',
+-- 
+2.13.0
+

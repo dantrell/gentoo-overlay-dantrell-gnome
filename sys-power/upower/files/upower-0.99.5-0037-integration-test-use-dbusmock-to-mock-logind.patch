@@ -1,0 +1,81 @@
+From 305a24a11540e0ea89aa8682652527b082510c6d Mon Sep 17 00:00:00 2001
+From: Christian Kellner <christian@kellner.me>
+Date: Tue, 21 Mar 2017 15:59:21 +0000
+Subject: [PATCH 37/55] integration-test: use dbusmock to mock logind
+
+Derive from dbusmock.DBusTestCase and add {start,stop}_logind
+to enable tests that need logind.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=99763
+---
+ src/linux/integration-test | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 989c223..50d681d 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -41,6 +41,13 @@ except ImportError:
+     sys.stderr.write('Skipping tests, umockdev not available (https://launchpad.net/umockdev/)\n')
+     sys.exit(0)
+ 
++try:
++    import dbusmock
++except ImportError:
++    sys.stderr.write('Skipping tests, python-dbusmock not available (http://pypi.python.org/pypi/python-dbusmock).\n')
++    sys.exit(0)
++
++
+ UP = 'org.freedesktop.UPower'
+ UP_DEVICE = 'org.freedesktop.UPower.Device'
+ UP_DISPLAY_OBJECT_PATH = '/org/freedesktop/UPower/devices/DisplayDevice'
+@@ -58,7 +65,7 @@ UP_DISPLAY_OBJECT_PATH = '/org/freedesktop/UPower/devices/DisplayDevice'
+  UP_DEVICE_LEVEL_CRITICAL,
+  UP_DEVICE_LEVEL_ACTION) = (0, 1, 2, 3, 4, 5)
+ 
+-class Tests(unittest.TestCase):
++class Tests(dbusmock.DBusTestCase):
+     @classmethod
+     def setUpClass(cls):
+         # run from local build tree if we are in one, otherwise use system instance
+@@ -97,6 +104,7 @@ class Tests(unittest.TestCase):
+     @classmethod
+     def tearDownClass(cls):
+         cls.test_bus.down()
++        dbusmock.DBusTestCase.tearDownClass()
+ 
+     def setUp(self):
+         '''Set up a local umockdev testbed.
+@@ -108,11 +116,17 @@ class Tests(unittest.TestCase):
+         self.proxy = None
+         self.log = None
+         self.daemon = None
++        self.logind = None
+ 
+     def tearDown(self):
+         del self.testbed
+         self.stop_daemon()
+ 
++        if self.logind:
++            self.logind.stdout.close()
++            self.logind.terminate()
++            self.logind.wait()
++
+         # on failures, print daemon log
+         errors = [x[1] for x in self._outcome.errors if x[1]]
+         if errors and self.log:
+@@ -206,6 +220,11 @@ class Tests(unittest.TestCase):
+             'org.freedesktop.DBus.Properties', None)
+         return proxy.Get('(ss)', UP + '.Device', name)
+ 
++    def start_logind(self, parameters=None):
++        self.logind, self.logind_obj = self.spawn_server_template('logind',
++                                                                  parameters or {},
++                                                                  stdout=subprocess.PIPE)
++
+     #
+     # Actual test cases
+     #
+-- 
+2.13.0
+

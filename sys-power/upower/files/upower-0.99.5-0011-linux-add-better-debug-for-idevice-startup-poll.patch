@@ -1,0 +1,127 @@
+From 54dd83501a79d3693e790b5ba1adc64b565529ef Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Wed, 8 Jun 2016 14:47:25 +0200
+Subject: [PATCH 11/55] linux: Add better debug for iDevice startup poll
+
+---
+ src/linux/up-device-idevice.c | 89 ++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 88 insertions(+), 1 deletion(-)
+
+diff --git a/src/linux/up-device-idevice.c b/src/linux/up-device-idevice.c
+index fc64c1f..ac2a1d5 100644
+--- a/src/linux/up-device-idevice.c
++++ b/src/linux/up-device-idevice.c
+@@ -68,6 +68,89 @@ up_device_idevice_poll_cb (UpDeviceIdevice *idevice)
+ 	return TRUE;
+ }
+ 
++static const char *
++lockdownd_error_to_string (lockdownd_error_t lerr)
++{
++	switch (lerr) {
++	case LOCKDOWN_E_SUCCESS:
++		return "LOCKDOWN_E_SUCCESS";
++	case LOCKDOWN_E_INVALID_ARG:
++		return "LOCKDOWN_E_INVALID_ARG";
++	case LOCKDOWN_E_INVALID_CONF:
++		return "LOCKDOWN_E_INVALID_CONF";
++	case LOCKDOWN_E_PLIST_ERROR:
++		return "LOCKDOWN_E_PLIST_ERROR";
++	case LOCKDOWN_E_PAIRING_FAILED:
++		return "LOCKDOWN_E_PAIRING_FAILED";
++	case LOCKDOWN_E_SSL_ERROR:
++		return "LOCKDOWN_E_SSL_ERROR";
++	case LOCKDOWN_E_DICT_ERROR:
++		return "LOCKDOWN_E_DICT_ERROR";
++	case LOCKDOWN_E_NOT_ENOUGH_DATA:
++		return "LOCKDOWN_E_NOT_ENOUGH_DATA";
++	case LOCKDOWN_E_MUX_ERROR:
++		return "LOCKDOWN_E_MUX_ERROR";
++	case LOCKDOWN_E_NO_RUNNING_SESSION:
++		return "LOCKDOWN_E_NO_RUNNING_SESSION";
++	case LOCKDOWN_E_INVALID_RESPONSE:
++		return "LOCKDOWN_E_INVALID_RESPONSE";
++	case LOCKDOWN_E_MISSING_KEY:
++		return "LOCKDOWN_E_MISSING_KEY";
++	case LOCKDOWN_E_MISSING_VALUE:
++		return "LOCKDOWN_E_MISSING_VALUE";
++	case LOCKDOWN_E_GET_PROHIBITED:
++		return "LOCKDOWN_E_GET_PROHIBITED";
++	case LOCKDOWN_E_SET_PROHIBITED:
++		return "LOCKDOWN_E_SET_PROHIBITED";
++	case LOCKDOWN_E_REMOVE_PROHIBITED:
++		return "LOCKDOWN_E_REMOVE_PROHIBITED";
++	case LOCKDOWN_E_IMMUTABLE_VALUE:
++		return "LOCKDOWN_E_IMMUTABLE_VALUE";
++	case LOCKDOWN_E_PASSWORD_PROTECTED:
++		return "LOCKDOWN_E_PASSWORD_PROTECTED";
++	case LOCKDOWN_E_USER_DENIED_PAIRING:
++		return "LOCKDOWN_E_USER_DENIED_PAIRING";
++	case LOCKDOWN_E_PAIRING_DIALOG_RESPONSE_PENDING:
++		return "LOCKDOWN_E_PAIRING_DIALOG_RESPONSE_PENDING";
++	case LOCKDOWN_E_MISSING_HOST_ID:
++		return "LOCKDOWN_E_MISSING_HOST_ID";
++	case LOCKDOWN_E_INVALID_HOST_ID:
++		return "LOCKDOWN_E_INVALID_HOST_ID";
++	case LOCKDOWN_E_SESSION_ACTIVE:
++		return "LOCKDOWN_E_SESSION_ACTIVE";
++	case LOCKDOWN_E_SESSION_INACTIVE:
++		return "LOCKDOWN_E_SESSION_INACTIVE";
++	case LOCKDOWN_E_MISSING_SESSION_ID:
++		return "LOCKDOWN_E_MISSING_SESSION_ID";
++	case LOCKDOWN_E_INVALID_SESSION_ID:
++		return "LOCKDOWN_E_INVALID_SESSION_ID";
++	case LOCKDOWN_E_MISSING_SERVICE:
++		return "LOCKDOWN_E_MISSING_SERVICE";
++	case LOCKDOWN_E_INVALID_SERVICE:
++		return "LOCKDOWN_E_INVALID_SERVICE";
++	case LOCKDOWN_E_SERVICE_LIMIT:
++		return "LOCKDOWN_E_SERVICE_LIMIT";
++	case LOCKDOWN_E_MISSING_PAIR_RECORD:
++		return "LOCKDOWN_E_MISSING_PAIR_RECORD";
++	case LOCKDOWN_E_SAVE_PAIR_RECORD_FAILED:
++		return "LOCKDOWN_E_SAVE_PAIR_RECORD_FAILED";
++	case LOCKDOWN_E_INVALID_PAIR_RECORD:
++		return "LOCKDOWN_E_INVALID_PAIR_RECORD";
++	case LOCKDOWN_E_INVALID_ACTIVATION_RECORD:
++		return "LOCKDOWN_E_INVALID_ACTIVATION_RECORD";
++	case LOCKDOWN_E_MISSING_ACTIVATION_RECORD:
++		return "LOCKDOWN_E_MISSING_ACTIVATION_RECORD";
++	case LOCKDOWN_E_SERVICE_PROHIBITED:
++		return "LOCKDOWN_E_SERVICE_PROHIBITED";
++	case LOCKDOWN_E_ESCROW_LOCKED:
++		return "LOCKDOWN_E_ESCROW_LOCKED";
++	case LOCKDOWN_E_UNKNOWN_ERROR:
++		return "LOCKDOWN_E_UNKNOWN_ERROR";
++	default:
++		return "unknown error";
++	}
++}
++
+ static gboolean
+ up_device_idevice_start_poll_cb (UpDeviceIdevice *idevice)
+ {
+@@ -75,6 +158,7 @@ up_device_idevice_start_poll_cb (UpDeviceIdevice *idevice)
+ 	idevice_t dev = NULL;
+ 	lockdownd_client_t client = NULL;
+ 	char *uuid = NULL;
++	lockdownd_error_t lerr;
+ 
+ 	g_object_get (G_OBJECT (idevice), "serial", &uuid, NULL);
+ 	g_assert (uuid);
+@@ -85,8 +169,11 @@ up_device_idevice_start_poll_cb (UpDeviceIdevice *idevice)
+ 
+ 	g_clear_pointer (&uuid, g_free);
+ 
+-	if (LOCKDOWN_E_SUCCESS != lockdownd_client_new_with_handshake (dev, &client, "upower"))
++	if ((lerr = lockdownd_client_new_with_handshake (dev, &client, "upower")) != LOCKDOWN_E_SUCCESS) {
++		g_debug ("Could not start initial lockdownd client: %s (%d)",
++			 lockdownd_error_to_string (lerr), lerr);
+ 		goto out;
++	}
+ 
+ 	/* coldplug */
+ 	idevice->priv->client = client;
+-- 
+2.13.0
+

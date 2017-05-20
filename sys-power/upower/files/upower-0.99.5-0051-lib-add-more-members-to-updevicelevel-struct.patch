@@ -1,0 +1,89 @@
+From 4f9230900bdf2ff4fc22373a3a84f10146b9c1a8 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 4 Apr 2017 18:16:10 +0200
+Subject: [PATCH 51/55] lib: Add more members to UpDeviceLevel struct
+
+Those levels will not be used to cover warning levels, but approximate
+battery levels that devices can use, exported by the kernel as
+POWER_SUPPLY_CAPACITY_LEVEL_* values.
+
+See linux/power_supply.h
+
+https://bugs.freedesktop.org/show_bug.cgi?id=100359
+---
+ libupower-glib/up-types.c  | 12 ++++++++++++
+ libupower-glib/up-types.h  |  5 ++++-
+ src/linux/integration-test |  5 ++++-
+ 3 files changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/libupower-glib/up-types.c b/libupower-glib/up-types.c
+index 71d8036..7d87900 100644
+--- a/libupower-glib/up-types.c
++++ b/libupower-glib/up-types.c
+@@ -258,6 +258,12 @@ up_device_level_to_string (UpDeviceLevel level_enum)
+ 		return "critical";
+ 	case UP_DEVICE_LEVEL_ACTION:
+ 		return "action";
++	case UP_DEVICE_LEVEL_NORMAL:
++		return "normal";
++	case UP_DEVICE_LEVEL_HIGH:
++		return "high";
++	case UP_DEVICE_LEVEL_FULL:
++		return "full";
+ 	default:
+ 		return "unknown";
+ 	}
+@@ -290,5 +296,11 @@ up_device_level_from_string (const gchar *level)
+ 		return UP_DEVICE_LEVEL_CRITICAL;
+ 	if (g_strcmp0 (level, "action") == 0)
+ 		return UP_DEVICE_LEVEL_ACTION;
++	if (g_strcmp0 (level, "normal") == 0)
++		return UP_DEVICE_LEVEL_NORMAL;
++	if (g_strcmp0 (level, "high") == 0)
++		return UP_DEVICE_LEVEL_HIGH;
++	if (g_strcmp0 (level, "full") == 0)
++		return UP_DEVICE_LEVEL_FULL;
+ 	return UP_DEVICE_LEVEL_UNKNOWN;
+ }
+diff --git a/libupower-glib/up-types.h b/libupower-glib/up-types.h
+index 7b09604..3509537 100644
+--- a/libupower-glib/up-types.h
++++ b/libupower-glib/up-types.h
+@@ -86,7 +86,7 @@ typedef enum {
+ /**
+  * UpDeviceLevel:
+  *
+- * The warning level of a battery.
++ * The level of a battery.
+  **/
+ typedef enum {
+ 	UP_DEVICE_LEVEL_UNKNOWN,
+@@ -95,6 +95,9 @@ typedef enum {
+ 	UP_DEVICE_LEVEL_LOW,
+ 	UP_DEVICE_LEVEL_CRITICAL,
+ 	UP_DEVICE_LEVEL_ACTION,
++	UP_DEVICE_LEVEL_NORMAL,
++	UP_DEVICE_LEVEL_HIGH,
++	UP_DEVICE_LEVEL_FULL,
+ 	UP_DEVICE_LEVEL_LAST
+ } UpDeviceLevel;
+ 
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 1769e26..84f2f87 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -63,7 +63,10 @@ UP_DISPLAY_OBJECT_PATH = '/org/freedesktop/UPower/devices/DisplayDevice'
+  UP_DEVICE_LEVEL_DISCHARGING,
+  UP_DEVICE_LEVEL_LOW,
+  UP_DEVICE_LEVEL_CRITICAL,
+- UP_DEVICE_LEVEL_ACTION) = (0, 1, 2, 3, 4, 5)
++ UP_DEVICE_LEVEL_ACTION,
++ UP_DEVICE_LEVEL_NORMAL,
++ UP_DEVICE_LEVEL_HIGH,
++ UP_DEVICE_LEVEL_FULL) = (0, 1, 2, 3, 4, 5, 6, 7, 8)
+ 
+ (UP_DEVICE_KIND_UNKNOWN,
+  UP_DEVICE_KIND_LINE_POWER,
+-- 
+2.13.0
+

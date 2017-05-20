@@ -1,0 +1,383 @@
+From da7324a840201f8690c819333cd0e579e371341b Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Sat, 30 May 2015 14:01:25 -0700
+Subject: [PATCH 12/90] daemon: port UpWakeups to GDBus
+
+---
+ src/Makefile.am  |  11 +++-
+ src/up-wakeups.c | 170 +++++++++++++++++++++----------------------------------
+ src/up-wakeups.h |  12 ----
+ 3 files changed, 71 insertions(+), 122 deletions(-)
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 01fd6b0..c9dd2a1 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -40,7 +40,8 @@ BUILT_SOURCES =							\
+ 	up-device-glue.h					\
+ 	up-kbd-backlight-generated.h				\
+ 	up-kbd-backlight-generated.c				\
+-	up-wakeups-glue.h					\
++	up-wakeups-generated.h					\
++	up-wakeups-generated.c					\
+ 	up-marshal.h						\
+ 	up-marshal.c
+ 
+@@ -63,8 +64,12 @@ up-kbd-backlight-generated.h: org.freedesktop.UPower.KbdBacklight.xml Makefile.a
+ 	--annotate "org.freedesktop.UPower.KbdBacklight" "org.gtk.GDBus.C.Name" ExportedKbdBacklight \
+ 	$(srcdir)/org.freedesktop.UPower.KbdBacklight.xml
+ 
+-up-wakeups-glue.h: org.freedesktop.UPower.Wakeups.xml Makefile.am
+-	dbus-binding-tool --prefix=up_wakeups --mode=glib-server --output=up-wakeups-glue.h $(srcdir)/org.freedesktop.UPower.Wakeups.xml
++up-wakeups-generated.h: org.freedesktop.UPower.Wakeups.xml Makefile.am
++	$(AM_V_GEN) gdbus-codegen --interface-prefix org.freedesktop.UPower.Wakeups. \
++	--generate-c-code up-wakeups-generated \
++	--c-namespace Up \
++	--annotate "org.freedesktop.UPower.Wakeups" "org.gtk.GDBus.C.Name" ExportedWakeups \
++	$(srcdir)/org.freedesktop.UPower.Wakeups.xml
+ 
+ libexec_PROGRAMS = upowerd
+ 
+diff --git a/src/up-wakeups.c b/src/up-wakeups.c
+index 87e829e..ebb4fa7 100644
+--- a/src/up-wakeups.c
++++ b/src/up-wakeups.c
+@@ -22,7 +22,6 @@
+ #include "config.h"
+ 
+ #include <glib.h>
+-#include <dbus/dbus-glib.h>
+ #include <string.h>
+ #include <stdlib.h>
+ #include <stdio.h>
+@@ -30,7 +29,7 @@
+ #include "up-wakeups.h"
+ #include "up-daemon.h"
+ #include "up-marshal.h"
+-#include "up-wakeups-glue.h"
++#include "up-wakeups-generated.h"
+ #include "up-wakeup-item.h"
+ 
+ static void     up_wakeups_finalize   (GObject		*object);
+@@ -38,14 +37,6 @@ static gboolean	up_wakeups_timerstats_enable (UpWakeups *wakeups);
+ 
+ #define UP_WAKEUPS_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), UP_TYPE_WAKEUPS, UpWakeupsPrivate))
+ 
+-#define UP_WAKEUPS_REQUESTS_STRUCT_TYPE (dbus_g_type_get_struct ("GValueArray",	\
+-							      G_TYPE_BOOLEAN,	\
+-							      G_TYPE_UINT,	\
+-							      G_TYPE_DOUBLE,	\
+-							      G_TYPE_STRING,	\
+-							      G_TYPE_STRING,	\
+-							      G_TYPE_INVALID))
+-
+ #define UP_WAKEUPS_POLL_INTERVAL_KERNEL	2 /* seconds */
+ #define UP_WAKEUPS_POLL_INTERVAL_USERSPACE	2 /* seconds */
+ #define UP_WAKEUPS_DISABLE_INTERVAL		30 /* seconds */
+@@ -57,29 +48,16 @@ static gboolean	up_wakeups_timerstats_enable (UpWakeups *wakeups);
+ struct UpWakeupsPrivate
+ {
+ 	GPtrArray		*data;
+-	DBusGConnection		*connection;
++	GDBusConnection		*connection;
++	UpExportedWakeups	*skeleton;
+ 	guint			 total_old;
+ 	guint			 total_ave;
+ 	guint			 poll_userspace_id;
+ 	guint			 poll_kernel_id;
+ 	guint			 disable_id;
+ 	gboolean		 polling_enabled;
+-	gboolean		 has_capability;
+ };
+ 
+-enum {
+-	PROP_0,
+-	PROP_HAS_CAPABILITY,
+-};
+-
+-enum {
+-	TOTAL_CHANGED,
+-	DATA_CHANGED,
+-	LAST_SIGNAL
+-};
+-
+-static guint signals [LAST_SIGNAL] = { 0 };
+-
+ G_DEFINE_TYPE (UpWakeups, up_wakeups, G_TYPE_OBJECT)
+ 
+ /**
+@@ -166,15 +144,19 @@ up_wakeups_data_get_total (UpWakeups *wakeups)
+  *
+  * Gets the current latency
+  **/
+-gboolean
+-up_wakeups_get_total (UpWakeups *wakeups, guint *value, GError **error)
++static gboolean
++up_wakeups_get_total (UpExportedWakeups *skeleton,
++		      GDBusMethodInvocation *invocation,
++		      UpWakeups *wakeups)
+ {
+ 	gboolean ret;
+ 
+ 	/* no capability */
+-	if (!wakeups->priv->has_capability) {
+-		g_set_error_literal (error, UP_DAEMON_ERROR, UP_DAEMON_ERROR_GENERAL, "no hardware support");
+-		return FALSE;
++	if (!up_exported_wakeups_get_has_capability (skeleton)) {
++		g_dbus_method_invocation_return_error_literal (invocation,
++							       UP_DAEMON_ERROR, UP_DAEMON_ERROR_GENERAL,
++							       "no hardware support");
++		return TRUE;
+ 	}
+ 
+ 	/* start if not already started */
+@@ -182,29 +164,36 @@ up_wakeups_get_total (UpWakeups *wakeups, guint *value, GError **error)
+ 
+ 	/* no data */
+ 	if (!ret) {
+-		g_set_error_literal (error, UP_DAEMON_ERROR, UP_DAEMON_ERROR_GENERAL, "cannot enable timerstats");
+-		return FALSE;
++		g_dbus_method_invocation_return_error_literal (invocation,
++							       UP_DAEMON_ERROR, UP_DAEMON_ERROR_GENERAL,
++							       "cannot enable timerstats");
++		return TRUE;
+ 	}
+ 
+ 	/* return total averaged */
+-	*value = wakeups->priv->total_ave;
++	up_exported_wakeups_complete_get_total (skeleton, invocation, wakeups->priv->total_ave);
+ 	return TRUE;
+ }
+ 
+ /**
+  * up_wakeups_get_data:
+  **/
+-gboolean
+-up_wakeups_get_data (UpWakeups *wakeups, GPtrArray **data, GError **error)
++static gboolean
++up_wakeups_get_data (UpExportedWakeups *skeleton,
++		     GDBusMethodInvocation *invocation,
++		     UpWakeups *wakeups)
+ {
+ 	guint i;
+ 	GPtrArray *array;
+ 	UpWakeupItem *item;
++	GVariantBuilder builder;
+ 
+ 	/* no capability */
+-	if (!wakeups->priv->has_capability) {
+-		g_set_error_literal (error, UP_DAEMON_ERROR, UP_DAEMON_ERROR_GENERAL, "no hardware support");
+-		return FALSE;
++	if (!up_exported_wakeups_get_has_capability (skeleton)) {
++		g_dbus_method_invocation_return_error_literal (invocation,
++							       UP_DAEMON_ERROR, UP_DAEMON_ERROR_GENERAL,
++							       "no hardware support");
++		return TRUE;
+ 	}
+ 
+ 	/* start if not already started */
+@@ -213,29 +202,23 @@ up_wakeups_get_data (UpWakeups *wakeups, GPtrArray **data, GError **error)
+ 	/* sort data */
+ 	g_ptr_array_sort (wakeups->priv->data, (GCompareFunc) up_wakeups_data_item_compare);
+ 
+-	*data = g_ptr_array_new ();
++	g_variant_builder_init (&builder, G_VARIANT_TYPE ("a(budss)"));
+ 	array = wakeups->priv->data;
+-	for (i=0; i<array->len; i++) {
+-		GValue elem = {0};
+-
++	for (i = 0; i < array->len; i++) {
+ 		item = g_ptr_array_index (array, i);
+ 		if (up_wakeup_item_get_value (item) < UP_WAKEUPS_SMALLEST_VALUE)
+ 			continue;
+-		g_value_init (&elem, UP_WAKEUPS_REQUESTS_STRUCT_TYPE);
+-		g_value_take_boxed (&elem, dbus_g_type_specialized_construct (UP_WAKEUPS_REQUESTS_STRUCT_TYPE));
+-		dbus_g_type_struct_set (&elem,
+-					0, up_wakeup_item_get_is_userspace (item),
+-					1, up_wakeup_item_get_id (item),
+-					2, up_wakeup_item_get_value (item),
+-					3, up_wakeup_item_get_cmdline (item),
+-					4, up_wakeup_item_get_details (item),
+-					G_MAXUINT);
+-		g_ptr_array_add (*data, g_value_get_boxed (&elem));
++
++		g_variant_builder_add (&builder, "(budss)",
++				       up_wakeup_item_get_is_userspace (item),
++				       up_wakeup_item_get_id (item),
++				       up_wakeup_item_get_value (item),
++				       up_wakeup_item_get_cmdline (item),
++				       up_wakeup_item_get_details (item));
+ 	}
+ 
+-//	dbus_g_method_return (context, data);
+-//	g_ptr_array_foreach (*data, (GFunc) g_value_array_free, NULL);
+-//	g_ptr_array_unref (*data);
++	up_exported_wakeups_complete_get_data (skeleton, invocation,
++					       g_variant_builder_end (&builder));
+ 
+ 	return TRUE;
+ }
+@@ -317,11 +300,13 @@ up_wakeups_perhaps_data_changed (UpWakeups *wakeups)
+ 			wakeups->priv->total_ave = total;
+ 		else
+ 			wakeups->priv->total_ave = UP_WAKEUPS_TOTAL_SMOOTH_FACTOR * (gfloat) (total - wakeups->priv->total_old);
+-		g_signal_emit (wakeups, signals [TOTAL_CHANGED], 0, wakeups->priv->total_ave);
++
++		up_exported_wakeups_emit_total_changed (wakeups->priv->skeleton,
++							wakeups->priv->total_ave);
+ 	}
+ 
+ 	/* unconditionally emit */
+-	g_signal_emit (wakeups, signals [DATA_CHANGED], 0);
++	up_exported_wakeups_emit_data_changed (wakeups->priv->skeleton);
+ }
+ 
+ /**
+@@ -666,28 +651,6 @@ up_wakeups_timerstats_enable (UpWakeups *wakeups)
+ }
+ 
+ /**
+- * up_wakeups_get_property:
+- **/
+-static void
+-up_wakeups_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+-{
+-	UpWakeups *wakeups;
+-
+-	wakeups = UP_WAKEUPS (object);
+-
+-	switch (prop_id) {
+-
+-	case PROP_HAS_CAPABILITY:
+-		g_value_set_boolean (value, wakeups->priv->has_capability);
+-		break;
+-
+-	default:
+-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+-		break;
+-	}
+-}
+-
+-/**
+  * up_wakeups_class_init:
+  **/
+ static void
+@@ -695,31 +658,6 @@ up_wakeups_class_init (UpWakeupsClass *klass)
+ {
+ 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+ 	object_class->finalize = up_wakeups_finalize;
+-	object_class->get_property = up_wakeups_get_property;
+-
+-	signals [TOTAL_CHANGED] =
+-		g_signal_new ("total-changed",
+-			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
+-			      G_STRUCT_OFFSET (UpWakeupsClass, total_changed),
+-			      NULL, NULL, g_cclosure_marshal_VOID__UINT,
+-			      G_TYPE_NONE, 1, G_TYPE_UINT);
+-	signals [DATA_CHANGED] =
+-		g_signal_new ("data-changed",
+-			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
+-			      G_STRUCT_OFFSET (UpWakeupsClass, data_changed),
+-			      NULL, NULL, g_cclosure_marshal_VOID__VOID,
+-			      G_TYPE_NONE, 0);
+-
+-	g_object_class_install_property (object_class,
+-					 PROP_HAS_CAPABILITY,
+-					 g_param_spec_boolean ("has-capability",
+-							       "Has capability",
+-							       "If wakeups functionality is available",
+-							       FALSE,
+-							       G_PARAM_READABLE));
+-
+-	/* introspection */
+-	dbus_g_object_type_install_info (UP_TYPE_WAKEUPS, &dbus_glib_up_wakeups_object_info);
+ 
+ 	g_type_class_add_private (klass, sizeof (UpWakeupsPrivate));
+ }
+@@ -735,21 +673,36 @@ up_wakeups_init (UpWakeups *wakeups)
+ 	wakeups->priv = UP_WAKEUPS_GET_PRIVATE (wakeups);
+ 	wakeups->priv->data = g_ptr_array_new_with_free_func ((GDestroyNotify) g_object_unref);
+ 
+-	wakeups->priv->connection = dbus_g_bus_get (DBUS_BUS_SYSTEM, &error);
++	wakeups->priv->connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
+ 	if (error != NULL) {
+ 		g_warning ("Cannot connect to bus: %s", error->message);
+ 		g_error_free (error);
+ 		return;
+ 	}
+ 
++	wakeups->priv->skeleton = up_exported_wakeups_skeleton_new ();
++
+ 	/* test if we have an interface */
+ 	if (g_file_test (UP_WAKEUPS_SOURCE_KERNEL, G_FILE_TEST_EXISTS) ||
+ 	    g_file_test (UP_WAKEUPS_SOURCE_KERNEL, G_FILE_TEST_EXISTS)) {
+-		wakeups->priv->has_capability = TRUE;
++		up_exported_wakeups_set_has_capability (wakeups->priv->skeleton, TRUE);
+ 	}
+ 
++	g_signal_connect (wakeups->priv->skeleton, "handle-get-data",
++			  G_CALLBACK (up_wakeups_get_data), wakeups);
++	g_signal_connect (wakeups->priv->skeleton, "handle-get-total",
++			  G_CALLBACK (up_wakeups_get_total), wakeups);
++
+ 	/* register on the bus */
+-	dbus_g_connection_register_g_object (wakeups->priv->connection, "/org/freedesktop/UPower/Wakeups", G_OBJECT (wakeups));
++	g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (wakeups->priv->skeleton),
++					  wakeups->priv->connection,
++					  "/org/freedesktop/UPower/Wakeups",
++					  &error);
++
++	if (error != NULL) {
++		g_critical ("Cannot register wakeups on system bus: %s", error->message);
++		g_error_free (error);
++	}
+ }
+ 
+ /**
+@@ -770,6 +723,9 @@ up_wakeups_finalize (GObject *object)
+ 	up_wakeups_timerstats_disable (wakeups);
+ 
+ 	g_ptr_array_unref (wakeups->priv->data);
++	g_object_unref (wakeups->priv->skeleton);
++
++	g_clear_object (&wakeups->priv->connection);
+ 
+ 	G_OBJECT_CLASS (up_wakeups_parent_class)->finalize (object);
+ }
+diff --git a/src/up-wakeups.h b/src/up-wakeups.h
+index 4c8fcc7..25b4a74 100644
+--- a/src/up-wakeups.h
++++ b/src/up-wakeups.h
+@@ -23,7 +23,6 @@
+ #define __UP_WAKEUPS_H
+ 
+ #include <glib-object.h>
+-#include <dbus/dbus-glib.h>
+ 
+ G_BEGIN_DECLS
+ 
+@@ -45,21 +44,10 @@ typedef struct
+ typedef struct
+ {
+ 	GObjectClass	parent_class;
+-	void		(* total_changed)		(UpWakeups	*wakeups,
+-							 guint		 value);
+-	void		(* data_changed)		(UpWakeups	*wakeups);
+ } UpWakeupsClass;
+ 
+ UpWakeups	*up_wakeups_new			(void);
+-void		 up_wakeups_test			(gpointer	 user_data);
+-
+ GType		 up_wakeups_get_type			(void);
+-gboolean	 up_wakeups_get_total			(UpWakeups	*wakeups,
+-							 guint		*value,
+-							 GError		**error);
+-gboolean	 up_wakeups_get_data			(UpWakeups	*wakeups,
+-							 GPtrArray	**requests,
+-							 GError		**error);
+ 
+ G_END_DECLS
+ 
+-- 
+2.13.0
+

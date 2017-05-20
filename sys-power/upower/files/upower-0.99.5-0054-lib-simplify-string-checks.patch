@@ -1,0 +1,141 @@
+From eb6b1b62a2733e380bdce7e3f7ef3726dc778c60 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Mon, 10 Apr 2017 10:37:32 +0200
+Subject: [PATCH 54/55] lib: Simplify string checks
+
+We don't need to protect against NULL values, we already do at the start
+of the function.
+
+Created with:
+:%s,g_strcmp0\(.*\) == 0,g_str_equal \1,
+
+Mentioned in:
+https://bugs.freedesktop.org/show_bug.cgi?id=100359#c14
+---
+ libupower-glib/up-types.c | 62 +++++++++++++++++++++++------------------------
+ 1 file changed, 31 insertions(+), 31 deletions(-)
+
+diff --git a/libupower-glib/up-types.c b/libupower-glib/up-types.c
+index 7d87900..88ddd4e 100644
+--- a/libupower-glib/up-types.c
++++ b/libupower-glib/up-types.c
+@@ -90,25 +90,25 @@ up_device_kind_from_string (const gchar *type)
+ {
+ 	if (type == NULL)
+ 		return UP_DEVICE_KIND_UNKNOWN;
+-	if (g_strcmp0 (type, "line-power") == 0)
++	if (g_str_equal (type, "line-power"))
+ 		return UP_DEVICE_KIND_LINE_POWER;
+-	if (g_strcmp0 (type, "battery") == 0)
++	if (g_str_equal (type, "battery"))
+ 		return UP_DEVICE_KIND_BATTERY;
+-	if (g_strcmp0 (type, "ups") == 0)
++	if (g_str_equal (type, "ups"))
+ 		return UP_DEVICE_KIND_UPS;
+-	if (g_strcmp0 (type, "monitor") == 0)
++	if (g_str_equal (type, "monitor"))
+ 		return UP_DEVICE_KIND_MONITOR;
+-	if (g_strcmp0 (type, "mouse") == 0)
++	if (g_str_equal (type, "mouse"))
+ 		return UP_DEVICE_KIND_MOUSE;
+-	if (g_strcmp0 (type, "keyboard") == 0)
++	if (g_str_equal (type, "keyboard"))
+ 		return UP_DEVICE_KIND_KEYBOARD;
+-	if (g_strcmp0 (type, "pda") == 0)
++	if (g_str_equal (type, "pda"))
+ 		return UP_DEVICE_KIND_PDA;
+-	if (g_strcmp0 (type, "phone") == 0)
++	if (g_str_equal (type, "phone"))
+ 		return UP_DEVICE_KIND_PHONE;
+-	if (g_strcmp0 (type, "media-player") == 0)
++	if (g_str_equal (type, "media-player"))
+ 		return UP_DEVICE_KIND_MEDIA_PLAYER;
+-	if (g_strcmp0 (type, "tablet") == 0)
++	if (g_str_equal (type, "tablet"))
+ 		return UP_DEVICE_KIND_TABLET;
+ 	return UP_DEVICE_KIND_UNKNOWN;
+ }
+@@ -158,17 +158,17 @@ up_device_state_from_string (const gchar *state)
+ {
+ 	if (state == NULL)
+ 		return UP_DEVICE_STATE_UNKNOWN;
+-	if (g_strcmp0 (state, "charging") == 0)
++	if (g_str_equal (state, "charging"))
+ 		return UP_DEVICE_STATE_CHARGING;
+-	if (g_strcmp0 (state, "discharging") == 0)
++	if (g_str_equal (state, "discharging"))
+ 		return UP_DEVICE_STATE_DISCHARGING;
+-	if (g_strcmp0 (state, "empty") == 0)
++	if (g_str_equal (state, "empty"))
+ 		return UP_DEVICE_STATE_EMPTY;
+-	if (g_strcmp0 (state, "fully-charged") == 0)
++	if (g_str_equal (state, "fully-charged"))
+ 		return UP_DEVICE_STATE_FULLY_CHARGED;
+-	if (g_strcmp0 (state, "pending-charge") == 0)
++	if (g_str_equal (state, "pending-charge"))
+ 		return UP_DEVICE_STATE_PENDING_CHARGE;
+-	if (g_strcmp0 (state, "pending-discharge") == 0)
++	if (g_str_equal (state, "pending-discharge"))
+ 		return UP_DEVICE_STATE_PENDING_DISCHARGE;
+ 	return UP_DEVICE_STATE_UNKNOWN;
+ }
+@@ -218,17 +218,17 @@ up_device_technology_from_string (const gchar *technology)
+ {
+ 	if (technology == NULL)
+ 		return UP_DEVICE_TECHNOLOGY_UNKNOWN;
+-	if (g_strcmp0 (technology, "lithium-ion") == 0)
++	if (g_str_equal (technology, "lithium-ion"))
+ 		return UP_DEVICE_TECHNOLOGY_LITHIUM_ION;
+-	if (g_strcmp0 (technology, "lithium-polymer") == 0)
++	if (g_str_equal (technology, "lithium-polymer"))
+ 		return UP_DEVICE_TECHNOLOGY_LITHIUM_POLYMER;
+-	if (g_strcmp0 (technology, "lithium-iron-phosphate") == 0)
++	if (g_str_equal (technology, "lithium-iron-phosphate"))
+ 		return UP_DEVICE_TECHNOLOGY_LITHIUM_IRON_PHOSPHATE;
+-	if (g_strcmp0 (technology, "lead-acid") == 0)
++	if (g_str_equal (technology, "lead-acid"))
+ 		return UP_DEVICE_TECHNOLOGY_LEAD_ACID;
+-	if (g_strcmp0 (technology, "nickel-cadmium") == 0)
++	if (g_str_equal (technology, "nickel-cadmium"))
+ 		return UP_DEVICE_TECHNOLOGY_NICKEL_CADMIUM;
+-	if (g_strcmp0 (technology, "nickel-metal-hydride") == 0)
++	if (g_str_equal (technology, "nickel-metal-hydride"))
+ 		return UP_DEVICE_TECHNOLOGY_NICKEL_METAL_HYDRIDE;
+ 	return UP_DEVICE_TECHNOLOGY_UNKNOWN;
+ }
+@@ -284,23 +284,23 @@ up_device_level_from_string (const gchar *level)
+ {
+ 	if (level == NULL)
+ 		return UP_DEVICE_LEVEL_UNKNOWN;
+-	if (g_strcmp0 (level, "unknown") == 0)
++	if (g_str_equal (level, "unknown"))
+ 		return UP_DEVICE_LEVEL_UNKNOWN;
+-	if (g_strcmp0 (level, "none") == 0)
++	if (g_str_equal (level, "none"))
+ 		return UP_DEVICE_LEVEL_NONE;
+-	if (g_strcmp0 (level, "discharging") == 0)
++	if (g_str_equal (level, "discharging"))
+ 		return UP_DEVICE_LEVEL_DISCHARGING;
+-	if (g_strcmp0 (level, "low") == 0)
++	if (g_str_equal (level, "low"))
+ 		return UP_DEVICE_LEVEL_LOW;
+-	if (g_strcmp0 (level, "critical") == 0)
++	if (g_str_equal (level, "critical"))
+ 		return UP_DEVICE_LEVEL_CRITICAL;
+-	if (g_strcmp0 (level, "action") == 0)
++	if (g_str_equal (level, "action"))
+ 		return UP_DEVICE_LEVEL_ACTION;
+-	if (g_strcmp0 (level, "normal") == 0)
++	if (g_str_equal (level, "normal"))
+ 		return UP_DEVICE_LEVEL_NORMAL;
+-	if (g_strcmp0 (level, "high") == 0)
++	if (g_str_equal (level, "high"))
+ 		return UP_DEVICE_LEVEL_HIGH;
+-	if (g_strcmp0 (level, "full") == 0)
++	if (g_str_equal (level, "full"))
+ 		return UP_DEVICE_LEVEL_FULL;
+ 	return UP_DEVICE_LEVEL_UNKNOWN;
+ }
+-- 
+2.13.0
+

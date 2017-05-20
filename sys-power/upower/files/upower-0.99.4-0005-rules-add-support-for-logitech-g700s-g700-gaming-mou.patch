@@ -1,7 +1,7 @@
 From 305f62adf052aa972523d083ca44d3050f659ec9 Mon Sep 17 00:00:00 2001
 From: muzena <trebelnik2@gmail.com>
 Date: Wed, 8 Jul 2015 17:11:25 +0200
-Subject: [PATCH 5/8] rules: Add support for Logitech G700s/G700 Gaming Mouse
+Subject: [PATCH 05/90] rules: Add support for Logitech G700s/G700 Gaming Mouse
 
 https://bugs.freedesktop.org/show_bug.cgi?id=91270
 ---
@@ -19,5 +19,5 @@ index 39539ca..3b83665 100644
 +ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c531", ENV{UPOWER_BATTERY_TYPE}="lg-wireless"
  LABEL="up_unifying_end"
 -- 
-2.6.3
+2.13.0
 

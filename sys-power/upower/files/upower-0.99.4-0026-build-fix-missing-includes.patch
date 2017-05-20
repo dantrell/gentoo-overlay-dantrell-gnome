@@ -1,7 +1,7 @@
 From b6dfa473f81408771d1422242b07974b425a6fd2 Mon Sep 17 00:00:00 2001
 From: Bastien Nocera <hadess@hadess.net>
 Date: Wed, 23 Sep 2015 16:09:50 +0200
-Subject: [PATCH 26/34] build: Fix missing includes
+Subject: [PATCH 26/90] build: Fix missing includes
 
 Include $(top_builddir) when building so that we can find the newly
 generated D-Bus helper files. Note that, because we ship generated files
@@ -88,5 +88,5 @@ index 7d05654..b7a501f 100644
  	-DG_LOG_DOMAIN=\"UPower-Openbsd\"			\
  	-I$(top_srcdir)/libupower-glib				\
 -- 
-2.6.4
+2.13.0
 

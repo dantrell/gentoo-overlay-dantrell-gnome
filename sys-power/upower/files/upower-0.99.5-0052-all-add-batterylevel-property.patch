@@ -1,0 +1,362 @@
+From 499d05b8370324f319933558bac590e98ad55927 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 4 Apr 2017 18:20:27 +0200
+Subject: [PATCH 52/55] all: Add BatteryLevel property
+
+Export approximate battery levels that devices can use, exported by
+the kernel as POWER_SUPPLY_CAPACITY_LEVEL_* values.
+
+This avoids bizarrely accurate values showing up in UIs when we only
+have ok/warning levels of accuracy in some cases.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=100359
+---
+ dbus/org.freedesktop.UPower.Device.xml | 33 ++++++++++++++++++++++++++++
+ libupower-glib/up-device.c             | 25 +++++++++++++++++++++
+ libupower-glib/up-types.h              |  3 ++-
+ src/linux/integration-test             | 10 +++++++++
+ src/linux/up-device-supply.c           | 40 +++++++++++++++++++++++-----------
+ src/up-device.c                        | 35 ++++++++++++++++++++++-------
+ 6 files changed, 124 insertions(+), 22 deletions(-)
+
+diff --git a/dbus/org.freedesktop.UPower.Device.xml b/dbus/org.freedesktop.UPower.Device.xml
+index 8ce9c15..4852ab0 100644
+--- a/dbus/org.freedesktop.UPower.Device.xml
++++ b/dbus/org.freedesktop.UPower.Device.xml
+@@ -703,6 +703,39 @@ method return sender=:1.386 -> dest=:1.477 reply_serial=2
+       </doc:doc>
+     </property>
+ 
++    <property name="BatteryLevel" type="u" access="read">
++      <doc:doc>
++        <doc:description>
++          <doc:para>
++            Level of the battery:
++          </doc:para>
++          <doc:list>
++            <doc:item>
++              <doc:term>0</doc:term><doc:definition>Unknown</doc:definition>
++            </doc:item>
++            <doc:item>
++              <doc:term>1</doc:term><doc:definition>None (the battery does not use a coarse level of battery reporting)</doc:definition>
++            </doc:item>
++            <doc:item>
++              <doc:term>3</doc:term><doc:definition>Low</doc:definition>
++            </doc:item>
++            <doc:item>
++              <doc:term>4</doc:term><doc:definition>Critical</doc:definition>
++            </doc:item>
++            <doc:item>
++              <doc:term>6</doc:term><doc:definition>Normal</doc:definition>
++            </doc:item>
++            <doc:item>
++              <doc:term>7</doc:term><doc:definition>High</doc:definition>
++            </doc:item>
++            <doc:item>
++              <doc:term>8</doc:term><doc:definition>Full</doc:definition>
++            </doc:item>
++          </doc:list>
++        </doc:description>
++      </doc:doc>
++    </property>
++
+     <property name="IconName" type="s" access="read">
+       <doc:doc>
+         <doc:description>
+diff --git a/libupower-glib/up-device.c b/libupower-glib/up-device.c
+index 7bce4e0..63ebe12 100644
+--- a/libupower-glib/up-device.c
++++ b/libupower-glib/up-device.c
+@@ -90,6 +90,7 @@ enum {
+ 	PROP_PERCENTAGE,
+ 	PROP_TEMPERATURE,
+ 	PROP_WARNING_LEVEL,
++	PROP_BATTERY_LEVEL,
+ 	PROP_ICON_NAME,
+ 	PROP_LAST
+ };
+@@ -315,6 +316,8 @@ up_device_to_text (UpDevice *device)
+ 	    kind == UP_DEVICE_KIND_UPS)
+ 		g_string_append_printf (string, "    state:               %s\n", up_device_state_to_string (up_exported_device_get_state (priv->proxy_device)));
+ 	g_string_append_printf (string, "    warning-level:       %s\n", up_device_level_to_string (up_exported_device_get_warning_level (priv->proxy_device)));
++	if (up_exported_device_get_battery_level (priv->proxy_device) != UP_DEVICE_LEVEL_NONE)
++		g_string_append_printf (string, "    battery-level:       %s\n", up_device_level_to_string (up_exported_device_get_battery_level (priv->proxy_device)));
+ 	if (kind == UP_DEVICE_KIND_BATTERY) {
+ 		g_string_append_printf (string, "    energy:              %g Wh\n", up_exported_device_get_energy (priv->proxy_device));
+ 		if (!is_display)
+@@ -665,6 +668,9 @@ up_device_set_property (GObject *object, guint prop_id, const GValue *value, GPa
+ 	case PROP_WARNING_LEVEL:
+ 		up_exported_device_set_warning_level (device->priv->proxy_device, g_value_get_uint (value));
+ 		break;
++	case PROP_BATTERY_LEVEL:
++		up_exported_device_set_battery_level (device->priv->proxy_device, g_value_get_uint (value));
++		break;
+ 	case PROP_ICON_NAME:
+ 		up_exported_device_set_icon_name (device->priv->proxy_device, g_value_get_string (value));
+ 		break;
+@@ -776,6 +782,9 @@ up_device_get_property (GObject *object, guint prop_id, GValue *value, GParamSpe
+ 	case PROP_WARNING_LEVEL:
+ 		g_value_set_uint (value, up_exported_device_get_warning_level (device->priv->proxy_device));
+ 		break;
++	case PROP_BATTERY_LEVEL:
++		g_value_set_uint (value, up_exported_device_get_battery_level (device->priv->proxy_device));
++		break;
+ 	case PROP_ICON_NAME:
+ 		g_value_set_string (value, up_exported_device_get_icon_name (device->priv->proxy_device));
+ 		break;
+@@ -1150,6 +1159,22 @@ up_device_class_init (UpDeviceClass *klass)
+ 							    G_PARAM_READWRITE));
+ 
+ 	/**
++	 * UpDevice:battery-level:
++	 *
++	 * The battery level.
++	 *
++	 * Since: 1.0
++	 **/
++	g_object_class_install_property (object_class,
++					 PROP_BATTERY_LEVEL,
++					 g_param_spec_uint ("battery-level",
++							    NULL, NULL,
++							    UP_DEVICE_LEVEL_UNKNOWN,
++							    UP_DEVICE_LEVEL_LAST,
++							    UP_DEVICE_LEVEL_NONE,
++							    G_PARAM_READWRITE));
++
++	/**
+ 	 * UpDevice:icon-name:
+ 	 *
+ 	 * The icon name, following the Icon Naming Speficiation
+diff --git a/libupower-glib/up-types.h b/libupower-glib/up-types.h
+index 3509537..6d34970 100644
+--- a/libupower-glib/up-types.h
++++ b/libupower-glib/up-types.h
+@@ -86,7 +86,8 @@ typedef enum {
+ /**
+  * UpDeviceLevel:
+  *
+- * The level of a battery.
++ * The level of a battery. Some values are only relevant to the WarningLevel
++ * property, some others to the BatteryLevel property.
+  **/
+ typedef enum {
+ 	UP_DEVICE_LEVEL_UNKNOWN,
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 84f2f87..b864772 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -566,6 +566,7 @@ class Tests(dbusmock.DBusTestCase):
+                                 ['type', 'Battery',
+                                  'present', '1',
+                                  'status', 'Full',
++                                 'capacity_level', 'Normal\n',
+                                  'current_now', '1000',
+                                  'charge_now', '11000000',
+                                  'charge_full', '10000000',
+@@ -590,6 +591,8 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_dev_property(bat0_up, 'Voltage'), 12.0)
+         self.assertEqual(self.get_dbus_dev_property(bat0_up, 'PowerSupply'), True)
+         self.assertEqual(self.get_dbus_dev_property(bat0_up, 'Type'), 2)
++        # capacity_level is unused because a 'capacity' attribute is present and used instead
++        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'BatteryLevel'), UP_DEVICE_LEVEL_NONE)
+         self.stop_daemon()
+ 
+     def test_battery_temperature(self):
+@@ -999,26 +1002,33 @@ class Tests(dbusmock.DBusTestCase):
+ 
+         # Now test all the levels
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Percentage'), 100)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'BatteryLevel'), UP_DEVICE_LEVEL_FULL)
+ 
+         self.testbed.set_attribute(dev, 'capacity_level', 'Critical\n')
+         self.testbed.uevent(dev, 'change')
+         time.sleep(0.5)
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Percentage'), 5)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'BatteryLevel'), UP_DEVICE_LEVEL_CRITICAL)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'WarningLevel'), UP_DEVICE_LEVEL_CRITICAL)
+ 
+         self.testbed.set_attribute(dev, 'capacity_level', 'Low\n')
+         self.testbed.uevent(dev, 'change')
+         time.sleep(0.5)
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Percentage'), 10)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'BatteryLevel'), UP_DEVICE_LEVEL_LOW)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'WarningLevel'), UP_DEVICE_LEVEL_LOW)
+ 
+         self.testbed.set_attribute(dev, 'capacity_level', 'High\n')
+         self.testbed.uevent(dev, 'change')
+         time.sleep(0.5)
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Percentage'), 70)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'BatteryLevel'), UP_DEVICE_LEVEL_HIGH)
+ 
+         self.testbed.set_attribute(dev, 'capacity_level', 'Normal\n')
+         self.testbed.uevent(dev, 'change')
+         time.sleep(0.5)
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Percentage'), 55)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'BatteryLevel'), UP_DEVICE_LEVEL_NORMAL)
+ 
+         self.stop_daemon()
+ 
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index 44c2f79..c6456ce 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -477,32 +477,44 @@ up_device_supply_get_state (const gchar *native_path)
+ }
+ 
+ static gdouble
+-sysfs_get_capacity_level (const char *native_path)
++sysfs_get_capacity_level (const char    *native_path,
++			  UpDeviceLevel *level)
+ {
+-	char *level;
++	char *str;
+ 	gdouble ret = -1.0;
+ 	guint i;
+ 	struct {
+-		const char *level;
++		const char *str;
+ 		gdouble percentage;
++		UpDeviceLevel level;
+ 	} levels[] = {
+-		/* In order of most likely to least likely */
+-		{ "Normal",    55.0 },
+-		{ "High",      70.0 },
+-		{ "Low",       20.0 },
+-		{ "Critical",   5.0 },
+-		{ "Full",     100.0 }
++		/* In order of most likely to least likely,
++		 * Keep in sync with up_daemon_compute_warning_level() */
++		{ "Normal",    55.0, UP_DEVICE_LEVEL_NORMAL },
++		{ "High",      70.0, UP_DEVICE_LEVEL_HIGH },
++		{ "Low",       10.0, UP_DEVICE_LEVEL_LOW },
++		{ "Critical",   5.0, UP_DEVICE_LEVEL_CRITICAL },
++		{ "Full",     100.0, UP_DEVICE_LEVEL_FULL }
+ 	};
+ 
+-	level = sysfs_get_string (native_path, "capacity_level");
++	g_return_val_if_fail (level != NULL, -1.0);
++
++	if (!sysfs_file_exists (native_path, "capacity_level")) {
++		*level = UP_DEVICE_LEVEL_NONE;
++		return -1.0;
++	}
++
++	*level = UP_DEVICE_LEVEL_UNKNOWN;
++	str = sysfs_get_string (native_path, "capacity_level");
+ 	for (i = 0; i < G_N_ELEMENTS(levels); i++) {
+-		if (g_ascii_strncasecmp (levels[i].level, level, strlen (levels[i].level)) == 0) {
++		if (g_ascii_strncasecmp (levels[i].str, str, strlen (levels[i].str)) == 0) {
+ 			ret = levels[i].percentage;
++			*level = levels[i].level;
+ 			break;
+ 		}
+ 	}
+ 
+-	g_free (level);
++	g_free (str);
+ 	return ret;
+ }
+ 
+@@ -853,6 +865,7 @@ up_device_supply_refresh_device (UpDeviceSupply *supply,
+ 	const gchar *native_path;
+ 	GUdevDevice *native;
+ 	gdouble percentage = 0.0f;
++	UpDeviceLevel level = UP_DEVICE_LEVEL_NONE;
+ 
+ 	native = G_UDEV_DEVICE (up_device_get_native (device));
+ 	native_path = g_udev_device_get_sysfs_path (native);
+@@ -889,7 +902,7 @@ up_device_supply_refresh_device (UpDeviceSupply *supply,
+ 	/* get a precise percentage */
+ 	percentage = sysfs_get_double_with_error (native_path, "capacity");
+ 	if (percentage < 0.0)
+-		percentage = sysfs_get_capacity_level (native_path);
++		percentage = sysfs_get_capacity_level (native_path, &level);
+ 
+ 	if (percentage < 0.0) {
+ 		/* Probably talking to the device over Bluetooth */
+@@ -914,6 +927,7 @@ up_device_supply_refresh_device (UpDeviceSupply *supply,
+ 
+ 	g_object_set (device,
+ 		      "percentage", percentage,
++		      "battery-level", level,
+ 		      "state", state,
+ 		      NULL);
+ 
+diff --git a/src/up-device.c b/src/up-device.c
+index 1405605..ccc1a00 100644
+--- a/src/up-device.c
++++ b/src/up-device.c
+@@ -54,25 +54,38 @@ G_DEFINE_TYPE (UpDevice, up_device, UP_TYPE_EXPORTED_DEVICE_SKELETON)
+  * power_supply
+  * percentage
+  * time_to_empty
++ * battery_level
+  *
+  * type should not change for non-display devices
+  */
+ static void
+ update_warning_level (UpDevice *device)
+ {
+-	UpDeviceLevel warning_level;
++	UpDeviceLevel warning_level, battery_level;
+ 	UpExportedDevice *skeleton = UP_EXPORTED_DEVICE (device);
+ 
+ 	/* Not finished setting up the object? */
+ 	if (device->priv->daemon == NULL)
+ 		return;
+ 
+-	warning_level = up_daemon_compute_warning_level (device->priv->daemon,
+-							 up_exported_device_get_state (skeleton),
+-							 up_exported_device_get_type_ (skeleton),
+-							 up_exported_device_get_power_supply (skeleton),
+-							 up_exported_device_get_percentage (skeleton),
+-							 up_exported_device_get_time_to_empty (skeleton));
++	/* If the battery level is available, and is critical,
++	 * we need to fallback to calculations to get the warning
++	 * level, as that might be "action" at this point */
++	battery_level = up_exported_device_get_battery_level (skeleton);
++	if (battery_level != UP_DEVICE_LEVEL_NONE &&
++	    battery_level != UP_DEVICE_LEVEL_CRITICAL) {
++		if (battery_level == UP_DEVICE_LEVEL_LOW)
++			warning_level = battery_level;
++		else
++			warning_level = UP_DEVICE_LEVEL_NONE;
++	} else {
++		warning_level = up_daemon_compute_warning_level (device->priv->daemon,
++								 up_exported_device_get_state (skeleton),
++								 up_exported_device_get_type_ (skeleton),
++								 up_exported_device_get_power_supply (skeleton),
++								 up_exported_device_get_percentage (skeleton),
++								 up_exported_device_get_time_to_empty (skeleton));
++	}
+ 
+ 	up_exported_device_set_warning_level (skeleton, warning_level);
+ }
+@@ -165,7 +178,8 @@ up_device_notify (GObject *object, GParamSpec *pspec)
+ 		   g_strcmp0 (pspec->name, "time-to-empty") == 0) {
+ 		update_warning_level (device);
+ 	} else if (g_strcmp0 (pspec->name, "state") == 0 ||
+-		   g_strcmp0 (pspec->name, "percentage") == 0) {
++		   g_strcmp0 (pspec->name, "percentage") == 0 ||
++		   g_strcmp0 (pspec->name, "battery-level") == 0) {
+ 		update_warning_level (device);
+ 		update_icon_name (device);
+ 	} else if (g_strcmp0 (pspec->name, "update-time") == 0) {
+@@ -672,9 +686,14 @@ up_device_get_native (UpDevice *device)
+ static void
+ up_device_init (UpDevice *device)
+ {
++	UpExportedDevice *skeleton;
++
+ 	device->priv = UP_DEVICE_GET_PRIVATE (device);
+ 	device->priv->history = up_history_new ();
+ 
++	skeleton = UP_EXPORTED_DEVICE (device);
++	up_exported_device_set_battery_level (skeleton, UP_DEVICE_LEVEL_NONE);
++
+ 	g_signal_connect (device, "handle-get-history",
+ 			  G_CALLBACK (up_device_get_history), device);
+ 	g_signal_connect (device, "handle-get-statistics",
+-- 
+2.13.0
+

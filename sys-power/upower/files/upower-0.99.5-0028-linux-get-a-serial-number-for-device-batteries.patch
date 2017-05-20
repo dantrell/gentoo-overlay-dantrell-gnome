@@ -1,0 +1,38 @@
+From 1de37eb958e4b3f4f17023d91e7073b6ad2dce0a Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 24 Jan 2017 18:08:52 +0100
+Subject: [PATCH 28/55] linux: Get a serial number for device batteries
+
+And not just for batteries that power the machine itself.
+---
+ src/linux/up-device-supply.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index e65c8a0..304e887 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -830,16 +830,20 @@ up_device_supply_refresh_device (UpDeviceSupply *supply,
+ 	/* initial values */
+ 	if (!supply->priv->has_coldplug_values) {
+ 		gchar *model_name;
++		gchar *serial_number;
+ 
+ 		/* get values which may be blank */
+ 		model_name = up_device_supply_get_string (native_path, "model_name");
++		serial_number = up_device_supply_get_string (native_path, "serial_number");
+ 
+ 		/* some vendors fill this with binary garbage */
+ 		up_device_supply_make_safe_string (model_name);
++		up_device_supply_make_safe_string (serial_number);
+ 
+ 		g_object_set (device,
+ 			      "is-present", TRUE,
+ 			      "model", model_name,
++			      "serial", serial_number,
+ 			      "is-rechargeable", TRUE,
+ 			      "has-history", TRUE,
+ 			      "has-statistics", TRUE,
+-- 
+2.13.0
+

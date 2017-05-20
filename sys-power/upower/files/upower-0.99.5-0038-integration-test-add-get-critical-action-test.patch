@@ -1,0 +1,34 @@
+From d69121971f4ccb7925b4e07d91a32cf3f9c1cb98 Mon Sep 17 00:00:00 2001
+From: Christian Kellner <christian@kellner.me>
+Date: Tue, 21 Mar 2017 16:01:15 +0000
+Subject: [PATCH 38/55] integration-test: add get_critical_action() test
+
+https://bugs.freedesktop.org/show_bug.cgi?id=99763
+---
+ src/linux/integration-test | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 50d681d..43fabe7 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -1012,14 +1012,14 @@ class Tests(dbusmock.DBusTestCase):
+     def test_lib_daemon_properties(self):
+         '''library GI: daemon properties'''
+ 
++        self.start_logind(parameters={'CanHybridSleep': 'yes'})
+         self.start_daemon()
+         client = UPowerGlib.Client.new()
+         self.assertRegex(client.get_daemon_version(), '^[0-9.]+$')
+         self.assertIn(client.get_lid_is_present(), [False, True])
+         self.assertIn(client.get_lid_is_closed(), [False, True])
+         self.assertEqual(client.get_on_battery(), False)
+-        # FIXME: When we have a fake logind
+-        # self.assertEqual(client.get_critical_action(), 'PowerOff')
++        self.assertEqual(client.get_critical_action(), 'HybridSleep')
+         self.stop_daemon()
+ 
+     #
+-- 
+2.13.0
+

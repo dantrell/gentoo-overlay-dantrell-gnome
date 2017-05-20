@@ -1,7 +1,7 @@
 From c015e6b21e3cb8f5bc944564850d9ffc35a6a6c7 Mon Sep 17 00:00:00 2001
 From: Bastien Nocera <hadess@hadess.net>
 Date: Wed, 23 Sep 2015 16:14:40 +0200
-Subject: [PATCH 28/34] linux: Fix deprecation warning in integration-test
+Subject: [PATCH 28/90] linux: Fix deprecation warning in integration-test
 
 ---
  src/linux/integration-test | 3 +++
@@ -30,5 +30,5 @@ index 48c0c1d..8388793 100755
  except ImportError:
      sys.stderr.write('Skipping tests, umockdev not available (https://launchpad.net/umockdev/)\n')
 -- 
-2.6.4
+2.13.0
 

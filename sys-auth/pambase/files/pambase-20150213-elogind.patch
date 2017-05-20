@@ -1,0 +1,13 @@
+--- a/Makefile	2015-02-14 04:57:45.000000000 +0100
++++ b/Makefile	2016-11-01 04:52:29.417015657 +0100
+@@ -32,6 +32,10 @@
+ PAMFLAGS += -DHAVE_SYSTEMD=1
+ endif
+ 
++ifeq "$(ELOGIND)" "yes"
++PAMFLAGS += -DHAVE_ELOGIND=1
++endif
++
+ ifeq "$(GNOME_KEYRING)" "yes"
+ PAMFLAGS += -DHAVE_GNOME_KEYRING=1
+ endif

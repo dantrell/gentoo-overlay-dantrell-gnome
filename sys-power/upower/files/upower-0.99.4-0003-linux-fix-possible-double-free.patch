@@ -1,7 +1,7 @@
 From c9b2e177267b623850b3deedb1242de7d2e413ee Mon Sep 17 00:00:00 2001
 From: Bastien Nocera <hadess@hadess.net>
 Date: Fri, 26 Jun 2015 14:07:13 +0200
-Subject: [PATCH 3/8] linux: Fix possible double-free
+Subject: [PATCH 03/90] linux: Fix possible double-free
 
 When reopening the lockdown daemon with upower as the client, don't
 double-free if the user says "No" to trusting the laptop.
@@ -43,5 +43,5 @@ index 9722774..6ab1bf8 100644
  }
  
 -- 
-2.6.3
+2.13.0
 

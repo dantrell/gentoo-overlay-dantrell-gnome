@@ -1,0 +1,30 @@
+From 402640bee016472bf61c7a4ad9e5fac9790ea1bf Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Wed, 8 Jun 2016 14:50:23 +0200
+Subject: [PATCH 12/55] linux: Lower initial power usage when iDevice isn't
+ accessible
+
+When starting up, we would try to connect to the iDevice repeatedly,
+once a second. But the process takes between a quarter and half a
+second, and is CPU heavy. Lower this timeout to once every 5 seconds to
+reduce the initial CPU consumption.
+---
+ src/linux/up-device-idevice.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/linux/up-device-idevice.c b/src/linux/up-device-idevice.c
+index ac2a1d5..4681637 100644
+--- a/src/linux/up-device-idevice.c
++++ b/src/linux/up-device-idevice.c
+@@ -247,7 +247,7 @@ up_device_idevice_coldplug (UpDevice *device)
+ 		      "has-history", TRUE,
+ 		      NULL);
+ 
+-	idevice->priv->start_id = g_timeout_add_seconds (1, (GSourceFunc) up_device_idevice_start_poll_cb,
++	idevice->priv->start_id = g_timeout_add_seconds (5, (GSourceFunc) up_device_idevice_start_poll_cb,
+ 							 idevice);
+ 	g_source_set_name_by_id (idevice->priv->start_id,
+ 				 "[upower] up_device_idevice_start_poll_cb (linux)");
+-- 
+2.13.0
+

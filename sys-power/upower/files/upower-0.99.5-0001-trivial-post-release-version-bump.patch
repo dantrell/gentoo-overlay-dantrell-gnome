@@ -1,0 +1,25 @@
+From 8f088fa5d78b2aa549d4546bd25441b8c6cd5feb Mon Sep 17 00:00:00 2001
+From: Richard Hughes <richard@hughsie.com>
+Date: Tue, 16 Feb 2016 08:48:00 +0000
+Subject: [PATCH 01/55] trivial: post release version bump
+
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 68427b9..d2af3a7 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
+ 
+ m4_define([up_major_version], [0])
+ m4_define([up_minor_version], [99])
+-m4_define([up_micro_version], [4])
++m4_define([up_micro_version], [5])
+ m4_define([up_version],
+           [up_major_version.up_minor_version.up_micro_version])
+ 
+-- 
+2.13.0
+

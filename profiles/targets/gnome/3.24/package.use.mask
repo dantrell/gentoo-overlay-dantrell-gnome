@@ -1,0 +1,6 @@
+gnome-base/gnome-session consolekit
+net-im/telepathy-mission-control deprecated
+net-misc/networkmanager consolekit
+sys-apps/accountsservice consolekit
+sys-auth/pambase consolekit
+sys-power/upower deprecated

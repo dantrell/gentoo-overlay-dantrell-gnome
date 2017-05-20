@@ -1,0 +1,88 @@
+From 3e06274e0020ff14ef53e3dc68c171cd26148813 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 8 Jul 2016 18:51:14 +0200
+Subject: [PATCH 13/55] daemon: Remove unused test declarations
+
+All those test functions were removed in 6ba8629 and are now unused.
+---
+ src/freebsd/up-native.c | 28 ----------------------------
+ src/up-backend.h        |  1 -
+ src/up-daemon.h         |  1 -
+ src/up-device-list.h    |  1 -
+ 4 files changed, 31 deletions(-)
+
+diff --git a/src/freebsd/up-native.c b/src/freebsd/up-native.c
+index ac14836..f82466d 100644
+--- a/src/freebsd/up-native.c
++++ b/src/freebsd/up-native.c
+@@ -36,31 +36,3 @@ up_native_get_native_path (GObject *object)
+ {
+ 	return up_acpi_native_get_path (UP_ACPI_NATIVE (object));
+ }
+-
+-/***************************************************************************
+- ***                          MAKE CHECK TESTS                           ***
+- ***************************************************************************/
+-#ifdef EGG_TEST
+-#include "egg-test.h"
+-
+-void
+-up_native_test (gpointer user_data)
+-{
+-	EggTest *test = (EggTest *) user_data;
+-	UpAcpiNative *dan;
+-	const gchar *path;
+-
+-	if (!egg_test_start (test, "UpNative"))
+-		return;
+-
+-	/************************************************************/
+-	egg_test_title (test, "get instance");
+-	dan = up_acpi_native_new_driver_unit ("battery", 0);
+-	path = up_native_get_native_path (dan);
+-	egg_test_assert (test, (g_strcmp0 (path, "dev.battery.0") == 0));
+-	g_object_unref (dan);
+-
+-	egg_test_end (test);
+-}
+-#endif
+-
+diff --git a/src/up-backend.h b/src/up-backend.h
+index 213c0e1..aa177d3 100644
+--- a/src/up-backend.h
++++ b/src/up-backend.h
+@@ -65,7 +65,6 @@ typedef struct
+ 
+ GType		 up_backend_get_type			(void);
+ UpBackend	*up_backend_new				(void);
+-void		 up_backend_test			(gpointer	 user_data);
+ 
+ gboolean	 up_backend_coldplug			(UpBackend	*backend,
+ 							 UpDaemon	*daemon);
+diff --git a/src/up-daemon.h b/src/up-daemon.h
+index 3ebb777..ab9e982 100644
+--- a/src/up-daemon.h
++++ b/src/up-daemon.h
+@@ -60,7 +60,6 @@ typedef enum
+ GQuark		 up_daemon_error_quark		(void);
+ GType		 up_daemon_get_type		(void);
+ UpDaemon	*up_daemon_new			(void);
+-void		 up_daemon_test		(gpointer	 user_data);
+ 
+ /* private */
+ guint		 up_daemon_get_number_devices_of_type (UpDaemon	*daemon,
+diff --git a/src/up-device-list.h b/src/up-device-list.h
+index 85a06bb..d82b667 100644
+--- a/src/up-device-list.h
++++ b/src/up-device-list.h
+@@ -52,7 +52,6 @@ typedef struct
+ 
+ GType		 up_device_list_get_type		(void);
+ UpDeviceList	*up_device_list_new			(void);
+-void		 up_device_list_test			(gpointer		 user_data);
+ 
+ GObject		*up_device_list_lookup			(UpDeviceList		*list,
+ 							 GObject		*native);
+-- 
+2.13.0
+

@@ -1,0 +1,106 @@
+From 0e256ece04a98d3d202ed9640d33c56aaaeda137 Mon Sep 17 00:00:00 2001
+From: Hans de Goede <hdegoede@redhat.com>
+Date: Sun, 16 Oct 2016 12:53:19 +0200
+Subject: [PATCH 32/55] UpKbdBacklight: Send notifications about hardware
+ brightness changes
+
+Backlights, starting with kernel 4.11 [1] can have a
+"brightness_hw_changed" sysfs attribute,  which can be polled to detect
+hardware initiated brightness changes, such as ones done through
+firmware-handled keyboard backlight hotkeys, or firmware controlled
+changes (eg. turn off backlight on low battery).
+
+[1] https://patchwork.kernel.org/patch/9544111/
+
+https://bugs.freedesktop.org/show_bug.cgi?id=98404
+---
+ src/up-kbd-backlight.c | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
+
+diff --git a/src/up-kbd-backlight.c b/src/up-kbd-backlight.c
+index 3076dd7..feb1e86 100644
+--- a/src/up-kbd-backlight.c
++++ b/src/up-kbd-backlight.c
+@@ -43,6 +43,8 @@ static void     up_kbd_backlight_finalize   (GObject	*object);
+ struct UpKbdBacklightPrivate
+ {
+ 	gint			 fd;
++	gint			 fd_hw_changed;
++	GIOChannel		*channel_hw_changed;
+ 	gint			 max_brightness;
+ };
+ 
+@@ -210,6 +212,24 @@ up_kbd_backlight_class_init (UpKbdBacklightClass *klass)
+ }
+ 
+ /**
++ * up_kbd_backlight_event_io:
++ **/
++static gboolean
++up_kbd_backlight_event_io (GIOChannel *channel, GIOCondition condition, gpointer data)
++{
++	UpKbdBacklight *kbd_backlight = (UpKbdBacklight*) data;
++	gint brightness;
++
++	if (!(condition & G_IO_PRI))
++		return FALSE;
++
++	brightness = up_kbd_backlight_brightness_read (kbd_backlight, kbd_backlight->priv->fd_hw_changed);
++	up_kbd_backlight_emit_change (kbd_backlight, brightness, "internal");
++
++	return TRUE;
++}
++
++/**
+  * up_kbd_backlight_find:
+  **/
+ static gboolean
+@@ -223,6 +243,7 @@ up_kbd_backlight_find (UpKbdBacklight *kbd_backlight)
+ 	gchar *dir_path = NULL;
+ 	gchar *path_max = NULL;
+ 	gchar *path_now = NULL;
++	gchar *path_hw_changed = NULL;
+ 	gchar *buf_max = NULL;
+ 	gchar *buf_now = NULL;
+ 	GError *error = NULL;
+@@ -273,6 +294,14 @@ up_kbd_backlight_find (UpKbdBacklight *kbd_backlight)
+ 	if (up_kbd_backlight_brightness_read (kbd_backlight, kbd_backlight->priv->fd) < 0)
+ 		goto out;
+ 
++	path_hw_changed = g_build_filename (dir_path, "brightness_hw_changed", NULL);
++	kbd_backlight->priv->fd_hw_changed = open (path_hw_changed, O_RDONLY);
++	if (kbd_backlight->priv->fd_hw_changed >= 0) {
++		kbd_backlight->priv->channel_hw_changed = g_io_channel_unix_new (kbd_backlight->priv->fd_hw_changed);
++		g_io_add_watch (kbd_backlight->priv->channel_hw_changed,
++				G_IO_PRI, up_kbd_backlight_event_io, kbd_backlight);
++	}
++
+ 	/* success */
+ 	found = TRUE;
+ out:
+@@ -281,6 +310,7 @@ out:
+ 	g_free (dir_path);
+ 	g_free (path_max);
+ 	g_free (path_now);
++	g_free (path_hw_changed);
+ 	g_free (buf_max);
+ 	g_free (buf_now);
+ 	return found;
+@@ -316,6 +346,14 @@ up_kbd_backlight_finalize (GObject *object)
+ 	kbd_backlight = UP_KBD_BACKLIGHT (object);
+ 	kbd_backlight->priv = UP_KBD_BACKLIGHT_GET_PRIVATE (kbd_backlight);
+ 
++	if (kbd_backlight->priv->channel_hw_changed) {
++		g_io_channel_shutdown (kbd_backlight->priv->channel_hw_changed, FALSE, NULL);
++		g_io_channel_unref (kbd_backlight->priv->channel_hw_changed);
++	}
++
++	if (kbd_backlight->priv->fd_hw_changed >= 0)
++		close (kbd_backlight->priv->fd_hw_changed);
++
+ 	/* close file */
+ 	if (kbd_backlight->priv->fd >= 0)
+ 		close (kbd_backlight->priv->fd);
+-- 
+2.13.0
+

@@ -1,0 +1,34 @@
+From 27a3eea5e5a5a39acd22f67994a4ba4027faf201 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Wed, 5 Apr 2017 15:59:25 +0200
+Subject: [PATCH 49/55] daemon: Make warning levels for devices inclusive
+
+A 5% battery level should already be in "critical", this matches the
+configurable thresholds where the bounds of critical warnings are
+inclusive. This also makes it easier to create fake percentages for the
+Logitech devices with coarse battery level reporting.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=100359
+---
+ src/up-daemon.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/up-daemon.c b/src/up-daemon.c
+index d506c4b..54dcec7 100644
+--- a/src/up-daemon.c
++++ b/src/up-daemon.c
+@@ -645,9 +645,9 @@ up_daemon_compute_warning_level (UpDaemon      *daemon,
+ 	 * into critical (or off) before any warnings */
+ 	if (kind == UP_DEVICE_KIND_MOUSE ||
+ 	    kind == UP_DEVICE_KIND_KEYBOARD) {
+-		if (percentage < 5.0f)
++		if (percentage <= 5.0f)
+ 			return UP_DEVICE_LEVEL_CRITICAL;
+-		else if (percentage < 10.0f)
++		else if (percentage <= 10.0f)
+ 			return  UP_DEVICE_LEVEL_LOW;
+ 		else
+ 			return UP_DEVICE_LEVEL_NONE;
+-- 
+2.13.0
+

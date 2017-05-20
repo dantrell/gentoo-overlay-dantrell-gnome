@@ -1,7 +1,7 @@
 From fc27cbd5cb098ccf6c70110fe1b894987328fc0d Mon Sep 17 00:00:00 2001
 From: Arnaud Quette <arnaud.quette@free.fr>
 Date: Mon, 8 Jun 2015 10:08:24 +0200
-Subject: [PATCH 8/8] Update UPower HID rules - supported devices list
+Subject: [PATCH 08/90] Update UPower HID rules - supported devices list
 
 As per update on the NUT - Network UPS Tools project, this first patch
 adds some more supported devices to the rules file
@@ -110,5 +110,5 @@ index 767e9bc..e064ef7 100644
  
  LABEL="up_hid_end"
 -- 
-2.6.3
+2.13.0
 

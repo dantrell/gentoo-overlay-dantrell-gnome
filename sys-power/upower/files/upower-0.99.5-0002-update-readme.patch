@@ -1,0 +1,35 @@
+From b68131796a338e24427a04d73ee7efd1745f01ee Mon Sep 17 00:00:00 2001
+From: Michael Biebl <biebl@debian.org>
+Date: Wed, 17 Feb 2016 00:04:51 +0100
+Subject: [PATCH 02/55] Update README
+
+Signed-off-by: Richard Hughes <richard@hughsie.com>
+---
+ README | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/README b/README
+index 64c1f25..50c16cb 100644
+--- a/README
++++ b/README
+@@ -4,12 +4,11 @@ UPower
+ 
+ Requirements:
+ 
+-   glib-2.0         >= 2.6.0
+-   gio-2.0          >= 2.16.1
+-   dbus-1           >= 1.0
+-   dbus-glib-1      >= 0.76
+-   gudev-1.0        >= 001
+-   libusb
++   glib-2.0             >= 2.34.0
++   gio-2.0              >= 2.16.1
++   gudev-1.0            >= 147    (Linux)
++   libusb-1.0           >= 1.0.0  (Linux)
++   libimobiledevice-1.0 >= 0.9.7  (optional)
+ 
+ UPower is an abstraction for enumerating power devices,
+ listening to device events and querying history and statistics.
+-- 
+2.13.0
+

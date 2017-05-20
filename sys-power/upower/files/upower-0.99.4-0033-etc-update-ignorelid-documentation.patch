@@ -1,0 +1,32 @@
+From 28bd86c181e2510ef6a1dc7cfa26f97803698a79 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 12 Nov 2015 16:28:20 +0100
+Subject: [PATCH 33/90] etc: Update IgnoreLid documentation
+
+It's not used by gnome-settings-daemon any more, logind reads the
+Lid status itself.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=92920
+---
+ etc/UPower.conf | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/etc/UPower.conf b/etc/UPower.conf
+index a727ee3..e2c6a69 100644
+--- a/etc/UPower.conf
++++ b/etc/UPower.conf
+@@ -31,8 +31,9 @@ NoPollBatteries=false
+ #
+ # Some laptops are broken. The lid state is either inverted, or stuck
+ # on or off. We can't do much to fix these problems, but this is a way
+-# for users to make the laptop panel vanish and for programs like
+-# gnome-settings-daemon to not suspend on system startup.
++# for users to make the laptop panel vanish, a state that might be used
++# by a couple of user-space daemons. On Linux systems, see also
++# logind.conf(5).
+ #
+ # default=false
+ IgnoreLid=false
+-- 
+2.13.0
+

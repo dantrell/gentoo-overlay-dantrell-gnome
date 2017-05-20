@@ -22,7 +22,7 @@
 ~app-text/libgxps-0.2.5::dantrell-gnome
 ~app-text/yelp-tools-3.18.0::dantrell-gnome
 ~dev-cpp/atkmm-2.24.2::dantrell-gnome
-~dev-cpp/cairomm-1.12.0::dantrell-gnome
+~dev-cpp/cairomm-1.12.2::dantrell-gnome
 ~dev-cpp/glibmm-2.50.1::dantrell-gnome
 ~dev-cpp/gtkmm-3.22.0::dantrell-gnome
 ~dev-cpp/mm-common-0.9.10::dantrell-gnome

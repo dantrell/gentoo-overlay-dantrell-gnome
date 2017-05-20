@@ -1,5 +1,4 @@
 USE="${USE} colord"
-USE="${USE} consolekit"
 USE="${USE} dbus"
 USE="${USE} gnome"
 USE="${USE} gnome-keyring"

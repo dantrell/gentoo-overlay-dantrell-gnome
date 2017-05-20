@@ -1,0 +1,89 @@
+From 112814fd4fa16782d7e07363d91616d154b77d93 Mon Sep 17 00:00:00 2001
+From: Hans de Goede <hdegoede@redhat.com>
+Date: Sun, 5 Feb 2017 16:04:02 +0100
+Subject: [PATCH 30/55] UpKbdBacklight: Add new BrightnessChangedWithSource
+ signal
+
+There are multiple possible causes for the keyboard brightness to change,
+e.g. SetBrightness may get called, or the brightness may get changed
+through a hotkey which is handled in firmware.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=98404
+---
+ dbus/org.freedesktop.UPower.KbdBacklight.xml | 28 ++++++++++++++++++++++++++++
+ src/up-kbd-backlight.c                       | 13 +++++++++++--
+ 2 files changed, 39 insertions(+), 2 deletions(-)
+
+diff --git a/dbus/org.freedesktop.UPower.KbdBacklight.xml b/dbus/org.freedesktop.UPower.KbdBacklight.xml
+index 994380f..6a7c2c6 100644
+--- a/dbus/org.freedesktop.UPower.KbdBacklight.xml
++++ b/dbus/org.freedesktop.UPower.KbdBacklight.xml
+@@ -96,6 +96,34 @@
+       </doc:doc>
+     </signal>
+ 
++    <signal name="BrightnessChangedWithSource">
++      <arg name="value" direction="out" type="i">
++        <doc:doc>
++          <doc:summary>
++            The new brightness value of the keyboard backlight.
++          </doc:summary>
++        </doc:doc>
++      </arg>
++      <arg name="source" direction="out" type="s">
++        <doc:doc>
++          <doc:summary>
++            Source of the keyboard backlight brightness change, either
++            "external" if SetBrightness was called, or "internal" if the
++            hardware changed the keyboard brightness itself (automatically or
++            through a firmware-handled hotkey being pressed).
++          </doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>
++	    The keyboard backlight brightness level has changed including
++	    information about the source of the change.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </signal>
++
+   </interface>
+ 
+ </node>
+diff --git a/src/up-kbd-backlight.c b/src/up-kbd-backlight.c
+index 925a5ed..36f6c33 100644
+--- a/src/up-kbd-backlight.c
++++ b/src/up-kbd-backlight.c
+@@ -49,6 +49,16 @@ struct UpKbdBacklightPrivate
+ G_DEFINE_TYPE (UpKbdBacklight, up_kbd_backlight, UP_TYPE_EXPORTED_KBD_BACKLIGHT_SKELETON)
+ 
+ /**
++ * up_kbd_backlight_emit_change:
++ **/
++static void
++up_kbd_backlight_emit_change(UpKbdBacklight *kbd_backlight, int value, const char *source)
++{
++	up_exported_kbd_backlight_emit_brightness_changed (UP_EXPORTED_KBD_BACKLIGHT (kbd_backlight), value);
++	up_exported_kbd_backlight_emit_brightness_changed_with_source (UP_EXPORTED_KBD_BACKLIGHT (kbd_backlight), value, source);
++}
++
++/**
+  * up_kbd_backlight_brightness_read:
+  **/
+ static gint
+@@ -114,8 +124,7 @@ up_kbd_backlight_brightness_write (UpKbdBacklight *kbd_backlight, gint value)
+ 	}
+ 
+ 	/* emit signal */
+-	up_exported_kbd_backlight_emit_brightness_changed (UP_EXPORTED_KBD_BACKLIGHT (kbd_backlight),
+-							   value);
++	up_kbd_backlight_emit_change (kbd_backlight, value, "external");
+ 
+ out:
+ 	g_free (text);
+-- 
+2.13.0
+

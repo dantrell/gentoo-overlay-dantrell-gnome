@@ -1,0 +1,48 @@
+From c5d1660b5c9b52d9e0b4f37dc3c0a377a47631e2 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 24 Jan 2017 17:08:57 +0100
+Subject: [PATCH 22/55] linux: Allow running upowerd under valgrind in tests
+
+---
+ src/linux/integration-test | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 0ddf2df..4cf7864 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -66,6 +66,7 @@ class Tests(unittest.TestCase):
+         if os.access(os.path.join(builddir, 'src', 'upowerd'), os.X_OK):
+             cls.daemon_path = os.path.join(builddir, 'src', 'upowerd')
+             print('Testing binaries from local build tree')
++            cls.local_daemon = True
+         else:
+             print('Testing installed system binaries')
+             cls.daemon_path = None
+@@ -75,6 +76,7 @@ class Tests(unittest.TestCase):
+                         cls.daemon_path = line.split('=', 1)[1].strip()
+                         break
+             assert cls.daemon_path, 'could not determine daemon path from D-BUS .service file'
++            cls.local_daemon = False
+ 
+         # fail on CRITICALs on client side
+         GLib.log_set_always_fatal(GLib.LogLevelFlags.LEVEL_WARNING |
+@@ -138,7 +140,14 @@ class Tests(unittest.TestCase):
+         # have to do that ourselves
+         env['UMOCKDEV_DIR'] = self.testbed.get_root_dir()
+         self.log = tempfile.NamedTemporaryFile()
+-        self.daemon = subprocess.Popen([self.daemon_path, '-v'],
++        if os.getenv('VALGRIND') != None:
++            if self.local_daemon:
++                daemon_path = ['libtool', '--mode=execute', 'valgrind', self.daemon_path, '-v']
++            else:
++                daemon_path = ['valgrind', self.daemon_path, '-v']
++        else:
++            daemon_path = [self.daemon_path, '-v']
++        self.daemon = subprocess.Popen(daemon_path,
+                                        env=env, stdout=self.log,
+                                        stderr=subprocess.STDOUT)
+ 
+-- 
+2.13.0
+

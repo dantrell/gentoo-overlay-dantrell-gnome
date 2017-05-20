@@ -1,0 +1,29 @@
+From 90aec997ce82afeae0f7e2e51fcd313d260816b3 Mon Sep 17 00:00:00 2001
+From: Christian Kellner <christian@kellner.me>
+Date: Tue, 21 Mar 2017 18:07:41 +0000
+Subject: [PATCH 47/55] integration-test: enable running from JHBuild
+
+https://bugs.freedesktop.org/show_bug.cgi?id=99763
+---
+ src/linux/integration-test | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index e94669f..15ccfef 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -87,6 +87,11 @@ class Tests(dbusmock.DBusTestCase):
+             cls.daemon_path = os.path.join(builddir, 'src', 'upowerd')
+             print('Testing binaries from local build tree')
+             cls.local_daemon = True
++        elif os.environ.get('UNDER_JHBUILD', False):
++            jhbuild_prefix = os.environ['JHBUILD_PREFIX']
++            cls.daemon_path = os.path.join(jhbuild_prefix, 'libexec', 'upowerd')
++            print('Testing binaries from JHBuild')
++            cls.local_daemon = False
+         else:
+             print('Testing installed system binaries')
+             cls.daemon_path = None
+-- 
+2.13.0
+

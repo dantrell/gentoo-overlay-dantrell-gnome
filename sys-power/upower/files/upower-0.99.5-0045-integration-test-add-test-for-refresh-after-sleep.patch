@@ -1,0 +1,88 @@
+From a4d7d84b3462609da8ff8825b94b3bafdbc94115 Mon Sep 17 00:00:00 2001
+From: Christian Kellner <christian@kellner.me>
+Date: Tue, 21 Mar 2017 17:16:01 +0000
+Subject: [PATCH 45/55] integration-test: Add test for refresh after sleep
+
+This also tests suspending and resuming polling as a
+by-product.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=99763
+---
+ src/linux/integration-test | 54 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index f37e306..1388ffe 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -238,6 +238,27 @@ class Tests(dbusmock.DBusTestCase):
+                                                                   parameters or {},
+                                                                   stdout=subprocess.PIPE)
+ 
++    def have_text_in_log(self, text):
++        with open(self.log.name) as f:
++            return text in f.read()
++
++    def assertEventually(self, condition, message=None, timeout=50):
++        '''Assert that condition function eventually returns True.
++
++        Timeout is in deciseconds, defaulting to 50 (5 seconds). message is
++        printed on failure.
++        '''
++        while timeout >= 0:
++            context = GLib.MainContext.default()
++            while context.iteration(False):
++                pass
++            if condition():
++                break
++            timeout -= 1
++            time.sleep(0.1)
++        else:
++            self.fail(message or 'timed out waiting for ' + str(condition))
++
+     #
+     # Actual test cases
+     #
+@@ -677,6 +698,39 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_ACTION)
+         self.stop_daemon()
+ 
++    def test_refresh_after_sleep(self):
++        '''sleep/wake cycle to check we properly refresh the batteries'''
++
++        bat0 = self.testbed.add_device('power_supply', 'BAT0', None,
++                                       ['type', 'Battery',
++                                        'present', '1',
++                                        'status', 'Discharging',
++                                        'energy_full', '60000000',
++                                        'energy_full_design', '80000000',
++                                        'energy_now', '48000000',
++                                        'voltage_now', '12000000'], [])
++
++        self.start_logind()
++        self.start_daemon()
++
++        self.logind_obj.EmitSignal('', 'PrepareForSleep', 'b', [True])
++        self.assertEventually(lambda: self.have_text_in_log("Poll paused"), timeout=10)
++
++        # simulate some battery drain during sleep for which we then
++        # can check after we 'woke up'
++        self.testbed.set_attribute(bat0, 'energy_now', '40000000')
++
++        self.logind_obj.EmitSignal('', 'PrepareForSleep', 'b', [False])
++        self.assertEventually(lambda: self.have_text_in_log("Poll resumed"), timeout=10)
++
++        devs = self.proxy.EnumerateDevices()
++        self.assertEqual(len(devs), 1)
++
++        bat0_up = devs[0]
++        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'Energy'), 40.0)
++
++        self.stop_daemon()
++
+     def test_vendor_strings(self):
+         '''manufacturer/model_name/serial_number with valid and invalid strings'''
+ 
+-- 
+2.13.0
+

@@ -1,0 +1,42 @@
+From 7371415beb474a2e4592490ccf1f38410ef3b02f Mon Sep 17 00:00:00 2001
+From: Arnaud Quette <arnaud.quette@free.fr>
+Date: Thu, 6 Aug 2015 13:39:24 +0200
+Subject: [PATCH 24/90] Fix build regression
+
+The removal of dbus-glib and libdbus build dependencies has introduced
+a build regression on upower, which fails to link with gobject
+
+Signed-off-by: Richard Hughes <richard@hughsie.com>
+---
+ configure.ac      | 2 +-
+ tools/Makefile.am | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 8a9d889..68427b9 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -152,7 +152,7 @@ AX_CHECK_LINK_FLAG([-Wl,-z,relro,-z,now],
+ 		   [RELRO_LDFLAGS="-Wl,-z,relro,-z,now"])
+ AC_SUBST([RELRO_LDFLAGS])
+ 
+-PKG_CHECK_MODULES(GLIB, [glib-2.0 >= 2.34.0])
++PKG_CHECK_MODULES(GLIB, [glib-2.0 >= 2.34.0 gobject-2.0])
+ PKG_CHECK_MODULES(GIO, [gio-2.0 >= 2.16.1])
+ PKG_CHECK_MODULES(GIO_UNIX, [gio-unix-2.0])
+ 
+diff --git a/tools/Makefile.am b/tools/Makefile.am
+index c583fa3..3764391 100644
+--- a/tools/Makefile.am
++++ b/tools/Makefile.am
+@@ -25,6 +25,7 @@ upower_LDFLAGS =
+ 	$(PIE_LDFLAGS)
+ 
+ upower_LDADD = 						\
++	$(GLIB_LIBS)					\
+ 	$(UPOWER_LIBS)					\
+ 	$(POLKIT_DBUS_LIBS)
+ 
+-- 
+2.13.0
+

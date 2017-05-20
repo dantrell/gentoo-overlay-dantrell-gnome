@@ -1,0 +1,26 @@
+From 937760f491fd6d9eecfaad0926943d1be1fb1350 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Mon, 23 Jan 2017 15:27:33 +0100
+Subject: [PATCH 14/55] linux: Don't talk to HID++ devices ourselves
+
+If the kernel already extract the battery information out of them.
+---
+ rules/95-upower-csr.rules | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/rules/95-upower-csr.rules b/rules/95-upower-csr.rules
+index 3b83665..d7d0c3a 100644
+--- a/rules/95-upower-csr.rules
++++ b/rules/95-upower-csr.rules
+@@ -22,6 +22,8 @@ LABEL="up_csr_end"
+ 
+ # Unifying HID++ devices
+ SUBSYSTEM!="hid", GOTO="up_unifying_end"
++# Kernel provides the battery information already
++ATTRS{idVendor}=="046d", TEST=="builtin_power_supply", GOTO="up_unifying_end"
+ ATTRS{idVendor}=="046d", ENV{UPOWER_VENDOR}="Logitech, Inc."
+ ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c52b", DRIVER=="logitech-djdevice", ENV{UPOWER_BATTERY_TYPE}="unifying"
+ ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c532", DRIVER=="logitech-djdevice", ENV{UPOWER_BATTERY_TYPE}="unifying"
+-- 
+2.13.0
+

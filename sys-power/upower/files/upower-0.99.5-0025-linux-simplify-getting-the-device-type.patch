@@ -1,0 +1,154 @@
+From d47f3eb84b80c5f3942f834c6b79b737f8332702 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 24 Jan 2017 17:44:33 +0100
+Subject: [PATCH 25/55] linux: Simplify getting the device type
+
+1) Get the sibling device
+2) Check its type
+
+This fixes the test_bluetooth_hid_mouse_no_legacy_subdevice test.
+---
+ src/linux/up-device-supply.c | 113 ++++++++++++++++++++-----------------------
+ 1 file changed, 52 insertions(+), 61 deletions(-)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index 719d4df..e65c8a0 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -899,6 +899,49 @@ up_device_supply_poll_unknown_battery (UpDevice *device)
+ 	return FALSE;
+ }
+ 
++static GUdevDevice *
++up_device_supply_get_sibling_with_subsystem (GUdevDevice *device,
++					     const char *subsystem)
++{
++	GUdevDevice *parent;
++	GUdevClient *client;
++	GUdevDevice *sibling;
++	const char const *class[] = { NULL, NULL };
++	const char *parent_path;
++	GList *devices, *l;
++
++	g_return_val_if_fail (device != NULL, NULL);
++	g_return_val_if_fail (subsystem != NULL, NULL);
++
++	parent = g_udev_device_get_parent (device);
++	if (!parent)
++		return NULL;
++	parent_path = g_udev_device_get_sysfs_path (parent);
++
++	sibling = NULL;
++	class[0] = subsystem;
++	client = g_udev_client_new (class);
++	devices = g_udev_client_query_by_subsystem (client, subsystem);
++	for (l = devices; l != NULL && sibling == NULL; l = l->next) {
++		GUdevDevice *d = l->data;
++		GUdevDevice *p;
++		const char *p_path;
++
++		p = g_udev_device_get_parent (d);
++		p_path = g_udev_device_get_sysfs_path (p);
++		if (g_strcmp0 (p_path, parent_path) == 0)
++			sibling = g_object_ref (d);
++
++		g_object_unref (p);
++	}
++
++	g_list_free_full (devices, (GDestroyNotify) g_object_unref);
++	g_object_unref (client);
++	g_object_unref (parent);
++
++	return sibling;
++}
++
+ static UpDeviceKind
+ up_device_supply_guess_type (GUdevDevice *native,
+ 			     const char *native_path)
+@@ -916,74 +959,22 @@ up_device_supply_guess_type (GUdevDevice *native,
+ 	}
+ 
+ 	if (g_ascii_strcasecmp (device_type, "battery") == 0) {
+-		guint i;
+-		const char *class[] = { "hid", "bluetooth" };
++		GUdevDevice *sibling;
+ 
+-		for (i = 0; i < G_N_ELEMENTS(class) && type == UP_DEVICE_KIND_UNKNOWN; i++) {
+-			/* Detect if the battery comes from bluetooth keyboard or mouse. */
+-			GUdevDevice *bluetooth;
+-			GDir *dir;
+-			gchar *input_path = NULL;
+-			GError *error = NULL;
+-
+-			bluetooth = g_udev_device_get_parent_with_subsystem (native, class[i], NULL);
+-			if (bluetooth != NULL) {
+-				const gchar *device_path;
+-				gchar *subdir;
+-
+-				device_path = g_udev_device_get_sysfs_path (bluetooth);
+-
+-				/* There may be an extra subdirectory here */
+-				subdir = g_build_filename (device_path, "input", NULL);
+-				if (!g_file_test (subdir, G_FILE_TEST_IS_DIR)) {
+-					g_free(subdir);
+-					subdir = g_strdup (device_path);
+-				}
+-
+-				if ((dir = g_dir_open (subdir, 0, &error))) {
+-					const char *file;
+-					while ((file = g_dir_read_name (dir))) {
+-						/* Check if it is an input device. */
+-						if (g_str_has_prefix (file, "input")) {
+-							input_path = g_build_filename (subdir, file, NULL);
+-							break;
+-						}
+-					}
+-					g_dir_close (dir);
+-				} else {
+-					g_warning ("Can not open folder %s: %s", device_path, error->message);
+-					g_error_free (error);
+-				}
+-				g_free (subdir);
+-				g_object_unref (bluetooth);
+-			}
+-
+-			if (input_path == NULL)
+-				continue;
+-
+-			if ((dir = g_dir_open (input_path, 0, &error))) {
+-				const char *file;
+-				while ((file = g_dir_read_name (dir))) {
+-					/* Check if it is a mouse device. */
+-					if (g_str_has_prefix (file, "mouse")) {
+-						type = UP_DEVICE_KIND_MOUSE;
+-						break;
+-					}
+-				}
+-				g_dir_close (dir);
++		sibling = up_device_supply_get_sibling_with_subsystem (native, "input");
++		if (sibling) {
++			if (g_udev_device_get_property_as_boolean (sibling, "ID_INPUT_MOUSE") ||
++			    g_udev_device_get_property_as_boolean (sibling, "ID_INPUT_TOUCHPAD")) {
++				type = UP_DEVICE_KIND_MOUSE;
+ 			} else {
+-				g_warning ("Can not open folder %s: %s", input_path, error->message);
+-				g_error_free (error);
+-			}
+-			g_free (input_path);
+-			if (type == UP_DEVICE_KIND_UNKNOWN) {
+ 				type = UP_DEVICE_KIND_KEYBOARD;
+ 			}
++
++			g_object_unref (sibling);
+ 		}
+ 
+-		if (type == UP_DEVICE_KIND_UNKNOWN) {
++		if (type == UP_DEVICE_KIND_UNKNOWN)
+ 			type = UP_DEVICE_KIND_BATTERY;
+-		}
+ 	} else if (g_ascii_strcasecmp (device_type, "USB") == 0) {
+ 
+ 		/* use a heuristic to find the device type */
+-- 
+2.13.0
+

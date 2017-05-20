@@ -1,0 +1,87 @@
+From a2eecff867b37d3369e5941a88d2b03dda147b95 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 24 Mar 2017 17:03:36 +0100
+Subject: [PATCH 39/55] integration-test: Use symbolic names for device types
+
+Instead of using comments to explain the magic values.
+---
+ src/linux/integration-test | 28 ++++++++++++++++++----------
+ 1 file changed, 18 insertions(+), 10 deletions(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 43fabe7..59202cf 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -65,6 +65,19 @@ UP_DISPLAY_OBJECT_PATH = '/org/freedesktop/UPower/devices/DisplayDevice'
+  UP_DEVICE_LEVEL_CRITICAL,
+  UP_DEVICE_LEVEL_ACTION) = (0, 1, 2, 3, 4, 5)
+ 
++(UP_DEVICE_KIND_UNKNOWN,
++ UP_DEVICE_KIND_LINE_POWER,
++ UP_DEVICE_KIND_BATTERY,
++ UP_DEVICE_KIND_UPS,
++ UP_DEVICE_KIND_MONITOR,
++ UP_DEVICE_KIND_MOUSE,
++ UP_DEVICE_KIND_KEYBOARD,
++ UP_DEVICE_KIND_PDA,
++ UP_DEVICE_KIND_PHONE,
++ UP_DEVICE_KIND_MEDIA_PLAYER,
++ UP_DEVICE_KIND_TABLET,
++ UP_DEVICE_KIND_COMPUTER) = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
++
+ class Tests(dbusmock.DBusTestCase):
+     @classmethod
+     def setUpClass(cls):
+@@ -737,8 +750,7 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Model'), 'Fancy BT mouse')
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Percentage'), 30)
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'PowerSupply'), False)
+-        # 5 == mouse
+-        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Type'), 5)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Type'), UP_DEVICE_KIND_MOUSE)
+         self.assertEqual(self.get_dbus_property('OnBattery'), False)
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+         self.stop_daemon()
+@@ -835,8 +847,7 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Model'), 'Fancy Logitech mouse')
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Percentage'), 30)
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'PowerSupply'), False)
+-        # 5 == mouse
+-        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Type'), 5)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Type'), UP_DEVICE_KIND_MOUSE)
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Serial'), '123456')
+         self.assertEqual(self.get_dbus_property('OnBattery'), False)
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+@@ -900,8 +911,7 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Model'), 'Fancy BT mouse')
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Percentage'), 30)
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'PowerSupply'), False)
+-        # 5 == mouse
+-        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Type'), 5)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Type'), UP_DEVICE_KIND_MOUSE)
+         self.assertEqual(self.get_dbus_property('OnBattery'), False)
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+         self.stop_daemon()
+@@ -957,8 +967,7 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Model'), 'Fancy BT mouse')
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Percentage'), 30)
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'PowerSupply'), False)
+-        # 5 == mouse
+-        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Type'), 5)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Type'), UP_DEVICE_KIND_MOUSE)
+         self.assertEqual(self.get_dbus_property('OnBattery'), False)
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+         self.stop_daemon()
+@@ -999,8 +1008,7 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_dev_property(kbdbat0_up, 'Model'), 'Monster Typist')
+         self.assertEqual(self.get_dbus_dev_property(kbdbat0_up, 'Percentage'), 40)
+         self.assertEqual(self.get_dbus_dev_property(kbdbat0_up, 'PowerSupply'), False)
+-        # 6 == keyboard
+-        self.assertEqual(self.get_dbus_dev_property(kbdbat0_up, 'Type'), 6)
++        self.assertEqual(self.get_dbus_dev_property(kbdbat0_up, 'Type'), UP_DEVICE_KIND_KEYBOARD)
+         self.assertEqual(self.get_dbus_property('OnBattery'), False)
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+         self.stop_daemon()
+-- 
+2.13.0
+

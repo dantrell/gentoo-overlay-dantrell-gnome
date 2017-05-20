@@ -1,8 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
-VAPA_API_MIN_VERSION="0.24"
+EAPI="6"
+VALA_MAX_API_VERSION="0.32"
 
 inherit gnome2 vala
 

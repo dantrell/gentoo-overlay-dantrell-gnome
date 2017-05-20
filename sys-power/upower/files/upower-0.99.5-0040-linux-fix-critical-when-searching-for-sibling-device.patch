@@ -1,0 +1,30 @@
+From 86e52378072cc052cfd4a004e1faaff23174aaa8 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 24 Mar 2017 17:14:06 +0100
+Subject: [PATCH 40/55] linux: Fix critical when searching for sibling devices
+
+GUdev-CRITICAL **: g_udev_device_get_sysfs_path: assertion 'G_UDEV_IS_DEVICE (device)' failed
+
+This is caused by looking for devices in a particular subsystem which
+don't have parents. This can happen with virtual devices, such as the
+ones created by test suites.
+---
+ src/linux/up-device-supply.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index f023356..5659bca 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -932,6 +932,8 @@ up_device_supply_get_sibling_with_subsystem (GUdevDevice *device,
+ 		const char *p_path;
+ 
+ 		p = g_udev_device_get_parent (d);
++		if (!p)
++			continue;
+ 		p_path = g_udev_device_get_sysfs_path (p);
+ 		if (g_strcmp0 (p_path, parent_path) == 0)
+ 			sibling = g_object_ref (d);
+-- 
+2.13.0
+

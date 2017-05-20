@@ -1,0 +1,84 @@
+From b292ee20359aca431f6634e2d320f7c29648bf2f Mon Sep 17 00:00:00 2001
+From: Christian Kellner <christian@kellner.me>
+Date: Fri, 24 Mar 2017 19:05:17 +0100
+Subject: [PATCH 46/55] integration-test: Check NoPollbatteries is followed
+
+The NoPollbatteries option should disable battery polling. Create
+a config file with 'NoPollBatteries=true' and ensure we don't get
+polling setup for the virtual battery.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=99763
+---
+ src/linux/integration-test | 42 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 41 insertions(+), 1 deletion(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 1388ffe..e94669f 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -152,7 +152,7 @@ class Tests(dbusmock.DBusTestCase):
+     # Daemon control and D-BUS I/O
+     #
+ 
+-    def start_daemon(self):
++    def start_daemon(self, cfgfile=None):
+         '''Start daemon and create DBus proxy.
+ 
+         Do this after adding the devices you want to test with. At the moment
+@@ -162,6 +162,8 @@ class Tests(dbusmock.DBusTestCase):
+         When done, this sets self.proxy a the Gio.DBusProxy for upowerd.
+         '''
+         env = os.environ.copy()
++        if cfgfile is not None:
++            env['UPOWER_CONF_FILE_NAME'] = cfgfile
+         env['G_DEBUG'] = 'fatal-criticals'
+         # note: Python doesn't propagate the setenv from Testbed.new(), so we
+         # have to do that ourselves
+@@ -731,6 +733,44 @@ class Tests(dbusmock.DBusTestCase):
+ 
+         self.stop_daemon()
+ 
++    def test_no_poll_batteries(self):
++        ''' setting NoPollBatteries option should disable polling'''
++
++        self.testbed.add_device('power_supply', 'BAT0', None,
++                                ['type', 'Battery',
++                                 'present', '1',
++                                 'status', 'Discharging',
++                                 'energy_full', '60000000',
++                                 'energy_full_design', '80000000',
++                                 'energy_now', '48000000',
++                                 'voltage_now', '12000000'], [])
++
++        config = tempfile.NamedTemporaryFile(delete=False, mode='w')
++        config.write("[UPower]\n")
++        config.write("NoPollBatteries=true\n")
++        config.close()
++
++        self.start_logind()
++        self.start_daemon(cfgfile=config.name)
++
++        devs = self.proxy.EnumerateDevices()
++        self.assertEqual(len(devs), 1)
++
++        self.logind_obj.EmitSignal('', 'PrepareForSleep', 'b', [True])
++        self.assertEventually(lambda: self.have_text_in_log("Polling will be paused"), timeout=10)
++
++        self.logind_obj.EmitSignal('', 'PrepareForSleep', 'b', [False])
++        self.assertEventually(lambda: self.have_text_in_log("Polling will be resumed"), timeout=10)
++
++        self.stop_daemon()
++
++        # Now make sure we don't have any actual polling setup for the battery
++        self.assertFalse(self.have_text_in_log("Setup poll for"))
++        self.assertFalse(self.have_text_in_log("Poll paused for"))
++        self.assertFalse(self.have_text_in_log("Poll resumed for"))
++
++        os.unlink(config.name)
++
+     def test_vendor_strings(self):
+         '''manufacturer/model_name/serial_number with valid and invalid strings'''
+ 
+-- 
+2.13.0
+

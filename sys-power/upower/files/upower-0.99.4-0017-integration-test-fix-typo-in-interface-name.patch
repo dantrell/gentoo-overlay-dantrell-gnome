@@ -1,7 +1,7 @@
 From da7517137e7a67ccfcf60093b2eab466aeaf71ad Mon Sep 17 00:00:00 2001
 From: Cosimo Cecchi <cosimoc@gnome.org>
 Date: Sat, 30 May 2015 18:55:37 -0700
-Subject: [PATCH 17/34] integration-test: fix typo in interface name
+Subject: [PATCH 17/90] integration-test: fix typo in interface name
 
 The display device will use the org.freedesktop.UPower.Device interface,
 not org.freedesktop.UPower.
@@ -23,5 +23,5 @@ index e4a9cd8..48c0c1d 100755
      def get_dbus_dev_property(self, device, name):
          '''Get property value from an upower device D-Bus path.'''
 -- 
-2.6.4
+2.13.0
 

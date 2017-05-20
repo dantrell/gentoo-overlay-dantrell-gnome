@@ -1,0 +1,82 @@
+From 89a3baad6982c2699e092356e4969364019619b4 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 24 Jan 2017 15:52:48 +0100
+Subject: [PATCH 20/55] linux: Add test without the "mouse" legacy node
+
+Which currently fails. Which is what will happen with an older UPower on
+a newer kernel with that removed.
+---
+ src/linux/integration-test | 57 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index fe84233..0867c35 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -828,6 +828,63 @@ class Tests(unittest.TestCase):
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+         self.stop_daemon()
+ 
++    def test_bluetooth_hid_mouse_no_legacy_subdevice(self):
++        '''bluetooth HID mouse battery'''
++
++        dev = self.testbed.add_device(
++            'bluetooth',
++            '/devices/pci0000:00/0000:00:14.0/usb2/2-7/2-7:1.0/bluetooth/hci0',
++            None,
++            [], [])
++
++        parent = dev
++        dev = self.testbed.add_device(
++            'bluetooth',
++            'hci0:256',
++            parent,
++            [], ['DEVTYPE', 'link'])
++
++        parent = dev
++        dev = self.testbed.add_device(
++            'hid',
++            '0005:046D:B00D.0002',
++            parent,
++            [], ['HID_NAME', 'Fancy BT Mouse'])
++
++        parent = dev
++        self.testbed.add_device(
++            'power_supply',
++            'power_supply/hid-00:1f:20:96:33:47-battery',
++            parent,
++            ['type', 'Battery',
++             'scope', 'Device',
++             'present', '1',
++             'online', '1',
++             'status', 'Discharging',
++             'capacity', '30',
++             'model_name', 'Fancy BT mouse'],
++            [])
++
++        self.testbed.add_device(
++            'input',
++            'input/input22',
++            parent,
++            [], ['ID_INPUT_MOUSE', '1'])
++
++        self.start_daemon()
++        devs = self.proxy.EnumerateDevices()
++        self.assertEqual(len(devs), 1)
++        mousebat0_up = devs[0]
++
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Model'), 'Fancy BT mouse')
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Percentage'), 30)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'PowerSupply'), False)
++        # 5 == mouse
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Type'), 5)
++        self.assertEqual(self.get_dbus_property('OnBattery'), False)
++        self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
++        self.stop_daemon()
++
+     def test_bluetooth_keyboard(self):
+         '''bluetooth keyboard battery'''
+ 
+-- 
+2.13.0
+

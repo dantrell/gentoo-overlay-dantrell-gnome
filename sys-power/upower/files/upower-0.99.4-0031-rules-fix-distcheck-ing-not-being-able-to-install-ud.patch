@@ -1,7 +1,7 @@
 From 057f1bf338802c02425149d318d3b9317d8cd86b Mon Sep 17 00:00:00 2001
 From: Bastien Nocera <hadess@hadess.net>
 Date: Wed, 23 Sep 2015 17:18:46 +0200
-Subject: [PATCH 31/34] rules: Fix distcheck'ing not being able to install udev
+Subject: [PATCH 31/90] rules: Fix distcheck'ing not being able to install udev
  rules
 
 ---
@@ -25,5 +25,5 @@ index 746dd53..13dc902 100644
  clean-local :
  	rm -f *~
 -- 
-2.6.4
+2.13.0
 

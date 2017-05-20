@@ -1,0 +1,53 @@
+From 140b18f8f4302abc8db8f9cfc04796dd71bd5f64 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 24 Jan 2017 13:04:39 +0100
+Subject: [PATCH 17/55] linux: Remove unneeded goto
+
+---
+ src/linux/up-device-supply.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index 3f90bf3..8125d9d 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -1007,7 +1007,6 @@ static gboolean
+ up_device_supply_coldplug (UpDevice *device)
+ {
+ 	UpDeviceSupply *supply = UP_DEVICE_SUPPLY (device);
+-	gboolean ret = FALSE;
+ 	GUdevDevice *native;
+ 	const gchar *native_path;
+ 	const gchar *scope;
+@@ -1020,7 +1019,7 @@ up_device_supply_coldplug (UpDevice *device)
+ 	native_path = g_udev_device_get_sysfs_path (native);
+ 	if (native_path == NULL) {
+ 		g_warning ("could not get native path for %p", device);
+-		goto out;
++		return FALSE;
+ 	}
+ 
+ 	/* try to work out if the device is powering the system */
+@@ -1038,7 +1037,7 @@ up_device_supply_coldplug (UpDevice *device)
+ 	if (supply->priv->is_power_supply == FALSE &&
+ 	    !sysfs_file_exists (native_path, "capacity")) {
+ 		g_debug ("Ignoring device AC, we'll monitor the device battery");
+-		goto out;
++		return FALSE;
+ 	}
+ 
+ 	/* try to detect using the device type */
+@@ -1065,9 +1064,7 @@ up_device_supply_coldplug (UpDevice *device)
+ 		up_daemon_start_poll (G_OBJECT (device), (GSourceFunc) up_device_supply_refresh);
+ 
+ 	/* coldplug values */
+-	ret = up_device_supply_refresh (device);
+-out:
+-	return ret;
++	return up_device_supply_refresh (device);
+ }
+ 
+ /**
+-- 
+2.13.0
+

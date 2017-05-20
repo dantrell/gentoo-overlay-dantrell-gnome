@@ -1,7 +1,7 @@
 From d5ec9d4f292726d1695f5154e546ac8536bf454d Mon Sep 17 00:00:00 2001
 From: Bastien Nocera <hadess@hadess.net>
 Date: Wed, 23 Sep 2015 17:00:00 +0200
-Subject: [PATCH 29/34] daemon: Print the filename when the config file is
+Subject: [PATCH 29/90] daemon: Print the filename when the config file is
  missing
 
 ---
@@ -31,5 +31,5 @@ index 703774a..2a17f30 100644
  
  /**
 -- 
-2.6.4
+2.13.0
 

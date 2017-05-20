@@ -1,0 +1,161 @@
+From 6b147982817ad9180e594bcfdb0db94bbfcb4869 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 23 Mar 2017 18:38:33 +0100
+Subject: [PATCH 50/55] linux: Add support for "capacity_level" attribute
+
+Some devices, such as a number of wireless Logitech unifying devices
+don't have a precise battery level reporting, and use the Linux
+POWER_SUPPLY_CAPACITY_LEVEL_* values.
+
+This minimal fix matches the levels against approximate percentage
+values. This is good enough to make the Logitech T650 report battery
+again when using the kernel HID++ battery support.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=100359
+---
+ src/linux/integration-test   | 67 ++++++++++++++++++++++++++++++++++++++++++++
+ src/linux/up-device-supply.c | 36 +++++++++++++++++++++++-
+ 2 files changed, 102 insertions(+), 1 deletion(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 65f141d..1769e26 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -952,6 +952,73 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+         self.stop_daemon()
+ 
++    def test_hidpp_touchpad(self):
++        '''HID++ touchpad battery with 5 capacity levels'''
++
++        dev = self.testbed.add_device('hid',
++                                      '/devices/pci0000:00/0000:00:14.0/usb3/3-10/3-10:1.2/0003:046D:C52B.0009/0003:046D:4101.000A',
++                                      None,
++                                      [], [])
++
++        parent = dev
++        self.testbed.add_device(
++            'input',
++            '/devices/pci0000:00/0000:00:14.0/usb3/3-10/3-10:1.2/0003:046D:C52B.0009/0003:046D:4101.000A/input/input22',
++            parent,
++            [], ['DEVNAME', 'input/mouse3', 'ID_INPUT_TOUCHPAD', '1'])
++
++        dev = self.testbed.add_device(
++            'power_supply',
++            '/devices/pci0000:00/0000:00:14.0/usb3/3-10/3-10:1.2/0003:046D:C52B.0009/0003:046D:4101.000A/power_supply/hidpp_battery_3',
++            parent,
++            ['type', 'Battery',
++             'scope', 'Device',
++             'present', '1',
++             'online', '1',
++             'status', 'Discharging',
++             'capacity_level', 'Full\n',
++             'serial_number', '123456',
++             'model_name', 'Logitech T650'],
++            [])
++
++        self.start_daemon()
++        devs = self.proxy.EnumerateDevices()
++        self.assertEqual(len(devs), 1)
++        mousebat0_up = devs[0]
++
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Model'), 'Logitech T650')
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'PowerSupply'), False)
++        # 5 == mouse
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Type'), 5)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Serial'), '123456')
++        self.assertEqual(self.get_dbus_property('OnBattery'), False)
++        self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
++
++        # Now test all the levels
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Percentage'), 100)
++
++        self.testbed.set_attribute(dev, 'capacity_level', 'Critical\n')
++        self.testbed.uevent(dev, 'change')
++        time.sleep(0.5)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Percentage'), 5)
++
++        self.testbed.set_attribute(dev, 'capacity_level', 'Low\n')
++        self.testbed.uevent(dev, 'change')
++        time.sleep(0.5)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Percentage'), 10)
++
++        self.testbed.set_attribute(dev, 'capacity_level', 'High\n')
++        self.testbed.uevent(dev, 'change')
++        time.sleep(0.5)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Percentage'), 70)
++
++        self.testbed.set_attribute(dev, 'capacity_level', 'Normal\n')
++        self.testbed.uevent(dev, 'change')
++        time.sleep(0.5)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Percentage'), 55)
++
++        self.stop_daemon()
++
+     def test_bluetooth_hid_mouse(self):
+         '''bluetooth HID mouse battery'''
+ 
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index 5659bca..44c2f79 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -476,6 +476,36 @@ up_device_supply_get_state (const gchar *native_path)
+ 	return state;
+ }
+ 
++static gdouble
++sysfs_get_capacity_level (const char *native_path)
++{
++	char *level;
++	gdouble ret = -1.0;
++	guint i;
++	struct {
++		const char *level;
++		gdouble percentage;
++	} levels[] = {
++		/* In order of most likely to least likely */
++		{ "Normal",    55.0 },
++		{ "High",      70.0 },
++		{ "Low",       20.0 },
++		{ "Critical",   5.0 },
++		{ "Full",     100.0 }
++	};
++
++	level = sysfs_get_string (native_path, "capacity_level");
++	for (i = 0; i < G_N_ELEMENTS(levels); i++) {
++		if (g_ascii_strncasecmp (levels[i].level, level, strlen (levels[i].level)) == 0) {
++			ret = levels[i].percentage;
++			break;
++		}
++	}
++
++	g_free (level);
++	return ret;
++}
++
+ /**
+  * up_device_supply_refresh_battery:
+  *
+@@ -858,6 +888,9 @@ up_device_supply_refresh_device (UpDeviceSupply *supply,
+ 
+ 	/* get a precise percentage */
+ 	percentage = sysfs_get_double_with_error (native_path, "capacity");
++	if (percentage < 0.0)
++		percentage = sysfs_get_capacity_level (native_path);
++
+ 	if (percentage < 0.0) {
+ 		/* Probably talking to the device over Bluetooth */
+ 		state = UP_DEVICE_STATE_UNKNOWN;
+@@ -1036,7 +1069,8 @@ up_device_supply_coldplug (UpDevice *device)
+ 
+ 	/* we don't use separate ACs for devices */
+ 	if (supply->priv->is_power_supply == FALSE &&
+-	    !sysfs_file_exists (native_path, "capacity")) {
++	    !sysfs_file_exists (native_path, "capacity") &&
++	    !sysfs_file_exists (native_path, "capacity_level")) {
+ 		g_debug ("Ignoring device AC, we'll monitor the device battery");
+ 		return FALSE;
+ 	}
+-- 
+2.13.0
+

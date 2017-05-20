@@ -1,7 +1,7 @@
 From db4f9b43dfe6b4d2b5063ae352d8eba017652fce Mon Sep 17 00:00:00 2001
 From: Bastien Nocera <hadess@hadess.net>
 Date: Thu, 12 Nov 2015 16:25:44 +0100
-Subject: [PATCH 32/34] etc: Change the default low battery policy
+Subject: [PATCH 32/90] etc: Change the default low battery policy
 
 It is now based on the percentage of battery left, rather than the
 usually unreliable "time left". See configuration file for more details.
@@ -31,5 +31,5 @@ index 4282948..a727ee3 100644
  # When UsePercentageForPolicy is true, the levels at which UPower will
  # consider the battery low, critical, or take action for the critical
 -- 
-2.6.4
+2.13.0
 

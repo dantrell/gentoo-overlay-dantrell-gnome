@@ -1,0 +1,226 @@
+From 16537df546cc21b23a9abd57603b26136bf4d86d Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Mon, 1 Jun 2015 10:26:41 -0700
+Subject: [PATCH 23/90] daemon: remove custom marshal setup
+
+Just use the default marshaller.
+---
+ src/Makefile.am          | 11 -----------
+ src/dummy/up-backend.c   |  5 ++---
+ src/freebsd/up-backend.c |  5 ++---
+ src/linux/up-backend.c   |  5 ++---
+ src/openbsd/up-backend.c |  5 ++---
+ src/up-daemon.c          |  2 --
+ src/up-device.c          |  1 -
+ src/up-kbd-backlight.c   |  1 -
+ src/up-marshal.list      |  7 -------
+ src/up-wakeups.c         |  1 -
+ 10 files changed, 8 insertions(+), 35 deletions(-)
+ delete mode 100644 src/up-marshal.list
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index c0f4e36..6301d46 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -37,16 +37,6 @@ UPOWER_LIBS = \
+ 	$(top_builddir)/dbus/libupower-dbus.la			\
+ 	$(top_builddir)/libupower-glib/libupower-glib.la
+ 
+-BUILT_SOURCES =							\
+-	up-marshal.h						\
+-	up-marshal.c
+-
+-up-marshal.h: up-marshal.list
+-	glib-genmarshal $< --prefix=up_marshal --header > $@
+-
+-up-marshal.c: up-marshal.list
+-	echo "#include \"up-marshal.h\"" > $@ && glib-genmarshal $< --prefix=up_marshal --body >> $@
+-
+ libexec_PROGRAMS = upowerd
+ 
+ upowerd_SOURCES =						\
+@@ -197,7 +187,6 @@ MAINTAINERCLEANFILES =						\
+ 	$(dbusservice_DATA)
+ 
+ EXTRA_DIST =							\
+-	up-marshal.list						\
+ 	$(systemdservice_in_files)				\
+ 	$(dbusservice_in_files)					\
+ 	$(dbusconf_in_files)
+diff --git a/src/dummy/up-backend.c b/src/dummy/up-backend.c
+index ad81b0b..8b8013b 100644
+--- a/src/dummy/up-backend.c
++++ b/src/dummy/up-backend.c
+@@ -29,7 +29,6 @@
+ 
+ #include "up-backend.h"
+ #include "up-daemon.h"
+-#include "up-marshal.h"
+ #include "up-device.h"
+ 
+ static void	up_backend_class_init	(UpBackendClass	*klass);
+@@ -187,13 +186,13 @@ up_backend_class_init (UpBackendClass *klass)
+ 		g_signal_new ("device-added",
+ 			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
+ 			      G_STRUCT_OFFSET (UpBackendClass, device_added),
+-			      NULL, NULL, up_marshal_VOID__POINTER_POINTER,
++			      NULL, NULL, NULL,
+ 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
+ 	signals [SIGNAL_DEVICE_REMOVED] =
+ 		g_signal_new ("device-removed",
+ 			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
+ 			      G_STRUCT_OFFSET (UpBackendClass, device_removed),
+-			      NULL, NULL, up_marshal_VOID__POINTER_POINTER,
++			      NULL, NULL, NULL,
+ 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
+ 
+ 	g_type_class_add_private (klass, sizeof (UpBackendPrivate));
+diff --git a/src/freebsd/up-backend.c b/src/freebsd/up-backend.c
+index 68a01dc..16f32ce 100644
+--- a/src/freebsd/up-backend.c
++++ b/src/freebsd/up-backend.c
+@@ -40,7 +40,6 @@
+ 
+ #include "up-backend.h"
+ #include "up-daemon.h"
+-#include "up-marshal.h"
+ #include "up-device.h"
+ #include "up-backend-bsd-private.h"
+ 
+@@ -397,13 +396,13 @@ up_backend_class_init (UpBackendClass *klass)
+ 		g_signal_new ("device-added",
+ 			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
+ 			      G_STRUCT_OFFSET (UpBackendClass, device_added),
+-			      NULL, NULL, up_marshal_VOID__POINTER_POINTER,
++			      NULL, NULL, NULL,
+ 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
+ 	signals [SIGNAL_DEVICE_REMOVED] =
+ 		g_signal_new ("device-removed",
+ 			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
+ 			      G_STRUCT_OFFSET (UpBackendClass, device_removed),
+-			      NULL, NULL, up_marshal_VOID__POINTER_POINTER,
++			      NULL, NULL, NULL,
+ 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
+ 
+ 	g_type_class_add_private (klass, sizeof (UpBackendPrivate));
+diff --git a/src/linux/up-backend.c b/src/linux/up-backend.c
+index 3d5e627..2ba201a 100644
+--- a/src/linux/up-backend.c
++++ b/src/linux/up-backend.c
+@@ -31,7 +31,6 @@
+ 
+ #include "up-backend.h"
+ #include "up-daemon.h"
+-#include "up-marshal.h"
+ #include "up-device.h"
+ 
+ #include "up-device-supply.h"
+@@ -474,13 +473,13 @@ up_backend_class_init (UpBackendClass *klass)
+ 		g_signal_new ("device-added",
+ 			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
+ 			      G_STRUCT_OFFSET (UpBackendClass, device_added),
+-			      NULL, NULL, up_marshal_VOID__POINTER_POINTER,
++			      NULL, NULL, NULL,
+ 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
+ 	signals [SIGNAL_DEVICE_REMOVED] =
+ 		g_signal_new ("device-removed",
+ 			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
+ 			      G_STRUCT_OFFSET (UpBackendClass, device_removed),
+-			      NULL, NULL, up_marshal_VOID__POINTER_POINTER,
++			      NULL, NULL, NULL,
+ 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
+ 
+ 	g_type_class_add_private (klass, sizeof (UpBackendPrivate));
+diff --git a/src/openbsd/up-backend.c b/src/openbsd/up-backend.c
+index 52a03d4..41a0109 100644
+--- a/src/openbsd/up-backend.c
++++ b/src/openbsd/up-backend.c
+@@ -23,7 +23,6 @@
+ 
+ #include "up-backend.h"
+ #include "up-daemon.h"
+-#include "up-marshal.h"
+ #include "up-device.h"
+ #include <string.h> /* strcmp() */
+ 
+@@ -578,13 +577,13 @@ up_backend_class_init (UpBackendClass *klass)
+ 		g_signal_new ("device-added",
+ 			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
+ 			      G_STRUCT_OFFSET (UpBackendClass, device_added),
+-			      NULL, NULL, up_marshal_VOID__POINTER_POINTER,
++			      NULL, NULL, NULL,
+ 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
+ 	signals [SIGNAL_DEVICE_REMOVED] =
+ 		g_signal_new ("device-removed",
+ 			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
+ 			      G_STRUCT_OFFSET (UpBackendClass, device_removed),
+-			      NULL, NULL, up_marshal_VOID__POINTER_POINTER,
++			      NULL, NULL, NULL,
+ 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
+ 
+ 	g_type_class_add_private (klass, sizeof (UpBackendPrivate));
+diff --git a/src/up-daemon.c b/src/up-daemon.c
+index 78357d4..c61b1b8 100644
+--- a/src/up-daemon.c
++++ b/src/up-daemon.c
+@@ -36,8 +36,6 @@
+ #include "up-backend.h"
+ #include "up-daemon.h"
+ 
+-#include "up-marshal.h"
+-
+ struct UpDaemonPrivate
+ {
+ 	UpConfig		*config;
+diff --git a/src/up-device.c b/src/up-device.c
+index 6b79f13..ac6a228 100644
+--- a/src/up-device.c
++++ b/src/up-device.c
+@@ -35,7 +35,6 @@
+ #include "up-history.h"
+ #include "up-history-item.h"
+ #include "up-stats-item.h"
+-#include "up-marshal.h"
+ 
+ struct UpDevicePrivate
+ {
+diff --git a/src/up-kbd-backlight.c b/src/up-kbd-backlight.c
+index 58bbfaa..cfa1dd3 100644
+--- a/src/up-kbd-backlight.c
++++ b/src/up-kbd-backlight.c
+@@ -33,7 +33,6 @@
+ #include <dirent.h>
+ 
+ #include "up-kbd-backlight.h"
+-#include "up-marshal.h"
+ #include "up-daemon.h"
+ #include "up-types.h"
+ 
+diff --git a/src/up-marshal.list b/src/up-marshal.list
+deleted file mode 100644
+index 86ba607..0000000
+--- a/src/up-marshal.list
++++ /dev/null
+@@ -1,7 +0,0 @@
+-VOID:BOOLEAN,STRING,BOOLEAN,INT,INT,STRING,DOUBLE
+-VOID:STRING,BOOLEAN,STRING,BOOLEAN,INT,INT,STRING,DOUBLE
+-VOID:STRING,INT
+-VOID:POINTER,BOOLEAN
+-VOID:POINTER,POINTER
+-VOID:POINTER,POINTER,BOOLEAN
+-
+diff --git a/src/up-wakeups.c b/src/up-wakeups.c
+index df60522..1bc3c7b 100644
+--- a/src/up-wakeups.c
++++ b/src/up-wakeups.c
+@@ -28,7 +28,6 @@
+ 
+ #include "up-wakeups.h"
+ #include "up-daemon.h"
+-#include "up-marshal.h"
+ #include "up-wakeup-item.h"
+ 
+ static void     up_wakeups_finalize   (GObject		*object);
+-- 
+2.13.0
+

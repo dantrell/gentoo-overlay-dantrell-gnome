@@ -12,7 +12,7 @@ LICENSE="LGPL-2.1+ FDL-1.1+"
 SLOT="1.0"
 KEYWORDS="*"
 
-IUSE="aqua debug doc egl gtk +introspection test wayland X"
+IUSE="aqua debug doc egl elogind gtk +introspection test wayland X"
 REQUIRED_USE="
 	|| ( aqua wayland X )
 	wayland? ( egl )
@@ -64,9 +64,11 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	# From GNOME:
-	# 	https://git.gnome.org/browse/clutter/commit/?id=be8602fbb491c30c1e2febb92553375b2f4ce584
-	eapply "${FILESDIR}"/${PN}-1.26.2-reorganize-backends.patch
+	if ! use elogind; then
+		# From GNOME:
+		# 	https://git.gnome.org/browse/clutter/commit/?id=be8602fbb491c30c1e2febb92553375b2f4ce584
+		eapply "${FILESDIR}"/${PN}-1.26.2-reorganize-backends.patch
+	fi
 
 	# We only need conformance tests, the rest are useless for us
 	sed -e 's/^\(SUBDIRS =\).*/\1 accessibility conform/g' \

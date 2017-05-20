@@ -1,0 +1,49 @@
+From c885c4c8869e7279a73ab1892824850969cdfa6e Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 24 Mar 2017 17:16:32 +0100
+Subject: [PATCH 41/55] integration-test: Add test for unparented input devices
+
+The test would fail without the fix from commit 86e5237, and succeed
+with it.
+---
+ src/linux/integration-test | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 59202cf..f37e306 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -916,6 +916,30 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+         self.stop_daemon()
+ 
++    def test_virtual_unparented_device(self):
++        '''Unparented virtual input device'''
++
++        dev = self.testbed.add_device(
++            'input',
++            '/sys/devices/virtual/input/input18',
++            None,
++            [], [])
++
++        acpi = self.testbed.add_device('acpi', 'PNP0C0A:00', None, [], [])
++        bat0 = self.testbed.add_device('power_supply', 'BAT0', acpi,
++                                       ['type', 'Battery',
++                                        'present', '1',
++                                        'status', 'Discharging',
++                                        'energy_full', '60000000',
++                                        'energy_full_design', '80000000',
++                                        'energy_now', '48000000',
++                                        'voltage_now', '12000000'], [])
++
++        # Generated a critical in older versions of upower
++        self.start_daemon()
++        devs = self.proxy.EnumerateDevices()
++        self.stop_daemon()
++
+     def test_bluetooth_hid_mouse_no_legacy_subdevice(self):
+         '''bluetooth HID mouse battery'''
+ 
+-- 
+2.13.0
+

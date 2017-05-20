@@ -1,0 +1,183 @@
+From 660c8f3268efb2a92895ce0a0d8d6caab9615bad Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Wed, 5 Apr 2017 12:46:25 +0200
+Subject: [PATCH 53/55] daemon: Move a number of constants to a shared file
+
+https://bugs.freedesktop.org/show_bug.cgi?id=100359
+---
+ src/Makefile.am              |  1 +
+ src/linux/up-device-hid.c    |  5 +++--
+ src/linux/up-device-supply.c | 12 +++++-------
+ src/up-constants.h           | 41 +++++++++++++++++++++++++++++++++++++++++
+ src/up-daemon.c              |  9 +++++----
+ 5 files changed, 55 insertions(+), 13 deletions(-)
+ create mode 100644 src/up-constants.h
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 64cbd7c..98daa82 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -41,6 +41,7 @@ UPOWER_LIBS = \
+ libexec_PROGRAMS = upowerd
+ 
+ upowerd_SOURCES =						\
++	up-constants.h						\
+ 	up-daemon.h						\
+ 	up-daemon.c						\
+ 	up-device.h						\
+diff --git a/src/linux/up-device-hid.c b/src/linux/up-device-hid.c
+index 4bf5a53..1d48449 100644
+--- a/src/linux/up-device-hid.c
++++ b/src/linux/up-device-hid.c
+@@ -50,6 +50,7 @@
+ #include "sysfs-utils.h"
+ #include "up-types.h"
+ #include "up-device-hid.h"
++#include "up-constants.h"
+ 
+ #define UP_DEVICE_HID_REFRESH_TIMEOUT			30l
+ 
+@@ -289,9 +290,9 @@ up_device_hid_fixup_state (UpDevice *device)
+ 
+ 	/* map states the UPS cannot express */
+ 	g_object_get (device, "percentage", &percentage, NULL);
+-	if (percentage < 0.01)
++	if (percentage < UP_DAEMON_EPSILON)
+ 		g_object_set (device, "state", UP_DEVICE_STATE_EMPTY, NULL);
+-	if (percentage > 99.9)
++	if (percentage > (100.0 - UP_DAEMON_EPSILON))
+ 		g_object_set (device, "state", UP_DEVICE_STATE_FULLY_CHARGED, NULL);
+ }
+ 
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index c6456ce..b024fa6 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -36,11 +36,9 @@
+ #include "sysfs-utils.h"
+ #include "up-config.h"
+ #include "up-types.h"
++#include "up-constants.h"
+ #include "up-device-supply.h"
+ 
+-#define UP_DEVICE_SUPPLY_REFRESH_TIMEOUT	30	/* seconds */
+-#define UP_DEVICE_SUPPLY_UNKNOWN_TIMEOUT	1	/* seconds */
+-#define UP_DEVICE_SUPPLY_UNKNOWN_RETRIES	5
+ #define UP_DEVICE_SUPPLY_CHARGED_THRESHOLD	90.0f	/* % */
+ 
+ #define UP_DEVICE_SUPPLY_COLDPLUG_UNITS_CHARGE		TRUE
+@@ -278,7 +276,7 @@ up_device_supply_calculate_rate (UpDeviceSupply *supply, gdouble energy)
+ 		return supply->priv->rate_old;
+ 
+ 	/* Compute the discharge per hour, and not per second */
+-	rate /= sum_x / 3600.0f;
++	rate /= sum_x / SECONDS_PER_HOUR_F;
+ 
+ 	/* if the rate is zero, use the old rate. It will usually happens if no
+ 	 * data is in the buffer yet. If the rate is too high, i.e. more than,
+@@ -942,7 +940,7 @@ up_device_supply_poll_unknown_battery (UpDevice *device)
+ 	UpDeviceSupply *supply = UP_DEVICE_SUPPLY (device);
+ 
+ 	g_debug ("Unknown state on supply %s; forcing update after %i seconds",
+-		 up_device_get_object_path (device), UP_DEVICE_SUPPLY_UNKNOWN_TIMEOUT);
++		 up_device_get_object_path (device), UP_DAEMON_UNKNOWN_TIMEOUT);
+ 
+ 	supply->priv->poll_timer_id = 0;
+ 	up_device_supply_refresh (device);
+@@ -1130,9 +1128,9 @@ up_device_supply_setup_unknown_poll (UpDevice      *device,
+ 
+ 	/* if it's unknown, poll faster than we would normally */
+ 	if (state == UP_DEVICE_STATE_UNKNOWN &&
+-	    supply->priv->unknown_retries < UP_DEVICE_SUPPLY_UNKNOWN_RETRIES) {
++	    supply->priv->unknown_retries < UP_DAEMON_UNKNOWN_RETRIES) {
+ 		supply->priv->poll_timer_id =
+-			g_timeout_add_seconds (UP_DEVICE_SUPPLY_UNKNOWN_TIMEOUT,
++			g_timeout_add_seconds (UP_DAEMON_UNKNOWN_TIMEOUT,
+ 					       (GSourceFunc) up_device_supply_poll_unknown_battery, supply);
+ 		g_source_set_name_by_id (supply->priv->poll_timer_id, "[upower] up_device_supply_poll_unknown_battery (linux)");
+ 
+diff --git a/src/up-constants.h b/src/up-constants.h
+new file mode 100644
+index 0000000..a61f215
+--- /dev/null
++++ b/src/up-constants.h
+@@ -0,0 +1,41 @@
++/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
++ *
++ * Copyright (C) 2017 Bastien Nocera <hadess@hadess.net>
++ *
++ * Licensed under the GNU General Public License Version 2
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++ */
++
++#ifndef __UP_CONSTANTS_H
++#define __UP_CONSTANTS_H
++
++#include <glib-object.h>
++
++G_BEGIN_DECLS
++
++#define UP_DAEMON_UNKNOWN_TIMEOUT			   1 /* second */
++#define UP_DAEMON_UNKNOWN_RETRIES			   5
++#define UP_DAEMON_SHORT_TIMEOUT				  30 /* seconds */
++#define UP_DAEMON_LONG_TIMEOUT				 120 /* seconds */
++
++#define UP_DAEMON_EPSILON				0.01 /* I can't believe it's not zero */
++
++#define SECONDS_PER_HOUR				3600 /* seconds in an hour */
++#define SECONDS_PER_HOUR_F				3600.0f
++
++G_END_DECLS
++
++#endif /* __UP_CONSTANTS_H */
+diff --git a/src/up-daemon.c b/src/up-daemon.c
+index 54dcec7..37f66ab 100644
+--- a/src/up-daemon.c
++++ b/src/up-daemon.c
+@@ -31,6 +31,7 @@
+ #include <glib-object.h>
+ 
+ #include "up-config.h"
++#include "up-constants.h"
+ #include "up-device-list.h"
+ #include "up-device.h"
+ #include "up-backend.h"
+@@ -247,9 +248,9 @@ up_daemon_update_display_battery (UpDaemon *daemon)
+ 	/* calculate a quick and dirty time remaining value */
+ 	if (energy_rate_total > 0) {
+ 		if (state_total == UP_DEVICE_STATE_DISCHARGING)
+-			time_to_empty_total = 3600 * (energy_total / energy_rate_total);
++			time_to_empty_total = SECONDS_PER_HOUR * (energy_total / energy_rate_total);
+ 		else if (state_total == UP_DEVICE_STATE_CHARGING)
+-			time_to_full_total = 3600 * ((energy_full_total - energy_total) / energy_rate_total);
++			time_to_full_total = SECONDS_PER_HOUR * ((energy_full_total - energy_total) / energy_rate_total);
+ 	}
+ 
+ out:
+@@ -788,8 +789,8 @@ calculate_timeout (UpDevice *device)
+ 
+ 	g_object_get (G_OBJECT (device), "warning-level", &warning_level, NULL);
+ 	if (warning_level >= UP_DEVICE_LEVEL_DISCHARGING)
+-		return 30;
+-	return 120;
++		return UP_DAEMON_SHORT_TIMEOUT;
++	return UP_DAEMON_LONG_TIMEOUT;
+ }
+ 
+ static void
+-- 
+2.13.0
+

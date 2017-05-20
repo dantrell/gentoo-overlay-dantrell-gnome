@@ -1,0 +1,27 @@
+From 8aff086b48a0e955fec286f25297c6db76f0707a Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 24 Jan 2017 17:44:05 +0100
+Subject: [PATCH 24/55] linux: Disable crashing test
+
+Filed as an issue against umockdev:
+https://github.com/martinpitt/umockdev/issues/53
+---
+ src/linux/integration-test | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 17be767..b6ffef8 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -724,7 +724,7 @@ class Tests(unittest.TestCase):
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+         self.stop_daemon()
+ 
+-    def test_bluetooth_mouse_reconnect(self):
++    def _test_bluetooth_mouse_reconnect(self):
+         '''bluetooth mouse powerdown/reconnect'''
+ 
+         mb = self._add_bt_mouse()
+-- 
+2.13.0
+

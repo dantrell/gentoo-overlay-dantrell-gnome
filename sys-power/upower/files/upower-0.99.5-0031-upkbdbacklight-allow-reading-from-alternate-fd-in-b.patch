@@ -1,0 +1,62 @@
+From d28ee53aa5472adfcb75f4517dcd040ef616db13 Mon Sep 17 00:00:00 2001
+From: Hans de Goede <hdegoede@redhat.com>
+Date: Wed, 25 Jan 2017 08:34:40 +0100
+Subject: [PATCH 31/55] UpKbdBacklight: Allow reading from alternate fd in
+ _brightness_read()
+
+Pass the fd to use to up_kbd_backlight_brightness_read() so that it can
+be used with multiple fds. This will be used to support the
+"brightness_hw_changed" sysfs attribute.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=98404
+---
+ src/up-kbd-backlight.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/src/up-kbd-backlight.c b/src/up-kbd-backlight.c
+index 36f6c33..3076dd7 100644
+--- a/src/up-kbd-backlight.c
++++ b/src/up-kbd-backlight.c
+@@ -62,17 +62,17 @@ up_kbd_backlight_emit_change(UpKbdBacklight *kbd_backlight, int value, const cha
+  * up_kbd_backlight_brightness_read:
+  **/
+ static gint
+-up_kbd_backlight_brightness_read (UpKbdBacklight *kbd_backlight)
++up_kbd_backlight_brightness_read (UpKbdBacklight *kbd_backlight, int fd)
+ {
+ 	gchar buf[16];
+ 	gchar *end = NULL;
+ 	ssize_t len;
+ 	gint64 brightness = -1;
+ 
+-	g_return_val_if_fail (kbd_backlight->priv->fd >= 0, brightness);
++	g_return_val_if_fail (fd >= 0, brightness);
+ 
+-	lseek (kbd_backlight->priv->fd, 0, SEEK_SET);
+-	len = read (kbd_backlight->priv->fd, buf, G_N_ELEMENTS (buf) - 1);
++	lseek (fd, 0, SEEK_SET);
++	len = read (fd, buf, G_N_ELEMENTS (buf) - 1);
+ 
+ 	if (len > 0) {
+ 		buf[len] = '\0';
+@@ -143,7 +143,7 @@ up_kbd_backlight_get_brightness (UpExportedKbdBacklight *skeleton,
+ {
+ 	gint brightness;
+ 
+-	brightness = up_kbd_backlight_brightness_read (kbd_backlight);
++	brightness = up_kbd_backlight_brightness_read (kbd_backlight, kbd_backlight->priv->fd);
+ 
+ 	if (brightness >= 0) {
+ 		up_exported_kbd_backlight_complete_get_brightness (skeleton, invocation,
+@@ -270,7 +270,7 @@ up_kbd_backlight_find (UpKbdBacklight *kbd_backlight)
+ 	kbd_backlight->priv->fd = open (path_now, O_RDWR);
+ 
+ 	/* read brightness and check if it has an acceptable value */
+-	if (up_kbd_backlight_brightness_read (kbd_backlight) < 0)
++	if (up_kbd_backlight_brightness_read (kbd_backlight, kbd_backlight->priv->fd) < 0)
+ 		goto out;
+ 
+ 	/* success */
+-- 
+2.13.0
+

@@ -1,7 +1,7 @@
 From a037cffdeeed92fe7f6e68f04209b9cbe0422f8f Mon Sep 17 00:00:00 2001
 From: Cosimo Cecchi <cosimoc@gnome.org>
 Date: Sat, 30 May 2015 12:40:15 -0700
-Subject: [PATCH 09/34] up-tool: remove unused variables
+Subject: [PATCH 09/90] up-tool: remove unused variables
 
 ---
  tools/up-tool.c | 2 --
@@ -28,5 +28,5 @@ index a2a35b0..44c7a9a 100644
  
  	g_print ("Monitoring activity from the power daemon. Press Ctrl+C to cancel.\n");
 -- 
-2.6.4
+2.13.0
 

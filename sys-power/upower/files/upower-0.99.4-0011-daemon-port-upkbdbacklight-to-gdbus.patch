@@ -1,0 +1,279 @@
+From 6a8aeafc515c2e5409da4c8368d04614654d19c6 Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Sat, 30 May 2015 12:03:14 -0700
+Subject: [PATCH 11/90] daemon: port UpKbdBacklight to GDBus
+
+---
+ src/Makefile.am        | 13 +++++--
+ src/up-kbd-backlight.c | 93 +++++++++++++++++++++++++++++---------------------
+ src/up-kbd-backlight.h | 13 -------
+ 3 files changed, 64 insertions(+), 55 deletions(-)
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 314d227..01fd6b0 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -28,6 +28,7 @@ AM_CPPFLAGS = \
+ 	-I$(top_srcdir)/libupower-glib				\
+ 	-I$(top_srcdir)						\
+ 	$(GIO_CFLAGS)						\
++	$(GIO_UNIX_CFLAGS)					\
+ 	$(DBUS_GLIB_CFLAGS)					\
+ 	$(GUDEV_CFLAGS)						\
+ 	$(GLIB_CFLAGS)
+@@ -37,7 +38,8 @@ UPOWER_LIBS = $(top_builddir)/libupower-glib/libupower-glib.la
+ BUILT_SOURCES =							\
+ 	up-daemon-glue.h					\
+ 	up-device-glue.h					\
+-	up-kbd-backlight-glue.h					\
++	up-kbd-backlight-generated.h				\
++	up-kbd-backlight-generated.c				\
+ 	up-wakeups-glue.h					\
+ 	up-marshal.h						\
+ 	up-marshal.c
+@@ -54,8 +56,12 @@ up-daemon-glue.h: org.freedesktop.UPower.xml Makefile.am
+ up-device-glue.h: org.freedesktop.UPower.Device.xml Makefile.am
+ 	dbus-binding-tool --prefix=up_device --mode=glib-server --output=up-device-glue.h $(srcdir)/org.freedesktop.UPower.Device.xml
+ 
+-up-kbd-backlight-glue.h: org.freedesktop.UPower.KbdBacklight.xml Makefile.am
+-	dbus-binding-tool --prefix=up_kbd_backlight --mode=glib-server --output=up-kbd-backlight-glue.h $(srcdir)/org.freedesktop.UPower.KbdBacklight.xml
++up-kbd-backlight-generated.h: org.freedesktop.UPower.KbdBacklight.xml Makefile.am
++	$(AM_V_GEN) gdbus-codegen --interface-prefix org.freedesktop.UPower.KbdBacklight. \
++	--generate-c-code up-kbd-backlight-generated \
++	--c-namespace Up \
++	--annotate "org.freedesktop.UPower.KbdBacklight" "org.gtk.GDBus.C.Name" ExportedKbdBacklight \
++	$(srcdir)/org.freedesktop.UPower.KbdBacklight.xml
+ 
+ up-wakeups-glue.h: org.freedesktop.UPower.Wakeups.xml Makefile.am
+ 	dbus-binding-tool --prefix=up_wakeups --mode=glib-server --output=up-wakeups-glue.h $(srcdir)/org.freedesktop.UPower.Wakeups.xml
+@@ -98,6 +104,7 @@ upowerd_LDADD =							\
+ 	-lm							\
+ 	$(USB_LIBS)						\
+ 	$(GIO_LIBS)						\
++	$(GIO_UNIX_LIBS)					\
+ 	$(DBUS_GLIB_LIBS)					\
+ 	$(UPOWER_LIBS)
+ 
+diff --git a/src/up-kbd-backlight.c b/src/up-kbd-backlight.c
+index 930be11..f236aad 100644
+--- a/src/up-kbd-backlight.c
++++ b/src/up-kbd-backlight.c
+@@ -23,8 +23,6 @@
+ #include "config.h"
+ 
+ #include <glib.h>
+-#include <dbus/dbus-glib.h>
+-#include <dbus/dbus-glib-lowlevel.h>
+ #include <glib/gi18n.h>
+ #include <string.h>
+ #include <sys/types.h>
+@@ -37,7 +35,7 @@
+ #include "up-kbd-backlight.h"
+ #include "up-marshal.h"
+ #include "up-daemon.h"
+-#include "up-kbd-backlight-glue.h"
++#include "up-kbd-backlight-generated.h"
+ #include "up-types.h"
+ 
+ static void     up_kbd_backlight_finalize   (GObject	*object);
+@@ -49,16 +47,10 @@ struct UpKbdBacklightPrivate
+ 	gint			 fd;
+ 	gint			 brightness;
+ 	gint			 max_brightness;
+-	DBusGConnection		*connection;
++	GDBusConnection		*connection;
++	UpExportedKbdBacklight  *skeleton;
+ };
+ 
+-enum {
+-	BRIGHTNESS_CHANGED,
+-	LAST_SIGNAL
+-};
+-
+-static guint signals [LAST_SIGNAL] = { 0 };
+-
+ G_DEFINE_TYPE (UpKbdBacklight, up_kbd_backlight, G_TYPE_OBJECT)
+ 
+ /**
+@@ -97,8 +89,8 @@ up_kbd_backlight_brightness_write (UpKbdBacklight *kbd_backlight, gint value)
+ 
+ 	/* emit signal */
+ 	kbd_backlight->priv->brightness = value;
+-	g_signal_emit (kbd_backlight, signals [BRIGHTNESS_CHANGED], 0,
+-		       kbd_backlight->priv->brightness);
++	up_exported_kbd_backlight_emit_brightness_changed (kbd_backlight->priv->skeleton,
++							   kbd_backlight->priv->brightness);
+ 
+ out:
+ 	g_free (text);
+@@ -110,11 +102,13 @@ out:
+  *
+  * Gets the current brightness
+  **/
+-gboolean
+-up_kbd_backlight_get_brightness (UpKbdBacklight *kbd_backlight, gint *value, GError **error)
++static gboolean
++up_kbd_backlight_get_brightness (UpExportedKbdBacklight *skeleton,
++				 GDBusMethodInvocation *invocation,
++				 UpKbdBacklight *kbd_backlight)
+ {
+-	g_return_val_if_fail (value != NULL, FALSE);
+-	*value = kbd_backlight->priv->brightness;
++	up_exported_kbd_backlight_complete_get_brightness (skeleton, invocation,
++							   kbd_backlight->priv->brightness);
+ 	return TRUE;
+ }
+ 
+@@ -123,29 +117,39 @@ up_kbd_backlight_get_brightness (UpKbdBacklight *kbd_backlight, gint *value, GEr
+  *
+  * Gets the max brightness
+  **/
+-gboolean
+-up_kbd_backlight_get_max_brightness (UpKbdBacklight *kbd_backlight, gint *value, GError **error)
++static gboolean
++up_kbd_backlight_get_max_brightness (UpExportedKbdBacklight *skeleton,
++				     GDBusMethodInvocation *invocation,
++				     UpKbdBacklight *kbd_backlight)
+ {
+-	g_return_val_if_fail (value != NULL, FALSE);
+-	*value = kbd_backlight->priv->max_brightness;
++	up_exported_kbd_backlight_complete_get_max_brightness (skeleton, invocation,
++							       kbd_backlight->priv->max_brightness);
+ 	return TRUE;
+ }
+ 
+ /**
+  * up_kbd_backlight_set_brightness:
+  **/
+-gboolean
+-up_kbd_backlight_set_brightness (UpKbdBacklight *kbd_backlight, gint value, GError **error)
++static gboolean
++up_kbd_backlight_set_brightness (UpExportedKbdBacklight *skeleton,
++				 GDBusMethodInvocation *invocation,
++				 gint value,
++				 UpKbdBacklight *kbd_backlight)
+ {
+ 	gboolean ret = FALSE;
+ 
+ 	g_debug ("setting brightness to %i", value);
+-	ret = up_kbd_backlight_brightness_write(kbd_backlight, value);
++	ret = up_kbd_backlight_brightness_write (kbd_backlight, value);
+ 
+-	if (!ret) {
+-		*error = g_error_new (UP_DAEMON_ERROR, UP_DAEMON_ERROR_GENERAL, "error writing brightness %d", value);
++	if (ret) {
++		up_exported_kbd_backlight_complete_set_brightness (skeleton, invocation);
++	} else {
++		g_dbus_method_invocation_return_error (invocation,
++						       UP_DAEMON_ERROR, UP_DAEMON_ERROR_GENERAL,
++						       "error writing brightness %d", value);
+ 	}
+-	return ret;
++
++	return TRUE;
+ }
+ 
+ /**
+@@ -157,16 +161,6 @@ up_kbd_backlight_class_init (UpKbdBacklightClass *klass)
+ 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+ 	object_class->finalize = up_kbd_backlight_finalize;
+ 
+-	signals [BRIGHTNESS_CHANGED] =
+-		g_signal_new ("brightness-changed",
+-			      G_TYPE_FROM_CLASS (object_class), G_SIGNAL_RUN_LAST,
+-			      G_STRUCT_OFFSET (UpKbdBacklightClass, brightness_changed),
+-			      NULL, NULL, g_cclosure_marshal_VOID__INT,
+-			      G_TYPE_NONE, 1, G_TYPE_INT);
+-
+-	/* introspection */
+-	dbus_g_object_type_install_info (UP_TYPE_KBD_BACKLIGHT, &dbus_glib_up_kbd_backlight_object_info);
+-
+ 	g_type_class_add_private (klass, sizeof (UpKbdBacklightPrivate));
+ }
+ 
+@@ -274,7 +268,7 @@ up_kbd_backlight_init (UpKbdBacklight *kbd_backlight)
+ 		return;
+ 	}
+ 
+-	kbd_backlight->priv->connection = dbus_g_bus_get (DBUS_BUS_SYSTEM, &error);
++	kbd_backlight->priv->connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
+ 	if (error != NULL) {
+ 		g_warning ("Cannot connect to bus: %s", error->message);
+ 		g_error_free (error);
+@@ -282,8 +276,25 @@ up_kbd_backlight_init (UpKbdBacklight *kbd_backlight)
+ 	}
+ 
+ 	/* register on the bus */
+-	dbus_g_connection_register_g_object (kbd_backlight->priv->connection, "/org/freedesktop/UPower/KbdBacklight", G_OBJECT (kbd_backlight));
++	kbd_backlight->priv->skeleton = up_exported_kbd_backlight_skeleton_new ();
+ 
++	g_signal_connect (kbd_backlight->priv->skeleton, "handle-get-brightness",
++			  G_CALLBACK (up_kbd_backlight_get_brightness), kbd_backlight);
++	g_signal_connect (kbd_backlight->priv->skeleton, "handle-get-max-brightness",
++			  G_CALLBACK (up_kbd_backlight_get_max_brightness), kbd_backlight);
++	g_signal_connect (kbd_backlight->priv->skeleton, "handle-set-brightness",
++			  G_CALLBACK (up_kbd_backlight_set_brightness), kbd_backlight);
++
++	g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (skeleton),
++					  kbd_backlight->priv->connection,
++					  "/org/freedesktop/UPower/KbdBacklight",
++					  &error);
++
++	if (error != NULL) {
++		g_warning ("Cannot export KbdBacklight object to bus: %s", error->message);
++		g_error_free (error);
++		return;
++	}
+ }
+ 
+ /**
+@@ -304,6 +315,10 @@ up_kbd_backlight_finalize (GObject *object)
+ 	if (kbd_backlight->priv->fd >= 0)
+ 		close (kbd_backlight->priv->fd);
+ 
++	g_clear_object (&kbd_backlight->priv->skeleton);
++
++	g_clear_object (&kbd_backlight->priv->connection);
++
+ 	G_OBJECT_CLASS (up_kbd_backlight_parent_class)->finalize (object);
+ }
+ 
+diff --git a/src/up-kbd-backlight.h b/src/up-kbd-backlight.h
+index 413e908..4d12f81 100644
+--- a/src/up-kbd-backlight.h
++++ b/src/up-kbd-backlight.h
+@@ -24,7 +24,6 @@
+ #define __UP_KBD_BACKLIGHT_H
+ 
+ #include <glib-object.h>
+-#include <dbus/dbus-glib.h>
+ 
+ G_BEGIN_DECLS
+ 
+@@ -46,23 +45,11 @@ typedef struct
+ typedef struct
+ {
+ 	GObjectClass	parent_class;
+-	void		(* brightness_changed)		(UpKbdBacklight	*kbd_backlight,
+-							 gint		 value);
+ } UpKbdBacklightClass;
+ 
+ UpKbdBacklight	*up_kbd_backlight_new			(void);
+ GType		 up_kbd_backlight_get_type		(void);
+ 
+-gboolean	 up_kbd_backlight_set_brightness	(UpKbdBacklight	*kbd_backlight,
+-							 gint		 value,
+-							 GError		**error);
+-gboolean	 up_kbd_backlight_get_brightness	(UpKbdBacklight	*kbd_backlight,
+-							 gint		*value,
+-							 GError		**error);
+-gboolean	 up_kbd_backlight_get_max_brightness	(UpKbdBacklight	*kbd_backlight,
+-							 gint		*value,
+-							 GError		**error);
+-
+ G_END_DECLS
+ 
+ #endif	/* __UP_KBD_BACKLIGHT_H */
+-- 
+2.13.0
+

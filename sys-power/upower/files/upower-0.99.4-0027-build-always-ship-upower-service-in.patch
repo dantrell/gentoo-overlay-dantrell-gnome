@@ -1,0 +1,31 @@
+From ac8fb3155b47d409d468b29de9f87d53e66556c4 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Wed, 23 Sep 2015 16:11:17 +0200
+Subject: [PATCH 27/90] build: Always ship upower.service.in
+
+upower.service.in was only shipped if the tarball was built with systemd
+support. We always need to ship it.
+---
+ src/Makefile.am | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 74594a9..64cbd7c 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -166,9 +166,10 @@ dbusconf_DATA = $(dbusconf_in_files:.conf.in=.conf)
+ $(dbusconf_DATA): $(dbusconf_in_files) Makefile
+ 	cp $< $@
+ 
+-if HAVE_SYSTEMDSYSTEMUNITDIR
+-systemdservicedir       = $(systemdsystemunitdir)
+ systemdservice_in_files = upower.service.in
++
++if HAVE_SYSTEMDSYSTEMUNITDIR
++systemdservicedir       = $(systemdsystemunitdir)
+ systemdservice_DATA     = $(systemdservice_in_files:.service.in=.service)
+ 
+ $(systemdservice_DATA): $(systemdservice_in_files) Makefile
+-- 
+2.13.0
+

@@ -1,0 +1,28 @@
+From 4b03777c54010974a1a0447dbed2ce1476e455c4 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Wed, 8 Jun 2016 14:14:24 +0200
+Subject: [PATCH 09/55] build: Fix -Wformat-y2k compilation errors
+
+The strings are user visible strings, so this isn't a y2k problem.
+---
+ libupower-glib/up-device.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/libupower-glib/up-device.c b/libupower-glib/up-device.c
+index ec1b25b..7bce4e0 100644
+--- a/libupower-glib/up-device.c
++++ b/libupower-glib/up-device.c
+@@ -273,7 +273,10 @@ up_device_to_text (UpDevice *device)
+ 	/* get a human readable time */
+ 	t = (time_t) up_exported_device_get_update_time (priv->proxy_device);
+ 	time_tm = localtime (&t);
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wformat-y2k"
+ 	strftime (time_buf, sizeof time_buf, "%c", time_tm);
++#pragma GCC diagnostic pop
+ 
+ 	string = g_string_new ("");
+ 	if (!is_display)
+-- 
+2.13.0
+

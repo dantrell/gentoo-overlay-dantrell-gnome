@@ -1,7 +1,7 @@
 From fe37183fba649b999af3f66b9e0b0d70a054426c Mon Sep 17 00:00:00 2001
 From: Bastien Nocera <hadess@hadess.net>
 Date: Wed, 17 Jun 2015 10:52:12 +0200
-Subject: [PATCH 2/8] lib: Fix memory leak in up_client_get_devices()
+Subject: [PATCH 02/90] lib: Fix memory leak in up_client_get_devices()
 
 When up_client_get_devices() fails to contact the D-Bus daemon, don't
 leak the newly created array.
@@ -32,5 +32,5 @@ index 48d99a0..4780aa5 100644
  		UpDevice *device;
  		const char *object_path = devices[i];
 -- 
-2.6.3
+2.13.0
 

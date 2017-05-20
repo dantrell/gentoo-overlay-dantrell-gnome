@@ -1,0 +1,32 @@
+From 4292226e5c4b7fc6c1f076670c97bbdfd120a8f9 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 24 Mar 2017 15:22:15 +0100
+Subject: [PATCH 34/55] linux: Fix compilation warning
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+duplicate ‘const’ declaration specifier
+
+We can't use a const char const because we actually want to assign
+values to elements of the array.
+---
+ src/linux/up-device-supply.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index 304e887..f023356 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -910,7 +910,7 @@ up_device_supply_get_sibling_with_subsystem (GUdevDevice *device,
+ 	GUdevDevice *parent;
+ 	GUdevClient *client;
+ 	GUdevDevice *sibling;
+-	const char const *class[] = { NULL, NULL };
++	const char * class[] = { NULL, NULL };
+ 	const char *parent_path;
+ 	GList *devices, *l;
+ 
+-- 
+2.13.0
+

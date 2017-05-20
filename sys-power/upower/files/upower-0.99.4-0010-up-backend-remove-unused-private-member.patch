@@ -1,0 +1,34 @@
+From 7258c4cce01462cb92853a2302cbfba005372e05 Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Sat, 30 May 2015 14:05:22 -0700
+Subject: [PATCH 10/90] up-backend: remove unused private member
+
+---
+ src/linux/up-backend.c | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/src/linux/up-backend.c b/src/linux/up-backend.c
+index b7a129d..3d5e627 100644
+--- a/src/linux/up-backend.c
++++ b/src/linux/up-backend.c
+@@ -45,9 +45,6 @@
+ #include "up-device-idevice.h"
+ #endif /* HAVE_IDEVICE */
+ 
+-#include <dbus/dbus-glib.h>
+-#include <dbus/dbus-glib-lowlevel.h>
+-
+ static void	up_backend_class_init	(UpBackendClass	*klass);
+ static void	up_backend_init	(UpBackend		*backend);
+ static void	up_backend_finalize	(GObject		*object);
+@@ -65,7 +62,6 @@ struct UpBackendPrivate
+ 	GUdevClient		*gudev_client;
+ 	UpDeviceList		*managed_devices;
+ 	UpConfig		*config;
+-	DBusConnection		*connection;
+ 	GDBusProxy		*logind_proxy;
+ };
+ 
+-- 
+2.13.0
+

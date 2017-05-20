@@ -1,7 +1,7 @@
 From ae9f8521c6f900255df1b6c7bc9f6adfd09abda5 Mon Sep 17 00:00:00 2001
 From: Arnaud Quette <arnaud.quette@free.fr>
 Date: Mon, 22 Jun 2015 15:11:15 +0200
-Subject: [PATCH 7/8] Fix HID rules header, as per discussions
+Subject: [PATCH 07/90] Fix HID rules header, as per discussions
 
 Signed-off-by: Richard Hughes <richard@hughsie.com>
 ---
@@ -32,5 +32,5 @@ index dcf4380..767e9bc 100644
  
  # if usbraw device, ignore
 -- 
-2.6.3
+2.13.0
 

@@ -1,0 +1,72 @@
+From f711bc3865f6dd240391312169d09bb4ea466317 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 24 Jan 2017 17:38:21 +0100
+Subject: [PATCH 23/55] linux: Always stop daemon when started in tests
+
+---
+ src/linux/integration-test | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 4cf7864..17be767 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -220,6 +220,7 @@ class Tests(unittest.TestCase):
+         # without any devices we should assume AC
+         self.assertEqual(self.get_dbus_property('OnBattery'), False)
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
++        self.stop_daemon()
+ 
+     def test_no_devices(self):
+         '''no devices'''
+@@ -228,6 +229,7 @@ class Tests(unittest.TestCase):
+         self.start_daemon()
+         self.assertEqual(self.get_dbus_property('OnBattery'), False)
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
++        self.stop_daemon()
+ 
+     def test_props_online_ac(self):
+         '''properties with online AC'''
+@@ -246,6 +248,7 @@ class Tests(unittest.TestCase):
+         self.assertEqual(self.get_dbus_dev_property(ac_up, 'Type'), 1)
+         self.assertEqual(self.get_dbus_dev_property(ac_up, 'Online'), True)
+         self.assertEqual(self.get_dbus_dev_property(ac_up, 'NativePath'), 'AC')
++        self.stop_daemon()
+ 
+     def test_props_offline_ac(self):
+         '''properties with offline AC'''
+@@ -376,6 +379,7 @@ class Tests(unittest.TestCase):
+         # we aren't on low battery
+         self.start_daemon()
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
++        self.stop_daemon()
+ 
+     def test_unknown_battery_status_with_ac(self):
+         '''Unknown battery charge status, with AC'''
+@@ -599,6 +603,7 @@ class Tests(unittest.TestCase):
+         self.assertEqual(self.get_dbus_dev_property(ups0_up, 'State'), UP_DEVICE_STATE_DISCHARGING)
+         self.assertEqual(self.get_dbus_property('OnBattery'), True)
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_ACTION)
++        self.stop_daemon()
+ 
+     def test_ups_offline_ac(self):
+         '''UPS properties with offline AC'''
+@@ -772,6 +777,7 @@ class Tests(unittest.TestCase):
+         self.assertEqual(self.get_dbus_dev_property(mb1_up, 'Model'), 'Fancy BT mouse')
+         self.assertEqual(self.get_dbus_dev_property(mb1_up, 'Percentage'), 30)
+         self.assertEqual(self.get_dbus_dev_property(mb1_up, 'PowerSupply'), False)
++        self.stop_daemon()
+ 
+     def test_bluetooth_hid_mouse(self):
+         '''bluetooth HID mouse battery'''
+@@ -951,6 +957,7 @@ class Tests(unittest.TestCase):
+         self.assertEqual(client.get_on_battery(), False)
+         # FIXME: When we have a fake logind
+         # self.assertEqual(client.get_critical_action(), 'PowerOff')
++        self.stop_daemon()
+ 
+     #
+     # Helper methods
+-- 
+2.13.0
+

@@ -13,7 +13,7 @@ SRC_URI="mirror://sourceforge/project/sstp-client/network-manager-sstp/${PV}/${M
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gtk"
 

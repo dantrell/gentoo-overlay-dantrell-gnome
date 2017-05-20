@@ -178,6 +178,7 @@ net-libs/webkit-gtk::gentoo
 net-misc/dleyna-server::gentoo
 net-misc/gnome-online-miners::gentoo
 net-misc/modemmanager::gentoo
+net-misc/networkmanager-fortisslvpn::gentoo
 net-misc/networkmanager-openconnect::gentoo
 net-misc/networkmanager-openswan::gentoo
 net-misc/networkmanager-openvpn::gentoo
@@ -191,9 +192,12 @@ net-misc/vino::gentoo
 net-print/cups-filters::gentoo
 net-wireless/gnome-bluetooth::gentoo
 sci-geosciences/geocode-glib::gentoo
+sys-apps/accountsservice::gentoo
 sys-apps/osinfo-db-tools::gentoo
 sys-apps/osinfo-db::gentoo
 sys-auth/consolekit::gentoo
+sys-auth/elogind::gentoo
+sys-auth/pambase::gentoo
 sys-devel/gettext::gentoo
 sys-libs/libosinfo::gentoo
 sys-power/acpid::gentoo

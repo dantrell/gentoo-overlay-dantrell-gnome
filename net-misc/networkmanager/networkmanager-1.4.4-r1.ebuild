@@ -14,7 +14,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
 
 LICENSE="GPL-2+"
 SLOT="0" # add subslot if libnm-util.so.2 or libnm-glib.so.4 bumps soname version
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="audit bluetooth connection-sharing consolekit +dhclient dhcpcd gnutls +introspection \
 json kernel_linux +nss +modemmanager ncurses ofono +ppp resolvconf selinux \

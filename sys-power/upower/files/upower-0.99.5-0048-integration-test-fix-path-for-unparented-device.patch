@@ -1,0 +1,31 @@
+From c237298297e3015753b0ad237e5e9260b20dd493 Mon Sep 17 00:00:00 2001
+From: Christian Kellner <christian@kellner.me>
+Date: Mon, 3 Apr 2017 12:22:28 +0200
+Subject: [PATCH 48/55] integration-test: Fix path for unparented device
+
+Paths supplied to testbed.add_device() are relative to /sys/devices
+already and therefore must not start with /sys/devices.
+
+This does not change the result of the test.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=100539
+---
+ src/linux/integration-test | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 15ccfef..65f141d 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -1020,7 +1020,7 @@ class Tests(dbusmock.DBusTestCase):
+ 
+         dev = self.testbed.add_device(
+             'input',
+-            '/sys/devices/virtual/input/input18',
++            'virtual/input/input18',
+             None,
+             [], [])
+ 
+-- 
+2.13.0
+

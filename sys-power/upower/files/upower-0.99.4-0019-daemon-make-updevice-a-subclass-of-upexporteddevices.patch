@@ -1,0 +1,803 @@
+From 8ad64459beaf3608b72954f163503d6d2ce8ab12 Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Mon, 1 Jun 2015 10:02:22 -0700
+Subject: [PATCH 19/90] daemon: make UpDevice a subclass of
+ UpExportedDeviceSkeleton
+
+Removes proxying of properties from one object to the other.
+---
+ src/up-device.c | 566 +++++++++++++-------------------------------------------
+ src/up-device.h |   7 +-
+ 2 files changed, 127 insertions(+), 446 deletions(-)
+
+diff --git a/src/up-device.c b/src/up-device.c
+index 85ac13a..55a65eb 100644
+--- a/src/up-device.c
++++ b/src/up-device.c
+@@ -36,54 +36,16 @@
+ #include "up-history-item.h"
+ #include "up-stats-item.h"
+ #include "up-marshal.h"
+-#include "up-device-generated.h"
+ 
+ struct UpDevicePrivate
+ {
+-	gchar			*object_path;
+-	UpExportedDevice	*skeleton;
+ 	UpDaemon		*daemon;
+ 	UpHistory		*history;
+ 	GObject			*native;
+ 	gboolean		 has_ever_refresh;
+ };
+ 
+-static gboolean	up_device_register_device	(UpDevice *device);
+-
+-enum {
+-	PROP_0,
+-	PROP_NATIVE_PATH,
+-	PROP_VENDOR,
+-	PROP_MODEL,
+-	PROP_SERIAL,
+-	PROP_UPDATE_TIME,
+-	PROP_TYPE,
+-	PROP_ONLINE,
+-	PROP_POWER_SUPPLY,
+-	PROP_CAPACITY,
+-	PROP_IS_PRESENT,
+-	PROP_IS_RECHARGEABLE,
+-	PROP_HAS_HISTORY,
+-	PROP_HAS_STATISTICS,
+-	PROP_STATE,
+-	PROP_ENERGY,
+-	PROP_ENERGY_EMPTY,
+-	PROP_ENERGY_FULL,
+-	PROP_ENERGY_FULL_DESIGN,
+-	PROP_ENERGY_RATE,
+-	PROP_VOLTAGE,
+-	PROP_LUMINOSITY,
+-	PROP_TIME_TO_EMPTY,
+-	PROP_TIME_TO_FULL,
+-	PROP_PERCENTAGE,
+-	PROP_TEMPERATURE,
+-	PROP_TECHNOLOGY,
+-	PROP_WARNING_LEVEL,
+-	PROP_ICON_NAME,
+-	PROP_LAST
+-};
+-
+-G_DEFINE_TYPE (UpDevice, up_device, G_TYPE_OBJECT)
++G_DEFINE_TYPE (UpDevice, up_device, UP_TYPE_EXPORTED_DEVICE_SKELETON)
+ #define UP_DEVICE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), UP_TYPE_DEVICE, UpDevicePrivate))
+ 
+ #define UP_DEVICES_DBUS_PATH "/org/freedesktop/UPower/devices"
+@@ -100,20 +62,20 @@ static void
+ update_warning_level (UpDevice *device)
+ {
+ 	UpDeviceLevel warning_level;
++	UpExportedDevice *skeleton = UP_EXPORTED_DEVICE (device);
+ 
+ 	/* Not finished setting up the object? */
+ 	if (device->priv->daemon == NULL)
+ 		return;
+ 
+ 	warning_level = up_daemon_compute_warning_level (device->priv->daemon,
+-							 up_exported_device_get_state (device->priv->skeleton),
+-							 up_exported_device_get_type_ (device->priv->skeleton),
+-							 up_exported_device_get_power_supply (device->priv->skeleton),
+-							 up_exported_device_get_percentage (device->priv->skeleton),
+-							 up_exported_device_get_time_to_empty (device->priv->skeleton));
++							 up_exported_device_get_state (skeleton),
++							 up_exported_device_get_type_ (skeleton),
++							 up_exported_device_get_power_supply (skeleton),
++							 up_exported_device_get_percentage (skeleton),
++							 up_exported_device_get_time_to_empty (skeleton));
+ 
+-	up_exported_device_set_warning_level (device->priv->skeleton, warning_level);
+-	g_object_notify (G_OBJECT (device), "warning-level");
++	up_exported_device_set_warning_level (skeleton, warning_level);
+ }
+ 
+ static const gchar *
+@@ -139,17 +101,18 @@ static void
+ update_icon_name (UpDevice *device)
+ {
+ 	const gchar *icon_name = NULL;
++	UpExportedDevice *skeleton = UP_EXPORTED_DEVICE (device);
+ 
+ 	/* get the icon from some simple rules */
+-	if (up_exported_device_get_type_ (device->priv->skeleton) == UP_DEVICE_KIND_LINE_POWER) {
++	if (up_exported_device_get_type_ (skeleton) == UP_DEVICE_KIND_LINE_POWER) {
+ 		icon_name = "ac-adapter-symbolic";
+ 	} else {
+ 
+-		if (!up_exported_device_get_is_present (device->priv->skeleton)) {
++		if (!up_exported_device_get_is_present (skeleton)) {
+ 			icon_name = "battery-missing-symbolic";
+ 
+ 		} else {
+-			switch (up_exported_device_get_state (device->priv->skeleton)) {
++			switch (up_exported_device_get_state (skeleton)) {
+ 			case UP_DEVICE_STATE_EMPTY:
+ 				icon_name = "battery-empty-symbolic";
+ 				break;
+@@ -158,11 +121,11 @@ update_icon_name (UpDevice *device)
+ 				break;
+ 			case UP_DEVICE_STATE_CHARGING:
+ 			case UP_DEVICE_STATE_PENDING_CHARGE:
+-				icon_name = get_device_charge_icon (up_exported_device_get_percentage (device->priv->skeleton), TRUE);
++				icon_name = get_device_charge_icon (up_exported_device_get_percentage (skeleton), TRUE);
+ 				break;
+ 			case UP_DEVICE_STATE_DISCHARGING:
+ 			case UP_DEVICE_STATE_PENDING_DISCHARGE:
+-				icon_name = get_device_charge_icon (up_exported_device_get_percentage (device->priv->skeleton), FALSE);
++				icon_name = get_device_charge_icon (up_exported_device_get_percentage (skeleton), FALSE);
+ 				break;
+ 			default:
+ 				icon_name = "battery-missing-symbolic";
+@@ -170,52 +133,44 @@ update_icon_name (UpDevice *device)
+ 		}
+ 	}
+ 
+-	up_exported_device_set_icon_name (device->priv->skeleton, icon_name);
+-	g_object_notify (G_OBJECT (device), "icon-name");
++	up_exported_device_set_icon_name (skeleton, icon_name);
+ }
+ 
+-/**
+- * up_device_get_property:
+- **/
+ static void
+-up_device_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
++update_history (UpDevice *device)
+ {
+-	UpDevice *device = UP_DEVICE (object);
+-	g_object_get_property (G_OBJECT (device->priv->skeleton), pspec->name, value);
++	UpExportedDevice *skeleton = UP_EXPORTED_DEVICE (device);
++
++	/* save new history */
++	up_history_set_state (device->priv->history, up_exported_device_get_state (skeleton));
++	up_history_set_charge_data (device->priv->history, up_exported_device_get_percentage (skeleton));
++	up_history_set_rate_data (device->priv->history, up_exported_device_get_energy_rate (skeleton));
++	up_history_set_time_full_data (device->priv->history, up_exported_device_get_time_to_full (skeleton));
++	up_history_set_time_empty_data (device->priv->history, up_exported_device_get_time_to_empty (skeleton));
+ }
+ 
+ /**
+- * up_device_set_property:
++ * up_device_notify:
+  **/
+ static void
+-up_device_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
++up_device_notify (GObject *object, GParamSpec *pspec)
+ {
+ 	UpDevice *device = UP_DEVICE (object);
+ 
+-	g_object_set_property (G_OBJECT (device->priv->skeleton), pspec->name, value);
++	G_OBJECT_CLASS (up_device_parent_class)->notify (object, pspec);
+ 
+-	switch (prop_id) {
+-	case PROP_TYPE:
+-		update_icon_name (device);
+-		break;
+-	case PROP_POWER_SUPPLY:
+-		update_warning_level (device);
+-	case PROP_IS_PRESENT:
+-		update_icon_name (device);
+-		break;
+-	case PROP_STATE:
+-		update_warning_level (device);
++	if (g_strcmp0 (pspec->name, "type") == 0 ||
++	    g_strcmp0 (pspec->name, "is-present") == 0) {
+ 		update_icon_name (device);
+-		break;
+-	case PROP_TIME_TO_EMPTY:
++	} else if (g_strcmp0 (pspec->name, "power-supply") == 0 ||
++		   g_strcmp0 (pspec->name, "time-to-empty") == 0) {
+ 		update_warning_level (device);
+-		break;
+-	case PROP_PERCENTAGE:
++	} else if (g_strcmp0 (pspec->name, "state") == 0 ||
++		   g_strcmp0 (pspec->name, "percentage") == 0) {
+ 		update_warning_level (device);
+ 		update_icon_name (device);
+-		break;
+-	default:
+-		break;
++	} else if (g_strcmp0 (pspec->name, "update-time") == 0) {
++		update_history (device);
+ 	}
+ }
+ 
+@@ -265,26 +220,22 @@ up_device_get_id (UpDevice *device)
+ {
+ 	GString *string;
+ 	gchar *id = NULL;
+-	gdouble energy_full_design;
+ 	const char *model;
+ 	const char *serial;
+-	const char *vendor;
+-	UpDeviceKind type;
++	UpExportedDevice *skeleton;
+ 
+-	type = up_exported_device_get_type_ (device->priv->skeleton);
+-	energy_full_design = up_exported_device_get_energy_full_design (device->priv->skeleton);
+-	model = up_exported_device_get_model (device->priv->skeleton);
+-	serial = up_exported_device_get_serial (device->priv->skeleton);
+-	vendor = up_exported_device_get_vendor (device->priv->skeleton);
++	skeleton = UP_EXPORTED_DEVICE (device);
++	model = up_exported_device_get_model (skeleton);
++	serial = up_exported_device_get_serial (skeleton);
+ 
+ 	/* line power */
+-	if (type == UP_DEVICE_KIND_LINE_POWER) {
++	if (up_exported_device_get_type_ (skeleton) == UP_DEVICE_KIND_LINE_POWER) {
+ 		goto out;
+ 
+ 	/* batteries */
+-	} else if (type == UP_DEVICE_KIND_BATTERY) {
++	} else if (up_exported_device_get_type_ (skeleton) == UP_DEVICE_KIND_BATTERY) {
+ 		/* we don't have an ID if we are not present */
+-		if (!up_exported_device_get_is_present (device->priv->skeleton))
++		if (!up_exported_device_get_is_present (skeleton))
+ 			goto out;
+ 
+ 		string = g_string_new ("");
+@@ -294,9 +245,9 @@ up_device_get_id (UpDevice *device)
+ 			g_string_append (string, model);
+ 			g_string_append_c (string, '-');
+ 		}
+-		if (energy_full_design > 0) {
++		if (up_exported_device_get_energy_full_design (skeleton) > 0) {
+ 			/* FIXME: this may not be stable if we are using voltage_now */
+-			g_string_append_printf (string, "%i", (guint) energy_full_design);
++			g_string_append_printf (string, "%i", (guint) up_exported_device_get_energy_full_design (skeleton));
+ 			g_string_append_c (string, '-');
+ 		}
+ 		if (serial != NULL && strlen (serial) > 2) {
+@@ -319,8 +270,8 @@ up_device_get_id (UpDevice *device)
+ 	} else {
+ 		/* generic fallback, get what data we can */
+ 		string = g_string_new ("");
+-		if (vendor != NULL) {
+-			g_string_append (string, vendor);
++		if (up_exported_device_get_vendor (skeleton) != NULL) {
++			g_string_append (string, up_exported_device_get_vendor (skeleton));
+ 			g_string_append_c (string, '-');
+ 		}
+ 		if (model != NULL) {
+@@ -364,6 +315,72 @@ up_device_get_daemon (UpDevice *device)
+ 	return g_object_ref (device->priv->daemon);
+ }
+ 
++static void
++up_device_export_skeleton (UpDevice *device,
++			   const gchar *object_path)
++{
++	GError *error = NULL;
++
++	g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (device),
++					  up_daemon_get_dbus_connection (device->priv->daemon),
++					  object_path,
++					  &error);
++
++	if (error != NULL) {
++		g_critical ("error registering device on system bus: %s", error->message);
++		g_error_free (error);
++	}
++}
++
++/**
++ * up_device_compute_object_path:
++ **/
++static gchar *
++up_device_compute_object_path (UpDevice *device)
++{
++	gchar *basename;
++	gchar *id;
++	gchar *object_path;
++	const gchar *native_path;
++	const gchar *type;
++	guint i;
++
++	type = up_device_kind_to_string (up_exported_device_get_type_ (UP_EXPORTED_DEVICE (device)));
++	native_path = up_exported_device_get_native_path (UP_EXPORTED_DEVICE (device));
++	basename = g_path_get_basename (native_path);
++	id = g_strjoin ("_", type, basename, NULL);
++
++	/* make DBUS valid path */
++	for (i=0; id[i] != '\0'; i++) {
++		if (id[i] == '-')
++			id[i] = '_';
++		if (id[i] == '.')
++			id[i] = 'x';
++		if (id[i] == ':')
++			id[i] = 'o';
++	}
++	object_path = g_build_filename (UP_DEVICES_DBUS_PATH, id, NULL);
++
++	g_free (basename);
++	g_free (id);
++
++	return object_path;
++}
++
++/**
++ * up_device_register_device:
++ **/
++static gboolean
++up_device_register_device (UpDevice *device)
++{
++	char *object_path = up_device_compute_object_path (device);
++	g_debug ("object path = %s", object_path);
++	up_device_export_skeleton (device, object_path);
++	g_free (object_path);
++
++	return TRUE;
++}
++
+ /**
+  * up_device_coldplug:
+  *
+@@ -384,8 +401,7 @@ up_device_coldplug (UpDevice *device, UpDaemon *daemon, GObject *native)
+ 	device->priv->daemon = g_object_ref (daemon);
+ 
+ 	native_path = up_native_get_native_path (native);
+-	up_exported_device_set_native_path (device->priv->skeleton, native_path);
+-	g_object_notify (G_OBJECT (device), "native-path");
++	up_exported_device_set_native_path (UP_EXPORTED_DEVICE (device), native_path);
+ 
+ 	/* coldplug source */
+ 	if (klass->coldplug != NULL) {
+@@ -581,22 +597,6 @@ up_device_refresh (UpExportedDevice *skeleton,
+ 	return TRUE;
+ }
+ 
+-static void
+-up_device_export_skeleton (UpDevice *device)
+-{
+-	GError *error = NULL;
+-
+-	g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (device->priv->skeleton),
+-					  up_daemon_get_dbus_connection (device->priv->daemon),
+-					  device->priv->object_path,
+-					  &error);
+-
+-	if (error != NULL) {
+-		g_critical ("error registering device on system bus: %s", error->message);
+-		g_error_free (error);
+-	}
+-}
+-
+ /**
+  * up_device_register_display_device:
+  **/
+@@ -604,11 +604,14 @@ gboolean
+ up_device_register_display_device (UpDevice *device,
+ 				   UpDaemon *daemon)
+ {
++	char *object_path;
++
+ 	g_return_val_if_fail (UP_IS_DEVICE (device), FALSE);
+ 
+ 	device->priv->daemon = g_object_ref (daemon);
+-	device->priv->object_path = g_build_filename (UP_DEVICES_DBUS_PATH, "DisplayDevice", NULL);
+-	up_device_export_skeleton (device);
++	object_path = g_build_filename (UP_DEVICES_DBUS_PATH, "DisplayDevice", NULL);
++	up_device_export_skeleton (device, object_path);
++	g_free (object_path);
+ 
+ 	return TRUE;
+ }
+@@ -639,7 +642,7 @@ up_device_refresh_internal (UpDevice *device)
+ 
+ 	/* the first time, print all properties */
+ 	if (!device->priv->has_ever_refresh) {
+-		g_debug ("added native-path: %s\n", up_exported_device_get_native_path (device->priv->skeleton));
++		g_debug ("added native-path: %s\n", up_exported_device_get_native_path (UP_EXPORTED_DEVICE (device)));
+ 		device->priv->has_ever_refresh = TRUE;
+ 		goto out;
+ 	}
+@@ -654,7 +657,7 @@ const gchar *
+ up_device_get_object_path (UpDevice *device)
+ {
+ 	g_return_val_if_fail (UP_IS_DEVICE (device), NULL);
+-	return device->priv->object_path;
++	return g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (device));
+ }
+ 
+ GObject *
+@@ -665,70 +668,6 @@ up_device_get_native (UpDevice *device)
+ }
+ 
+ /**
+- * up_device_compute_object_path:
+- **/
+-static gchar *
+-up_device_compute_object_path (UpDevice *device)
+-{
+-	gchar *basename;
+-	gchar *id;
+-	gchar *object_path;
+-	const gchar *native_path;
+-	const gchar *type;
+-	guint i;
+-
+-	type = up_device_kind_to_string (up_exported_device_get_type_ (device->priv->skeleton));
+-	native_path = up_exported_device_get_native_path (device->priv->skeleton);
+-	basename = g_path_get_basename (native_path);
+-	id = g_strjoin ("_", type, basename, NULL);
+-
+-	/* make DBUS valid path */
+-	for (i=0; id[i] != '\0'; i++) {
+-		if (id[i] == '-')
+-			id[i] = '_';
+-		if (id[i] == '.')
+-			id[i] = 'x';
+-		if (id[i] == ':')
+-			id[i] = 'o';
+-	}
+-	object_path = g_build_filename (UP_DEVICES_DBUS_PATH, id, NULL);
+-
+-	g_free (basename);
+-	g_free (id);
+-
+-	return object_path;
+-}
+-
+-/**
+- * up_device_register_device:
+- **/
+-static gboolean
+-up_device_register_device (UpDevice *device)
+-{
+-	device->priv->object_path = up_device_compute_object_path (device);
+-	g_debug ("object path = %s", device->priv->object_path);
+-	up_device_export_skeleton (device);
+-
+-	return TRUE;
+-}
+-
+-/**
+- * up_device_perhaps_changed_cb:
+- **/
+-static void
+-up_device_perhaps_changed_cb (GObject *object, GParamSpec *pspec, UpDevice *device)
+-{
+-	g_return_if_fail (UP_IS_DEVICE (device));
+-
+-	/* save new history */
+-	up_history_set_state (device->priv->history, up_exported_device_get_state (device->priv->skeleton));
+-	up_history_set_charge_data (device->priv->history, up_exported_device_get_percentage (device->priv->skeleton));
+-	up_history_set_rate_data (device->priv->history, up_exported_device_get_energy_rate (device->priv->skeleton));
+-	up_history_set_time_full_data (device->priv->history, up_exported_device_get_time_to_full (device->priv->skeleton));
+-	up_history_set_time_empty_data (device->priv->history, up_exported_device_get_time_to_empty (device->priv->skeleton));
+-}
+-
+-/**
+  * up_device_init:
+  **/
+ static void
+@@ -737,15 +676,11 @@ up_device_init (UpDevice *device)
+ 	device->priv = UP_DEVICE_GET_PRIVATE (device);
+ 	device->priv->history = up_history_new ();
+ 
+-	g_signal_connect (device, "notify::update-time", G_CALLBACK (up_device_perhaps_changed_cb), device);
+-
+-	device->priv->skeleton = up_exported_device_skeleton_new ();
+-
+-	g_signal_connect (device->priv->skeleton, "handle-get-history",
++	g_signal_connect (device, "handle-get-history",
+ 			  G_CALLBACK (up_device_get_history), device);
+-	g_signal_connect (device->priv->skeleton, "handle-get-statistics",
++	g_signal_connect (device, "handle-get-statistics",
+ 			  G_CALLBACK (up_device_get_statistics), device);
+-	g_signal_connect (device->priv->skeleton, "handle-refresh",
++	g_signal_connect (device, "handle-refresh",
+ 			  G_CALLBACK (up_device_refresh), device);
+ }
+ 
+@@ -767,8 +702,6 @@ up_device_finalize (GObject *object)
+ 	if (device->priv->daemon != NULL)
+ 		g_object_unref (device->priv->daemon);
+ 	g_object_unref (device->priv->history);
+-	g_object_unref (device->priv->skeleton);
+-	g_free (device->priv->object_path);
+ 
+ 	G_OBJECT_CLASS (up_device_parent_class)->finalize (object);
+ }
+@@ -780,261 +713,10 @@ static void
+ up_device_class_init (UpDeviceClass *klass)
+ {
+ 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+-	object_class->get_property = up_device_get_property;
+-	object_class->set_property = up_device_set_property;
++	object_class->notify = up_device_notify;
+ 	object_class->finalize = up_device_finalize;
+ 
+ 	g_type_class_add_private (klass, sizeof (UpDevicePrivate));
+-
+-	/**
+-	 * UpDevice:update-time:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_UPDATE_TIME,
+-					 g_param_spec_uint64 ("update-time",
+-							      NULL, NULL,
+-							      0, G_MAXUINT64, 0,
+-							      G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:vendor:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_VENDOR,
+-					 g_param_spec_string ("vendor",
+-							      NULL, NULL,
+-							      NULL,
+-							      G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:model:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_MODEL,
+-					 g_param_spec_string ("model",
+-							      NULL, NULL,
+-							      NULL,
+-							      G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:serial:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_SERIAL,
+-					 g_param_spec_string ("serial",
+-							      NULL, NULL,
+-							      NULL,
+-							      G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:native-path:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_NATIVE_PATH,
+-					 g_param_spec_string ("native-path",
+-							      NULL, NULL,
+-							      NULL,
+-							      G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:power-supply:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_POWER_SUPPLY,
+-					 g_param_spec_boolean ("power-supply",
+-							       NULL, NULL,
+-							       FALSE,
+-							       G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:online:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_ONLINE,
+-					 g_param_spec_boolean ("online",
+-							       NULL, NULL,
+-							       FALSE,
+-							       G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:is-present:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_IS_PRESENT,
+-					 g_param_spec_boolean ("is-present",
+-							       NULL, NULL,
+-							       FALSE,
+-							       G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:is-rechargeable:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_IS_RECHARGEABLE,
+-					 g_param_spec_boolean ("is-rechargeable",
+-							       NULL, NULL,
+-							       FALSE,
+-							       G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:has-history:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_HAS_HISTORY,
+-					 g_param_spec_boolean ("has-history",
+-							       NULL, NULL,
+-							       FALSE,
+-							       G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:has-statistics:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_HAS_STATISTICS,
+-					 g_param_spec_boolean ("has-statistics",
+-							       NULL, NULL,
+-							       FALSE,
+-							       G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:type:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_TYPE,
+-					 g_param_spec_uint ("type",
+-							    NULL, NULL,
+-							    UP_DEVICE_KIND_UNKNOWN,
+-							    UP_DEVICE_KIND_LAST,
+-							    UP_DEVICE_KIND_UNKNOWN,
+-							    G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:state:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_STATE,
+-					 g_param_spec_uint ("state",
+-							    NULL, NULL,
+-							    UP_DEVICE_STATE_UNKNOWN,
+-							    UP_DEVICE_STATE_LAST,
+-							    UP_DEVICE_STATE_UNKNOWN,
+-							    G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:technology:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_TECHNOLOGY,
+-					 g_param_spec_uint ("technology",
+-							    NULL, NULL,
+-							    UP_DEVICE_TECHNOLOGY_UNKNOWN,
+-							    UP_DEVICE_TECHNOLOGY_LAST,
+-							    UP_DEVICE_TECHNOLOGY_UNKNOWN,
+-							    G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:capacity:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_CAPACITY,
+-					 g_param_spec_double ("capacity", NULL, NULL,
+-							      0.0, 100.f, 100.0,
+-							      G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:energy:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_ENERGY,
+-					 g_param_spec_double ("energy", NULL, NULL,
+-							      0.0, G_MAXDOUBLE, 0.0,
+-							      G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:energy-empty:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_ENERGY_EMPTY,
+-					 g_param_spec_double ("energy-empty", NULL, NULL,
+-							      0.0, G_MAXDOUBLE, 0.0,
+-							      G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:energy-full:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_ENERGY_FULL,
+-					 g_param_spec_double ("energy-full", NULL, NULL,
+-							      0.0, G_MAXDOUBLE, 0.0,
+-							      G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:energy-full-design:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_ENERGY_FULL_DESIGN,
+-					 g_param_spec_double ("energy-full-design", NULL, NULL,
+-							      0.0, G_MAXDOUBLE, 0.0,
+-							      G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:energy-rate:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_ENERGY_RATE,
+-					 g_param_spec_double ("energy-rate", NULL, NULL,
+-							      0.0, G_MAXDOUBLE, 0.0,
+-							      G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:voltage:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_VOLTAGE,
+-					 g_param_spec_double ("voltage", NULL, NULL,
+-							      0.0, G_MAXDOUBLE, 0.0,
+-							      G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:luminosity:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_LUMINOSITY,
+-					 g_param_spec_double ("luminosity", NULL, NULL,
+-							      0.0, G_MAXDOUBLE, 0.0,
+-							      G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:time-to-empty:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_TIME_TO_EMPTY,
+-					 g_param_spec_int64 ("time-to-empty", NULL, NULL,
+-							      0, G_MAXINT64, 0,
+-							      G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:time-to-full:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_TIME_TO_FULL,
+-					 g_param_spec_int64 ("time-to-full", NULL, NULL,
+-							      0, G_MAXINT64, 0,
+-							      G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:percentage:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_PERCENTAGE,
+-					 g_param_spec_double ("percentage", NULL, NULL,
+-							      0.0, 100.f, 100.0,
+-							      G_PARAM_READWRITE));
+-	/**
+-	 * UpDevice:temperature:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_TEMPERATURE,
+-					 g_param_spec_double ("temperature", NULL, NULL,
+-							      0.0, G_MAXDOUBLE, 0.0,
+-							      G_PARAM_READWRITE));
+-
+-	/**
+-	 * UpDevice:warning-level:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_WARNING_LEVEL,
+-					 g_param_spec_uint ("warning-level",
+-							    NULL, NULL,
+-							    UP_DEVICE_LEVEL_UNKNOWN,
+-							    UP_DEVICE_LEVEL_LAST,
+-							    UP_DEVICE_LEVEL_UNKNOWN,
+-							    G_PARAM_READWRITE));
+-
+-	/**
+-	 * UpDevice:icon:
+-	 */
+-	g_object_class_install_property (object_class,
+-					 PROP_ICON_NAME,
+-					 g_param_spec_string ("icon-name",
+-							      NULL, NULL, NULL,
+-							      G_PARAM_READABLE));
+ }
+ 
+ /**
+diff --git a/src/up-device.h b/src/up-device.h
+index cc50427..58c0bd8 100644
+--- a/src/up-device.h
++++ b/src/up-device.h
+@@ -22,8 +22,7 @@
+ #ifndef __UP_DEVICE_H__
+ #define __UP_DEVICE_H__
+ 
+-#include <glib-object.h>
+-
++#include <dbus/up-device-generated.h>
+ #include "up-daemon.h"
+ 
+ G_BEGIN_DECLS
+@@ -39,13 +38,13 @@ typedef struct UpDevicePrivate UpDevicePrivate;
+ 
+ typedef struct
+ {
+-	GObject			 parent;
++	UpExportedDeviceSkeleton parent;
+ 	UpDevicePrivate	*priv;
+ } UpDevice;
+ 
+ typedef struct
+ {
+-	GObjectClass	 parent_class;
++	UpExportedDeviceSkeletonClass parent_class;
+ 
+ 	/* vtable */
+ 	gboolean	 (*coldplug)		(UpDevice	*device);
+-- 
+2.13.0
+

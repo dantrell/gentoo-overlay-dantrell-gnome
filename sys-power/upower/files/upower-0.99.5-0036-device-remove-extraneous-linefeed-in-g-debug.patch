@@ -1,0 +1,26 @@
+From 7bf91faa94a1caf9ab4439439ba0f4b800fec0fc Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 24 Mar 2017 15:44:27 +0100
+Subject: [PATCH 36/55] device: Remove extraneous linefeed in g_debug()
+
+g_debug() already adds a linefeed.
+---
+ src/up-device.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/up-device.c b/src/up-device.c
+index ac6a228..1405605 100644
+--- a/src/up-device.c
++++ b/src/up-device.c
+@@ -641,7 +641,7 @@ up_device_refresh_internal (UpDevice *device)
+ 
+ 	/* the first time, print all properties */
+ 	if (!device->priv->has_ever_refresh) {
+-		g_debug ("added native-path: %s\n", up_exported_device_get_native_path (UP_EXPORTED_DEVICE (device)));
++		g_debug ("added native-path: %s", up_exported_device_get_native_path (UP_EXPORTED_DEVICE (device)));
+ 		device->priv->has_ever_refresh = TRUE;
+ 		goto out;
+ 	}
+-- 
+2.13.0
+

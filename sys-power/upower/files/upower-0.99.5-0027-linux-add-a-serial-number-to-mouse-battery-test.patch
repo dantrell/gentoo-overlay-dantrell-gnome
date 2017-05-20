@@ -1,0 +1,34 @@
+From d5c05515a8ba50a67eb9201c15dee31ba3759eb0 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 24 Jan 2017 18:08:24 +0100
+Subject: [PATCH 27/55] linux: Add a serial number to mouse battery test
+
+Which will fail, as the device code doesn't even try to get a serial
+number.
+---
+ src/linux/integration-test | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index d156492..bbba1f4 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -804,6 +804,7 @@ class Tests(unittest.TestCase):
+              'online', '1',
+              'status', 'Discharging',
+              'capacity', '30',
++             'serial_number', '123456',
+              'model_name', 'Fancy Logitech mouse'],
+             [])
+ 
+@@ -817,6 +818,7 @@ class Tests(unittest.TestCase):
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'PowerSupply'), False)
+         # 5 == mouse
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Type'), 5)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Serial'), '123456')
+         self.assertEqual(self.get_dbus_property('OnBattery'), False)
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+         self.stop_daemon()
+-- 
+2.13.0
+
