@@ -1,5 +1,7 @@
 dev-lang/python sqlite
 dev-libs/libgusb vala
 media-libs/clutter-gst X
+media-libs/cogl gles2
 media-libs/gegl jpeg
 media-libs/gegl png
+media-libs/libsdl2 gles
