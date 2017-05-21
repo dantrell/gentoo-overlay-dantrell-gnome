@@ -4,7 +4,7 @@ dev-libs/json-glib::dantrell-gnome ~*
 gnome-extra/nm-applet::dantrell-gnome ~*
 net-libs/webkit-gtk::dantrell-gnome ~*
 net-misc/networkmanager::dantrell-gnome ~*
-sys-apps/accountsservice::dantrell-gnome ~*
+sys-apps/accountsservice::dantrell-gnome **
 sys-auth/elogind::dantrell-gnome ~*
 sys-auth/polkit::gentoo ~*
-sys-power/upower::dantrell-gnome ~*
+sys-power/upower::dantrell-gnome **
