@@ -78,7 +78,8 @@ src_prepare() {
 		sed -i -e 's/#ifdef __APPLE__/#if 0/' gegl/opencl/* || die
 	fi
 
-	#eapply "${FILESDIR}"/${P}-g_log_domain.patch
+	# https://bugs.gentoo.org/show_bug.cgi?id=617618
+	eapply "${FILESDIR}"/${P}-g_log_domain.patch
 
 	# commit 7c78497b : tests that use gegl.png are broken on non-amd64
 	sed -e '/clones.xml/d' \
