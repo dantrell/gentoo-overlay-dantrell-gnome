@@ -31,7 +31,7 @@
 ~dev-libs/folks-0.11.3::dantrell-gnome
 ~dev-libs/gjs-1.48.3::dantrell-gnome-3-24
 ~dev-libs/glib-2.52.2::dantrell-gnome
-~dev-libs/gmime-3.0.0::dantrell-gnome
+~dev-libs/gmime-3.0.1::dantrell-gnome
 ~dev-libs/gobject-introspection-1.52.1::dantrell-gnome-3-24
 ~dev-libs/gobject-introspection-common-1.52.1::dantrell-gnome-3-24
 ~dev-libs/gom-0.3.2::dantrell-gnome
@@ -167,7 +167,7 @@
 ~net-misc/vino-3.22.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.20.1::dantrell-gnome
 ~sci-geosciences/geocode-glib-3.23.90::dantrell-gnome-3-24
-~sci-geosciences/gnome-maps-3.24.2::dantrell-gnome-3-24
+~sci-geosciences/gnome-maps-3.24.3::dantrell-gnome-3-24
 ~sys-apps/baobab-3.24.0::dantrell-gnome-3-24
 ~sys-apps/gnome-disk-utility-3.24.1::dantrell-gnome-3-24
 ~www-client/epiphany-3.24.2::dantrell-gnome-3-24
@@ -176,7 +176,7 @@
 ~x11-libs/gtk+-3.22.15::dantrell-gnome
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.20.1::dantrell-gnome
-~x11-libs/pango-1.40.5::dantrell-gnome
+~x11-libs/pango-1.40.6::dantrell-gnome
 ~x11-libs/vte-0.48.3::dantrell-gnome-3-24
 ~x11-misc/gpaste-3.24.1::dantrell-gnome-3-24
 ~x11-terms/gnome-terminal-3.24.2::dantrell-gnome-3-24

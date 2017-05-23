@@ -36,10 +36,10 @@ COMMON_DEPEND="
 	>=dev-libs/dbus-glib-0.100[${MULTILIB_USEDEP}]
 	dev-libs/glib:2=[${MULTILIB_USEDEP}]
 	>=dev-libs/glib-2.37.6:2[${MULTILIB_USEDEP}]
-	>=dev-libs/libnl-3.2.8:3=
+	>=dev-libs/libnl-3.2.8:3=[${MULTILIB_USEDEP}]
 	>=sys-auth/polkit-0.106
 	net-libs/libndp
-	>=net-libs/libsoup-2.40:2.4=
+	>=net-misc/curl-7.24.0
 	net-misc/iputils
 	sys-apps/util-linux[${MULTILIB_USEDEP}]
 	sys-libs/readline:0=
@@ -80,6 +80,11 @@ DEPEND="${COMMON_DEPEND}
 	>=sys-devel/gettext-0.17
 	>=sys-kernel/linux-headers-2.6.29
 	virtual/pkgconfig[${MULTILIB_USEDEP}]
+	introspection? (
+		$(python_gen_any_dep 'dev-python/pygobject:3[${PYTHON_USEDEP}]')
+		dev-lang/perl
+		dev-libs/libxslt
+	)
 	vala? ( $(vala_depend) )
 	test? (
 		$(python_gen_any_dep '
@@ -89,12 +94,17 @@ DEPEND="${COMMON_DEPEND}
 "
 
 python_check_deps() {
+	local rv=0
+	if use introspection; then
+		has_version "dev-python/pygobject:3[${PYTHON_USEDEP}]"
+		(( rv |= $? ))
+	fi
 	if use test; then
 		has_version "dev-python/dbus-python[${PYTHON_USEDEP}]" &&
 		has_version "dev-python/pygobject:3[${PYTHON_USEDEP}]"
-	else
-		return 0
+		(( rv |= $? ))
 	fi
+	return ${rv}
 }
 
 sysfs_deprecated_check() {
@@ -129,7 +139,9 @@ pkg_setup() {
 		linux-info_pkg_setup
 	fi
 	enewgroup plugdev
-	use test && python-any-r1_pkg_setup
+	if use introspection || use test; then
+		python-any-r1_pkg_setup
+	fi
 }
 
 src_prepare() {
@@ -170,49 +182,48 @@ multilib_src_configure() {
 	#
 	# We need --with-libnm-glib (and dbus-glib dep) as reverse deps are
 	# still not ready for removing that lib
-	ECONF_SOURCE=${S} \
-	runstatedir="/run" \
-		gnome2_src_configure \
-			--disable-more-warnings \
-			--disable-static \
-			--localstatedir=/var \
-			--disable-lto \
-			--disable-ifnet \
-			--disable-qt \
-			--enable-ifcfg-rh \
-			--enable-dependency-tracking \
-			--without-netconfig \
-			--with-dbus-sys-dir=/etc/dbus-1/system.d \
-			--with-libnm-glib \
-			--with-nmcli=yes \
-			--with-udev-dir="$(get_udevdir)" \
-			--with-config-plugins-default=keyfile \
-			--with-iptables=/sbin/iptables \
-			$(multilib_native_with libsoup) \
-			$(multilib_native_enable concheck) \
-			--with-crypto=$(usex nss nss gnutls) \
-			--with-session-tracking=$(multilib_native_usex systemd systemd $(multilib_native_usex consolekit consolekit no)) \
-			--with-suspend-resume=$(multilib_native_usex systemd systemd $(multilib_native_usex consolekit consolekit upower)) \
-			$(multilib_native_use_with audit libaudit) \
-			$(multilib_native_use_enable bluetooth bluez5-dun) \
-			$(multilib_native_use_enable introspection) \
-			$(multilib_native_use_enable json json-validation) \
-			$(multilib_native_use_enable ppp) \
-			$(use_with dhclient) \
-			$(use_with dhcpcd) \
-			$(multilib_native_use_with modemmanager modem-manager-1) \
-			$(multilib_native_use_with ncurses nmtui) \
-			$(multilib_native_use_with ofono) \
-			$(multilib_native_use_with resolvconf) \
-			$(multilib_native_use_with selinux) \
-			$(multilib_native_use_with systemd systemd-journal) \
-			$(multilib_native_use_enable teamd teamdctl) \
-			$(multilib_native_use_enable test tests) \
-			$(multilib_native_use_enable vala) \
-			--without-valgrind \
-			$(multilib_native_use_with wext) \
-			$(multilib_native_use_enable wifi) \
-			"${myconf[@]}"
+	myconf=(
+		--disable-more-warnings
+		--disable-static
+		--localstatedir=/var
+		--disable-lto
+		--disable-config-plugin-ibft
+		--disable-ifnet
+		--disable-qt
+		--without-netconfig
+		--with-dbus-sys-dir=/etc/dbus-1/system.d
+		--with-libnm-glib
+		--with-nmcli=yes
+		--with-udev-dir="$(get_udevdir)"
+		--with-config-plugins-default=keyfile
+		--with-iptables=/sbin/iptables
+		$(multilib_native_enable concheck)
+		--with-crypto=$(usex nss nss gnutls)
+		--with-session-tracking=$(multilib_native_usex systemd systemd $(multilib_native_usex consolekit consolekit no))
+		--with-suspend-resume=$(multilib_native_usex systemd systemd $(multilib_native_usex consolekit consolekit upower))
+		$(multilib_native_use_with audit libaudit)
+		$(multilib_native_use_enable bluetooth bluez5-dun)
+		$(multilib_native_use_enable introspection)
+		$(multilib_native_use_enable json json-validation)
+		$(multilib_native_use_enable ppp)
+		$(use_with dhclient)
+		$(use_with dhcpcd)
+		$(multilib_native_use_with modemmanager modem-manager-1)
+		$(multilib_native_use_with ncurses nmtui)
+		$(multilib_native_use_with ofono)
+		$(multilib_native_use_with resolvconf)
+		$(multilib_native_use_with selinux)
+		$(multilib_native_use_with systemd systemd-journal)
+		$(multilib_native_use_enable teamd teamdctl)
+		$(multilib_native_use_enable test tests)
+		$(multilib_native_use_enable vala)
+		--without-valgrind
+		$(multilib_native_use_with wext)
+		$(multilib_native_use_enable wifi)
+		"${myconf[@]}"
+	)
+
+	ECONF_SOURCE=${S} runstatedir="/run" gnome2_src_configure "${myconf[@]}"
 
 	# work-around gtk-doc out-of-source brokedness
 	if multilib_is_native_abi; then
@@ -221,22 +232,19 @@ multilib_src_configure() {
 			ln -s "${S}"/docs/${d}/html docs/${d}/html || die
 		done
 	fi
-
-	# Disable examples
-	# https://bugzilla.gnome.org/show_bug.cgi?id=769711
-	cat > examples/Makefile <<-EOF
-	.PHONY: all check install
-	all:
-	check:
-	install:
-	EOF
 }
 
 multilib_src_compile() {
 	if multilib_is_native_abi; then
 		emake
 	else
-		emake all-am
+		local targets=(
+			libnm/libnm.la
+			libnm-util/libnm-util.la
+			libnm-glib/libnm-glib.la
+			libnm-glib/libnm-glib-vpn.la
+		)
+		emake "${targets[@]}"
 	fi
 }
 
@@ -252,7 +260,20 @@ multilib_src_install() {
 		# Install completions at proper place, bug #465100
 		gnome2_src_install completiondir="$(get_bashcompdir)"
 	else
-		emake DESTDIR="${D}" install-am
+		local targets=(
+			install-libLTLIBRARIES
+			install-libdeprecatedHEADERS
+			install-libnm_glib_libnmvpnHEADERS
+			install-libnm_glib_libnmincludeHEADERS
+			install-libnm_util_libnm_util_includeHEADERS
+			install-libnmincludeHEADERS
+			install-nodist_libnm_glib_libnmincludeHEADERS
+			install-nodist_libnm_glib_libnmvpnHEADERS
+			install-nodist_libnm_util_libnm_util_includeHEADERS
+			install-nodist_libnmincludeHEADERS
+			install-pkgconfigDATA
+		)
+		emake DESTDIR="${D}" "${targets[@]}"
 	fi
 }
 

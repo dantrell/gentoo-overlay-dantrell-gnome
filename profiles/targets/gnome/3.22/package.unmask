@@ -178,8 +178,8 @@
 ~x11-libs/gtk+-3.22.15::dantrell-gnome
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.20.1::dantrell-gnome
-~x11-libs/pango-1.40.5::dantrell-gnome
-~x11-libs/vte-0.46.1::dantrell-gnome-3-22
+~x11-libs/pango-1.40.6::dantrell-gnome
+~x11-libs/vte-0.46.2::dantrell-gnome-3-22
 ~x11-misc/gpaste-3.22.0::dantrell-gnome-3-22
 ~x11-terms/gnome-terminal-3.22.2::dantrell-gnome-3-22
 ~x11-themes/adwaita-icon-theme-3.22.0::dantrell-gnome-3-22
