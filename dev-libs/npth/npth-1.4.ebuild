@@ -8,7 +8,7 @@ DESCRIPTION="New GNU Portable Threads Library"
 HOMEPAGE="https://git.gnupg.org/cgi-bin/gitweb.cgi?p=npth.git"
 SRC_URI="mirror://gnupg/${PN}/${P}.tar.bz2"
 
-LICENSE="GPL-3"
+LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
 

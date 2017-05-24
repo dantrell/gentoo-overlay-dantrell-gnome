@@ -16,9 +16,9 @@ LICENSE="GPL-2+"
 SLOT="0" # add subslot if libnm-util.so.2 or libnm-glib.so.4 bumps soname version
 KEYWORDS="~*"
 
-IUSE="audit bluetooth connection-sharing consolekit +dhclient dhcpcd gnutls +introspection \
+IUSE="audit bluetooth connection-sharing consolekit +dhclient dhcpcd elogind gnutls +introspection \
 json kernel_linux +nss +modemmanager ncurses ofono +ppp resolvconf selinux \
-systemd teamd test vala +vanilla +wext +wifi"
+systemd teamd test upower vala +vanilla +wext +wifi"
 REQUIRED_USE="
 	modemmanager? ( ppp )
 	vala? ( introspection )
@@ -26,6 +26,7 @@ REQUIRED_USE="
 	wext? ( wifi )
 	^^ ( nss gnutls )
 	^^ ( dhclient dhcpcd )
+	?? ( consolekit elogind systemd upower )
 "
 
 # gobject-introspection-0.10.3 is needed due to gnome bug 642300
@@ -52,6 +53,7 @@ COMMON_DEPEND="
 	consolekit? ( >=sys-auth/consolekit-1.0.0 )
 	dhclient? ( >=net-misc/dhcp-4[client] )
 	dhcpcd? ( >=net-misc/dhcpcd-4.0.0_rc3 )
+	elogind? ( sys-auth/elogind )
 	gnutls? (
 		dev-libs/libgcrypt:0=[${MULTILIB_USEDEP}]
 		>=net-libs/gnutls-2.12:=[${MULTILIB_USEDEP}] )
@@ -65,10 +67,8 @@ COMMON_DEPEND="
 	resolvconf? ( net-dns/openresolv )
 	selinux? ( sys-libs/libselinux )
 	systemd? ( >=sys-apps/systemd-209:0= )
-	!systemd? (
-		!consolekit? ( sys-power/upower )
-	)
 	teamd? ( >=net-misc/libteam-1.9 )
+	upower? ( sys-power/upower )
 "
 RDEPEND="${COMMON_DEPEND}
 	wifi? ( !vanilla? ( net-wireless/rfkill ) >=net-wireless/wpa_supplicant-0.7.3-r3[dbus] )
@@ -199,8 +199,8 @@ multilib_src_configure() {
 		--with-iptables=/sbin/iptables
 		$(multilib_native_enable concheck)
 		--with-crypto=$(usex nss nss gnutls)
-		--with-session-tracking=$(multilib_native_usex systemd systemd $(multilib_native_usex consolekit consolekit no))
-		--with-suspend-resume=$(multilib_native_usex systemd systemd $(multilib_native_usex consolekit consolekit upower))
+		--with-session-tracking=$(multilib_native_usex systemd systemd $(multilib_native_usex elogind elogind $(multilib_native_usex consolekit consolekit no)))
+		--with-suspend-resume=$(multilib_native_usex systemd systemd $(multilib_native_usex elogind elogind $(multilib_native_usex consolekit consolekit upower)))
 		$(multilib_native_use_with audit libaudit)
 		$(multilib_native_use_enable bluetooth bluez5-dun)
 		$(multilib_native_use_enable introspection)
@@ -281,7 +281,11 @@ multilib_src_install_all() {
 	! use systemd && readme.gentoo_create_doc
 
 	if use vanilla; then
-		newinitd "${FILESDIR}/init.d.NetworkManager" NetworkManager
+		if use elogind; then
+			newinitd "${FILESDIR}/init.d.NetworkManager-elogind" NetworkManager
+		else
+			newinitd "${FILESDIR}/init.d.NetworkManager" NetworkManager
+		fi
 		newconfd "${FILESDIR}/conf.d.NetworkManager" NetworkManager
 	else
 		newinitd "${FILESDIR}/init.d.NetworkManager-dhcpcd" NetworkManager

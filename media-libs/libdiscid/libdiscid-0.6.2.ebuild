@@ -12,7 +12,6 @@ KEYWORDS="*"
 
 IUSE="static-libs"
 
-DOCS=( AUTHORS ChangeLog examples/discid.c README )
 src_configure() {
 	econf $(use_enable static-libs static)
 }

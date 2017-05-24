@@ -199,6 +199,7 @@ sys-auth/consolekit::gentoo
 sys-auth/elogind::gentoo
 sys-auth/pambase::gentoo
 sys-devel/gettext::gentoo
+sys-fs/udisks::gentoo
 sys-libs/libosinfo::gentoo
 sys-power/acpid::gentoo
 sys-power/upower::gentoo

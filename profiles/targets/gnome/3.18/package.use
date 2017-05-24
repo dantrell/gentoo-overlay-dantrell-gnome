@@ -1,3 +1,4 @@
 dev-libs/libgusb vala
 media-gfx/inkscape deprecated
 media-libs/clutter-gst X
+net-misc/networkmanager upower

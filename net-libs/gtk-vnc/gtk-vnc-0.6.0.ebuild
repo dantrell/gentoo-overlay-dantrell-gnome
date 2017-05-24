@@ -26,7 +26,7 @@ COMMON_DEPEND="
 	>=dev-libs/glib-2.30.1:2
 	>=dev-libs/libgcrypt-1.4.2:0=
 	dev-libs/libgpg-error
-	>=net-libs/gnutls-3.0
+	>=net-libs/gnutls-3.0:0=
 	>=x11-libs/cairo-1.2
 	>=x11-libs/gtk+-2.18:2
 	x11-libs/libX11

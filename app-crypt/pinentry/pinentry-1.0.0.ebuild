@@ -51,8 +51,6 @@ RDEPEND="
 	gnome-keyring? ( app-crypt/gcr )
 "
 
-DOCS=( AUTHORS ChangeLog NEWS README THANKS TODO )
-
 PATCHES=(
 	"${FILESDIR}/${PN}-0.8.2-ncurses.patch"
 	"${FILESDIR}/${P}-build.patch"
