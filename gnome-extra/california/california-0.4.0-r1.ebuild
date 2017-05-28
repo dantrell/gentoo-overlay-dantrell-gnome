@@ -36,7 +36,7 @@ DEPEND="${RDEPEND}
 src_prepare() {
 	# From GNOME:
 	# 	https://bugzilla.gnome.org/show_bug.cgi?id=743961
-	epatch "${FILESDIR}"/${PN}-0.4.0-fix-build-with-evolution-data-server-3.13.90.patch
+	eapply "${FILESDIR}"/${PN}-0.4.0-fix-build-with-evolution-data-server-3.13.90.patch
 
 	vala_src_prepare
 	gnome2_src_prepare

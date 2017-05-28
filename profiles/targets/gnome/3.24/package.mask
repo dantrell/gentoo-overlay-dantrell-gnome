@@ -1,1 +1,2 @@
-
+# Masked to test on GNOME 3.26 first
+>=net-libs/webkit-gtk-2.18.0

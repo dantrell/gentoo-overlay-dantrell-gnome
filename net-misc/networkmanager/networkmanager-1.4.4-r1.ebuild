@@ -47,11 +47,11 @@ COMMON_DEPEND="
 	audit? ( sys-process/audit )
 	bluetooth? ( >=net-wireless/bluez-5 )
 	connection-sharing? (
-		net-dns/dnsmasq[dhcp]
+		net-dns/dnsmasq[dbus,dhcp]
 		net-firewall/iptables )
 	consolekit? ( >=sys-auth/consolekit-1.0.0 )
 	dhclient? ( >=net-misc/dhcp-4[client] )
-	dhcpcd? ( >=net-misc/dhcpcd-4.0.0_rc3 )
+	dhcpcd? ( net-misc/dhcpcd )
 	gnutls? (
 		dev-libs/libgcrypt:0=[${MULTILIB_USEDEP}]
 		>=net-libs/gnutls-2.12:=[${MULTILIB_USEDEP}] )

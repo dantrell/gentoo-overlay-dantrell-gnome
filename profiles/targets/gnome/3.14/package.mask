@@ -1,5 +1,5 @@
-# Masked to test on GNOME 3.24 first
->=net-libs/webkit-gtk-2.16.0
+# Masked to test on GNOME 3.26 first
+>=net-libs/webkit-gtk-2.18.0
 
 # Requires GLib 2.52 (or greater)
 >=net-libs/phodav-2.2
@@ -9,6 +9,9 @@
 
 # Requires GLib 2.46 (or greater)
 >=x11-misc/colord-1.3.0
+
+# Requires GLib 2.45 (or greater)
+>=sys-apps/fwupd-0.8.0
 
 # Requires GLib 2.44 (or greater)
 >=dev-libs/libIDL-0.8.14-r2

@@ -22,9 +22,9 @@ COMMON_DEPEND="
 	>=virtual/libgudev-165:=
 	virtual/udev
 	acl? ( virtual/acl )
+	elogind? ( sys-auth/elogind )
 	introspection? ( >=dev-libs/gobject-introspection-1.30:= )
 	lvm? ( sys-fs/lvm2 )
-	elogind? ( sys-auth/elogind )
 	systemd? ( >=sys-apps/systemd-209 )
 "
 # gptfdisk -> src/udiskslinuxpartition.c -> sgdisk (see also #412801#c1)

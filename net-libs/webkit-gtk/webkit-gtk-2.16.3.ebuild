@@ -126,10 +126,6 @@ PATCHES=(
 	# https://bugs.gentoo.org/show_bug.cgi?id=564352
 	# https://bugs.webkit.org/show_bug.cgi?id=167283
 	"${FILESDIR}"/${PN}-2.8.5-fix-alpha-build.patch
-
-	# Avoid perl[ithreads] build time requirement as that would be very very messy
-	# https://bugs.webkit.org/show_bug.cgi?id=170106 (should get backported for 2.16.3)
-	"${FILESDIR}"/${PN}-2.16.2-avoid-perl-ithreads.patch
 )
 
 pkg_pretend() {

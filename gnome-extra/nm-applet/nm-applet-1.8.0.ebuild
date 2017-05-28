@@ -13,7 +13,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="+introspection modemmanager selinux teamd"
+IUSE="+introspection gcr modemmanager selinux teamd"
 
 RDEPEND="
 	app-crypt/libsecret
@@ -32,6 +32,7 @@ RDEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-0.9.6:= )
 	virtual/freedesktop-icon-theme
 	virtual/libgudev:=
+	gcr? ( >=app-crypt/gcr-3.14:= )
 	modemmanager? ( net-misc/modemmanager )
 	selinux? ( sys-libs/libselinux )
 	teamd? ( >=dev-libs/jansson-2.3 )
@@ -45,13 +46,18 @@ DEPEND="${RDEPEND}
 PDEPEND="virtual/notification-daemon" #546134
 
 src_configure() {
-	gnome2_src_configure \
-		--without-appindicator \
-		--disable-more-warnings \
-		--disable-static \
-		--localstatedir=/var \
-		$(use_enable introspection) \
-		$(use_with modemmanager wwan) \
-		$(use_with selinux) \
+	local myconf=(
+		--without-appindicator
+		--disable-lto
+		--disable-ld-gc
+		--disable-more-warnings
+		--disable-static
+		--localstatedir=/var
+		$(use_enable introspection)
+		$(use_with gcr)
+		$(use_with modemmanager wwan)
+		$(use_with selinux)
 		$(use_with teamd team)
+	)
+	gnome2_src_configure "${myconf[@]}"
 }

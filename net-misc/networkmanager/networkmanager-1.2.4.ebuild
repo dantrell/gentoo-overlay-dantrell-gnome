@@ -52,7 +52,7 @@ COMMON_DEPEND="
 	ncurses? ( >=dev-libs/newt-0.52.15 )
 	nss? ( >=dev-libs/nss-3.11:=[${MULTILIB_USEDEP}] )
 	dhclient? ( >=net-misc/dhcp-4[client] )
-	dhcpcd? ( >=net-misc/dhcpcd-4.0.0_rc3 )
+	dhcpcd? ( net-misc/dhcpcd )
 	introspection? ( >=dev-libs/gobject-introspection-0.10.3:= )
 	ppp? ( >=net-dialup/ppp-2.4.5:=[ipv6] )
 	resolvconf? ( net-dns/openresolv )

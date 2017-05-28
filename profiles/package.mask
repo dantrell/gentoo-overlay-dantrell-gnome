@@ -179,6 +179,7 @@ net-misc/dleyna-server::gentoo
 net-misc/gnome-online-miners::gentoo
 net-misc/modemmanager::gentoo
 net-misc/networkmanager-fortisslvpn::gentoo
+net-misc/networkmanager-libreswan::gentoo
 net-misc/networkmanager-openconnect::gentoo
 net-misc/networkmanager-openswan::gentoo
 net-misc/networkmanager-openvpn::gentoo
