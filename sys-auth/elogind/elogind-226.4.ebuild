@@ -14,18 +14,16 @@ KEYWORDS="~*"
 
 IUSE="acl debug pam policykit selinux"
 
-COMMON_DEPEND="
+RDEPEND="
 	sys-apps/util-linux
 	sys-libs/libcap
 	virtual/libudev:=
 	acl? ( sys-apps/acl )
 	pam? ( virtual/pam )
 	selinux? ( sys-libs/libselinux )
-"
-RDEPEND="${COMMON_DEPEND}
 	!sys-apps/systemd
 "
-DEPEND="${COMMON_DEPEND}
+DEPEND="${RDEPEND}
 	app-text/docbook-xml-dtd:4.2
 	app-text/docbook-xml-dtd:4.5
 	app-text/docbook-xsl-stylesheets

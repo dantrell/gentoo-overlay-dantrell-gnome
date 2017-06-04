@@ -1,8 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-
-inherit eutils
+EAPI="6"
 
 DESCRIPTION="PAM base configuration files"
 HOMEPAGE="https://www.gentoo.org/proj/en/base/pam/"
@@ -11,13 +9,10 @@ SRC_URI="https://dev.gentoo.org/~vapier/dist/${P}.tar.xz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="consolekit cracklib debug elogind gnome-keyring minimal mktemp +nullok pam_krb5 pam_ssh passwdqc securetty selinux +sha512 systemd"
 
-RESTRICT=binchecks
-
-REQUIRED_USE="elogind? ( !systemd )
-	systemd? ( !elogind )
-"
+RESTRICT="binchecks"
 
 MIN_PAM_REQ=1.1.3
 
@@ -26,30 +21,43 @@ RDEPEND="
 		>=sys-libs/pam-${MIN_PAM_REQ}
 		( sys-auth/openpam || ( sys-freebsd/freebsd-pam-modules sys-netbsd/netbsd-pam-modules ) )
 	)
-	consolekit? ( >=sys-auth/consolekit-0.4.6[pam] )
+	consolekit? ( sys-auth/consolekit[pam] )
 	cracklib? ( sys-libs/pam[cracklib] )
 	elogind? ( sys-auth/elogind[pam] )
-	gnome-keyring? ( >=gnome-base/gnome-keyring-2.32[pam] )
+	gnome-keyring? ( gnome-base/gnome-keyring[pam] )
 	mktemp? ( sys-auth/pam_mktemp )
 	pam_krb5? (
 		|| ( >=sys-libs/pam-${MIN_PAM_REQ} sys-auth/openpam )
-		>=sys-auth/pam_krb5-4.3
+		sys-auth/pam_krb5
 	)
 	pam_ssh? ( sys-auth/pam_ssh )
-	passwdqc? ( >=sys-auth/pam_passwdqc-1.0.4 )
+	passwdqc? ( sys-auth/pam_passwdqc )
 	selinux? ( sys-libs/pam[selinux] )
 	sha512? ( >=sys-libs/pam-${MIN_PAM_REQ} )
-	systemd? ( >=sys-apps/systemd-204[pam] )
-	!<sys-apps/shadow-4.1.5-r1
-	!<sys-freebsd/freebsd-pam-modules-6.2-r1
-	!<sys-libs/pam-0.99.9.0-r1"
-DEPEND="app-portage/portage-utils
-	app-arch/xz-utils"
+	systemd? ( sys-apps/systemd[pam] )
+"
+DEPEND="
+	app-arch/xz-utils
+	app-portage/portage-utils
+"
 
-src_prepare() {
-	epatch "${FILESDIR}"/${P}-selinux-note.patch #540096
-	epatch "${FILESDIR}"/${P}-elogind.patch
-	epatch "${FILESDIR}"/${P}-elogind-auth.patch
+PATCHES=(
+	"${FILESDIR}"/${P}-selinux-note.patch #540096
+	"${FILESDIR}"/${P}-elogind.patch #599498
+)
+
+pkg_setup() {
+	local stcnt=0
+
+	use consolekit && stcnt=$((stcnt+1))
+	use elogind && stcnt=$((stcnt+1))
+	use systemd && stcnt=$((stcnt+1))
+
+	if [[ ${stcnt} -gt 1 ]] ; then
+		ewarn "You are enabling ${stcnt} session trackers at the same time."
+		ewarn "This is not a recommended setup to have. Please consider enabling"
+		ewarn "only one of USE=\"consolekit\", USE=\"elogind\" or USE=\"systemd\"."
+	fi
 }
 
 src_compile() {
@@ -96,18 +104,4 @@ src_test() { :; }
 
 src_install() {
 	emake GIT=true DESTDIR="${ED}" install
-}
-
-pkg_postinst() {
-	local stcnt=0
-
-	if use consolekit; then stcnt=$((stcnt+1)); fi
-	if use elogind;    then stcnt=$((stcnt+1)); fi
-	if use systemd;    then stcnt=$((stcnt+1)); fi
-
-	if [ $stcnt -gt 1 ] ; then
-		ewarn "You are enabling $stcnt session trackers at the same time."
-		ewarn "This is not a recommended setup to have. Please consider enabling"
-		ewarn "only one of USE=\"consolekit\", USE=\"elogind\" or USE=\"systemd\"."
-	fi
 }

@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit libtool
+inherit libtool ltprune
 
 DESCRIPTION="New GNU Portable Threads Library"
 HOMEPAGE="https://git.gnupg.org/cgi-bin/gitweb.cgi?p=npth.git"
@@ -21,4 +21,9 @@ src_prepare() {
 
 src_configure() {
 	econf $(use_enable static-libs static)
+}
+
+src_install() {
+	default
+	prune_libtool_files
 }
