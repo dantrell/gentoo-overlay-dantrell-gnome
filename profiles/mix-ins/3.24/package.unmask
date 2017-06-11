@@ -13,6 +13,7 @@
 ~app-editors/gedit-3.22.0::dantrell-gnome
 ~app-editors/ghex-3.18.3::dantrell-gnome
 ~app-editors/latexila-3.24.0::dantrell-gnome-3-24
+~app-misc/bijiben-3.24.0::dantrell-gnome-3-24
 ~app-misc/geoclue-2.4.5::dantrell-gnome
 ~app-misc/gnote-3.24.0::dantrell-gnome-3-24
 ~app-misc/tracker-1.12.0::dantrell-gnome-3-24

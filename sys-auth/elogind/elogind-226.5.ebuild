@@ -10,7 +10,7 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="CC0-1.0 LGPL-2.1+ public-domain"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="acl debug pam policykit selinux"
 
@@ -38,8 +38,7 @@ PDEPEND="
 "
 
 PATCHES=(
-	"${FILESDIR}/${P}-docs.patch"
-	"${FILESDIR}/${P}-glibc.patch"
+	"${FILESDIR}/${PN}-226.4-docs.patch"
 )
 
 pkg_setup() {

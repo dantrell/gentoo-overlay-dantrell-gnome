@@ -27,7 +27,6 @@ app-eselect/eselect-pinentry::gentoo
 app-i18n/ibus-hangul::gentoo
 app-i18n/ibus::gentoo
 app-i18n/unicode-data::gentoo
-app-misc/bijiben::gentoo
 app-misc/geoclue::gentoo
 app-text/gnome-doc-utils::gentoo
 app-text/gspell::gentoo
