@@ -12,7 +12,7 @@
 ~app-dicts/gnome-dictionary-3.24.0::dantrell-gnome-3-24
 ~app-editors/gedit-3.22.0::dantrell-gnome
 ~app-editors/ghex-3.18.3::dantrell-gnome
-~app-editors/latexila-3.24.0::dantrell-gnome-3-24
+~app-editors/latexila-3.24.1::dantrell-gnome-3-24
 ~app-misc/bijiben-3.24.0::dantrell-gnome-3-24
 ~app-misc/geoclue-2.4.5::dantrell-gnome
 ~app-misc/gnote-3.24.0::dantrell-gnome-3-24
@@ -99,7 +99,7 @@
 ~gnome-extra/gnome-boxes-3.24.0::dantrell-gnome-3-24
 ~gnome-extra/gnome-builder-3.24.2::dantrell-gnome-3-24
 ~gnome-extra/gnome-calculator-3.24.0::dantrell-gnome-3-24
-~gnome-extra/gnome-calendar-3.24.2::dantrell-gnome-3-24
+~gnome-extra/gnome-calendar-3.24.3::dantrell-gnome-3-24
 ~gnome-extra/gnome-characters-3.22.0::dantrell-gnome
 ~gnome-extra/gnome-clocks-3.24.0::dantrell-gnome-3-24
 ~gnome-extra/gnome-color-manager-3.24.0::dantrell-gnome-3-24
@@ -111,8 +111,8 @@
 ~gnome-extra/gnome-shell-extensions-3.24.2::dantrell-gnome-3-24
 ~gnome-extra/gnome-software-3.24.3::dantrell-gnome-3-24
 ~gnome-extra/gnome-system-monitor-3.24.0::dantrell-gnome-3-24
-~gnome-extra/gnome-todo-3.24.1::dantrell-gnome-3-24
-~gnome-extra/gnome-tweak-tool-3.24.0::dantrell-gnome-3-24
+~gnome-extra/gnome-todo-3.24.2::dantrell-gnome-3-24
+~gnome-extra/gnome-tweak-tool-3.24.1::dantrell-gnome-3-24
 ~gnome-extra/gnome-user-docs-3.24.2::dantrell-gnome-3-24
 ~gnome-extra/gnome-user-share-3.18.3::dantrell-gnome
 ~gnome-extra/gnome-weather-3.20.2::dantrell-gnome

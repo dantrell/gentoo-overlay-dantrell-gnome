@@ -42,6 +42,7 @@ RDEPEND="${CDEPEND}
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.6.35-gentoo-system-users.patch
 	"${FILESDIR}"/${PN}-0.6.45-support-elogind.patch
+	"${FILESDIR}"/${PN}-0.6.46-daemon-dont-treat-explicitly-requested-users-as-cached.patch
 )
 
 src_configure() {

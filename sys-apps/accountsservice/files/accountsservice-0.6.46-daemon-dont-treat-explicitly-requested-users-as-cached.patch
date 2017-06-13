@@ -1,0 +1,226 @@
+From edac45754cbcc044216071e19ec838cb13f54bc2 Mon Sep 17 00:00:00 2001
+From: Ray Strode <rstrode@redhat.com>
+Date: Thu, 4 May 2017 12:04:05 -0400
+Subject: daemon: don't treat explicitly requested users as "cached"
+
+The ListCachedUsers method currently returns users that have
+been explicitly requested by a client.  It's weird that merely
+querying a user can make it show up in login screen user lists.
+Furthermore, UncacheUser is broken since commit
+177509e9460b149ecbf85e75c930be2ea00b7d05 because the user has
+been explicitly requested in order to uncache it.  So trying
+to uncache a user inadvertently caches the user.
+
+This commit fixes that.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=101052
+
+diff --git a/src/daemon.c b/src/daemon.c
+index 312394a..6e3e4b3 100644
+--- a/src/daemon.c
++++ b/src/daemon.c
+@@ -356,7 +356,7 @@ entry_generator_requested_users (Daemon       *daemon,
+ static void
+ load_entries (Daemon             *daemon,
+               GHashTable         *users,
+-              gboolean            allow_system_users,
++              gboolean            explicitly_requested,
+               EntryGeneratorFunc  entry_generator)
+ {
+         gpointer generator_state = NULL;
+@@ -373,29 +373,37 @@ load_entries (Daemon             *daemon,
+                         break;
+ 
+                 /* Skip system users... */
+-                if (!allow_system_users && !user_classify_is_human (pwent->pw_uid, pwent->pw_name, pwent->pw_shell, spent? spent->sp_pwdp : NULL)) {
++                if (!explicitly_requested && !user_classify_is_human (pwent->pw_uid, pwent->pw_name, pwent->pw_shell, spent? spent->sp_pwdp : NULL)) {
+                         g_debug ("skipping user: %s", pwent->pw_name);
+                         continue;
+                 }
+ 
+-                /* ignore duplicate entries */
+-                if (g_hash_table_lookup (users, pwent->pw_name)) {
+-                        continue;
+-                }
++                /* Only process users that haven't been processed yet.
++                 * We do always make sure entries get promoted
++                 * to "cached" status if they are supposed to be
++                 */
++
++                user = g_hash_table_lookup (users, pwent->pw_name);
+ 
+-                user = g_hash_table_lookup (daemon->priv->users, pwent->pw_name);
+                 if (user == NULL) {
+-                        user = user_new (daemon, pwent->pw_uid);
+-                } else {
+-                        g_object_ref (user);
+-                }
++                        user = g_hash_table_lookup (daemon->priv->users, pwent->pw_name);
++                        if (user == NULL) {
++                                user = user_new (daemon, pwent->pw_uid);
++                        } else {
++                                g_object_ref (user);
++                        }
+ 
+-                /* freeze & update users not already in the new list */
+-                g_object_freeze_notify (G_OBJECT (user));
+-                user_update_from_pwent (user, pwent, spent);
++                        /* freeze & update users not already in the new list */
++                        g_object_freeze_notify (G_OBJECT (user));
++                        user_update_from_pwent (user, pwent, spent);
+ 
+-                g_hash_table_insert (users, g_strdup (user_get_user_name (user)), user);
+-                g_debug ("loaded user: %s", user_get_user_name (user));
++                        g_hash_table_insert (users, g_strdup (user_get_user_name (user)), user);
++                        g_debug ("loaded user: %s", user_get_user_name (user));
++                }
++
++                if (!explicitly_requested) {
++                        user_set_cached (user, TRUE);
++                }
+         }
+ 
+         /* Generator should have cleaned up */
+@@ -459,7 +467,11 @@ reload_users (Daemon *daemon)
+         /* Remove all the old users */
+         g_hash_table_iter_init (&iter, old_users);
+         while (g_hash_table_iter_next (&iter, &name, (gpointer *)&user)) {
+-                if (!g_hash_table_lookup (users, name)) {
++                User *refreshed_user;
++
++                refreshed_user = g_hash_table_lookup (users, name);
++
++                if (!refreshed_user || !user_get_cached (refreshed_user)) {
+                         user_unregister (user);
+                         accounts_accounts_emit_user_deleted (ACCOUNTS_ACCOUNTS (daemon),
+                                                              user_get_object_path (user));
+@@ -469,7 +481,11 @@ reload_users (Daemon *daemon)
+         /* Register all the new users */
+         g_hash_table_iter_init (&iter, users);
+         while (g_hash_table_iter_next (&iter, &name, (gpointer *)&user)) {
+-                if (!g_hash_table_lookup (old_users, name)) {
++                User *stale_user;
++
++                stale_user = g_hash_table_lookup (old_users, name);
++
++                if (!stale_user || !user_get_cached (stale_user) && user_get_cached (user)) {
+                         user_register (user);
+                         accounts_accounts_emit_user_added (ACCOUNTS_ACCOUNTS (daemon),
+                                                            user_get_object_path (user));
+@@ -938,6 +954,11 @@ finish_list_cached_users (gpointer user_data)
+                         continue;
+                 }
+ 
++                if (!user_get_cached (user)) {
++                        g_debug ("user %s %ld not cached", name, (long) uid);
++                        continue;
++                }
++
+                 g_debug ("user %s %ld not excluded", name, (long) uid);
+                 g_ptr_array_add (object_paths, (gpointer) user_get_object_path (user));
+         }
+@@ -1178,6 +1199,8 @@ daemon_uncache_user_authorized_cb (Daemon                *daemon,
+         g_remove (filename);
+         g_free (filename);
+ 
++        user_set_cached (user, FALSE);
++
+         accounts_accounts_complete_uncache_user (NULL, context);
+ 
+         queue_reload_users (daemon);
+@@ -1219,6 +1242,7 @@ daemon_delete_user_authorized_cb (Daemon                *daemon,
+         gchar *filename;
+         struct passwd *pwent;
+         const gchar *argv[6];
++        User *user;
+ 
+         pwent = getpwuid (ud->uid);
+ 
+@@ -1230,17 +1254,14 @@ daemon_delete_user_authorized_cb (Daemon                *daemon,
+ 
+         sys_log (context, "delete user '%s' (%d)", pwent->pw_name, ud->uid);
+ 
+-        if (daemon->priv->autologin != NULL) {
+-                User *user;
++        user = daemon_local_find_user_by_id (daemon, ud->uid);
+ 
+-                user = daemon_local_find_user_by_id (daemon, ud->uid);
++        if (user != NULL) {
++                user_set_cached (user, FALSE);
+ 
+-                g_assert (user != NULL);
+-
+-                if (daemon->priv->autologin == user) {
++                if (daemon->priv->autologin  == user) {
+                         daemon_local_set_automatic_login (daemon, user, FALSE, NULL);
+                 }
+-
+         }
+ 
+         filename = g_build_filename (USERDIR, pwent->pw_name, NULL);
+diff --git a/src/user.c b/src/user.c
+index 802d07a..a83cfe4 100644
+--- a/src/user.c
++++ b/src/user.c
+@@ -110,6 +110,7 @@ struct User {
+         gboolean      automatic_login;
+         gboolean      system_account;
+         gboolean      local_account;
++        gboolean      cached;
+ 
+         guint        *extension_ids;
+         guint         n_extension_ids;
+@@ -366,6 +367,7 @@ user_update_from_keyfile (User     *user,
+ 
+         g_clear_pointer (&user->keyfile, g_key_file_unref);
+         user->keyfile = g_key_file_ref (keyfile);
++        user_set_cached (user, TRUE);
+ 
+         g_object_thaw_notify (G_OBJECT (user));
+ }
+@@ -415,6 +417,8 @@ user_save_to_keyfile (User     *user,
+                 g_key_file_set_string (keyfile, "User", "Icon", user->icon_file);
+ 
+         g_key_file_set_boolean (keyfile, "User", "SystemAccount", user->system_account);
++
++        user_set_cached (user, TRUE);
+ }
+ 
+ static void
+@@ -837,6 +841,19 @@ user_get_shell(User *user)
+ 	return user->shell;
+ }
+ 
++gboolean
++user_get_cached (User *user)
++{
++        return user->cached;
++}
++
++void
++user_set_cached (User     *user,
++                 gboolean  cached)
++{
++        user->cached = cached;
++}
++
+ static void
+ throw_error (GDBusMethodInvocation *context,
+              gint                   error_code,
+diff --git a/src/user.h b/src/user.h
+index 22548f9..39c6f13 100644
+--- a/src/user.h
++++ b/src/user.h
+@@ -63,6 +63,9 @@ void           user_update_local_account_property (User          *user,
+                                                    gboolean       local);
+ void           user_update_system_account_property (User          *user,
+                                                     gboolean       system);
++gboolean       user_get_cached              (User          *user);
++void           user_set_cached              (User          *user,
++                                             gboolean       cached);
+ 
+ void           user_register                (User          *user);
+ void           user_unregister              (User          *user);
+-- 
+cgit v0.10.2
+
