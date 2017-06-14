@@ -109,6 +109,7 @@ gnome-base/gnome-common::gentoo
 gnome-base/gnome-desktop::gentoo
 gnome-base/gnome-keyring::gentoo
 gnome-base/gnome-menus::gentoo
+gnome-base/gnome-shell-common::gentoo
 gnome-base/libgnome-keyring::gentoo
 gnome-base/libgnomekbd::gentoo
 gnome-base/libgtop::gentoo
