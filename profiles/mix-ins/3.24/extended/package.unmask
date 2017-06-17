@@ -30,7 +30,7 @@
 ~dev-libs/appstream-glib-0.6.13::dantrell-gnome
 ~dev-libs/atk-2.24.0::dantrell-gnome-3-24
 ~dev-libs/folks-0.11.3::dantrell-gnome
-~dev-libs/gjs-1.48.3::dantrell-gnome-3-24
+~dev-libs/gjs-1.48.4::dantrell-gnome-3-24
 ~dev-libs/glib-2.52.2::dantrell-gnome
 ~dev-libs/gmime-3.0.1::dantrell-gnome
 ~dev-libs/gobject-introspection-1.52.1::dantrell-gnome-3-24
@@ -40,7 +40,7 @@
 ~dev-libs/libcroco-0.6.12::dantrell-gnome
 ~dev-libs/libgdata-0.17.8::dantrell-gnome
 ~dev-libs/libgee-0.6.8::dantrell-gnome
-~dev-libs/libgnome-games-support-1.2.1::dantrell-gnome
+~dev-libs/libgnome-games-support-1.2.2::dantrell-gnome
 ~dev-libs/libgweather-3.20.4::dantrell-gnome
 ~dev-libs/libpeas-1.20.0::dantrell-gnome
 ~dev-libs/libsigc++-2.8.0::dantrell-gnome
@@ -121,7 +121,7 @@
 ~gnome-extra/mousetweaks-3.12.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.4::dantrell-gnome
 ~gnome-extra/nautilus-tracker-tags-1.12.0::dantrell-gnome-3-24
-~gnome-extra/nm-applet-1.8.0::dantrell-gnome
+~gnome-extra/nm-applet-1.8.2::dantrell-gnome
 ~gnome-extra/sushi-3.24.0::dantrell-gnome-3-24
 ~gnome-extra/yelp-3.22.0::dantrell-gnome
 ~gnome-extra/yelp-xsl-3.20.1::dantrell-gnome

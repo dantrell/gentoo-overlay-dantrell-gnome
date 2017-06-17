@@ -2,6 +2,7 @@
 
 EAPI="6"
 VALA_USE_DEPEND="vapigen"
+VALA_MAX_API_VERSION="0.26"
 
 inherit gnome2 vala
 

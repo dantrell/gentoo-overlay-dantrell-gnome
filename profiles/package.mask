@@ -116,8 +116,6 @@ gnome-base/libgtop::gentoo
 gnome-base/librsvg::gentoo
 gnome-extra/california::gentoo
 gnome-extra/docky::gentoo
-gnome-extra/evolution-data-server::gentoo
-gnome-extra/evolution-ews::gentoo
 gnome-extra/gnome-characters::gentoo
 gnome-extra/gnome-contacts::gentoo
 gnome-extra/gnome-dvb-daemon::gentoo
@@ -133,7 +131,6 @@ gnome-extra/nm-applet::gentoo
 gnome-extra/seahorse-nautilus::gentoo
 gnome-extra/yelp-xsl::gentoo
 gnome-extra/yelp::gentoo
-mail-client/evolution::gentoo
 mail-client/geary::gentoo
 media-gfx/eog-plugins::gentoo
 media-gfx/eog::gentoo
