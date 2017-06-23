@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit toolchain-funcs
+inherit systemd toolchain-funcs
 
 DESCRIPTION="The GNU Privacy Guard, a GPL OpenPGP implementation"
 HOMEPAGE="http://www.gnupg.org/"
@@ -117,4 +117,6 @@ src_install() {
 	echo "CONFIG_PROTECT=/usr/share/gnupg/qualified.txt" >> "${ED}"/etc/env.d/30gnupg
 
 	use doc && dodoc doc/gnupg.html/* doc/*.png
+
+	systemd_douserunit doc/examples/systemd-user/*.{service,socket}
 }

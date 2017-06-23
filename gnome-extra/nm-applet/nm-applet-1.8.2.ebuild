@@ -13,7 +13,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="+introspection gcr modemmanager selinux teamd"
+IUSE="+introspection gcr +modemmanager selinux teamd"
 
 RDEPEND="
 	app-crypt/libsecret

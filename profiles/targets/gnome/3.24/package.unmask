@@ -94,8 +94,8 @@
 ~gnome-base/libgtop-2.34.2::dantrell-gnome
 ~gnome-base/librsvg-2.40.17::dantrell-gnome
 ~gnome-base/nautilus-3.24.1::dantrell-gnome-3-24
-~gnome-extra/evolution-data-server-3.24.2::dantrell-gnome-3-24
-~gnome-extra/evolution-ews-3.24.2::dantrell-gnome-3-24
+~gnome-extra/evolution-data-server-3.24.3::dantrell-gnome-3-24
+~gnome-extra/evolution-ews-3.24.3::dantrell-gnome-3-24
 ~gnome-extra/gnome-boxes-3.24.0::dantrell-gnome-3-24
 ~gnome-extra/gnome-builder-3.24.2::dantrell-gnome-3-24
 ~gnome-extra/gnome-calculator-3.24.0::dantrell-gnome-3-24
@@ -126,7 +126,7 @@
 ~gnome-extra/yelp-3.22.0::dantrell-gnome
 ~gnome-extra/yelp-xsl-3.20.1::dantrell-gnome
 ~gnome-extra/zenity-3.24.0::dantrell-gnome-3-24
-~mail-client/evolution-3.24.2::dantrell-gnome-3-24
+~mail-client/evolution-3.24.3::dantrell-gnome-3-24
 ~media-gfx/eog-3.24.1::dantrell-gnome-3-24
 ~media-gfx/gnome-font-viewer-3.24.0::dantrell-gnome-3-24
 ~media-gfx/gnome-photos-3.24.2::dantrell-gnome-3-24
@@ -161,7 +161,7 @@
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/phodav-2.2::dantrell-gnome
 ~net-libs/rest-0.8.0::dantrell-gnome
-~net-libs/webkit-gtk-2.16.3::dantrell-gnome
+~net-libs/webkit-gtk-2.16.4::dantrell-gnome
 ~net-misc/gnome-online-miners-3.22.0::dantrell-gnome
 ~net-misc/networkmanager-1.8.0::dantrell-gnome
 ~net-misc/rygel-0.34.0::dantrell-gnome-3-24
@@ -173,8 +173,8 @@
 ~sys-apps/gnome-disk-utility-3.24.1::dantrell-gnome-3-24
 ~www-client/epiphany-3.24.2::dantrell-gnome-3-24
 ~x11-libs/gdk-pixbuf-2.36.6::dantrell-gnome
-~x11-libs/gtksourceview-3.24.2::dantrell-gnome-3-24
-~x11-libs/gtk+-3.22.15::dantrell-gnome
+~x11-libs/gtksourceview-3.24.3::dantrell-gnome-3-24
+~x11-libs/gtk+-3.22.16::dantrell-gnome
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.20.1::dantrell-gnome
 ~x11-libs/pango-1.40.6::dantrell-gnome

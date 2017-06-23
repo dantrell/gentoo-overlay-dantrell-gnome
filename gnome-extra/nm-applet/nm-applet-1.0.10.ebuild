@@ -13,7 +13,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="bluetooth +introspection modemmanager"
+IUSE="bluetooth +introspection +modemmanager"
 
 RDEPEND="
 	app-crypt/libsecret

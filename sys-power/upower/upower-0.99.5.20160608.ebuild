@@ -2,9 +2,9 @@
 
 EAPI="6"
 
-inherit autotools systemd
+inherit autotools ltprune systemd
 
-DESCRIPTION="An abstraction for enumerating power devices, listening to device events and querying history and statistics"
+DESCRIPTION="Abstraction for enumerating power devices, listening to device events and querying history and statistics"
 HOMEPAGE="https://upower.freedesktop.org/"
 SRC_URI="https://${PN}.freedesktop.org/releases/${PN}-0.99.3.tar.xz"
 

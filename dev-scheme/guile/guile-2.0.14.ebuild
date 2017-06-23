@@ -35,7 +35,10 @@ DEPEND="
 	sys-devel/gettext
 "
 
-PATCHES=( "${FILESDIR}/${PN}-2-snarf.patch" )
+PATCHES=(
+	"${FILESDIR}/${PN}-2-snarf.patch"
+	"${FILESDIR}/${P}-darwin.patch"
+)
 
 src_prepare() {
 	default

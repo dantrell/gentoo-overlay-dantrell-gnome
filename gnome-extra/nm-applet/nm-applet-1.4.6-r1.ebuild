@@ -14,7 +14,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="+introspection modemmanager teamd"
+IUSE="+introspection +modemmanager teamd"
 
 RDEPEND="
 	app-crypt/libsecret
