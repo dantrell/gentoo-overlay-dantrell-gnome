@@ -72,6 +72,10 @@ COMMON_DEPEND="
 	upower? ( sys-power/upower )
 "
 RDEPEND="${COMMON_DEPEND}
+	|| (
+		net-misc/iputils[arping(+)]
+		net-analyzer/arping
+	)
 	wifi? ( !vanilla? ( net-wireless/rfkill ) >=net-wireless/wpa_supplicant-0.7.3-r3[dbus] )
 "
 DEPEND="${COMMON_DEPEND}
