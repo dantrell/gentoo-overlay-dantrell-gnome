@@ -3,7 +3,7 @@
 ~app-accessibility/at-spi2-core-2.24.1::dantrell-gnome-3-24
 ~app-accessibility/caribou-0.4.21::dantrell-gnome
 ~app-accessibility/orca-3.24.0::dantrell-gnome-3-24
-~app-admin/gnome-system-log-20170424::dantrell-gnome
+~app-admin/gnome-system-log-20170611::dantrell-gnome
 ~app-arch/file-roller-3.24.1::dantrell-gnome-3-24
 ~app-arch/gcab-0.7::dantrell-gnome
 ~app-crypt/gcr-3.20.0::dantrell-gnome
@@ -12,7 +12,7 @@
 ~app-dicts/gnome-dictionary-3.24.0::dantrell-gnome-3-24
 ~app-editors/gedit-3.22.0::dantrell-gnome
 ~app-editors/ghex-3.18.3::dantrell-gnome
-~app-editors/latexila-3.24.1::dantrell-gnome-3-24
+~app-editors/latexila-3.24.2::dantrell-gnome-3-24
 ~app-misc/bijiben-3.24.0::dantrell-gnome-3-24
 ~app-misc/geoclue-2.4.5::dantrell-gnome
 ~app-misc/gnote-3.24.0::dantrell-gnome-3-24
@@ -26,12 +26,12 @@
 ~dev-cpp/cairomm-1.12.2::dantrell-gnome
 ~dev-cpp/mm-common-0.9.10::dantrell-gnome
 ~dev-cpp/pangomm-2.40.1::dantrell-gnome
-~dev-lang/vala-0.36.3::dantrell-gnome
+~dev-lang/vala-0.36.4::dantrell-gnome
 ~dev-libs/appstream-glib-0.6.13::dantrell-gnome
 ~dev-libs/atk-2.24.0::dantrell-gnome-3-24
 ~dev-libs/folks-0.11.3::dantrell-gnome
-~dev-libs/gjs-1.48.4::dantrell-gnome-3-24
-~dev-libs/glib-2.52.2::dantrell-gnome
+~dev-libs/gjs-1.48.5::dantrell-gnome-3-24
+~dev-libs/glib-2.52.3::dantrell-gnome
 ~dev-libs/gmime-3.0.1::dantrell-gnome
 ~dev-libs/gobject-introspection-1.52.1::dantrell-gnome-3-24
 ~dev-libs/gobject-introspection-common-1.52.1::dantrell-gnome-3-24
@@ -44,13 +44,13 @@
 ~dev-libs/libgweather-3.20.4::dantrell-gnome
 ~dev-libs/libpeas-1.20.0::dantrell-gnome
 ~dev-libs/libsigc++-2.8.0::dantrell-gnome
-~dev-libs/totem-pl-parser-3.10.7::dantrell-gnome
-~dev-libs/vala-common-0.36.3::dantrell-gnome
+~dev-libs/totem-pl-parser-3.10.8::dantrell-gnome
+~dev-libs/vala-common-0.36.4::dantrell-gnome
 ~dev-python/pyatspi-2.24.0::dantrell-gnome-3-24
 ~dev-python/pygobject-3.24.1::dantrell-gnome-3-24
 ~dev-util/anjuta-3.22.0::dantrell-gnome
 ~dev-util/devhelp-3.24.0::dantrell-gnome-3-24
-~dev-util/gdbus-codegen-2.52.2::dantrell-gnome
+~dev-util/gdbus-codegen-2.52.3::dantrell-gnome
 ~dev-util/glade-3.20.0::dantrell-gnome
 ~dev-util/gnome-devel-docs-3.22.1::dantrell-gnome
 ~dev-util/gtk-doc-1.25::dantrell-gnome
@@ -119,7 +119,7 @@
 ~gnome-extra/gucharmap-9.0.4::dantrell-gnome
 ~gnome-extra/libgsf-1.14.41::dantrell-gnome
 ~gnome-extra/mousetweaks-3.12.0::dantrell-gnome
-~gnome-extra/nautilus-sendto-3.8.4::dantrell-gnome
+~gnome-extra/nautilus-sendto-3.8.5::dantrell-gnome
 ~gnome-extra/nautilus-tracker-tags-1.12.0::dantrell-gnome-3-24
 ~gnome-extra/nm-applet-1.8.2::dantrell-gnome
 ~gnome-extra/sushi-3.24.0::dantrell-gnome-3-24
@@ -161,7 +161,7 @@
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/phodav-2.2::dantrell-gnome
 ~net-libs/rest-0.8.0::dantrell-gnome
-~net-libs/webkit-gtk-2.16.4::dantrell-gnome
+~net-libs/webkit-gtk-2.16.5::dantrell-gnome
 ~net-misc/gnome-online-miners-3.22.0::dantrell-gnome
 ~net-misc/networkmanager-1.8.0::dantrell-gnome
 ~net-misc/rygel-0.34.0::dantrell-gnome-3-24
@@ -185,4 +185,4 @@
 ~x11-themes/gnome-backgrounds-3.24.0::dantrell-gnome-3-24
 ~x11-themes/gnome-themes-standard-3.22.3::dantrell-gnome
 ~x11-wm/metacity-3.24.1::dantrell-gnome-3-24
-~x11-wm/mutter-3.24.2::dantrell-gnome-3-24
+~x11-wm/mutter-3.24.3::dantrell-gnome-3-24
