@@ -14,9 +14,9 @@
 ~app-editors/ghex-3.18.3::dantrell-gnome
 ~app-editors/latexila-3.24.2::dantrell-gnome-3-24
 ~app-misc/bijiben-3.24.0::dantrell-gnome-3-24
-~app-misc/geoclue-2.4.5::dantrell-gnome
+~app-misc/geoclue-2.4.7::dantrell-gnome
 ~app-misc/gnote-3.24.0::dantrell-gnome-3-24
-~app-misc/tracker-1.12.0::dantrell-gnome-3-24
+~app-misc/tracker-1.12.1::dantrell-gnome-3-24
 ~app-text/evince-3.24.0::dantrell-gnome-3-24
 ~app-text/gspell-1.4.1::dantrell-gnome
 ~app-text/libgepub-0.4::dantrell-gnome

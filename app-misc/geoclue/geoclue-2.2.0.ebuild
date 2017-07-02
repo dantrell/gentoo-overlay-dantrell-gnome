@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 
 inherit gnome2 systemd user versionator
 
@@ -36,10 +35,10 @@ src_configure() {
 	# debug only affects CFLAGS
 	gnome2_src_configure \
 		--with-dbus-service-user=geoclue \
+		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)" \
 		$(use_enable modemmanager 3g-source) \
 		$(use_enable modemmanager cdma-source) \
-		$(use_enable modemmanager modem-gps-source) \
-		$(systemd_with_unitdir)
+		$(use_enable modemmanager modem-gps-source)
 }
 
 pkg_preinst() {

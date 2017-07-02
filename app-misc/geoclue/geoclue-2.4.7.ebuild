@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 
 inherit gnome2 systemd user versionator
 
@@ -35,7 +34,7 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	epatch "${FILESDIR}"/${PN}-2.4.1-fix-GLIBC-features.patch
+	eapply "${FILESDIR}"/${PN}-2.4.1-fix-GLIBC-features.patch
 
 	gnome2_src_prepare
 }
@@ -45,12 +44,12 @@ src_configure() {
 	gnome2_src_configure \
 		--enable-backend \
 		--with-dbus-service-user=geoclue \
+		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)" \
 		$(use_enable introspection) \
 		$(use_enable modemmanager 3g-source) \
 		$(use_enable modemmanager cdma-source) \
 		$(use_enable modemmanager modem-gps-source) \
-		$(use_enable zeroconf nmea-source) \
-		$(systemd_with_unitdir)
+		$(use_enable zeroconf nmea-source)
 }
 
 pkg_preinst() {
