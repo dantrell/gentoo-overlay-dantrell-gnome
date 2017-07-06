@@ -31,7 +31,7 @@
 ~dev-lang/vala-0.34.9::dantrell-gnome
 ~dev-libs/appstream-glib-0.6.13::dantrell-gnome
 ~dev-libs/atk-2.22.0::dantrell-gnome-3-22
-~dev-libs/folks-0.11.3::dantrell-gnome
+~dev-libs/folks-0.11.4::dantrell-gnome
 ~dev-libs/gjs-1.46.0::dantrell-gnome-3-22
 ~dev-libs/glib-2.50.3::dantrell-gnome
 ~dev-libs/gmime-2.6.23::dantrell-gnome

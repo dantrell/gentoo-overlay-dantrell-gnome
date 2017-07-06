@@ -18,7 +18,6 @@ REQUIRED_USE="
 	vala? ( introspection )
 "
 
-# configure checks for gtk:3, but only uses it for demos which are not installed
 RDEPEND="
 	>=dev-libs/glib-2.38.0:2
 	>=dev-libs/json-glib-0.15
@@ -55,13 +54,16 @@ src_prepare() {
 }
 
 src_configure() {
+	# configure checks for gtk:3, but only uses it for demos which are not installed
 	gnome2_src_configure \
 		$(use_enable crypt gnome) \
 		$(use_enable gnome-online-accounts goa) \
 		$(use_enable introspection) \
 		$(use_enable vala) \
 		$(use_enable static-libs static) \
-		$(use_enable test always-build-tests)
+		$(use_enable test always-build-tests) \
+		GTK_CFLAGS= \
+		GTK_LIBS=
 }
 
 src_test() {
