@@ -38,6 +38,7 @@ RDEPEND="${COMMON_DEPEND}
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.1.8-et_EE.patch
 	"${FILESDIR}"/${P}-cmake.patch
+	"${FILESDIR}"/${P}-gcc-7.patch
 )
 
 do_python() {
