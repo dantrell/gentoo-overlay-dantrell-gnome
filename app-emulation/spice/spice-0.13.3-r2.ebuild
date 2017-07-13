@@ -44,6 +44,9 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.13.3-skip_faulty_lz4_check.patch
+	"${FILESDIR}"/${PN}-0.13.3-reds-Disconnect-when-receiving-overly-big-ClientMoni.patch
+	"${FILESDIR}"/${PN}-0.13.3-reds-Avoid-integer-overflows-handling-monitor-config.patch
+	"${FILESDIR}"/${PN}-0.13.3-reds-Avoid-buffer-overflows-handling-monitor-configu.patch
 )
 
 python_check_deps() {

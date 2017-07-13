@@ -36,3 +36,9 @@ src_configure() {
 	gnome2_src_configure \
 		$(usex debug --enable-debug=yes ' ')
 }
+
+pkg_postinst() {
+	if ! has_version "gnome-base/nautilus[sendto]"; then
+		einfo "Note that ${CATEGORY}/${PN} is meant to be used as a helper by gnome-base/nautilus[sendto]"
+	fi
+}
