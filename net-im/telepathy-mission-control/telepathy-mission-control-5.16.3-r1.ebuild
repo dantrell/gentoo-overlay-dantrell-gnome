@@ -16,6 +16,8 @@ KEYWORDS="*"
 
 IUSE="debug +deprecated networkmanager systemd"
 
+# Tests are broken, see upstream bug #29334 and #64212
+# upstream doesn't want it enabled everywhere (#29334#c12)
 RESTRICT="test"
 
 RDEPEND="
@@ -29,7 +31,7 @@ RDEPEND="
 		systemd? ( >=sys-apps/systemd-186:0= )
 	)
 	!systemd? (
-		deprecated? ( >=sys-power/upower-0.99:=[deprecated] )
+		>=sys-power/upower-0.99:=[deprecated?]
 	)
 "
 DEPEND="${RDEPEND}
@@ -46,7 +48,7 @@ src_prepare() {
 
 	# From Funtoo:
 	# 	https://bugs.funtoo.org/browse/FL-1329
-	eapply "${FILESDIR}"/${P}-restore-deprecated-code.patch
+	eapply "${FILESDIR}"/${PN}-5.16.3-restore-deprecated-code.patch
 
 	eautoreconf
 	gnome2_src_prepare
