@@ -94,8 +94,8 @@
 ~gnome-base/libgtop-2.34.2::dantrell-gnome
 ~gnome-base/librsvg-2.40.17::dantrell-gnome
 ~gnome-base/nautilus-3.24.1::dantrell-gnome-3-24
-~gnome-extra/evolution-data-server-3.24.3::dantrell-gnome-3-24
-~gnome-extra/evolution-ews-3.24.3::dantrell-gnome-3-24
+~gnome-extra/evolution-data-server-3.24.4::dantrell-gnome-3-24
+~gnome-extra/evolution-ews-3.24.4::dantrell-gnome-3-24
 ~gnome-extra/gnome-boxes-3.24.0::dantrell-gnome-3-24
 ~gnome-extra/gnome-builder-3.24.2::dantrell-gnome-3-24
 ~gnome-extra/gnome-calculator-3.24.0::dantrell-gnome-3-24
@@ -126,7 +126,7 @@
 ~gnome-extra/yelp-3.22.0::dantrell-gnome
 ~gnome-extra/yelp-xsl-3.20.1::dantrell-gnome
 ~gnome-extra/zenity-3.24.0::dantrell-gnome-3-24
-~mail-client/evolution-3.24.3::dantrell-gnome-3-24
+~mail-client/evolution-3.24.4::dantrell-gnome-3-24
 ~media-gfx/eog-3.24.1::dantrell-gnome-3-24
 ~media-gfx/gnome-font-viewer-3.24.0::dantrell-gnome-3-24
 ~media-gfx/gnome-photos-3.24.2::dantrell-gnome-3-24
@@ -149,7 +149,7 @@
 ~media-video/totem-3.24.0::dantrell-gnome-3-24
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
 ~net-im/empathy-3.12.13::dantrell-gnome
-~net-irc/polari-3.24.1::dantrell-gnome-3-24
+~net-irc/polari-3.24.2::dantrell-gnome-3-24
 ~net-libs/glib-networking-2.50.0::dantrell-gnome
 ~net-libs/gnome-online-accounts-3.24.1::dantrell-gnome-3-24
 ~net-libs/gssdp-1.0.2::dantrell-gnome
@@ -174,10 +174,10 @@
 ~www-client/epiphany-3.24.2::dantrell-gnome-3-24
 ~x11-libs/gdk-pixbuf-2.36.6::dantrell-gnome
 ~x11-libs/gtksourceview-3.24.3::dantrell-gnome-3-24
-~x11-libs/gtk+-3.22.16::dantrell-gnome
+~x11-libs/gtk+-3.22.17::dantrell-gnome
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.20.1::dantrell-gnome
-~x11-libs/pango-1.40.6::dantrell-gnome
+~x11-libs/pango-1.40.7::dantrell-gnome
 ~x11-libs/vte-0.48.3::dantrell-gnome-3-24
 ~x11-misc/gpaste-3.24.1::dantrell-gnome-3-24
 ~x11-terms/gnome-terminal-3.24.2::dantrell-gnome-3-24
