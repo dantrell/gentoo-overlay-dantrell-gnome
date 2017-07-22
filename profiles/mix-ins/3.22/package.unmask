@@ -93,7 +93,7 @@
 ~gnome-base/gvfs-1.30.4::dantrell-gnome-3-22
 ~gnome-base/libgnomekbd-3.22.0.1::dantrell-gnome
 ~gnome-base/libgtop-2.34.2::dantrell-gnome
-~gnome-base/librsvg-2.40.17::dantrell-gnome
+~gnome-base/librsvg-2.40.18::dantrell-gnome
 ~gnome-base/nautilus-3.22.3::dantrell-gnome-3-22
 ~gnome-extra/evolution-data-server-3.22.7::dantrell-gnome-3-22
 ~gnome-extra/evolution-ews-3.22.6::dantrell-gnome-3-22
@@ -174,7 +174,7 @@
 ~sys-apps/baobab-3.22.1::dantrell-gnome-3-22
 ~sys-apps/gnome-disk-utility-3.22.1::dantrell-gnome-3-22
 ~www-client/epiphany-3.22.7::dantrell-gnome-3-22
-~x11-libs/gdk-pixbuf-2.36.6::dantrell-gnome
+~x11-libs/gdk-pixbuf-2.36.7::dantrell-gnome
 ~x11-libs/gtksourceview-3.22.2::dantrell-gnome-3-22
 ~x11-libs/gtk+-3.22.17::dantrell-gnome
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
