@@ -212,29 +212,31 @@ src_prepare() {
 src_configure() {
 	local backend
 
-	if use kernel_linux; then
+	if use kernel_linux ; then
 		backend=linux
-	elif use kernel_FreeBSD; then
+	elif use kernel_FreeBSD ; then
 		backend=freebsd
 	else
 		backend=dummy
 	fi
 
-	econf \
-		--disable-static \
-		--disable-tests \
-		--enable-man-pages \
-		--libexecdir="${EPREFIX}"/usr/lib/${PN} \
-		--localstatedir="${EPREFIX}"/var \
-		--with-backend=${backend} \
-		--with-html-dir="${EPREFIX}"/usr/share/doc/${PF}/html \
-		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)" \
-		--with-systemdutildir="$(systemd_get_utildir)" \
-		$(use_enable deprecated) \
-		$(use_enable doc gtk-doc) \
-		$(use_enable doc gtk-doc-html) \
-		$(use_enable introspection) \
+	local myeconfargs=(
+		--disable-static
+		--disable-tests
+		--enable-man-pages
+		--libexecdir="${EPREFIX%/}"/usr/lib/${PN}
+		--localstatedir="${EPREFIX%/}"/var
+		--with-backend=${backend}
+		--with-html-dir="${EPREFIX%/}"/usr/share/doc/${PF}/html
+		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
+		--with-systemdutildir="$(systemd_get_utildir)"
+		$(use_enable deprecated)
+		$(use_enable doc gtk-doc)
+		$(use_enable doc gtk-doc-html)
+		$(use_enable introspection)
 		$(use_with ios idevice)
+	)
+	econf "${myeconfargs[@]}"
 }
 
 src_install() {

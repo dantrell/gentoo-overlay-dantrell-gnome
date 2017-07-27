@@ -17,7 +17,7 @@
 ~app-misc/geoclue-2.4.7::dantrell-gnome
 ~app-misc/gnote-3.22.2::dantrell-gnome-3-22
 ~app-misc/tracker-1.10.5::dantrell-gnome-3-22
-~app-text/evince-3.22.1::dantrell-gnome-3-22
+~app-text/evince-3.22.2::dantrell-gnome-3-22
 ~app-text/gspell-1.2.3::dantrell-gnome
 ~app-text/libgepub-0.4::dantrell-gnome
 ~app-text/libgxps-0.2.5::dantrell-gnome
@@ -164,7 +164,7 @@
 ~net-libs/rest-0.8.0::dantrell-gnome
 ~net-libs/webkit-gtk-2.4.11::dantrell-gnome
 ~net-misc/gnome-online-miners-3.22.0::dantrell-gnome
-~net-misc/networkmanager-1.4.4::dantrell-gnome
+~net-misc/networkmanager-1.4.6::dantrell-gnome
 ~net-misc/rygel-0.32.1::dantrell-gnome-3-22
 ~net-misc/vinagre-3.22.0::dantrell-gnome
 ~net-misc/vino-3.22.0::dantrell-gnome

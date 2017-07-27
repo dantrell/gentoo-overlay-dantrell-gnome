@@ -10,7 +10,7 @@ SRC_URI="https://github.com/storaged-project/${PN}/archive/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="2"
-KEYWORDS="*"
+KEYWORDS=""
 
 IUSE="acl cryptsetup debug elogind +gptfdisk +introspection lvm nls selinux systemd"
 REQUIRED_USE="?? ( elogind systemd )"
@@ -19,10 +19,11 @@ COMMON_DEPEND="
 	>=dev-libs/glib-2.36:2
 	>=dev-libs/libatasmart-0.19
 	>=sys-auth/polkit-0.110
+	sys-libs/libblockdev[lvm?]
 	>=virtual/libgudev-165:=
 	virtual/udev
 	acl? ( virtual/acl )
-	elogind? ( sys-auth/elogind )
+	elogind? ( >=sys-auth/elogind-219 )
 	introspection? ( >=dev-libs/gobject-introspection-1.30:= )
 	lvm? ( sys-fs/lvm2 )
 	systemd? ( >=sys-apps/systemd-209 )
@@ -82,10 +83,12 @@ src_prepare() {
 
 src_configure() {
 	local myeconfargs=(
+		--enable-btrfs
 		--disable-gtk-doc
 		--disable-static
 		--localstatedir="${EPREFIX%/}"/var
 		--with-html-dir="${EPREFIX%/}"/usr/share/gtk-doc/html
+		--with-modprobedir="${EPREFIX%/}"/lib/modprobe.d
 		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
 		--with-udevdir="$(get_udevdir)"
 		$(use_enable acl)

@@ -33,7 +33,7 @@ RDEPEND="${COMMON_DEPEND}
 	cryptsetup? (
 		sys-fs/cryptsetup[udev(+)]
 		sys-fs/lvm2[udev(+)]
-		)
+	)
 	gptfdisk? ( >=sys-apps/gptfdisk-0.8 )
 	selinux? ( sec-policy/selinux-devicekit )
 "
@@ -64,22 +64,26 @@ pkg_setup() {
 src_prepare() {
 	xdg_environment_reset
 
-	use systemd || { sed -i -e 's:libsystemd-login:&disable:' configure || die; }
-
 	default
+
+	if ! use systemd ; then
+		sed -i -e 's:libsystemd-login:&disable:' configure || die
+	fi
 }
 
 src_configure() {
-	econf \
-		--localstatedir="${EPREFIX}"/var \
-		--disable-static \
-		$(use_enable acl) \
-		$(use_enable debug) \
-		--disable-gtk-doc \
-		$(use_enable introspection) \
-		--with-html-dir="${EPREFIX}"/usr/share/gtk-doc/html \
-		--with-udevdir="$(get_udevdir)" \
+	local myeconfargs=(
+		--disable-gtk-doc
+		--disable-static
+		--localstatedir="${EPREFIX%/}"/var
+		--with-html-dir="${EPREFIX%/}"/usr/share/gtk-doc/html
 		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
+		--with-udevdir="$(get_udevdir)"
+		$(use_enable acl)
+		$(use_enable debug)
+		$(use_enable introspection)
+	)
+	econf "${myeconfargs[@]}"
 }
 
 src_install() {

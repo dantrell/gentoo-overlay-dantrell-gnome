@@ -17,7 +17,7 @@
 ~app-misc/geoclue-2.4.7::dantrell-gnome
 ~app-misc/gnote-3.24.0::dantrell-gnome-3-24
 ~app-misc/tracker-1.12.1::dantrell-gnome-3-24
-~app-text/evince-3.24.0::dantrell-gnome-3-24
+~app-text/evince-3.24.1::dantrell-gnome-3-24
 ~app-text/gspell-1.4.1::dantrell-gnome
 ~app-text/libgepub-0.4::dantrell-gnome
 ~app-text/libgxps-0.2.5::dantrell-gnome
@@ -78,7 +78,7 @@
 ~gnome-base/dconf-editor-3.23.4::dantrell-gnome-3-24
 ~gnome-base/gdm-3.24.2::dantrell-gnome-3-24
 ~gnome-base/gnome-3.24.0::dantrell-gnome-3-24
-~gnome-base/gnome-control-center-3.24.2::dantrell-gnome-3-24
+~gnome-base/gnome-control-center-3.24.3::dantrell-gnome-3-24
 ~gnome-base/gnome-core-apps-3.24.0::dantrell-gnome-3-24
 ~gnome-base/gnome-core-libs-3.24.0::dantrell-gnome-3-24
 ~gnome-base/gnome-desktop-3.24.2::dantrell-gnome-3-24
@@ -86,7 +86,7 @@
 ~gnome-base/gnome-flashback-3.24.0::dantrell-gnome-3-24
 ~gnome-base/gnome-light-3.24.0::dantrell-gnome-3-24
 ~gnome-base/gnome-session-3.24.1::dantrell-gnome-3-24
-~gnome-base/gnome-settings-daemon-3.24.2::dantrell-gnome-3-24
+~gnome-base/gnome-settings-daemon-3.24.3::dantrell-gnome-3-24
 ~gnome-base/gnome-shell-3.24.3::dantrell-gnome-3-24
 ~gnome-base/gsettings-desktop-schemas-3.24.0::dantrell-gnome-3-24
 ~gnome-base/gvfs-1.32.1::dantrell-gnome-3-24
@@ -161,9 +161,9 @@
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/phodav-2.2::dantrell-gnome
 ~net-libs/rest-0.8.0::dantrell-gnome
-~net-libs/webkit-gtk-2.16.5::dantrell-gnome
+~net-libs/webkit-gtk-2.16.6::dantrell-gnome
 ~net-misc/gnome-online-miners-3.22.0::dantrell-gnome
-~net-misc/networkmanager-1.8.0::dantrell-gnome
+~net-misc/networkmanager-1.8.2::dantrell-gnome
 ~net-misc/rygel-0.34.0::dantrell-gnome-3-24
 ~net-misc/vino-3.22.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.20.1::dantrell-gnome
