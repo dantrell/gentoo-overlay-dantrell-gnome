@@ -1,19 +1,6 @@
-diff '--exclude=.git' -urN a/config.h.in b/config.h.in
---- a/config.h.in	2017-03-27 14:33:00.000000000 -0400
-+++ b/config.h.in	2017-05-18 08:09:13.235875456 -0400
-@@ -71,6 +71,9 @@
- /* Define to 1 if you have the <string.h> header file. */
- #undef HAVE_STRING_H
- 
-+/* Define if elogind is used */
-+#undef HAVE_ELOGIND
-+
- /* Define if systemd is used */
- #undef HAVE_SYSTEMD
- 
 diff '--exclude=.git' -urN a/configure.ac b/configure.ac
 --- a/configure.ac	2017-03-27 14:32:19.000000000 -0400
-+++ b/configure.ac	2017-05-17 15:05:31.298216631 -0400
++++ b/configure.ac	2017-07-28 03:00:34.977783697 -0400
 @@ -264,6 +264,48 @@
  dnl ---------------------------------------------------------------------------
  AC_PATH_PROG([XSLTPROC], [xsltproc])
@@ -65,7 +52,7 @@ diff '--exclude=.git' -urN a/configure.ac b/configure.ac
  AC_ARG_ENABLE([systemd],
 diff '--exclude=.git' -urN a/src/libaccountsservice/act-user-manager.c b/src/libaccountsservice/act-user-manager.c
 --- a/src/libaccountsservice/act-user-manager.c	2017-03-27 12:50:42.000000000 -0400
-+++ b/src/libaccountsservice/act-user-manager.c	2017-05-17 14:28:32.198919751 -0400
++++ b/src/libaccountsservice/act-user-manager.c	2017-07-28 03:00:34.978783691 -0400
 @@ -41,9 +41,15 @@
  #include <gio/gio.h>
  #include <gio/gunixinputstream.h>
@@ -82,3 +69,219 @@ diff '--exclude=.git' -urN a/src/libaccountsservice/act-user-manager.c b/src/lib
  /* check if logind is running */
  #define LOGIND_RUNNING() (access("/run/systemd/seats/", F_OK) >= 0)
  #endif
+@@ -120,7 +126,7 @@
+         ConsoleKitSeat              *seat_proxy;
+         ConsoleKitSession           *session_proxy;
+         guint                        load_idle_id;
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+         sd_login_monitor            *session_monitor;
+         GInputStream                *session_monitor_stream;
+         guint                        session_monitor_source_id;
+@@ -299,7 +305,7 @@
+         return TRUE;
+ }
+ 
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+ static gboolean
+ activate_systemd_session_id (ActUserManager *manager,
+                              const char     *seat_id,
+@@ -384,7 +390,7 @@
+         return ret;
+ }
+ 
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+ static gboolean
+ _systemd_session_is_login_window (ActUserManager *manager,
+                                   const char     *session_id)
+@@ -418,7 +424,7 @@
+ session_is_login_window (ActUserManager *manager,
+                          const char     *session_id)
+ {
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+         if (LOGIND_RUNNING()) {
+                 return _systemd_session_is_login_window (manager, session_id);
+         }
+@@ -435,7 +441,7 @@
+         return TRUE;
+ }
+ 
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+ static gboolean
+ _systemd_session_is_on_our_seat (ActUserManager *manager,
+                                  const char     *session_id)
+@@ -470,7 +476,7 @@
+ session_is_on_our_seat (ActUserManager *manager,
+                         const char     *session_id)
+ {
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+         if (LOGIND_RUNNING()) {
+                 return _systemd_session_is_on_our_seat (manager, session_id);
+         }
+@@ -510,7 +516,7 @@
+ 
+ }
+ 
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+ gboolean
+ _can_activate_systemd_sessions (ActUserManager *manager)
+ {
+@@ -571,7 +577,7 @@
+         g_debug ("ActUserManager: checking if seat can activate sessions");
+ 
+ 
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+         if (LOGIND_RUNNING()) {
+                 return _can_activate_systemd_sessions (manager);
+         }
+@@ -616,7 +622,7 @@
+                 goto out;
+         }
+ 
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+         if (LOGIND_RUNNING()) {
+                 return activate_systemd_session_id (manager, manager->priv->seat.id, ssid);
+         }
+@@ -743,7 +749,7 @@
+         g_object_unref (manager);
+ }
+ 
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+ static void
+ _get_systemd_seat_id (ActUserManager *manager)
+ {
+@@ -773,7 +779,7 @@
+ static void
+ get_seat_id_for_current_session (ActUserManager *manager)
+ {
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+         if (LOGIND_RUNNING()) {
+                 _get_systemd_seat_id (manager);
+                 return;
+@@ -1182,7 +1188,7 @@
+         g_object_unref (manager);
+ }
+ 
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+ static void
+ _get_current_systemd_session_id (ActUserManager *manager)
+ {
+@@ -1213,7 +1219,7 @@
+ static void
+ get_current_session_id (ActUserManager *manager)
+ {
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+         if (LOGIND_RUNNING()) {
+                 _get_current_systemd_session_id (manager);
+                 return;
+@@ -1297,7 +1303,7 @@
+ get_proxy_for_new_session (ActUserManagerNewSession *new_session)
+ {
+         GError            *error = NULL;
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+         if (LOGIND_RUNNING()) {
+                 new_session->state++;
+                 load_new_session_incrementally (new_session);
+@@ -1363,7 +1369,7 @@
+         load_new_session_incrementally (new_session);
+ }
+ 
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+ static void
+ _get_uid_for_new_systemd_session (ActUserManagerNewSession *new_session)
+ {
+@@ -1390,7 +1396,7 @@
+ static void
+ get_uid_for_new_session (ActUserManagerNewSession *new_session)
+ {
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+         if (LOGIND_RUNNING()) {
+                 _get_uid_for_new_systemd_session (new_session);
+                 return;
+@@ -1615,7 +1621,7 @@
+         load_new_session_incrementally (new_session);
+ }
+ 
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+ static void
+ _get_x11_display_for_new_systemd_session (ActUserManagerNewSession *new_session)
+ {
+@@ -1670,7 +1676,7 @@
+ static void
+ get_x11_display_for_new_session (ActUserManagerNewSession *new_session)
+ {
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+         if (LOGIND_RUNNING()) {
+                 _get_x11_display_for_new_systemd_session (new_session);
+                 return;
+@@ -1822,7 +1828,7 @@
+         _remove_session (manager, session_id);
+ }
+ 
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+ 
+ static gboolean
+ _session_recognized (ActUserManager *manager,
+@@ -1924,7 +1930,7 @@
+         g_slist_free (sessions_to_remove);
+ }
+ 
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+ static void
+ reload_systemd_sessions (ActUserManager *manager)
+ {
+@@ -2044,7 +2050,7 @@
+ {
+         GError *error = NULL;
+ 
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+         if (LOGIND_RUNNING()) {
+                 _monitor_for_systemd_session_changes (manager);
+                 manager->priv->seat.state++;
+@@ -2117,7 +2123,7 @@
+ static void
+ get_session_proxy (ActUserManager *manager)
+ {
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+         if (LOGIND_RUNNING()) {
+                 manager->priv->seat.state++;
+                 queue_load_seat_incrementally (manager);
+@@ -2550,7 +2556,7 @@
+ static void
+ load_sessions (ActUserManager *manager)
+ {
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+         if (LOGIND_RUNNING()) {
+                 reload_systemd_sessions (manager);
+                 maybe_set_is_loaded (manager);
+@@ -2958,7 +2964,7 @@
+                 g_source_remove (manager->priv->seat.load_idle_id);
+         }
+ 
+-#ifdef WITH_SYSTEMD
++#if defined(WITH_ELOGIND) || defined(WITH_SYSTEMD)
+         if (manager->priv->seat.session_monitor != NULL) {
+                 sd_login_monitor_unref (manager->priv->seat.session_monitor);
+         }

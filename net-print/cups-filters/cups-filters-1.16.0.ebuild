@@ -12,12 +12,11 @@ SRC_URI="http://www.openprinting.org/download/${PN}/${P}.tar.xz"
 
 LICENSE="MIT GPL-2"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="dbus +foomatic ipp_autosetup jpeg ldap pdf perl png +postscript static-libs tiff zeroconf"
 
 RDEPEND="
-	postscript? ( >=app-text/ghostscript-gpl-9.09[cups] )
 	>=app-text/poppler-0.32:=[cxx,jpeg?,lcms,tiff?,utils]
 	>=app-text/qpdf-3.0.2:=
 	dev-libs/glib:2
@@ -35,6 +34,7 @@ RDEPEND="
 	pdf? ( app-text/mupdf )
 	perl? ( dev-lang/perl:= )
 	png? ( media-libs/libpng:0= )
+	postscript? ( >=app-text/ghostscript-gpl-9.09[cups] )
 	tiff? ( media-libs/tiff:0 )
 	zeroconf? ( net-dns/avahi[dbus] )
 "
