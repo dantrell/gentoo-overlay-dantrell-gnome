@@ -30,7 +30,7 @@
 ~dev-libs/appstream-glib-0.6.13::dantrell-gnome
 ~dev-libs/atk-2.24.0::dantrell-gnome-3-24
 ~dev-libs/folks-0.11.4::dantrell-gnome
-~dev-libs/gjs-1.48.5::dantrell-gnome-3-24
+~dev-libs/gjs-1.48.6::dantrell-gnome-3-24
 ~dev-libs/glib-2.52.3::dantrell-gnome
 ~dev-libs/gmime-3.0.1::dantrell-gnome
 ~dev-libs/gobject-introspection-1.52.1::dantrell-gnome-3-24
