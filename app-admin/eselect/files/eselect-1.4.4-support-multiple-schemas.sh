@@ -3,7 +3,7 @@
 
 # This uses a portage-only module.
 
-if [[ ! $(grep "gentoo:funtoo/1.0/linux-gnu/" /etc/portage/make.profile/parent 2> /dev/null) ]]; then
+if [[ ! $(grep ":funtoo/1.0/linux-gnu/" /etc/portage/make.profile/parent 2> /dev/null) ]]; then
 
 	# Copyright 2005-2017 Gentoo Foundation
 
@@ -502,8 +502,10 @@ else
 	# Returns list of profiles.desc files from main repo and those
 	# found by looking in PORTDIR_OVERLAY repos.
 	get_profiles_desc_files() {
-		# Echo main repo first
-		echo "${MAIN_PROFILE_DESC_FILE}"
+		if [[ ! $(grep "core-kit:funtoo/1.0/linux-gnu/" /etc/portage/make.profile/parent 2> /dev/null) ]] ; then
+			# Echo main repo first
+			echo "${MAIN_PROFILE_DESC_FILE}"
+		fi
 
 		for repo in ${PORTAGE_OVERLAY_DIRS[@]} ; do
 			if [[ -e "${repo}/profiles/${PROFILE_DESC_FILENAME}" ]] ; then

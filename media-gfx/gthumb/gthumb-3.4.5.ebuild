@@ -14,39 +14,34 @@ KEYWORDS="*"
 
 IUSE="cdr debug exif gnome-keyring gstreamer http jpeg json lcms raw slideshow svg tiff test webkit webp"
 
-COMMON_DEPEND="
+RDEPEND="
 	>=dev-libs/glib-2.36.0:2[dbus]
 	>=x11-libs/gtk+-3.10.0:3
-
-	media-libs/libpng:0=
-	sys-libs/zlib
-	x11-libs/libICE
-	x11-libs/libSM
-
-	cdr? ( >=app-cdr/brasero-3.2 )
 	exif? ( >=media-gfx/exiv2-0.21:= )
-	gnome-keyring? ( >=app-crypt/libsecret-0.11 )
-	gstreamer? (
-		media-libs/gstreamer:1.0
-		media-libs/gst-plugins-base:1.0 )
-	http? ( >=net-libs/libsoup-2.42.0:2.4 )
-	jpeg? ( virtual/jpeg:0= )
-	json? ( >=dev-libs/json-glib-0.15.0 )
-	lcms? ( >=media-libs/lcms-2.6:2 )
 	slideshow? (
 		>=media-libs/clutter-1.12.0:1.0
 		>=media-libs/clutter-gtk-1:1.0 )
-	svg? ( >=gnome-base/librsvg-2.34:2 )
-	tiff? ( media-libs/tiff:= )
+	gstreamer? (
+		media-libs/gstreamer:1.0
+		media-libs/gst-plugins-base:1.0 )
 	raw? ( >=media-libs/libraw-0.14:= )
-	!raw? ( media-gfx/dcraw )
-	webkit? ( net-libs/webkit-gtk:4 )
+	http? ( >=net-libs/libsoup-2.42.0:2.4 )
+	gnome-keyring? ( >=app-crypt/libsecret-0.11 )
+	cdr? ( >=app-cdr/brasero-3.2 )
+	svg? ( >=gnome-base/librsvg-2.34:2 )
 	webp? ( >=media-libs/libwebp-0.2.0 )
-"
-RDEPEND="${COMMON_DEPEND}
+	json? ( >=dev-libs/json-glib-0.15.0 )
+	webkit? ( >=net-libs/webkit-gtk-1.10.0:4 )
+	lcms? ( >=media-libs/lcms-2.6:2 )
+
+	media-libs/libpng:0=
+	sys-libs/zlib
 	>=gnome-base/gsettings-desktop-schemas-0.1.4
+	jpeg? ( virtual/jpeg:0= )
+	tiff? ( media-libs/tiff:= )
+	!raw? ( media-gfx/dcraw )
 "
-DEPEND="${COMMON_DEPEND}
+DEPEND="${RDEPEND}
 	app-text/yelp-tools
 	>=dev-util/intltool-0.35
 	sys-devel/bison
