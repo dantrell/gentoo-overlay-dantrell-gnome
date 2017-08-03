@@ -1,4 +1,5 @@
 app-crypt/gcr gtk
+app-i18n/ibus gtk
 dev-cpp/gtkmm X
 dev-libs/gobject-introspection -python_single_target_python3_4
 dev-libs/gobject-introspection -python_single_target_python3_5
