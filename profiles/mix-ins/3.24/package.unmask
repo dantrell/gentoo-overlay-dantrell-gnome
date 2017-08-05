@@ -151,7 +151,7 @@
 ~net-im/empathy-3.12.13::dantrell-gnome
 ~net-irc/polari-3.24.2::dantrell-gnome-3-24
 ~net-libs/glib-networking-2.50.0::dantrell-gnome
-~net-libs/gnome-online-accounts-3.24.1::dantrell-gnome-3-24
+~net-libs/gnome-online-accounts-3.24.2::dantrell-gnome-3-24
 ~net-libs/gssdp-1.0.2::dantrell-gnome
 ~net-libs/gtk-vnc-0.6.0::dantrell-gnome
 ~net-libs/gupnp-1.0.2::dantrell-gnome

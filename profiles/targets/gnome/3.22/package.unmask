@@ -152,7 +152,7 @@
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
 ~net-irc/polari-3.22.2::dantrell-gnome-3-22
 ~net-libs/glib-networking-2.50.0::dantrell-gnome
-~net-libs/gnome-online-accounts-3.22.5::dantrell-gnome-3-22
+~net-libs/gnome-online-accounts-3.22.6::dantrell-gnome-3-22
 ~net-libs/gssdp-1.0.2::dantrell-gnome
 ~net-libs/gtk-vnc-0.6.0::dantrell-gnome
 ~net-libs/gupnp-1.0.2::dantrell-gnome
