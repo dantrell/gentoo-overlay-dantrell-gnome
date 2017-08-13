@@ -4,7 +4,7 @@ EAPI="6"
 
 GENTOO_DEPEND_ON_PERL=no
 
-inherit perl-module systemd
+inherit perl-module systemd flag-o-matic
 
 DESCRIPTION="Cups PDF filters"
 HOMEPAGE="https://wiki.linuxfoundation.org/openprinting/pdf_as_standard_print_job_format"
@@ -12,7 +12,7 @@ SRC_URI="http://www.openprinting.org/download/${PN}/${P}.tar.xz"
 
 LICENSE="MIT GPL-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="dbus +foomatic ipp_autosetup jpeg ldap pdf perl png +postscript static-libs tiff zeroconf"
 
@@ -44,6 +44,9 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	default
+
+	# Bug #626800
+	append-cxxflags -std=c++11
 }
 
 src_configure() {

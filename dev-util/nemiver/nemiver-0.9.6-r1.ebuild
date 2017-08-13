@@ -43,6 +43,9 @@ PATCHES=(
 
 	# Fix compiliation warnings & errors, fixed in next version
 	"${FILESDIR}/${P}-fix-build.patch"
+
+	# Fix building with GCC-6 and CXXFLAGS="-Werror=terminate"
+	"${FILESDIR}/${P}-gcc6-throw-in-dtors.patch"
 )
 
 src_configure() {

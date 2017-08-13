@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
+GNOME2_EAUTORECONF="yes"
 
 inherit gnome2
 
@@ -24,8 +25,10 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	!<media-video/totem-2.21
+	dev-libs/gobject-introspection-common
 	>=dev-util/intltool-0.35
 	>=dev-util/gtk-doc-am-1.14
+	sys-devel/autoconf-archive
 	>=sys-devel/gettext-0.17
 	virtual/pkgconfig
 	test? (
@@ -34,7 +37,12 @@ DEPEND="${RDEPEND}
 "
 # eautoreconf needs:
 #	dev-libs/gobject-introspection-common
-#	>=gnome-base/gnome-common-3.6
+#   sys-devel/autoconf-archive
+
+PATCHES=(
+	# Fix gmime slot automagic, https://bugzilla.gnome.org/786231
+	"${FILESDIR}"/${P}-gmime-automagic.patch
+)
 
 src_prepare() {
 	# Disable tests requiring network access, bug #346127
@@ -50,6 +58,7 @@ src_prepare() {
 src_configure() {
 	gnome2_src_configure \
 		--disable-static \
+		--enable-gmime=2.6 \
 		$(use_enable archive libarchive) \
 		$(use_enable crypt libgcrypt) \
 		$(use_enable quvi) \
@@ -58,5 +67,5 @@ src_configure() {
 
 src_test() {
 	# This is required as told by upstream in bgo#629542
-	GVFS_DISABLE_FUSE=1 dbus-run-session emake check || die "emake check failed"
+	GVFS_DISABLE_FUSE=1 dbus-run-session emake check
 }

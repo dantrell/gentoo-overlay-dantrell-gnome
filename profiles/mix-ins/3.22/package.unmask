@@ -121,7 +121,7 @@
 ~gnome-extra/gucharmap-9.0.4::dantrell-gnome
 ~gnome-extra/libgsf-1.14.41::dantrell-gnome
 ~gnome-extra/mousetweaks-3.12.0::dantrell-gnome
-~gnome-extra/nautilus-sendto-3.8.5::dantrell-gnome
+~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
 ~gnome-extra/nautilus-tracker-tags-1.10.5::dantrell-gnome-3-22
 ~gnome-extra/nm-applet-1.4.6::dantrell-gnome
 ~gnome-extra/sushi-3.21.91::dantrell-gnome-3-22
@@ -141,7 +141,7 @@
 ~media-libs/grilo-0.3.3::dantrell-gnome
 ~media-libs/gsound-1.0.2::dantrell-gnome
 ~media-libs/libchamplain-0.12.15::dantrell-gnome
-~media-libs/libmediaart-1.9.1::dantrell-gnome
+~media-libs/libmediaart-1.9.4::dantrell-gnome
 ~media-plugins/grilo-plugins-0.3.4::dantrell-gnome
 ~media-sound/gnome-music-3.22.2::dantrell-gnome-3-22
 ~media-sound/gnome-sound-recorder-3.21.92::dantrell-gnome-3-22
@@ -157,7 +157,7 @@
 ~net-libs/gtk-vnc-0.6.0::dantrell-gnome
 ~net-libs/gupnp-1.0.2::dantrell-gnome
 ~net-libs/gupnp-igd-0.2.4::dantrell-gnome
-~net-libs/libsoup-2.56.0::dantrell-gnome-3-22
+~net-libs/libsoup-2.56.1::dantrell-gnome-3-22
 ~net-libs/libsoup-gnome-2.56.0::dantrell-gnome-3-22
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/phodav-2.2::dantrell-gnome
@@ -174,12 +174,12 @@
 ~sys-apps/baobab-3.22.1::dantrell-gnome-3-22
 ~sys-apps/gnome-disk-utility-3.22.1::dantrell-gnome-3-22
 ~www-client/epiphany-3.22.7::dantrell-gnome-3-22
-~x11-libs/gdk-pixbuf-2.36.7::dantrell-gnome
+~x11-libs/gdk-pixbuf-2.36.8::dantrell-gnome
 ~x11-libs/gtksourceview-3.22.2::dantrell-gnome-3-22
-~x11-libs/gtk+-3.22.17::dantrell-gnome
+~x11-libs/gtk+-3.22.18::dantrell-gnome
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.20.1::dantrell-gnome
-~x11-libs/pango-1.40.7::dantrell-gnome
+~x11-libs/pango-1.40.9::dantrell-gnome
 ~x11-libs/vte-0.46.2::dantrell-gnome-3-22
 ~x11-misc/gpaste-3.22.0::dantrell-gnome-3-22
 ~x11-terms/gnome-terminal-3.22.2::dantrell-gnome-3-22

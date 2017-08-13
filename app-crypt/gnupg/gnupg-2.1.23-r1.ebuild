@@ -4,17 +4,17 @@ EAPI="6"
 
 inherit systemd toolchain-funcs
 
+MY_P="${P/_/-}"
+
 DESCRIPTION="The GNU Privacy Guard, a GPL OpenPGP implementation"
 HOMEPAGE="http://www.gnupg.org/"
+SRC_URI="mirror://gnupg/gnupg/${MY_P}.tar.bz2"
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="*"
 
 IUSE="bzip2 doc +gnutls ldap nls readline selinux +smartcard tofu tools usb wks-server"
-
-MY_P="${P/_/-}"
-SRC_URI="mirror://gnupg/gnupg/${MY_P}.tar.bz2"
 
 COMMON_DEPEND_LIBS="
 	>=dev-libs/npth-1.2
@@ -54,6 +54,7 @@ DOCS=(
 
 PATCHES=(
 	"${FILESDIR}/${PN}-2.1.20-gpgscm-Use-shorter-socket-path-lengts-to-improve-tes.patch"
+	"${FILESDIR}/${P}-gpg-default-to-no-auto-key-retrieve.patch"
 )
 
 src_configure() {
@@ -90,6 +91,7 @@ src_configure() {
 		--enable-gpg \
 		--enable-gpgsm \
 		--enable-large-secmem \
+		--enable-all-tests \
 		CC_FOR_BUILD="$(tc-getBUILD_CC)"
 }
 
@@ -108,13 +110,13 @@ src_install() {
 			tools/{gpg-zip,gpgconf,gpgsplit,lspgpot,mail-signed-keys} \
 			tools/make-dns-cert
 
-	dosym gpg2 /usr/bin/gpg
-	dosym gpgv2 /usr/bin/gpgv
-	echo ".so man1/gpg2.1" > "${ED}"/usr/share/man/man1/gpg.1
-	echo ".so man1/gpgv2.1" > "${ED}"/usr/share/man/man1/gpgv.1
+	dosym gpg /usr/bin/gpg2
+	dosym gpgv /usr/bin/gpgv2
+	echo ".so man1/gpg.1" > "${ED}"/usr/share/man/man1/gpg2.1 || die
+	echo ".so man1/gpgv.1" > "${ED}"/usr/share/man/man1/gpgv2.1 || die
 
 	dodir /etc/env.d
-	echo "CONFIG_PROTECT=/usr/share/gnupg/qualified.txt" >> "${ED}"/etc/env.d/30gnupg
+	echo "CONFIG_PROTECT=/usr/share/gnupg/qualified.txt" >> "${ED}"/etc/env.d/30gnupg || die
 
 	use doc && dodoc doc/gnupg.html/* doc/*.png
 

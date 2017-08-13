@@ -63,12 +63,6 @@ DEPEND="${COMMON_DEPEND}
 
 PDEPEND="gnome-base/gvfs"
 
-src_prepare() {
-	# https://bugzilla.gnome.org/show_bug.cgi?id=744916
-	epatch "${FILESDIR}"/${PN}-3.12.1-libdvdcss.patch
-	gnome2_src_prepare
-}
-
 src_configure() {
 	DOCS="AUTHORS ChangeLog MAINTAINERS NEWS README"
 	gnome2_src_configure \
