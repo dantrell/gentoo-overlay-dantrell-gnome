@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome2
+inherit gnome2 meson
 
 DESCRIPTION="A nautilus extension for sending files to locations"
 HOMEPAGE="https://git.gnome.org/browse/nautilus-sendto/"
@@ -25,16 +25,23 @@ DEPEND="${RDEPEND}
 # Needed for eautoreconf
 #	>=gnome-base/gnome-common-0.12
 
-src_prepare() {
-	gnome2_src_prepare
-
-	# Does not require introspection at all, bug #561008
-	sed -i -e 's/\(^ \+enable_introspection\)=yes/\1=no/' configure || die
+nautilus_sendto_use_enable() {
+	echo "-Denable-${2:-${1}}=$(usex ${1} 'true' 'false')" || die
 }
 
 src_configure() {
-	gnome2_src_configure \
-		$(usex debug --enable-debug=yes ' ')
+	local emesonargs=(
+		$(nautilus_sendto_use_enable debug)
+	)
+	meson_src_configure
+}
+
+src_compile() {
+	meson_src_compile
+}
+
+src_install() {
+	meson_src_install
 }
 
 pkg_postinst() {

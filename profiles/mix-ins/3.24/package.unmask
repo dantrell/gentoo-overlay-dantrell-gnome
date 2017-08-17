@@ -157,7 +157,7 @@
 ~net-libs/gupnp-1.0.2::dantrell-gnome
 ~net-libs/gupnp-igd-0.2.4::dantrell-gnome
 ~net-libs/libsoup-2.58.2::dantrell-gnome-3-24
-~net-libs/libsoup-gnome-2.58.1::dantrell-gnome-3-24
+~net-libs/libsoup-gnome-2.58.2::dantrell-gnome-3-24
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/phodav-2.2::dantrell-gnome
 ~net-libs/rest-0.8.0::dantrell-gnome

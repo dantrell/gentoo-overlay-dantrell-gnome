@@ -29,5 +29,9 @@ DEPEND="${RDEPEND}
 "
 
 src_configure() {
-	gnome2_src_configure --disable-unversioned
+	# weasyprint enables generation of PDF from HTML
+	gnome2_src_configure \
+		--disable-unversioned \
+		VALAC=: \
+		WEASYPRINT=:
 }

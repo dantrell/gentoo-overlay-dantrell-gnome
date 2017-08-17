@@ -408,6 +408,7 @@ x11-libs/colord-gtk::gentoo
 x11-libs/colord-gtk::gnome-kit
 x11-libs/gdk-pixbuf::gentoo
 x11-libs/gdk-pixbuf::gnome-kit
+x11-libs/gtef::desktop-kit
 x11-libs/gtef::gentoo
 x11-libs/gtk+::gentoo
 x11-libs/gtk+::gnome-kit
