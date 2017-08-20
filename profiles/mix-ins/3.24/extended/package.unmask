@@ -18,7 +18,7 @@
 ~app-misc/gnote-3.24.0::dantrell-gnome-3-24
 ~app-misc/tracker-1.12.2::dantrell-gnome-3-24
 ~app-text/evince-3.24.1::dantrell-gnome-3-24
-~app-text/gspell-1.4.1::dantrell-gnome
+~app-text/gspell-1.4.2::dantrell-gnome
 ~app-text/libgepub-0.4::dantrell-gnome
 ~app-text/libgxps-0.2.5::dantrell-gnome
 ~app-text/yelp-tools-3.18.0::dantrell-gnome

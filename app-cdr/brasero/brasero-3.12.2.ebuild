@@ -1,10 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 
-inherit eutils gnome2
+inherit gnome2
 
 DESCRIPTION="CD/DVD burning application for the GNOME desktop"
 HOMEPAGE="https://wiki.gnome.org/Apps/Brasero"
@@ -27,13 +26,13 @@ COMMON_DEPEND="
 	x11-libs/libICE
 	x11-libs/libSM
 
-	introspection? ( >=dev-libs/gobject-introspection-0.6.3:= )
+	introspection? ( >=dev-libs/gobject-introspection-1.30:= )
 	libburn? (
 		>=dev-libs/libburn-0.4:=
 		>=dev-libs/libisofs-0.6.4:= )
 	nautilus? ( >=gnome-base/nautilus-2.91.90 )
 	playlist? ( >=dev-libs/totem-pl-parser-2.29.1:= )
-	tracker? ( >=app-misc/tracker-0.12:0= )
+	tracker? ( >=app-misc/tracker-1:0= )
 "
 RDEPEND="${COMMON_DEPEND}
 	media-libs/gst-plugins-good:1.0
@@ -64,7 +63,6 @@ DEPEND="${COMMON_DEPEND}
 PDEPEND="gnome-base/gvfs"
 
 src_configure() {
-	DOCS="AUTHORS ChangeLog MAINTAINERS NEWS README"
 	gnome2_src_configure \
 		--disable-caches \
 		$(use_enable !libburn cdrtools) \
