@@ -1,11 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 PYTHON_COMPAT=( python{3_4,3_5,3_6} )
 VALA_USE_DEPEND="vapigen"
 
-inherit eutils gnome2 python-r1 vala
+inherit gnome2 python-r1 vala
 
 DESCRIPTION="Git library for GLib"
 HOMEPAGE="https://wiki.gnome.org/Projects/Libgit2-glib"
@@ -14,7 +13,7 @@ LICENSE="LGPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="python ssh +vala"
+IUSE="python +ssh +vala"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 # Specify libgit2 dependency with subslot because libgit2 upstream has a habit

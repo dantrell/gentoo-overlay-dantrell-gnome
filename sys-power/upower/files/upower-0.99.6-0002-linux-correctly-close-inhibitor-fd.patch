@@ -1,0 +1,44 @@
+From 502c63b54944064dfd5f5cc4463bfb3d457a95c0 Mon Sep 17 00:00:00 2001
+From: Benjamin Berg <bberg@redhat.com>
+Date: Thu, 3 Aug 2017 17:12:50 +0200
+Subject: [PATCH 2/2] linux: Correctly close inhibitor FD
+
+The unref of the FD list for the inhibitor was missing which means that
+the FD was leaked and the lock was never released. This means that for
+each suspend/resume cycle a new inhibitor would be added.
+
+Signed-off-by: Richard Hughes <richard@hughsie.com>
+---
+ src/linux/up-backend.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/linux/up-backend.c b/src/linux/up-backend.c
+index c5f8fd9..e7684a2 100644
+--- a/src/linux/up-backend.c
++++ b/src/linux/up-backend.c
+@@ -475,7 +475,7 @@ static void
+ up_backend_inhibitor_lock_take (UpBackend *backend)
+ {
+ 	GVariant *out, *input;
+-	GUnixFDList *fds;
++	GUnixFDList *fds = NULL;
+ 	GError *error = NULL;
+ 
+ 	if (backend->priv->logind_inhibitor_fd > -1) {
+@@ -505,11 +505,13 @@ up_backend_inhibitor_lock_take (UpBackend *backend)
+ 	if (g_unix_fd_list_get_length (fds) != 1) {
+ 		g_warning ("Unexpected values returned by logind's 'Inhibit'");
+ 		g_variant_unref (out);
++		g_object_unref (fds);
+ 		return;
+ 	}
+ 
+ 	backend->priv->logind_inhibitor_fd = g_unix_fd_list_get (fds, 0, NULL);
+ 	g_variant_unref (out);
++	g_object_unref (fds);
+ 
+ 	g_debug ("Acquired inhibitor lock (%i)", backend->priv->logind_inhibitor_fd);
+ }
+-- 
+2.14.1
+

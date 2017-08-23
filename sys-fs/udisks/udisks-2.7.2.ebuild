@@ -10,7 +10,7 @@ SRC_URI="https://github.com/storaged-project/${PN}/archive/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="2"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="acl cryptsetup debug elogind +gptfdisk +introspection lvm nls selinux systemd"
 REQUIRED_USE="?? ( elogind systemd )"

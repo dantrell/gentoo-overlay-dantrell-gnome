@@ -12,7 +12,7 @@ LICENSE="GPL-2-with-linking-exception"
 SLOT="0/24"
 KEYWORDS="*"
 
-IUSE="examples gssapi libressl ssh test threads trace"
+IUSE="examples gssapi libressl +ssh test +threads trace"
 
 RDEPEND="
 	!libressl? ( dev-libs/openssl:0 )

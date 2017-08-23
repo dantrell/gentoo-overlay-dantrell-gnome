@@ -186,6 +186,12 @@ src_prepare() {
 
 	eapply "${FILESDIR}"/${PN}-0.99.5-0054-lib-simplify-string-checks.patch
 	eapply "${FILESDIR}"/${PN}-0.99.5-0055-do-not-spin-in-a-loop-when-proc-timer-stats-cannot-b.patch
+	eapply "${FILESDIR}"/${PN}-0.99.5-0056-released-upower-0-99-5.patch
+	eapply "${FILESDIR}"/${PN}-0.99.6-0001-trivial-post-release-version-bump.patch
+
+	if ! use deprecated; then
+		eapply "${FILESDIR}"/${PN}-0.99.6-0002-linux-correctly-close-inhibitor-fd.patch
+	fi
 
 	if use deprecated; then
 		# From Funtoo:

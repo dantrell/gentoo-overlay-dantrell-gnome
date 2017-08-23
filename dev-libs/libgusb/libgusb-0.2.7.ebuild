@@ -1,10 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 VALA_USE_DEPEND="vapigen"
 
-inherit eutils gnome2 multilib-minimal vala
+inherit gnome2 multilib-minimal vala
 
 DESCRIPTION="GObject wrapper for libusb"
 HOMEPAGE="https://github.com/hughsie/libgusb"
@@ -20,7 +19,6 @@ REQUIRED_USE="vala? ( introspection )"
 # Tests try to access usb devices in /dev
 RESTRICT="test"
 
-# Yes, we really need API from dev-libs/libusb-1.0.19, not virtual/libusb
 RDEPEND="
 	>=dev-libs/glib-2.38:2[${MULTILIB_USEDEP}]
 	virtual/libusb:1[udev,${MULTILIB_USEDEP}]
@@ -32,6 +30,11 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig[${MULTILIB_USEDEP}]
 	vala? ( $(vala_depend) )
 "
+
+src_prepare() {
+	gnome2_src_prepare
+	use vala && vala_src_prepare
+}
 
 multilib_src_configure() {
 	ECONF_SOURCE=${S} \

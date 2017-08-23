@@ -16,7 +16,7 @@ KEYWORDS="~*"
 IUSE="+introspection gcr +modemmanager selinux teamd"
 
 RDEPEND="
-	app-crypt/libsecret
+	>=app-crypt/libsecret-0.18
 	dev-libs/glib:2=
 	>=dev-libs/glib-2.32:2[dbus]
 	>=dev-libs/dbus-glib-0.88
