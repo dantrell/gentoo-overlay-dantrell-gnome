@@ -6,6 +6,7 @@
 
 # Requires GLib 2.48 (or greater)
 >=media-sound/pasystray-0.6.0
+>=net-im/empathy-3.12.14
 
 # Requires GLib 2.46 (or greater)
 >=app-admin/packagekit-1.1.0

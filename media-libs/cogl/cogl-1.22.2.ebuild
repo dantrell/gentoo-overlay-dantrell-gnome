@@ -5,7 +5,7 @@ EAPI="6"
 inherit gnome2 multilib virtualx
 
 DESCRIPTION="A library for using 3D graphics hardware to draw pretty pictures"
-HOMEPAGE="http://www.cogl3d.org/"
+HOMEPAGE="https://www.cogl3d.org/"
 
 LICENSE="MIT BSD"
 SLOT="1.0/20" # subslot = .so version

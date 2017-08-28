@@ -19,9 +19,9 @@ REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 # Specify libgit2 dependency with subslot because libgit2 upstream has a habit
 # of changing their API in each release in ways that break libgit2-glib
 RDEPEND="
-	>=dev-libs/libgit2-0.25.0:0/25[ssh?]
-	>=dev-libs/glib-2.44.0:2
 	>=dev-libs/gobject-introspection-0.10.1:=
+	>=dev-libs/glib-2.44.0:2
+	>=dev-libs/libgit2-0.25.0:0/25[ssh?]
 	python? (
 		${PYTHON_DEPS}
 		dev-python/pygobject:3[${PYTHON_USEDEP}] )

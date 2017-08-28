@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/libgdata"
 
 LICENSE="LGPL-2.1+"
 SLOT="0/22" # subslot = libgdata soname version
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+crypt gnome-online-accounts +introspection static-libs test vala"
 REQUIRED_USE="
@@ -69,6 +69,5 @@ src_configure() {
 
 src_test() {
 	unset ORBIT_SOCKETDIR
-	export GSETTINGS_BACKEND="memory" #486412
-	dbus-launch emake check
+	dbus-run-session emake check
 }

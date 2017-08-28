@@ -8,7 +8,7 @@ PYTHON_REQ_USE="xml"
 inherit gnome.org distutils-r1
 
 DESCRIPTION="GDBus code and documentation generator"
-HOMEPAGE="http://www.gtk.org/"
+HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2+"
 SLOT="0"

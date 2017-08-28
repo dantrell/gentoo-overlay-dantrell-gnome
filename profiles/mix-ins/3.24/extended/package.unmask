@@ -12,10 +12,10 @@
 ~app-dicts/gnome-dictionary-3.24.0::dantrell-gnome-3-24
 ~app-editors/gedit-3.22.1::dantrell-gnome
 ~app-editors/ghex-3.18.3::dantrell-gnome
-~app-editors/latexila-3.24.2::dantrell-gnome-3-24
+~app-editors/latexila-3.24.3::dantrell-gnome-3-24
 ~app-misc/bijiben-3.24.1::dantrell-gnome-3-24
 ~app-misc/geoclue-2.4.7::dantrell-gnome
-~app-misc/gnote-3.24.0::dantrell-gnome-3-24
+~app-misc/gnote-3.24.1::dantrell-gnome-3-24
 ~app-misc/tracker-1.12.2::dantrell-gnome-3-24
 ~app-text/evince-3.24.1::dantrell-gnome-3-24
 ~app-text/gspell-1.4.2::dantrell-gnome
@@ -24,7 +24,7 @@
 ~app-text/yelp-tools-3.18.0::dantrell-gnome
 ~dev-cpp/atkmm-2.24.2::dantrell-gnome
 ~dev-cpp/cairomm-1.12.2::dantrell-gnome
-~dev-cpp/mm-common-0.9.10::dantrell-gnome
+~dev-cpp/mm-common-0.9.11::dantrell-gnome
 ~dev-cpp/pangomm-2.40.1::dantrell-gnome
 ~dev-lang/vala-0.36.4::dantrell-gnome
 ~dev-libs/appstream-glib-0.6.13::dantrell-gnome
@@ -38,7 +38,7 @@
 ~dev-libs/gom-0.3.2::dantrell-gnome
 ~dev-libs/json-glib-1.2.8::dantrell-gnome
 ~dev-libs/libcroco-0.6.12::dantrell-gnome
-~dev-libs/libgdata-0.17.8::dantrell-gnome
+~dev-libs/libgdata-0.17.9::dantrell-gnome
 ~dev-libs/libgee-0.6.8::dantrell-gnome
 ~dev-libs/libgnome-games-support-1.2.2::dantrell-gnome
 ~dev-libs/libgweather-3.20.4::dantrell-gnome
@@ -129,7 +129,7 @@
 ~mail-client/evolution-3.24.5::dantrell-gnome-3-24
 ~media-gfx/eog-3.24.1::dantrell-gnome-3-24
 ~media-gfx/gnome-font-viewer-3.24.0::dantrell-gnome-3-24
-~media-gfx/gnome-photos-3.24.2::dantrell-gnome-3-24
+~media-gfx/gnome-photos-3.24.3::dantrell-gnome-3-24
 ~media-gfx/gnome-screenshot-3.22.0::dantrell-gnome
 ~media-gfx/simple-scan-3.24.1::dantrell-gnome-3-24
 ~media-libs/clutter-1.26.2::dantrell-gnome
@@ -148,7 +148,7 @@
 ~media-video/gnome-video-effects-0.4.3::dantrell-gnome
 ~media-video/totem-3.24.0::dantrell-gnome-3-24
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
-~net-im/empathy-3.12.13::dantrell-gnome
+~net-im/empathy-3.12.14::dantrell-gnome
 ~net-irc/polari-3.24.2::dantrell-gnome-3-24
 ~net-libs/glib-networking-2.50.0::dantrell-gnome
 ~net-libs/gnome-online-accounts-3.24.2::dantrell-gnome-3-24
@@ -174,7 +174,7 @@
 ~www-client/epiphany-3.24.3::dantrell-gnome-3-24
 ~x11-libs/gdk-pixbuf-2.36.8::dantrell-gnome
 ~x11-libs/gtksourceview-3.24.3::dantrell-gnome-3-24
-~x11-libs/gtk+-3.22.18::dantrell-gnome
+~x11-libs/gtk+-3.22.19::dantrell-gnome
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.20.1::dantrell-gnome
 ~x11-libs/pango-1.40.9::dantrell-gnome

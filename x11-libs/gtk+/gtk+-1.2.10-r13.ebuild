@@ -8,7 +8,7 @@ GNOME2_LA_PUNT="yes"
 inherit autotools eutils flag-o-matic gnome2 toolchain-funcs multilib-minimal
 
 DESCRIPTION="The GIMP Toolkit"
-HOMEPAGE="http://www.gtk.org/"
+HOMEPAGE="https://www.gtk.org/"
 SRC_URI="${SRC_URI} http://www.ibiblio.org/gentoo/distfiles/gtk+-1.2.10-r8-gentoo.diff.bz2"
 
 LICENSE="LGPL-2.1+"

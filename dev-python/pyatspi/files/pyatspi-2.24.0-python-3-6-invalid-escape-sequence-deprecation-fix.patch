@@ -1,0 +1,26 @@
+From 63c8a0d6cce954bedae34a7f6ebc5807fbef0c14 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ville=20Skytt=C3=A4?= <ville.skytta@iki.fi>
+Date: Tue, 14 Mar 2017 13:35:51 +0200
+Subject: Python 3.6 invalid escape sequence deprecation fix
+
+https://docs.python.org/3/whatsnew/3.6.html#deprecated-python-behavior
+---
+ pyatspi/utils.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/pyatspi/utils.py b/pyatspi/utils.py
+index c7a5705..da1f3fc 100644
+--- a/pyatspi/utils.py
++++ b/pyatspi/utils.py
+@@ -339,7 +339,7 @@ def attributeListToHash(list):
+         ret = dict()
+         for item in list:
+                 [key, val] = item.split(":")
+-                val = val.replace(":", "\:")
++                val = val.replace(":", r"\:")
+                 if ret.__contains__(key):
+                     ret[key] = ret[key] + ":" + val
+                 else:
+-- 
+cgit v0.12
+
