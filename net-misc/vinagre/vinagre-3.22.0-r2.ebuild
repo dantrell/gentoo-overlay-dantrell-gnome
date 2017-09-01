@@ -55,6 +55,7 @@ pkg_pretend() {
 src_prepare() {
 	# https://bugzilla.gnome.org/show_bug.cgi?id=765444
 	eapply "${FILESDIR}"/${PN}-3.20.2-freerdp2.patch
+	eapply "${FILESDIR}"/${PN}-3.22.0-freerdp2-2.patch
 	vala_src_prepare
 	eautoreconf
 	gnome2_src_prepare

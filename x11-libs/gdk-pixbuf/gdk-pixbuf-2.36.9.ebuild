@@ -3,7 +3,7 @@
 EAPI="6"
 GNOME2_LA_PUNT="yes"
 
-inherit flag-o-matic gnome2 multilib libtool multilib-minimal
+inherit flag-o-matic gnome2 multilib multilib-minimal
 
 DESCRIPTION="Image loading library for GTK+"
 HOMEPAGE="https://git.gnome.org/browse/gdk-pixbuf"
@@ -13,10 +13,6 @@ SLOT="2"
 KEYWORDS="*"
 
 IUSE="X debug +introspection jpeg jpeg2k tiff test"
-
-# Remove SRC_URI when gnome bug #780667 is fixed
-SRC_URI="mirror://gnome/sources/${GNOME_ORG_MODULE}/${GNOME_ORG_PVP}/${GNOME_ORG_MODULE}-${PV}.tar.xz
-test? ( https://git.gnome.org/browse/gdk-pixbuf/plain/tests/bug143608-comment.jpg?h=2.36.6 -> ${PN}-2.36.6-bug143608-comment.jpg )"
 
 COMMON_DEPEND="
 	>=dev-libs/glib-2.48.0:2[${MULTILIB_USEDEP}]
@@ -45,11 +41,6 @@ MULTILIB_CHOST_TOOLS=(
 )
 
 src_prepare() {
-	# https://bugzilla.gnome.org/show_bug.cgi?id=780667
-	if use test ; then
-		cp -v "${DISTDIR}"/${P}-bug143608-comment.jpg "${S}"/tests/bug143608-comment.jpg || die
-	fi
-
 	# See https://bugzilla.gnome.org/show_bug.cgi?id=756590
 	eapply "${FILESDIR}"/${PN}-2.32.3-fix-lowmem-uclibc.patch
 
