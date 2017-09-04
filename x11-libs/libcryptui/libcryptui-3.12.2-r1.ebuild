@@ -1,8 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
+GNOME2_EAUTORECONF="yes"
 
-inherit autotools gnome2
+inherit gnome2
 
 DESCRIPTION="User interface components for OpenPGP"
 HOMEPAGE="https://wiki.gnome.org/Apps/Seahorse"
@@ -18,7 +19,7 @@ COMMON_DEPEND="
 	>=dev-libs/glib-2.32:2
 	>=x11-libs/gtk+-3:3[introspection?]
 	>=dev-libs/dbus-glib-0.72
-	gnome-base/libgnome-keyring
+	>=app-crypt/gcr-3
 	x11-libs/libICE
 	x11-libs/libSM
 
@@ -40,16 +41,25 @@ RDEPEND="${COMMON_DEPEND}
 	!<app-crypt/seahorse-3.1.4
 "
 
-src_prepare() {
-	# Support GnuPG 2.1, https://bugzilla.gnome.org/show_bug.cgi?id=745843
-	eapply "${FILESDIR}"/${PN}-3.12.2-gnupg-2.1.patch
+PATCHES=(
+	# Support GnuPG 2.1, in master
+	# https://bugzilla.gnome.org/show_bug.cgi?id=745843
+	"${FILESDIR}"/${PN}-3.12.2-gnupg-2.1.patch
+	# from master, in Debian as well
+	"${FILESDIR}"/${PN}-3.12.2-prompt-recipient.patch
+	"${FILESDIR}"/${PN}-3.12.2-fix-return-types.patch
+	"${FILESDIR}"/${PN}-3.12.2-port-gcr-3.patch
+	# Support GnuPG 2.2
+	# https://bugs.gentoo.org/show_bug.cgi?id=629572
+	"${FILESDIR}"/${PN}-3.12.2-gnupg-2.2.patch
+)
 
+src_prepare() {
 	# FIXME: Do not mess with CFLAGS with USE="debug"
 	sed -e '/CFLAGS="$CFLAGS -g -O0/d' \
 		-e 's/-Werror//' \
 		-i configure.ac configure || die "sed failed"
 
-	eautoreconf
 	gnome2_src_prepare
 }
 

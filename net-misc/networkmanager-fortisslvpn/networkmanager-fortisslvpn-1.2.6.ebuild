@@ -2,8 +2,10 @@
 
 EAPI="6"
 GNOME_ORG_MODULE="NetworkManager-${PN##*-}"
+GNOME2_LA_PUNT="yes"
+GNOME2_EAUTORECONF="yes"
 
-inherit gnome2 autotools
+inherit gnome2
 
 DESCRIPTION="NetworkManager Fortinet SSLVPN compatible plugin"
 HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
@@ -15,7 +17,7 @@ KEYWORDS="*"
 IUSE="gtk"
 
 RDEPEND="
-	>=net-misc/networkmanager-1.1:=
+	>=net-misc/networkmanager-1.2:=
 	>=dev-libs/glib-2.32:2
 	net-dialup/ppp:=
 	>=net-vpn/openfortivpn-1.2.0
@@ -31,16 +33,10 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 "
 
-src_prepare() {
-	# Upstream patch 377ba9ca7fb33f3fb2ba5258a5af666869947597
-	eapply "${FILESDIR}/${P}-location-fix.diff"
-
-	eapply_user
-
-	eautoreconf
-
-	gnome2_src_prepare
-}
+PATCHES=(
+	# Upstream patch e5d476076e068f58ef4fa938f09945159fce36a6
+	"${FILESDIR}"/${P}-location-fix.diff
+)
 
 src_configure() {
 	gnome2_src_configure \

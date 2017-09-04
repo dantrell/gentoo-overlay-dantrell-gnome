@@ -1,20 +1,20 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 
-inherit eutils gnome2 vala
+inherit gnome2 vala
 
 DESCRIPTION="Spell checking widget for GTK"
 HOMEPAGE="http://gtkspell.sourceforge.net/"
 MY_P="${PN}3-${PV}"
-SRC_URI="mirror://sourceforge/project/${PN}/${PV}/${MY_P}.tar.gz"
+SRC_URI="mirror://sourceforge/project/${PN}/${PV}/${MY_P}.tar.xz"
 
 LICENSE="GPL-2+"
 SLOT="3/0"
 KEYWORDS="*"
 
 IUSE="+introspection vala"
+REQUIRED_USE="vala? ( introspection )"
 
 RDEPEND="
 	>=app-text/enchant-1.1.6
