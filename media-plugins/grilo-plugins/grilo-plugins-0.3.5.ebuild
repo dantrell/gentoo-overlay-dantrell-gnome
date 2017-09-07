@@ -21,7 +21,7 @@ RDEPEND="
 	media-libs/libmediaart:2.0
 	>=dev-libs/gom-0.3.2
 
-	dev-libs/gmime:2.6
+	dev-libs/gmime:3.0
 	dev-libs/json-glib
 	dev-libs/libxml2:2
 	dev-db/sqlite:3

@@ -135,7 +135,9 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/${PN}-2.44.1-bionic-nameser.patch
 
-	# leave python shebang alone
+	# Leave python shebang alone - handled by python_replicate_script
+	# We could call python_setup and give configure a valid --with-python
+	# arg, but that would mean a build dep on python when USE=utils.
 	sed -e '/${PYTHON}/d' \
 		-i glib/Makefile.{am,in} || die
 

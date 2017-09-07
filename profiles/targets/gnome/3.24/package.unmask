@@ -32,7 +32,7 @@
 ~dev-libs/folks-0.11.4::dantrell-gnome
 ~dev-libs/gjs-1.48.6::dantrell-gnome-3-24
 ~dev-libs/glib-2.52.3::dantrell-gnome
-~dev-libs/gmime-3.0.1::dantrell-gnome
+~dev-libs/gmime-3.0.2::dantrell-gnome
 ~dev-libs/gobject-introspection-1.52.1::dantrell-gnome-3-24
 ~dev-libs/gobject-introspection-common-1.52.1::dantrell-gnome-3-24
 ~dev-libs/gom-0.3.2::dantrell-gnome
@@ -88,7 +88,7 @@
 ~gnome-base/gnome-session-3.24.1::dantrell-gnome-3-24
 ~gnome-base/gnome-settings-daemon-3.24.3::dantrell-gnome-3-24
 ~gnome-base/gnome-shell-3.24.3::dantrell-gnome-3-24
-~gnome-base/gsettings-desktop-schemas-3.24.0::dantrell-gnome-3-24
+~gnome-base/gsettings-desktop-schemas-3.24.1::dantrell-gnome-3-24
 ~gnome-base/gvfs-1.32.1::dantrell-gnome-3-24
 ~gnome-base/libgnomekbd-3.22.0.1::dantrell-gnome
 ~gnome-base/libgtop-2.34.2::dantrell-gnome
@@ -136,11 +136,11 @@
 ~media-libs/clutter-gst-3.0.24::dantrell-gnome
 ~media-libs/clutter-gtk-1.8.2::dantrell-gnome
 ~media-libs/cogl-1.22.2::dantrell-gnome
-~media-libs/grilo-0.3.3::dantrell-gnome
+~media-libs/grilo-0.3.4::dantrell-gnome
 ~media-libs/gsound-1.0.2::dantrell-gnome
-~media-libs/libchamplain-0.12.15::dantrell-gnome
+~media-libs/libchamplain-0.12.16::dantrell-gnome
 ~media-libs/libmediaart-1.9.4::dantrell-gnome
-~media-plugins/grilo-plugins-0.3.4::dantrell-gnome
+~media-plugins/grilo-plugins-0.3.5::dantrell-gnome
 ~media-sound/gnome-music-3.24.2::dantrell-gnome-3-24
 ~media-sound/gnome-sound-recorder-3.24.0.1::dantrell-gnome-3-24
 ~media-sound/sound-juicer-3.24.0::dantrell-gnome-3-24
@@ -151,7 +151,7 @@
 ~net-im/empathy-3.12.14::dantrell-gnome
 ~net-irc/polari-3.24.2::dantrell-gnome-3-24
 ~net-libs/glib-networking-2.50.0::dantrell-gnome
-~net-libs/gnome-online-accounts-3.24.2::dantrell-gnome-3-24
+~net-libs/gnome-online-accounts-3.24.3::dantrell-gnome-3-24
 ~net-libs/gssdp-1.0.2::dantrell-gnome
 ~net-libs/gtk-vnc-0.6.0::dantrell-gnome
 ~net-libs/gupnp-1.0.2::dantrell-gnome
@@ -171,10 +171,10 @@
 ~sci-geosciences/gnome-maps-3.24.3::dantrell-gnome-3-24
 ~sys-apps/baobab-3.24.0::dantrell-gnome-3-24
 ~sys-apps/gnome-disk-utility-3.24.1::dantrell-gnome-3-24
-~www-client/epiphany-3.24.3::dantrell-gnome-3-24
+~www-client/epiphany-3.24.4::dantrell-gnome-3-24
 ~x11-libs/gdk-pixbuf-2.36.9::dantrell-gnome
-~x11-libs/gtksourceview-3.24.3::dantrell-gnome-3-24
-~x11-libs/gtk+-3.22.19::dantrell-gnome
+~x11-libs/gtksourceview-3.24.4::dantrell-gnome-3-24
+~x11-libs/gtk+-3.22.20::dantrell-gnome
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.20.1::dantrell-gnome
 ~x11-libs/pango-1.40.9::dantrell-gnome

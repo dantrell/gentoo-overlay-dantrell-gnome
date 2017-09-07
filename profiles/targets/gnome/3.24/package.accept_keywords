@@ -7,5 +7,4 @@ net-misc/networkmanager::dantrell-gnome ~*
 sys-apps/accountsservice::dantrell-gnome **
 sys-auth/elogind::dantrell-gnome ~*
 sys-auth/polkit::gentoo ~*
-sys-fs/udisks::dantrell-gnome ~*
 sys-power/upower::dantrell-gnome **

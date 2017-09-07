@@ -145,7 +145,9 @@ src_prepare() {
 	# crash in Firefox when choosing default application, fixed in 2.48.1; bug #577686
 	epatch "${FILESDIR}"/${PN}-2.48.0-GContextSpecificGroup.patch
 
-	# leave python shebang alone
+	# Leave python shebang alone - handled by python_replicate_script
+	# We could call python_setup and give configure a valid --with-python
+	# arg, but that would mean a build dep on python when USE=utils.
 	sed -e '/${PYTHON}/d' \
 		-i glib/Makefile.{am,in} || die
 
