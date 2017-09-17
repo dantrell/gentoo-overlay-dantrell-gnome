@@ -1,0 +1,99 @@
+From 7171ce38d6b8e0540f7cecc828c1bbabf4bd8b91 Mon Sep 17 00:00:00 2001
+From: Christian Kellner <christian@kellner.me>
+Date: Wed, 22 Feb 2017 17:45:28 +0100
+Subject: [PATCH 17/22] daemon: move two functions up
+
+No semantic change.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=99862
+---
+ src/up-daemon.c | 59 ++++++++++++++++++++++++++-------------------------------
+ 1 file changed, 27 insertions(+), 32 deletions(-)
+
+diff --git a/src/up-daemon.c b/src/up-daemon.c
+index d9bacdf..b6ad3f5 100644
+--- a/src/up-daemon.c
++++ b/src/up-daemon.c
+@@ -76,8 +76,6 @@ static gboolean	up_daemon_get_on_battery_local	(UpDaemon	*daemon);
+ static gboolean	up_daemon_get_warning_level_local(UpDaemon	*daemon);
+ static gboolean	up_daemon_get_on_ac_local 	(UpDaemon	*daemon);
+ 
+-static guint    calculate_timeout               (UpDevice *device);
+-
+ G_DEFINE_TYPE (UpDaemon, up_daemon, UP_TYPE_EXPORTED_DAEMON_SKELETON)
+ 
+ #define UP_DAEMON_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), UP_TYPE_DAEMON, UpDaemonPrivate))
+@@ -728,6 +726,33 @@ typedef struct {
+ 	GSourceFunc callback;
+ } TimeoutData;
+ 
++static guint
++calculate_timeout (UpDevice *device)
++{
++	UpDeviceLevel warning_level;
++
++	g_object_get (G_OBJECT (device), "warning-level", &warning_level, NULL);
++	if (warning_level >= UP_DEVICE_LEVEL_DISCHARGING)
++		return 30;
++	return 120;
++}
++
++static void
++enable_poll_for_device (UpDevice *device, TimeoutData *data)
++{
++	guint timeout;
++	char *name;
++
++	timeout = calculate_timeout (device);
++	data->timeout = timeout;
++
++	data->id = g_timeout_add_seconds (timeout, fire_timeout_callback, device);
++	name = g_strdup_printf ("[upower] UpDevice::poll for %s (%u secs)",
++				up_device_get_object_path (device), timeout);
++	g_source_set_name_by_id (data->id, name);
++	g_free (name);
++}
++
+ static void
+ change_idle_timeout (UpDevice   *device,
+ 		     GParamSpec *pspec,
+@@ -797,36 +822,6 @@ fire_timeout_callback (gpointer user_data)
+ 	return G_SOURCE_CONTINUE;
+ }
+ 
+-static guint
+-calculate_timeout (UpDevice *device)
+-{
+-	UpDeviceLevel warning_level;
+-
+-	g_object_get (G_OBJECT (device), "warning-level", &warning_level, NULL);
+-	if (warning_level >= UP_DEVICE_LEVEL_DISCHARGING)
+-		return UP_DAEMON_SHORT_TIMEOUT;
+-	return UP_DAEMON_LONG_TIMEOUT;
+-}
+-
+-static void
+-enable_poll_for_device (UpDevice *device, TimeoutData *data)
+-{
+-	const char *path;
+-	guint timeout;
+-	char *name;
+-
+-	path = up_exported_device_get_native_path (UP_EXPORTED_DEVICE (device));
+-
+-	timeout = calculate_timeout (device);
+-	data->timeout = timeout;
+-
+-	data->id = g_timeout_add_seconds (timeout, fire_timeout_callback, device);
+-	name = g_strdup_printf ("[upower] UpDevice::poll for %s (%u secs)",
+-				path, timeout);
+-	g_source_set_name_by_id (data->id, name);
+-	g_free (name);
+-}
+-
+ static void
+ enable_warning_level_notifications (UpDaemon *daemon, UpDevice *device)
+ {
+-- 
+2.14.1
+

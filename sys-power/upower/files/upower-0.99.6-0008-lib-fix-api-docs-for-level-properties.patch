@@ -1,0 +1,36 @@
+From 4753a8bc5a3b2790202fc5adba0f21de65c8a1ed Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 8 Sep 2017 06:55:54 +0200
+Subject: [PATCH 08/22] lib: Fix API docs for *-level properties
+
+One was referencing a non-existent enum member, the other was
+missing a link altogether.
+---
+ libupower-glib/up-device.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libupower-glib/up-device.c b/libupower-glib/up-device.c
+index c10579e..4015039 100644
+--- a/libupower-glib/up-device.c
++++ b/libupower-glib/up-device.c
+@@ -1147,7 +1147,7 @@ up_device_class_init (UpDeviceClass *klass)
+ 	/**
+ 	 * UpDevice:warning-level:
+ 	 *
+-	 * The warning level e.g. %UP_DEVICE_LEVEL_WARNING.
++	 * The warning level e.g. %UP_DEVICE_LEVEL_CRITICAL.
+ 	 *
+ 	 * Since: 1.0
+ 	 **/
+@@ -1163,7 +1163,7 @@ up_device_class_init (UpDeviceClass *klass)
+ 	/**
+ 	 * UpDevice:battery-level:
+ 	 *
+-	 * The battery level.
++	 * The battery level, e.g. %UP_DEVICE_LEVEL_CRITICAL.
+ 	 *
+ 	 * Since: 1.0
+ 	 **/
+-- 
+2.14.1
+

@@ -14,7 +14,7 @@ KEYWORDS="*"
 
 IUSE="doc static-libs"
 
-RDEPEND=">=dev-libs/libgpg-error-1.12[${MULTILIB_USEDEP}]
+RDEPEND=">=dev-libs/libgpg-error-1.25[${MULTILIB_USEDEP}]
 "
 DEPEND="${RDEPEND}
 	doc? ( virtual/texi2dvi )"

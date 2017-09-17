@@ -1,0 +1,26 @@
+From 877a233ef664c5aa1503f51e66b06731ea4fd2c4 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 8 Sep 2017 17:46:55 +0200
+Subject: [PATCH 13/22] daemon: Remove [Install] section comment
+
+https://bugs.freedesktop.org/show_bug.cgi?id=92487
+---
+ src/upower.service.in | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/src/upower.service.in b/src/upower.service.in
+index 0ddaa8a..d0945f0 100644
+--- a/src/upower.service.in
++++ b/src/upower.service.in
+@@ -9,8 +9,4 @@ ExecStart=@libexecdir@/upowerd
+ Restart=on-failure
+ 
+ [Install]
+-# We pull this in by graphical.target instead of waiting for the bus
+-# activation, to speed things up a little: gdm uses this anyway so it is nice
+-# if it is already around when gdm wants to use it and doesn't have to wait for
+-# it.
+ WantedBy=graphical.target
+-- 
+2.14.1
+

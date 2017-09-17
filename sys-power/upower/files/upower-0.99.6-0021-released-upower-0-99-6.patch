@@ -1,0 +1,34 @@
+From 98d98fcbd039e66eb161d1d1e44d079a15ae2ef4 Mon Sep 17 00:00:00 2001
+From: Richard Hughes <richard@hughsie.com>
+Date: Mon, 11 Sep 2017 16:14:17 +0100
+Subject: [PATCH 21/22] Released UPower 0.99.6
+
+---
+ NEWS | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/NEWS b/NEWS
+index bad2ce4..04a5b54 100644
+--- a/NEWS
++++ b/NEWS
+@@ -1,3 +1,17 @@
++Version 0.99.6
++~~~~~~~~~~~~~~
++Released: 2017-09-11
++
++New Features:
++ - Add UP_DEVICE_KIND_GAMING_INPUT for gaming devices (Bastien Nocera)
++ - Detect joysticks as gaming input devices (Bastien Nocera)
++
++Bugfixes:
++ - Correctly close inhibitor FD (Benjamin Berg)
++ - Fix crash when '@' is present in the device name (oleid, Bastien Nocera)
++ - Fix lid detection on FreeBSD (Alberto Villa)
++ - Grab the model name from device if unavailable from battery (Bastien Nocera)
++
+ Version 0.99.5
+ ~~~~~~~~~~~~~~
+ Released: 2017-07-24
+-- 
+2.14.1
+

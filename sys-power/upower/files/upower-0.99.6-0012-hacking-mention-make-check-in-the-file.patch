@@ -1,0 +1,27 @@
+From 362e85126261a79f4c87f64dacebfcabeed7253c Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 8 Sep 2017 17:40:18 +0200
+Subject: [PATCH 12/22] HACKING: Mention "make check" in the file
+
+https://bugs.freedesktop.org/show_bug.cgi?id=101923
+---
+ HACKING | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/HACKING b/HACKING
+index 8a626e4..b3669d7 100644
+--- a/HACKING
++++ b/HACKING
+@@ -91,3 +91,9 @@ Coding Style
+    heuristically parse a file and accept not-well-formed
+    data). Avoiding heuristics is also important for security reasons;
+    if it looks funny, ignore it (or exit, or disconnect).
++
++Testing
++===
++
++Under Linux, with the umockdev package installed, you can run "make check"
++in the root build directory to run an automated test suite.
+-- 
+2.14.1
+

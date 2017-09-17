@@ -1,0 +1,42 @@
+From 320cc87811de80715dfadee30bcdc6dab100f7fd Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 31 Aug 2017 15:42:41 +0200
+Subject: [PATCH 05/22] linux: Detect joysticks as gaming input devices
+
+https://bugs.freedesktop.org/show_bug.cgi?id=102493
+---
+ src/linux/integration-test   | 4 ++--
+ src/linux/up-device-supply.c | 2 ++
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index f35345f..a901edd 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -990,8 +990,8 @@ class Tests(dbusmock.DBusTestCase):
+         joypadbat0_up = devs[0]
+ 
+         self.assertEqual(self.get_dbus_dev_property(joypadbat0_up, 'PowerSupply'), False)
+-        # 6 == mouse FIXME
+-        self.assertEqual(self.get_dbus_dev_property(joypadbat0_up, 'Type'), 6)
++        # 12 == gaming input
++        self.assertEqual(self.get_dbus_dev_property(joypadbat0_up, 'Type'), 12)
+         self.assertEqual(self.get_dbus_property('OnBattery'), False)
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+ 
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index b024fa6..15987b8 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -1017,6 +1017,8 @@ up_device_supply_guess_type (GUdevDevice *native,
+ 			if (g_udev_device_get_property_as_boolean (sibling, "ID_INPUT_MOUSE") ||
+ 			    g_udev_device_get_property_as_boolean (sibling, "ID_INPUT_TOUCHPAD")) {
+ 				type = UP_DEVICE_KIND_MOUSE;
++			} else if (g_udev_device_get_property_as_boolean (sibling, "ID_INPUT_JOYSTICK")) {
++				type = UP_DEVICE_KIND_GAMING_INPUT;
+ 			} else {
+ 				type = UP_DEVICE_KIND_KEYBOARD;
+ 			}
+-- 
+2.14.1
+

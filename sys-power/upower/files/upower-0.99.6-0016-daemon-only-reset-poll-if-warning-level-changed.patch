@@ -1,0 +1,63 @@
+From 924b42e4f86a9f932249fba91be464afa82acf3c Mon Sep 17 00:00:00 2001
+From: Christian Kellner <christian@kellner.me>
+Date: Wed, 22 Feb 2017 17:37:14 +0100
+Subject: [PATCH 16/22] daemon: only reset poll if warning-level changed
+
+When a device is refreshed because the poll timeout has been reached,
+the warning-level change notification can also be fired, which then
+will reset (i.e. disable, re-enable) polling. For batteries this can
+happen three times in a row.
+Now we reset polling only if the calculated timeout actually differs
+from the current one.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=99862
+---
+ src/up-daemon.c | 19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
+
+diff --git a/src/up-daemon.c b/src/up-daemon.c
+index 37f66ab..d9bacdf 100644
+--- a/src/up-daemon.c
++++ b/src/up-daemon.c
+@@ -76,6 +76,8 @@ static gboolean	up_daemon_get_on_battery_local	(UpDaemon	*daemon);
+ static gboolean	up_daemon_get_warning_level_local(UpDaemon	*daemon);
+ static gboolean	up_daemon_get_on_ac_local 	(UpDaemon	*daemon);
+ 
++static guint    calculate_timeout               (UpDevice *device);
++
+ G_DEFINE_TYPE (UpDaemon, up_daemon, UP_TYPE_EXPORTED_DAEMON_SKELETON)
+ 
+ #define UP_DAEMON_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), UP_TYPE_DAEMON, UpDaemonPrivate))
+@@ -734,14 +736,27 @@ change_idle_timeout (UpDevice   *device,
+ 	TimeoutData *data;
+ 	GSourceFunc callback;
+ 	UpDaemon *daemon;
++	guint timeout;
+ 
+ 	daemon = up_device_get_daemon (device);
+ 
+ 	data = g_hash_table_lookup (daemon->priv->poll_timeouts, device);
+ 	callback = data->callback;
+ 
+-	up_daemon_stop_poll (G_OBJECT (device));
+-	up_daemon_start_poll (G_OBJECT (device), callback);
++	g_debug ("change_idle_timeout called for: %s",
++		 up_device_get_object_path (device));
++
++	timeout = calculate_timeout (device);
++
++	if (timeout != data->timeout) {
++		g_debug ("Resetting for polling for '%s' (warning-level change)",
++			 up_device_get_object_path (device));
++
++		data->timeout = timeout;
++		up_daemon_stop_poll (G_OBJECT (device));
++		up_daemon_start_poll (G_OBJECT (device), callback);
++	}
++
+ 	g_object_unref (daemon);
+ }
+ 
+-- 
+2.14.1
+

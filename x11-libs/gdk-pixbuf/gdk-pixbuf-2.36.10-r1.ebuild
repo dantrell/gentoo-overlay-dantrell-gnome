@@ -2,6 +2,7 @@
 
 EAPI="6"
 GNOME2_LA_PUNT="yes"
+GNOME2_EAUTORECONF="yes"
 
 inherit flag-o-matic gnome2 multilib multilib-minimal
 
@@ -40,10 +41,14 @@ MULTILIB_CHOST_TOOLS=(
 	/usr/bin/gdk-pixbuf-query-loaders$(get_exeext)
 )
 
-src_prepare() {
+PATCHES=(
 	# See https://bugzilla.gnome.org/show_bug.cgi?id=756590
-	eapply "${FILESDIR}"/${PN}-2.32.3-fix-lowmem-uclibc.patch
+	"${FILESDIR}"/${PN}-2.32.3-fix-lowmem-uclibc.patch
+	# Fix TIFF loader compilation, bug #629716 (from master)
+	"${FILESDIR}"/${PN}-2.36.10-fix-tiff-loader.patch
+)
 
+src_prepare() {
 	# This will avoid polluting the pkg-config file with versioned libpng,
 	# which is causing problems with libpng14 -> libpng15 upgrade
 	# See upstream bug #667068

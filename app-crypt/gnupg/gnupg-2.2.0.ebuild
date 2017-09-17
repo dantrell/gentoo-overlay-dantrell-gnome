@@ -54,7 +54,6 @@ DOCS=(
 
 PATCHES=(
 	"${FILESDIR}/${PN}-2.1.20-gpgscm-Use-shorter-socket-path-lengts-to-improve-tes.patch"
-	"${FILESDIR}/${P}-gpg-default-to-no-auto-key-retrieve.patch"
 )
 
 src_configure() {

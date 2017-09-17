@@ -1,0 +1,31 @@
+From ad75f189d2af88019b8d1197dce2754f36719e9a Mon Sep 17 00:00:00 2001
+From: Jasper Lievisse Adriaanse <jasper@humppa.nl>
+Date: Wed, 4 May 2016 11:13:53 +0000
+Subject: [PATCH 19/22] openbsd: Remove SENSOR_MAX_TYPES upper bound
+
+Remove pointless upperbound, SENSOR_MAX_TYPES has no meaning here
+and we break from the loop anyway when needed (i.e. when ENOENT
+is returned). This aligns the code with other sensor device
+walkers in OpenBSD.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=95257
+---
+ src/openbsd/up-backend.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/openbsd/up-backend.c b/src/openbsd/up-backend.c
+index 41a0109..b59d1a7 100644
+--- a/src/openbsd/up-backend.c
++++ b/src/openbsd/up-backend.c
+@@ -461,7 +461,7 @@ up_backend_update_lid_status(UpDaemon *daemon) {
+ 	/* go through all acpibtn devices, and check if one of the values match "lid"
+ 	   if so, use that device.
+ 	*/
+-	for (dev = 0; SENSOR_MAX_TYPES; dev++) {
++	for (dev = 0; ; dev++) {
+ 		mib[2] = dev;
+ 		if (sysctl(mib, 3, &sensordev, &sdlen, NULL, 0) == -1) {
+ 			if (errno == ENXIO)
+-- 
+2.14.1
+

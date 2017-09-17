@@ -1,0 +1,35 @@
+From 71ba27a7eab24a21283ac70ab7510ce26b63edc7 Mon Sep 17 00:00:00 2001
+From: Alberto Villa <avilla@FreeBSD.org>
+Date: Tue, 18 Jul 2017 09:49:06 +0000
+Subject: [PATCH 09/22] freebsd: Fix lid detection on FreeBSD
+
+UPower sets property LidIsPresent to true only if hw.acpi.lid_switch_state
+is different from "NONE", "NONE" being the default value for FreeBSD.
+Thus, the property is always false on default configurations.
+
+Force UPower not to care about the value of the sysctl, making it check
+only for its existence.
+
+See https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=175531
+
+https://bugs.freedesktop.org/show_bug.cgi?id=101828
+---
+ src/freebsd/up-backend.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/freebsd/up-backend.c b/src/freebsd/up-backend.c
+index 16f32ce..2944e03 100644
+--- a/src/freebsd/up-backend.c
++++ b/src/freebsd/up-backend.c
+@@ -226,7 +226,7 @@ up_backend_lid_coldplug (UpBackend *backend)
+ 	gchar *lid_state;
+ 
+ 	lid_state = up_get_string_sysctl (NULL, "hw.acpi.lid_switch_state");
+-	if (lid_state && strcmp (lid_state, "NONE")) {
++	if (lid_state) {
+ 		up_daemon_set_lid_is_present (backend->priv->daemon, TRUE);
+ 	}
+ 	g_free (lid_state);
+-- 
+2.14.1
+

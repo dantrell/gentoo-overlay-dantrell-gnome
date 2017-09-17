@@ -1,0 +1,40 @@
+From fb9f19c3b53c51a614ca8d2d2806f2cd9ff29e4d Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 8 Sep 2017 17:54:48 +0200
+Subject: [PATCH 15/22] linux: Add test for crash when battery has funky name
+
+https://bugs.freedesktop.org/show_bug.cgi?id=93095
+---
+ src/linux/integration-test | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 76bf516..0d2064e 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -620,6 +620,22 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_CRITICAL)
+         self.stop_daemon()
+ 
++    def test_battery_broken_name(self):
++        '''Battery with funky kernel name'''
++
++        self.testbed.add_device('power_supply', 'bq24735@5-0009', None,
++                                ['type', 'Battery',
++                                 'present', '1',
++                                 'status', 'unknown',
++                                 'energy_full', '60000000',
++                                 'energy_full_design', '80000000',
++                                 'energy_now', '48000000',
++                                 'voltage_now', '12000000'], [])
++
++        self.start_daemon()
++        self.assertEqual(self.get_dbus_display_property('IsPresent'), True)
++        self.stop_daemon()
++
+     def test_ups_no_ac(self):
+         '''UPS properties without AC'''
+ 
+-- 
+2.14.1
+

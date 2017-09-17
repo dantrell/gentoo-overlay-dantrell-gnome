@@ -1,0 +1,167 @@
+From 359008b7b72265e99bb171fcaaa23ee4ad18eabe Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 8 Sep 2017 16:53:08 +0200
+Subject: [PATCH 10/22] linux: Don't throw an error if there's no data to read
+
+The initial "refresh" for devices would fail if there was no data to
+read. Instead, we should set the level to unknown, so that the device
+appears in the Power panel, and in the "upower -d" output.
+---
+ src/linux/up-device-supply.c | 52 ++++++++++++++++----------------------------
+ 1 file changed, 19 insertions(+), 33 deletions(-)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index d2d2e24..9341cb0 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -47,6 +47,12 @@
+ /* number of old energy values to keep cached */
+ #define UP_DEVICE_SUPPLY_ENERGY_OLD_LENGTH		4
+ 
++typedef enum {
++	REFRESH_RESULT_FAILURE = 0,
++	REFRESH_RESULT_SUCCESS = 1,
++	REFRESH_RESULT_NO_DATA
++} RefreshResult;
++
+ struct UpDeviceSupplyPrivate
+ {
+ 	guint			 poll_timer_id;
+@@ -67,12 +73,7 @@ G_DEFINE_TYPE (UpDeviceSupply, up_device_supply, UP_TYPE_DEVICE)
+ 
+ static gboolean		 up_device_supply_refresh	 	(UpDevice *device);
+ 
+-/**
+- * up_device_supply_refresh_line_power:
+- *
+- * Return %TRUE on success, %FALSE if we failed to refresh or no data
+- **/
+-static gboolean
++static RefreshResult
+ up_device_supply_refresh_line_power (UpDeviceSupply *supply)
+ {
+ 	UpDevice *device = UP_DEVICE (supply);
+@@ -89,7 +90,7 @@ up_device_supply_refresh_line_power (UpDeviceSupply *supply)
+ 	native_path = g_udev_device_get_sysfs_path (native);
+ 	g_object_set (device, "online", sysfs_get_int (native_path, "online"), NULL);
+ 
+-	return TRUE;
++	return REFRESH_RESULT_SUCCESS;
+ }
+ 
+ /**
+@@ -516,17 +517,11 @@ sysfs_get_capacity_level (const char    *native_path,
+ 	return ret;
+ }
+ 
+-/**
+- * up_device_supply_refresh_battery:
+- *
+- * Return %TRUE on success, %FALSE if we failed to refresh or no data
+- **/
+-static gboolean
++static RefreshResult
+ up_device_supply_refresh_battery (UpDeviceSupply *supply,
+ 				  UpDeviceState  *out_state)
+ {
+ 	gchar *technology_native = NULL;
+-	gboolean ret = TRUE;
+ 	gdouble voltage_design;
+ 	UpDeviceState old_state;
+ 	UpDeviceState state;
+@@ -845,7 +840,7 @@ out:
+ 	g_free (manufacturer);
+ 	g_free (model_name);
+ 	g_free (serial_number);
+-	return ret;
++	return REFRESH_RESULT_SUCCESS;
+ }
+ 
+ static GUdevDevice *
+@@ -893,16 +888,10 @@ up_device_supply_get_sibling_with_subsystem (GUdevDevice *device,
+ 	return sibling;
+ }
+ 
+-/**
+- * up_device_supply_refresh_device:
+- *
+- * Return %TRUE on success, %FALSE if we failed to refresh or no data
+- **/
+-static gboolean
++static RefreshResult
+ up_device_supply_refresh_device (UpDeviceSupply *supply,
+ 				 UpDeviceState  *out_state)
+ {
+-	gboolean ret = TRUE;
+ 	UpDeviceState state;
+ 	UpDevice *device = UP_DEVICE (supply);
+ 	const gchar *native_path;
+@@ -966,7 +955,7 @@ up_device_supply_refresh_device (UpDeviceSupply *supply,
+ 		state = UP_DEVICE_STATE_UNKNOWN;
+ 		g_object_set (device, "state", state, NULL);
+ 		*out_state = state;
+-		return FALSE;
++		return REFRESH_RESULT_NO_DATA;
+ 	}
+ 
+ 	state = up_device_supply_get_state (native_path);
+@@ -990,7 +979,7 @@ up_device_supply_refresh_device (UpDeviceSupply *supply,
+ 
+ 	*out_state = state;
+ 
+-	return ret;
++	return REFRESH_RESULT_SUCCESS;
+ }
+ 
+ static gboolean
+@@ -1073,6 +1062,7 @@ up_device_supply_coldplug (UpDevice *device)
+ 	const gchar *native_path;
+ 	const gchar *scope;
+ 	UpDeviceKind type;
++	RefreshResult ret;
+ 
+ 	up_device_supply_reset_values (supply);
+ 
+@@ -1127,7 +1117,8 @@ up_device_supply_coldplug (UpDevice *device)
+ 		up_daemon_start_poll (G_OBJECT (device), (GSourceFunc) up_device_supply_refresh);
+ 
+ 	/* coldplug values */
+-	return up_device_supply_refresh (device);
++	ret = up_device_supply_refresh (device);
++	return (ret != REFRESH_RESULT_FAILURE);
+ }
+ 
+ /**
+@@ -1166,15 +1157,10 @@ up_device_supply_disable_unknown_poll (UpDevice *device)
+ 	}
+ }
+ 
+-/**
+- * up_device_supply_refresh:
+- *
+- * Return %TRUE on success, %FALSE if we failed to refresh or no data
+- **/
+ static gboolean
+ up_device_supply_refresh (UpDevice *device)
+ {
+-	gboolean ret;
++	RefreshResult ret;
+ 	UpDeviceSupply *supply = UP_DEVICE_SUPPLY (device);
+ 	UpDeviceKind type;
+ 	UpDeviceState state;
+@@ -1195,10 +1181,10 @@ up_device_supply_refresh (UpDevice *device)
+ 	}
+ 
+ 	/* reset time if we got new data */
+-	if (ret)
++	if (ret == REFRESH_RESULT_SUCCESS)
+ 		g_object_set (device, "update-time", (guint64) g_get_real_time () / G_USEC_PER_SEC, NULL);
+ 
+-	return ret;
++	return (ret != REFRESH_RESULT_FAILURE);
+ }
+ 
+ /**
+-- 
+2.14.1
+

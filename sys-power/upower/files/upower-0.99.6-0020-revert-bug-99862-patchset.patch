@@ -1,0 +1,118 @@
+From ef592ca52db56f20053be212f2f21f0f82485d31 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 8 Sep 2017 18:22:36 +0200
+Subject: [PATCH 20/22] Revert bug 99862 patchset
+
+The patchset was pushed by mistake and is still being reviewed.
+---
+ src/up-daemon.c | 74 +++++++++++++++++++++++++--------------------------------
+ 1 file changed, 32 insertions(+), 42 deletions(-)
+
+diff --git a/src/up-daemon.c b/src/up-daemon.c
+index 1ae032f..37f66ab 100644
+--- a/src/up-daemon.c
++++ b/src/up-daemon.c
+@@ -726,33 +726,6 @@ typedef struct {
+ 	GSourceFunc callback;
+ } TimeoutData;
+ 
+-static guint
+-calculate_timeout (UpDevice *device)
+-{
+-	UpDeviceLevel warning_level;
+-
+-	g_object_get (G_OBJECT (device), "warning-level", &warning_level, NULL);
+-	if (warning_level >= UP_DEVICE_LEVEL_DISCHARGING)
+-		return 30;
+-	return 120;
+-}
+-
+-static void
+-enable_poll_for_device (UpDevice *device, TimeoutData *data)
+-{
+-	guint timeout;
+-	char *name;
+-
+-	timeout = calculate_timeout (device);
+-	data->timeout = timeout;
+-
+-	data->id = g_timeout_add_seconds (timeout, fire_timeout_callback, device);
+-	name = g_strdup_printf ("[upower] UpDevice::poll for %s (%u secs)",
+-				up_device_get_object_path (device), timeout);
+-	g_source_set_name_by_id (data->id, name);
+-	g_free (name);
+-}
+-
+ static void
+ change_idle_timeout (UpDevice   *device,
+ 		     GParamSpec *pspec,
+@@ -761,27 +734,14 @@ change_idle_timeout (UpDevice   *device,
+ 	TimeoutData *data;
+ 	GSourceFunc callback;
+ 	UpDaemon *daemon;
+-	guint timeout;
+ 
+ 	daemon = up_device_get_daemon (device);
+ 
+ 	data = g_hash_table_lookup (daemon->priv->poll_timeouts, device);
+ 	callback = data->callback;
+ 
+-	g_debug ("change_idle_timeout called for: %s",
+-		 up_device_get_object_path (device));
+-
+-	timeout = calculate_timeout (device);
+-
+-	if (timeout != data->timeout) {
+-		g_debug ("Resetting for polling for '%s' (warning-level change)",
+-			 up_device_get_object_path (device));
+-
+-		g_source_remove (data->id);
+-		data->timeout = timeout;
+-		enable_poll_for_device (device, data);
+-	}
+-
++	up_daemon_stop_poll (G_OBJECT (device));
++	up_daemon_start_poll (G_OBJECT (device), callback);
+ 	g_object_unref (daemon);
+ }
+ 
+@@ -822,6 +782,36 @@ fire_timeout_callback (gpointer user_data)
+ 	return G_SOURCE_CONTINUE;
+ }
+ 
++static guint
++calculate_timeout (UpDevice *device)
++{
++	UpDeviceLevel warning_level;
++
++	g_object_get (G_OBJECT (device), "warning-level", &warning_level, NULL);
++	if (warning_level >= UP_DEVICE_LEVEL_DISCHARGING)
++		return UP_DAEMON_SHORT_TIMEOUT;
++	return UP_DAEMON_LONG_TIMEOUT;
++}
++
++static void
++enable_poll_for_device (UpDevice *device, TimeoutData *data)
++{
++	const char *path;
++	guint timeout;
++	char *name;
++
++	path = up_exported_device_get_native_path (UP_EXPORTED_DEVICE (device));
++
++	timeout = calculate_timeout (device);
++	data->timeout = timeout;
++
++	data->id = g_timeout_add_seconds (timeout, fire_timeout_callback, device);
++	name = g_strdup_printf ("[upower] UpDevice::poll for %s (%u secs)",
++				path, timeout);
++	g_source_set_name_by_id (data->id, name);
++	g_free (name);
++}
++
+ static void
+ enable_warning_level_notifications (UpDaemon *daemon, UpDevice *device)
+ {
+-- 
+2.14.1
+

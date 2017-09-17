@@ -1,0 +1,56 @@
+From 8898d2b9ac403063ed4446ea768947668fc5313d Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 8 Sep 2017 17:10:40 +0200
+Subject: [PATCH 11/22] linux: Add better debug to sysfs_get_capacity_level()
+
+Remove the trailing linefeed from the sysfs attribute to be able to
+print it, and simplify the loop by the same token.
+---
+ src/linux/up-device-supply.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index 9341cb0..11a14e1 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -495,24 +495,36 @@ sysfs_get_capacity_level (const char    *native_path,
+ 		{ "Critical",   5.0, UP_DEVICE_LEVEL_CRITICAL },
+ 		{ "Full",     100.0, UP_DEVICE_LEVEL_FULL }
+ 	};
++	guint len;
+ 
+ 	g_return_val_if_fail (level != NULL, -1.0);
+ 
+ 	if (!sysfs_file_exists (native_path, "capacity_level")) {
++		g_debug ("capacity_level doesn't exist, skipping");
+ 		*level = UP_DEVICE_LEVEL_NONE;
+ 		return -1.0;
+ 	}
+ 
+ 	*level = UP_DEVICE_LEVEL_UNKNOWN;
+ 	str = sysfs_get_string (native_path, "capacity_level");
++	if (!str) {
++		g_debug ("Failed to read capacity_level!");
++		return ret;
++	}
++
++	len = strlen(str);
++	str[len -1] = '\0';
+ 	for (i = 0; i < G_N_ELEMENTS(levels); i++) {
+-		if (g_ascii_strncasecmp (levels[i].str, str, strlen (levels[i].str)) == 0) {
++		if (strcmp (levels[i].str, str) == 0) {
+ 			ret = levels[i].percentage;
+ 			*level = levels[i].level;
+ 			break;
+ 		}
+ 	}
+ 
++	if (ret < 0.0)
++		g_debug ("Could not find a percentage for capacity level '%s'", str);
++
+ 	g_free (str);
+ 	return ret;
+ }
+-- 
+2.14.1
+

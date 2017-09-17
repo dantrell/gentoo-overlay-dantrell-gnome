@@ -1,0 +1,29 @@
+From fa38e1c4040f5e48cd6b56aa838b4ac617e1e1a8 Mon Sep 17 00:00:00 2001
+From: "oleid@mescharet.de" <oleid@mescharet.de>
+Date: Tue, 24 Nov 2015 21:07:32 +0000
+Subject: [PATCH 14/22] daemon: Fix crash when '@' is present in the device
+ name
+
+GDBus doesn't like '@' in the object path, so escape it.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=93095
+---
+ src/up-device.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/up-device.c b/src/up-device.c
+index ccc1a00..f8befe8 100644
+--- a/src/up-device.c
++++ b/src/up-device.c
+@@ -371,6 +371,8 @@ up_device_compute_object_path (UpDevice *device)
+ 			id[i] = 'x';
+ 		if (id[i] == ':')
+ 			id[i] = 'o';
++		if (id[i] == '@')
++			id[i] = '_';
+ 	}
+ 	object_path = g_build_filename (UP_DEVICES_DBUS_PATH, id, NULL);
+ 
+-- 
+2.14.1
+

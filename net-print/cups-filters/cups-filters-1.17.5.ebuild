@@ -6,8 +6,8 @@ GENTOO_DEPEND_ON_PERL=no
 
 inherit perl-module systemd flag-o-matic
 
-DESCRIPTION="Cups PDF filters"
-HOMEPAGE="https://wiki.linuxfoundation.org/openprinting/pdf_as_standard_print_job_format"
+DESCRIPTION="Cups filters"
+HOMEPAGE="https://wiki.linuxfoundation.org/openprinting/cups-filters"
 SRC_URI="http://www.openprinting.org/download/${PN}/${P}.tar.xz"
 
 LICENSE="MIT GPL-2"

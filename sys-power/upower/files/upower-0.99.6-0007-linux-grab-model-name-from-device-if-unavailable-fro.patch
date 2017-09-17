@@ -1,0 +1,73 @@
+From 2ef05c4220d262b28be2b6c96d22291b0041974c Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 31 Aug 2017 16:16:18 +0200
+Subject: [PATCH 07/22] linux: Grab model name from device if unavailable from
+ battery
+
+The "model_name" and "serial_number" information that upower exports for
+batteries that supply a laptop or UPS are supposed to be that of the
+battery. But that's very unlikely to happen for devices, such as
+wireless mice, keyboards or joysticks.
+
+Look for a sibling input device if a device battery does not contain
+model information so as to avoid generic names in UIs.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=102493
+---
+ src/linux/integration-test   |  7 ++++++-
+ src/linux/up-device-supply.c | 14 ++++++++++++++
+ 2 files changed, 20 insertions(+), 1 deletion(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index a901edd..76bf516 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -971,7 +971,10 @@ class Tests(dbusmock.DBusTestCase):
+             'input',
+             '/devices/pci0000:00/0000:00:14.0/usb3/3-9/3-9:1.3/0003:054C:09CC.0007/input/input51',
+             parent,
+-            [], ['ID_INPUT', '1', 'ID_INPUT_JOYSTICK', '1'])
++            ['name', 'Sony Interactive Entertainment Wireless Controller',
++             'uniq', 'ff:ff:ff:ff:ff:ff'],
++            ['ID_INPUT', '1',
++             'ID_INPUT_JOYSTICK', '1'])
+ 
+         dev = self.testbed.add_device(
+             'power_supply',
+@@ -989,6 +992,8 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(len(devs), 1)
+         joypadbat0_up = devs[0]
+ 
++        self.assertEqual(self.get_dbus_dev_property(joypadbat0_up, 'Model'), 'Sony Interactive Entertainment Wireless Controller')
++        self.assertEqual(self.get_dbus_dev_property(joypadbat0_up, 'Serial'), 'ff:ff:ff:ff:ff:ff')
+         self.assertEqual(self.get_dbus_dev_property(joypadbat0_up, 'PowerSupply'), False)
+         # 12 == gaming input
+         self.assertEqual(self.get_dbus_dev_property(joypadbat0_up, 'Type'), 12)
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index 1e2bfb6..d2d2e24 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -921,6 +921,20 @@ up_device_supply_refresh_device (UpDeviceSupply *supply,
+ 		/* get values which may be blank */
+ 		model_name = up_device_supply_get_string (native_path, "model_name");
+ 		serial_number = up_device_supply_get_string (native_path, "serial_number");
++		if (model_name == NULL && serial_number == NULL) {
++			GUdevDevice *sibling;
++
++			sibling = up_device_supply_get_sibling_with_subsystem (native, "input");
++			if (sibling != NULL) {
++				const char *path;
++				path = g_udev_device_get_sysfs_path (sibling);
++
++				model_name = up_device_supply_get_string (path, "name");
++				serial_number = up_device_supply_get_string (path, "uniq");
++
++				g_object_unref (sibling);
++			}
++		}
+ 
+ 		/* some vendors fill this with binary garbage */
+ 		up_device_supply_make_safe_string (model_name);
+-- 
+2.14.1
+

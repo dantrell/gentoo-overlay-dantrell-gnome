@@ -1,0 +1,33 @@
+From e4b85ef5df2f48ae28ccd0a6feb6a652baf8c285 Mon Sep 17 00:00:00 2001
+From: Christian Kellner <christian@kellner.me>
+Date: Wed, 22 Feb 2017 17:46:11 +0100
+Subject: [PATCH 18/22] daemon: more efficient poll resetting
+
+If the poll timeout is actually changed because the warning level
+has changed, only reset the actual poll code, not the warning level
+notifications and the booking structures.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=99862
+---
+ src/up-daemon.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/up-daemon.c b/src/up-daemon.c
+index b6ad3f5..1ae032f 100644
+--- a/src/up-daemon.c
++++ b/src/up-daemon.c
+@@ -777,9 +777,9 @@ change_idle_timeout (UpDevice   *device,
+ 		g_debug ("Resetting for polling for '%s' (warning-level change)",
+ 			 up_device_get_object_path (device));
+ 
++		g_source_remove (data->id);
+ 		data->timeout = timeout;
+-		up_daemon_stop_poll (G_OBJECT (device));
+-		up_daemon_start_poll (G_OBJECT (device), callback);
++		enable_poll_for_device (device, data);
+ 	}
+ 
+ 	g_object_unref (daemon);
+-- 
+2.14.1
+

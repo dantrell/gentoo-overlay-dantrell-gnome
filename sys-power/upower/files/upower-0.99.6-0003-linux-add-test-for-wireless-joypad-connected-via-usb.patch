@@ -1,0 +1,63 @@
+From 1dc2b96eec78489fd7a31b1d764cfc2afede33eb Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 31 Aug 2017 15:25:45 +0200
+Subject: [PATCH 03/22] linux: Add test for wireless joypad connected via USB
+
+Mostly for the type of device rather than the connections.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=102493
+---
+ src/linux/integration-test | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index b864772..f35345f 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -958,6 +958,43 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+         self.stop_daemon()
+ 
++    def test_usb_joypad(self):
++        '''DualShock 4 joypad connected via USB'''
++
++        dev = self.testbed.add_device('usb',
++                                      '/devices/pci0000:00/0000:00:14.0/usb3/3-9',
++                                      None,
++                                      [], [])
++
++        parent = dev
++        self.testbed.add_device(
++            'input',
++            '/devices/pci0000:00/0000:00:14.0/usb3/3-9/3-9:1.3/0003:054C:09CC.0007/input/input51',
++            parent,
++            [], ['ID_INPUT', '1', 'ID_INPUT_JOYSTICK', '1'])
++
++        dev = self.testbed.add_device(
++            'power_supply',
++            '/devices/pci0000:00/0000:00:14.0/usb3/3-9/3-9:1.3/0003:054C:09CC.0007/power_supply/sony_controller_battery_ff:ff:ff:ff:ff:ff',
++            parent,
++            ['type', 'Battery',
++             'scope', 'Device',
++             'present', '1',
++             'status', 'Charging',
++             'capacity', '20',],
++            [])
++
++        self.start_daemon()
++        devs = self.proxy.EnumerateDevices()
++        self.assertEqual(len(devs), 1)
++        joypadbat0_up = devs[0]
++
++        self.assertEqual(self.get_dbus_dev_property(joypadbat0_up, 'PowerSupply'), False)
++        # 6 == mouse FIXME
++        self.assertEqual(self.get_dbus_dev_property(joypadbat0_up, 'Type'), 6)
++        self.assertEqual(self.get_dbus_property('OnBattery'), False)
++        self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
++
+     def test_hidpp_touchpad(self):
+         '''HID++ touchpad battery with 5 capacity levels'''
+ 
+-- 
+2.14.1
+

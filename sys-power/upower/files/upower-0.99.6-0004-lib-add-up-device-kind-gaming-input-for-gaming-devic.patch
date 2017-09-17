@@ -1,0 +1,77 @@
+From 5ccd4fe959f0fdfcb82ee431cde369f9cebf2073 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 31 Aug 2017 15:33:49 +0200
+Subject: [PATCH 04/22] lib: Add UP_DEVICE_KIND_GAMING_INPUT for gaming devices
+
+Joypads, joysticks, dance mats, paddles, Wiimotes, steering wheels,
+tractor cabin simulators, pedals, yokes, breathing controllers, and,
+hmm, etc.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=102493
+---
+ libupower-glib/up-device.c | 6 ++++--
+ libupower-glib/up-types.c  | 4 ++++
+ libupower-glib/up-types.h  | 1 +
+ 3 files changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/libupower-glib/up-device.c b/libupower-glib/up-device.c
+index 63ebe12..c10579e 100644
+--- a/libupower-glib/up-device.c
++++ b/libupower-glib/up-device.c
+@@ -307,7 +307,8 @@ up_device_to_text (UpDevice *device)
+ 	if ((kind == UP_DEVICE_KIND_PHONE ||
+ 	     kind == UP_DEVICE_KIND_BATTERY ||
+ 	     kind == UP_DEVICE_KIND_MOUSE ||
+-	     kind == UP_DEVICE_KIND_KEYBOARD) &&
++	     kind == UP_DEVICE_KIND_KEYBOARD ||
++	     kind == UP_DEVICE_KIND_GAMING_INPUT) &&
+ 	    !is_display)
+ 		g_string_append_printf (string, "    rechargeable:        %s\n", up_device_bool_to_string (up_exported_device_get_is_rechargeable (priv->proxy_device)));
+ 	if (kind == UP_DEVICE_KIND_BATTERY ||
+@@ -359,7 +360,8 @@ up_device_to_text (UpDevice *device)
+ 	    kind == UP_DEVICE_KIND_TABLET ||
+ 	    kind == UP_DEVICE_KIND_COMPUTER ||
+ 	    kind == UP_DEVICE_KIND_MEDIA_PLAYER ||
+-	    kind == UP_DEVICE_KIND_UPS)
++	    kind == UP_DEVICE_KIND_UPS ||
++	    kind == UP_DEVICE_KIND_GAMING_INPUT)
+ 		g_string_append_printf (string, "    percentage:          %g%%\n", up_exported_device_get_percentage (priv->proxy_device));
+ 	if (kind == UP_DEVICE_KIND_BATTERY) {
+ 		if (up_exported_device_get_temperature (priv->proxy_device) > 0)
+diff --git a/libupower-glib/up-types.c b/libupower-glib/up-types.c
+index 88ddd4e..0984ad9 100644
+--- a/libupower-glib/up-types.c
++++ b/libupower-glib/up-types.c
+@@ -70,6 +70,8 @@ up_device_kind_to_string (UpDeviceKind type_enum)
+ 		return "tablet";
+ 	case UP_DEVICE_KIND_COMPUTER:
+ 		return "computer";
++	case UP_DEVICE_KIND_GAMING_INPUT:
++		return "gaming-input";
+ 	default:
+ 		return "unknown";
+ 	}
+@@ -110,6 +112,8 @@ up_device_kind_from_string (const gchar *type)
+ 		return UP_DEVICE_KIND_MEDIA_PLAYER;
+ 	if (g_str_equal (type, "tablet"))
+ 		return UP_DEVICE_KIND_TABLET;
++	if (g_str_equal (type, "gaming-input"))
++		return UP_DEVICE_KIND_GAMING_INPUT;
+ 	return UP_DEVICE_KIND_UNKNOWN;
+ }
+ 
+diff --git a/libupower-glib/up-types.h b/libupower-glib/up-types.h
+index 6d34970..5ba87ac 100644
+--- a/libupower-glib/up-types.h
++++ b/libupower-glib/up-types.h
+@@ -48,6 +48,7 @@ typedef enum {
+ 	UP_DEVICE_KIND_MEDIA_PLAYER,
+ 	UP_DEVICE_KIND_TABLET,
+ 	UP_DEVICE_KIND_COMPUTER,
++	UP_DEVICE_KIND_GAMING_INPUT,
+ 	UP_DEVICE_KIND_LAST
+ } UpDeviceKind;
+ 
+-- 
+2.14.1
+
