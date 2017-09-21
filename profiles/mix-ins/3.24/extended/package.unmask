@@ -164,7 +164,7 @@
 ~net-libs/rest-0.8.0::dantrell-gnome
 ~net-libs/webkit-gtk-2.16.6::dantrell-gnome
 ~net-misc/gnome-online-miners-3.22.0::dantrell-gnome
-~net-misc/networkmanager-1.8.2::dantrell-gnome
+~net-misc/networkmanager-1.8.4::dantrell-gnome
 ~net-misc/rygel-0.34.0::dantrell-gnome-3-24
 ~net-misc/vino-3.22.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.20.1::dantrell-gnome

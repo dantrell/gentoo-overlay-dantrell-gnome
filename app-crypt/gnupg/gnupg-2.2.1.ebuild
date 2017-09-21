@@ -54,6 +54,7 @@ DOCS=(
 
 PATCHES=(
 	"${FILESDIR}/${PN}-2.1.20-gpgscm-Use-shorter-socket-path-lengts-to-improve-tes.patch"
+	"${FILESDIR}/${P}-fix-gnupg-wait.patch"
 )
 
 src_configure() {
@@ -98,6 +99,11 @@ src_compile() {
 	default
 
 	use doc && emake -C doc html
+}
+
+src_test() {
+	export TESTFLAGS=--parallel
+	default
 }
 
 src_install() {
