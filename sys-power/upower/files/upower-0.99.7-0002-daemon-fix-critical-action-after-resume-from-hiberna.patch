@@ -1,0 +1,116 @@
+From 212599f0eec8c3a2e17adb0d93cff3651cfc1cd2 Mon Sep 17 00:00:00 2001
+From: Miroslav Sustek <sustmidown@centrum.cz>
+Date: Tue, 18 Apr 2017 00:54:42 +0200
+Subject: [PATCH 2/3] daemon: Fix critical action after resume from hibernate
+
+The take_action_timeout_cb() function returns G_SOURCE_REMOVE which
+makes GLib destroy the timeout. However the action_timeout_id
+stayed != 0 so when warning level turned to "action" again the daemon
+assumed that the timeout is already set and did nothing.
+(It only logged: "Not taking action, timeout id already set")
+
+https://bugs.freedesktop.org/show_bug.cgi?id=87791
+---
+ src/linux/integration-test | 62 +++++++++++++++++++++++++++++++++++++++++++++-
+ src/up-daemon.c            |  4 +++
+ 2 files changed, 65 insertions(+), 1 deletion(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 0d2064e..034267a 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -249,8 +249,11 @@ class Tests(dbusmock.DBusTestCase):
+                                                                   stdout=subprocess.PIPE)
+ 
+     def have_text_in_log(self, text):
++        return self.count_text_in_log(text) > 0
++
++    def count_text_in_log(self, text):
+         with open(self.log.name) as f:
+-            return text in f.read()
++            return f.read().count(text)
+ 
+     def assertEventually(self, condition, message=None, timeout=50):
+         '''Assert that condition function eventually returns True.
+@@ -760,6 +763,63 @@ class Tests(dbusmock.DBusTestCase):
+ 
+         self.stop_daemon()
+ 
++    def test_critical_action_is_taken_repeatedly(self):
++        '''check that critical action works repeatedly (eg. after resume)'''
++
++        bat0 = self.testbed.add_device('power_supply', 'BAT0', None,
++                                       ['type', 'Battery',
++                                        'present', '1',
++                                        'status', 'Discharging',
++                                        'energy_full', '60000000',
++                                        'energy_full_design', '80000000',
++                                        'energy_now', '50000000',
++                                        'voltage_now', '12000000'], [])
++
++        config = tempfile.NamedTemporaryFile(delete=False, mode='w')
++        config.write("[UPower]\n")
++        config.write("UsePercentageForPolicy=true\n")
++        config.write("PercentageAction=5\n")
++        config.write("CriticalPowerAction=Hibernate\n")
++        config.close()
++
++        self.start_logind()
++        self.start_daemon(cfgfile=config.name)
++
++        devs = self.proxy.EnumerateDevices()
++        self.assertEqual(len(devs), 1)
++        bat0_up = devs[0]
++
++        # simulate that battery has 1% (less than PercentageAction)
++        self.testbed.set_attribute(bat0, 'energy_now', '600000')
++        self.testbed.uevent(bat0, 'change')
++
++        time.sleep(0.5)
++        self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_ACTION)
++
++        time.sleep(20.5) # wait for UP_DAEMON_ACTION_DELAY
++        self.assertEqual(self.count_text_in_log("About to call logind method Hibernate"), 1)
++
++        # simulate that battery was charged to 100% during sleep
++        self.testbed.set_attribute(bat0, 'energy_now', '60000000')
++        self.testbed.uevent(bat0, 'change')
++
++        time.sleep(0.5)
++        self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
++
++        # simulate that battery was drained to 1% again
++        self.testbed.set_attribute(bat0, 'energy_now', '600000')
++        self.testbed.uevent(bat0, 'change')
++
++        time.sleep(0.5)
++        self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_ACTION)
++
++        time.sleep(20.5) # wait for UP_DAEMON_ACTION_DELAY
++        self.assertEqual(self.count_text_in_log("About to call logind method Hibernate"), 2)
++
++        self.stop_daemon()
++
++        os.unlink(config.name)
++
+     def test_no_poll_batteries(self):
+         ''' setting NoPollBatteries option should disable polling'''
+ 
+diff --git a/src/up-daemon.c b/src/up-daemon.c
+index 37f66ab..1a5dddc 100644
+--- a/src/up-daemon.c
++++ b/src/up-daemon.c
+@@ -587,6 +587,10 @@ static gboolean
+ take_action_timeout_cb (UpDaemon *daemon)
+ {
+ 	up_backend_take_action (daemon->priv->backend);
++
++	g_debug ("Backend was notified to take action. The timeout will be removed.");
++	daemon->priv->action_timeout_id = 0;
++
+ 	return G_SOURCE_REMOVE;
+ }
+ 
+-- 
+2.14.2
+

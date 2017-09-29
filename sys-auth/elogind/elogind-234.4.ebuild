@@ -61,8 +61,10 @@ src_configure() {
 		--with-udevrulesdir="$(get_udevdir)"/rules.d \
 		--libdir="${EPREFIX}"/usr/$(get_libdir) \
 		--with-rootlibdir="${EPREFIX}"/$(get_libdir) \
+		--with-rootprefix="${EPREFIX}/" \
+		--with-rootlibexecdir="${EPREFIX}"/$(get_libdir)/elogind \
 		--enable-smack \
-		--disable-kdbus \
+		--with-cgroup-controller=openrc \
 		--disable-lto \
 		$(use_enable debug debug elogind) \
 		$(use_enable acl) \
@@ -75,13 +77,31 @@ src_install() {
 	find "${D}" -name '*.la' -delete || die
 
 	newinitd "${FILESDIR}"/${PN}.init ${PN}
-	newconfd "${FILESDIR}"/${PN}.conf ${PN}
+
+	sed -e "s/@libdir@/$(get_libdir)/" "${FILESDIR}"/${PN}.conf.in > ${PN}.conf || die
+	newconfd ${PN}.conf ${PN}
 }
 
 pkg_postinst() {
-	if [ "$(rc-config list default | grep elogind)" = "" ]; then
-		ewarn "To enable the elogind daemon, elogind must be"
-		ewarn "added to the default runlevel:"
-		ewarn "# rc-update add elogind default"
+	if [ "$(rc-config list boot | grep elogind)" != "" ]; then
+		ewarn "elogind is currently started from boot runlevel."
+	elif [ "$(rc-config list default | grep elogind)" != "" ]; then
+		ewarn "elogind is currently started from default runlevel."
+		ewarn "Please remove elogind from the default runlevel and"
+		ewarn "add it to the boot runlevel by:"
+		ewarn "# rc-update del elogind default"
+		ewarn "# rc-update add elogind boot"
+	else
+		ewarn "elogind is currently not started from any runlevel."
+		ewarn "You may add it to the boot runlevel by:"
+		ewarn "# rc-update add elogind boot"
+	fi
+	ewarn "Alternatively you can leave elogind out of any"
+	ewarn "runlevel. It will then be started automatically"
+	if use pam; then
+		ewarn "when the first service calls it via dbus, or the"
+		ewarn "first user logs into the system."
+	else
+		ewarn "when the first service calls it via dbus."
 	fi
 }

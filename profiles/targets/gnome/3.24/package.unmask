@@ -3,7 +3,7 @@
 ~app-accessibility/at-spi2-core-2.24.1::dantrell-gnome-3-24
 ~app-accessibility/caribou-0.4.21::dantrell-gnome
 ~app-accessibility/orca-3.24.0::dantrell-gnome-3-24
-~app-admin/gnome-system-log-20170611::dantrell-gnome
+~app-admin/gnome-system-log-20170809::dantrell-gnome
 ~app-arch/file-roller-3.24.1::dantrell-gnome-3-24
 ~app-arch/gcab-0.7::dantrell-gnome
 ~app-crypt/gcr-3.20.0::dantrell-gnome
@@ -85,7 +85,7 @@
 ~gnome-base/gnome-extra-apps-3.24.0::dantrell-gnome-3-24
 ~gnome-base/gnome-flashback-3.24.0::dantrell-gnome-3-24
 ~gnome-base/gnome-light-3.24.0::dantrell-gnome-3-24
-~gnome-base/gnome-session-3.24.1::dantrell-gnome-3-24
+~gnome-base/gnome-session-3.24.2::dantrell-gnome-3-24
 ~gnome-base/gnome-settings-daemon-3.24.3::dantrell-gnome-3-24
 ~gnome-base/gnome-shell-3.24.3::dantrell-gnome-3-24
 ~gnome-base/gsettings-desktop-schemas-3.24.1::dantrell-gnome-3-24
@@ -122,7 +122,7 @@
 ~gnome-extra/mousetweaks-3.12.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.5::dantrell-gnome
 ~gnome-extra/nautilus-tracker-tags-1.12.3::dantrell-gnome-3-24
-~gnome-extra/nm-applet-1.8.2::dantrell-gnome
+~gnome-extra/nm-applet-1.8.4::dantrell-gnome
 ~gnome-extra/sushi-3.24.0::dantrell-gnome-3-24
 ~gnome-extra/yelp-3.22.0::dantrell-gnome
 ~gnome-extra/yelp-xsl-3.20.1::dantrell-gnome

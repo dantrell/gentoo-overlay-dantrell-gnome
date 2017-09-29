@@ -1,0 +1,32 @@
+From 2dd321fab73c5c32c26349653fa1fd33dc1a86d0 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 21 Sep 2017 17:17:22 +0200
+Subject: [PATCH 3/3] linux: Fix compilation with libimobiledevice git
+
+Since libimobiledevice 5a8449a, LOCKDOWN_E_NOT_ENOUGH_DATA was renamed
+to LOCKDOWN_E_RECEIVE_TIMEOUT. We'll use "-7" to avoid having to use
+build glue.
+---
+ src/linux/up-device-idevice.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/src/linux/up-device-idevice.c b/src/linux/up-device-idevice.c
+index 4681637..97d230c 100644
+--- a/src/linux/up-device-idevice.c
++++ b/src/linux/up-device-idevice.c
+@@ -86,8 +86,10 @@ lockdownd_error_to_string (lockdownd_error_t lerr)
+ 		return "LOCKDOWN_E_SSL_ERROR";
+ 	case LOCKDOWN_E_DICT_ERROR:
+ 		return "LOCKDOWN_E_DICT_ERROR";
+-	case LOCKDOWN_E_NOT_ENOUGH_DATA:
+-		return "LOCKDOWN_E_NOT_ENOUGH_DATA";
++	case -7:
++		/* Either LOCKDOWN_E_NOT_ENOUGH_DATA or
++		 * LOCKDOWN_E_RECEIVE_TIMEOUT depending on version */
++		return "LOCKDOWN_E_RECEIVE_TIMEOUT";
+ 	case LOCKDOWN_E_MUX_ERROR:
+ 		return "LOCKDOWN_E_MUX_ERROR";
+ 	case LOCKDOWN_E_NO_RUNNING_SESSION:
+-- 
+2.14.2
+

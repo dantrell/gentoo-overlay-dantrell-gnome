@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome2
+inherit autotools gnome2
 
 DESCRIPTION="A GNOME application for managing encryption keys"
 HOMEPAGE="https://wiki.gnome.org/Apps/Seahorse"
@@ -47,6 +47,11 @@ src_prepare() {
 		-e '/CFLAGS="$CFLAGS -O0/d' \
 		-i configure.ac configure || die "sed 1 failed"
 
+	# From GNOME:
+	# 	https://git.gnome.org/browse/seahorse/commit/?id=31a9a6ffc10f9737e70d7f0051ff590ff284ad07
+	eapply "${FILESDIR}"/${PN}-9999-accept-gnupg-2-2-x-as-supported-version.patch
+
+	eautoreconf
 	gnome2_src_prepare
 }
 

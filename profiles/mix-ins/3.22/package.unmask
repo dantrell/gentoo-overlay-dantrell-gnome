@@ -3,7 +3,7 @@
 ~app-accessibility/at-spi2-core-2.22.1::dantrell-gnome-3-22
 ~app-accessibility/caribou-0.4.21::dantrell-gnome
 ~app-accessibility/orca-3.22.2::dantrell-gnome-3-22
-~app-admin/gnome-system-log-20170611::dantrell-gnome
+~app-admin/gnome-system-log-20170809::dantrell-gnome
 ~app-arch/file-roller-3.22.3::dantrell-gnome-3-22
 ~app-arch/gcab-0.7::dantrell-gnome
 ~app-crypt/gcr-3.20.0::dantrell-gnome
