@@ -16,7 +16,7 @@
 ~app-misc/bijiben-3.21.2::dantrell-gnome-3-22
 ~app-misc/geoclue-2.4.7::dantrell-gnome
 ~app-misc/gnote-3.22.2::dantrell-gnome-3-22
-~app-misc/tracker-1.10.5::dantrell-gnome-3-22
+~app-misc/tracker-1.10.6::dantrell-gnome-3-22
 ~app-text/evince-3.22.2::dantrell-gnome-3-22
 ~app-text/gspell-1.2.3::dantrell-gnome
 ~app-text/libgepub-0.4::dantrell-gnome
@@ -53,7 +53,7 @@
 ~dev-util/anjuta-3.22.0::dantrell-gnome
 ~dev-util/devhelp-3.22.0::dantrell-gnome-3-22
 ~dev-util/gdbus-codegen-2.50.3::dantrell-gnome
-~dev-util/glade-3.20.0::dantrell-gnome
+~dev-util/glade-3.20.1::dantrell-gnome
 ~dev-util/gnome-devel-docs-3.22.1::dantrell-gnome
 ~dev-util/gtk-doc-1.25::dantrell-gnome
 ~dev-vcs/gitg-3.22.0::dantrell-gnome-3-22
@@ -71,7 +71,7 @@
 ~games-puzzle/gnome-sudoku-3.22.2::dantrell-gnome-3-22
 ~games-puzzle/gnome-taquin-3.22.0::dantrell-gnome
 ~games-puzzle/gnome-tetravex-3.22.0::dantrell-gnome
-~games-puzzle/hitori-3.22.3::dantrell-gnome
+~games-puzzle/hitori-3.22.4::dantrell-gnome
 ~games-puzzle/lightsoff-3.22.2::dantrell-gnome-3-22
 ~games-puzzle/quadrapassel-3.22.0::dantrell-gnome
 ~games-puzzle/swell-foop-3.22.2::dantrell-gnome-3-22
@@ -122,7 +122,7 @@
 ~gnome-extra/libgsf-1.14.41::dantrell-gnome
 ~gnome-extra/mousetweaks-3.12.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.5::dantrell-gnome
-~gnome-extra/nautilus-tracker-tags-1.10.5::dantrell-gnome-3-22
+~gnome-extra/nautilus-tracker-tags-1.10.6::dantrell-gnome-3-22
 ~gnome-extra/nm-applet-1.4.6::dantrell-gnome
 ~gnome-extra/sushi-3.21.91::dantrell-gnome-3-22
 ~gnome-extra/yelp-3.22.0::dantrell-gnome
@@ -176,7 +176,7 @@
 ~www-client/epiphany-3.22.7::dantrell-gnome-3-22
 ~x11-libs/gdk-pixbuf-2.36.4::dantrell-gnome
 ~x11-libs/gtksourceview-3.22.2::dantrell-gnome-3-22
-~x11-libs/gtk+-3.22.21::dantrell-gnome
+~x11-libs/gtk+-3.22.22::dantrell-gnome
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.20.1::dantrell-gnome
 ~x11-libs/pango-1.40.9::dantrell-gnome
