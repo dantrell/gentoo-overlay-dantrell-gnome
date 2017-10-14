@@ -9,3 +9,4 @@ media-libs/gegl png
 media-libs/gsound vala
 media-libs/gst-plugins-bad egl
 media-libs/libsdl2 gles
+media-libs/mesa egl
