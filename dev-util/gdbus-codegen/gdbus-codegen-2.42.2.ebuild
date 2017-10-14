@@ -25,7 +25,7 @@ PDEPEND=">=dev-libs/glib-${PV}:2"
 S="${WORKDIR}/glib-${PV}/gio/gdbus-2.0/codegen"
 
 python_prepare_all() {
-	eapply -p4 "${FILESDIR}/${PN}-2.40.0-sitedir.patch"
+	eapply -p4 "${FILESDIR}"/${PN}-2.40.0-sitedir.patch
 	distutils-r1_python_prepare_all
 
 	sed -e 's:#!@PYTHON@:#!/usr/bin/env python:' gdbus-codegen.in > gdbus-codegen || die

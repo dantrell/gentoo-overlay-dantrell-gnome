@@ -1,0 +1,11 @@
+app-crypt/gcr vala
+dev-lang/python sqlite
+dev-libs/libgusb vala
+dev-libs/libgweather vala
+media-libs/clutter-gst X
+media-libs/cogl gles2
+media-libs/gegl jpeg
+media-libs/gegl png
+media-libs/gsound vala
+media-libs/gst-plugins-bad egl
+media-libs/libsdl2 gles

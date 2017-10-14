@@ -1,0 +1,13 @@
+app-arch/gnome-autoar::dantrell-gnome ~*
+dev-lang/spidermonkey:52::gentoo ~*
+dev-libs/json-glib::dantrell-gnome ~*
+dev-libs/libical::dantrell-gnome ~*
+gnome-base/libgtop::dantrell-gnome **
+gnome-extra/nm-applet::dantrell-gnome ~*
+net-libs/webkit-gtk::dantrell-gnome ~*
+net-misc/networkmanager::dantrell-gnome ~*
+sys-apps/accountsservice::dantrell-gnome **
+sys-auth/elogind::dantrell-gnome ~*
+sys-auth/elogind::dantrell-gnome **
+sys-auth/polkit::gentoo ~*
+sys-power/upower::dantrell-gnome **

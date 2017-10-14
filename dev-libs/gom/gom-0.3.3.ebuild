@@ -1,17 +1,16 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="yes"
+EAPI="6"
 PYTHON_COMPAT=( python{3_4,3_5,3_6} )
 
-inherit gnome2 python-r1
+inherit gnome2 python-r1 meson
 
 DESCRIPTION="GObject to SQLite object mapper library"
 HOMEPAGE="https://wiki.gnome.org/Projects/Gom"
 
 LICENSE="LGPL-2+"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="+introspection python"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} introspection )"
@@ -44,16 +43,10 @@ src_prepare() {
 }
 
 src_configure() {
-	# glibtest is a relic from AM_PATH_GLIB macro
-	local myconf=(
-		--disable-static
-		--disable-glibtest
+	local emasonargs=(
+		-D enable-introspection=$(usex introspection true false)
 	)
-
-	gnome2_src_configure \
-		${myconf[@]} \
-		--disable-python \
-		$(use_enable introspection)
+	meson_src_configure
 
 	if use python ; then
 		python_foreach_impl run_in_build_dir \
@@ -64,7 +57,7 @@ src_configure() {
 }
 
 src_install() {
-	gnome2_src_install
+	meson_src_install
 
 	if use python ; then
 		docinto examples
@@ -73,4 +66,14 @@ src_install() {
 		python_foreach_impl run_in_build_dir \
 		emake DESTDIR="${D}" install-overridesPYTHON
 	fi
+}
+
+pkg_postrm() {
+	gnome2_icon_cache_update
+	gnome2_schemas_update
+}
+
+pkg_postinst() {
+	gnome2_pkg_postinst
+	gnome2_schemas_update
 }

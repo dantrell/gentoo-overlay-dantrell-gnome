@@ -10,7 +10,7 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="|| ( MPL-1.0 LGPL-2.1 )"
 SLOT="0/2"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="doc examples static-libs"
 
@@ -19,16 +19,14 @@ IUSE="doc examples static-libs"
 # back in v2.0.1 or later.
 # This snippet belongs to RDEPEND:
 # introspection? ( dev-libs/gobject-introspection:= )"
-RDEPEND="dev-libs/icu:="
+RDEPEND="
+	dev-libs/icu:=
+"
 DEPEND="${RDEPEND}
-	dev-lang/perl"
+	dev-lang/perl
+"
 
-DOCS=(
-	AUTHORS ReadMe.txt ReleaseNotes.txt TEST THANKS TODO
-	doc/{AddingOrModifyingComponents,UsingLibical}.txt
-)
-
-PATCHES=( "${FILESDIR}/fix-libdir-location.patch" )
+PATCHES=( "${FILESDIR}/${PN}-2.0.0-fix-libdir-location.patch" )
 
 src_configure() {
 	# See above, introspection is disabled for v2.0.0 at least.

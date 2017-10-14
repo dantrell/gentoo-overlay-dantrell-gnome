@@ -1,5 +1,8 @@
-# Masked to test on GNOME 3.26 first
->=net-libs/webkit-gtk-2.18.0
+# Masked to test on GNOME 3.28 first
+>=net-libs/webkit-gtk-2.20.0
+
+# Requires GLib 2.52 (or greater)
+>=net-libs/phodav-2.2
 
 # Masked to freeze the state of GNOME
 >=app-accessibility/accerciser-3.24.0
@@ -14,7 +17,7 @@
 >=app-editors/gedit-plugins-3.24.0
 >=app-editors/ghex-3.24.0
 >=app-editors/latexila-3.24.0
->=app-misc/bijiben-3.23.0
+>=app-misc/bijiben-3.24.0
 >=app-misc/geoclue-2.6.0
 >=app-misc/gnote-3.24.0
 >=app-misc/tracker-1.12.0
@@ -26,7 +29,7 @@
 >=dev-cpp/glibmm-2.52.0
 >=dev-cpp/gtkmm-3.24.0
 >=dev-cpp/gtksourceviewmm-3.24.0
->=dev-cpp/libxmlpp-3.0.0
+>=dev-cpp/libxmlpp-3.1.0
 >=dev-cpp/pangomm-2.42.0
 >=dev-libs/appstream-glib-0.7.0
 >=dev-libs/atk-2.24.0
@@ -44,6 +47,7 @@
 >=dev-libs/libgit2-glib-0.25.0
 >=dev-libs/libgusb-0.3.0
 >=dev-libs/libgweather-3.24.0
+>=dev-libs/libical-2.0.0
 >=dev-libs/libpeas-1.22.0
 >=dev-libs/libsigc++-2.12.0
 >=dev-libs/libunistring-0.10.0
@@ -125,7 +129,7 @@
 >=gnome-extra/gnome-user-share-3.24.0
 >=gnome-extra/gnome-weather-3.24.0
 >=gnome-extra/nautilus-tracker-tags-1.12.0
->=gnome-extra/sushi-3.23.0
+>=gnome-extra/sushi-3.24.0
 >=gnome-extra/yelp-3.24.0
 >=gnome-extra/yelp-xsl-3.24.0
 >=gnome-extra/zenity-3.24.0

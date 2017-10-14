@@ -1,8 +1,12 @@
-# Masked to test on GNOME 3.26 first
->=net-libs/webkit-gtk-2.18.0
+# Masked to test on GNOME 3.28 first
+>=net-libs/webkit-gtk-2.20.0
 
 # Requires GLib 2.52 (or greater)
 >=net-libs/phodav-2.2
+
+# Requires GLib 2.50 (or greater)
+>=sys-apps/dbus-broker-4
+>=x11-wm/page-1.9.9
 
 # Requires GLib 2.48 (or greater)
 >=media-sound/pasystray-0.6.0
@@ -73,6 +77,7 @@
 >=dev-libs/libgit2-glib-0.23.0
 >=dev-libs/libgusb-0.2.8
 >=dev-libs/libgweather-3.16.0
+>=dev-libs/libical-2.0.0
 >=dev-libs/libpeas-1.14.0
 >=dev-libs/libsigc++-2.6.0
 >=dev-libs/libunistring-0.10.0
@@ -126,6 +131,7 @@
 >=gnome-base/gsettings-desktop-schemas-3.16.0
 >=gnome-base/gvfs-1.24.0
 >=gnome-base/libgtop-2.36.0
+>=gnome-base/librsvg-2.40.19
 >=gnome-base/nautilus-3.16.0
 >=gnome-extra/california-0.5.0
 >=gnome-extra/evolution-data-server-3.16.0
@@ -153,6 +159,7 @@
 >=gnome-extra/gnome-user-docs-3.16.0
 >=gnome-extra/gnome-user-share-3.18.0
 >=gnome-extra/gnome-weather-3.16.0
+>=gnome-extra/nautilus-sendto-3.8.6
 >=gnome-extra/nautilus-tracker-tags-1.4.0
 >=gnome-extra/sushi-3.16.0
 >=gnome-extra/yelp-3.16.0

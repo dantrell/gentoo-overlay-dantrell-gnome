@@ -14,10 +14,10 @@ IUSE=""
 
 RDEPEND=">=app-eselect/eselect-lib-bin-symlink-0.1.1"
 
-S="${FILESDIR}"
+S="${WORKDIR}"
 
 src_install() {
 	default
 	insinto /usr/share/eselect/modules
-	newins pinentry.eselect-${PV} pinentry.eselect
+	newins "${FILESDIR}"/pinentry.eselect-${PV} pinentry.eselect
 }

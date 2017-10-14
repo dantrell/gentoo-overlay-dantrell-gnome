@@ -29,6 +29,7 @@ media-libs/clutter X
 media-libs/clutter gtk
 media-libs/clutter-gtk X
 media-libs/clutter-gtk gtk
+media-libs/gd fontconfig
 media-libs/gegl cairo
 media-libs/gegl jpeg2k
 media-libs/gegl raw

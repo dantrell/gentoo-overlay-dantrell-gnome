@@ -9,9 +9,9 @@ HOMEPAGE="https://git.gnome.org/browse/nautilus-sendto/"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
-IUSE="debug"
+IUSE=""
 
 RDEPEND="
 	>=x11-libs/gtk+-2.90.3:3
@@ -22,29 +22,16 @@ DEPEND="${RDEPEND}
 	sys-devel/gettext
 	virtual/pkgconfig
 "
-# Needed for eautoreconf
-#	>=gnome-base/gnome-common-0.12
 
-nautilus_sendto_use_enable() {
-	echo "-Denable-${2:-${1}}=$(usex ${1} 'true' 'false')" || die
-}
-
-src_configure() {
-	local emesonargs=(
-		$(nautilus_sendto_use_enable debug)
-	)
-	meson_src_configure
-}
-
-src_compile() {
-	meson_src_compile
-}
-
-src_install() {
-	meson_src_install
+pkg_postrm() {
+	gnome2_icon_cache_update
+	gnome2_schemas_update
 }
 
 pkg_postinst() {
+	gnome2_icon_cache_update
+	gnome2_schemas_update
+
 	if ! has_version "gnome-base/nautilus[sendto]"; then
 		einfo "Note that ${CATEGORY}/${PN} is meant to be used as a helper by gnome-base/nautilus[sendto]"
 	fi

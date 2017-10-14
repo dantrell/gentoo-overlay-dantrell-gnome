@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="yes"
+EAPI="6"
 PYTHON_COMPAT=( python{3_4,3_5,3_6} )
 
 inherit gnome2 python-r1
@@ -13,7 +12,7 @@ LICENSE="LGPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="+introspection python"
+IUSE="debug +introspection python"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} introspection )"
 
 RDEPEND="
@@ -53,6 +52,7 @@ src_configure() {
 	gnome2_src_configure \
 		${myconf[@]} \
 		--disable-python \
+		$(usex debug --enable-debug=yes "") \
 		$(use_enable introspection)
 
 	if use python ; then

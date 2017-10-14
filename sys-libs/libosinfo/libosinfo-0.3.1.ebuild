@@ -7,7 +7,7 @@ inherit gnome2 udev vala
 
 DESCRIPTION="GObject library for managing information about real and virtual OSes"
 HOMEPAGE="http://libosinfo.org/"
-SRC_URI="http://fedorahosted.org/releases/${PN:0:1}/${PN:1:1}/${PN}/${P}.tar.gz"
+SRC_URI="https://releases.pagure.org/libosinfo/${P}.tar.gz"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"

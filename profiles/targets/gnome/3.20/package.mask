@@ -1,8 +1,12 @@
-# Masked to test on GNOME 3.26 first
->=net-libs/webkit-gtk-2.18.0
+# Masked to test on GNOME 3.28 first
+>=net-libs/webkit-gtk-2.20.0
 
 # Requires GLib 2.52 (or greater)
 >=net-libs/phodav-2.2
+
+# Requires GLib 2.50 (or greater)
+>=sys-apps/dbus-broker-4
+>=x11-wm/page-1.9.9
 
 # Masked to freeze the state of GNOME
 >=app-accessibility/accerciser-3.22.0
@@ -47,6 +51,7 @@
 >=dev-libs/libgit2-glib-0.25.0
 >=dev-libs/libgusb-0.3.0
 >=dev-libs/libgweather-3.22.0
+>=dev-libs/libical-2.0.0
 >=dev-libs/libpeas-1.20.0
 >=dev-libs/libsigc++-2.10.0
 >=dev-libs/libunistring-0.10.0

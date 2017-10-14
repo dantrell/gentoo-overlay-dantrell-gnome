@@ -185,6 +185,8 @@ dev-util/meld::dev-kit
 dev-util/meld::gentoo
 dev-util/nemiver::gentoo
 dev-util/nemiver::gnome-kit
+games-arcade/gnome-nibbles::gentoo
+games-arcade/gnome-nibbles::gnome-kit
 games-arcade/gnome-robots::gentoo
 games-arcade/gnome-robots::gnome-kit
 games-board/aisleriot::gentoo
@@ -223,6 +225,8 @@ gnome-base/gnome-keyring::gnome-kit
 gnome-base/gnome-menus::gentoo
 gnome-base/gnome-menus::gnome-kit
 gnome-base/gnome-shell-common::gentoo
+gnome-base/gsettings-desktop-schemas::gentoo
+gnome-base/gsettings-desktop-schemas::gnome-kit
 gnome-base/libgnome-keyring::gentoo
 gnome-base/libgnome-keyring::gnome-kit
 gnome-base/libgnomekbd::gentoo
@@ -234,8 +238,6 @@ gnome-base/librsvg::gnome-kit
 gnome-extra/california::gentoo
 gnome-extra/docky::gentoo
 gnome-extra/docky::gnome-kit
-gnome-extra/gnome-characters::gentoo
-gnome-extra/gnome-characters::gnome-kit
 gnome-extra/gnome-contacts::gentoo
 gnome-extra/gnome-contacts::gnome-kit
 gnome-extra/gnome-dvb-daemon::gentoo
@@ -260,10 +262,14 @@ gnome-extra/nm-applet::gentoo
 gnome-extra/nm-applet::gnome-kit
 gnome-extra/seahorse-nautilus::gentoo
 gnome-extra/seahorse-nautilus::gnome-kit
+gnome-extra/sushi::gentoo
+gnome-extra/sushi::gnome-kit
 gnome-extra/yelp-xsl::gentoo
 gnome-extra/yelp-xsl::gnome-kit
 gnome-extra/yelp::gentoo
 gnome-extra/yelp::gnome-kit
+gnome-extra/zenity::gentoo
+gnome-extra/zenity::gnome-kit
 mail-client/geary::gentoo
 mail-client/geary::gnome-kit
 media-gfx/eog-plugins::gentoo
@@ -308,8 +314,12 @@ media-libs/memphis::gentoo
 media-libs/memphis::media-kit
 media-plugins/grilo-plugins::gentoo
 media-plugins/grilo-plugins::gnome-kit
+media-sound/gnome-sound-recorder::gentoo
+media-sound/gnome-sound-recorder::gnome-kit
 media-sound/rhythmbox::gentoo
 media-sound/rhythmbox::media-kit
+media-sound/sound-juicer::gentoo
+media-sound/sound-juicer::gnome-kit
 media-video/gnome-video-effects::gentoo
 media-video/gnome-video-effects::gnome-kit
 net-analyzer/gnome-nettool::gentoo
@@ -424,6 +434,7 @@ x11-libs/libwnck::gentoo
 x11-libs/libwnck::gnome-kit
 x11-libs/pango::gentoo
 x11-libs/pango::gnome-kit
+x11-libs/tepl::gentoo
 x11-libs/vte::gentoo
 x11-libs/vte::gnome-kit
 x11-misc/colord::gentoo
