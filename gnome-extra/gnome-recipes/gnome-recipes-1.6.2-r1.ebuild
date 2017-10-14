@@ -32,3 +32,12 @@ src_prepare() {
 
 	gnome2_src_prepare
 }
+
+src_configure() {
+	local emesonargs=(
+		-D enable-autoar=$(usex archive yes no)
+		-D enable-gspell=$(usex spell yes no)
+		-D enable-canberra=$(usex sound yes no)
+	)
+	meson_src_configure
+}
