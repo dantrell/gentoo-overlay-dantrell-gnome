@@ -24,7 +24,9 @@ DEPEND="${RDEPEND}
 PATCHES=( "${FILESDIR}/${PN}-1.0.1-fix-libdir-location.patch" )
 
 src_configure() {
-	local mycmakeargs=( $(cmake-utils_use introspection GOBJECT_INTROSPECTION) )
+	local mycmakeargs=(
+		-DGOBJECT_INTROSPECTION=$(usex introspection true false)
+	)
 	use static-libs || mycmakeargs+=( -DSHARED_ONLY=ON )
 	cmake-utils_src_configure
 }

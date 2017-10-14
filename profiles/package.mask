@@ -242,6 +242,7 @@ gnome-extra/gnome-contacts::gentoo
 gnome-extra/gnome-contacts::gnome-kit
 gnome-extra/gnome-dvb-daemon::gentoo
 gnome-extra/gnome-dvb-daemon::gnome-kit
+gnome-extra/gnome-recipes::gentoo
 gnome-extra/gnome-user-share::gentoo
 gnome-extra/gnome-user-share::gnome-kit
 gnome-extra/gnome-weather::gentoo
