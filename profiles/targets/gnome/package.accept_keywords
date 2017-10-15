@@ -1,2 +1,3 @@
 dev-libs/libgudev::gentoo ~*
+dev-util/meson::gentoo ~*
 virtual/libgudev::gentoo ~*

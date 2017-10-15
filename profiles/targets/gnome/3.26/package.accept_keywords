@@ -6,6 +6,7 @@ dev-libs/wayland-protocols::gentoo ~*
 dev-python/pycairo::gentoo ~*
 gnome-base/libgtop::dantrell-gnome **
 gnome-extra/nm-applet::dantrell-gnome ~*
+media-libs/mesa::gentoo ~*
 net-libs/webkit-gtk::dantrell-gnome ~*
 net-misc/networkmanager::dantrell-gnome ~*
 sys-apps/accountsservice::dantrell-gnome **
@@ -13,3 +14,4 @@ sys-auth/elogind::dantrell-gnome ~*
 sys-auth/elogind::dantrell-gnome **
 sys-auth/polkit::gentoo ~*
 sys-power/upower::dantrell-gnome **
+x11-libs/libdrm::gentoo ~*
