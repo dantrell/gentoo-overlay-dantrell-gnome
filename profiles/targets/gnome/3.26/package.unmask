@@ -47,6 +47,7 @@
 ~dev-libs/libpeas-1.22.0::dantrell-gnome-3-26
 ~dev-libs/libsigc++-2.8.0::dantrell-gnome
 ~dev-libs/template-glib-3.26.1::dantrell-gnome-3-26
+~dev-libs/totem-pl-parser-3.26.0::dantrell-gnome-3-26
 ~dev-libs/vala-common-0.38.2::dantrell-gnome
 ~dev-python/pyatspi-2.26.0::dantrell-gnome-3-26
 ~dev-python/pygobject-3.26.0::dantrell-gnome-3-26
@@ -103,7 +104,7 @@
 ~gnome-extra/gnome-calculator-3.25.92::dantrell-gnome-3-26
 ~gnome-extra/gnome-calendar-3.26.2::dantrell-gnome-3-26
 ~gnome-extra/gnome-characters-3.26.1::dantrell-gnome-3-26
-~gnome-extra/gnome-clocks-3.26.0::dantrell-gnome-3-26
+~gnome-extra/gnome-clocks-3.26.1::dantrell-gnome-3-26
 ~gnome-extra/gnome-color-manager-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/gnome-contacts-3.26::dantrell-gnome-3-26
 ~gnome-extra/gnome-documents-3.26.1::dantrell-gnome-3-26
@@ -134,7 +135,7 @@
 ~media-gfx/gnome-font-viewer-3.26.0::dantrell-gnome-3-26
 ~media-gfx/gnome-photos-3.26.1::dantrell-gnome-3-26
 ~media-gfx/gnome-screenshot-3.25.0::dantrell-gnome-3-26
-~media-gfx/simple-scan-3.25.1::dantrell-gnome-3-26
+~media-gfx/simple-scan-3.26.1::dantrell-gnome-3-26
 ~media-libs/clutter-1.26.2::dantrell-gnome
 ~media-libs/clutter-gst-3.0.24::dantrell-gnome
 ~media-libs/clutter-gtk-1.8.4::dantrell-gnome

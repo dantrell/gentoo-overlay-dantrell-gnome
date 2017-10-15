@@ -48,6 +48,7 @@
 >=dev-libs/libpeas-1.22.0
 >=dev-libs/libsigc++-2.12.0
 >=dev-libs/libunistring-0.10.0
+>=dev-libs/totem-pl-parser-3.26.0
 >=dev-python/pyatspi-2.26.0
 >=dev-python/pygobject-3.26.0
 >=dev-util/anjuta-3.26.0

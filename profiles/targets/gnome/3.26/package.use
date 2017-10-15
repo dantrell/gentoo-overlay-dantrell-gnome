@@ -10,3 +10,5 @@ media-libs/gsound vala
 media-libs/gst-plugins-bad egl
 media-libs/libsdl2 gles
 media-libs/mesa egl
+net-libs/gnome-online-accounts vala
+x11-misc/colord vala

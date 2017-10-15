@@ -1,4 +1,5 @@
 app-arch/gnome-autoar::dantrell-gnome ~*
+app-text/libgepub::dantrell-gnome ~*
 dev-lang/spidermonkey:52::gentoo ~*
 dev-libs/json-glib::dantrell-gnome ~*
 dev-libs/libical::dantrell-gnome ~*
@@ -6,6 +7,8 @@ dev-libs/wayland-protocols::gentoo ~*
 dev-python/pycairo::gentoo ~*
 gnome-base/libgtop::dantrell-gnome **
 gnome-extra/nm-applet::dantrell-gnome ~*
+media-libs/babl::dantrell-gnome ~*
+media-libs/gegl:0.3::dantrell-gnome ~*
 media-libs/mesa::gentoo ~*
 net-libs/webkit-gtk::dantrell-gnome ~*
 net-misc/networkmanager::dantrell-gnome ~*
