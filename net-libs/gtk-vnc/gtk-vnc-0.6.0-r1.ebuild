@@ -83,10 +83,10 @@ src_configure() {
 		$(use_enable introspection)
 		$(use_with pulseaudio)
 		$(use_with sasl)
+		$(use_enable vala)
 		--with-coroutine=gthread
 		--without-libview
 		--disable-static
-		--disable-vala
 	)
 
 	configure_python() {
