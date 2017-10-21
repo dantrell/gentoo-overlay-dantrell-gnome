@@ -47,6 +47,7 @@ media-libs/mesa gles2
 media-plugins/audacious-plugins -qt5
 media-plugins/grilo-plugins upnp-av
 media-sound/audacious -qt5
+media-video/ffmpegthumbnailer gtk
 net-analyzer/wireshark -qt4
 net-analyzer/wireshark -qt5
 net-fs/samba client

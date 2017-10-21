@@ -29,7 +29,7 @@
 ~dev-cpp/pangomm-2.40.1::dantrell-gnome
 ~dev-lang/vala-0.38.2::dantrell-gnome
 ~dev-libs/appstream-glib-0.6.13::dantrell-gnome
-~dev-libs/atk-2.26.0::dantrell-gnome-3-26
+~dev-libs/atk-2.26.1::dantrell-gnome-3-26
 ~dev-libs/folks-0.11.4::dantrell-gnome
 ~dev-libs/gjs-1.50.1::dantrell-gnome-3-26
 ~dev-libs/glib-2.54.1::dantrell-gnome
