@@ -4,4 +4,5 @@ media-libs/clutter-gst X
 media-libs/cogl gles2
 media-libs/gegl jpeg
 media-libs/gegl png
+media-libs/gst-plugins-bad egl
 media-libs/libsdl2 gles
