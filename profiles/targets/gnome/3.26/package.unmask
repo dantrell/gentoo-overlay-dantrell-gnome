@@ -117,7 +117,7 @@
 ~gnome-extra/gnome-system-monitor-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/gnome-todo-3.26.1::dantrell-gnome-3-26
 ~gnome-extra/gnome-tweak-tool-3.26.2.1::dantrell-gnome-3-26
-~gnome-extra/gnome-user-docs-3.26.1::dantrell-gnome-3-26
+~gnome-extra/gnome-user-docs-3.26.1.1::dantrell-gnome-3-26
 ~gnome-extra/gnome-user-share-3.18.3::dantrell-gnome
 ~gnome-extra/gnome-weather-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/gucharmap-10.0.2::dantrell-gnome
@@ -162,7 +162,7 @@
 ~net-libs/libsoup-gnome-2.60.0::dantrell-gnome-3-26
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/phodav-2.2::dantrell-gnome
-~net-libs/rest-0.8.0::dantrell-gnome
+~net-libs/rest-0.8.1::dantrell-gnome
 ~net-libs/webkit-gtk-2.18.0::dantrell-gnome
 ~net-misc/gnome-online-miners-3.26.0::dantrell-gnome-3-26
 ~net-misc/networkmanager-1.8.4::dantrell-gnome
