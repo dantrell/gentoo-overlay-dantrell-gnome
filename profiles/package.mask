@@ -97,6 +97,8 @@ dev-lang/vala::gentoo
 dev-lang/vala::gnome-kit
 dev-libs/appstream-glib::gentoo
 dev-libs/appstream-glib::gnome-kit
+dev-libs/eekboard::dev-kit
+dev-libs/eekboard::gentoo
 dev-libs/folks::gentoo
 dev-libs/folks::gnome-kit
 dev-libs/gdl::gentoo
@@ -433,6 +435,8 @@ x11-libs/libnotify::gentoo
 x11-libs/libnotify::gnome-kit
 x11-libs/libwnck::gentoo
 x11-libs/libwnck::gnome-kit
+x11-libs/libxklavier::gentoo
+x11-libs/libxklavier::gnome-kit
 x11-libs/pango::gentoo
 x11-libs/pango::gnome-kit
 x11-libs/tepl::gentoo

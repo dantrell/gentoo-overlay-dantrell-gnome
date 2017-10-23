@@ -3,7 +3,7 @@
 EAPI="6"
 CMAKE_MAKEFILE_GENERATOR="ninja"
 PYTHON_COMPAT=( python2_7 )
-USE_RUBY="ruby21 ruby22 ruby23 ruby24"
+USE_RUBY="ruby22 ruby23 ruby24"
 
 inherit check-reqs cmake-utils flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs versionator virtualx
 
@@ -14,7 +14,7 @@ SRC_URI="http://www.webkitgtk.org/releases/${MY_P}.tar.xz"
 
 LICENSE="LGPL-2+ BSD"
 SLOT="4/37" # soname version of libwebkit2gtk-4.0
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="aqua coverage doc +egl +geolocation gles2 gnome-keyring +gstreamer +introspection +jit libnotify nsplugin +opengl spell wayland +webgl X"
 # webgl needs gstreamer, bug #560612
@@ -34,56 +34,60 @@ REQUIRED_USE="
 # https://bugs.webkit.org/show_bug.cgi?id=148210
 RESTRICT="test"
 
-# use sqlite, svg by default
 # Aqua support in gtk3 is untested
 # Dependencies found at Source/cmake/OptionsGTK.cmake
+# Missing OpenWebRTC checks and conditionals, but ENABLE_MEDIA_STREAM/ENABLE_WEB_RTC is experimental upstream (PRIVATE OFF)
 RDEPEND="
-	dev-db/sqlite:3=
-	>=dev-libs/glib-2.36:2
-	dev-libs/hyphen
-	>=dev-libs/icu-3.8.1-r1:=
-	>=dev-libs/libxml2-2.8:2
-	>=dev-libs/libxslt-1.1.7
-	>=media-libs/fontconfig-2.8:1.0
-	>=media-libs/freetype-2.4.2:2
-	>=media-libs/harfbuzz-1.3.3:=[icu(+)]
-	>=media-libs/libpng-1.4:0=
-	media-libs/libwebp:=
-	dev-libs/libgcrypt:0=
-	>=net-libs/libsoup-2.42:2.4[introspection?]
 	>=x11-libs/cairo-1.10.2:=
+	>=media-libs/fontconfig-2.8.0:1.0
+	>=media-libs/freetype-2.4.2:2
+	>=dev-libs/libgcrypt-1.6.0:0=
 	x11-libs/gtk+:3=
-	>=x11-libs/gtk+-3.14:3[introspection?]
-	>=x11-libs/pango-1.30.0
+	>=x11-libs/gtk+-3.14:3[aqua?,introspection?,wayland?,X?]
+	>=media-libs/harfbuzz-1.3.3:=[icu(+)]
+	>=dev-libs/icu-3.8.1-r1:=
 	virtual/jpeg:0=
+	>=net-libs/libsoup-2.48:2.4[introspection?]
+	>=dev-libs/libxml2-2.8.0:2
+	>=media-libs/libpng-1.4:0=
+	dev-db/sqlite:3=
+	sys-libs/zlib:0
+	>=dev-libs/atk-2.8.0
+	media-libs/libwebp:=
 
-	aqua? ( >=x11-libs/gtk+-3.14:3[aqua] )
-	egl? ( media-libs/mesa[egl] )
-	geolocation? ( >=app-misc/geoclue-2.1.5:2.0 )
-	gles2? ( media-libs/mesa[gles2] )
+	>=dev-libs/glib-2.40:2
+	>=dev-libs/libxslt-1.1.7
 	gnome-keyring? ( app-crypt/libsecret )
+	geolocation? ( >=app-misc/geoclue-2.1.5:2.0 )
+	introspection? ( >=dev-libs/gobject-introspection-1.32.0:= )
+	dev-libs/libtasn1:=
+	>=dev-libs/libgcrypt-1.7.0:0=
+	nsplugin? ( >=x11-libs/gtk+-2.24.10:2 )
+	spell? ( >=app-text/enchant-0.22:= )
 	gstreamer? (
 		>=media-libs/gstreamer-1.2.3:1.0
 		>=media-libs/gst-plugins-base-1.2.3:1.0
-		>=media-libs/gst-plugins-bad-1.8:1.0[egl?,opengl?] )
-	introspection? ( >=dev-libs/gobject-introspection-1.32.0:= )
+		>=media-libs/gst-plugins-bad-1.10:1.0[opengl?] )
+
+	X? (
+		x11-libs/cairo[X]
+		x11-libs/libX11
+		x11-libs/libXcomposite
+		x11-libs/libXdamage
+		x11-libs/libXrender
+		x11-libs/libXt )
+
 	libnotify? ( x11-libs/libnotify )
-	nsplugin? ( >=x11-libs/gtk+-2.24.10:2 )
+	dev-libs/hyphen
+
+	egl? ( media-libs/mesa[egl] )
+	gles2? ( media-libs/mesa[gles2] )
 	opengl? ( virtual/opengl
 		x11-libs/cairo[opengl] )
-	spell? ( >=app-text/enchant-0.22:= )
-	wayland? ( >=x11-libs/gtk+-3.14:3[wayland] )
 	webgl? (
 		x11-libs/cairo[opengl]
 		x11-libs/libXcomposite
 		x11-libs/libXdamage )
-	X? (
-		x11-libs/cairo[X]
-		>=x11-libs/gtk+-3.14:3[X]
-		x11-libs/libX11
-		x11-libs/libXcomposite
-		x11-libs/libXrender
-		x11-libs/libXt )
 "
 
 # paxctl needed for bug #407085
@@ -91,9 +95,8 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
 	${RUBY_DEPS}
-	>=dev-lang/perl-5.10
 	>=app-accessibility/at-spi2-core-2.5.3
-	>=dev-libs/atk-2.8.0
+	>=dev-lang/perl-5.10
 	>=dev-util/gtk-doc-am-1.10
 	>=dev-util/gperf-3.0.1
 	>=sys-devel/bison-2.4.3
@@ -130,7 +133,7 @@ pkg_pretend() {
 			die "You need at least GCC 4.9.x or Clang >= 3.3 for C++11-specific compiler flags"
 		fi
 
-		if tc-is-gcc && [[ $(tc-getCXX) == *g++* && $(gcc-version) < 4.9 ]] ; then
+		if tc-is-gcc && [[ $(gcc-version) < 4.9 ]] ; then
 			die 'The active compiler needs to be gcc 4.9 (or newer)'
 		fi
 	fi
@@ -142,6 +145,13 @@ pkg_setup() {
 	fi
 
 	python-any-r1_pkg_setup
+}
+
+src_prepare() {
+	# https://bugs.gentoo.org/show_bug.cgi?id=555504
+	eapply "${FILESDIR}"/${PN}-2.8.5-fix-ia64-build.patch
+	cmake-utils_src_prepare
+	gnome2_src_prepare
 }
 
 src_configure() {
@@ -175,11 +185,6 @@ src_configure() {
 #		append-ldflags "-Wl,--reduce-memory-overheads"
 #	fi
 
-	# older glibc needs this for INTPTR_MAX, bug #533976
-	if has_version "<sys-libs/glibc-2.18" ; then
-		append-cppflags "-D__STDC_LIMIT_MACROS"
-	fi
-
 	# Multiple rendering bugs on youtube, github, etc without this, bug #547224
 	append-flags $(test-flags -fno-strict-aliasing)
 
@@ -189,10 +194,8 @@ src_configure() {
 		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby24)"
 	elif has_version "virtual/rubygems[ruby_targets_ruby23]"; then
 		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby23)"
-	elif has_version "virtual/rubygems[ruby_targets_ruby22]"; then
-		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby22)"
 	else
-		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby21)"
+		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby22)"
 	fi
 
 	# TODO: Check Web Audio support
@@ -271,7 +274,7 @@ src_install() {
 	cmake-utils_src_install
 
 	# Prevents crashes on PaX systems, bug #522808
-	use jit && pax-mark m "${ED}usr/bin/jsc" "${ED}usr/libexec/webkit2gtk-4.0/WebKitWebProcess"
+	use jit && pax-mark m "${ED}usr/libexec/webkit2gtk-4.0/jsc" "${ED}usr/libexec/webkit2gtk-4.0/WebKitWebProcess"
 	pax-mark m "${ED}usr/libexec/webkit2gtk-4.0/WebKitPluginProcess"
 	use nsplugin && pax-mark m "${ED}usr/libexec/webkit2gtk-4.0/WebKitPluginProcess"2
 }
