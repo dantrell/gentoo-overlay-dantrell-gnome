@@ -114,8 +114,8 @@ set_gtk2_confdir() {
 
 src_prepare() {
 	# marshalers code was pre-generated with glib-2.31, upstream bug #662109
-	rm -v gdk/gdkmarshalers.c gtk/gtkmarshal.c gtk/gtkmarshalers.c \
-		perf/marshalers.c || die
+	#rm -v gdk/gdkmarshalers.c gtk/gtkmarshal.c gtk/gtkmarshalers.c \
+	#	perf/marshalers.c || die
 
 	# Stop trying to build unmaintained docs, bug #349754, upstream bug #623150
 	strip_builddir SUBDIRS tutorial docs/Makefile.{am,in}
