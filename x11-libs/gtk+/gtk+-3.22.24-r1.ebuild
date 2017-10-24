@@ -126,6 +126,10 @@ src_prepare() {
 		strip_builddir SRC_SUBDIRS examples Makefile.{am,in}
 	fi
 
+	# From GNOME:
+	# 	https://bugzilla.gnome.org/show_bug.cgi?id=789141
+	eapply "${FILESDIR}"/${PN}-3.22.25-gdk-clear-gl-context-when-window-is-withdrawn.patch
+
 	# gtk-update-icon-cache is installed by dev-util/gtk-update-icon-cache
 	eapply "${FILESDIR}"/${PN}-3.22.2-update-icon-cache.patch
 
