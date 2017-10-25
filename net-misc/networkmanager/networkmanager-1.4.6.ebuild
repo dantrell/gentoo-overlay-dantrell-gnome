@@ -75,7 +75,15 @@ RDEPEND="${COMMON_DEPEND}
 		net-misc/iputils[arping(+)]
 		net-analyzer/arping
 	)
-	wifi? ( !vanilla? ( net-wireless/rfkill ) >=net-wireless/wpa_supplicant-0.7.3-r3[dbus] )
+	wifi? (
+		!vanilla? (
+			|| (
+				>=sys-apps/util-linux-2.31_rc1
+				net-wireless/rfkill
+			)
+		)
+		>=net-wireless/wpa_supplicant-0.7.3-r3[dbus]
+	)
 "
 DEPEND="${COMMON_DEPEND}
 	dev-util/gdbus-codegen

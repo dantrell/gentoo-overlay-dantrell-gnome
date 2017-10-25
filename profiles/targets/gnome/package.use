@@ -38,6 +38,7 @@ media-libs/gegl jpeg2k
 media-libs/gegl raw
 media-libs/grilo playlist
 media-libs/gst-plugins-bad X
+media-libs/gst-plugins-bad egl
 media-libs/gst-plugins-bad opengl
 media-libs/gst-plugins-base X
 media-libs/gst-plugins-base theora

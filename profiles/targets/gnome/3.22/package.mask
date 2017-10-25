@@ -83,7 +83,7 @@
 >=games-puzzle/quadrapassel-3.24.0
 >=games-puzzle/swell-foop-3.24.0
 >=gnome-base/dconf-0.28.0
->=gnome-base/dconf-editor-3.24.0
+>=gnome-base/dconf-editor-3.23.0
 >=gnome-base/gdm-3.24.0
 >=gnome-base/gnome-3.24.0
 >=gnome-base/gnome-common-3.24.0
@@ -168,7 +168,7 @@
 >=net-misc/vinagre-3.24.0
 >=net-misc/vino-3.24.0
 >=net-wireless/gnome-bluetooth-3.24.0
->=sci-geosciences/geocode-glib-3.24.0
+>=sci-geosciences/geocode-glib-3.23.0
 >=sci-geosciences/gnome-maps-3.24.0
 >=sys-apps/baobab-3.24.0
 >=sys-apps/gnome-disk-utility-3.24.0
