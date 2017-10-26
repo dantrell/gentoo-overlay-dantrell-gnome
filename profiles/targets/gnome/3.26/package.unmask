@@ -16,6 +16,7 @@
 ~app-misc/geoclue-2.4.7::dantrell-gnome
 ~app-misc/gnote-3.26.0::dantrell-gnome-3-26
 ~app-misc/tracker-2.0.1::dantrell-gnome-3-26
+~app-misc/tracker-miners-2.0.2::dantrell-gnome-3-26
 ~app-text/evince-3.26.0::dantrell-gnome-3-26
 ~app-text/gspell-1.6.0::dantrell-gnome
 ~app-text/libgepub-0.5.2::dantrell-gnome

@@ -30,6 +30,7 @@
 >=app-misc/geoclue-2.6.0
 >=app-misc/gnote-3.20.0
 >=app-misc/tracker-1.8.0
+>=app-misc/tracker-miners-2.0.0
 >=app-text/evince-3.20.0
 >=app-text/gspell-0.2.0
 >=app-text/yelp-tools-3.20.0
