@@ -153,7 +153,7 @@
 ~net-libs/glib-networking-2.50.0::dantrell-gnome
 ~net-libs/gnome-online-accounts-3.24.4::dantrell-gnome-3-24
 ~net-libs/gssdp-1.0.2::dantrell-gnome
-~net-libs/gtk-vnc-0.6.0::dantrell-gnome
+~net-libs/gtk-vnc-0.7.1::dantrell-gnome
 ~net-libs/gupnp-1.0.2::dantrell-gnome
 ~net-libs/gupnp-igd-0.2.4::dantrell-gnome
 ~net-libs/libsoup-2.58.2::dantrell-gnome-3-24
