@@ -8,7 +8,9 @@ media-libs/clutter gtk
 media-libs/clutter-gtk gtk
 media-libs/libchamplain gtk
 media-sound/pulseaudio alsa
+media-video/ffmpegthumbnailer gtk
 net-dns/dnsmasq script
+net-libs/gnome-online-accounts vala
 net-libs/webkit-gtk X
 net-misc/spice-gtk -python_single_target_python3_4
 net-misc/spice-gtk -python_single_target_python3_5

@@ -159,6 +159,8 @@ dev-libs/vala-common::gentoo
 dev-libs/vala-common::gnome-kit
 dev-python/pyatspi::gentoo
 dev-python/pyatspi::gnome-kit
+dev-python/pycairo::gentoo
+dev-python/pycairo::python-kit
 dev-python/pycups::gentoo
 dev-python/pycups::python-kit
 dev-python/pygobject::gentoo

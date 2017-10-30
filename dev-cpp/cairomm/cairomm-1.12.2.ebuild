@@ -6,12 +6,12 @@ GCONF_DEBUG="no"
 inherit gnome2 multilib-minimal
 
 DESCRIPTION="C++ bindings for the Cairo vector graphics library"
-HOMEPAGE="http://cairographics.org/cairomm"
+HOMEPAGE="https://www.cairographics.org/cairomm/"
 SRC_URI="https://www.cairographics.org/releases/${P}.tar.gz"
 
 LICENSE="LGPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="aqua doc +svg X"
 
