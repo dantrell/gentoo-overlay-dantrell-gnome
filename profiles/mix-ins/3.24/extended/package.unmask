@@ -18,7 +18,7 @@
 ~app-misc/gnote-3.24.1::dantrell-gnome-3-24
 ~app-misc/tracker-1.12.4::dantrell-gnome-3-24
 ~app-text/evince-3.24.2::dantrell-gnome-3-24
-~app-text/gspell-1.6.0::dantrell-gnome
+~app-text/gspell-1.6.1::dantrell-gnome
 ~app-text/libgepub-0.4::dantrell-gnome
 ~app-text/libgxps-0.2.5::dantrell-gnome
 ~app-text/yelp-tools-3.18.0::dantrell-gnome
@@ -32,7 +32,7 @@
 ~dev-libs/folks-0.11.4::dantrell-gnome
 ~dev-libs/gjs-1.48.7::dantrell-gnome-3-24
 ~dev-libs/glib-2.52.3::dantrell-gnome
-~dev-libs/gmime-3.0.2::dantrell-gnome
+~dev-libs/gmime-3.0.3::dantrell-gnome
 ~dev-libs/gobject-introspection-1.52.1::dantrell-gnome-3-24
 ~dev-libs/gobject-introspection-common-1.52.1::dantrell-gnome-3-24
 ~dev-libs/gom-0.3.3::dantrell-gnome
@@ -58,7 +58,7 @@
 ~dev-vcs/gitg-3.24.0::dantrell-gnome-3-24
 ~games-arcade/gnome-nibbles-3.24.0::dantrell-gnome
 ~games-arcade/gnome-robots-3.22.2::dantrell-gnome
-~games-board/aisleriot-3.22.3::dantrell-gnome
+~games-board/aisleriot-3.22.4::dantrell-gnome
 ~games-board/four-in-a-row-3.22.2::dantrell-gnome
 ~games-board/gnome-chess-3.24.1::dantrell-gnome-3-24
 ~games-board/gnome-mahjongg-3.22.0::dantrell-gnome
@@ -174,7 +174,7 @@
 ~www-client/epiphany-3.24.5::dantrell-gnome-3-24
 ~x11-libs/gdk-pixbuf-2.36.4::dantrell-gnome
 ~x11-libs/gtksourceview-3.24.5::dantrell-gnome
-~x11-libs/gtk+-3.22.24::dantrell-gnome
+~x11-libs/gtk+-3.22.25::dantrell-gnome
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.20.1::dantrell-gnome
 ~x11-libs/pango-1.40.9::dantrell-gnome

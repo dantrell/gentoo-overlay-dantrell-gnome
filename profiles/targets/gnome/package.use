@@ -16,7 +16,9 @@ dev-libs/libgit2 threads
 dev-libs/libgit2-glib ssh
 dev-libs/libusb udev
 dev-libs/libxml2 python
+dev-qt/qtgui gtk
 dev-qt/qtwebkit gstreamer
+dev-qt/qtwidgets gtk
 dev-vcs/git gtk
 gnome-base/gnome-control-center networkmanager
 gnome-base/gvfs cdda
