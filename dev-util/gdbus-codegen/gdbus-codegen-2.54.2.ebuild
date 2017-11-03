@@ -6,6 +6,7 @@ DESCRIPTION="GDBus code and documentation generator"
 
 SLOT="0"
 KEYWORDS="*"
+
 IUSE=""
 
 RDEPEND=""
