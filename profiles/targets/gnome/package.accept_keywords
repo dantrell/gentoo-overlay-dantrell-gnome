@@ -1,3 +1,4 @@
 dev-libs/libgudev::gentoo ~*
 dev-util/meson::gentoo ~*
+sys-apps/openrc::gentoo ~*
 virtual/libgudev::gentoo ~*

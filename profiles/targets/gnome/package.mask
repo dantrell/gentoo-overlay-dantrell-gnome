@@ -1,5 +1,5 @@
 # Regression in shutdown process
->=sys-apps/openrc-0.31
+>=sys-apps/openrc-0.30
 
 # Regression in meson_options.txt default values
 # Ref. https://bugs.freedesktop.org/show_bug.cgi?id=103162
