@@ -46,6 +46,7 @@ DEPEND="${RDEPEND}
 	gnome-base/gnome-common
 "
 # gnome-base/gnome-common needed for eautoreconf
+
 pkg_pretend() {
 	# Needed for VNC ssh tunnel, bug #518574
 	CONFIG_CHECK="~IPV6"
