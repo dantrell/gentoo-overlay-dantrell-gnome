@@ -1,3 +1,4 @@
+app-crypt/gpgme python
 dev-lang/spidermonkey system-icu
 gnome-base/gnome-extra-apps flashback
 gnome-base/gnome-shell xephyr

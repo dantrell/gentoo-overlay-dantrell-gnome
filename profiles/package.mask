@@ -413,8 +413,8 @@ sys-auth/pambase::core-kit
 sys-auth/pambase::gentoo
 sys-devel/gettext::core-kit
 sys-devel/gettext::gentoo
+sys-fs/udisks::core-kit
 sys-fs/udisks::gentoo
-sys-fs/udisks::gnome-kit
 sys-libs/libosinfo::gentoo
 sys-libs/libosinfo::gnome-kit
 sys-power/acpid::gentoo
