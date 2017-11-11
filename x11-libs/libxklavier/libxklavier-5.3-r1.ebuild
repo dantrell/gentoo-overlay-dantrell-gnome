@@ -15,6 +15,7 @@ IUSE="+introspection"
 
 RDEPEND="
 	app-text/iso-codes
+	dev-libs/glib:2=
 	>=dev-libs/glib-2.16:2
 	dev-libs/libxml2:2
 	x11-apps/xkbcomp

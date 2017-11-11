@@ -5,6 +5,7 @@
 >=net-libs/phodav-2.2
 
 # Requires GLib 2.50 (or greater)
+>=dev-util/meld-3.18.0
 >=sys-apps/dbus-broker-4
 >=x11-wm/page-1.9.9
 
