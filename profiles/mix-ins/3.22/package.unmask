@@ -176,7 +176,7 @@
 ~www-client/epiphany-3.22.7::dantrell-gnome-3-22
 ~x11-libs/gdk-pixbuf-2.36.4::dantrell-gnome
 ~x11-libs/gtksourceview-3.22.2::dantrell-gnome-3-22
-~x11-libs/gtk+-3.22.25::dantrell-gnome
+~x11-libs/gtk+-3.22.26::dantrell-gnome
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.20.1::dantrell-gnome
 ~x11-libs/pango-1.40.9::dantrell-gnome
