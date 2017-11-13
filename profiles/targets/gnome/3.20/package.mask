@@ -31,7 +31,7 @@
 >=app-text/gspell-1.2.0
 >=app-text/yelp-tools-3.22.0
 >=dev-cpp/atkmm-2.26.0
->=dev-cpp/cairomm-1.14.0
+>=dev-cpp/cairomm-1.13.0
 >=dev-cpp/glibmm-2.50.0
 >=dev-cpp/gtkmm-3.22.0
 >=dev-cpp/gtksourceviewmm-3.22.0
