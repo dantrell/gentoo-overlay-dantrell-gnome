@@ -16,7 +16,7 @@ LICENSE="GPL-2+"
 SLOT="0" # add subslot if libnm-util.so.2 or libnm-glib.so.4 bumps soname version
 KEYWORDS="~*"
 
-IUSE="audit bluetooth connection-sharing consolekit +dhclient dhcpcd elogind gnutls +introspection json kernel_linux +nss +modemmanager ncurses ofono policykit +ppp resolvconf selinux systemd teamd test upower vala +vanilla +wext +wifi"
+IUSE="audit bluetooth connection-sharing consolekit +dhclient dhcpcd elogind gnutls +introspection json kernel_linux +nss +modemmanager ncurses ofono openvswitch policykit +ppp resolvconf selinux systemd teamd test upower vala +vanilla +wext +wifi"
 REQUIRED_USE="
 	modemmanager? ( ppp )
 	vala? ( introspection )
@@ -61,6 +61,10 @@ COMMON_DEPEND="
 	ncurses? ( >=dev-libs/newt-0.52.15 )
 	nss? ( >=dev-libs/nss-3.11:=[${MULTILIB_USEDEP}] )
 	ofono? ( net-misc/ofono )
+	openvswitch? (
+		dev-libs/jansson
+		net-misc/openvswitch
+	)
 	ppp? ( >=net-dialup/ppp-2.4.5:=[ipv6] )
 	resolvconf? ( net-dns/openresolv )
 	selinux? ( sys-libs/libselinux )
@@ -198,6 +202,7 @@ multilib_src_configure() {
 		$(multilib_native_use_with modemmanager modem-manager-1)
 		$(multilib_native_use_with ncurses nmtui)
 		$(multilib_native_use_with ofono)
+		$(multilib_native_use_enable openvswitch ovs)
 		$(multilib_native_use_with resolvconf)
 		$(multilib_native_use_with selinux)
 		$(multilib_native_use_with systemd systemd-journal)

@@ -95,7 +95,7 @@
 ~gnome-base/libgnomekbd-3.6.0::dantrell-gnome
 ~gnome-base/libgtop-2.38.0::dantrell-gnome
 ~gnome-base/librsvg-2.40.19::dantrell-gnome
-~gnome-base/nautilus-3.26.0::dantrell-gnome-3-26
+~gnome-base/nautilus-3.26.2::dantrell-gnome-3-26
 ~gnome-extra/evolution-data-server-3.26.2.1::dantrell-gnome-3-26
 ~gnome-extra/evolution-ews-3.26.2::dantrell-gnome-3-26
 ~gnome-extra/gnome-boxes-3.26.2::dantrell-gnome-3-26
