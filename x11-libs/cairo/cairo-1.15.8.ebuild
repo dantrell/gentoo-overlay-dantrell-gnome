@@ -6,7 +6,7 @@ inherit eutils flag-o-matic autotools multilib-minimal
 
 DESCRIPTION="A vector graphics library with cross-device output support"
 HOMEPAGE="https://www.cairographics.org"
-SRC_URI="https://www.cairographics.org/releases/${P}.tar.xz"
+SRC_URI="https://www.cairographics.org/snapshots/${P}.tar.xz"
 
 LICENSE="|| ( LGPL-2.1 MPL-1.1 )"
 SLOT="0"
