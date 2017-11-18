@@ -14,10 +14,8 @@ KEYWORDS="*"
 
 IUSE="caps emacs gnome-keyring gtk ncurses qt5 static"
 REQUIRED_USE="
-	|| ( ncurses gtk qt5 )
 	gtk? ( !static )
 	qt5? ( !static )
-	static? ( ncurses )
 "
 
 CDEPEND="
