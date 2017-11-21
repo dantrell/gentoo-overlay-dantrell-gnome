@@ -121,7 +121,6 @@
 >=gnome-base/gsettings-desktop-schemas-3.18.0
 >=gnome-base/gvfs-1.26.0
 >=gnome-base/libgtop-2.36.0
->=gnome-base/librsvg-2.40.19
 >=gnome-base/nautilus-3.18.0
 >=gnome-extra/california-0.5.0
 >=gnome-extra/evolution-data-server-3.18.0
@@ -199,7 +198,6 @@
 >=x11-libs/gtksourceview-3.18.0
 >=x11-libs/gtk+-3.18.0
 >=x11-libs/libwnck-3.18.0
->=x11-libs/pango-1.38.0
 >=x11-libs/vte-0.42.0
 >=x11-misc/gpaste-3.18.0
 >=x11-misc/notification-daemon-3.18.0

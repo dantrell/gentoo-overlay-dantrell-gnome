@@ -1,0 +1,27 @@
+From 4a4629496cf8a3116fec0838db89e0fb33c1568c Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 27 Jul 2017 11:59:58 +0100
+Subject: tests: Add grayscale JPEG tests
+
+Originally from the JPEG conformance tests:
+http://people.sc.fsu.edu/~jburkardt/data/jpg/jpg.html
+
+https://bugzilla.gnome.org/show_bug.cgi?id=785171
+---
+ tests/test-images/reftests/lena.jpg         | Bin 0 -> 65591 bytes
+ tests/test-images/reftests/lena.jpg.ref.png | Bin 0 -> 249277 bytes
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 tests/test-images/reftests/lena.jpg
+ create mode 100644 tests/test-images/reftests/lena.jpg.ref.png
+
+diff --git a/tests/test-images/reftests/lena.jpg b/tests/test-images/reftests/lena.jpg
+new file mode 100644
+index 0000000..3682a5e
+Binary files /dev/null and b/tests/test-images/reftests/lena.jpg differ
+diff --git a/tests/test-images/reftests/lena.jpg.ref.png b/tests/test-images/reftests/lena.jpg.ref.png
+new file mode 100644
+index 0000000..0da0156
+Binary files /dev/null and b/tests/test-images/reftests/lena.jpg.ref.png differ
+-- 
+cgit v0.12
+

@@ -1,0 +1,152 @@
+From 47c587bf5fe5d62197e0ab2b26a5d93f434cade1 Mon Sep 17 00:00:00 2001
+From: Pawel Piatek <xj@wp.pl>
+Date: Mon, 13 Mar 2017 22:51:34 +0100
+Subject: jpeg: Add support for JPEG_COM EXIF tag
+
+https://bugzilla.gnome.org/show_bug.cgi?id=143608
+---
+ gdk-pixbuf/gdk-pixbuf.c     |   2 ++
+ gdk-pixbuf/io-jpeg.c        |  31 +++++++++++++++++++++++++++++++
+ tests/bug143608-comment.jpg | Bin 0 -> 191869 bytes
+ tests/pixbuf-jpeg.c         |  20 ++++++++++++++++++++
+ 4 files changed, 53 insertions(+)
+ create mode 100644 tests/bug143608-comment.jpg
+
+diff --git a/gdk-pixbuf/gdk-pixbuf.c b/gdk-pixbuf/gdk-pixbuf.c
+index d7b78e4..fb146ba 100644
+--- a/gdk-pixbuf/gdk-pixbuf.c
++++ b/gdk-pixbuf/gdk-pixbuf.c
+@@ -909,6 +909,8 @@ gdk_pixbuf_fill (GdkPixbuf *pixbuf,
+  * the "multipage" option string to "yes" when a multi-page TIFF is loaded.
+  * Since 2.32 the JPEG and PNG loaders set "x-dpi" and "y-dpi" if the file
+  * contains image density information in dots per inch.
++ * Since 2.36.6, the JPEG loader sets the "comment" option with the comment
++ * EXIF tag.
+  * 
+  * Return value: the value associated with @key. This is a nul-terminated 
+  * string that should not be freed or %NULL if @key was not found.
+diff --git a/gdk-pixbuf/io-jpeg.c b/gdk-pixbuf/io-jpeg.c
+index 92ec36b..dd88a35 100644
+--- a/gdk-pixbuf/io-jpeg.c
++++ b/gdk-pixbuf/io-jpeg.c
+@@ -525,6 +525,21 @@ jpeg_parse_exif (JpegExifContext *context, j_decompress_ptr cinfo)
+ 	}
+ }
+ 
++static gchar *
++jpeg_get_comment (j_decompress_ptr cinfo)
++{
++	jpeg_saved_marker_ptr cmarker;
++
++	cmarker = cinfo->marker_list;
++	while (cmarker != NULL) {
++		if (cmarker->marker == JPEG_COM)
++			return g_strndup ((const gchar *) cmarker->data, cmarker->data_length);
++		cmarker = cmarker->next;
++	}
++
++	return NULL;
++}
++
+ static void
+ jpeg_destroy_exif_context (JpegExifContext *context)
+ {
+@@ -550,6 +565,7 @@ gdk_pixbuf__jpeg_image_load (FILE *f, GError **error)
+ 	struct error_handler_data jerr;
+ 	stdio_src_ptr src;
+ 	gchar *icc_profile_base64;
++	gchar *comment;
+ 	JpegExifContext exif_context = { 0, };
+ 
+ 	/* setup error handler */
+@@ -592,6 +608,7 @@ gdk_pixbuf__jpeg_image_load (FILE *f, GError **error)
+ 
+ 	jpeg_save_markers (&cinfo, JPEG_APP0+1, 0xffff);
+ 	jpeg_save_markers (&cinfo, JPEG_APP0+2, 0xffff);
++	jpeg_save_markers (&cinfo, JPEG_COM, 0xffff);
+ 	jpeg_read_header (&cinfo, TRUE);
+ 
+ 	/* parse exif data */
+@@ -619,6 +636,12 @@ gdk_pixbuf__jpeg_image_load (FILE *f, GError **error)
+ 		goto out; 
+ 	}
+ 
++	comment = jpeg_get_comment (&cinfo);
++	if (comment != NULL) {
++		gdk_pixbuf_set_option (pixbuf, "comment", comment);
++		g_free (comment);
++	}
++
+ 	switch (cinfo.density_unit) {
+ 	case 1:
+ 		/* Dots per inch (no conversion required) */
+@@ -1027,9 +1050,11 @@ gdk_pixbuf__jpeg_image_load_increment (gpointer data,
+ 		/* try to load jpeg header */
+ 		if (!context->got_header) {
+ 			int rc;
++			gchar* comment;
+ 		
+ 			jpeg_save_markers (cinfo, JPEG_APP0+1, 0xffff);
+ 			jpeg_save_markers (cinfo, JPEG_APP0+2, 0xffff);
++			jpeg_save_markers (cinfo, JPEG_COM, 0xffff);
+ 			rc = jpeg_read_header (cinfo, TRUE);
+ 			context->src_initialized = TRUE;
+ 			
+@@ -1080,6 +1105,12 @@ gdk_pixbuf__jpeg_image_load_increment (gpointer data,
+ 				goto out;
+ 			}
+ 
++			comment = jpeg_get_comment (cinfo);
++			if (comment != NULL) {
++				gdk_pixbuf_set_option (context->pixbuf, "comment", comment);
++				g_free (comment);
++			}
++
+ 			switch (cinfo->density_unit) {
+ 			case 1:
+ 				/* Dots per inch (no conversion required) */
+diff --git a/tests/bug143608-comment.jpg b/tests/bug143608-comment.jpg
+new file mode 100644
+index 0000000..7c3c93a
+Binary files /dev/null and b/tests/bug143608-comment.jpg differ
+diff --git a/tests/pixbuf-jpeg.c b/tests/pixbuf-jpeg.c
+index 073104a..ea1d62e 100644
+--- a/tests/pixbuf-jpeg.c
++++ b/tests/pixbuf-jpeg.c
+@@ -96,6 +96,25 @@ test_bug_775218 (void)
+   g_clear_object (&ref);
+ }
+ 
++static void
++test_comment(void)
++{
++  GError *error = NULL;
++  GdkPixbuf *ref;
++
++  if (!format_supported ("jpeg") || !format_supported ("png"))
++    {
++      g_test_skip ("format not supported");
++      return;
++    }
++
++  ref = gdk_pixbuf_new_from_file (g_test_get_filename (G_TEST_DIST, "bug143608-comment.jpg", NULL), &error);
++  g_assert_no_error (error);
++
++  g_assert_cmpstr (gdk_pixbuf_get_option (ref, "comment"), ==, "COMMENT HERE");
++  g_object_unref (ref);
++}
++
+ int
+ main (int argc, char **argv)
+ {
+@@ -104,6 +123,7 @@ main (int argc, char **argv)
+   g_test_add_func ("/pixbuf/jpeg/inverted_cmyk_jpeg", test_inverted_cmyk_jpeg);
+   g_test_add_func ("/pixbuf/jpeg/type9_rotation_exif_tag", test_type9_rotation_exif_tag);
+   g_test_add_func ("/pixbuf/jpeg/bug775218", test_bug_775218);
++  g_test_add_func ("/pixbuf/jpeg/comment", test_comment);
+ 
+   return g_test_run ();
+ }
+-- 
+cgit v0.12
+

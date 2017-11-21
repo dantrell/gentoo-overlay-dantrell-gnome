@@ -179,7 +179,6 @@
 >=x11-libs/gtksourceview-3.24.0
 >=x11-libs/gtk+-3.24.0
 >=x11-libs/libwnck-3.24.0
->=x11-libs/pango-1.42.0
 >=x11-libs/vte-0.48.0
 >=x11-misc/gpaste-3.24.0
 >=x11-misc/notification-daemon-3.24.0

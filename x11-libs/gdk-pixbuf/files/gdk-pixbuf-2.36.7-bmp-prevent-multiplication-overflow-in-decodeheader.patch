@@ -1,0 +1,74 @@
+From 4154d4f74bbc3fd194b6033697c7bd1dec77155a Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 13 Jul 2017 19:41:06 +0200
+Subject: bmp: Prevent multiplication overflow in DecodeHeader
+
+The multiplication can overflow as UBSan complained:
+
+io-bmp.c:475:63: runtime error: signed integer overflow: 524672 * 4096
+cannot be represented in type 'int'
+
+Fix this by checking the header dimensions for sanity, and then checking
+whether the rowstride * height multiplication does not overflow and fits
+within the range.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=776694
+---
+ gdk-pixbuf/io-bmp.c | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
+
+diff --git a/gdk-pixbuf/io-bmp.c b/gdk-pixbuf/io-bmp.c
+index 9ba3597..e860505 100644
+--- a/gdk-pixbuf/io-bmp.c
++++ b/gdk-pixbuf/io-bmp.c
+@@ -432,6 +432,8 @@ static gboolean DecodeHeader(unsigned char *BFH, unsigned char *BIH,
+ 		State->LineWidth = (State->LineWidth / 4) * 4 + 4;
+ 
+ 	if (State->pixbuf == NULL) {
++		guint64 len;
++
+ 		if (State->size_func) {
+ 			gint width = State->Header.width;
+ 			gint height = State->Header.height;
+@@ -444,6 +446,19 @@ static gboolean DecodeHeader(unsigned char *BFH, unsigned char *BIH,
+ 			}
+ 		}
+ 
++		/* rowstride is always >= width, so do an early check for bogus header */
++		if (State->Header.width <= 0 ||
++		    State->Header.height <= 0 ||
++		    !g_uint64_checked_mul (&len, State->Header.width, State->Header.height) ||
++		    len > G_MAXINT) {
++			g_set_error_literal (error,
++                                             GDK_PIXBUF_ERROR,
++                                             GDK_PIXBUF_ERROR_CORRUPT_IMAGE,
++                                             _("BMP image has bogus header data"));
++			State->read_state = READ_STATE_ERROR;
++			return FALSE;
++		}
++
+ 		if (State->Type == 32 || 
+ 		    State->Compressed == BI_RLE4 || 
+ 		    State->Compressed == BI_RLE8)
+@@ -456,7 +471,17 @@ static gboolean DecodeHeader(unsigned char *BFH, unsigned char *BIH,
+ 				gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8,
+ 					       (gint) State->Header.width,
+ 					       (gint) State->Header.height);
+-		
++
++		if (!g_uint64_checked_mul (&len, State->pixbuf->rowstride, State->Header.height) ||
++		    len > G_MAXINT) {
++			g_set_error_literal (error,
++                                             GDK_PIXBUF_ERROR,
++                                             GDK_PIXBUF_ERROR_CORRUPT_IMAGE,
++                                             _("BMP image has bogus header data"));
++			State->read_state = READ_STATE_ERROR;
++			return FALSE;
++		}
++
+ 		if (State->pixbuf == NULL) {
+ 			g_set_error_literal (error,
+                                              GDK_PIXBUF_ERROR,
+-- 
+cgit v0.12
+

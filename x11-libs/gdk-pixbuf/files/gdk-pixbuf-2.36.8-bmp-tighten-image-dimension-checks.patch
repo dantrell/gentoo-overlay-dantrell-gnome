@@ -1,0 +1,39 @@
+From 92d2d98c28e26496ceb8a4a825a061a25b1cdf5b Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Wed, 26 Jul 2017 16:33:40 +0200
+Subject: bmp: Tighten image dimension checks
+
+The rowstride *could* be negative if the pixbuf is invalid. Check that
+it is valid before using it to sanity check the image's dimensions.
+
+See https://bugzilla.gnome.org/show_bug.cgi?id=776694
+---
+ gdk-pixbuf/io-bmp.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/gdk-pixbuf/io-bmp.c b/gdk-pixbuf/io-bmp.c
+index e860505..e8ccce4 100644
+--- a/gdk-pixbuf/io-bmp.c
++++ b/gdk-pixbuf/io-bmp.c
+@@ -433,6 +433,7 @@ static gboolean DecodeHeader(unsigned char *BFH, unsigned char *BIH,
+ 
+ 	if (State->pixbuf == NULL) {
+ 		guint64 len;
++		int rowstride;
+ 
+ 		if (State->size_func) {
+ 			gint width = State->Header.width;
+@@ -472,7 +473,9 @@ static gboolean DecodeHeader(unsigned char *BFH, unsigned char *BIH,
+ 					       (gint) State->Header.width,
+ 					       (gint) State->Header.height);
+ 
+-		if (!g_uint64_checked_mul (&len, State->pixbuf->rowstride, State->Header.height) ||
++		rowstride = gdk_pixbuf_get_rowstride (State->pixbuf);
++		if (rowstride <= 0 ||
++		    !g_uint64_checked_mul (&len, rowstride, State->Header.height) ||
+ 		    len > G_MAXINT) {
+ 			g_set_error_literal (error,
+                                              GDK_PIXBUF_ERROR,
+-- 
+cgit v0.12
+

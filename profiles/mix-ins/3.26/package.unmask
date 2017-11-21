@@ -16,7 +16,7 @@
 ~app-misc/geoclue-2.4.7::dantrell-gnome
 ~app-misc/gnote-3.26.0::dantrell-gnome-3-26
 ~app-misc/tracker-2.0.2::dantrell-gnome-3-26
-~app-misc/tracker-miners-2.0.2::dantrell-gnome-3-26
+~app-misc/tracker-miners-2.0.3::dantrell-gnome-3-26
 ~app-text/evince-3.26.0::dantrell-gnome-3-26
 ~app-text/gspell-1.6.1::dantrell-gnome
 ~app-text/libgepub-0.5.2::dantrell-gnome
@@ -33,7 +33,7 @@
 ~dev-libs/folks-0.11.4::dantrell-gnome
 ~dev-libs/gjs-1.50.2::dantrell-gnome-3-26
 ~dev-libs/glib-2.54.2::dantrell-gnome
-~dev-libs/gmime-3.0.3::dantrell-gnome
+~dev-libs/gmime-3.0.4::dantrell-gnome
 ~dev-libs/gobject-introspection-1.54.1::dantrell-gnome-3-26
 ~dev-libs/gobject-introspection-common-1.54.1::dantrell-gnome-3-26
 ~dev-libs/gom-0.3.3::dantrell-gnome
@@ -113,7 +113,7 @@
 ~gnome-extra/gnome-recipes-1.6.2::dantrell-gnome
 ~gnome-extra/gnome-shell-extensions-3.26.2::dantrell-gnome-3-26
 ~gnome-extra/gnome-shell-frippery-3.26.2::dantrell-gnome-3-26
-~gnome-extra/gnome-software-3.26.2::dantrell-gnome-3-26
+~gnome-extra/gnome-software-3.26.3::dantrell-gnome-3-26
 ~gnome-extra/gnome-system-monitor-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/gnome-todo-3.26.2::dantrell-gnome-3-26
 ~gnome-extra/gnome-tweak-tool-3.26.3::dantrell-gnome-3-26
@@ -157,7 +157,7 @@
 ~net-libs/gssdp-1.0.2::dantrell-gnome
 ~net-libs/gtk-vnc-0.7.1::dantrell-gnome
 ~net-libs/gupnp-1.0.2::dantrell-gnome
-~net-libs/gupnp-igd-0.2.4::dantrell-gnome
+~net-libs/gupnp-igd-0.2.5::dantrell-gnome
 ~net-libs/libsoup-2.60.2::dantrell-gnome-3-26
 ~net-libs/libsoup-gnome-2.60.0::dantrell-gnome-3-26
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
@@ -180,7 +180,7 @@
 ~x11-libs/libdazzle-3.26.1::dantrell-gnome-3-26
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.24.1::dantrell-gnome
-~x11-libs/pango-1.40.9::dantrell-gnome
+~x11-libs/pango-1.40.14::dantrell-gnome
 ~x11-libs/vte-0.50.2::dantrell-gnome-3-26
 ~x11-misc/gpaste-3.26.0::dantrell-gnome-3-26
 ~x11-terms/gnome-terminal-3.26.2::dantrell-gnome-3-26

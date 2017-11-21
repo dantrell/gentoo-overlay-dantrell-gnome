@@ -1,0 +1,33 @@
+From 0d1eecddd4a87f4fcf6273e0ca95f11019582778 Mon Sep 17 00:00:00 2001
+From: Rico Tzschichholz <ricotz@ubuntu.com>
+Date: Tue, 4 Oct 2016 10:40:18 +0200
+Subject: unicode: Fix ordering in iso15924_tags to match GUnicodeScript enum
+
+https://bugzilla.gnome.org/show_bug.cgi?id=771591
+---
+ glib/guniprop.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/glib/guniprop.c b/glib/guniprop.c
+index 9f13f40..86a7068 100644
+--- a/glib/guniprop.c
++++ b/glib/guniprop.c
+@@ -1423,12 +1423,12 @@ static const guint32 iso15924_tags[] =
+     PACK ('S','g','n','w'), /* G_UNICODE_SCRIPT_SIGNWRITING */
+ 
+   /* Unicode 9.0 additions */
+-    PACK ('O','s','g','e'), /* G_UNICODE_SCRIPT_OSAGE */
+-    PACK ('N','e','w','a'), /* G_UNICODE_SCRIPT_NEWA */
++    PACK ('A','d','l','m'), /* G_UNICODE_SCRIPT_ADLAM */
+     PACK ('B','h','k','s'), /* G_UNICODE_SCRIPT_BHAIKSUKI */
+     PACK ('M','a','r','c'), /* G_UNICODE_SCRIPT_MARCHEN */
++    PACK ('N','e','w','a'), /* G_UNICODE_SCRIPT_NEWA */
++    PACK ('O','s','g','e'), /* G_UNICODE_SCRIPT_OSAGE */
+     PACK ('T','a','n','g'), /* G_UNICODE_SCRIPT_TANGUT */
+-    PACK ('A','d','l','m'), /* G_UNICODE_SCRIPT_ADLAM */
+ #undef PACK
+ };
+ 
+-- 
+cgit v0.12
+

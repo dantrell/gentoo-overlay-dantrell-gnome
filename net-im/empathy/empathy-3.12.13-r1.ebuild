@@ -4,7 +4,7 @@ EAPI="6"
 GNOME2_LA_PUNT="yes"
 PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6} )
 
-inherit gnome2 python-any-r1 virtualx
+inherit autotools gnome2 python-any-r1 virtualx
 
 DESCRIPTION="Telepathy instant messaging and video/audio call client for GNOME"
 HOMEPAGE="https://wiki.gnome.org/Apps/Empathy"
@@ -30,7 +30,7 @@ COMMON_DEPEND="
 	>=app-crypt/libsecret-0.5
 	>=media-libs/libcanberra-0.25[gtk3]
 	>=net-libs/gnutls-2.8.5:=
-	>=net-libs/webkit-gtk-1.9.1:3
+	>=net-libs/webkit-gtk-2.10:4
 	>=x11-libs/libnotify-0.7:=
 
 	media-libs/gstreamer:1.0
@@ -92,6 +92,15 @@ PDEPEND=">=net-im/telepathy-mission-control-5.14"
 pkg_setup() {
 	python-any-r1_pkg_setup
 	export PYTHONIOENCODING=UTF-8 # See bug 489774
+}
+
+src_prepare() {
+	# From GNOME:
+	# 	https://git.gnome.org/browse/empathy/commit/?id=ce10e4ed0f0677419167db1bc81f0b291644ce73
+	eapply "${FILESDIR}"/${PN}-3.12.14-incomplete-port-to-webkit2.patch
+
+	eautoreconf
+	gnome2_src_prepare
 }
 
 src_configure() {

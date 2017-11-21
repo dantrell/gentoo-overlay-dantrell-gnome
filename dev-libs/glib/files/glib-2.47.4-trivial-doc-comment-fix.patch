@@ -1,0 +1,36 @@
+From 61136c2c7333a937adb20a4a43f32e66bf89c2f5 Mon Sep 17 00:00:00 2001
+From: Matthias Clasen <mclasen@redhat.com>
+Date: Mon, 14 Dec 2015 07:43:24 -0500
+Subject: Trivial doc comment fix
+
+Use the same Since: syntax throughout.
+---
+ glib/gunicode.h | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/glib/gunicode.h b/glib/gunicode.h
+index 395e706..5f04536 100644
+--- a/glib/gunicode.h
++++ b/glib/gunicode.h
+@@ -394,12 +394,12 @@ typedef enum
+  * @G_UNICODE_SCRIPT_SIDDHAM:              Siddham. Since: 2.42
+  * @G_UNICODE_SCRIPT_TIRHUTA:              Tirhuta. Since: 2.42
+  * @G_UNICODE_SCRIPT_WARANG_CITI:          Warang Citi. Since: 2.42
+- * @G_UNICODE_SCRIPT_AHOM:                 Ahom. Since 2.48
+- * @G_UNICODE_SCRIPT_ANATOLIAN_HIEROGLYPHS: Anatolian Hieroglyphs. Since 2.48
+- * @G_UNICODE_SCRIPT_HATRAN:               Hatran. Since 2.48
+- * @G_UNICODE_SCRIPT_MULTANI:              Multani. Since 2.48
+- * @G_UNICODE_SCRIPT_OLD_HUNGARIAN:        Old Hungarian. Since 2.48
+- * @G_UNICODE_SCRIPT_SIGNWRITING:          Signwriting. Since 2.48
++ * @G_UNICODE_SCRIPT_AHOM:                 Ahom. Since: 2.48
++ * @G_UNICODE_SCRIPT_ANATOLIAN_HIEROGLYPHS: Anatolian Hieroglyphs. Since: 2.48
++ * @G_UNICODE_SCRIPT_HATRAN:               Hatran. Since: 2.48
++ * @G_UNICODE_SCRIPT_MULTANI:              Multani. Since: 2.48
++ * @G_UNICODE_SCRIPT_OLD_HUNGARIAN:        Old Hungarian. Since: 2.48
++ * @G_UNICODE_SCRIPT_SIGNWRITING:          Signwriting. Since: 2.48
+  *
+  * The #GUnicodeScript enumeration identifies different writing
+  * systems. The values correspond to the names as defined in the
+-- 
+cgit v0.12
+

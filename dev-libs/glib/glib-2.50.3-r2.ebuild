@@ -19,7 +19,7 @@ SRC_URI="${SRC_URI}
 	https://pkgconfig.freedesktop.org/releases/pkg-config-0.28.tar.gz" # pkg.m4 for eautoreconf
 
 LICENSE="LGPL-2.1+"
-SLOT="2/52"
+SLOT="2/50"
 KEYWORDS="*"
 
 IUSE="dbus debug fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
@@ -115,6 +115,15 @@ src_prepare() {
 		# Don't build tests, also prevents extra deps, bug #512022
 		sed -i -e 's/ tests//' {.,gio,glib}/Makefile.am || die
 	fi
+
+	# From GNOME:
+	# 	https://git.gnome.org/browse/glib/commit/?id=4e1567a079c13036320802f49ee8f78f78d0273a
+	# 	https://git.gnome.org/browse/glib/commit/?id=8e23a514b02c67104f03545dec58116f00087229
+	eapply "${FILESDIR}"/${PN}-2.53.4-unicode-update-to-unicode-10-0-0.patch
+	eapply "${FILESDIR}"/${PN}-2.53.4-unicode-update-test-data-files-for-unicode-10-0-0.patch
+
+	# Fix tests with timezone-data-2017a and newer
+	eapply "${FILESDIR}"/${PN}-2.50.3-fix-gdatetime-tests.patch
 
 	# gdbus-codegen is a separate package
 	eapply "${FILESDIR}"/${PN}-2.50.0-external-gdbus-codegen.patch

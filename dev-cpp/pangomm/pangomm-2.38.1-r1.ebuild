@@ -1,9 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 
-inherit eutils gnome2 multilib-minimal
+inherit gnome2 multilib-minimal
 
 DESCRIPTION="C++ interface for pango"
 HOMEPAGE="https://www.gtkmm.org"
@@ -22,7 +21,7 @@ COMMON_DEPEND="
 	>=dev-libs/libsigc++-2.3.2:2[${MULTILIB_USEDEP}]
 "
 DEPEND="${COMMON_DEPEND}
-	virtual/pkgconfig
+	virtual/pkgconfig[${MULTILIB_USEDEP}]
 	doc? (
 		media-gfx/graphviz
 		dev-libs/libxslt
@@ -36,8 +35,8 @@ src_prepare() {
 	# From GNOME:
 	# 	https://git.gnome.org/browse/pangomm/patch/?id=62ec4693bbf3c16eb1566b2cb499650f996f898f
 	# 	https://git.gnome.org/browse/pangomm/patch/?id=52eb5216a89a0805a46cba39450d633b2c7ca4d4
-	epatch "${FILESDIR}"/${P}-reduce-the-cairomm-dependency-back-to-1.2.2.patch
-	epatch "${FILESDIR}"/${P}-enable-warnings-fata-use-the-same-warnings-as-glibmm-and-gtkmm.patch
+	eapply "${FILESDIR}"/${P}-reduce-the-cairomm-dependency-back-to-1.2.2.patch
+	eapply "${FILESDIR}"/${P}-enable-warnings-fata-use-the-same-warnings-as-glibmm-and-gtkmm.patch
 
 	gnome2_src_prepare
 }

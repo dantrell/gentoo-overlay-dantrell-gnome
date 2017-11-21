@@ -12,7 +12,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Rhythmbox"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="cdr daap dbus gnome-keyring ipod libnotify lirc mtp nsplugin +python test +udev upnp-av zeitgeist"
 REQUIRED_USE="

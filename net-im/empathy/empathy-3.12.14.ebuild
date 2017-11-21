@@ -11,7 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Empathy"
 
 LICENSE="GPL-2 CC-BY-SA-3.0 FDL-1.3 LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="debug +geolocation gnome gnome-online-accounts +map spell test +v4l"
 

@@ -32,7 +32,7 @@
 ~dev-libs/folks-0.11.4::dantrell-gnome
 ~dev-libs/gjs-1.48.7::dantrell-gnome-3-24
 ~dev-libs/glib-2.52.3::dantrell-gnome
-~dev-libs/gmime-3.0.3::dantrell-gnome
+~dev-libs/gmime-3.0.4::dantrell-gnome
 ~dev-libs/gobject-introspection-1.52.1::dantrell-gnome-3-24
 ~dev-libs/gobject-introspection-common-1.52.1::dantrell-gnome-3-24
 ~dev-libs/gom-0.3.3::dantrell-gnome
@@ -154,7 +154,7 @@
 ~net-libs/gssdp-1.0.2::dantrell-gnome
 ~net-libs/gtk-vnc-0.7.1::dantrell-gnome
 ~net-libs/gupnp-1.0.2::dantrell-gnome
-~net-libs/gupnp-igd-0.2.4::dantrell-gnome
+~net-libs/gupnp-igd-0.2.5::dantrell-gnome
 ~net-libs/libsoup-2.58.2::dantrell-gnome-3-24
 ~net-libs/libsoup-gnome-2.58.2::dantrell-gnome-3-24
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
@@ -176,7 +176,7 @@
 ~x11-libs/gtk+-3.22.26::dantrell-gnome
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.20.1::dantrell-gnome
-~x11-libs/pango-1.40.9::dantrell-gnome
+~x11-libs/pango-1.40.14::dantrell-gnome
 ~x11-libs/vte-0.48.4::dantrell-gnome-3-24
 ~x11-misc/gpaste-3.24.1::dantrell-gnome-3-24
 ~x11-terms/gnome-terminal-3.24.2::dantrell-gnome-3-24

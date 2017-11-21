@@ -1,4 +1,6 @@
 dev-libs/libgudev::gentoo ~*
 dev-util/meson::gentoo ~*
+games-board/crafty::gentoo ~*
+games-board/sjeng::gentoo ~*
 sys-apps/openrc::gentoo ~*
 virtual/libgudev::gentoo ~*

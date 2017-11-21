@@ -24,8 +24,8 @@ DEPEND="
 	dev-libs/libxml2:2
 	dev-libs/gmime:2.6
 	media-libs/libcanberra
-	>=net-libs/webkit-gtk-1.10.0:3=[introspection]
-	>=x11-libs/gtk+-3.10.0:3[introspection]
+	>=net-libs/webkit-gtk-2.10.0:4=[introspection]
+	>=x11-libs/gtk+-3.14.0:3[introspection]
 	x11-libs/libnotify
 "
 RDEPEND="${DEPEND}
@@ -41,16 +41,8 @@ DEPEND="${DEPEND}
 "
 
 src_prepare() {
-	# https://bugzilla.gnome.org/show_bug.cgi?id=751556
-	# https://bugzilla.gnome.org/show_bug.cgi?id=772879 (recheck in
-	# 0.12)
-	eapply "${FILESDIR}"/${PN}-0.7.2-cflags.patch
-
 	# https://bugzilla.gnome.org/show_bug.cgi?id=751557
-	eapply "${FILESDIR}"/${PN}-0.5.3-vapigen.patch
-
-	# https://bugzilla.gnome.org/show_bug.cgi?id=751558
-	eapply "${FILESDIR}"/${PN}-0.6.0-desktopfile.patch
+	eapply "${FILESDIR}"/${PN}-0.12.0-vapigen.patch
 
 	local i
 	if use nls ; then

@@ -1,0 +1,275 @@
+From d0219f25970c740ac1a8965754868d54bcd90eeb Mon Sep 17 00:00:00 2001
+From: Allison Ryan Lortie <desrt@desrt.ca>
+Date: Wed, 28 Oct 2015 11:14:13 +0000
+Subject: GLib: add bounds-checked unsigned int arithmetic
+
+Add some helpers for builds-checked unsigned integer arithmetic to GLib.
+These will be based on compiler intrinsics where they are available,
+falling back to standard manual checks otherwise.
+
+The fallback case needs to be implemented as a function (which we do
+inline) because we cannot rely on statement expressions.  We also
+implement the intrinsics case as an inline in order to avoid people
+accidentally writing non-portable code which depends on static
+evaluation of the builtin.
+
+For now there is only support for addition and multiplication for guint,
+guint64 and gsize.  It may make sense to add support for subtraction or
+for the signed equivalents of those types in the future if we find a use
+for that.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=503096
+---
+ docs/reference/glib/glib-docs.xml     |   1 +
+ docs/reference/glib/glib-sections.txt |  11 +++
+ glib/docs.c                           | 124 ++++++++++++++++++++++++++++++++++
+ glib/gtypes.h                         |  57 +++++++++++++++-
+ 4 files changed, 192 insertions(+), 1 deletion(-)
+
+diff --git a/docs/reference/glib/glib-docs.xml b/docs/reference/glib/glib-docs.xml
+index 85e6905..e0b3814 100644
+--- a/docs/reference/glib/glib-docs.xml
++++ b/docs/reference/glib/glib-docs.xml
+@@ -41,6 +41,7 @@
+     <xi:include href="xml/macros.xml" />
+     <xi:include href="xml/type_conversion.xml" />
+     <xi:include href="xml/byte_order.xml" />
++    <xi:include href="xml/checkedmath.xml" />
+     <xi:include href="xml/numerical.xml" />
+     <xi:include href="xml/macros_misc.xml" />
+     <xi:include href="xml/atomic_operations.xml" />
+diff --git a/docs/reference/glib/glib-sections.txt b/docs/reference/glib/glib-sections.txt
+index ff71390..03cc0a1 100644
+--- a/docs/reference/glib/glib-sections.txt
++++ b/docs/reference/glib/glib-sections.txt
+@@ -347,6 +347,17 @@ GUINT64_SWAP_LE_BE_X86_64
+ </SECTION>
+ 
+ <SECTION>
++<TITLE>Bounds-checked integer arithmetic</TITLE>
++<FILE>checkedmath</FILE>
++g_uint_checked_add
++g_uint_checked_mul
++g_uint64_checked_add
++g_uint64_checked_mul
++g_size_checked_add
++g_size_checked_mul
++</SECTION>
++
++<SECTION>
+ <TITLE>Numerical Definitions</TITLE>
+ <FILE>numerical</FILE>
+ G_IEEE754_FLOAT_BIAS
+diff --git a/glib/docs.c b/glib/docs.c
+index 51c9087..fc25fa0 100644
+--- a/glib/docs.c
++++ b/glib/docs.c
+@@ -1423,6 +1423,130 @@
+  * Returns: @val converted to the opposite byte order
+  */
+  
++/* Bounds-checked integer arithmetic {{{1 */
++/**
++ * SECTION:checkedmath
++ * @title: Bounds-checking integer arithmetic
++ * @short_description: a set of helpers for performing checked integer arithmetic
++ *
++ * GLib offers a set of macros for doing additions and multiplications
++ * of unsigned integers, with checks for overflows.
++ *
++ * The helpers all have three arguments.  A pointer to the destination
++ * is always the first argument and the operands to the operation are
++ * the other two.
++ *
++ * Following standard GLib convention, the helpers return %TRUE in case
++ * of success (ie: no overflow).
++ *
++ * The helpers may be macros, normal functions or inlines.  They may be
++ * implemented with inline assembly or compiler intrinsics where
++ * available.
++ *
++ * Since: 2.48
++ */
++
++/**
++ * g_uint_checked_add
++ * @dest: a pointer to the #guint destination
++ * @a: the #guint left operand
++ * @b: the #guint right operand
++ *
++ * Performs a checked addition of @a and @b, storing the result in
++ * @dest.
++ *
++ * If the operation is successful, %TRUE is returned.  If the operation
++ * overflows then the state of @dest is undefined and %FALSE is
++ * returned.
++ *
++ * Returns: %TRUE if there was no overflow
++ * Since: 2.48
++ */
++
++/**
++ * g_uint_checked_mul
++ * @dest: a pointer to the #guint destination
++ * @a: the #guint left operand
++ * @b: the #guint right operand
++ *
++ * Performs a checked multiplication of @a and @b, storing the result in
++ * @dest.
++ *
++ * If the operation is successful, %TRUE is returned.  If the operation
++ * overflows then the state of @dest is undefined and %FALSE is
++ * returned.
++ *
++ * Returns: %TRUE if there was no overflow
++ * Since: 2.48
++ */
++
++/**
++ * g_uint64_checked_add
++ * @dest: a pointer to the #guint64 destination
++ * @a: the #guint64 left operand
++ * @b: the #guint64 right operand
++ *
++ * Performs a checked addition of @a and @b, storing the result in
++ * @dest.
++ *
++ * If the operation is successful, %TRUE is returned.  If the operation
++ * overflows then the state of @dest is undefined and %FALSE is
++ * returned.
++ *
++ * Returns: %TRUE if there was no overflow
++ * Since: 2.48
++ */
++
++/**
++ * g_uint64_checked_mul
++ * @dest: a pointer to the #guint64 destination
++ * @a: the #guint64 left operand
++ * @b: the #guint64 right operand
++ *
++ * Performs a checked multiplication of @a and @b, storing the result in
++ * @dest.
++ *
++ * If the operation is successful, %TRUE is returned.  If the operation
++ * overflows then the state of @dest is undefined and %FALSE is
++ * returned.
++ *
++ * Returns: %TRUE if there was no overflow
++ * Since: 2.48
++ */
++
++/**
++ * g_size_checked_add
++ * @dest: a pointer to the #gsize destination
++ * @a: the #gsize left operand
++ * @b: the #gsize right operand
++ *
++ * Performs a checked addition of @a and @b, storing the result in
++ * @dest.
++ *
++ * If the operation is successful, %TRUE is returned.  If the operation
++ * overflows then the state of @dest is undefined and %FALSE is
++ * returned.
++ *
++ * Returns: %TRUE if there was no overflow
++ * Since: 2.48
++ */
++
++/**
++ * g_size_checked_mul
++ * @dest: a pointer to the #gsize destination
++ * @a: the #gsize left operand
++ * @b: the #gsize right operand
++ *
++ * Performs a checked multiplication of @a and @b, storing the result in
++ * @dest.
++ *
++ * If the operation is successful, %TRUE is returned.  If the operation
++ * overflows then the state of @dest is undefined and %FALSE is
++ * returned.
++ *
++ * Returns: %TRUE if there was no overflow
++ * Since: 2.48
++ */
+ /* Numerical Definitions {{{1 */
+ 
+ /**
+diff --git a/glib/gtypes.h b/glib/gtypes.h
+index 4d490c0..8575052 100644
+--- a/glib/gtypes.h
++++ b/glib/gtypes.h
+@@ -371,7 +371,6 @@ typedef const gchar *   (*GTranslateFunc)       (const gchar   *str,
+ #define GSIZE_FROM_BE(val)	(GSIZE_TO_BE (val))
+ #define GSSIZE_FROM_BE(val)	(GSSIZE_TO_BE (val))
+ 
+-
+ /* Portable versions of host-network order stuff
+  */
+ #define g_ntohl(val) (GUINT32_FROM_BE (val))
+@@ -379,6 +378,62 @@ typedef const gchar *   (*GTranslateFunc)       (const gchar   *str,
+ #define g_htonl(val) (GUINT32_TO_BE (val))
+ #define g_htons(val) (GUINT16_TO_BE (val))
+ 
++/* Overflow-checked unsigned integer arithmetic
++ */
++#ifndef _GLIB_TEST_OVERFLOW_FALLBACK
++#if __GNUC__ >= 5
++#define _GLIB_HAVE_BUILTIN_OVERFLOW_CHECKS
++#elif __has_builtin(__builtin_uadd_overflow)
++#define _GLIB_HAVE_BUILTIN_OVERFLOW_CHECKS
++#endif
++#endif
++
++#define g_uint_checked_add(dest, a, b) \
++    _GLIB_CHECKED_ADD_U32(dest, a, b)
++#define g_uint_checked_mul(dest, a, b) \
++    _GLIB_CHECKED_MUL_U32(dest, a, b)
++
++#define g_uint64_checked_add(dest, a, b) \
++    _GLIB_CHECKED_ADD_U64(dest, a, b)
++#define g_uint64_checked_mul(dest, a, b) \
++    _GLIB_CHECKED_MUL_U64(dest, a, b)
++
++#if GLIB_SIZEOF_SIZE_T == 8
++#define g_size_checked_add(dest, a, b) \
++    _GLIB_CHECKED_ADD_U64(dest, a, b)
++#define g_size_checked_mul(dest, a, b) \
++    _GLIB_CHECKED_MUL_U64(dest, a, b)
++#else
++#define g_size_checked_add(dest, a, b) \
++    _GLIB_CHECKED_ADD_U32(dest, a, b)
++#define g_size_checked_mul(dest, a, b) \
++    _GLIB_CHECKED_MUL_U32(dest, a, b)
++#endif
++
++/* The names of the following inlines are private.  Use the macro
++ * definitions above.
++ */
++#ifdef _GLIB_HAVE_BUILTIN_OVERFLOW_CHECKS
++static inline gboolean _GLIB_CHECKED_ADD_U32 (guint32 *dest, guint32 a, guint32 b) {
++  return !__builtin_uadd_overflow(a, b, dest); }
++static inline gboolean _GLIB_CHECKED_MUL_U32 (guint32 *dest, guint32 a, guint32 b) {
++  return !__builtin_umul_overflow(a, b, dest); }
++static inline gboolean _GLIB_CHECKED_ADD_U64 (guint64 *dest, guint64 a, guint64 b) {
++  return !__builtin_uaddll_overflow(a, b, (unsigned long long *) dest); }
++  G_STATIC_ASSERT(sizeof (unsigned long long) == sizeof (guint64));
++static inline gboolean _GLIB_CHECKED_MUL_U64 (guint64 *dest, guint64 a, guint64 b) {
++  return !__builtin_umulll_overflow(a, b, (unsigned long long *) dest); }
++#else
++static inline gboolean _GLIB_CHECKED_ADD_U32 (guint32 *dest, guint32 a, guint32 b) {
++  *dest = a + b; return *dest >= a; }
++static inline gboolean _GLIB_CHECKED_MUL_U32 (guint32 *dest, guint32 a, guint32 b) {
++  *dest = a * b; return !a || *dest / a == b; }
++static inline gboolean _GLIB_CHECKED_ADD_U64 (guint64 *dest, guint64 a, guint64 b) {
++  *dest = a + b; return *dest >= a; }
++static inline gboolean _GLIB_CHECKED_MUL_U64 (guint64 *dest, guint64 a, guint64 b) {
++  *dest = a * b; return !a || *dest / a == b; }
++#endif
++
+ /* IEEE Standard 754 Single Precision Storage Format (gfloat):
+  *
+  *        31 30           23 22            0
+-- 
+cgit v0.12
+

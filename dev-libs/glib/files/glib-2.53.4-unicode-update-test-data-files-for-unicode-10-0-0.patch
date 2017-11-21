@@ -1,0 +1,34 @@
+From 8e23a514b02c67104f03545dec58116f00087229 Mon Sep 17 00:00:00 2001
+From: Rico Tzschichholz <ricotz@ubuntu.com>
+Date: Sun, 2 Jul 2017 22:51:30 +0200
+Subject: unicode: Update test data files for unicode 10.0.0
+
+https://bugzilla.gnome.org/show_bug.cgi?id=784456
+---
+ tests/casefold.txt | 2 +-
+ tests/casemap.txt  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tests/casefold.txt b/tests/casefold.txt
+index 0deafa4..f7b47ab 100644
+--- a/tests/casefold.txt
++++ b/tests/casefold.txt
+@@ -1,4 +1,4 @@
+-# Test cases generated from Unicode 9.0.0 data
++# Test cases generated from Unicode 10.0.0 data
+ # by gen-casefold-test.pl. Do not edit.
+ #
+ # Some special hand crafted tests
+diff --git a/tests/casemap.txt b/tests/casemap.txt
+index 9164757..5e983f7 100644
+--- a/tests/casemap.txt
++++ b/tests/casemap.txt
+@@ -1,4 +1,4 @@
+-# Test cases generated from Unicode 9.0.0 data
++# Test cases generated from Unicode 10.0.0 data
+ # by gen-case-tests.pl. Do not edit.
+ #
+ # Some special hand crafted tests
+-- 
+cgit v0.12
+

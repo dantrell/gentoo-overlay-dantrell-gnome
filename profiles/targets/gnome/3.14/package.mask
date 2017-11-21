@@ -62,7 +62,7 @@
 >=dev-cpp/gtkmm-3.16.0
 >=dev-cpp/gtksourceviewmm-3.18.0
 >=dev-cpp/libxmlpp-2.40.0
->=dev-cpp/pangomm-2.36.0
+>=dev-cpp/pangomm-2.38.0
 >=dev-libs/appstream-glib-0.5.3
 >=dev-libs/atk-2.16.0
 >=dev-libs/folks-0.12.0
@@ -134,7 +134,6 @@
 >=gnome-base/gsettings-desktop-schemas-3.16.0
 >=gnome-base/gvfs-1.24.0
 >=gnome-base/libgtop-2.36.0
->=gnome-base/librsvg-2.40.19
 >=gnome-base/nautilus-3.16.0
 >=gnome-extra/california-0.5.0
 >=gnome-extra/evolution-data-server-3.16.0
@@ -212,7 +211,6 @@
 >=x11-libs/gtksourceview-3.16.0
 >=x11-libs/gtk+-3.16.0
 >=x11-libs/libwnck-3.16.0
->=x11-libs/pango-1.38.0
 >=x11-libs/vte-0.40.0
 >=x11-misc/gpaste-3.16.0
 >=x11-misc/notification-daemon-3.16.0

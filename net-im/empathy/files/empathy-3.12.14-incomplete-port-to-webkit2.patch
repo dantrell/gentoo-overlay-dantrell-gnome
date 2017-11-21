@@ -1,0 +1,1552 @@
+From 01f753fa5768f854695f57e1e920fe2d342c21e0 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Gy=C3=B6rgy=20Ball=C3=B3?= <ballogyor@gmail.com>
+Date: Wed, 25 Jan 2017 19:56:00 -0600
+Subject: Incomplete port to WebKit2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The work is mostly done by Carlos Garcia, rebase by György. It's got
+FIXMEs and serious bugs, but it's better than no Empathy at all once
+WebKit1 is removed from Fedora in two short months.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=749001
+---
+ configure.ac                          |   4 +-
+ libempathy-gtk/empathy-chat.c         |  61 ++++++---
+ libempathy-gtk/empathy-log-window.c   | 180 +++++++++++++++----------
+ libempathy-gtk/empathy-search-bar.c   |  73 ++++------
+ libempathy-gtk/empathy-theme-adium.c  | 246 ++++++++++++++--------------------
+ libempathy-gtk/empathy-theme-adium.h  |  23 ++--
+ libempathy-gtk/empathy-webkit-utils.c | 227 ++++++++++++-------------------
+ libempathy-gtk/empathy-webkit-utils.h |  17 ++-
+ src/empathy-chat-window.c             |  17 ++-
+ src/empathy-preferences.c             |  14 +-
+ 10 files changed, 407 insertions(+), 455 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 12bb702..fd4213c 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -68,7 +68,7 @@ GCR_REQUIRED=2.91.4
+ LIBCANBERRA_GTK_REQUIRED=0.25
+ LIBNOTIFY_REQUIRED=0.7.0
+ TELEPATHY_LOGGER=0.8.0
+-WEBKIT_REQUIRED=1.9.1
++WEBKIT_REQUIRED=2.10.0
+ GOA_REQUIRED=3.5.1
+ 
+ # Optional deps
+@@ -233,7 +233,7 @@ PKG_CHECK_MODULES(EMPATHY,
+    gcr-3 >= $GCR_REQUIRED
+    libpulse
+    libpulse-mainloop-glib
+-   webkitgtk-3.0 >= $WEBKIT_REQUIRED
++   webkit2gtk-4.0 >= $WEBKIT_REQUIRED
+    libsoup-2.4
+    gee-0.8
+ ])
+diff --git a/libempathy-gtk/empathy-chat.c b/libempathy-gtk/empathy-chat.c
+index 028f5ab..15e5ac8 100644
+--- a/libempathy-gtk/empathy-chat.c
++++ b/libempathy-gtk/empathy-chat.c
+@@ -198,7 +198,10 @@ static guint signals[LAST_SIGNAL] = { 0 };
+ 
+ G_DEFINE_TYPE (EmpathyChat, empathy_chat, GTK_TYPE_BOX);
+ 
++#if 0
++/* FIXME: We need to figure out how to fill backlog automatically with WebKit2 */
+ static gboolean chat_scrollable_connect (gpointer user_data);
++#endif
+ static gboolean update_misspelled_words (gpointer data);
+ 
+ static void
+@@ -2532,6 +2535,8 @@ show_pending_messages (EmpathyChat *chat) {
+ 	}
+ }
+ 
++#if 0
++/* FIXME: We need to figure out how to fill backlog automatically with WebKit2 */
+ static gboolean
+ chat_scrollable_set_value (gpointer user_data)
+ {
+@@ -2551,6 +2556,7 @@ chat_scrollable_set_value (gpointer user_data)
+ 
+ 	return G_SOURCE_REMOVE;
+ }
++#endif
+ 
+ static void
+ got_filtered_messages_cb (GObject *walker,
+@@ -2621,6 +2627,8 @@ out:
+ 	/* Turn back on scrolling */
+ 	empathy_theme_adium_scroll (chat->view, TRUE);
+ 
++#if 0
++	/* FIXME: We need to figure out how to fill backlog automatically with WebKit2 */
+ 	/* We start watching the scrolling movements only after the first
+ 	 * batch of logs have been fetched. Otherwise, if the
+ 	 * chat->view's page size is too small the scrollbar might hit
+@@ -2653,7 +2661,7 @@ out:
+ 		g_idle_add_full (G_PRIORITY_LOW, chat_scrollable_set_value,
+ 		    g_object_ref (chat), g_object_unref);
+ 	}
+-
++#endif
+ 	g_object_unref (chat);
+ }
+ 
+@@ -2675,6 +2683,8 @@ chat_add_logs (EmpathyChat *chat)
+ 	return G_SOURCE_REMOVE;
+ }
+ 
++#if 0
++/* FIXME: We need to figure out how to fill backlog automatically with WebKit2 */
+ static void
+ chat_schedule_logs (EmpathyChat *chat)
+ {
+@@ -2757,6 +2767,7 @@ chat_scrollable_connect (gpointer user_data)
+ 
+ 	return G_SOURCE_REMOVE;
+ }
++#endif
+ 
+ static gint
+ chat_contacts_completion_func (const gchar *s1,
+@@ -3268,8 +3279,20 @@ chat_create_ui (EmpathyChat *chat)
+ 	g_signal_connect (chat->view, "focus_in_event",
+ 			  G_CALLBACK (chat_text_view_focus_in_event_cb),
+ 			  chat);
+-	gtk_container_add (GTK_CONTAINER (priv->scrolled_window_chat),
+-			   GTK_WIDGET (chat->view));
++	if (GTK_IS_SCROLLABLE (chat->view))
++	  {
++	    gtk_container_add (GTK_CONTAINER (priv->scrolled_window_chat),
++			       GTK_WIDGET (chat->view));
++	  }
++	else
++	  {
++	    gtk_widget_hide (priv->scrolled_window_chat);
++	    gtk_box_pack_start (GTK_BOX (priv->vbox_left),
++				GTK_WIDGET (chat->view),
++				TRUE, TRUE, 0);
++	    gtk_box_reorder_child (GTK_BOX (priv->vbox_left),
++				   GTK_WIDGET (chat->view), 0);
++	  }
+ 	gtk_widget_show (GTK_WIDGET (chat->view));
+ 
+ 	/* Add input GtkTextView */
+@@ -4323,16 +4346,6 @@ empathy_chat_cut (EmpathyChat *chat)
+ }
+ 
+ static gboolean
+-copy_from_chat_view (EmpathyChat *chat)
+-{
+-	if (!empathy_theme_adium_get_has_selection (chat->view))
+-		return FALSE;
+-
+-	empathy_theme_adium_copy_clipboard (chat->view);
+-	return TRUE;
+-}
+-
+-static gboolean
+ copy_from_input (EmpathyChat *chat)
+ {
+ 	GtkTextBuffer *buffer;
+@@ -4376,13 +4389,15 @@ copy_from_topic (EmpathyChat *chat)
+ 	return TRUE;
+ }
+ 
+-void
+-empathy_chat_copy (EmpathyChat *chat)
++static void
++theme_adium_can_copy_cb (EmpathyThemeAdium *view,
++			 GAsyncResult *result,
++			 EmpathyChat *chat)
+ {
+-	g_return_if_fail (EMPATHY_IS_CHAT (chat));
+-
+-	if (copy_from_chat_view (chat))
++	if (empathy_theme_adium_can_copy_finish (view, result, NULL)) {
++		empathy_theme_adium_copy_clipboard (chat->view);
+ 		return;
++	}
+ 
+ 	if (copy_from_input (chat))
+ 		return;
+@@ -4391,6 +4406,16 @@ empathy_chat_copy (EmpathyChat *chat)
+ }
+ 
+ void
++empathy_chat_copy (EmpathyChat *chat)
++{
++	g_return_if_fail (EMPATHY_IS_CHAT (chat));
++
++	empathy_theme_adium_can_copy (chat->view, NULL,
++				      (GAsyncReadyCallback)theme_adium_can_copy_cb,
++				      chat);
++}
++
++void
+ empathy_chat_paste (EmpathyChat *chat)
+ {
+ 	GtkTextBuffer *buffer;
+diff --git a/libempathy-gtk/empathy-log-window.c b/libempathy-gtk/empathy-log-window.c
+index b3a66e7..d6b0708 100644
+--- a/libempathy-gtk/empathy-log-window.c
++++ b/libempathy-gtk/empathy-log-window.c
+@@ -398,15 +398,15 @@ insert_or_change_row (EmpathyLogWindow *self,
+       g_string_append_c (escaped_text, c);
+     }
+ 
+-  script = g_strdup_printf ("javascript:%s([%s], '%s', '%s', '%s');",
++  script = g_strdup_printf ("%s([%s], '%s', '%s', '%s');",
+       method,
+       g_strdelimit (str, ":", ','),
+       escaped_text->str,
+       icon != NULL ? icon : "",
+       date);
+ 
+-  webkit_web_view_execute_script (WEBKIT_WEB_VIEW (self->priv->webview),
+-      script);
++  webkit_web_view_run_javascript (WEBKIT_WEB_VIEW (self->priv->webview),
++      script, NULL, NULL, NULL);
+ 
+   g_string_free (escaped_text, TRUE);
+   g_free (str);
+@@ -443,11 +443,11 @@ store_events_row_deleted (GtkTreeModel *model,
+   char *str = gtk_tree_path_to_string (path);
+   char *script;
+ 
+-  script = g_strdup_printf ("javascript:deleteRow([%s]);",
++  script = g_strdup_printf ("deleteRow([%s]);",
+       g_strdelimit (str, ":", ','));
+ 
+-  webkit_web_view_execute_script (WEBKIT_WEB_VIEW (self->priv->webview),
+-      script);
++  webkit_web_view_run_javascript (WEBKIT_WEB_VIEW (self->priv->webview),
++      script, NULL, NULL, NULL);
+ 
+   g_free (str);
+   g_free (script);
+@@ -462,12 +462,12 @@ store_events_has_child_rows (GtkTreeModel *model,
+   char *str = gtk_tree_path_to_string (path);
+   char *script;
+ 
+-  script = g_strdup_printf ("javascript:hasChildRows([%s], %u);",
++  script = g_strdup_printf ("hasChildRows([%s], %u);",
+       g_strdelimit (str, ":", ','),
+       gtk_tree_model_iter_has_child (model, iter));
+ 
+-  webkit_web_view_execute_script (WEBKIT_WEB_VIEW (self->priv->webview),
+-      script);
++  webkit_web_view_run_javascript (WEBKIT_WEB_VIEW (self->priv->webview),
++      script, NULL, NULL, NULL);
+ 
+   g_free (str);
+   g_free (script);
+@@ -492,12 +492,12 @@ store_events_rows_reordered (GtkTreeModel *model,
+ 
+   new_order_s = g_strjoinv (",", new_order_strv);
+ 
+-  script = g_strdup_printf ("javascript:reorderRows([%s], [%s]);",
++  script = g_strdup_printf ("reorderRows([%s], [%s]);",
+       str == NULL ? "" : g_strdelimit (str, ":", ','),
+       new_order_s);
+ 
+-  webkit_web_view_execute_script (WEBKIT_WEB_VIEW (self->priv->webview),
+-      script);
++  webkit_web_view_run_javascript (WEBKIT_WEB_VIEW (self->priv->webview),
++      script, NULL, NULL, NULL);
+ 
+   g_free (str);
+   g_free (script);
+@@ -507,17 +507,65 @@ store_events_rows_reordered (GtkTreeModel *model,
+ 
+ static gboolean
+ events_webview_handle_navigation (WebKitWebView *webview,
+-    WebKitWebFrame *frame,
+-    WebKitNetworkRequest *request,
+-    WebKitWebNavigationAction *navigation_action,
+-    WebKitWebPolicyDecision *policy_decision,
++    WebKitPolicyDecision *decision,
++    WebKitPolicyDecisionType decision_type,
+     EmpathyLogWindow *window)
+ {
+-  empathy_url_show (GTK_WIDGET (webview),
+-      webkit_network_request_get_uri (request));
++  if (decision_type != WEBKIT_POLICY_DECISION_TYPE_NAVIGATION_ACTION)
++    return FALSE;
+ 
+-  webkit_web_policy_decision_ignore (policy_decision);
+-  return TRUE;
++  return empathy_webkit_handle_navigation (webview, WEBKIT_NAVIGATION_POLICY_DECISION (decision));
++}
++
++static void
++events_webview_load_changed (WebKitWebView *web_view,
++    WebKitLoadEvent event,
++    EmpathyLogWindow *window)
++{
++  if (event != WEBKIT_LOAD_FINISHED)
++    return;
++
++  if (window->priv->store_events)
++    return;
++
++  /* Contacts */
++  log_window_events_setup (window);
++  log_window_who_setup (window);
++  log_window_what_setup (window);
++  log_window_when_setup (window);
++
++  log_window_create_observer (window);
++
++  log_window_who_populate (window);
++
++  g_signal_connect (window->priv->account_chooser, "changed",
++      G_CALLBACK (log_window_chats_accounts_changed_cb),
++      window);
++
++  /* listen to changes to the treemodel */
++  g_signal_connect (window->priv->store_events, "row-inserted",
++      G_CALLBACK (store_events_row_inserted), window);
++  g_signal_connect (window->priv->store_events, "row-changed",
++      G_CALLBACK (store_events_row_changed), window);
++  g_signal_connect (window->priv->store_events, "row-deleted",
++      G_CALLBACK (store_events_row_deleted), window);
++  g_signal_connect (window->priv->store_events, "rows-reordered",
++      G_CALLBACK (store_events_rows_reordered), window);
++  g_signal_connect (window->priv->store_events, "row-has-child-toggled",
++      G_CALLBACK (store_events_has_child_rows), window);
++
++  log_window_update_buttons_sensitivity (window);
++}
++
++static gboolean
++events_webview_context_menu (WebKitWebView *web_view,
++    WebKitContextMenu *context_menu,
++    GdkEvent *event,
++    WebKitHitTestResult *hit_test_result,
++    EmpathyLogWindow *window)
++{
++  empathy_webkit_populate_context_menu (web_view, context_menu, hit_test_result, 0);
++  return FALSE;
+ }
+ 
+ static GObject *
+@@ -612,7 +660,6 @@ empathy_log_window_init (EmpathyLogWindow *self)
+   gchar *filename;
+   GFile *gfile;
+   GtkWidget *vbox, *accounts, *search, *label, *closeitem;
+-  GtkWidget *scrolledwindow_events;
+   gchar *uri;
+ 
+   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
+@@ -645,7 +692,6 @@ empathy_log_window_init (EmpathyLogWindow *self)
+       "treeview_who", &self->priv->treeview_who,
+       "treeview_what", &self->priv->treeview_what,
+       "treeview_when", &self->priv->treeview_when,
+-      "scrolledwindow_events", &scrolledwindow_events,
+       "notebook", &self->priv->notebook,
+       "spinner", &self->priv->spinner,
+       NULL);
+@@ -679,10 +725,6 @@ empathy_log_window_init (EmpathyLogWindow *self)
+   gtk_style_context_add_class (gtk_widget_get_style_context (self->priv->account_chooser),
+                                GTK_STYLE_CLASS_RAISED);
+ 
+-  g_signal_connect (self->priv->account_chooser, "changed",
+-      G_CALLBACK (log_window_chats_accounts_changed_cb),
+-      self);
+-
+   label = gtk_label_new (_("Show"));
+ 
+   gtk_box_pack_start (GTK_BOX (vbox),
+@@ -730,28 +772,31 @@ empathy_log_window_init (EmpathyLogWindow *self)
+       G_CALLBACK (log_window_search_entry_icon_pressed_cb),
+       self);
+ 
+-  /* Contacts */
+-  log_window_events_setup (self);
+-  log_window_who_setup (self);
+-  log_window_what_setup (self);
+-  log_window_when_setup (self);
+-
+-  log_window_create_observer (self);
+-
+-  log_window_who_populate (self);
+-
+   /* events */
+-  self->priv->webview = webkit_web_view_new ();
+-  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow_events),
+-      GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+-  gtk_container_add (GTK_CONTAINER (scrolledwindow_events),
+-      self->priv->webview);
++  self->priv->webview = g_object_new (WEBKIT_TYPE_WEB_VIEW,
++      "web-context", empathy_webkit_get_web_context (),
++      "settings", empathy_webkit_get_web_settings (),
++      NULL);
++  gtk_notebook_prepend_page (GTK_NOTEBOOK (self->priv->notebook),
++      self->priv->webview, NULL);
+   gtk_widget_show (self->priv->webview);
+ 
+   empathy_webkit_bind_font_setting (WEBKIT_WEB_VIEW (self->priv->webview),
+       self->priv->gsettings_desktop,
+       EMPATHY_PREFS_DESKTOP_INTERFACE_FONT_NAME);
+ 
++  /* handle all navigation externally */
++  g_signal_connect (self->priv->webview, "decide-policy",
++      G_CALLBACK (events_webview_handle_navigation), self);
++  g_signal_connect (self->priv->webview, "load-changed",
++      G_CALLBACK (events_webview_load_changed), self);
++  g_signal_connect (self->priv->webview, "context-menu",
++      G_CALLBACK (events_webview_context_menu), self);
++
++  g_object_set (webkit_web_view_get_settings (WEBKIT_WEB_VIEW (self->priv->webview)),
++		"default-encoding", "utf8",
++		NULL);
++
+   filename = empathy_file_lookup ("empathy-log-window.html", "data");
+   gfile = g_file_new_for_path (filename);
+   g_free (filename);
+@@ -761,27 +806,10 @@ empathy_log_window_init (EmpathyLogWindow *self)
+   g_object_unref (gfile);
+   g_free (uri);
+ 
+-  /* handle all navigation externally */
+-  g_signal_connect (self->priv->webview, "navigation-policy-decision-requested",
+-      G_CALLBACK (events_webview_handle_navigation), self);
+-
+-  /* listen to changes to the treemodel */
+-  g_signal_connect (self->priv->store_events, "row-inserted",
+-      G_CALLBACK (store_events_row_inserted), self);
+-  g_signal_connect (self->priv->store_events, "row-changed",
+-      G_CALLBACK (store_events_row_changed), self);
+-  g_signal_connect (self->priv->store_events, "row-deleted",
+-      G_CALLBACK (store_events_row_deleted), self);
+-  g_signal_connect (self->priv->store_events, "rows-reordered",
+-      G_CALLBACK (store_events_rows_reordered), self);
+-  g_signal_connect (self->priv->store_events, "row-has-child-toggled",
+-      G_CALLBACK (store_events_has_child_rows), self);
+-
+   /* track clicked row */
+   g_signal_connect (self->priv->webview, "button-press-event",
+       G_CALLBACK (log_window_events_button_press_event), self);
+ 
+-  log_window_update_buttons_sensitivity (self);
+   gtk_widget_show (GTK_WIDGET (self));
+ 
+   empathy_geometry_bind (GTK_WINDOW (self), "log-window");
+@@ -2007,8 +2035,9 @@ log_window_find_populate (EmpathyLogWindow *self,
+   if (TPAW_STR_EMPTY (search_criteria))
+     {
+       tp_clear_pointer (&self->priv->hits, tpl_log_manager_search_free);
+-      webkit_web_view_set_highlight_text_matches (
+-          WEBKIT_WEB_VIEW (self->priv->webview), FALSE);
++      webkit_find_controller_search_finish (
++          webkit_web_view_get_find_controller (WEBKIT_WEB_VIEW (self->priv->webview)));
++
+       log_window_who_populate (self);
+       return;
+     }
+@@ -2018,8 +2047,9 @@ log_window_find_populate (EmpathyLogWindow *self,
+       self);
+ 
+   /* highlight the search text */
+-  webkit_web_view_mark_text_matches (WEBKIT_WEB_VIEW (self->priv->webview),
+-      search_criteria, FALSE, 0);
++  webkit_find_controller_search (
++      webkit_web_view_get_find_controller (WEBKIT_WEB_VIEW (self->priv->webview)),
++      search_criteria, WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE, G_MAXUINT);
+ 
+   tpl_log_manager_search_async (self->priv->log_manager,
+       search_criteria, TPL_EVENT_MASK_ANY,
+@@ -2573,6 +2603,16 @@ static void
+ log_window_find_row (EmpathyLogWindow *self,
+     GdkEventButton *event)
+ {
++  /* FIXME: We can't do this in this way in WebKit2, but I'm not sure we really want
++   * to port this, it took me a while to figure out what this was for, and I find it
++   * quite confusing. When you click in the web view the clicked contact is stored
++   * as selected contact even when there's no visual selection at all. So, for example
++   * if you select multiple people the video and call buttons are unsensitive, then
++   * you click on the web view and the buttons become sensitive if the capabilities
++   * are available for the internally selected contact, but the contwaxct list still have
++   * multiple people selected and nothing is selected in the web view.
++   */
++#if 0
+   WebKitHitTestResult *hit = webkit_web_view_get_hit_test_result (
+       WEBKIT_WEB_VIEW (self->priv->webview), event);
+   WebKitDOMNode *inner_node;
+@@ -2629,6 +2669,7 @@ log_window_find_row (EmpathyLogWindow *self,
+   g_object_unref (hit);
+ 
+   log_window_update_buttons_sensitivity (self);
++#endif
+ }
+ 
+ static gboolean
+@@ -2642,11 +2683,6 @@ log_window_events_button_press_event (GtkWidget *webview,
+         log_window_find_row (self, event);
+         break;
+ 
+-      case 3:
+-        empathy_webkit_context_menu_for_event (
+-            WEBKIT_WEB_VIEW (webview), event, 0);
+-        return TRUE;
+-
+       default:
+         break;
+     }
+@@ -3141,9 +3177,9 @@ log_window_maybe_expand_events (void)
+ 
+   /* If there's only one result, expand it */
+   if (gtk_tree_model_iter_n_children (model, NULL) == 1)
+-    webkit_web_view_execute_script (
++    webkit_web_view_run_javascript (
+         WEBKIT_WEB_VIEW (log_window->priv->webview),
+-        "javascript:expandAll()");
++        "expandAll()", NULL, NULL, NULL);
+ }
+ 
+ static gboolean
+@@ -3281,12 +3317,12 @@ log_window_got_messages_for_date_cb (GObject *manager,
+       path = gtk_tree_model_get_path (model, &iter);
+       str = gtk_tree_path_to_string (path);
+ 
+-      script = g_strdup_printf ("javascript:scrollToRow([%s]);",
++      script = g_strdup_printf ("scrollToRow([%s]);",
+           g_strdelimit (str, ":", ','));
+ 
+-      webkit_web_view_execute_script (
++      webkit_web_view_run_javascript (
+           WEBKIT_WEB_VIEW (log_window->priv->webview),
+-          script);
++          script, NULL, NULL, NULL);
+ 
+       gtk_tree_path_free (path);
+       g_free (str);
+diff --git a/libempathy-gtk/empathy-search-bar.c b/libempathy-gtk/empathy-search-bar.c
+index 3383b9a..27a750f 100644
+--- a/libempathy-gtk/empathy-search-bar.c
++++ b/libempathy-gtk/empathy-search-bar.c
+@@ -79,18 +79,36 @@ empathy_search_bar_update_buttons (EmpathySearchBar *self,
+ }
+ 
+ static void
+-empathy_search_bar_update (EmpathySearchBar *self)
++empathy_search_bar_search (EmpathySearchBar *self,
++    gboolean next,
++    gboolean new_search)
+ {
+   gchar *search;
++  gboolean found;
+   gboolean match_case;
+-  EmpathySearchBarPriv *priv = GET_PRIV (self);
++  EmpathySearchBarPriv *priv;
++
++  priv = GET_PRIV (self);
+ 
+   search = gtk_editable_get_chars (GTK_EDITABLE(priv->search_entry), 0, -1);
+   match_case = gtk_toggle_button_get_active (
+       GTK_TOGGLE_BUTTON (priv->search_match_case));
+ 
+   /* highlight & search */
+-  empathy_theme_adium_highlight (priv->chat_view, search, match_case);
++  if (new_search)
++    empathy_theme_adium_search (priv->chat_view, search, match_case);
++  else if (next)
++    empathy_theme_adium_find_next (priv->chat_view);
++  else
++    empathy_theme_adium_find_previous (priv->chat_view);
++
++  /* FIXME: We should connect to failed-to-find-text of WebKitFindController, but this
++   * doesn't seem to work in any case.
++   */
++  found = TRUE;
++  /* (don't) display the not found label */
++  gtk_widget_set_visible (priv->search_not_found,
++      !(found || TPAW_STR_EMPTY (search)));
+ 
+   /* update the buttons */
+   empathy_search_bar_update_buttons (self, search, match_case);
+@@ -104,7 +122,7 @@ empathy_search_bar_show (EmpathySearchBar *self)
+   EmpathySearchBarPriv *priv = GET_PRIV (self);
+ 
+   /* update the highlighting and buttons */
+-  empathy_search_bar_update (self);
++  empathy_search_bar_search (self, FALSE, TRUE);
+ 
+   /* grab the focus to the search entry */
+   gtk_widget_grab_focus (priv->search_entry);
+@@ -117,7 +135,7 @@ empathy_search_bar_hide (EmpathySearchBar *self)
+ {
+   EmpathySearchBarPriv *priv = GET_PRIV (self);
+ 
+-  empathy_theme_adium_highlight (priv->chat_view, "", FALSE);
++  empathy_theme_adium_search (priv->chat_view, "", FALSE);
+   gtk_widget_hide (GTK_WIDGET (self));
+ 
+   /* give the focus back to the focus-chain with the chat view */
+@@ -125,49 +143,6 @@ empathy_search_bar_hide (EmpathySearchBar *self)
+ }
+ 
+ static void
+-empathy_search_bar_search (EmpathySearchBar *self,
+-    gboolean next,
+-    gboolean new_search)
+-{
+-  gchar *search;
+-  gboolean found;
+-  gboolean match_case;
+-  EmpathySearchBarPriv *priv;
+-
+-  priv = GET_PRIV (self);
+-
+-  search = gtk_editable_get_chars (GTK_EDITABLE(priv->search_entry), 0, -1);
+-  match_case = gtk_toggle_button_get_active (
+-      GTK_TOGGLE_BUTTON (priv->search_match_case));
+-
+-  /* highlight & search */
+-  empathy_theme_adium_highlight (priv->chat_view, search, match_case);
+-  if (next)
+-    {
+-      found = empathy_theme_adium_find_next (priv->chat_view,
+-          search,
+-          new_search,
+-          match_case);
+-    }
+-  else
+-    {
+-      found = empathy_theme_adium_find_previous (priv->chat_view,
+-          search,
+-          new_search,
+-          match_case);
+-    }
+-
+-  /* (don't) display the not found label */
+-  gtk_widget_set_visible (priv->search_not_found,
+-      !(found || TPAW_STR_EMPTY (search)));
+-
+-  /* update the buttons */
+-  empathy_search_bar_update_buttons (self, search, match_case);
+-
+-  g_free (search);
+-}
+-
+-static void
+ empathy_search_bar_close_cb (GtkButton *button,
+     gpointer user_data)
+ {
+@@ -212,7 +187,7 @@ static void
+ empathy_search_bar_match_case_toggled (GtkButton *button,
+     gpointer user_data)
+ {
+-  empathy_search_bar_update (EMPATHY_SEARCH_BAR (user_data));
++  empathy_search_bar_search (EMPATHY_SEARCH_BAR (user_data), FALSE, TRUE);
+ }
+ 
+ static void
+diff --git a/libempathy-gtk/empathy-theme-adium.c b/libempathy-gtk/empathy-theme-adium.c
+index 79cbabb..9836b82 100644
+--- a/libempathy-gtk/empathy-theme-adium.c
++++ b/libempathy-gtk/empathy-theme-adium.c
+@@ -168,28 +168,15 @@ free_queued_item (QueuedItem *item)
+ }
+ 
+ static gboolean
+-theme_adium_navigation_policy_decision_requested_cb (WebKitWebView *view,
+-    WebKitWebFrame *web_frame,
+-    WebKitNetworkRequest *request,
+-    WebKitWebNavigationAction *action,
+-    WebKitWebPolicyDecision *decision,
++theme_adium_policy_decision_requested_cb (WebKitWebView *view,
++    WebKitPolicyDecision *decision,
++    WebKitPolicyDecisionType decision_type,
+     gpointer data)
+ {
+-  const gchar *uri;
+-
+-  /* Only call url_show on clicks */
+-  if (webkit_web_navigation_action_get_reason (action) !=
+-      WEBKIT_WEB_NAVIGATION_REASON_LINK_CLICKED)
+-    {
+-      webkit_web_policy_decision_use (decision);
+-      return TRUE;
+-    }
+-
+-  uri = webkit_network_request_get_uri (request);
+-  empathy_url_show (GTK_WIDGET (view), uri);
++  if (decision_type != WEBKIT_POLICY_DECISION_TYPE_NAVIGATION_ACTION)
++    return FALSE;
+ 
+-  webkit_web_policy_decision_ignore (decision);
+-  return TRUE;
++  return empathy_webkit_handle_navigation (view, WEBKIT_NAVIGATION_POLICY_DECISION (decision));
+ }
+ 
+ /* Replace each %@ in format with string passed in args */
+@@ -238,7 +225,7 @@ theme_adium_load_template (EmpathyThemeAdium *self)
+   template = string_with_format (self->priv->data->template_html,
+     variant_path, NULL);
+ 
+-  webkit_web_view_load_html_string (WEBKIT_WEB_VIEW (self),
++  webkit_web_view_load_html (WEBKIT_WEB_VIEW (self),
+       template, basedir_uri);
+ 
+   g_free (basedir_uri);
+@@ -741,7 +728,7 @@ theme_adium_add_html (EmpathyThemeAdium *self,
+     }
+ 
+   script = g_string_free (string, FALSE);
+-  webkit_web_view_execute_script (WEBKIT_WEB_VIEW (self), script);
++  webkit_web_view_run_javascript (WEBKIT_WEB_VIEW (self), script, NULL, NULL, NULL);
+   g_free (script);
+ }
+ 
+@@ -761,7 +748,8 @@ theme_adium_append_event_escaped (EmpathyThemeAdium *self,
+       self->priv->last_contact = NULL;
+     }
+ }
+-
++#if 0
++/* FIXME: check what this is for and port to WebKit2 */
+ static void
+ theme_adium_remove_focus_marks (EmpathyThemeAdium *self,
+     WebKitDOMNodeList *nodes)
+@@ -805,10 +793,12 @@ theme_adium_remove_focus_marks (EmpathyThemeAdium *self,
+       g_string_free (new_class_name, TRUE);
+     }
+ }
+-
++#endif
+ static void
+ theme_adium_remove_all_focus_marks (EmpathyThemeAdium *self)
+ {
++#if 0
++  /* FIXME: check what this is for and port to WebKit2 */
+   WebKitDOMDocument *dom;
+   WebKitDOMNodeList *nodes;
+   GError *error = NULL;
+@@ -834,6 +824,7 @@ theme_adium_remove_all_focus_marks (EmpathyThemeAdium *self)
+     }
+ 
+   theme_adium_remove_focus_marks (self, nodes);
++#endif
+ }
+ 
+ enum
+@@ -1164,6 +1155,8 @@ void
+ empathy_theme_adium_edit_message (EmpathyThemeAdium *self,
+     EmpathyMessage *message)
+ {
++#if 0
++  /* FIXME: this needs to be ported to WebKit2, but I have no idea what this is for */
+   WebKitDOMDocument *doc;
+   WebKitDOMElement *span;
+   gchar *id, *parsed_body;
+@@ -1261,6 +1254,7 @@ except:
+ finally:
+   g_free (id);
+   g_free (parsed_body);
++#endif
+ }
+ 
+ void
+@@ -1276,19 +1270,48 @@ empathy_theme_adium_scroll (EmpathyThemeAdium *self,
+ void
+ empathy_theme_adium_scroll_down (EmpathyThemeAdium *self)
+ {
+-  webkit_web_view_execute_script (WEBKIT_WEB_VIEW (self), "alignChat(true);");
++  webkit_web_view_run_javascript (WEBKIT_WEB_VIEW (self), "alignChat(true);", NULL, NULL, NULL);
++}
++
++static void
++can_copy_cb (WebKitWebView *web_view,
++    GAsyncResult *result,
++    GTask *task)
++{
++  g_task_return_boolean (task,
++      webkit_web_view_can_execute_editing_command_finish (web_view, result, NULL));
++  g_object_unref (task);
++}
++
++void
++empathy_theme_adium_can_copy (EmpathyThemeAdium *self,
++    GCancellable* cancellable,
++    GAsyncReadyCallback callback,
++    gpointer user_data)
++{
++  GTask *task;
++
++  task = g_task_new (self, cancellable, callback, user_data);
++  webkit_web_view_can_execute_editing_command (WEBKIT_WEB_VIEW (self), WEBKIT_EDITING_COMMAND_COPY,
++      cancellable, (GAsyncReadyCallback)can_copy_cb, task);
+ }
+ 
+ gboolean
+-empathy_theme_adium_get_has_selection (EmpathyThemeAdium *self)
++empathy_theme_adium_can_copy_finish (EmpathyThemeAdium *self,
++    GAsyncResult* result,
++    GError** error)
+ {
+-  return webkit_web_view_has_selection (WEBKIT_WEB_VIEW (self));
++  if (!g_task_is_valid (result, self))
++    return FALSE;
++
++  return g_task_propagate_boolean (G_TASK (result), error);
+ }
+ 
+ void
+ empathy_theme_adium_clear (EmpathyThemeAdium *self)
+ {
+-  theme_adium_load_template (self);
++  webkit_web_view_run_javascript (WEBKIT_WEB_VIEW (self), "clearPage()", NULL, NULL, NULL);
++  empathy_theme_adium_scroll_down (self);
+ 
+   /* Clear last contact to avoid trying to add a 'joined'
+    * message when we don't have an insertion point. */
+@@ -1299,26 +1322,16 @@ empathy_theme_adium_clear (EmpathyThemeAdium *self)
+     }
+ }
+ 
+-gboolean
+-empathy_theme_adium_find_previous (EmpathyThemeAdium *self,
+-    const gchar *search_criteria,
+-    gboolean new_search,
+-    gboolean match_case)
++void
++empathy_theme_adium_find_previous (EmpathyThemeAdium *self)
+ {
+-  /* FIXME: Doesn't respect new_search */
+-  return webkit_web_view_search_text (WEBKIT_WEB_VIEW (self),
+-      search_criteria, match_case, FALSE, TRUE);
++  webkit_find_controller_search_previous (webkit_web_view_get_find_controller (WEBKIT_WEB_VIEW (self)));
+ }
+ 
+-gboolean
+-empathy_theme_adium_find_next (EmpathyThemeAdium *self,
+-    const gchar *search_criteria,
+-    gboolean new_search,
+-    gboolean match_case)
++void
++empathy_theme_adium_find_next (EmpathyThemeAdium *self)
+ {
+-  /* FIXME: Doesn't respect new_search */
+-  return webkit_web_view_search_text (WEBKIT_WEB_VIEW (self),
+-      search_criteria, match_case, TRUE, TRUE);
++  webkit_find_controller_search_next (webkit_web_view_get_find_controller (WEBKIT_WEB_VIEW (self)));
+ }
+ 
+ void
+@@ -1337,27 +1350,39 @@ empathy_theme_adium_find_abilities (EmpathyThemeAdium *self,
+ }
+ 
+ void
+-empathy_theme_adium_highlight (EmpathyThemeAdium *self,
++empathy_theme_adium_search (EmpathyThemeAdium *self,
+     const gchar *text,
+     gboolean match_case)
+ {
+-  webkit_web_view_unmark_text_matches (WEBKIT_WEB_VIEW (self));
+-  webkit_web_view_mark_text_matches (WEBKIT_WEB_VIEW (self),
+-      text, match_case, 0);
+-  webkit_web_view_set_highlight_text_matches (WEBKIT_WEB_VIEW (self),
+-      TRUE);
++  WebKitFindController *find_controller;
++  WebKitFindOptions options = WEBKIT_FIND_OPTIONS_NONE;
++
++  find_controller = webkit_web_view_get_find_controller (WEBKIT_WEB_VIEW (self));
++  if (!text || !*text)
++    {
++      webkit_find_controller_search_finish (find_controller);
++      return;
++    }
++
++  if (!match_case)
++    options |= WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE;
++
++  webkit_find_controller_search (find_controller, text, options, G_MAXUINT);
+ }
+ 
+ void
+ empathy_theme_adium_copy_clipboard (EmpathyThemeAdium *self)
+ {
+-  webkit_web_view_copy_clipboard (WEBKIT_WEB_VIEW (self));
++  webkit_web_view_execute_editing_command (WEBKIT_WEB_VIEW (self),
++      WEBKIT_EDITING_COMMAND_COPY);
+ }
+ 
+ static void
+ theme_adium_remove_mark_from_message (EmpathyThemeAdium *self,
+     guint32 id)
+ {
++#if 0
++  /* FIXME: check what this is for and port to WebKit2 */
+   WebKitDOMDocument *dom;
+   WebKitDOMNodeList *nodes;
+   gchar *class;
+@@ -1382,6 +1407,7 @@ theme_adium_remove_mark_from_message (EmpathyThemeAdium *self,
+     }
+ 
+   theme_adium_remove_focus_marks (self, nodes);
++#endif
+ }
+ 
+ static void
+@@ -1447,27 +1473,19 @@ empathy_theme_adium_message_acknowledged (EmpathyThemeAdium *self,
+ 
+ static gboolean
+ theme_adium_context_menu_cb (EmpathyThemeAdium *self,
+-    GtkWidget *default_menu,
++    WebKitContextMenu *context_menu,
++    GdkEvent *event,
+     WebKitHitTestResult *hit_test_result,
+-    gboolean triggered_with_keyboard,
+     gpointer user_data)
+ {
+-  GtkWidget *menu;
+   EmpathyWebKitMenuFlags flags = EMPATHY_WEBKIT_MENU_CLEAR;
+ 
+   if (g_settings_get_boolean (self->priv->gsettings_chat,
+         EMPATHY_PREFS_CHAT_WEBKIT_DEVELOPER_TOOLS))
+     flags |= EMPATHY_WEBKIT_MENU_INSPECT;
+ 
+-  menu = empathy_webkit_create_context_menu (
+-    WEBKIT_WEB_VIEW (self), hit_test_result, flags);
+-
+-  gtk_widget_show_all (menu);
+-
+-  gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 3,
+-      gtk_get_current_event_time ());
+-
+-  return TRUE;
++  empathy_webkit_populate_context_menu (WEBKIT_WEB_VIEW (self), context_menu, hit_test_result, flags);
++  return FALSE;
+ }
+ 
+ void
+@@ -1478,13 +1496,16 @@ empathy_theme_adium_set_show_avatars (EmpathyThemeAdium *self,
+ }
+ 
+ static void
+-theme_adium_load_finished_cb (WebKitWebView *view,
+-    WebKitWebFrame *frame,
++theme_adium_load_changed_cb (WebKitWebView *view,
++    WebKitLoadEvent event,
+     gpointer user_data)
+ {
+   EmpathyThemeAdium *self = EMPATHY_THEME_ADIUM (view);
+   GList *l;
+ 
++  if (event != WEBKIT_LOAD_FINISHED)
++    return;
++
+   DEBUG ("Page loaded");
+   self->priv->pages_loading--;
+ 
+@@ -1566,72 +1587,6 @@ theme_adium_dispose (GObject *object)
+   G_OBJECT_CLASS (empathy_theme_adium_parent_class)->dispose (object);
+ }
+ 
+-static gboolean
+-theme_adium_inspector_show_window_cb (WebKitWebInspector *inspector,
+-    EmpathyThemeAdium *self)
+-{
+-  if (self->priv->inspector_window)
+-    {
+-      gtk_widget_show_all (self->priv->inspector_window);
+-    }
+-
+-  return TRUE;
+-}
+-
+-static gboolean
+-theme_adium_inspector_close_window_cb (WebKitWebInspector *inspector,
+-    EmpathyThemeAdium *self)
+-{
+-  if (self->priv->inspector_window)
+-    {
+-      gtk_widget_hide (self->priv->inspector_window);
+-    }
+-
+-  return TRUE;
+-}
+-
+-static WebKitWebView *
+-theme_adium_inspect_web_view_cb (WebKitWebInspector *inspector,
+-    WebKitWebView *web_view,
+-    EmpathyThemeAdium *self)
+-{
+-  GtkWidget *scrolled_window;
+-  GtkWidget *inspector_web_view;
+-
+-  if (!self->priv->inspector_window)
+-    {
+-      /* Create main window */
+-      self->priv->inspector_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+-
+-      gtk_window_set_default_size (GTK_WINDOW (self->priv->inspector_window),
+-                 800, 600);
+-
+-      g_signal_connect (self->priv->inspector_window, "delete-event",
+-            G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+-
+-      /* Pack a scrolled window */
+-      scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+-
+-      gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+-              GTK_POLICY_AUTOMATIC,
+-              GTK_POLICY_AUTOMATIC);
+-      gtk_container_add (GTK_CONTAINER (self->priv->inspector_window),
+-             scrolled_window);
+-      gtk_widget_show (scrolled_window);
+-
+-      /* Pack a webview in the scrolled window. That webview will be
+-       * used to render the inspector tool. */
+-      inspector_web_view = webkit_web_view_new ();
+-      gtk_container_add (GTK_CONTAINER (scrolled_window),
+-             inspector_web_view);
+-      gtk_widget_show (scrolled_window);
+-
+-      return WEBKIT_WEB_VIEW (inspector_web_view);
+-    }
+-
+-  return NULL;
+-}
+-
+ static void
+ theme_adium_constructed (GObject *object)
+ {
+@@ -1639,7 +1594,8 @@ theme_adium_constructed (GObject *object)
+   const gchar *font_family = NULL;
+   gint font_size = 0;
+   WebKitWebView *webkit_view = WEBKIT_WEB_VIEW (object);
+-  WebKitWebInspector *webkit_inspector;
++
++  G_OBJECT_CLASS (empathy_theme_adium_parent_class)->constructed (object);
+ 
+   /* Set default settings */
+   font_family = tp_asv_get_string (self->priv->data->info, "DefaultFontFamily");
+@@ -1659,14 +1615,9 @@ theme_adium_constructed (GObject *object)
+         EMPATHY_PREFS_DESKTOP_INTERFACE_DOCUMENT_FONT_NAME);
+     }
+ 
+-  /* Setup webkit inspector */
+-  webkit_inspector = webkit_web_view_get_inspector (webkit_view);
+-  g_signal_connect (webkit_inspector, "inspect-web-view",
+-      G_CALLBACK (theme_adium_inspect_web_view_cb), object);
+-  g_signal_connect (webkit_inspector, "show-window",
+-      G_CALLBACK (theme_adium_inspector_show_window_cb), object);
+-  g_signal_connect (webkit_inspector, "close-window",
+-      G_CALLBACK (theme_adium_inspector_close_window_cb), object);
++    g_object_set (webkit_web_view_get_settings (webkit_view),
++        "default-encoding", "utf8",
++        NULL);
+ 
+   /* Load template */
+   theme_adium_load_template (EMPATHY_THEME_ADIUM (object));
+@@ -1764,11 +1715,10 @@ empathy_theme_adium_init (EmpathyThemeAdium *self)
+ 
+   /* Show avatars by default. */
+   self->priv->show_avatars = TRUE;
+-
+-  g_signal_connect (self, "load-finished",
+-      G_CALLBACK (theme_adium_load_finished_cb), NULL);
+-  g_signal_connect (self, "navigation-policy-decision-requested",
+-        G_CALLBACK (theme_adium_navigation_policy_decision_requested_cb), NULL);
++  g_signal_connect (self, "load-changed",
++      G_CALLBACK (theme_adium_load_changed_cb), NULL);
++  g_signal_connect (self, "decide-policy",
++        G_CALLBACK (theme_adium_policy_decision_requested_cb), NULL);
+   g_signal_connect (self, "context-menu",
+       G_CALLBACK (theme_adium_context_menu_cb), NULL);
+ 
+@@ -1784,6 +1734,8 @@ empathy_theme_adium_new (EmpathyAdiumData *data,
+   g_return_val_if_fail (data != NULL, NULL);
+ 
+   return g_object_new (EMPATHY_TYPE_THEME_ADIUM,
++      "web-context", empathy_webkit_get_web_context (),
++      "settings", empathy_webkit_get_web_settings (),
+       "adium-data", data,
+       "variant", variant,
+       NULL);
+@@ -1811,7 +1763,7 @@ empathy_theme_adium_set_variant (EmpathyThemeAdium *self,
+   script = g_strdup_printf ("setStylesheet(\"mainStyle\",\"%s\");",
+       variant_path);
+ 
+-  webkit_web_view_execute_script (WEBKIT_WEB_VIEW (self), script);
++  webkit_web_view_run_javascript (WEBKIT_WEB_VIEW (self), script, NULL, NULL, NULL);
+ 
+   g_free (variant_path);
+   g_free (script);
+@@ -1822,9 +1774,7 @@ empathy_theme_adium_set_variant (EmpathyThemeAdium *self,
+ void
+ empathy_theme_adium_show_inspector (EmpathyThemeAdium *self)
+ {
+-  WebKitWebView *web_view = WEBKIT_WEB_VIEW (self);
+-
+-  empathy_webkit_show_inspector (web_view);
++  webkit_web_inspector_show (webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (self)));
+ }
+ 
+ gboolean
+diff --git a/libempathy-gtk/empathy-theme-adium.h b/libempathy-gtk/empathy-theme-adium.h
+index 698d284..1fb262a 100644
+--- a/libempathy-gtk/empathy-theme-adium.h
++++ b/libempathy-gtk/empathy-theme-adium.h
+@@ -21,7 +21,7 @@
+ #ifndef __EMPATHY_THEME_ADIUM_H__
+ #define __EMPATHY_THEME_ADIUM_H__
+ 
+-#include <webkit/webkitwebview.h>
++#include <webkit2/webkit2.h>
+ 
+ #include "empathy-message.h"
+ 
+@@ -99,19 +99,20 @@ void empathy_theme_adium_scroll (EmpathyThemeAdium *self,
+ 
+ void empathy_theme_adium_scroll_down (EmpathyThemeAdium *self);
+ 
+-gboolean empathy_theme_adium_get_has_selection (EmpathyThemeAdium *self);
++void empathy_theme_adium_can_copy (EmpathyThemeAdium *self,
++    GCancellable* cancellable,
++    GAsyncReadyCallback callback,
++    gpointer user_data);
++
++gboolean empathy_theme_adium_can_copy_finish (EmpathyThemeAdium *self,
++    GAsyncResult* result,
++    GError** error);
+ 
+ void empathy_theme_adium_clear (EmpathyThemeAdium *self);
+ 
+-gboolean empathy_theme_adium_find_previous (EmpathyThemeAdium *self,
+-    const gchar *search_criteria,
+-    gboolean new_search,
+-    gboolean match_case);
++void empathy_theme_adium_find_previous (EmpathyThemeAdium *self);
+ 
+-gboolean empathy_theme_adium_find_next (EmpathyThemeAdium *self,
+-    const gchar *search_criteria,
+-    gboolean new_search,
+-    gboolean match_case);
++void empathy_theme_adium_find_next (EmpathyThemeAdium *self);
+ 
+ void empathy_theme_adium_find_abilities (EmpathyThemeAdium *self,
+     const gchar *search_criteria,
+@@ -119,7 +120,7 @@ void empathy_theme_adium_find_abilities (EmpathyThemeAdium *self,
+     gboolean *can_do_previous,
+     gboolean *can_do_next);
+ 
+-void empathy_theme_adium_highlight (EmpathyThemeAdium *self,
++void empathy_theme_adium_search (EmpathyThemeAdium *self,
+     const gchar *text,
+     gboolean match_case);
+ 
+diff --git a/libempathy-gtk/empathy-webkit-utils.c b/libempathy-gtk/empathy-webkit-utils.c
+index 90dc28c..a8b3ee0 100644
+--- a/libempathy-gtk/empathy-webkit-utils.c
++++ b/libempathy-gtk/empathy-webkit-utils.c
+@@ -123,27 +123,23 @@ webkit_get_font_size (GValue *value,
+ {
+   PangoFontDescription *font = pango_font_description_from_string (
+       g_variant_get_string (variant, NULL));
++  GdkScreen *screen = gdk_screen_get_default ();
++  double dpi;
+   int size;
+ 
+   if (font == NULL)
+     return FALSE;
+ 
+-  size = pango_font_description_get_size (font) / PANGO_SCALE;
++  size = pango_font_description_get_size (font);
++  if (!pango_font_description_get_size_is_absolute (font))
++    size /= PANGO_SCALE;
+ 
+-  if (pango_font_description_get_size_is_absolute (font))
+-    {
+-      GdkScreen *screen = gdk_screen_get_default ();
+-      double dpi;
+-
+-      if (screen != NULL)
+-        dpi = gdk_screen_get_resolution (screen);
+-      else
+-        dpi = BORING_DPI_DEFAULT;
+-
+-      size = (gint) (size / (dpi / 72));
+-    }
++  if (screen != NULL)
++    dpi = gdk_screen_get_resolution (screen);
++  else
++    dpi = BORING_DPI_DEFAULT;
+ 
+-  g_value_set_int (value, size);
++  g_value_set_uint (value, size / 72. * dpi);
+   pango_font_description_free (font);
+ 
+   return TRUE;
+@@ -154,7 +150,7 @@ empathy_webkit_bind_font_setting (WebKitWebView *webview,
+     GSettings *gsettings,
+     const char *key)
+ {
+-  WebKitWebSettings *settings = webkit_web_view_get_settings (webview);
++  WebKitSettings *settings = webkit_web_view_get_settings (webview);
+ 
+   g_settings_bind_with_mapping (gsettings, key,
+       settings, "default-font-family",
+@@ -172,177 +168,126 @@ empathy_webkit_bind_font_setting (WebKitWebView *webview,
+ }
+ 
+ static void
+-empathy_webkit_copy_address_cb (GtkMenuItem *menuitem,
+-    gpointer user_data)
++can_copy_callback (WebKitWebView *web_view,
++    GAsyncResult *result,
++    WebKitContextMenuItem *item)
+ {
+-  WebKitHitTestResult *hit_test_result = WEBKIT_HIT_TEST_RESULT (user_data);
+-  gchar *uri;
+-  GtkClipboard *clipboard;
+-
+-  g_object_get (G_OBJECT (hit_test_result),
+-      "link-uri", &uri,
+-      NULL);
++  gboolean can_copy;
+ 
+-  clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+-  gtk_clipboard_set_text (clipboard, uri, -1);
+-
+-  clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
+-  gtk_clipboard_set_text (clipboard, uri, -1);
+-
+-  g_free (uri);
++  can_copy = webkit_web_view_can_execute_editing_command_finish (web_view, result, NULL);
++  gtk_action_set_visible (webkit_context_menu_item_get_action (item), can_copy);
++  g_object_unref (item);
+ }
+ 
+-static void
+-empathy_webkit_open_address_cb (GtkMenuItem *menuitem,
+-    gpointer     user_data)
+-{
+-  WebKitHitTestResult *hit_test_result = WEBKIT_HIT_TEST_RESULT (user_data);
+-  gchar *uri;
+-
+-  g_object_get (G_OBJECT (hit_test_result),
+-      "link-uri", &uri,
+-      NULL);
+-
+-  empathy_url_show (GTK_WIDGET (menuitem), uri);
+-
+-  g_free (uri);
+-}
+-
+-static void
+-empathy_webkit_inspect_cb (GtkMenuItem *menuitem,
+-    WebKitWebView *view)
+-{
+-  empathy_webkit_show_inspector (view);
+-}
+-
+-static void
+-empathy_webkit_context_menu_selection_done_cb (GtkMenuShell *menu,
+-    gpointer user_data)
+-{
+-  WebKitHitTestResult *hit_test_result = WEBKIT_HIT_TEST_RESULT (user_data);
+-
+-  g_object_unref (hit_test_result);
+-}
+-
+-GtkWidget *
+-empathy_webkit_create_context_menu (WebKitWebView *view,
++void
++empathy_webkit_populate_context_menu (WebKitWebView *web_view,
++    WebKitContextMenu *context_menu,
+     WebKitHitTestResult *hit_test_result,
+     EmpathyWebKitMenuFlags flags)
+ {
+-  WebKitHitTestResultContext context;
+-  GtkWidget *menu;
+-  GtkWidget *item;
+-
+-  g_object_get (G_OBJECT (hit_test_result),
+-      "context", &context,
+-      NULL);
++  WebKitContextMenuItem *item;
+ 
+-  /* The menu */
+-  menu = empathy_context_menu_new (GTK_WIDGET (view));
++  webkit_context_menu_remove_all (context_menu);
+ 
+   /* Select all item */
+-  item = gtk_image_menu_item_new_from_stock (GTK_STOCK_SELECT_ALL, NULL);
+-  gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), item);
+-
+-  g_signal_connect_swapped (item, "activate",
+-      G_CALLBACK (webkit_web_view_select_all),
+-      view);
++  webkit_context_menu_append (context_menu,
++      webkit_context_menu_item_new_from_stock_action (WEBKIT_CONTEXT_MENU_ACTION_SELECT_ALL));
+ 
+   /* Copy menu item */
+-  if (webkit_web_view_can_copy_clipboard (view))
+-    {
+-      item = gtk_image_menu_item_new_from_stock (GTK_STOCK_COPY, NULL);
+-      gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), item);
+-
+-      g_signal_connect_swapped (item, "activate",
+-          G_CALLBACK (webkit_web_view_copy_clipboard),
+-          view);
+-    }
++  item = webkit_context_menu_item_new_from_stock_action (WEBKIT_CONTEXT_MENU_ACTION_COPY);
++  webkit_context_menu_append (context_menu, item);
++  webkit_web_view_can_execute_editing_command (web_view,
++      WEBKIT_EDITING_COMMAND_COPY, NULL,
++      (GAsyncReadyCallback)can_copy_callback,
++      g_object_ref (item));
+ 
+   /* Clear menu item */
+   if (flags & EMPATHY_WEBKIT_MENU_CLEAR)
+     {
+-      item = gtk_separator_menu_item_new ();
+-      gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), item);
+-
+-      item = gtk_image_menu_item_new_from_stock (GTK_STOCK_CLEAR, NULL);
+-      gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), item);
++      GtkAction *action;
+ 
+-      g_signal_connect_swapped (item, "activate",
++      webkit_context_menu_append (context_menu, webkit_context_menu_item_new_separator ());
++      action = gtk_action_new ("clear", NULL, NULL, GTK_STOCK_CLEAR);
++      g_signal_connect_swapped (action, "activate",
+           G_CALLBACK (empathy_theme_adium_clear),
+-          view);
++          web_view);
++      webkit_context_menu_append (context_menu, webkit_context_menu_item_new (action));
++      g_object_unref (action);
+     }
+ 
+   /* We will only add the following menu items if we are
+    * right-clicking a link */
+-  if (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK)
++  if (webkit_hit_test_result_context_is_link (hit_test_result))
+     {
+       /* Separator */
+-      item = gtk_separator_menu_item_new ();
+-      gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), item);
++      webkit_context_menu_append (context_menu, webkit_context_menu_item_new_separator ());
+ 
+       /* Copy Link Address menu item */
+-      item = gtk_menu_item_new_with_mnemonic (_("_Copy Link Address"));
+-      g_signal_connect (item, "activate",
+-          G_CALLBACK (empathy_webkit_copy_address_cb),
+-          hit_test_result);
+-      gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), item);
++      webkit_context_menu_append (context_menu,
++          webkit_context_menu_item_new_from_stock_action (WEBKIT_CONTEXT_MENU_ACTION_COPY_LINK_TO_CLIPBOARD));
+ 
+       /* Open Link menu item */
+-      item = gtk_menu_item_new_with_mnemonic (_("_Open Link"));
+-      g_signal_connect (item, "activate",
+-          G_CALLBACK (empathy_webkit_open_address_cb),
+-          hit_test_result);
+-      gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), item);
+-    }
++      webkit_context_menu_append (context_menu,
++          webkit_context_menu_item_new_from_stock_action (WEBKIT_CONTEXT_MENU_ACTION_OPEN_LINK));
++     }
+ 
+   if ((flags & EMPATHY_WEBKIT_MENU_INSPECT) != 0)
+     {
+       /* Separator */
+-      item = gtk_separator_menu_item_new ();
+-      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
++      webkit_context_menu_append (context_menu, webkit_context_menu_item_new_separator ());
+ 
+       /* Inspector */
+-      item = gtk_menu_item_new_with_mnemonic (_("Inspect HTML"));
+-      g_signal_connect (item, "activate",
+-          G_CALLBACK (empathy_webkit_inspect_cb), view);
+-      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
++      webkit_context_menu_append (context_menu,
++          webkit_context_menu_item_new_from_stock_action (WEBKIT_CONTEXT_MENU_ACTION_INSPECT_ELEMENT));
+     }
+-
+-  g_signal_connect (GTK_MENU_SHELL (menu), "selection-done",
+-      G_CALLBACK (empathy_webkit_context_menu_selection_done_cb),
+-      g_object_ref (hit_test_result));
+-
+-  return menu;
+ }
+ 
+-void
+-empathy_webkit_context_menu_for_event (WebKitWebView *view,
+-    GdkEventButton *event,
+-    EmpathyWebKitMenuFlags flags)
++gboolean
++empathy_webkit_handle_navigation (WebKitWebView *web_view,
++    WebKitNavigationPolicyDecision *decision)
+ {
+-  GtkWidget *menu;
+-  WebKitHitTestResult *hit_test_result;
++  WebKitNavigationAction *action;
++  const char *requested_uri;
++
++  action = webkit_navigation_policy_decision_get_navigation_action (decision);
++  requested_uri = webkit_uri_request_get_uri (webkit_navigation_action_get_request (action));
++  if (g_strcmp0 (webkit_web_view_get_uri (web_view), requested_uri) == 0)
++    return FALSE;
+ 
+-  hit_test_result = webkit_web_view_get_hit_test_result (view, event);
++  empathy_url_show (GTK_WIDGET (web_view), requested_uri);
++  webkit_policy_decision_ignore (WEBKIT_POLICY_DECISION (decision));
++
++  return TRUE;
++}
+ 
+-  menu = empathy_webkit_create_context_menu (view, hit_test_result, flags);
++WebKitWebContext *
++empathy_webkit_get_web_context (void)
++{
++  static WebKitWebContext *web_context = NULL;
+ 
+-  gtk_widget_show_all (menu);
+-  gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,
+-      event->button, event->time);
++  if (!web_context)
++    {
++      web_context = webkit_web_context_get_default ();
++      webkit_web_context_set_cache_model (web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
++      webkit_web_context_set_process_model (web_context, WEBKIT_PROCESS_MODEL_SHARED_SECONDARY_PROCESS);
++    }
+ 
+-  g_object_unref (hit_test_result);
++  return web_context;
+ }
+ 
+-void
+-empathy_webkit_show_inspector (WebKitWebView *view)
++WebKitSettings *
++empathy_webkit_get_web_settings (void)
+ {
+-  WebKitWebInspector *inspector;
++  static WebKitSettings *settings = NULL;
+ 
+-  g_object_set (G_OBJECT (webkit_web_view_get_settings (view)),
+-      "enable-developer-extras", TRUE, NULL);
++  if (!settings)
++    {
++      settings = webkit_settings_new_with_settings (
++          "enable-page-cache", FALSE,
++          "enable-plugins", FALSE,
++          "enable-developer-extras", TRUE,
++          NULL);
++    }
+ 
+-  inspector = webkit_web_view_get_inspector (view);
+-  webkit_web_inspector_show (inspector);
++  return settings;
+ }
+diff --git a/libempathy-gtk/empathy-webkit-utils.h b/libempathy-gtk/empathy-webkit-utils.h
+index 98fdc4d..29ce7fa 100644
+--- a/libempathy-gtk/empathy-webkit-utils.h
++++ b/libempathy-gtk/empathy-webkit-utils.h
+@@ -22,7 +22,7 @@
+ #define _EMPATHY_WEBKIT_UTILS__H_
+ 
+ #include <tp-account-widgets/tpaw-string-parser.h>
+-#include <webkit/webkit.h>
++#include <webkit2/webkit2.h>
+ 
+ G_BEGIN_DECLS
+ 
+@@ -37,15 +37,20 @@ void empathy_webkit_bind_font_setting (WebKitWebView *webview,
+     GSettings *gsettings,
+     const char *key);
+ 
+-GtkWidget * empathy_webkit_create_context_menu (WebKitWebView *view,
++void empathy_webkit_populate_context_menu (WebKitWebView *web_view,
++    WebKitContextMenu *context_menu,
+     WebKitHitTestResult *hit_test_result,
+     EmpathyWebKitMenuFlags flags);
+ 
+-void empathy_webkit_context_menu_for_event (WebKitWebView *view,
+-    GdkEventButton *event,
+-    EmpathyWebKitMenuFlags flags);
++gboolean
++empathy_webkit_handle_navigation (WebKitWebView *web_view,
++    WebKitNavigationPolicyDecision *decision);
++
++WebKitWebContext *
++empathy_webkit_get_web_context (void);
+ 
+-void empathy_webkit_show_inspector (WebKitWebView *view);
++WebKitSettings *
++empathy_webkit_get_web_settings (void);
+ 
+ G_END_DECLS
+ 
+diff --git a/src/empathy-chat-window.c b/src/empathy-chat-window.c
+index ba23b74..788fcd4 100644
+--- a/src/empathy-chat-window.c
++++ b/src/empathy-chat-window.c
+@@ -1318,6 +1318,15 @@ chat_window_close_activate_cb (GtkAction *action,
+ }
+ 
+ static void
++theme_adium_can_copy_cb (EmpathyThemeAdium *view,
++    GAsyncResult *result,
++    EmpathyChatWindow *self)
++{
++  gtk_action_set_sensitive (self->priv->menu_edit_copy,
++      empathy_theme_adium_can_copy_finish (view, result, NULL));
++}
++
++static void
+ chat_window_edit_activate_cb (GtkAction *action,
+     EmpathyChatWindow *self)
+ {
+@@ -1345,13 +1354,9 @@ chat_window_edit_activate_cb (GtkAction *action,
+     }
+   else
+     {
+-      gboolean selection;
+-
+-      selection = empathy_theme_adium_get_has_selection (
+-          self->priv->current_chat->view);
+-
++      empathy_theme_adium_can_copy (self->priv->current_chat->view, NULL,
++          (GAsyncReadyCallback)theme_adium_can_copy_cb, self);
+       gtk_action_set_sensitive (self->priv->menu_edit_cut, FALSE);
+-      gtk_action_set_sensitive (self->priv->menu_edit_copy, selection);
+     }
+ 
+   clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+diff --git a/src/empathy-preferences.c b/src/empathy-preferences.c
+index b7b1a7b..a19f284 100644
+--- a/src/empathy-preferences.c
++++ b/src/empathy-preferences.c
+@@ -601,8 +601,18 @@ preferences_preview_theme_changed_cb (EmpathyThemeManager *manager,
+ 		gtk_widget_destroy (GTK_WIDGET (priv->chat_theme_preview));
+ 	}
+ 	priv->chat_theme_preview = empathy_theme_manager_create_view (manager);
+-	gtk_container_add (GTK_CONTAINER (priv->sw_chat_theme_preview),
+-			   GTK_WIDGET (priv->chat_theme_preview));
++	if (GTK_IS_SCROLLABLE (priv->chat_theme_preview))
++	  {
++	    gtk_container_add (GTK_CONTAINER (priv->sw_chat_theme_preview),
++			       GTK_WIDGET (priv->chat_theme_preview));
++	  }
++	else
++	  {
++	    gtk_widget_hide (priv->sw_chat_theme_preview);
++	    gtk_box_pack_start (GTK_BOX (priv->vbox_chat_theme),
++				GTK_WIDGET (priv->chat_theme_preview),
++				TRUE, TRUE, 0);
++	  }
+ 	gtk_widget_show (GTK_WIDGET (priv->chat_theme_preview));
+ 
+ 	/* FIXME: It is ugly to add a fake conversation like that.
+-- 
+cgit v0.12
+

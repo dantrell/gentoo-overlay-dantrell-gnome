@@ -1,0 +1,40 @@
+From bb5492e3360eec136525677072ca292ec94f7193 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 27 Jul 2017 12:12:27 +0100
+Subject: gdk-pixbuf: Tighten rowstride overflow check
+
+The rowstride is stored as an int, and is an int in the public API.
+Making it an unsigned int for those calculations would increase
+the limit, which would obviously cause problems when the calculated
+value ends up between G_MAXUINT and G_MAXINT in the positives.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=765094
+---
+ gdk-pixbuf/gdk-pixbuf.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gdk-pixbuf/gdk-pixbuf.c b/gdk-pixbuf/gdk-pixbuf.c
+index fb146ba..2ee0b2a 100644
+--- a/gdk-pixbuf/gdk-pixbuf.c
++++ b/gdk-pixbuf/gdk-pixbuf.c
+@@ -445,7 +445,7 @@ gdk_pixbuf_new (GdkColorspace colorspace,
+ {
+ 	guchar *buf;
+ 	unsigned int channels;
+-	unsigned int rowstride;
++	int rowstride;
+ 
+ 	g_return_val_if_fail (colorspace == GDK_COLORSPACE_RGB, NULL);
+ 	g_return_val_if_fail (bits_per_sample == 8, NULL);
+@@ -455,7 +455,7 @@ gdk_pixbuf_new (GdkColorspace colorspace,
+ 	channels = has_alpha ? 4 : 3;
+ 
+ 	/* Overflow? */
+-	if (width > (G_MAXUINT - 3) / channels)
++	if (width > (G_MAXINT - 3) / channels)
+ 		return NULL;
+ 
+ 	/* Always align rows to 32-bit boundaries */
+-- 
+cgit v0.12
+

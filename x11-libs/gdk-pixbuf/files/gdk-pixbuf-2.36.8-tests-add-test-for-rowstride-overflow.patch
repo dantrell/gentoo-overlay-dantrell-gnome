@@ -1,0 +1,20 @@
+From c5b375e26767c140f37b9d1391a0e436c34eaabc Mon Sep 17 00:00:00 2001
+From: Tobias Mueller <muelli@cryptobitch.de>
+Date: Thu, 16 Feb 2017 20:57:17 +0100
+Subject: tests: Add test for rowstride overflow
+
+File created using afl.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=777315
+---
+ tests/test-images/fail/bug777315.bmp | Bin 0 -> 72 bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 tests/test-images/fail/bug777315.bmp
+
+diff --git a/tests/test-images/fail/bug777315.bmp b/tests/test-images/fail/bug777315.bmp
+new file mode 100644
+index 0000000..da0bd4a
+Binary files /dev/null and b/tests/test-images/fail/bug777315.bmp differ
+-- 
+cgit v0.12
+

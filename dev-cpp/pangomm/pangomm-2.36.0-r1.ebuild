@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 
 inherit gnome2 multilib-minimal
 
@@ -22,7 +21,7 @@ COMMON_DEPEND="
 	>=dev-libs/libsigc++-2.3.2:2[${MULTILIB_USEDEP}]
 "
 DEPEND="${COMMON_DEPEND}
-	virtual/pkgconfig
+	virtual/pkgconfig[${MULTILIB_USEDEP}]
 	doc? (
 		media-gfx/graphviz
 		dev-libs/libxslt
