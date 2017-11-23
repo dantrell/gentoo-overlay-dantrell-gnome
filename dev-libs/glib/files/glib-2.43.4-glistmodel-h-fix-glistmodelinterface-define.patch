@@ -1,0 +1,29 @@
+From ccf696a6e1da37ed414f08edb745a99aba935211 Mon Sep 17 00:00:00 2001
+From: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date: Mon, 2 Feb 2015 13:33:18 +0800
+Subject: glistmodel.h: Fix _GListModelInterface Define
+
+"interface" is a reserved word on Visual Studio, so fix the build by
+using g_iface instead.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=743827
+---
+ gio/glistmodel.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gio/glistmodel.h b/gio/glistmodel.h
+index e47b87a..8c01160 100644
+--- a/gio/glistmodel.h
++++ b/gio/glistmodel.h
+@@ -40,7 +40,7 @@ typedef struct _GListModelInterface GListModelInterface;
+ 
+ struct _GListModelInterface
+ {
+-  GTypeInterface interface;
++  GTypeInterface g_iface;
+ 
+   GType     (* get_item_type)   (GListModel *list);
+ 
+-- 
+cgit v0.12
+

@@ -1,0 +1,33 @@
+From 93982d4a16d8623137177da2f994abaf8075b4b0 Mon Sep 17 00:00:00 2001
+From: Ryan Lortie <desrt@desrt.ca>
+Date: Fri, 30 Jan 2015 15:30:02 +0100
+Subject: giotypefuncs test: tweak _get_type() regexp
+
+Make sure that we only match the _get_type() function name by
+restricting the regexp to matching [A-Za-z0-9_].  We were matching on .*
+before which means that if we had two _get_type() functions appearing on
+a single line then we would get everything in between them included (by
+the default rule of '*' being greedy).
+
+This affected G_DECLARE_*_TYPE which puts several uses of _get_type()
+into a single line.
+---
+ gio/tests/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gio/tests/Makefile.am b/gio/tests/Makefile.am
+index 9a7ed45..f958ef9 100644
+--- a/gio/tests/Makefile.am
++++ b/gio/tests/Makefile.am
+@@ -542,7 +542,7 @@ giotypefuncs.c: Makefile
+ 	$(AM_V_GEN) echo '#include <gio/gio.h>' > xgen-giosrc.c && \
+ 	  echo "G_GNUC_BEGIN_IGNORE_DEPRECATIONS" > xgen-gio && \
+ 	  ${CPP} $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) xgen-giosrc.c | \
+-	  $(GREP) -o '\bg_.*_get_type\b' | \
++	  $(GREP) -o '\bg_[A-Za-z0-9_]*_get_type\b' | \
+ 	  $(GREP) -v 'g_io_extension_get_type\|g_variant_get_type' | \
+ 	  sort | uniq | \
+ 	  $(SED) -e 's/^/*tp++ = /' -e 's/$$/ ();/' >> xgen-gio && \
+-- 
+cgit v0.12
+

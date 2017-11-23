@@ -1,0 +1,22 @@
+From 7414f60e8849a6fdeba8827197721b3d36c48754 Mon Sep 17 00:00:00 2001
+From: "Zeeshan Ali (Khattak)" <zeeshanak@gnome.org>
+Date: Thu, 24 Dec 2015 16:38:07 +0000
+Subject: gir: Correct namespace version
+
+
+diff --git a/libgeoclue/Makefile.am b/libgeoclue/Makefile.am
+index 18b90e8..01d872f 100644
+--- a/libgeoclue/Makefile.am
++++ b/libgeoclue/Makefile.am
+@@ -92,7 +92,7 @@ Geoclue-2.0.gir: $(libgeoclue_2_la_SOURCES) $(geoclue_include_HEADERS)
+ 	    --namespace Geoclue                 \
+ 	    --identifier-prefix=GClue           \
+ 	    --symbol-prefix=gclue               \
+-	    --nsversion=1.0                     \
++	    --nsversion=2.0                     \
+ 	    --include=Gio-2.0                   \
+ 	    --library=geoclue-2	                \
+ 	    --output $@                         \
+-- 
+cgit v0.10.2
+

@@ -1,0 +1,43 @@
+From d4791bd383189f4ea056e4f2aa0c90171bf7a6be Mon Sep 17 00:00:00 2001
+From: Xavier Claessens <xavier.claessens@collabora.com>
+Date: Mon, 2 Feb 2015 09:46:31 -0500
+Subject: Doc: Fix g_auto and g_autoptr typo
+
+---
+ glib/docs.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/glib/docs.c b/glib/docs.c
+index d681165..f7a0bf2 100644
+--- a/glib/docs.c
++++ b/glib/docs.c
+@@ -2314,7 +2314,7 @@
+ 
+ /**
+  * g_auto:
+- * @typename: a supported variable type
++ * @TypeName: a supported variable type
+  *
+  * Helper to declare a variable with automatic cleanup.
+  *
+@@ -2366,7 +2366,7 @@
+ 
+ /**
+  * g_autoptr:
+- * @typename: a supported variable type
++ * @TypeName: a supported variable type
+  *
+  * Helper to declare a pointer variable with automatic cleanup.
+  *
+@@ -2378,7 +2378,7 @@
+  * are intended to be portable to those compilers.
+  *
+  * This is meant to be used to declare pointers to types with cleanup
+- * functions.  The type of the variable is a pointer to @typename.  You
++ * functions.  The type of the variable is a pointer to @TypeName.  You
+  * must not add your own '*'.
+  *
+  * This macro can be used to avoid having to do explicit cleanups of
+-- 
+cgit v0.12
+

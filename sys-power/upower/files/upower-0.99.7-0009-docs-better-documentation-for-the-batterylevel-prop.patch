@@ -1,0 +1,62 @@
+From b9aaa05bc6bc5d40bd95b4f2fc7ef0d121879373 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 19 Oct 2017 17:19:15 +0200
+Subject: [PATCH 09/11] docs: Better documentation for the BatteryLevel prop
+
+https://bugs.freedesktop.org/show_bug.cgi?id=103361
+---
+ dbus/org.freedesktop.UPower.Device.xml |  7 ++++++-
+ libupower-glib/up-types.h              | 12 ++++++++++--
+ 2 files changed, 16 insertions(+), 3 deletions(-)
+
+diff --git a/dbus/org.freedesktop.UPower.Device.xml b/dbus/org.freedesktop.UPower.Device.xml
+index 4852ab0..178fba3 100644
+--- a/dbus/org.freedesktop.UPower.Device.xml
++++ b/dbus/org.freedesktop.UPower.Device.xml
+@@ -529,6 +529,10 @@ method return sender=:1.386 -> dest=:1.477 reply_serial=2
+             <doc:ref type="property" to="Source:Type">type</doc:ref>
+             has the value "battery".
+           </doc:para>
++          <doc:para>
++            The percentage will be an approximation if the <doc:ref type="property" to="BatteryLevel">battery level</doc:ref>
++            is set to something other than None. The percentage is kept for compatibility reasons.
++          </doc:para>
+         </doc:description>
+       </doc:doc>
+     </property>
+@@ -707,7 +711,8 @@ method return sender=:1.386 -> dest=:1.477 reply_serial=2
+       <doc:doc>
+         <doc:description>
+           <doc:para>
+-            Level of the battery:
++            The level of the battery for devices which do not report a percentage but rather a coarse battery level. If the value
++            is None, then the device does not support coarse battery reporting, and the percentage should be used instead.
+           </doc:para>
+           <doc:list>
+             <doc:item>
+diff --git a/libupower-glib/up-types.h b/libupower-glib/up-types.h
+index 5ba87ac..079bccd 100644
+--- a/libupower-glib/up-types.h
++++ b/libupower-glib/up-types.h
+@@ -87,8 +87,16 @@ typedef enum {
+ /**
+  * UpDeviceLevel:
+  *
+- * The level of a battery. Some values are only relevant to the WarningLevel
+- * property, some others to the BatteryLevel property.
++ * The level of a battery. Only values up to, and including
++ * %UP_DEVICE_LEVEL_ACTION are relevant for the #WarningLevel.
++ * The #BatteryLevel only uses the following values:
++ * - %UP_DEVICE_LEVEL_UNKNOWN
++ * - %UP_DEVICE_LEVEL_NONE
++ * - %UP_DEVICE_LEVEL_LOW
++ * - %UP_DEVICE_LEVEL_CRITICAL
++ * - %UP_DEVICE_LEVEL_NORMAL
++ * - %UP_DEVICE_LEVEL_HIGH
++ * - %UP_DEVICE_LEVEL_FULL
+  **/
+ typedef enum {
+ 	UP_DEVICE_LEVEL_UNKNOWN,
+-- 
+2.15.0
+

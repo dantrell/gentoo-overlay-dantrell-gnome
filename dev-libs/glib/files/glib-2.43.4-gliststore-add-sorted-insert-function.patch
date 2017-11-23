@@ -1,0 +1,98 @@
+From 3f3eac474b26d5e01fbfdb50f3e45b7f7826bad9 Mon Sep 17 00:00:00 2001
+From: Ryan Lortie <desrt@desrt.ca>
+Date: Tue, 3 Feb 2015 13:18:10 +0100
+Subject: GListStore: add sorted insert function
+
+Add g_list_store_insert_sorted() which takes a GCompareDataFunc to
+decide where to insert.  This ends up being a very trivial function,
+thanks to GSequence.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=743927
+---
+ docs/reference/gio/gio-sections.txt |  1 +
+ gio/gliststore.c                    | 39 +++++++++++++++++++++++++++++++++++++
+ gio/gliststore.h                    |  6 ++++++
+ 3 files changed, 46 insertions(+)
+
+diff --git a/docs/reference/gio/gio-sections.txt b/docs/reference/gio/gio-sections.txt
+index a487391..8460894 100644
+--- a/docs/reference/gio/gio-sections.txt
++++ b/docs/reference/gio/gio-sections.txt
+@@ -4287,6 +4287,7 @@ GListStore
+ g_list_store_get_type
+ g_list_store_new
+ g_list_store_insert
++g_list_store_insert_sorted
+ g_list_store_append
+ g_list_store_remove
+ g_list_store_remove_all
+diff --git a/gio/gliststore.c b/gio/gliststore.c
+index 407dcbf..990c794 100644
+--- a/gio/gliststore.c
++++ b/gio/gliststore.c
+@@ -269,6 +269,45 @@ g_list_store_insert (GListStore *store,
+ }
+ 
+ /**
++ * g_list_store_insert_sorted:
++ * @store: a #GListStore
++ * @item: the new item
++ *
++ * Inserts @item into @store at a position to be determined by the
++ * @compare_func.
++ *
++ * The list must already be sorted before calling this function or the
++ * result is undefined.  Usually you would approach this by only ever
++ * inserting items by way of this function.
++ *
++ * This function takes a ref on @item.
++ *
++ * Returns: the position at which @item was inserted
++ *
++ * Since: 2.44
++ */
++guint
++g_list_store_insert_sorted (GListStore       *store,
++                            gpointer          item,
++                            GCompareDataFunc  compare_func,
++                            gpointer          user_data)
++{
++  GSequenceIter *it;
++  guint position;
++
++  g_return_if_fail (G_IS_LIST_STORE (store));
++  g_return_if_fail (g_type_is_a (G_OBJECT_TYPE (item), store->item_type));
++  g_return_if_fail (compare_func != NULL);
++
++  it = g_sequence_insert_sorted (store->items, g_object_ref (item), compare_func, user_data);
++  position = g_sequence_iter_get_position (it);
++
++  g_list_store_items_changed (store, position, 0, 1);
++
++  return position;
++}
++
++/**
+  * g_list_store_append:
+  * @store: a #GListStore
+  * @item: the new item
+diff --git a/gio/gliststore.h b/gio/gliststore.h
+index f62b378..88ce941 100644
+--- a/gio/gliststore.h
++++ b/gio/gliststore.h
+@@ -44,6 +44,12 @@ void                    g_list_store_insert                             (GListSt
+                                                                          gpointer    item);
+ 
+ GLIB_AVAILABLE_IN_2_44
++guint                   g_list_store_insert_sorted                      (GListStore       *store,
++                                                                         gpointer          item,
++                                                                         GCompareDataFunc  compare_func,
++                                                                         gpointer          user_data);
++
++GLIB_AVAILABLE_IN_2_44
+ void                    g_list_store_append                             (GListStore *store,
+                                                                          gpointer    item);
+ 
+-- 
+cgit v0.12
+

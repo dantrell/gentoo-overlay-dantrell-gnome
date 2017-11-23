@@ -1,0 +1,16 @@
+diff '--exclude=.git' -urN a/modules/sync.ego b/modules/sync.ego
+--- a/modules/sync.ego	2017-11-07 01:43:12.000000000 -0500
++++ b/modules/sync.ego	2017-11-22 07:59:53.158793980 -0500
+@@ -158,12 +158,6 @@
+ 		if os.waitpid(pid, 0)[1] > 0:
+ 			return False
+ 		Output.log(Color.green("Sync successful and kits in alignment! :)"))
+-		Output.log(Color.green("Updating profiles..."))
+-		try:
+-			EgoModule.run_ego_module('profile', self.config, ['update'])
+-		except PermissionError:
+-			Output.error("Could not update ego profiles automatically due to permissions (code in /root, most likely.)")
+-			Output.error("Please run epro update manually as root.")
+ 		return True
+ 
+ 	def handle(self, **options):

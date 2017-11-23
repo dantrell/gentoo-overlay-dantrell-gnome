@@ -1,0 +1,28 @@
+From 6270beb06ccb65947c9979930caaa5d4a9284a58 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Sat, 21 Oct 2017 00:46:51 +0200
+Subject: [PATCH 06/11] linux: Add example to run a single test
+
+https://bugs.freedesktop.org/show_bug.cgi?id=103380
+---
+ src/Makefile.am | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 98daa82..17fdb8a 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -104,7 +104,9 @@ upowerd_LDFLAGS =						\
+ 
+ if UP_BUILD_TESTS
+ check-local: upowerd
+-	env GI_TYPELIB_PATH=$(top_builddir)/libupower-glib:$(GI_TYPELIB_PATH) LD_LIBRARY_PATH=$(top_builddir)/libupower-glib/.libs:$(LD_LIBRARY_PATH) top_builddir=$(top_builddir) $(srcdir)/linux/integration-test -v
++# To launch a single test
++# env GI_TYPELIB_PATH=$(top_builddir)/libupower-glib:$(GI_TYPELIB_PATH) LD_LIBRARY_PATH=$(top_builddir)/libupower-glib/.libs:$(LD_LIBRARY_PATH) top_builddir=$(top_builddir) $(srcdir)/linux/integration-test -v Tests.test_bluetooth_le_mouse
++	env GI_TYPELIB_PATH=$(top_builddir)/libupower-glib:$(GI_TYPELIB_PATH) LD_LIBRARY_PATH=$(top_builddir)/libupower-glib/.libs:$(LD_LIBRARY_PATH) top_builddir=$(top_builddir) $(srcdir)/linux/integration-test
+ endif
+ 
+ endif
+-- 
+2.15.0
+

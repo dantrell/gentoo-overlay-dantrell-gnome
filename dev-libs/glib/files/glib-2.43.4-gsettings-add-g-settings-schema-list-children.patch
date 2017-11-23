@@ -1,0 +1,129 @@
+From 6d55189d8c7eaf95b7d94d62b6e88caccaa4034a Mon Sep 17 00:00:00 2001
+From: Lars Uebernickel <lars.uebernickel@canonical.com>
+Date: Mon, 26 Jan 2015 10:13:26 +0000
+Subject: gsettings: add g_settings_schema_list_children
+
+https://bugzilla.gnome.org/show_bug.cgi?id=743517
+---
+ docs/reference/gio/gio-sections.txt |  1 +
+ gio/gsettings.c                     | 24 +---------------------
+ gio/gsettingsschema.c               | 41 +++++++++++++++++++++++++++++++++++++
+ gio/gsettingsschema.h               |  3 +++
+ 4 files changed, 46 insertions(+), 23 deletions(-)
+
+diff --git a/docs/reference/gio/gio-sections.txt b/docs/reference/gio/gio-sections.txt
+index f9b690c..9c4e36d 100644
+--- a/docs/reference/gio/gio-sections.txt
++++ b/docs/reference/gio/gio-sections.txt
+@@ -2439,6 +2439,7 @@ g_settings_schema_has_key
+ g_settings_schema_get_key
+ g_settings_schema_key_ref
+ g_settings_schema_key_unref
++g_settings_schema_list_children
+ 
+ <SUBSECTION>
+ g_settings_schema_key_get_value_type
+diff --git a/gio/gsettings.c b/gio/gsettings.c
+index 825d97a..1a5fd22 100644
+--- a/gio/gsettings.c
++++ b/gio/gsettings.c
+@@ -2325,29 +2325,7 @@ g_settings_list_keys (GSettings *settings)
+ gchar **
+ g_settings_list_children (GSettings *settings)
+ {
+-  const GQuark *keys;
+-  gchar **strv;
+-  gint n_keys;
+-  gint i, j;
+-
+-  keys = g_settings_schema_list (settings->priv->schema, &n_keys);
+-  strv = g_new (gchar *, n_keys + 1);
+-  for (i = j = 0; i < n_keys; i++)
+-    {
+-      const gchar *key = g_quark_to_string (keys[i]);
+-
+-      if (g_str_has_suffix (key, "/"))
+-        {
+-          gint length = strlen (key);
+-
+-          strv[j] = g_memdup (key, length);
+-          strv[j][length - 1] = '\0';
+-          j++;
+-        }
+-    }
+-  strv[j] = NULL;
+-
+-  return strv;
++  return g_settings_schema_list_children (settings->priv->schema);
+ }
+ 
+ /**
+diff --git a/gio/gsettingsschema.c b/gio/gsettingsschema.c
+index b3e0c8d..f515924 100644
+--- a/gio/gsettingsschema.c
++++ b/gio/gsettingsschema.c
+@@ -1004,6 +1004,47 @@ g_settings_schema_has_key (GSettingsSchema *schema,
+   return gvdb_table_has_value (schema->table, key);
+ }
+ 
++/**
++ * g_settings_schema_list_children:
++ * @schema: a #GSettingsSchema
++ *
++ * Gets the list of children in @schema.
++ *
++ * You should free the return value with g_strfreev() when you are done
++ * with it.
++ *
++ * Returns: (transfer full) (element-type utf8): a list of the children on @settings
++ *
++ * Since: 2.44
++ */
++gchar **
++g_settings_schema_list_children (GSettingsSchema *schema)
++{
++  const GQuark *keys;
++  gchar **strv;
++  gint n_keys;
++  gint i, j;
++
++  keys = g_settings_schema_list (schema, &n_keys);
++  strv = g_new (gchar *, n_keys + 1);
++  for (i = j = 0; i < n_keys; i++)
++    {
++      const gchar *key = g_quark_to_string (keys[i]);
++
++      if (g_str_has_suffix (key, "/"))
++        {
++          gint length = strlen (key);
++
++          strv[j] = g_memdup (key, length);
++          strv[j][length - 1] = '\0';
++          j++;
++        }
++    }
++  strv[j] = NULL;
++
++  return strv;
++}
++
+ const GQuark *
+ g_settings_schema_list (GSettingsSchema *schema,
+                         gint            *n_items)
+diff --git a/gio/gsettingsschema.h b/gio/gsettingsschema.h
+index cd7cfe4..d16d78a 100644
+--- a/gio/gsettingsschema.h
++++ b/gio/gsettingsschema.h
+@@ -75,6 +75,9 @@ GLIB_AVAILABLE_IN_2_40
+ gboolean                g_settings_schema_has_key                       (GSettingsSchema        *schema,
+                                                                          const gchar            *name);
+ 
++GLIB_AVAILABLE_IN_2_44
++gchar **                g_settings_schema_list_children                 (GSettingsSchema        *schema);
++
+ #define                 G_TYPE_SETTINGS_SCHEMA_KEY                      (g_settings_schema_key_get_type ())
+ GLIB_AVAILABLE_IN_2_40
+ GType                   g_settings_schema_key_get_type                  (void) G_GNUC_CONST;
+-- 
+cgit v0.12
+

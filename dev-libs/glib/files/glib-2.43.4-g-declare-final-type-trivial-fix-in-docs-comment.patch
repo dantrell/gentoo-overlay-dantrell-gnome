@@ -1,0 +1,26 @@
+From 9d0389b3b574e6e0fc181ac161bf7c9ccd231e15 Mon Sep 17 00:00:00 2001
+From: Ryan Lortie <desrt@desrt.ca>
+Date: Wed, 28 Jan 2015 11:30:23 +0000
+Subject: G_DECLARE_FINAL_TYPE: trivial fix in docs comment
+
+https://bugzilla.gnome.org/show_bug.cgi?id=743640
+---
+ gobject/gtype.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gobject/gtype.h b/gobject/gtype.h
+index 3dc3d9c..d055a96 100644
+--- a/gobject/gtype.h
++++ b/gobject/gtype.h
+@@ -1339,7 +1339,7 @@ guint     g_type_get_type_registration_serial (void);
+  *
+  * #include <gtk/gtk.h>
+  *
+- * #define MY_APP_WINDOW my_app_window_get_type ()
++ * #define MY_APP_TYPE_WINDOW my_app_window_get_type ()
+  * G_DECLARE_FINAL_TYPE (MyAppWindow, my_app_window, GtkWindow, MY_APP, WINDOW)
+  *
+  * MyAppWindow *    my_app_window_new    (void);
+-- 
+cgit v0.12
+

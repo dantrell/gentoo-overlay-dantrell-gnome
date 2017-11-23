@@ -49,7 +49,7 @@
 >=app-editors/ghex-3.20.0
 >=app-editors/latexila-3.16.0
 >=app-misc/bijiben-3.16.0
->=app-misc/geoclue-2.4.0
+>=app-misc/geoclue-2.6.0
 >=app-misc/gnote-3.16.0
 >=app-misc/tracker-1.4.0
 >=app-misc/tracker-miners-2.0.0

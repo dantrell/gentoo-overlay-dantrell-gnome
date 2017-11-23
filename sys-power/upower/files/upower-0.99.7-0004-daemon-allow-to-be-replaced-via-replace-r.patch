@@ -1,0 +1,49 @@
+From cc105925b4ff1f0a587a7c9d41374a8214317825 Mon Sep 17 00:00:00 2001
+From: Christian Kellner <christian@kellner.me>
+Date: Thu, 9 Feb 2017 15:20:51 +0100
+Subject: [PATCH 04/11] daemon: allow to be replaced via --replace,-r
+
+https://bugs.freedesktop.org/show_bug.cgi?id=99906
+---
+ src/up-main.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/src/up-main.c b/src/up-main.c
+index 6a23c93..0619c50 100644
+--- a/src/up-main.c
++++ b/src/up-main.c
+@@ -178,6 +178,8 @@ main (gint argc, gchar **argv)
+ 	guint timer_id = 0;
+ 	gboolean verbose = FALSE;
+ 	UpState *state;
++	GBusNameOwnerFlags bus_flags;
++	gboolean replace = FALSE;
+ 
+ 	const GOptionEntry options[] = {
+ 		{ "timed-exit", '\0', 0, G_OPTION_ARG_NONE, &timed_exit,
+@@ -186,6 +188,8 @@ main (gint argc, gchar **argv)
+ 		{ "immediate-exit", '\0', 0, G_OPTION_ARG_NONE, &immediate_exit,
+ 		  /* TRANSLATORS: exit straight away, used for automatic profiling */
+ 		  _("Exit after the engine has loaded"), NULL },
++		{ "replace", 'r', 0, G_OPTION_ARG_NONE, &replace,
++		  _("Replace the old daemon"), NULL},
+ 		{ "verbose", 'v', 0, G_OPTION_ARG_NONE, &verbose,
+ 		  _("Show extra debugging information"), NULL },
+ 		{ NULL}
+@@ -245,9 +249,12 @@ main (gint argc, gchar **argv)
+ 				NULL);
+ 
+ 	/* acquire name */
++	bus_flags = G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT;
++	if (replace)
++		bus_flags |= G_BUS_NAME_OWNER_FLAGS_REPLACE;
+ 	g_bus_own_name (G_BUS_TYPE_SYSTEM,
+ 			DEVKIT_POWER_SERVICE_NAME,
+-			G_BUS_NAME_OWNER_FLAGS_NONE,
++			bus_flags,
+ 			up_main_bus_acquired,
+ 			NULL,
+ 			up_main_name_lost,
+-- 
+2.15.0
+

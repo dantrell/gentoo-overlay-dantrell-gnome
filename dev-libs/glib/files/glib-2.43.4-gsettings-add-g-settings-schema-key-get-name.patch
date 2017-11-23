@@ -1,0 +1,69 @@
+From d95bb1f08b07c3ae701076cd9d3cf6894a122e9c Mon Sep 17 00:00:00 2001
+From: Lars Uebernickel <lars.uebernickel@canonical.com>
+Date: Mon, 26 Jan 2015 09:50:34 +0000
+Subject: gsettings: add g_settings_schema_key_get_name
+
+https://bugzilla.gnome.org/show_bug.cgi?id=743517
+---
+ docs/reference/gio/gio-sections.txt |  1 +
+ gio/gsettingsschema.c               | 18 ++++++++++++++++++
+ gio/gsettingsschema.h               |  2 ++
+ 3 files changed, 21 insertions(+)
+
+diff --git a/docs/reference/gio/gio-sections.txt b/docs/reference/gio/gio-sections.txt
+index 329c739..f9b690c 100644
+--- a/docs/reference/gio/gio-sections.txt
++++ b/docs/reference/gio/gio-sections.txt
+@@ -2447,6 +2447,7 @@ g_settings_schema_key_get_range
+ g_settings_schema_key_range_check
+ 
+ <SUBSECTION>
++g_settings_schema_key_get_name
+ g_settings_schema_key_get_summary
+ g_settings_schema_key_get_description
+ 
+diff --git a/gio/gsettingsschema.c b/gio/gsettingsschema.c
+index 85cad60..b3e0c8d 100644
+--- a/gio/gsettingsschema.c
++++ b/gio/gsettingsschema.c
+@@ -1472,6 +1472,24 @@ g_settings_schema_get_key (GSettingsSchema *schema,
+ }
+ 
+ /**
++ * g_settings_schema_key_get_name:
++ * @key: a #GSettingsSchemaKey
++ *
++ * Gets the name of @key.
++ *
++ * Returns: the name of @key.
++ *
++ * Since: 2.44
++ */
++const gchar *
++g_settings_schema_key_get_name (GSettingsSchemaKey *key)
++{
++  g_return_val_if_fail (key != NULL, NULL);
++
++  return key->name;
++}
++
++/**
+  * g_settings_schema_key_get_summary:
+  * @key: a #GSettingsSchemaKey
+  *
+diff --git a/gio/gsettingsschema.h b/gio/gsettingsschema.h
+index e1d153e..cd7cfe4 100644
+--- a/gio/gsettingsschema.h
++++ b/gio/gsettingsschema.h
+@@ -94,6 +94,8 @@ GLIB_AVAILABLE_IN_2_40
+ gboolean                g_settings_schema_key_range_check               (GSettingsSchemaKey     *key,
+                                                                          GVariant               *value);
+ 
++GLIB_AVAILABLE_IN_2_44
++const gchar *           g_settings_schema_key_get_name                  (GSettingsSchemaKey     *key);
+ GLIB_AVAILABLE_IN_2_40
+ const gchar *           g_settings_schema_key_get_summary               (GSettingsSchemaKey     *key);
+ GLIB_AVAILABLE_IN_2_40
+-- 
+cgit v0.12
+

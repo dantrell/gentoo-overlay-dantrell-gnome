@@ -1,0 +1,49 @@
+From 696db7561560d9311dca93f0c849f96770f41d01 Mon Sep 17 00:00:00 2001
+From: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date: Mon, 2 Feb 2015 23:21:35 +0800
+Subject: gmacros.h: Add Private Macro _GLIB_DEFINE_AUTOPTR_CHAINUP
+
+This is necessary as we are using _GLIB_AUTOPTR_TYPENAME and
+_GLIB_AUTOPTR_FUNC_NAME in gtype.h for G_DECLARE_DERIVABLE_TYPE and
+G_DECLARE_FINAL_TYPE, but _GLIB_AUTOPTR_TYPENAME and
+_GLIB_AUTOPTR_FUNC_NAME expand to nothing on non-GCC, causing builds on
+non-GCC to break, due to bad typedef and function definitions.
+
+This patch defines a new private macro which does what is needed on GCC
+builds and does nothing on non-GCC builds, thus fixing the build.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=743640
+---
+ glib/gmacros.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/glib/gmacros.h b/glib/gmacros.h
+index 58d34b5..62b61cb 100644
+--- a/glib/gmacros.h
++++ b/glib/gmacros.h
+@@ -380,6 +380,11 @@
+ #define _GLIB_AUTOPTR_TYPENAME(TypeName)  TypeName##_autoptr
+ #define _GLIB_AUTO_FUNC_NAME(TypeName)    glib_auto_cleanup_##TypeName
+ #define _GLIB_CLEANUP(func)               __attribute__((cleanup(func)))
++#define _GLIB_DEFINE_AUTOPTR_CHAINUP(ModuleObjName, ParentName) \
++  typedef ModuleObjName *_GLIB_AUTOPTR_TYPENAME(ModuleObjName);                                          \
++  static inline void _GLIB_AUTOPTR_FUNC_NAME(ModuleObjName) (ModuleObjName **_ptr) {                     \
++    _GLIB_AUTOPTR_FUNC_NAME(ParentName) ((ParentName **) _ptr); }                                        \
++
+ 
+ /* these macros are API */
+ #define G_DEFINE_AUTOPTR_CLEANUP_FUNC(TypeName, func) \
+@@ -399,7 +404,10 @@
+ #define g_auto(TypeName) _GLIB_CLEANUP(_GLIB_AUTO_FUNC_NAME(TypeName)) TypeName
+ 
+ #else /* not GNU C */
++/* this (dummy) macro is private */
++#define _GLIB_DEFINE_AUTOPTR_CHAINUP(ModuleObjName, ParentName)
+ 
++/* these (dummy) macros are API */
+ #define G_DEFINE_AUTOPTR_CLEANUP_FUNC(TypeName, func)
+ #define G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(TypeName, func)
+ #define G_DEFINE_AUTO_CLEANUP_FREE_FUNC(TypeName, func, none)
+-- 
+cgit v0.12
+

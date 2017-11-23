@@ -1,0 +1,28 @@
+From 08f7f976961ca1174d187a917ec2a3d235f09448 Mon Sep 17 00:00:00 2001
+From: Ryan Lortie <desrt@desrt.ca>
+Date: Fri, 30 Jan 2015 17:38:45 +0100
+Subject: docs: link the GListModel docs from the index
+
+---
+ docs/reference/gio/gio-docs.xml | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/docs/reference/gio/gio-docs.xml b/docs/reference/gio/gio-docs.xml
+index ef01b0a..808825f 100644
+--- a/docs/reference/gio/gio-docs.xml
++++ b/docs/reference/gio/gio-docs.xml
+@@ -207,6 +207,11 @@
+         <xi:include href="xml/gpermission.xml"/>
+         <xi:include href="xml/gsimplepermission.xml"/>
+     </chapter>
++    <chapter id='data-models'>
++        <title>Data Models</title>
++        <xi:include href="xml/glistmodel.xml"/>
++        <xi:include href="xml/gliststore.xml"/>
++    </chapter>
+     <chapter id="application">
+         <title>Application support</title>
+         <xi:include href="xml/gapplication.xml"/>
+-- 
+cgit v0.12
+

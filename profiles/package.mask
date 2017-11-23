@@ -2,6 +2,8 @@ app-accessibility/accerciser::gentoo
 app-accessibility/accerciser::gnome-kit
 app-accessibility/caribou::gentoo
 app-accessibility/caribou::gnome-kit
+app-admin/ego::core-kit
+app-admin/ego::gentoo
 app-admin/eselect::core-kit
 app-admin/eselect::gentoo
 app-admin/gnome-system-log::gentoo

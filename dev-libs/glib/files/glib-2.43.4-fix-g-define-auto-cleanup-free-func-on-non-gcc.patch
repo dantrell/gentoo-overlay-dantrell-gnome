@@ -1,0 +1,30 @@
+From 57a49f6891a0d69c0b3b686040bf81e303831b77 Mon Sep 17 00:00:00 2001
+From: Ryan Lortie <desrt@desrt.ca>
+Date: Mon, 2 Feb 2015 09:16:55 +0100
+Subject: fix G_DEFINE_AUTO_CLEANUP_FREE_FUNC on non-GCC
+
+Add the missing 'none' argument to this macro in the non-GCC case.  The
+none parameter was added after the others and I forgot to update the
+non-GCC case.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=743640
+---
+ glib/gmacros.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/glib/gmacros.h b/glib/gmacros.h
+index 5b53bb5..58d34b5 100644
+--- a/glib/gmacros.h
++++ b/glib/gmacros.h
+@@ -402,7 +402,7 @@
+ 
+ #define G_DEFINE_AUTOPTR_CLEANUP_FUNC(TypeName, func)
+ #define G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(TypeName, func)
+-#define G_DEFINE_AUTO_CLEANUP_FREE_FUNC(TypeName, func)
++#define G_DEFINE_AUTO_CLEANUP_FREE_FUNC(TypeName, func, none)
+ 
+ /* no declaration of g_auto() or g_autoptr() here */
+ #endif
+-- 
+cgit v0.12
+

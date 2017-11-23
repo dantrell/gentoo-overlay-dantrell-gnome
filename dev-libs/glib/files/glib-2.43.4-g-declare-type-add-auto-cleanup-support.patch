@@ -1,0 +1,69 @@
+From 8ea414c8c6c40e208ebe4a9fdd41c7abdb05c392 Mon Sep 17 00:00:00 2001
+From: Ryan Lortie <desrt@desrt.ca>
+Date: Wed, 28 Jan 2015 11:47:05 +0000
+Subject: G_DECLARE_*_TYPE: add auto cleanup support
+
+Automatically add support for the new cleanup macros to the type
+declaration macros.
+
+This is an API break because now your parent class needs to support
+cleanup if you want to use G_DECLARE_*_TYPE.  These macros are only 1
+day old, however, so that's probably not a big problem (and we are
+already busy adding the macros all over GLib and Gtk+).
+
+https://bugzilla.gnome.org/show_bug.cgi?id=743640
+---
+ gobject/gtype.h | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/gobject/gtype.h b/gobject/gtype.h
+index e6fbaf3..54522e4 100644
+--- a/gobject/gtype.h
++++ b/gobject/gtype.h
+@@ -1365,6 +1365,10 @@ guint     g_type_get_type_registration_serial (void);
+  *   and therefore the fact that the size of the class structure is exposed is not a concern and it can be
+  *   freely changed at any point in the future.
+  *
++ * - g_autoptr() support being added for your type, based on the type of your parent class
++ *
++ * You can only use this function if your parent type also supports g_autoptr().
++ *
+  * Because the type macro (MY_APP_TYPE_WINDOW in the above example) is not a callable, you must continue to
+  * manually define this as a macro for yourself.
+  *
+@@ -1387,6 +1391,10 @@ guint     g_type_get_type_registration_serial (void);
+   typedef struct _##ModuleObjName ModuleObjName;                                                         \
+   typedef struct { ParentName##Class parent_class; } ModuleObjName##Class;                               \
+                                                                                                          \
++  typedef ModuleObjName *_GLIB_AUTOPTR_TYPENAME(ModuleObjName);                                          \
++  static inline void _GLIB_AUTOPTR_FUNC_NAME(ModuleObjName) (ModuleObjName **_ptr) {                     \
++    _GLIB_AUTOPTR_FUNC_NAME(ParentName) ((ParentName **) _ptr); }                                        \
++                                                                                                         \
+   static inline ModuleObjName * MODULE##_##OBJ_NAME (gpointer ptr) {                                     \
+     return G_TYPE_CHECK_INSTANCE_CAST (ptr, module_obj_name##_get_type (), ModuleObjName); }             \
+   static inline gboolean MODULE##_IS_##OBJ_NAME (gpointer ptr) {                                         \
+@@ -1445,6 +1453,10 @@ guint     g_type_get_type_registration_serial (void);
+  *   the GTK_IS_FROBBER() and GTK_IS_FROBBER_CLASS() type checking functions and GTK_FROBBER_GET_CLASS()
+  *   function.
+  *
++ * - g_autoptr() support being added for your type, based on the type of your parent class
++ *
++ * You can only use this function if your parent type also supports g_autoptr().
++ *
+  * Because the type macro (GTK_TYPE_FROBBER in the above example) is not a callable, you must continue to
+  * manually define this as a macro for yourself.
+  *
+@@ -1471,6 +1483,10 @@ guint     g_type_get_type_registration_serial (void);
+   typedef struct _##ModuleObjName##Class ModuleObjName##Class;                                           \
+   struct _##ModuleObjName { ParentName parent_instance; };                                               \
+                                                                                                          \
++  typedef ModuleObjName *_GLIB_AUTOPTR_TYPENAME(ModuleObjName);                                          \
++  static inline void _GLIB_AUTOPTR_FUNC_NAME(ModuleObjName) (ModuleObjName **_ptr) {                     \
++    _GLIB_AUTOPTR_FUNC_NAME(ParentName) ((ParentName **) _ptr); }                                        \
++                                                                                                         \
+   static inline ModuleObjName * MODULE##_##OBJ_NAME (gpointer ptr) {                                     \
+     return G_TYPE_CHECK_INSTANCE_CAST (ptr, module_obj_name##_get_type (), ModuleObjName); }             \
+   static inline ModuleObjName##Class * MODULE##_##OBJ_NAME##_CLASS (gpointer ptr) {                      \
+-- 
+cgit v0.12
+

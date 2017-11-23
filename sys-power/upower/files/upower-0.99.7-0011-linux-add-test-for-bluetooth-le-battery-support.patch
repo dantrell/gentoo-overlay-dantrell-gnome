@@ -1,0 +1,129 @@
+From 7771a57b81bf7067701afa87800bfa2d7840cbfd Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 19 Oct 2017 17:54:07 +0200
+Subject: [PATCH 11/11] linux: Add test for Bluetooth LE battery support
+
+https://bugs.freedesktop.org/show_bug.cgi?id=92370
+---
+ src/linux/integration-test | 70 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 034267a..81064dd 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -19,6 +19,7 @@
+ 
+ import os
+ import sys
++import dbus
+ import tempfile
+ import subprocess
+ import unittest
+@@ -52,6 +53,9 @@ UP = 'org.freedesktop.UPower'
+ UP_DEVICE = 'org.freedesktop.UPower.Device'
+ UP_DISPLAY_OBJECT_PATH = '/org/freedesktop/UPower/devices/DisplayDevice'
+ 
++DEVICE_IFACE = 'org.bluez.Device1'
++BATTERY_IFACE = 'org.bluez.Battery1'
++
+ (UP_DEVICE_STATE_UNKNOWN,
+  UP_DEVICE_STATE_CHARGING,
+  UP_DEVICE_STATE_DISCHARGING,
+@@ -121,6 +125,7 @@ class Tests(dbusmock.DBusTestCase):
+         os.environ['DBUS_SYSTEM_BUS_ADDRESS'] = cls.test_bus.get_bus_address()
+ 
+         cls.dbus = Gio.bus_get_sync(Gio.BusType.SYSTEM, None)
++        cls.dbus_con = cls.get_dbus(True)
+ 
+     @classmethod
+     def tearDownClass(cls):
+@@ -148,6 +153,14 @@ class Tests(dbusmock.DBusTestCase):
+             self.logind.terminate()
+             self.logind.wait()
+ 
++        try:
++            if self.bluez:
++                self.bluez.stdout.close()
++                self.bluez.terminate()
++                self.bluez.wait()
++        except:
++            pass
++
+         # on failures, print daemon log
+         errors = [x[1] for x in self._outcome.errors if x[1]]
+         if errors and self.log:
+@@ -248,6 +261,11 @@ class Tests(dbusmock.DBusTestCase):
+                                                                   parameters or {},
+                                                                   stdout=subprocess.PIPE)
+ 
++    def start_bluez(self, parameters=None):
++        self.bluez, self.bluez_obj = self.spawn_server_template('bluez5',
++                                                                  parameters or {},
++                                                                  stdout=subprocess.PIPE)
++
+     def have_text_in_log(self, text):
+         return self.count_text_in_log(text) > 0
+ 
+@@ -1334,6 +1352,58 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+         self.stop_daemon()
+ 
++    def test_bluetooth_le_mouse(self):
++        '''Bluetooth LE mouse'''
++
++        self.start_bluez()
++
++        # Add an adapter to both bluez and udev
++        adapter_name = 'hci0'
++        path = self.bluez_obj.AddAdapter(adapter_name, 'my-computer')
++        self.assertEqual(path, '/org/bluez/' + adapter_name)
++
++        dev = self.testbed.add_device('bluetooth',
++                                      'usb2/bluetooth/hci0/hci0:1',
++                                      None,
++                                      [], [])
++
++        # Add a device to both bluez and udev
++        address = '11:22:33:44:55:66'
++        alias = 'Arc Touch Mouse SE'
++
++        path = self.bluez_obj.AddDevice(adapter_name, address, alias)
++
++        device = self.dbus_con.get_object('org.bluez', path)
++        device.AddProperties(DEVICE_IFACE, { 'Appearance': dbus.UInt16(0x03c2, variant_level=1) })
++
++        properties = {
++            'Percentage': dbus.Byte(99, variant_level=1),
++        }
++        device.AddProperties(BATTERY_IFACE, properties)
++
++        parent = dev
++        self.testbed.add_device(
++            'input',
++            'input3/event4',
++            parent,
++            [], ['DEVNAME', 'input/event4', 'ID_INPUT_MOUSE', '1'])
++
++        self.start_daemon()
++
++        # process = subprocess.Popen(['gdbus', 'introspect', '--system', '--dest', 'org.bluez', '--object-path', '/org/bluez/hci0/dev_11_22_33_44_55_66'])
++
++        # Wait for UPower to process the new device
++        time.sleep(0.5)
++        devs = self.proxy.EnumerateDevices()
++        self.assertEqual(len(devs), 1)
++        mouse_bat0_up = devs[0]
++
++        self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Model'), 'Arc Touch Mouse SE')
++        self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Percentage'), 99)
++        self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'PowerSupply'), False)
++        self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Type'), UP_DEVICE_KIND_MOUSE)
++        self.stop_daemon()
++
+     #
+     # libupower-glib tests (through introspection)
+     #
+-- 
+2.15.0
+

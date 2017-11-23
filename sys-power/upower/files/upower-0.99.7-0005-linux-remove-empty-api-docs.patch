@@ -1,0 +1,101 @@
+From 91c7f7c0f80a23cb51f994b7543efa1f6e711d76 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 19 Oct 2017 19:13:44 +0200
+Subject: [PATCH 05/11] linux: Remove empty API docs
+
+Those "API documentation" don't document the function below it, they
+just name it, so aren't needed.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=103380
+---
+ src/linux/up-backend.c | 25 -------------------------
+ 1 file changed, 25 deletions(-)
+
+diff --git a/src/linux/up-backend.c b/src/linux/up-backend.c
+index e7684a2..41935ba 100644
+--- a/src/linux/up-backend.c
++++ b/src/linux/up-backend.c
+@@ -80,9 +80,6 @@ G_DEFINE_TYPE (UpBackend, up_backend, G_TYPE_OBJECT)
+ static gboolean up_backend_device_add (UpBackend *backend, GUdevDevice *native);
+ static void up_backend_device_remove (UpBackend *backend, GUdevDevice *native);
+ 
+-/**
+- * up_backend_device_new:
+- **/
+ static UpDevice *
+ up_backend_device_new (UpBackend *backend, GUdevDevice *native)
+ {
+@@ -181,9 +178,6 @@ out:
+ 	return device;
+ }
+ 
+-/**
+- * up_backend_device_changed:
+- **/
+ static void
+ up_backend_device_changed (UpBackend *backend, GUdevDevice *native)
+ {
+@@ -211,9 +205,6 @@ out:
+ 		g_object_unref (object);
+ }
+ 
+-/**
+- * up_backend_device_add:
+- **/
+ static gboolean
+ up_backend_device_add (UpBackend *backend, GUdevDevice *native)
+ {
+@@ -246,9 +237,6 @@ out:
+ 	return ret;
+ }
+ 
+-/**
+- * up_backend_device_remove:
+- **/
+ static void
+ up_backend_device_remove (UpBackend *backend, GUdevDevice *native)
+ {
+@@ -272,9 +260,6 @@ out:
+ 		g_object_unref (object);
+ }
+ 
+-/**
+- * up_backend_uevent_signal_handler_cb:
+- **/
+ static void
+ up_backend_uevent_signal_handler_cb (GUdevClient *client, const gchar *action,
+ 				      GUdevDevice *device, gpointer user_data)
+@@ -590,10 +575,6 @@ up_backend_prepare_for_sleep (GDBusConnection *connection,
+ }
+ 
+ 
+-/**
+- * up_backend_class_init:
+- * @klass: The UpBackendClass
+- **/
+ static void
+ up_backend_class_init (UpBackendClass *klass)
+ {
+@@ -616,9 +597,6 @@ up_backend_class_init (UpBackendClass *klass)
+ 	g_type_class_add_private (klass, sizeof (UpBackendPrivate));
+ }
+ 
+-/**
+- * up_backend_init:
+- **/
+ static void
+ up_backend_init (UpBackend *backend)
+ {
+@@ -654,9 +632,6 @@ up_backend_init (UpBackend *backend)
+ 	up_backend_inhibitor_lock_take (backend);
+ }
+ 
+-/**
+- * up_backend_finalize:
+- **/
+ static void
+ up_backend_finalize (GObject *object)
+ {
+-- 
+2.15.0
+

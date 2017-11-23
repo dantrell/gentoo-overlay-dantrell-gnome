@@ -1,0 +1,90 @@
+From caf9db2dfbea4fd0306d4edf12b11ee91d235c7c Mon Sep 17 00:00:00 2001
+From: Xavier Claessens <xavier.claessens@collabora.com>
+Date: Fri, 30 Jan 2015 11:40:46 -0500
+Subject: Doc: Fix GListModel/GListStore
+
+---
+ docs/reference/gio/gio-sections.txt |  3 +--
+ gio/glistmodel.c                    | 10 +++++++++-
+ gio/gliststore.c                    |  9 ++++++++-
+ 3 files changed, 18 insertions(+), 4 deletions(-)
+
+diff --git a/docs/reference/gio/gio-sections.txt b/docs/reference/gio/gio-sections.txt
+index 8460894..1268947 100644
+--- a/docs/reference/gio/gio-sections.txt
++++ b/docs/reference/gio/gio-sections.txt
+@@ -4263,7 +4263,7 @@ g_notification_get_type
+ <FILE>glistmodel</FILE>
+ <TITLE>GListModel</TITLE>
+ GListModel
+-g_list_model_new
++GListModelInterface
+ <SUBSECTION>
+ g_list_model_get_item_type
+ g_list_model_get_n_items
+@@ -4284,7 +4284,6 @@ g_list_model_get_type
+ <TITLE>GListStore</TITLE>
+ GListStore
+ <SUBSECTION>
+-g_list_store_get_type
+ g_list_store_new
+ g_list_store_insert
+ g_list_store_insert_sorted
+diff --git a/gio/glistmodel.c b/gio/glistmodel.c
+index 340ff22..b43f3a3 100644
+--- a/gio/glistmodel.c
++++ b/gio/glistmodel.c
+@@ -83,7 +83,8 @@ G_DEFINE_INTERFACE (GListModel, g_list_model, G_TYPE_OBJECT);
+  */
+ 
+ /**
+- * GListModel:
++ * GListModelInterface:
++ * @g_iface: parent #GTypeInterface
+  * @get_item_type: the virtual function pointer for g_list_model_get_item_type()
+  * @get_n_items: the virtual function pointer for g_list_model_get_n_items()
+  * @get_item: the virtual function pointer for g_list_model_get_item()
+@@ -93,6 +94,13 @@ G_DEFINE_INTERFACE (GListModel, g_list_model, G_TYPE_OBJECT);
+  * Since: 2.44
+  */
+ 
++/**
++ * GListModel:
++ *
++ * #GListModel is an opaque data structure and can only be accessed
++ * using the following functions.
++ **/
++
+ static guint g_list_model_changed_signal;
+ 
+ static void
+diff --git a/gio/gliststore.c b/gio/gliststore.c
+index 7bca68e..9a48abd 100644
+--- a/gio/gliststore.c
++++ b/gio/gliststore.c
+@@ -26,7 +26,7 @@
+ #include "glistmodel.h"
+ 
+ /**
+- * SECTION:glistmodel
++ * SECTION:gliststore
+  * @title: GListStore
+  * @short_description: A simple implementation of #GListModel
+  * @include: gio/gio.h
+@@ -38,6 +38,13 @@
+  * with a fast path for the common case of iterating the list linearly.
+  */
+ 
++/**
++ * GListStore:
++ *
++ * #GListStore is an opaque data structure and can only be accessed
++ * using the following functions.
++ **/
++
+ struct _GListStore
+ {
+   GObject parent_instance;
+-- 
+cgit v0.12
+

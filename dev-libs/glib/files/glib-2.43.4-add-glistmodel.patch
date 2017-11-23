@@ -1,0 +1,1125 @@
+From b69beff42691ef300b6829beb261ca4cdfff02be Mon Sep 17 00:00:00 2001
+From: Lars Uebernickel <lars.uebernickel@canonical.com>
+Date: Thu, 1 May 2014 20:04:32 +0200
+Subject: Add GListModel
+
+GListModel is an interface that represents a dynamic list of GObjects.
+
+Also add GListStore, a simple implementation of GListModel that stores
+all objects in memory, using a GSequence.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=729351
+---
+ docs/reference/gio/gio-sections.txt |  38 ++++
+ gio/Makefile.am                     |   4 +
+ gio/gio.h                           |   2 +
+ gio/giotypes.h                      |   2 +
+ gio/glistmodel.c                    | 260 ++++++++++++++++++++++
+ gio/glistmodel.h                    |  78 +++++++
+ gio/gliststore.c                    | 421 ++++++++++++++++++++++++++++++++++++
+ gio/gliststore.h                    |  66 ++++++
+ gio/tests/Makefile.am               |   1 +
+ gio/tests/glistmodel.c              | 132 +++++++++++
+ 10 files changed, 1004 insertions(+)
+ create mode 100644 gio/glistmodel.c
+ create mode 100644 gio/glistmodel.h
+ create mode 100644 gio/gliststore.c
+ create mode 100644 gio/gliststore.h
+ create mode 100644 gio/tests/glistmodel.c
+
+diff --git a/docs/reference/gio/gio-sections.txt b/docs/reference/gio/gio-sections.txt
+index 9c4e36d..a487391 100644
+--- a/docs/reference/gio/gio-sections.txt
++++ b/docs/reference/gio/gio-sections.txt
+@@ -4258,3 +4258,41 @@ G_TYPE_NOTIFICATION
+ G_TYPE_NOTIFICATION_BACKEND
+ g_notification_get_type
+ </SECTION>
++
++<SECTION>
++<FILE>glistmodel</FILE>
++<TITLE>GListModel</TITLE>
++GListModel
++g_list_model_new
++<SUBSECTION>
++g_list_model_get_item_type
++g_list_model_get_n_items
++g_list_model_get_item
++g_list_model_get_object
++g_list_model_items_changed
++<SUBSECTION Standard>
++G_TYPE_LIST_MODEL
++G_LIST_MODEL
++G_IS_LIST_MODEL
++G_LIST_MODEL_GET_IFACE
++<SUBSECTION Private>
++g_list_model_get_type
++</SECTION>
++
++<SECTION>
++<FILE>gliststore</FILE>
++<TITLE>GListStore</TITLE>
++GListStore
++<SUBSECTION>
++g_list_store_get_type
++g_list_store_new
++g_list_store_insert
++g_list_store_append
++g_list_store_remove
++g_list_store_remove_all
++g_list_store_splice
++<SUBSECTION Standard>
++G_TYPE_LIST_STORE
++<SUBSECTION Private>
++g_list_store_get_type
++</SECTION>
+diff --git a/gio/Makefile.am b/gio/Makefile.am
+index b045936..10e4a62 100644
+--- a/gio/Makefile.am
++++ b/gio/Makefile.am
+@@ -472,6 +472,8 @@ libgio_2_0_la_SOURCES =		\
+ 	gmountprivate.h 	\
+ 	gioenumtypes.h		\
+ 	gioenumtypes.c		\
++	glistmodel.c 		\
++	gliststore.c 		\
+ 	$(appinfo_sources) 	\
+ 	$(unix_sources) 	\
+ 	$(win32_sources) 	\
+@@ -626,6 +628,8 @@ gio_headers =			\
+ 	gvolumemonitor.h 	\
+ 	gzlibcompressor.h	\
+ 	gzlibdecompressor.h	\
++	glistmodel.h		\
++	gliststore.h		\
+ 	$(application_headers)	\
+ 	$(settings_headers)	\
+ 	$(gdbus_headers)	\
+diff --git a/gio/gio.h b/gio/gio.h
+index 3cc4af3..a7dbf46 100644
+--- a/gio/gio.h
++++ b/gio/gio.h
+@@ -160,6 +160,8 @@
+ #include <gio/gmenuexporter.h>
+ #include <gio/gdbusmenumodel.h>
+ #include <gio/gnotification.h>
++#include <gio/glistmodel.h>
++#include <gio/gliststore.h>
+ 
+ #undef __GIO_GIO_H_INSIDE__
+ 
+diff --git a/gio/giotypes.h b/gio/giotypes.h
+index 7f93145..11957b6 100644
+--- a/gio/giotypes.h
++++ b/gio/giotypes.h
+@@ -61,6 +61,8 @@ typedef struct _GPermission                   GPermission;
+ 
+ typedef struct _GMenuModel                    GMenuModel;
+ typedef struct _GNotification                 GNotification;
++typedef struct _GListModel                    GListModel;
++typedef struct _GListStore                    GListStore;
+ 
+ /**
+  * GDrive:
+diff --git a/gio/glistmodel.c b/gio/glistmodel.c
+new file mode 100644
+index 0000000..340ff22
+--- /dev/null
++++ b/gio/glistmodel.c
+@@ -0,0 +1,260 @@
++/*
++ * Copyright 2015 Lars Uebernickel
++ * Copyright 2015 Ryan Lortie
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General
++ * Public License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ *
++ * Authors:
++ *     Lars Uebernickel <lars@uebernic.de>
++ *     Ryan Lortie <desrt@desrt.ca>
++ */
++
++#include "config.h"
++
++#include "glistmodel.h"
++
++G_DEFINE_INTERFACE (GListModel, g_list_model, G_TYPE_OBJECT);
++
++/**
++ * SECTION:glistmodel
++ * @title: GListModel
++ * @short_description: An interface describing a dynamic list of objects
++ * @include: gio/gio.h
++ * @see_also: #GListStore
++ *
++ * #GListModel is an interface that represents a mutable list of
++ * #GObjects. Its main intention is as a model for various widgets in
++ * user interfaces, such as list views, but it can also be used as a
++ * convenient method of returning lists of data, with support for
++ * updates.
++ *
++ * Each object in the list may also report changes in itself via some
++ * mechanism (normally the #GObject::notify signal).  Taken together
++ * with the #GListModel::items-changed signal, this provides for a list
++ * that can change its membership, and in which the members can change
++ * their individual properties.
++ *
++ * A good example would be the list of visible wireless network access
++ * points, where each access point can report dynamic properties such as
++ * signal strength.
++ *
++ * It is important to note that the #GListModel itself does not report
++ * changes to the individual items.  It only reports changes to the list
++ * membership.  If you want to observe changes to the objects themselves
++ * then you need to connect signals to the objects that you are
++ * interested in.
++ *
++ * All items in a #GListModel are of (or derived from) the same type.
++ * g_list_model_get_item_type() returns that type.  The type may be an
++ * interface, in which case all objects in the list must implement it.
++ *
++ * The semantics are close to that of an array:
++ * g_list_model_get_length() returns the number of items in the list and
++ * g_list_model_get_item() returns an item at a (0-based) position. In
++ * order to allow implementations to calculate the list length lazily,
++ * you can also iterate over items: starting from 0, repeatedly call
++ * g_list_model_get_item() until it returns %NULL.
++ *
++ * An implementation may create objects lazily, but must take care to
++ * return the same object for a given position until all references to
++ * it are gone.
++ *
++ * On the other side, a consumer is expected only to hold references on
++ * objects that are currently "user visible", in order to faciliate the
++ * maximum level of laziness in the implementation of the list and to
++ * reduce the required number of signal connections at a given time.
++ *
++ * This interface is intended only to be used from a single thread.  The
++ * thread in which it is appropriate to use it depends on the particular
++ * implementation, but typically it will be from the thread that owns
++ * the [thread-default main context][g-main-context-push-thread-default]
++ * in effect at the time that the model was created.
++ */
++
++/**
++ * GListModel:
++ * @get_item_type: the virtual function pointer for g_list_model_get_item_type()
++ * @get_n_items: the virtual function pointer for g_list_model_get_n_items()
++ * @get_item: the virtual function pointer for g_list_model_get_item()
++ *
++ * The virtual function table for #GListModel.
++ *
++ * Since: 2.44
++ */
++
++static guint g_list_model_changed_signal;
++
++static void
++g_list_model_default_init (GListModelInterface *iface)
++{
++  /**
++   * GListModel::items-changed:
++   * @list: the #GListModel that changed
++   * @position: the position at which @list changed
++   * @removed: the number of items removed
++   * @added: the number of items added
++   *
++   * This signal is emitted whenever items were added or removed to
++   * @list. At @position, @removed items were removed and @added items
++   * were added in their place.
++   *
++   * Since: 2.44
++   */
++  g_list_model_changed_signal = g_signal_new ("items-changed",
++                                              G_TYPE_LIST_MODEL,
++                                              G_SIGNAL_RUN_LAST,
++                                              0,
++                                              NULL, NULL,
++                                              g_cclosure_marshal_generic,
++                                              G_TYPE_NONE,
++                                              3, G_TYPE_UINT, G_TYPE_UINT, G_TYPE_UINT);
++}
++
++/**
++ * g_list_model_get_item_type:
++ * @list: a #GListModel
++ *
++ * Gets the type of the items in @list. All items returned from
++ * g_list_model_get_type() are of that type or a subtype, or are an
++ * implementation of that interface.
++ *
++ * The item type of a #GListModel can not change during the life of the
++ * model.
++ *
++ * Returns: the #GType of the items contained in @list.
++ *
++ * Since: 2.44
++ */
++GType
++g_list_model_get_item_type (GListModel *list)
++{
++  g_return_val_if_fail (G_IS_LIST_MODEL (list), G_TYPE_NONE);
++
++  return G_LIST_MODEL_GET_IFACE (list)->get_item_type (list);
++}
++
++/**
++ * g_list_model_get_n_items:
++ * @list: a #GListModel
++ *
++ * Gets the number of items in @list.
++ *
++ * Depending on the model implementation, calling this function may be
++ * less efficient than iterating the list with increasing values for
++ * @position until g_list_model_get_item() returns %NULL.
++ *
++ * Returns: the number of items in @list.
++ *
++ * Since: 2.44
++ */
++guint
++g_list_model_get_n_items (GListModel *list)
++{
++  g_return_val_if_fail (G_IS_LIST_MODEL (list), 0);
++
++  return G_LIST_MODEL_GET_IFACE (list)->get_n_items (list);
++}
++
++/**
++ * g_list_model_get_item: (skip)
++ * @list: a #GListModel
++ * @position: the position of the item to fetch
++ *
++ * Get the item at @position. If @position is greater than the number of
++ * items in @list, %NULL is returned.
++ *
++ * %NULL is never returned for an index that is smaller than the length
++ * of the list.  See g_list_model_get_n_items().
++ *
++ * Returns: (transfer full) (nullable) (type GObject): the item at @position.
++ *
++ * Since: 2.44
++ */
++gpointer
++g_list_model_get_item (GListModel *list,
++                       guint       position)
++{
++  g_return_val_if_fail (G_IS_LIST_MODEL (list), NULL);
++
++  return G_LIST_MODEL_GET_IFACE (list)->get_item (list, position);
++}
++
++/**
++ * g_list_model_get_object: (rename-to g_list_model_get_item)
++ * @list: a #GListModel
++ * @position: the position of the item to fetch
++ *
++ * Get the item at @position. If @position is greater than the number of
++ * items in @list, %NULL is returned.
++ *
++ * %NULL is never returned for an index that is smaller than the length
++ * of the list.  See g_list_model_get_n_items().
++ *
++ * Returns: (transfer full) (nullable): the object at @position.
++ *
++ * Since: 2.44
++ */
++GObject *
++g_list_model_get_object (GListModel *list,
++                         guint       position)
++{
++  gpointer item;
++
++  g_return_val_if_fail (G_IS_LIST_MODEL (list), NULL);
++
++  item = g_list_model_get_item (list, position);
++
++  return G_OBJECT (item);
++}
++
++/**
++ * g_list_model_items_changed:
++ * @list: a #GListModel
++ * @position: the position at which @list changed
++ * @removed: the number of items removed
++ * @added: the number of items added
++ *
++ * Emits the #GListModel::items-changed signal on @list.
++ *
++ * This function should only be called by classes implementing
++ * #GListModel. It has to be called after the internal representation
++ * of @list has been updated, because handlers connected to this signal
++ * might query the new state of the list.
++ *
++ * Implementations must only make changes to the model (as visible to
++ * its consumer) in places that will not cause problems for that
++ * consumer.  For models that are driven directly by a write API (such
++ * as #GListStore), changes can be reported in response to uses of that
++ * API.  For models that represent remote data, changes should only be
++ * made from a fresh mainloop dispatch.  It is particularly not
++ * permitted to make changes in response to a call to the #GListModel
++ * consumer API.
++ *
++ * Stated another way: in general, it is assumed that code making a
++ * series of accesses to the model via the API, without returning to the
++ * mainloop, and without calling other code, will continue to view the
++ * same contents of the model.
++ *
++ * Since: 2.44
++ */
++void
++g_list_model_items_changed (GListModel *list,
++                            guint       position,
++                            guint       removed,
++                            guint       added)
++{
++  g_return_if_fail (G_IS_LIST_MODEL (list));
++
++  g_signal_emit (list, g_list_model_changed_signal, 0, position, removed, added);
++}
+diff --git a/gio/glistmodel.h b/gio/glistmodel.h
+new file mode 100644
+index 0000000..e47b87a
+--- /dev/null
++++ b/gio/glistmodel.h
+@@ -0,0 +1,78 @@
++/*
++ * Copyright 2015 Lars Uebernickel
++ * Copyright 2015 Ryan Lortie
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General
++ * Public License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ *
++ * Authors:
++ *     Lars Uebernickel <lars@uebernic.de>
++ *     Ryan Lortie <desrt@desrt.ca>
++ */
++
++#ifndef __G_LIST_MODEL_H__
++#define __G_LIST_MODEL_H__
++
++#if !defined (__GIO_GIO_H_INSIDE__) && !defined (GIO_COMPILATION)
++#error "Only <gio/gio.h> can be included directly."
++#endif
++
++#include <gio/giotypes.h>
++
++G_BEGIN_DECLS
++
++#define G_TYPE_LIST_MODEL            (g_list_model_get_type ())
++#define G_LIST_MODEL(inst)           (G_TYPE_CHECK_INSTANCE_CAST ((inst), G_TYPE_LIST_MODEL, GListModel))
++#define G_IS_LIST_MODEL(inst)        (G_TYPE_CHECK_INSTANCE_TYPE ((inst), G_TYPE_LIST_MODEL))
++#define G_LIST_MODEL_GET_IFACE(inst) (G_TYPE_INSTANCE_GET_INTERFACE ((inst), G_TYPE_LIST_MODEL, GListModelInterface))
++
++typedef struct _GListModelInterface GListModelInterface;
++
++struct _GListModelInterface
++{
++  GTypeInterface interface;
++
++  GType     (* get_item_type)   (GListModel *list);
++
++  guint     (* get_n_items)     (GListModel *list);
++
++  gpointer  (* get_item)        (GListModel *list,
++                                 guint       position);
++};
++
++GLIB_AVAILABLE_IN_2_44
++GType                   g_list_model_get_type                           (void) G_GNUC_CONST;
++
++GLIB_AVAILABLE_IN_2_44
++GType                   g_list_model_get_item_type                      (GListModel *list);
++
++GLIB_AVAILABLE_IN_2_44
++guint                   g_list_model_get_n_items                        (GListModel *list);
++
++GLIB_AVAILABLE_IN_2_44
++gpointer                g_list_model_get_item                           (GListModel *list,
++                                                                         guint       position);
++
++GLIB_AVAILABLE_IN_2_44
++GObject *               g_list_model_get_object                         (GListModel *list,
++                                                                         guint       position);
++
++GLIB_AVAILABLE_IN_2_44
++void                    g_list_model_items_changed                      (GListModel *list,
++                                                                         guint       position,
++                                                                         guint       removed,
++                                                                         guint       added);
++
++G_END_DECLS
++
++#endif /* __G_LIST_MODEL_H__ */
+diff --git a/gio/gliststore.c b/gio/gliststore.c
+new file mode 100644
+index 0000000..407dcbf
+--- /dev/null
++++ b/gio/gliststore.c
+@@ -0,0 +1,421 @@
++/*
++ * Copyright 2015 Lars Uebernickel
++ * Copyright 2015 Ryan Lortie
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General
++ * Public License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ *
++ * Authors:
++ *     Lars Uebernickel <lars@uebernic.de>
++ *     Ryan Lortie <desrt@desrt.ca>
++ */
++
++#include "config.h"
++
++#include "gliststore.h"
++#include "glistmodel.h"
++
++/**
++ * SECTION:glistmodel
++ * @title: GListStore
++ * @short_description: A simple implementation of #GListModel
++ * @include: gio/gio.h
++ *
++ * #GListStore is a simple implementation of #GListModel that stores all
++ * items in memory.
++ *
++ * It provides insertions, deletions, and lookups in logarithmic time
++ * with a fast path for the common case of iterating the list linearly.
++ */
++
++struct _GListStore
++{
++  GObject parent_instance;
++
++  GType item_type;
++  GSequence *items;
++
++  /* cache */
++  guint last_position;
++  GSequenceIter *last_iter;
++};
++
++enum
++{
++  PROP_0,
++  PROP_ITEM_TYPE,
++  N_PROPERTIES
++};
++
++static void g_list_store_iface_init (GListModelInterface *iface);
++
++G_DEFINE_TYPE_WITH_CODE (GListStore, g_list_store, G_TYPE_OBJECT,
++                         G_IMPLEMENT_INTERFACE (G_TYPE_LIST_MODEL, g_list_store_iface_init));
++
++static void
++g_list_store_items_changed (GListStore *store,
++                            guint       position,
++                            guint       removed,
++                            guint       added)
++{
++  /* check if the iter cache may have been invalidated */
++  if (position <= store->last_position)
++    {
++      store->last_iter = NULL;
++      store->last_position = -1u;
++    }
++
++  g_list_model_items_changed (G_LIST_MODEL (store), position, removed, added);
++}
++
++static void
++g_list_store_dispose (GObject *object)
++{
++  GListStore *store = G_LIST_STORE (object);
++
++  g_clear_pointer (&store->items, g_sequence_free);
++
++  G_OBJECT_CLASS (g_list_store_parent_class)->dispose (object);
++}
++
++static void
++g_list_store_get_property (GObject    *object,
++                           guint       property_id,
++                           GValue     *value,
++                           GParamSpec *pspec)
++{
++  GListStore *store = G_LIST_STORE (object);
++
++  switch (property_id)
++    {
++    case PROP_ITEM_TYPE:
++      g_value_set_gtype (value, store->item_type);
++      break;
++
++    default:
++      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
++    }
++}
++
++static void
++g_list_store_set_property (GObject      *object,
++                           guint         property_id,
++                           const GValue *value,
++                           GParamSpec   *pspec)
++{
++  GListStore *store = G_LIST_STORE (object);
++
++  switch (property_id)
++    {
++    case PROP_ITEM_TYPE: /* construct-only */
++      store->item_type = g_value_get_gtype (value);
++      if (!g_type_is_a (store->item_type, G_TYPE_OBJECT))
++        g_critical ("GListStore cannot store items of type '%s'. Items must be GObjects.",
++                    g_type_name (store->item_type));
++      break;
++
++    default:
++      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
++    }
++}
++
++static void
++g_list_store_class_init (GListStoreClass *klass)
++{
++  GObjectClass *object_class = G_OBJECT_CLASS (klass);
++
++  object_class->dispose = g_list_store_dispose;
++  object_class->get_property = g_list_store_get_property;
++  object_class->set_property = g_list_store_set_property;
++
++  /**
++   * GListStore:item-type:
++   *
++   * The type of items contained in this list store. Items must be
++   * subclasses of #GObject.
++   *
++   * Since: 2.44
++   **/
++  g_object_class_install_property (object_class, PROP_ITEM_TYPE,
++    g_param_spec_gtype ("item-type", "", "", G_TYPE_OBJECT,
++                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
++}
++
++static GType
++g_list_store_get_item_type (GListModel *list)
++{
++  GListStore *store = G_LIST_STORE (list);
++
++  return store->item_type;
++}
++
++static guint
++g_list_store_get_n_items (GListModel *list)
++{
++  GListStore *store = G_LIST_STORE (list);
++
++  return g_sequence_get_length (store->items);
++}
++
++static gpointer
++g_list_store_get_item (GListModel *list,
++                       guint       position)
++{
++  GListStore *store = G_LIST_STORE (list);
++  GSequenceIter *it = NULL;
++
++  if (store->last_position != -1u)
++    {
++      if (store->last_position == position + 1)
++        it = g_sequence_iter_prev (store->last_iter);
++      else if (store->last_position == position - 1)
++        it = g_sequence_iter_next (store->last_iter);
++      else if (store->last_position == position)
++        it = store->last_iter;
++    }
++
++  if (it == NULL)
++    it = g_sequence_get_iter_at_pos (store->items, position);
++
++  store->last_iter = it;
++  store->last_position = position;
++
++  if (g_sequence_iter_is_end (it))
++    return NULL;
++  else
++    return g_object_ref (g_sequence_get (it));
++}
++
++static void
++g_list_store_iface_init (GListModelInterface *iface)
++{
++  iface->get_item_type = g_list_store_get_item_type;
++  iface->get_n_items = g_list_store_get_n_items;
++  iface->get_item = g_list_store_get_item;
++}
++
++static void
++g_list_store_init (GListStore *store)
++{
++  store->items = g_sequence_new (g_object_unref);
++  store->last_position = -1u;
++}
++
++/**
++ * g_list_store_new:
++ * @item_type: the #GType of items in the list
++ *
++ * Creates a new #GListStore with items of type @item_type. @item_type
++ * must be a subclass of #GObject.
++ *
++ * Returns: a new #GListStore
++ * Since: 2.44
++ */
++GListStore *
++g_list_store_new (GType item_type)
++{
++  /* We only allow GObjects as item types right now. This might change
++   * in the future.
++   */
++  g_return_val_if_fail (g_type_is_a (item_type, G_TYPE_OBJECT), NULL);
++
++  return g_object_new (G_TYPE_LIST_STORE,
++                       "item-type", item_type,
++                       NULL);
++}
++
++/**
++ * g_list_store_insert:
++ * @store: a #GListStore
++ * @position: the position at which to insert the new item
++ * @item: the new item
++ *
++ * Inserts @item into @store at @position. @item must be of type
++ * #GListStore:item-type or derived from it. @position must be smaller
++ * than the length of the list, or equal to it to append.
++ *
++ * This function takes a ref on @item.
++ *
++ * Use g_list_store_splice() to insert multiple items at the same time
++ * efficiently.
++ *
++ * Since: 2.44
++ */
++void
++g_list_store_insert (GListStore *store,
++                     guint       position,
++                     gpointer    item)
++{
++  GSequenceIter *it;
++
++  g_return_if_fail (G_IS_LIST_STORE (store));
++  g_return_if_fail (g_type_is_a (G_OBJECT_TYPE (item), store->item_type));
++  g_return_if_fail (position <= g_sequence_get_length (store->items));
++
++  it = g_sequence_get_iter_at_pos (store->items, position);
++  g_sequence_insert_before (it, g_object_ref (item));
++
++  g_list_store_items_changed (store, position, 0, 1);
++}
++
++/**
++ * g_list_store_append:
++ * @store: a #GListStore
++ * @item: the new item
++ *
++ * Appends @item to @store. @item must be of type #GListStore:item-type.
++ *
++ * This function takes a ref on @item.
++ *
++ * Use g_list_store_splice() to append multiple items at the same time
++ * efficiently.
++ *
++ * Since: 2.44
++ */
++void
++g_list_store_append (GListStore *store,
++                     gpointer    item)
++{
++  guint n_items;
++
++  g_return_if_fail (G_IS_LIST_STORE (store));
++  g_return_if_fail (g_type_is_a (G_OBJECT_TYPE (item), store->item_type));
++
++  n_items = g_sequence_get_length (store->items);
++  g_sequence_append (store->items, g_object_ref (item));
++
++  g_list_store_items_changed (store, n_items, 0, 1);
++}
++
++/**
++ * g_list_store_remove:
++ * @store: a #GListStore
++ * @position: the position of the item that is to be removed
++ *
++ * Removes the item from @store that is at @position. @position must be
++ * smaller than the current length of the list.
++ *
++ * Use g_list_store_splice() to remove multiple items at the same time
++ * efficiently.
++ *
++ * Since: 2.44
++ */
++void
++g_list_store_remove (GListStore *store,
++                     guint       position)
++{
++  GSequenceIter *it;
++
++  g_return_if_fail (G_IS_LIST_STORE (store));
++
++  it = g_sequence_get_iter_at_pos (store->items, position);
++  g_return_if_fail (!g_sequence_iter_is_end (it));
++
++  g_sequence_remove (it);
++  g_list_store_items_changed (store, position, 1, 0);
++}
++
++/**
++ * g_list_store_remove_all:
++ * @store: a #GListStore
++ *
++ * Removes all items from @store.
++ *
++ * Since: 2.44
++ */
++void
++g_list_store_remove_all (GListStore *store)
++{
++  guint n_items;
++
++  g_return_if_fail (G_IS_LIST_STORE (store));
++
++  n_items = g_sequence_get_length (store->items);
++  g_sequence_remove_range (g_sequence_get_begin_iter (store->items),
++                           g_sequence_get_end_iter (store->items));
++
++  g_list_store_items_changed (store, 0, n_items, 0);
++}
++
++/**
++ * g_list_store_splice:
++ * @store: a #GListStore
++ * @position: the position at which to make the change
++ * @n_removals: the number of items to remove
++ * @additions: (array length=n_additions): the items to add
++ * @n_additions: the number of items to add
++ *
++ * Changes @store by removing @n_removals items and adding @n_additions
++ * items to it. @additions must contain @n_additions items of type
++ * #GListStore:item-type.  %NULL is not permitted.
++ *
++ * This function is more efficient than g_list_store_insert() and
++ * g_list_store_remove(), because it only emits
++ * #GListModel::items-changed once for the change.
++ *
++ * This function takes a ref on each item in @additions.
++ *
++ * The parameters @position and @n_removals must be correct (ie:
++ * @position + @n_removals must be less than or equal to the length of
++ * the list at the time this function is called).
++ *
++ * Since: 2.44
++ */
++void
++g_list_store_splice (GListStore *store,
++                     guint       position,
++                     guint       n_removals,
++                     gpointer   *additions,
++                     guint       n_additions)
++{
++  GSequenceIter *it;
++  guint n_items;
++
++  g_return_if_fail (G_IS_LIST_STORE (store));
++  g_return_if_fail (position + n_removals >= position); /* overflow */
++
++  n_items = g_sequence_get_length (store->items);
++  g_return_if_fail (position + n_removals <= n_items);
++
++  it = g_sequence_get_iter_at_pos (store->items, position);
++
++  if (n_removals)
++    {
++      GSequenceIter *end;
++
++      end = g_sequence_iter_move (it, n_removals);
++      g_sequence_remove_range (it, end);
++
++      it = end;
++    }
++
++  if (n_additions)
++    {
++      gint i;
++
++      it = g_sequence_iter_next (it);
++      for (i = 0; i < n_additions; i++)
++        {
++          if G_UNLIKELY (!g_type_is_a (G_OBJECT_TYPE (additions[i]), store->item_type))
++            {
++              g_critical ("%s: item %d is a %s instead of a %s.  GListStore is now in an undefined state.",
++                          G_STRFUNC, i, G_OBJECT_TYPE_NAME (additions[i]), g_type_name (store->item_type));
++              return;
++            }
++
++          it = g_sequence_insert_before (it, g_object_ref (additions[i]));
++        }
++    }
++
++  g_list_store_items_changed (store, position, n_removals, n_additions);
++}
+diff --git a/gio/gliststore.h b/gio/gliststore.h
+new file mode 100644
+index 0000000..f62b378
+--- /dev/null
++++ b/gio/gliststore.h
+@@ -0,0 +1,66 @@
++/*
++ * Copyright 2015 Lars Uebernickel
++ * Copyright 2015 Ryan Lortie
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General
++ * Public License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ *
++ * Authors:
++ *     Lars Uebernickel <lars@uebernic.de>
++ *     Ryan Lortie <desrt@desrt.ca>
++ */
++
++#ifndef __G_LIST_STORE_H__
++#define __G_LIST_STORE_H__
++
++#if !defined (__GIO_GIO_H_INSIDE__) && !defined (GIO_COMPILATION)
++#error "Only <gio/gio.h> can be included directly."
++#endif
++
++#include <gio/giotypes.h>
++
++G_BEGIN_DECLS
++
++#define G_TYPE_LIST_STORE (g_list_store_get_type ())
++GLIB_AVAILABLE_IN_2_44
++G_DECLARE_FINAL_TYPE(GListStore, g_list_store, G, LIST_STORE, GObject)
++
++GLIB_AVAILABLE_IN_2_44
++GListStore *            g_list_store_new                                (GType       item_type);
++
++GLIB_AVAILABLE_IN_2_44
++void                    g_list_store_insert                             (GListStore *store,
++                                                                         guint       position,
++                                                                         gpointer    item);
++
++GLIB_AVAILABLE_IN_2_44
++void                    g_list_store_append                             (GListStore *store,
++                                                                         gpointer    item);
++
++GLIB_AVAILABLE_IN_2_44
++void                    g_list_store_remove                             (GListStore *store,
++                                                                         guint       position);
++
++GLIB_AVAILABLE_IN_2_44
++void                    g_list_store_remove_all                         (GListStore *store);
++
++GLIB_AVAILABLE_IN_2_44
++void                    g_list_store_splice                             (GListStore *store,
++                                                                         guint       position,
++                                                                         guint       n_removals,
++                                                                         gpointer   *additions,
++                                                                         guint       n_additions);
++
++G_END_DECLS
++
++#endif /* __G_LIST_STORE_H__ */
+diff --git a/gio/tests/Makefile.am b/gio/tests/Makefile.am
+index 5127de7..9a7ed45 100644
+--- a/gio/tests/Makefile.am
++++ b/gio/tests/Makefile.am
+@@ -62,6 +62,7 @@ test_programs = \
+ 	tls-interaction				\
+ 	vfs					\
+ 	volumemonitor				\
++	glistmodel				\
+ 	$(NULL)
+ 
+ uninstalled_test_programs = \
+diff --git a/gio/tests/glistmodel.c b/gio/tests/glistmodel.c
+new file mode 100644
+index 0000000..728a2fa
+--- /dev/null
++++ b/gio/tests/glistmodel.c
+@@ -0,0 +1,132 @@
++/*
++ * Copyright 2015 Lars Uebernickel
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General
++ * Public License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ *
++ * Authors: Lars Uebernickel <lars@uebernic.de>
++ */
++
++#include <gio/gio.h>
++
++static void
++test_store_boundaries (void)
++{
++  GListStore *store;
++  GMenuItem *item;
++
++  store = g_list_store_new (G_TYPE_MENU_ITEM);
++
++  item = g_menu_item_new (NULL, NULL);
++  g_object_add_weak_pointer (G_OBJECT (item), (gpointer *) &item);
++
++  /* remove an item from an empty list */
++  g_test_expect_message (G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL, "*g_sequence*");
++  g_list_store_remove (store, 0);
++  g_test_assert_expected_messages ();
++
++  /* don't allow inserting an item past the end ... */
++  g_test_expect_message (G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL, "*g_sequence*");
++  g_list_store_insert (store, 1, item);
++  g_assert_cmpuint (g_list_model_get_n_items (G_LIST_MODEL (store)), ==, 0);
++  g_test_assert_expected_messages ();
++
++  /* ... except exactly at the end */
++  g_list_store_insert (store, 0, item);
++  g_assert_cmpuint (g_list_model_get_n_items (G_LIST_MODEL (store)), ==, 1);
++
++  /* remove a non-existing item at exactly the end of the list */
++  g_test_expect_message (G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL, "*g_sequence*");
++  g_list_store_remove (store, 1);
++  g_test_assert_expected_messages ();
++
++  g_list_store_remove (store, 0);
++  g_assert_cmpuint (g_list_model_get_n_items (G_LIST_MODEL (store)), ==, 0);
++
++  /* splice beyond the end of the list */
++  g_test_expect_message (G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL, "*position*");
++  g_list_store_splice (store, 1, 0, NULL, 0);
++  g_test_assert_expected_messages ();
++
++  /* remove items from an empty list */
++  g_test_expect_message (G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL, "*position*");
++  g_list_store_splice (store, 0, 1, NULL, 0);
++  g_test_assert_expected_messages ();
++
++  g_list_store_append (store, item);
++  g_list_store_splice (store, 0, 1, (gpointer *) &item, 1);
++  g_assert_cmpuint (g_list_model_get_n_items (G_LIST_MODEL (store)), ==, 1);
++
++  /* remove more items than exist */
++  g_test_expect_message (G_LOG_DOMAIN, G_LOG_LEVEL_CRITICAL, "*position*");
++  g_list_store_splice (store, 0, 5, NULL, 0);
++  g_test_assert_expected_messages ();
++  g_assert_cmpuint (g_list_model_get_n_items (G_LIST_MODEL (store)), ==, 1);
++
++  g_object_unref (store);
++  g_object_unref (item);
++  g_assert_null (item);
++}
++
++static void
++test_store_refcounts (void)
++{
++  GListStore *store;
++  GMenuItem *items[10];
++  GMenuItem *tmp;
++  guint i;
++  guint n_items;
++
++  store = g_list_store_new (G_TYPE_MENU_ITEM);
++
++  g_assert_cmpuint (g_list_model_get_n_items (G_LIST_MODEL (store)), ==, 0);
++  g_assert_null (g_list_model_get_item (G_LIST_MODEL (store), 0));
++
++  n_items = G_N_ELEMENTS (items);
++  for (i = 0; i < n_items; i++)
++    {
++      items[i] = g_menu_item_new (NULL, NULL);
++      g_object_add_weak_pointer (G_OBJECT (items[i]), (gpointer *) &items[i]);
++      g_list_store_append (store, items[i]);
++
++      g_object_unref (items[i]);
++      g_assert_nonnull (items[i]);
++    }
++
++  g_assert_cmpuint (g_list_model_get_n_items (G_LIST_MODEL (store)), ==, n_items);
++  g_assert_null (g_list_model_get_item (G_LIST_MODEL (store), n_items));
++
++  tmp = g_list_model_get_item (G_LIST_MODEL (store), 3);
++  g_assert (tmp == items[3]);
++  g_object_unref (tmp);
++
++  g_list_store_remove (store, 4);
++  g_assert_null (items[4]);
++  n_items--;
++  g_assert_cmpuint (g_list_model_get_n_items (G_LIST_MODEL (store)), ==, n_items);
++  g_assert_null (g_list_model_get_item (G_LIST_MODEL (store), n_items));
++
++  g_object_unref (store);
++  for (i = 0; i < G_N_ELEMENTS (items); i++)
++    g_assert_null (items[i]);
++}
++
++int main (int argc, char *argv[])
++{
++  g_test_init (&argc, &argv, NULL);
++
++  g_test_add_func ("/glistmodel/store/boundaries", test_store_boundaries);
++  g_test_add_func ("/glistmodel/store/refcounts", test_store_refcounts);
++
++  return g_test_run ();
++}
+-- 
+cgit v0.12
+

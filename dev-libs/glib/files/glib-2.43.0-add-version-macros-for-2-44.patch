@@ -1,0 +1,65 @@
+From 682bca095068d2823a129bebae42bb4f27f3e118 Mon Sep 17 00:00:00 2001
+From: Ryan Lortie <desrt@desrt.ca>
+Date: Mon, 29 Sep 2014 11:39:51 -0400
+Subject: Add version macros for 2.44
+
+---
+ docs/reference/glib/glib-sections.txt |  1 +
+ glib/gversionmacros.h                 | 24 ++++++++++++++++++++++++
+ 2 files changed, 25 insertions(+)
+
+diff --git a/docs/reference/glib/glib-sections.txt b/docs/reference/glib/glib-sections.txt
+index 19eda5c..19bae6f 100644
+--- a/docs/reference/glib/glib-sections.txt
++++ b/docs/reference/glib/glib-sections.txt
+@@ -123,6 +123,7 @@ GLIB_VERSION_2_36
+ GLIB_VERSION_2_38
+ GLIB_VERSION_2_40
+ GLIB_VERSION_2_42
++GLIB_VERSION_2_44
+ GLIB_VERSION_MIN_REQUIRED
+ GLIB_VERSION_MAX_ALLOWED
+ GLIB_DISABLE_DEPRECATION_WARNINGS
+diff --git a/glib/gversionmacros.h b/glib/gversionmacros.h
+index 403fca0..c4c04ad 100644
+--- a/glib/gversionmacros.h
++++ b/glib/gversionmacros.h
+@@ -142,6 +142,16 @@
+ #endif
+ 
+ /**
++ * GLIB_VERSION_2_44:
++ *
++ * A macro that evaluates to the 2.44 version of GLib, in a format
++ * that can be used by the C pre-processor.
++ *
++ * Since: 2.44
++ */
++#define GLIB_VERSION_2_44       (G_ENCODE_VERSION (2, 44))
++
++/**
+  * GLIB_VERSION_MIN_REQUIRED:
+  *
+  * A macro that should be defined by the user prior to including
+@@ -342,4 +352,18 @@
+ # define GLIB_AVAILABLE_IN_2_42                 _GLIB_EXTERN
+ #endif
+ 
++#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_44
++# define GLIB_DEPRECATED_IN_2_44                GLIB_DEPRECATED
++# define GLIB_DEPRECATED_IN_2_44_FOR(f)         GLIB_DEPRECATED_FOR(f)
++#else
++# define GLIB_DEPRECATED_IN_2_44                _GLIB_EXTERN
++# define GLIB_DEPRECATED_IN_2_44_FOR(f)         _GLIB_EXTERN
++#endif
++
++#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_44
++# define GLIB_AVAILABLE_IN_2_44                 GLIB_UNAVAILABLE(2, 44)
++#else
++# define GLIB_AVAILABLE_IN_2_44                 _GLIB_EXTERN
++#endif
++
+ #endif /*  __G_VERSION_MACROS_H__ */
+-- 
+cgit v0.12
+

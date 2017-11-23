@@ -1,0 +1,428 @@
+From e2f8afdd85c18c6eea4ce42b0c9dad2cdbfc9b3e Mon Sep 17 00:00:00 2001
+From: Ryan Lortie <desrt@desrt.ca>
+Date: Fri, 30 Jan 2015 15:21:20 +0100
+Subject: gio: add support for g_auto() and g_autoptr()
+
+Add support to libgio types for the new cleanup macros.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=743640
+---
+ gio/Makefile.am               |   1 +
+ gio/gdbusdaemon.h             |   2 +
+ gio/gdesktopappinfo.h         |   2 +
+ gio/gfiledescriptorbased.h    |   1 +
+ gio/gio-autocleanups.h        | 147 ++++++++++++++++++++++++++++++++++++++++++
+ gio/gio.h                     |   2 +
+ gio/gunixconnection.h         |   2 +
+ gio/gunixcredentialsmessage.h |   2 +
+ gio/gunixfdlist.h             |   1 +
+ gio/gunixfdmessage.h          |   2 +
+ gio/gunixinputstream.h        |   2 +
+ gio/gunixmount.h              |   1 +
+ gio/gunixmounts.h             |   1 +
+ gio/gunixoutputstream.h       |   2 +
+ gio/gunixsocketaddress.h      |   2 +
+ gio/gunixvolume.h             |   1 +
+ gio/gwin32appinfo.h           |   2 +
+ gio/gwin32inputstream.h       |   2 +
+ gio/gwin32mount.h             |   1 +
+ gio/gwin32outputstream.h      |   2 +
+ 20 files changed, 178 insertions(+)
+ create mode 100644 gio/gio-autocleanups.h
+
+diff --git a/gio/Makefile.am b/gio/Makefile.am
+index 10e4a62..2505149 100644
+--- a/gio/Makefile.am
++++ b/gio/Makefile.am
+@@ -567,6 +567,7 @@ gio_headers =			\
+ 	ginputstream.h 		\
+ 	ginitable.h		\
+ 	gio.h			\
++	gio-autocleanups.h	\
+ 	giotypes.h		\
+ 	gioenums.h		\
+ 	gioerror.h 		\
+diff --git a/gio/gdbusdaemon.h b/gio/gdbusdaemon.h
+index 183b70e..a39b963 100644
+--- a/gio/gdbusdaemon.h
++++ b/gio/gdbusdaemon.h
+@@ -10,6 +10,8 @@
+ typedef struct _GDBusDaemon GDBusDaemon;
+ typedef struct _GDBusDaemonClass GDBusDaemonClass;
+ 
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDBusDaemon, g_object_unref)
++
+ GType _g_dbus_daemon_get_type (void) G_GNUC_CONST;
+ 
+ GDBusDaemon *_g_dbus_daemon_new (const char *address,
+diff --git a/gio/gdesktopappinfo.h b/gio/gdesktopappinfo.h
+index 7e09a76..79f9864 100644
+--- a/gio/gdesktopappinfo.h
++++ b/gio/gdesktopappinfo.h
+@@ -35,6 +35,8 @@ G_BEGIN_DECLS
+ typedef struct _GDesktopAppInfo        GDesktopAppInfo;
+ typedef struct _GDesktopAppInfoClass   GDesktopAppInfoClass;
+ 
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDesktopAppInfo, g_object_unref)
++
+ struct _GDesktopAppInfoClass
+ {
+   GObjectClass parent_class;
+diff --git a/gio/gfiledescriptorbased.h b/gio/gfiledescriptorbased.h
+index 9f7d2dc..d4a3bf2 100644
+--- a/gio/gfiledescriptorbased.h
++++ b/gio/gfiledescriptorbased.h
+@@ -29,6 +29,7 @@ G_BEGIN_DECLS
+ #define G_FILE_DESCRIPTOR_BASED(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), G_TYPE_FILE_DESCRIPTOR_BASED, GFileDescriptorBased))
+ #define G_IS_FILE_DESCRIPTOR_BASED(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), G_TYPE_FILE_DESCRIPTOR_BASED))
+ #define G_FILE_DESCRIPTOR_BASED_GET_IFACE(obj)  (G_TYPE_INSTANCE_GET_INTERFACE ((obj), G_TYPE_FILE_DESCRIPTOR_BASED, GFileDescriptorBasedIface))
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GFileDescriptorBased, g_object_unref)
+ 
+ /**
+  * GFileDescriptorBased:
+diff --git a/gio/gio-autocleanups.h b/gio/gio-autocleanups.h
+new file mode 100644
+index 0000000..c388383
+--- /dev/null
++++ b/gio/gio-autocleanups.h
+@@ -0,0 +1,147 @@
++/*
++ * Copyright © 2015 Canonical Limited
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the licence, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ *
++ * Author: Ryan Lortie <desrt@desrt.ca>
++ */
++
++#if !defined (__GIO_GIO_H_INSIDE__) && !defined (GIO_COMPILATION)
++#error "Only <gio/gio.h> can be included directly."
++#endif
++
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GAction, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GActionMap, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GAppInfo, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GAppLaunchContext, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GAppInfoMonitor, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GApplicationCommandLine, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GApplication, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GAsyncInitable, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GAsyncResult, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GBufferedInputStream, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GBufferedOutputStream, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GBytesIcon, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GCancellable, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GCharsetConverter, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GConverter, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GConverterInputStream, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GConverterOutputStream, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GCredentials, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDataInputStream, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDataOutputStream, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDBusActionGroup, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDBusAuthObserver, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDBusConnection, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDBusInterface, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDBusInterfaceSkeleton, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDBusMenuModel, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDBusMessage, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDBusMethodInvocation, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDBusObject, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDBusObjectManagerClient, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDBusObjectManager, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDBusObjectManagerServer, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDBusObjectProxy, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDBusObjectSkeleton, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDBusProxy, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDBusServer, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDrive, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GEmblemedIcon, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GEmblem, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GFileEnumerator, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GFile, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GFileIcon, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GFileInfo, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GFileInputStream, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GFileIOStream, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GFileMonitor, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GFilenameCompleter, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GFileOutputStream, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GFilterInputStream, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GFilterOutputStream, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GIcon, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GInetAddress, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GInetAddressMask, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GInetSocketAddress, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GInitable, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GInputStream, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GIOModule, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GIOStream, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GListModel, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GLoadableIcon, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMemoryInputStream, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMemoryOutputStream, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMenu, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMenuItem, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMenuModel, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMenuAttributeIter, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMenuLinkIter, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMount, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMountOperation, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GNativeVolumeMonitor, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GNetworkAddress, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GNetworkMonitor, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GNetworkService, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GNotification, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GOutputStream, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GPermission, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GPollableInputStream, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GPollableOutputStream, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GPropertyAction, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GProxyAddressEnumerator, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GProxyAddress, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GProxy, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GProxyResolver, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GRemoteActionGroup, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GResolver, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSeekable, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSettingsBackend, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSettings, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSimpleActionGroup, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSimpleAction, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSimpleAsyncResult, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSimplePermission, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSimpleProxyResolver, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSocketAddressEnumerator, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSocketAddress, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSocketClient, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSocketConnectable, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSocketConnection, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSocketControlMessage, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSocket, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSocketListener, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSocketService, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSubprocess, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSubprocessLauncher, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GTask, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GTcpConnection, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GTcpWrapperConnection, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GTestDBus, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GThemedIcon, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GThreadedSocketService, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GTlsBackend, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GTlsCertificate, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GTlsClientConnection, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GTlsConnection, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GTlsDatabase, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GTlsFileDatabase, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GTlsInteraction, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GTlsPassword, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GTlsServerConnection, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GVfs, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GVolume, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GVolumeMonitor, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GZlibCompressor, g_object_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GZlibDecompressor, g_object_unref)
+diff --git a/gio/gio.h b/gio/gio.h
+index a7dbf46..1a419b4 100644
+--- a/gio/gio.h
++++ b/gio/gio.h
+@@ -163,6 +163,8 @@
+ #include <gio/glistmodel.h>
+ #include <gio/gliststore.h>
+ 
++#include <gio/gio-autocleanups.h>
++
+ #undef __GIO_GIO_H_INSIDE__
+ 
+ #endif /* __G_IO_H__ */
+diff --git a/gio/gunixconnection.h b/gio/gunixconnection.h
+index 6797a85..95d8997 100644
+--- a/gio/gunixconnection.h
++++ b/gio/gunixconnection.h
+@@ -41,6 +41,8 @@ typedef struct _GUnixConnection                             GUnixConnection;
+ typedef struct _GUnixConnectionPrivate                      GUnixConnectionPrivate;
+ typedef struct _GUnixConnectionClass                        GUnixConnectionClass;
+ 
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GUnixConnection, g_object_unref)
++
+ struct _GUnixConnectionClass
+ {
+   GSocketConnectionClass parent_class;
+diff --git a/gio/gunixcredentialsmessage.h b/gio/gunixcredentialsmessage.h
+index bc3e43a..f6cb4e8 100644
+--- a/gio/gunixcredentialsmessage.h
++++ b/gio/gunixcredentialsmessage.h
+@@ -36,6 +36,8 @@ G_BEGIN_DECLS
+ typedef struct _GUnixCredentialsMessagePrivate  GUnixCredentialsMessagePrivate;
+ typedef struct _GUnixCredentialsMessageClass    GUnixCredentialsMessageClass;
+ 
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GUnixCredentialsMessage, g_object_unref)
++
+ /**
+  * GUnixCredentialsMessageClass:
+  *
+diff --git a/gio/gunixfdlist.h b/gio/gunixfdlist.h
+index 6b1c383..d159dbb 100644
+--- a/gio/gunixfdlist.h
++++ b/gio/gunixfdlist.h
+@@ -36,6 +36,7 @@ G_BEGIN_DECLS
+                                                              G_TYPE_UNIX_FD_LIST))
+ #define G_UNIX_FD_LIST_GET_CLASS(inst)                      (G_TYPE_INSTANCE_GET_CLASS ((inst),                      \
+                                                              G_TYPE_UNIX_FD_LIST, GUnixFDListClass))
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GUnixFDList, g_object_unref)
+ 
+ typedef struct _GUnixFDListPrivate                       GUnixFDListPrivate;
+ typedef struct _GUnixFDListClass                         GUnixFDListClass;
+diff --git a/gio/gunixfdmessage.h b/gio/gunixfdmessage.h
+index 3b900ea..035166b 100644
+--- a/gio/gunixfdmessage.h
++++ b/gio/gunixfdmessage.h
+@@ -42,6 +42,8 @@ typedef struct _GUnixFDMessagePrivate                       GUnixFDMessagePrivat
+ typedef struct _GUnixFDMessageClass                         GUnixFDMessageClass;
+ typedef struct _GUnixFDMessage                              GUnixFDMessage;
+ 
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GUnixFDMessage, g_object_unref)
++
+ struct _GUnixFDMessageClass
+ {
+   GSocketControlMessageClass parent_class;
+diff --git a/gio/gunixinputstream.h b/gio/gunixinputstream.h
+index 8633051..002fff2 100644
+--- a/gio/gunixinputstream.h
++++ b/gio/gunixinputstream.h
+@@ -41,6 +41,8 @@ typedef struct _GUnixInputStream         GUnixInputStream;
+ typedef struct _GUnixInputStreamClass    GUnixInputStreamClass;
+ typedef struct _GUnixInputStreamPrivate  GUnixInputStreamPrivate;
+ 
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GUnixInputStream, g_object_unref)
++
+ struct _GUnixInputStream
+ {
+   GInputStream parent_instance;
+diff --git a/gio/gunixmount.h b/gio/gunixmount.h
+index dd2dfb9..c2a40a6 100644
+--- a/gio/gunixmount.h
++++ b/gio/gunixmount.h
+@@ -33,6 +33,7 @@ G_BEGIN_DECLS
+ #define G_UNIX_MOUNT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), G_TYPE_UNIX_MOUNT, GUnixMountClass))
+ #define G_IS_UNIX_MOUNT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), G_TYPE_UNIX_MOUNT))
+ #define G_IS_UNIX_MOUNT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), G_TYPE_UNIX_MOUNT))
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GUnixMount, g_object_unref)
+ 
+ typedef struct _GUnixMountClass GUnixMountClass;
+ 
+diff --git a/gio/gunixmounts.h b/gio/gunixmounts.h
+index dffdce6..1406d67 100644
+--- a/gio/gunixmounts.h
++++ b/gio/gunixmounts.h
+@@ -54,6 +54,7 @@ typedef struct _GUnixMountMonitorClass GUnixMountMonitorClass;
+ #define G_UNIX_MOUNT_MONITOR_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), G_TYPE_UNIX_MOUNT_MONITOR, GUnixMountMonitorClass))
+ #define G_IS_UNIX_MOUNT_MONITOR(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), G_TYPE_UNIX_MOUNT_MONITOR))
+ #define G_IS_UNIX_MOUNT_MONITOR_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), G_TYPE_UNIX_MOUNT_MONITOR))
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GUnixMountMonitor, g_object_unref)
+ 
+ GLIB_AVAILABLE_IN_ALL
+ void           g_unix_mount_free                    (GUnixMountEntry    *mount_entry);
+diff --git a/gio/gunixoutputstream.h b/gio/gunixoutputstream.h
+index 0b84857..30c0962 100644
+--- a/gio/gunixoutputstream.h
++++ b/gio/gunixoutputstream.h
+@@ -41,6 +41,8 @@ typedef struct _GUnixOutputStream         GUnixOutputStream;
+ typedef struct _GUnixOutputStreamClass    GUnixOutputStreamClass;
+ typedef struct _GUnixOutputStreamPrivate  GUnixOutputStreamPrivate;
+ 
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GUnixOutputStream, g_object_unref)
++
+ struct _GUnixOutputStream
+ {
+   GOutputStream parent_instance;
+diff --git a/gio/gunixsocketaddress.h b/gio/gunixsocketaddress.h
+index 709ee28..e565091 100644
+--- a/gio/gunixsocketaddress.h
++++ b/gio/gunixsocketaddress.h
+@@ -37,6 +37,8 @@ typedef struct _GUnixSocketAddress        GUnixSocketAddress;
+ typedef struct _GUnixSocketAddressClass   GUnixSocketAddressClass;
+ typedef struct _GUnixSocketAddressPrivate GUnixSocketAddressPrivate;
+ 
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GUnixSocketAddress, g_object_unref)
++
+ struct _GUnixSocketAddress
+ {
+   GSocketAddress parent_instance;
+diff --git a/gio/gunixvolume.h b/gio/gunixvolume.h
+index 185300a..67a74b7 100644
+--- a/gio/gunixvolume.h
++++ b/gio/gunixvolume.h
+@@ -33,6 +33,7 @@ G_BEGIN_DECLS
+ #define G_UNIX_VOLUME_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), G_TYPE_UNIX_VOLUME, GUnixVolumeClass))
+ #define G_IS_UNIX_VOLUME(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), G_TYPE_UNIX_VOLUME))
+ #define G_IS_UNIX_VOLUME_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), G_TYPE_UNIX_VOLUME))
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GUnixVolume, g_object_unref)
+ 
+ typedef struct _GUnixVolumeClass GUnixVolumeClass;
+ 
+diff --git a/gio/gwin32appinfo.h b/gio/gwin32appinfo.h
+index 9636662..5414f68 100644
+--- a/gio/gwin32appinfo.h
++++ b/gio/gwin32appinfo.h
+@@ -35,6 +35,8 @@ G_BEGIN_DECLS
+ typedef struct _GWin32AppInfo        GWin32AppInfo;
+ typedef struct _GWin32AppInfoClass   GWin32AppInfoClass;
+ 
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GWin32AppInfo, g_object_unref)
++
+ struct _GWin32AppInfoClass
+ {
+   GObjectClass parent_class;
+diff --git a/gio/gwin32inputstream.h b/gio/gwin32inputstream.h
+index 4a04b3a..44f97b6 100644
+--- a/gio/gwin32inputstream.h
++++ b/gio/gwin32inputstream.h
+@@ -42,6 +42,8 @@ typedef struct _GWin32InputStream         GWin32InputStream;
+ typedef struct _GWin32InputStreamClass    GWin32InputStreamClass;
+ typedef struct _GWin32InputStreamPrivate  GWin32InputStreamPrivate;
+ 
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GWin32InputStream, g_object_unref)
++
+ struct _GWin32InputStream
+ {
+   GInputStream parent_instance;
+diff --git a/gio/gwin32mount.h b/gio/gwin32mount.h
+index 753513f..4de3762 100644
+--- a/gio/gwin32mount.h
++++ b/gio/gwin32mount.h
+@@ -33,6 +33,7 @@ G_BEGIN_DECLS
+ #define G_WIN32_MOUNT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), G_TYPE_WIN32_MOUNT, GWin32MountClass))
+ #define G_IS_WIN32_MOUNT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), G_TYPE_WIN32_MOUNT))
+ #define G_IS_WIN32_MOUNT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), G_TYPE_WIN32_MOUNT))
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GWin32Mount, g_object_unref)
+ 
+ typedef struct _GWin32MountClass GWin32MountClass;
+ 
+diff --git a/gio/gwin32outputstream.h b/gio/gwin32outputstream.h
+index f317edb..c308965 100644
+--- a/gio/gwin32outputstream.h
++++ b/gio/gwin32outputstream.h
+@@ -42,6 +42,8 @@ typedef struct _GWin32OutputStream         GWin32OutputStream;
+ typedef struct _GWin32OutputStreamClass    GWin32OutputStreamClass;
+ typedef struct _GWin32OutputStreamPrivate  GWin32OutputStreamPrivate;
+ 
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GWin32OutputStream, g_object_unref)
++
+ struct _GWin32OutputStream
+ {
+   GOutputStream parent_instance;
+-- 
+cgit v0.12
+

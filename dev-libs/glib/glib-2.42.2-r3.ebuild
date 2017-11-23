@@ -134,6 +134,80 @@ src_prepare() {
 	fi
 
 	# From GNOME:
+	# 	https://git.gnome.org/browse/glib/commit/?id=682bca095068d2823a129bebae42bb4f27f3e118
+	# 	https://git.gnome.org/browse/glib/commit/?id=3b4cb28e17c6a5dac64eb8afda2b1143757ad7a4
+	# 	https://git.gnome.org/browse/glib/commit/?id=f3c604d2735fd63c5d45ecbeff9cb0e90d3356ac
+	# 	https://git.gnome.org/browse/glib/commit/?id=d95bb1f08b07c3ae701076cd9d3cf6894a122e9c
+	# 	https://git.gnome.org/browse/glib/commit/?id=6d55189d8c7eaf95b7d94d62b6e88caccaa4034a
+	# 	https://git.gnome.org/browse/glib/commit/?id=b69beff42691ef300b6829beb261ca4cdfff02be
+	# 	https://git.gnome.org/browse/glib/commit/?id=93982d4a16d8623137177da2f994abaf8075b4b0
+	# 	https://git.gnome.org/browse/glib/commit/?id=9d0389b3b574e6e0fc181ac161bf7c9ccd231e15
+	# 	https://git.gnome.org/browse/glib/commit/?id=b5e1ea6fee6ac5b97585ffc1e30eb4f1ec137e1f
+	# 	https://git.gnome.org/browse/glib/commit/?id=2596919c58a364243196e65a9adda693448139f7
+	# 	https://git.gnome.org/browse/glib/commit/?id=663834671dd34e95f7dbb6b96bebf1daac468c93
+	# 	https://git.gnome.org/browse/glib/commit/?id=3d5de34def8b3120190ffb2561b5093abb6a3abb
+	# 	https://git.gnome.org/browse/glib/commit/?id=8ea414c8c6c40e208ebe4a9fdd41c7abdb05c392
+	# 	https://git.gnome.org/browse/glib/commit/?id=e2f8afdd85c18c6eea4ce42b0c9dad2cdbfc9b3e
+	# 	https://git.gnome.org/browse/glib/commit/?id=407adc6ea12e08950b36722b95fa54ef925de53a
+	# 	https://git.gnome.org/browse/glib/commit/?id=08f7f976961ca1174d187a917ec2a3d235f09448
+	# 	https://git.gnome.org/browse/glib/commit/?id=57a49f6891a0d69c0b3b686040bf81e303831b77
+	# 	https://git.gnome.org/browse/glib/commit/?id=ccf696a6e1da37ed414f08edb745a99aba935211
+	# 	https://git.gnome.org/browse/glib/commit/?id=696db7561560d9311dca93f0c849f96770f41d01
+	# 	https://git.gnome.org/browse/glib/commit/?id=6161b285da3d00fb4e02d4774d741799b6e18584
+	# 	https://git.gnome.org/browse/glib/commit/?id=3f3eac474b26d5e01fbfdb50f3e45b7f7826bad9
+	# 	https://git.gnome.org/browse/glib/commit/?id=26af7c152f602896cabf9ab6cb6ba42a47a5b992
+	# 	https://git.gnome.org/browse/glib/commit/?id=2b536d3cbb718e9cf731bf07df96738341540701
+	# 	https://git.gnome.org/browse/glib/commit/?id=c1b0f178ca4739e7ab2e4e47c4585d41db8637e5
+	# 	https://git.gnome.org/browse/glib/commit/?id=caf9db2dfbea4fd0306d4edf12b11ee91d235c7c
+	# 	https://git.gnome.org/browse/glib/commit/?id=d4791bd383189f4ea056e4f2aa0c90171bf7a6be
+	# 	https://git.gnome.org/browse/glib/commit/?id=3d39b8eb01aa5590865691a303ee9153b2a35cf5
+	# 	https://git.gnome.org/browse/glib/commit/?id=b5538416c065bafe760220e92754f891abd254b2
+	# 	https://git.gnome.org/browse/glib/commit/?id=e668796c5a90a19bce0ff893794817af6aad4dc2
+	# 	https://git.gnome.org/browse/glib/commit/?id=aa68b3d6d6f6d6c51e753b26b0fdc67b0eeefa17
+	# 	https://git.gnome.org/browse/glib/commit/?id=0110f2a810cfd638a0a6525deb69aeec7a0f0cab
+	# 	https://git.gnome.org/browse/glib/commit/?id=d0105f1c0845c1244c8419d0bb24c6f64ac9015f
+	# 	https://git.gnome.org/browse/glib/commit/?id=1b348a876f84342bb3a197fadd249f8ce95abfeb
+	# 	https://git.gnome.org/browse/glib/commit/?id=0550708ca7b615ab9e0df96ded43d18653f33ac2
+	# 	https://git.gnome.org/browse/glib/commit/?id=3ffed912c19c5c24b7302d2ff12f82a6167f1c30
+	# 	https://git.gnome.org/browse/glib/commit/?id=9348af3651afbd554fec35e556cda8add48bd9f8
+	epatch "${FILESDIR}"/${PN}-2.43.0-add-version-macros-for-2-44.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-gtype-add-type-declaration-macros-for-headers.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-g-declare-derived-type-allow-forward-declarations.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-gsettings-add-g-settings-schema-key-get-name.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-gsettings-add-g-settings-schema-list-children.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-add-glistmodel.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-giotypefuncs-test-tweak-get-type-regexp.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-g-declare-final-type-trivial-fix-in-docs-comment.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-declare-type-ignore-deprecations-in-inlines.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-macros-add-support-for-gnuc-cleanup-attribute.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-glib-add-support-for-g-auto-and-g-autoptr.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-gobject-add-support-for-g-auto-and-g-autoptr.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-g-declare-type-add-auto-cleanup-support.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-gio-add-support-for-g-auto-and-g-autoptr.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-gobject-gtype-h-make-up-for-missing.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-docs-link-the-glistmodel-docs-from-the-index.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-fix-g-define-auto-cleanup-free-func-on-non-gcc.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-glistmodel-h-fix-glistmodelinterface-define.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-gmacros-h-add-private-macro-glib-define-autoptr-chainup.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-gtype-h-fix-build-on-non-gcc.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-gliststore-add-sorted-insert-function.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-tests-add-test-for-gliststore-inserted-sort.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-docs-fix-typos-in-g-declare-type.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-gliststore-fix-preconditions-in-insert-sorted.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-doc-fix-glistmodel-gliststore.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-doc-fix-g-auto-and-g-autoptr-typo.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-add-g-declare-interface.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-glistmodel-use-g-declare-interface.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-add-new-api-g-steal-pointer.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-tests-add-a-test-case-for-g-steal-pointer.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-g-steal-pointer-make-it-c-clean.patch
+	epatch "${FILESDIR}"/${PN}-2.43.91-add-g-autofree.patch
+	epatch "${FILESDIR}"/${PN}-2.43.91-autocleanups-remove-g-autoptrgchar.patch
+	epatch "${FILESDIR}"/${PN}-2.43.91-tests-add-many-autoptr-tests.patch
+	epatch "${FILESDIR}"/${PN}-2.46.0-doc-small-clarification-in-g-autoptr.patch
+	epatch "${FILESDIR}"/${PN}-2.46.1-doc-g-autoptrgchar-has-been-replaced-by-g-autofree.patch
+
+	# From GNOME:
 	# 	https://git.gnome.org/browse/glib/commit/?id=d0219f25970c740ac1a8965754868d54bcd90eeb
 	# 	https://git.gnome.org/browse/glib/commit/?id=7dd9ffbcfff3561d2d1bcd247c052e4c4399623f
 	epatch "${FILESDIR}"/${PN}-2.47.2-glib-add-bounds-checked-unsigned-int-arithmetic.patch

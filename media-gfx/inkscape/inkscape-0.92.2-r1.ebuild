@@ -4,7 +4,7 @@ EAPI="6"
 PYTHON_COMPAT=( python2_7 )
 PYTHON_REQ_USE="xml"
 
-inherit autotools eutils flag-o-matic gnome2-utils fdo-mime toolchain-funcs python-single-r1
+inherit autotools flag-o-matic gnome2-utils xdg toolchain-funcs python-single-r1
 
 MY_P=${P/_/}
 
@@ -22,19 +22,13 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RESTRICT="test"
 
-WPG_DEPS="
-	|| (
-		( app-text/libwpg:0.3 dev-libs/librevenge )
-		( app-text/libwpd:0.9 app-text/libwpg:0.2 )
-	)
-"
 COMMON_DEPEND="
 	${PYTHON_DEPS}
 	>=app-text/poppler-0.26.0:=[cairo]
 	>=dev-cpp/glibmm-2.28
 	>=dev-cpp/gtkmm-2.18.0:2.4
 	>=dev-cpp/cairomm-1.9.8
-	>=dev-libs/boehm-gc-6.4
+	>=dev-libs/boehm-gc-7.1
 	>=dev-libs/glib-2.28
 	>=dev-libs/libsigc++-2.0.12
 	>=dev-libs/libxml2-2.6.20
@@ -52,7 +46,8 @@ COMMON_DEPEND="
 	>=x11-libs/pango-1.24
 	cdr? (
 		media-libs/libcdr
-		${WPG_DEPS}
+		app-text/libwpg:0.3
+		dev-libs/librevenge
 	)
 	dbus? ( dev-libs/dbus-glib )
 	!deprecated? ( >=dev-cpp/glibmm-2.48 )
@@ -67,9 +62,13 @@ COMMON_DEPEND="
 	)
 	visio? (
 		media-libs/libvisio
-		${WPG_DEPS}
+		app-text/libwpg:0.3
+		dev-libs/librevenge
 	)
-	wpg? ( ${WPG_DEPS} )
+	wpg? (
+		app-text/libwpg:0.3
+		dev-libs/librevenge
+	)
 "
 
 # These only use executables provided by these packages
@@ -83,7 +82,7 @@ RDEPEND="${COMMON_DEPEND}
 	latex? (
 		media-gfx/pstoedit[plotutils]
 		app-text/dvipsk
-		app-text/texlive
+		app-text/texlive-core
 	)
 	postscript? ( app-text/ghostscript-gpl )
 "
@@ -102,6 +101,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-0.91_pre3-exif.patch"
 	"${FILESDIR}/${PN}-0.91_pre3-sk-man.patch"
 	"${FILESDIR}/${PN}-0.48.4-epython.patch"
+	"${FILESDIR}/${PN}-0.92.1-poppler.patch"
 )
 
 S=${WORKDIR}/${MY_P}
@@ -171,10 +171,12 @@ pkg_preinst() {
 
 pkg_postinst() {
 	gnome2_icon_cache_update
-	fdo-mime_desktop_database_update
+	xdg_mimeinfo_database_update
+	xdg_desktop_database_update
 }
 
 pkg_postrm() {
 	gnome2_icon_cache_update
-	fdo-mime_desktop_database_update
+	xdg_mimeinfo_database_update
+	xdg_desktop_database_update
 }

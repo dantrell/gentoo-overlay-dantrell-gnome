@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome2 systemd user versionator
+inherit autotools gnome2 systemd user versionator
 
 MY_PV=$(get_version_component_range 1-2)
 DESCRIPTION="A geoinformation D-Bus service"
@@ -36,13 +36,23 @@ DEPEND="${RDEPEND}
 src_prepare() {
 	eapply "${FILESDIR}"/${PN}-2.4.1-fix-GLIBC-features.patch
 
+	# From GeoClue:
+	# 	https://cgit.freedesktop.org/geoclue/commit/?id=7414f60e8849a6fdeba8827197721b3d36c48754
+	# 	https://cgit.freedesktop.org/geoclue/commit/?id=595bb7f5e9d4e784656ab381da8014d8ea1e10c8
+	# 	https://cgit.freedesktop.org/geoclue/commit/?id=1194c23407f04153e541d4dc636e1dfa83786624
+	# 	https://cgit.freedesktop.org/geoclue/commit/?id=4cefb6bf6d1835776e687f7302967e4ba9c22335
+	eapply "${FILESDIR}"/${PN}-2.4.2-gir-correct-namespace-version.patch
+	eapply "${FILESDIR}"/${PN}-2.4.3-lib-clear-the-task-pointer-when-unrefing.patch
+	eapply "${FILESDIR}"/${PN}-2.4.4-main-remove-stray-semicolon.patch
+	eapply "${FILESDIR}"/${PN}-2.4.4-service-client-fix-comparison-against-zero.patch
+
+	eautoreconf
 	gnome2_src_prepare
 }
 
 src_configure() {
 	# debug only affects CFLAGS
 	gnome2_src_configure \
-		--enable-backend \
 		--with-dbus-service-user=geoclue \
 		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)" \
 		$(use_enable introspection) \

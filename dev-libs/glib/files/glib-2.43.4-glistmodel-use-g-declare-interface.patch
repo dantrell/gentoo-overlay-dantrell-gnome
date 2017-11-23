@@ -1,0 +1,56 @@
+From b5538416c065bafe760220e92754f891abd254b2 Mon Sep 17 00:00:00 2001
+From: Xavier Claessens <xavier.claessens@collabora.com>
+Date: Tue, 3 Feb 2015 10:40:15 -0500
+Subject: GListModel: Use G_DECLARE_INTERFACE
+
+https://bugzilla.gnome.org/show_bug.cgi?id=743939
+---
+ gio/gio-autocleanups.h |  1 -
+ gio/glistmodel.h       | 12 +++---------
+ 2 files changed, 3 insertions(+), 10 deletions(-)
+
+diff --git a/gio/gio-autocleanups.h b/gio/gio-autocleanups.h
+index c388383..a3c0e04 100644
+--- a/gio/gio-autocleanups.h
++++ b/gio/gio-autocleanups.h
+@@ -79,7 +79,6 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GInitable, g_object_unref)
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GInputStream, g_object_unref)
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GIOModule, g_object_unref)
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GIOStream, g_object_unref)
+-G_DEFINE_AUTOPTR_CLEANUP_FUNC(GListModel, g_object_unref)
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GLoadableIcon, g_object_unref)
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMemoryInputStream, g_object_unref)
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMemoryOutputStream, g_object_unref)
+diff --git a/gio/glistmodel.h b/gio/glistmodel.h
+index 8c01160..bfd0001 100644
+--- a/gio/glistmodel.h
++++ b/gio/glistmodel.h
+@@ -31,12 +31,9 @@
+ 
+ G_BEGIN_DECLS
+ 
+-#define G_TYPE_LIST_MODEL            (g_list_model_get_type ())
+-#define G_LIST_MODEL(inst)           (G_TYPE_CHECK_INSTANCE_CAST ((inst), G_TYPE_LIST_MODEL, GListModel))
+-#define G_IS_LIST_MODEL(inst)        (G_TYPE_CHECK_INSTANCE_TYPE ((inst), G_TYPE_LIST_MODEL))
+-#define G_LIST_MODEL_GET_IFACE(inst) (G_TYPE_INSTANCE_GET_INTERFACE ((inst), G_TYPE_LIST_MODEL, GListModelInterface))
+-
+-typedef struct _GListModelInterface GListModelInterface;
++#define G_TYPE_LIST_MODEL g_list_model_get_type ()
++GLIB_AVAILABLE_IN_2_44
++G_DECLARE_INTERFACE(GListModel, g_list_model, G, LIST_MODEL, GObject)
+ 
+ struct _GListModelInterface
+ {
+@@ -51,9 +48,6 @@ struct _GListModelInterface
+ };
+ 
+ GLIB_AVAILABLE_IN_2_44
+-GType                   g_list_model_get_type                           (void) G_GNUC_CONST;
+-
+-GLIB_AVAILABLE_IN_2_44
+ GType                   g_list_model_get_item_type                      (GListModel *list);
+ 
+ GLIB_AVAILABLE_IN_2_44
+-- 
+cgit v0.12
+

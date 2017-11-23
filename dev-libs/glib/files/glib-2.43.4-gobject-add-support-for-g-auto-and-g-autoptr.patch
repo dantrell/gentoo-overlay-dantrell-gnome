@@ -1,0 +1,75 @@
+From 3d5de34def8b3120190ffb2561b5093abb6a3abb Mon Sep 17 00:00:00 2001
+From: Ryan Lortie <desrt@desrt.ca>
+Date: Wed, 28 Jan 2015 11:46:34 +0000
+Subject: gobject: add support for g_auto() and g_autoptr()
+
+Add support to libgobject types for the new cleanup macros.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=743640
+---
+ glib/glib-object.h             |  2 ++
+ gobject/Makefile.am            |  1 +
+ gobject/gobject-autocleanups.h | 26 ++++++++++++++++++++++++++
+ 3 files changed, 29 insertions(+)
+ create mode 100644 gobject/gobject-autocleanups.h
+
+diff --git a/glib/glib-object.h b/glib/glib-object.h
+index 5d9b83e..6ad523e 100644
+--- a/glib/glib-object.h
++++ b/glib/glib-object.h
+@@ -35,6 +35,8 @@
+ #include <gobject/gvaluearray.h>
+ #include <gobject/gvaluetypes.h>
+ 
++#include <gobject/gobject-autocleanups.h>
++
+ #undef __GLIB_GOBJECT_H_INSIDE__
+ 
+ #endif /* __GLIB_GOBJECT_H__ */
+diff --git a/gobject/Makefile.am b/gobject/Makefile.am
+index 02e9c25..72ad2cd 100644
+--- a/gobject/Makefile.am
++++ b/gobject/Makefile.am
+@@ -61,6 +61,7 @@ libgobject_2_0_la_DEPENDENCIES = $(gobject_win32_res)
+ #
+ # GObject library header files for public installation
+ gobject_public_h_sources = \
++	gobject-autocleanups.h	\
+ 	glib-types.h		\
+ 	gbinding.h		\
+ 	gboxed.h		\
+diff --git a/gobject/gobject-autocleanups.h b/gobject/gobject-autocleanups.h
+new file mode 100644
+index 0000000..a871141
+--- /dev/null
++++ b/gobject/gobject-autocleanups.h
+@@ -0,0 +1,26 @@
++/*
++ * Copyright © 2015 Canonical Limited
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the licence, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ *
++ * Author: Ryan Lortie <desrt@desrt.ca>
++ */
++
++#if !defined (__GLIB_GOBJECT_H_INSIDE__) && !defined (GOBJECT_COMPILATION)
++#error "Only <glib-object.h> can be included directly."
++#endif
++
++G_DEFINE_AUTO_CLEANUP_FREE_FUNC(GStrv, g_strfreev, NULL)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GObject, g_object_unref)
++G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(GValue, g_value_unset)
+-- 
+cgit v0.12
+

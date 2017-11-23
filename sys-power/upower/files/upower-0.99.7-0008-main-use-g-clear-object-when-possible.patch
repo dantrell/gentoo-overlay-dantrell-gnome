@@ -1,0 +1,44 @@
+From 296f5855d0c328d86893075b05acaa546ce52355 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 31 Oct 2017 11:22:45 +0100
+Subject: [PATCH 08/11] main: Use g_clear_object() when possible
+
+Rather than using != NULL, followed by unref().
+
+https://bugs.freedesktop.org/show_bug.cgi?id=103380
+---
+ src/up-device.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
+
+diff --git a/src/up-device.c b/src/up-device.c
+index f8befe8..336bd0e 100644
+--- a/src/up-device.c
++++ b/src/up-device.c
+@@ -464,10 +464,7 @@ void
+ up_device_unplug (UpDevice *device)
+ {
+ 	/* break circular dependency */
+-	if (device->priv->daemon != NULL) {
+-		g_object_unref (device->priv->daemon);
+-		device->priv->daemon = NULL;
+-	}
++	g_clear_object (&device->priv->daemon);
+ }
+ 
+ /**
+@@ -717,10 +714,8 @@ up_device_finalize (GObject *object)
+ 
+ 	device = UP_DEVICE (object);
+ 	g_return_if_fail (device->priv != NULL);
+-	if (device->priv->native != NULL)
+-		g_object_unref (device->priv->native);
+-	if (device->priv->daemon != NULL)
+-		g_object_unref (device->priv->daemon);
++	g_clear_object (&device->priv->native);
++	g_clear_object (&device->priv->daemon);
+ 	g_object_unref (device->priv->history);
+ 
+ 	G_OBJECT_CLASS (up_device_parent_class)->finalize (object);
+-- 
+2.15.0
+

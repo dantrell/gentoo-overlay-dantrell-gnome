@@ -1,0 +1,29 @@
+From c1b0f178ca4739e7ab2e4e47c4585d41db8637e5 Mon Sep 17 00:00:00 2001
+From: Lars Uebernickel <lars.uebernickel@canonical.com>
+Date: Tue, 3 Feb 2015 16:06:53 +0100
+Subject: GListStore: fix preconditions in insert_sorted()
+
+---
+ gio/gliststore.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/gio/gliststore.c b/gio/gliststore.c
+index 990c794..7bca68e 100644
+--- a/gio/gliststore.c
++++ b/gio/gliststore.c
+@@ -295,9 +295,9 @@ g_list_store_insert_sorted (GListStore       *store,
+   GSequenceIter *it;
+   guint position;
+ 
+-  g_return_if_fail (G_IS_LIST_STORE (store));
+-  g_return_if_fail (g_type_is_a (G_OBJECT_TYPE (item), store->item_type));
+-  g_return_if_fail (compare_func != NULL);
++  g_return_val_if_fail (G_IS_LIST_STORE (store), 0);
++  g_return_val_if_fail (g_type_is_a (G_OBJECT_TYPE (item), store->item_type), 0);
++  g_return_val_if_fail (compare_func != NULL, 0);
+ 
+   it = g_sequence_insert_sorted (store->items, g_object_ref (item), compare_func, user_data);
+   position = g_sequence_iter_get_position (it);
+-- 
+cgit v0.12
+

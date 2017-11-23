@@ -58,7 +58,7 @@ RDEPEND="
 	>=dev-libs/glib-2.40:2
 	>=dev-libs/libxslt-1.1.7
 	gnome-keyring? ( app-crypt/libsecret )
-	geolocation? ( >=app-misc/geoclue-2.1.5:2.0 )
+	geolocation? ( >=app-misc/geoclue-2.4.0:2.0 )
 	introspection? ( >=dev-libs/gobject-introspection-1.32.0:= )
 	dev-libs/libtasn1:=
 	>=dev-libs/libgcrypt-1.7.0:0=

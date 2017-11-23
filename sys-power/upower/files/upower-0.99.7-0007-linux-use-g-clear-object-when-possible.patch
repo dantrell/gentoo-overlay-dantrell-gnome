@@ -1,0 +1,186 @@
+From b3f39a5ca3bce97c6c40b8220ba20c60e2560bcf Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 19 Oct 2017 19:14:59 +0200
+Subject: [PATCH 07/11] linux: Use g_clear_object() when possible
+
+Rather than using != NULL, followed by unref().
+
+https://bugs.freedesktop.org/show_bug.cgi?id=103380
+---
+ src/linux/up-backend.c         | 48 ++++++++++++------------------------------
+ src/linux/up-device-unifying.c | 12 ++++-------
+ src/linux/up-input.c           |  3 +--
+ 3 files changed, 19 insertions(+), 44 deletions(-)
+
+diff --git a/src/linux/up-backend.c b/src/linux/up-backend.c
+index 41935ba..4b01d15 100644
+--- a/src/linux/up-backend.c
++++ b/src/linux/up-backend.c
+@@ -97,10 +97,9 @@ up_backend_device_new (UpBackend *backend, GUdevDevice *native)
+ 		ret = up_device_coldplug (device, backend->priv->daemon, G_OBJECT (native));
+ 		if (ret)
+ 			goto out;
+-		g_object_unref (device);
+ 
+ 		/* no valid power supply object */
+-		device = NULL;
++		g_clear_object (&device);
+ 
+ 	} else if (g_strcmp0 (subsys, "hid") == 0) {
+ 
+@@ -109,10 +108,8 @@ up_backend_device_new (UpBackend *backend, GUdevDevice *native)
+ 		ret = up_device_coldplug (device, backend->priv->daemon, G_OBJECT (native));
+ 		if (ret)
+ 			goto out;
+-		g_object_unref (device);
+-
+ 		/* no valid power supply object */
+-		device = NULL;
++		g_clear_object (&device);
+ 
+ 	} else if (g_strcmp0 (subsys, "tty") == 0) {
+ 
+@@ -121,10 +118,9 @@ up_backend_device_new (UpBackend *backend, GUdevDevice *native)
+ 		ret = up_device_coldplug (device, backend->priv->daemon, G_OBJECT (native));
+ 		if (ret)
+ 			goto out;
+-		g_object_unref (device);
+ 
+ 		/* no valid TTY object */
+-		device = NULL;
++		g_clear_object (&device);
+ 
+ 	} else if (g_strcmp0 (subsys, "usb") == 0 || g_strcmp0 (subsys, "usbmisc") == 0) {
+ 
+@@ -149,10 +145,9 @@ up_backend_device_new (UpBackend *backend, GUdevDevice *native)
+ 		ret = up_device_coldplug (device, backend->priv->daemon, G_OBJECT (native));
+ 		if (ret)
+ 			goto out;
+-		g_object_unref (device);
+ 
+ 		/* no valid USB object */
+-		device = NULL;
++		g_clear_object (&device);
+ 
+ 	} else if (g_strcmp0 (subsys, "input") == 0) {
+ 
+@@ -201,8 +196,7 @@ up_backend_device_changed (UpBackend *backend, GUdevDevice *native)
+ 		goto out;
+ 	}
+ out:
+-	if (object != NULL)
+-		g_object_unref (object);
++	g_clear_object (&object);
+ }
+ 
+ static gboolean
+@@ -232,8 +226,7 @@ up_backend_device_add (UpBackend *backend, GUdevDevice *native)
+ 	/* emit */
+ 	g_signal_emit (backend, signals[SIGNAL_DEVICE_ADDED], 0, native, device);
+ out:
+-	if (object != NULL)
+-		g_object_unref (object);
++	g_clear_object (&object);
+ 	return ret;
+ }
+ 
+@@ -256,8 +249,7 @@ up_backend_device_remove (UpBackend *backend, GUdevDevice *native)
+ 	g_signal_emit (backend, signals[SIGNAL_DEVICE_REMOVED], 0, native, device);
+ 
+ out:
+-	if (object != NULL)
+-		g_object_unref (object);
++	g_clear_object (&object);
+ }
+ 
+ static void
+@@ -333,21 +325,12 @@ up_backend_coldplug (UpBackend *backend, UpDaemon *daemon)
+ void
+ up_backend_unplug (UpBackend *backend)
+ {
+-	if (backend->priv->gudev_client != NULL) {
+-		g_object_unref (backend->priv->gudev_client);
+-		backend->priv->gudev_client = NULL;
+-	}
+-	if (backend->priv->device_list != NULL) {
+-		g_object_unref (backend->priv->device_list);
+-		backend->priv->device_list = NULL;
+-	}
++	g_clear_object (&backend->priv->gudev_client);
++	g_clear_object (&backend->priv->device_list);
+ 	/* set in init, clear the list to remove reference to UpDaemon */
+ 	if (backend->priv->managed_devices != NULL)
+ 		up_device_list_clear (backend->priv->managed_devices, FALSE);
+-	if (backend->priv->daemon != NULL) {
+-		g_object_unref (backend->priv->daemon);
+-		backend->priv->daemon = NULL;
+-	}
++	g_clear_object (&backend->priv->daemon);
+ }
+ 
+ static gboolean
+@@ -642,13 +625,10 @@ up_backend_finalize (GObject *object)
+ 
+ 	backend = UP_BACKEND (object);
+ 
+-	g_object_unref (backend->priv->config);
+-	if (backend->priv->daemon != NULL)
+-		g_object_unref (backend->priv->daemon);
+-	if (backend->priv->device_list != NULL)
+-		g_object_unref (backend->priv->device_list);
+-	if (backend->priv->gudev_client != NULL)
+-		g_object_unref (backend->priv->gudev_client);
++	g_clear_object (&backend->priv->config);
++	g_clear_object (&backend->priv->daemon);
++	g_clear_object (&backend->priv->device_list);
++	g_clear_object (&backend->priv->gudev_client);
+ 
+ 	bus = g_dbus_proxy_get_connection (backend->priv->logind_proxy);
+ 	g_dbus_connection_signal_unsubscribe (bus,
+diff --git a/src/linux/up-device-unifying.c b/src/linux/up-device-unifying.c
+index 80b12f3..bf1a111 100644
+--- a/src/linux/up-device-unifying.c
++++ b/src/linux/up-device-unifying.c
+@@ -288,12 +288,9 @@ up_device_unifying_coldplug (UpDevice *device)
+ 	ret = TRUE;
+ out:
+ 	g_list_free_full (hidraw_list, (GDestroyNotify) g_object_unref);
+-	if (parent != NULL)
+-		g_object_unref (parent);
+-	if (receiver != NULL)
+-		g_object_unref (receiver);
+-	if (client != NULL)
+-		g_object_unref (client);
++	g_clear_object (&parent);
++	g_clear_object (&receiver);
++	g_clear_object (&client);
+ 	return ret;
+ }
+ 
+@@ -321,8 +318,7 @@ up_device_unifying_finalize (GObject *object)
+ 	g_return_if_fail (unifying->priv != NULL);
+ 
+ 	up_daemon_stop_poll (object);
+-	if (unifying->priv->hidpp_device != NULL)
+-		g_object_unref (unifying->priv->hidpp_device);
++	g_clear_object (&unifying->priv->hidpp_device);
+ 
+ 	G_OBJECT_CLASS (up_device_unifying_parent_class)->finalize (object);
+ }
+diff --git a/src/linux/up-input.c b/src/linux/up-input.c
+index e5accea..7e3ad42 100644
+--- a/src/linux/up-input.c
++++ b/src/linux/up-input.c
+@@ -285,8 +285,7 @@ up_input_finalize (GObject *object)
+ 	input = UP_INPUT (object);
+ 	g_return_if_fail (input->priv != NULL);
+ 
+-	if (input->priv->daemon != NULL)
+-		g_object_unref (input->priv->daemon);
++	g_clear_object (&input->priv->daemon);
+ 	if (input->priv->eventfp >= 0)
+ 		close (input->priv->eventfp);
+ 	if (input->priv->channel) {
+-- 
+2.15.0
+

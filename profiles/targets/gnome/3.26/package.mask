@@ -1,3 +1,10 @@
+# Masked to prefer stable releases
+=media-libs/mesa-17.3.0_rc*
+=media-libs/mesa-17.4.0_rc*
+=media-libs/mesa-17.5.0_rc*
+=media-libs/mesa-17.6.0_rc*
+=media-libs/mesa-18.0.0_rc*
+
 # Masked to test on GNOME 3.28 first
 >=net-libs/webkit-gtk-2.20.0
 

@@ -1,0 +1,27 @@
+From 407adc6ea12e08950b36722b95fa54ef925de53a Mon Sep 17 00:00:00 2001
+From: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date: Mon, 2 Feb 2015 11:16:29 +0800
+Subject: gobject\gtype.h: Make up for Missing '\'
+
+The macro definition for G_DECLARE_DERIVABLE_TYPE was missing a '\' when
+we wanted to ignore deprecation warnings for it.
+---
+ gobject/gtype.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gobject/gtype.h b/gobject/gtype.h
+index 54522e4..8df1f0a 100644
+--- a/gobject/gtype.h
++++ b/gobject/gtype.h
+@@ -1496,7 +1496,7 @@ guint     g_type_get_type_registration_serial (void);
+   static inline gboolean MODULE##_IS_##OBJ_NAME##_CLASS (gpointer ptr) {                                 \
+     return G_TYPE_CHECK_CLASS_TYPE (ptr, module_obj_name##_get_type ()); }                               \
+   static inline ModuleObjName##Class * MODULE##_##OBJ_NAME##_GET_CLASS (gpointer ptr) {                  \
+-    return G_TYPE_INSTANCE_GET_CLASS (ptr, module_obj_name##_get_type (), ModuleObjName##Class); }
++    return G_TYPE_INSTANCE_GET_CLASS (ptr, module_obj_name##_get_type (), ModuleObjName##Class); }       \
+   G_GNUC_END_IGNORE_DEPRECATIONS
+ 
+ /**
+-- 
+cgit v0.12
+

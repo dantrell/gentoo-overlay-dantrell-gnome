@@ -1,0 +1,116 @@
+From 663834671dd34e95f7dbb6b96bebf1daac468c93 Mon Sep 17 00:00:00 2001
+From: Ryan Lortie <desrt@desrt.ca>
+Date: Wed, 28 Jan 2015 11:45:26 +0000
+Subject: glib: add support for g_auto() and g_autoptr()
+
+Add support to the libglib types for the new cleanup macros.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=743640
+---
+ glib/Makefile.am         |  1 +
+ glib/glib-autocleanups.h | 67 ++++++++++++++++++++++++++++++++++++++++++++++++
+ glib/glib.h              |  2 ++
+ 3 files changed, 70 insertions(+)
+ create mode 100644 glib/glib-autocleanups.h
+
+diff --git a/glib/Makefile.am b/glib/Makefile.am
+index 1d4dabc..9c728f8 100644
+--- a/glib/Makefile.am
++++ b/glib/Makefile.am
+@@ -240,6 +240,7 @@ deprecatedinclude_HEADERS = \
+ 
+ glibsubincludedir=$(includedir)/glib-2.0/glib
+ glibsubinclude_HEADERS = \
++	glib-autocleanups.h	\
+ 	galloca.h	\
+ 	garray.h	\
+ 	gasyncqueue.h	\
+diff --git a/glib/glib-autocleanups.h b/glib/glib-autocleanups.h
+new file mode 100644
+index 0000000..4d9f7ee
+--- /dev/null
++++ b/glib/glib-autocleanups.h
+@@ -0,0 +1,67 @@
++/*
++ * Copyright © 2015 Canonical Limited
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the licence, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ *
++ * Author: Ryan Lortie <desrt@desrt.ca>
++ */
++
++#if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
++#error "Only <glib.h> can be included directly."
++#endif
++
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GAsyncQueue, g_async_queue_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GBookmarkFile, g_bookmark_file_free)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GBytes, g_bytes_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GChecksum, g_checksum_free)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDateTime, g_date_time_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GDir, g_dir_close)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GError, g_error_free)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GHashTable, g_hash_table_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GHmac, g_hmac_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GIOChannel, g_io_channel_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GKeyFile, g_key_file_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GList, g_list_free)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMainContext, g_main_context_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMainLoop, g_main_loop_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSource, g_source_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMappedFile, g_mapped_file_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMarkupParseContext, g_markup_parse_context_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(gchar, g_free)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GNode, g_node_destroy)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GOptionContext, g_option_context_free)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GOptionGroup, g_option_group_free)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GPatternSpec, g_pattern_spec_free)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GQueue, g_queue_free)
++G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(GQueue, g_queue_clear)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GRand, g_rand_free)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GRegex, g_regex_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMatchInfo, g_match_info_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GScanner, g_scanner_destroy)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSequence, g_sequence_free)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSList, g_slist_free)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GStringChunk, g_string_chunk_free)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GThread, g_thread_unref)
++G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(GMutex, g_mutex_clear)
++G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(GCond, g_cond_clear)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GTimer, g_timer_destroy)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GTimeZone, g_time_zone_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GTree, g_tree_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GVariant, g_variant_unref)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GVariantBuilder, g_variant_builder_unref)
++G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(GVariantBuilder, g_variant_builder_clear)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GVariantIter, g_variant_iter_free)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GVariantDict, g_variant_dict_unref)
++G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(GVariantDict, g_variant_dict_clear)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(GVariantType, g_variant_type_free)
+diff --git a/glib/glib.h b/glib/glib.h
+index c7fc999..1212d13 100644
+--- a/glib/glib.h
++++ b/glib/glib.h
+@@ -107,6 +107,8 @@
+ #include <glib/deprecated/gthread.h>
+ #endif /* G_DISABLE_DEPRECATED */
+ 
++#include <glib/glib-autocleanups.h>
++
+ #undef __GLIB_H_INSIDE__
+ 
+ #endif /* __G_LIB_H__ */
+-- 
+cgit v0.12
+

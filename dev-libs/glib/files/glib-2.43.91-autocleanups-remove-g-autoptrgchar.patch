@@ -1,0 +1,33 @@
+From 1b348a876f84342bb3a197fadd249f8ce95abfeb Mon Sep 17 00:00:00 2001
+From: Colin Walters <walters@verbum.org>
+Date: Mon, 23 Feb 2015 07:56:34 -0500
+Subject: autocleanups: Remove g_autoptr(gchar)
+
+- It's not sufficient, there are other bare array types
+  like guint8, gdouble, etc.
+
+- Other types like GVariant* always come as pointers, whereas
+  there's a rather fundamental distinction between "gchar" and
+  "gchar*" that has been signified to C programmers for 30+ years via
+  the '*' character, and we're hiding that.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=744747
+---
+ glib/glib-autocleanups.h | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/glib/glib-autocleanups.h b/glib/glib-autocleanups.h
+index 80d7b2b..4c23c8e 100644
+--- a/glib/glib-autocleanups.h
++++ b/glib/glib-autocleanups.h
+@@ -49,7 +49,6 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMainLoop, g_main_loop_unref)
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GSource, g_source_unref)
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMappedFile, g_mapped_file_unref)
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMarkupParseContext, g_markup_parse_context_unref)
+-G_DEFINE_AUTOPTR_CLEANUP_FUNC(gchar, g_free)
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GNode, g_node_destroy)
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GOptionContext, g_option_context_free)
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GOptionGroup, g_option_group_unref)
+-- 
+cgit v0.12
+

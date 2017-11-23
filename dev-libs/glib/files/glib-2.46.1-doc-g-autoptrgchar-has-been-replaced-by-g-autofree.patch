@@ -1,0 +1,35 @@
+From 9348af3651afbd554fec35e556cda8add48bd9f8 Mon Sep 17 00:00:00 2001
+From: Xavier Claessens <xavier.claessens@collabora.com>
+Date: Mon, 21 Sep 2015 09:53:25 -0400
+Subject: Doc: g_autoptr(gchar) has been replaced by g_autofree
+
+https://bugzilla.gnome.org/show_bug.cgi?id=755351
+---
+ glib/docs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/glib/docs.c b/glib/docs.c
+index a0e112b..d41899c 100644
+--- a/glib/docs.c
++++ b/glib/docs.c
+@@ -2394,7 +2394,7 @@
+  * check_exists(GVariant *dict)
+  * {
+  *   g_autoptr(GVariant) dirname, basename = NULL;
+- *   g_autoptr(gchar) path = NULL;
++ *   g_autofree gchar *path = NULL;
+  *
+  *   dirname = g_variant_lookup_value (dict, "dirname", G_VARIANT_TYPE_STRING);
+  *
+@@ -2418,7 +2418,7 @@
+  * initialiser or by ensuring that it is assigned to unconditionally
+  * before it goes out of scope.
+  *
+- * See also g_steal_pointer().
++ * See also g_auto(), g_autofree() and g_steal_pointer().
+  *
+  * Since: 2.44
+  */
+-- 
+cgit v0.12
+

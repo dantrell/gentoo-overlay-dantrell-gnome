@@ -1,0 +1,594 @@
+From ccb1b0ed96baf5937d1bc36d5b4b0c65eb873964 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 20 Oct 2017 17:15:53 +0200
+Subject: [PATCH 10/11] linux: Add support for Bluetooth LE device batteries
+
+As exported through BlueZ's org.bluez.Battery1 D-Bus interface. This
+interface is only used for device where the battery information cannot
+be processed in the kernel.
+
+This is the first UpDevice type that doesn't use UdevDevice for the
+Linux backend, and it is also the first that does not poll() status at
+all.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=92370
+---
+ src/linux/Makefile.am       |   2 +
+ src/linux/up-backend.c      | 208 ++++++++++++++++++++++++++++++++++++++++++++
+ src/linux/up-device-bluez.c | 182 ++++++++++++++++++++++++++++++++++++++
+ src/linux/up-device-bluez.h |  56 ++++++++++++
+ src/linux/up-native.c       |  18 +++-
+ 5 files changed, 462 insertions(+), 4 deletions(-)
+ create mode 100644 src/linux/up-device-bluez.c
+ create mode 100644 src/linux/up-device-bluez.h
+
+diff --git a/src/linux/Makefile.am b/src/linux/Makefile.am
+index 139fdad..bacf815 100644
+--- a/src/linux/Makefile.am
++++ b/src/linux/Makefile.am
+@@ -37,6 +37,8 @@ libupshared_la_SOURCES =					\
+ 	up-device-hid.h						\
+ 	up-device-wup.c						\
+ 	up-device-wup.h						\
++	up-device-bluez.c					\
++	up-device-bluez.h					\
+ 	up-input.c						\
+ 	up-input.h						\
+ 	up-backend.c						\
+diff --git a/src/linux/up-backend.c b/src/linux/up-backend.c
+index 4b01d15..e668dc8 100644
+--- a/src/linux/up-backend.c
++++ b/src/linux/up-backend.c
+@@ -39,6 +39,7 @@
+ #include "up-device-unifying.h"
+ #include "up-device-wup.h"
+ #include "up-device-hid.h"
++#include "up-device-bluez.h"
+ #include "up-input.h"
+ #include "up-config.h"
+ #ifdef HAVE_IDEVICE
+@@ -65,6 +66,10 @@ struct UpBackendPrivate
+ 	GDBusProxy		*logind_proxy;
+ 	guint                    logind_sleep_id;
+ 	int                      logind_inhibitor_fd;
++
++	/* BlueZ */
++	guint			 bluez_watch_id;
++	GDBusObjectManager	*bluez_client;
+ };
+ 
+ enum {
+@@ -272,6 +277,190 @@ up_backend_uevent_signal_handler_cb (GUdevClient *client, const gchar *action,
+ 	}
+ }
+ 
++static gboolean
++is_battery_iface_proxy (GDBusProxy *interface_proxy)
++{
++	const char *iface;
++
++	iface = g_dbus_proxy_get_interface_name (interface_proxy);
++	return g_str_equal (iface, "org.bluez.Battery1");
++}
++
++static gboolean
++has_battery_iface (GDBusObject *object)
++{
++	GDBusInterface *iface;
++
++	iface = g_dbus_object_get_interface (object, "org.bluez.Battery1");
++	if (!iface)
++		return FALSE;
++	g_object_unref (iface);
++	return TRUE;
++}
++
++static void
++bluez_proxies_changed (GDBusObjectManagerClient *manager,
++		       GDBusObjectProxy         *object_proxy,
++		       GDBusProxy               *interface_proxy,
++		       GVariant                 *changed_properties,
++		       GStrv                     invalidated_properties,
++		       gpointer                  user_data)
++{
++	UpBackend *backend = user_data;
++	GObject *object;
++	UpDeviceBluez *bluez;
++
++	if (!is_battery_iface_proxy (interface_proxy))
++		return;
++
++	object = up_device_list_lookup (backend->priv->device_list, G_OBJECT (object_proxy));
++	if (!object)
++		return;
++
++	bluez = UP_DEVICE_BLUEZ (object);
++	up_device_bluez_update (bluez, changed_properties);
++	g_object_unref (object);
++}
++
++static void
++bluez_interface_removed (GDBusObjectManager *manager,
++			 GDBusObject        *bus_object,
++			 GDBusInterface     *interface,
++			 gpointer            user_data)
++{
++	UpBackend *backend = user_data;
++	GObject *object;
++
++	/* It might be another iface on another device that got removed */
++	if (has_battery_iface (bus_object))
++		return;
++
++	object = up_device_list_lookup (backend->priv->device_list, G_OBJECT (bus_object));
++	if (!object)
++		return;
++
++	g_debug ("emitting device-removed: %s", g_dbus_object_get_object_path (bus_object));
++	g_signal_emit (backend, signals[SIGNAL_DEVICE_REMOVED], 0, bus_object, UP_DEVICE (object));
++
++	g_object_unref (object);
++}
++
++static void
++bluez_interface_added (GDBusObjectManager *manager,
++		       GDBusObject        *bus_object,
++		       GDBusInterface     *interface,
++		       gpointer            user_data)
++{
++	UpBackend *backend = user_data;
++	UpDevice *device;
++	GObject *object;
++	gboolean ret;
++
++	if (!has_battery_iface (bus_object))
++		return;
++
++	object = up_device_list_lookup (backend->priv->device_list, G_OBJECT (bus_object));
++	if (object != NULL) {
++		g_object_unref (object);
++		return;
++	}
++
++	device = UP_DEVICE (up_device_bluez_new ());
++	ret = up_device_coldplug (device, backend->priv->daemon, G_OBJECT (bus_object));
++	if (!ret) {
++		g_object_unref (device);
++		return;
++	}
++
++	g_debug ("emitting device-added: %s", g_dbus_object_get_object_path (bus_object));
++	g_signal_emit (backend, signals[SIGNAL_DEVICE_ADDED], 0, bus_object, device);
++}
++
++static void
++bluez_appeared (GDBusConnection *connection,
++		const gchar     *name,
++		const gchar     *name_owner,
++		gpointer         user_data)
++{
++	UpBackend *backend = user_data;
++	GError *error = NULL;
++	GList *objects, *l;
++
++	g_assert (backend->priv->bluez_client == NULL);
++
++	backend->priv->bluez_client = g_dbus_object_manager_client_new_for_bus_sync (G_BUS_TYPE_SYSTEM,
++										     G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_DO_NOT_AUTO_START,
++										     "org.bluez",
++										     "/",
++										     NULL, NULL, NULL,
++										     NULL, &error);
++	if (!backend->priv->bluez_client) {
++		g_warning ("Failed to create object manager for BlueZ: %s",
++			   error->message);
++		g_error_free (error);
++		return;
++	}
++
++	g_debug ("BlueZ appeared");
++
++	g_signal_connect (backend->priv->bluez_client, "interface-proxy-properties-changed",
++			  G_CALLBACK (bluez_proxies_changed), backend);
++	g_signal_connect (backend->priv->bluez_client, "interface-removed",
++			  G_CALLBACK (bluez_interface_removed), backend);
++	g_signal_connect (backend->priv->bluez_client, "interface-added",
++			  G_CALLBACK (bluez_interface_added), backend);
++
++	objects = g_dbus_object_manager_get_objects (backend->priv->bluez_client);
++	for (l = objects; l != NULL; l = l->next) {
++		GDBusObject *object = l->data;
++		GList *interfaces, *k;
++
++		interfaces = g_dbus_object_get_interfaces (object);
++
++		for (k = interfaces; k != NULL; k = k->next) {
++			GDBusInterface *iface = k->data;
++
++			bluez_interface_added (backend->priv->bluez_client,
++					       object,
++					       iface,
++					       backend);
++			g_object_unref (iface);
++		}
++		g_list_free (interfaces);
++		g_object_unref (object);
++	}
++	g_list_free (objects);
++}
++
++static void
++bluez_vanished (GDBusConnection *connection,
++		const gchar     *name,
++		gpointer         user_data)
++{
++	UpBackend *backend = user_data;
++	GPtrArray *array;
++	guint i;
++
++	g_debug ("BlueZ disappeared");
++
++	array = up_device_list_get_array (backend->priv->device_list);
++
++	for (i = 0; i < array->len; i++) {
++		UpDevice *device = UP_DEVICE (g_ptr_array_index (array, i));
++		if (UP_IS_DEVICE_BLUEZ (device)) {
++			GDBusObject *object;
++
++			object = G_DBUS_OBJECT (up_device_get_native (device));
++			g_debug ("emitting device-removed: %s", g_dbus_object_get_object_path (object));
++			g_signal_emit (backend, signals[SIGNAL_DEVICE_REMOVED], 0, object, UP_DEVICE (object));
++		}
++	}
++
++	g_ptr_array_unref (array);
++
++	g_clear_object (&backend->priv->bluez_client);
++}
++
+ /**
+  * up_backend_coldplug:
+  * @backend: The %UpBackend class instance
+@@ -312,6 +501,14 @@ up_backend_coldplug (UpBackend *backend, UpDaemon *daemon)
+ 		g_list_free_full (devices, (GDestroyNotify) g_object_unref);
+ 	}
+ 
++	backend->priv->bluez_watch_id = g_bus_watch_name (G_BUS_TYPE_SYSTEM,
++							  "org.bluez",
++							  G_BUS_NAME_WATCHER_FLAGS_NONE,
++							  bluez_appeared,
++							  bluez_vanished,
++							  backend,
++							  NULL);
++
+ 	return TRUE;
+ }
+ 
+@@ -331,6 +528,11 @@ up_backend_unplug (UpBackend *backend)
+ 	if (backend->priv->managed_devices != NULL)
+ 		up_device_list_clear (backend->priv->managed_devices, FALSE);
+ 	g_clear_object (&backend->priv->daemon);
++	if (backend->priv->bluez_watch_id > 0) {
++		g_bus_unwatch_name (backend->priv->bluez_watch_id);
++		backend->priv->bluez_watch_id = 0;
++	}
++	g_clear_object (&backend->priv->bluez_client);
+ }
+ 
+ static gboolean
+@@ -625,6 +827,12 @@ up_backend_finalize (GObject *object)
+ 
+ 	backend = UP_BACKEND (object);
+ 
++	if (backend->priv->bluez_watch_id > 0) {
++		g_bus_unwatch_name (backend->priv->bluez_watch_id);
++		backend->priv->bluez_watch_id = 0;
++	}
++	g_clear_object (&backend->priv->bluez_client);
++
+ 	g_clear_object (&backend->priv->config);
+ 	g_clear_object (&backend->priv->daemon);
+ 	g_clear_object (&backend->priv->device_list);
+diff --git a/src/linux/up-device-bluez.c b/src/linux/up-device-bluez.c
+new file mode 100644
+index 0000000..42a8e1b
+--- /dev/null
++++ b/src/linux/up-device-bluez.c
+@@ -0,0 +1,182 @@
++/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
++ *
++ * Copyright (C) 2017 Bastien Nocera <hadess@hadess.net>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
++ *
++ */
++
++#ifdef HAVE_CONFIG_H
++#  include "config.h"
++#endif
++
++#include <gio/gio.h>
++
++#include "up-types.h"
++#include "up-device-bluez.h"
++
++G_DEFINE_TYPE (UpDeviceBluez, up_device_bluez, UP_TYPE_DEVICE)
++#define UP_DEVICE_BLUEZ_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), UP_TYPE_DEVICE_BLUEZ, UpDeviceBluezPrivate))
++
++static UpDeviceKind
++appearance_to_kind (guint16 appearance)
++{
++        switch ((appearance & 0xffc0) >> 6) {
++        case 0x01:
++                return UP_DEVICE_KIND_PHONE;
++        case 0x02:
++                return UP_DEVICE_KIND_COMPUTER;
++        case 0x05:
++                return UP_DEVICE_KIND_MONITOR;
++        case 0x0a:
++                return UP_DEVICE_KIND_MEDIA_PLAYER;
++        case 0x0f: /* HID Generic */
++                switch (appearance & 0x3f) {
++                case 0x01:
++                        return UP_DEVICE_KIND_KEYBOARD;
++                case 0x02:
++                        return UP_DEVICE_KIND_MOUSE;
++                case 0x03:
++                case 0x04:
++                        return UP_DEVICE_KIND_GAMING_INPUT;
++                case 0x05:
++                        return UP_DEVICE_KIND_TABLET;
++                }
++                break;
++        }
++
++	return UP_DEVICE_KIND_UNKNOWN;
++}
++
++/**
++ * up_device_bluez_coldplug:
++ *
++ * Return %TRUE on success, %FALSE if we failed to get data and should be removed
++ **/
++static gboolean
++up_device_bluez_coldplug (UpDevice *device)
++{
++	GDBusObjectProxy *object_proxy;
++	GDBusProxy *proxy;
++	GError *error = NULL;
++	UpDeviceKind kind;
++	const char *uuid;
++	const char *model;
++	guint16 appearance;
++	guchar percentage;
++
++	/* Static device properties */
++	object_proxy = G_DBUS_OBJECT_PROXY (up_device_get_native (device));
++	proxy = g_dbus_proxy_new_sync (g_dbus_object_proxy_get_connection (object_proxy),
++				       G_DBUS_PROXY_FLAGS_NONE,
++				       NULL,
++				       "org.bluez",
++				       g_dbus_object_get_object_path (G_DBUS_OBJECT (object_proxy)),
++				       "org.bluez.Device1",
++				       NULL,
++				       &error);
++
++	if (!proxy) {
++		g_warning ("Failed to get proxy for %s (iface org.bluez.Device1)",
++			   g_dbus_object_get_object_path (G_DBUS_OBJECT (object_proxy)));
++		return FALSE;
++	}
++
++	appearance = g_variant_get_uint16 (g_dbus_proxy_get_cached_property (proxy, "Appearance"));
++	kind = appearance_to_kind (appearance);
++	uuid = g_variant_get_string (g_dbus_proxy_get_cached_property (proxy, "Address"), NULL);
++	model = g_variant_get_string (g_dbus_proxy_get_cached_property (proxy, "Alias"), NULL);
++
++	/* hardcode some values */
++	g_object_set (device,
++		      "type", kind,
++		      "serial", uuid,
++		      "model", model,
++		      "power-supply", FALSE,
++		      "has-history", TRUE,
++		      NULL);
++
++	g_object_unref (proxy);
++
++	/* Initial battery values */
++	proxy = g_dbus_proxy_new_sync (g_dbus_object_proxy_get_connection (object_proxy),
++				       G_DBUS_PROXY_FLAGS_NONE,
++				       NULL,
++				       "org.bluez",
++				       g_dbus_object_get_object_path (G_DBUS_OBJECT (object_proxy)),
++				       "org.bluez.Battery1",
++				       NULL,
++				       &error);
++
++	if (!proxy) {
++		g_warning ("Failed to get proxy for %s",
++			   g_dbus_object_get_object_path (G_DBUS_OBJECT (object_proxy)));
++		return FALSE;
++	}
++
++	percentage = g_variant_get_byte (g_dbus_proxy_get_cached_property (proxy, "Percentage"));
++
++	g_object_set (device,
++		      "is-present", TRUE,
++		      "percentage", (gdouble) percentage,
++		      NULL);
++
++	g_object_unref (proxy);
++
++	return TRUE;
++}
++
++static void
++up_device_bluez_init (UpDeviceBluez *bluez)
++{
++}
++
++void
++up_device_bluez_update (UpDeviceBluez *bluez,
++			GVariant      *properties)
++{
++	UpDevice *device = UP_DEVICE (bluez);
++	GVariantIter iter;
++	const gchar *key;
++	GVariant *value;
++
++	g_variant_iter_init (&iter, properties);
++	while (g_variant_iter_next (&iter, "{&sv}", &key, &value)) {
++		if (g_str_equal (key, "Percentage")) {
++			g_object_set (device, "percentage", (gdouble) g_variant_get_byte (value), NULL);
++		} else {
++			char *str = g_variant_print (value, TRUE);
++
++			g_warning ("Unhandled key: %s value: %s", key, str);
++			g_free (str);
++		}
++		g_variant_unref (value);
++	}
++}
++
++static void
++up_device_bluez_class_init (UpDeviceBluezClass *klass)
++{
++	UpDeviceClass *device_class = UP_DEVICE_CLASS (klass);
++
++	device_class->coldplug = up_device_bluez_coldplug;
++}
++
++UpDeviceBluez *
++up_device_bluez_new (void)
++{
++	return g_object_new (UP_TYPE_DEVICE_BLUEZ, NULL);
++}
++
+diff --git a/src/linux/up-device-bluez.h b/src/linux/up-device-bluez.h
+new file mode 100644
+index 0000000..1cc14fb
+--- /dev/null
++++ b/src/linux/up-device-bluez.h
+@@ -0,0 +1,56 @@
++/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
++ *
++ * Copyright (C) 2010 Bastien Nocera <hadess@hadess.net>
++ * Copyright (C) 2008 David Zeuthen <davidz@redhat.com>
++ * Copyright (C) 2008 Richard Hughes <richard@hughsie.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
++ *
++ */
++
++#ifndef __UP_DEVICE_BLUEZ_H__
++#define __UP_DEVICE_BLUEZ_H__
++
++#include <glib-object.h>
++#include "up-device.h"
++
++G_BEGIN_DECLS
++
++#define UP_TYPE_DEVICE_BLUEZ			(up_device_bluez_get_type ())
++#define UP_DEVICE_BLUEZ(o)			(G_TYPE_CHECK_INSTANCE_CAST ((o), UP_TYPE_DEVICE_BLUEZ, UpDeviceBluez))
++#define UP_DEVICE_BLUEZ_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST((k), UP_TYPE_DEVICE_BLUEZ, UpDeviceBluezClass))
++#define UP_IS_DEVICE_BLUEZ(o)			(G_TYPE_CHECK_INSTANCE_TYPE ((o), UP_TYPE_DEVICE_BLUEZ))
++#define UP_IS_DEVICE_BLUEZ_CLASS(k)		(G_TYPE_CHECK_CLASS_TYPE ((k), UP_TYPE_DEVICE_BLUEZ))
++#define UP_DEVICE_BLUEZ_GET_CLASS(o)		(G_TYPE_INSTANCE_GET_CLASS ((o), UP_TYPE_DEVICE_BLUEZ, UpDeviceBluezClass))
++
++typedef struct
++{
++	UpDevice		 parent;
++} UpDeviceBluez;
++
++typedef struct
++{
++	UpDeviceClass		 parent_class;
++} UpDeviceBluezClass;
++
++GType		 up_device_bluez_get_type		(void);
++UpDeviceBluez	*up_device_bluez_new			(void);
++void		 up_device_bluez_update			(UpDeviceBluez *bluez,
++							 GVariant      *properties);
++
++G_END_DECLS
++
++#endif /* __UP_DEVICE_BLUEZ_H__ */
++
+diff --git a/src/linux/up-native.c b/src/linux/up-native.c
+index a700d49..5896dad 100644
+--- a/src/linux/up-native.c
++++ b/src/linux/up-native.c
+@@ -19,6 +19,7 @@
+  */
+ 
+ #include <glib.h>
++#include <gio/gio.h>
+ #include <gudev/gudev.h>
+ 
+ #include "up-native.h"
+@@ -29,7 +30,9 @@
+  *
+  * This converts a GObject used as the device data into a native path.
+  * This would be implemented on a Linux system using:
+- *  g_udev_device_get_sysfs_path (G_UDEV_DEVICE (object))
++ *  g_udev_device_get_sysfs_path (G_UDEV_DEVICE (object)) or
++ *  g_dbus_object_get_object_path (G_DBUS_OBJECT (object)) for Bluetooth LE
++ *  devices (handled by BlueZ).
+  *
+  * Return value: Device name for devices of subsystem "power_supply", otherwise
+  * the native path for the device which is unique.
+@@ -37,16 +40,23 @@
+ const gchar *
+ up_native_get_native_path (GObject *object)
+ {
++	GUdevDevice *device;
++
++	/* That's a UpBluez */
++	if (G_IS_DBUS_OBJECT (object))
++		return g_dbus_object_get_object_path (G_DBUS_OBJECT (object));
++
++	device = G_UDEV_DEVICE (object);
+ 	/* Device names within the same subsystem must be unique. To avoid
+ 	 * treating the same power supply device on variable buses as different
+ 	 * only because e. g. the USB or bluetooth tree layout changed, only
+ 	 * use their name as identification. Also see
+ 	 * http://bugzilla.kernel.org/show_bug.cgi?id=62041 */
+-	if (g_strcmp0 (g_udev_device_get_subsystem (G_UDEV_DEVICE (object)), "power_supply") == 0)
+-		return g_udev_device_get_name (G_UDEV_DEVICE (object));
++	if (g_strcmp0 (g_udev_device_get_subsystem (device), "power_supply") == 0)
++		return g_udev_device_get_name (device);
+ 
+ 	/* we do not expect other devices than power_supply, but provide this
+ 	 * fallback for completeness */
+-	return g_udev_device_get_sysfs_path (G_UDEV_DEVICE (object));
++	return g_udev_device_get_sysfs_path (device);
+ }
+ 
+-- 
+2.15.0
+

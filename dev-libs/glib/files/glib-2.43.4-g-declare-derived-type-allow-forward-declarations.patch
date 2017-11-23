@@ -1,0 +1,34 @@
+From f3c604d2735fd63c5d45ecbeff9cb0e90d3356ac Mon Sep 17 00:00:00 2001
+From: Christian Hergert <christian@hergert.me>
+Date: Tue, 27 Jan 2015 18:50:04 +0000
+Subject: G_DECLARE_DERIVED_TYPE: allow forward declarations
+
+This allows multiple declarations such as:
+
+ typedef struct _Foo Foo;
+
+as is needed when you have systems with circular referencing.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=743596
+---
+ gobject/gtype.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/gobject/gtype.h b/gobject/gtype.h
+index 6f3f808..3dc3d9c 100644
+--- a/gobject/gtype.h
++++ b/gobject/gtype.h
+@@ -1464,8 +1464,9 @@ guint     g_type_get_type_registration_serial (void);
+  **/
+ #define G_DECLARE_DERIVABLE_TYPE(ModuleObjName, module_obj_name, MODULE, OBJ_NAME, ParentName) \
+   GType module_obj_name##_get_type (void);                                                               \
+-  typedef struct { ParentName parent_instance; } ModuleObjName;                                          \
++  typedef struct _##ModuleObjName ModuleObjName;                                                         \
+   typedef struct _##ModuleObjName##Class ModuleObjName##Class;                                           \
++  struct _##ModuleObjName { ParentName parent_instance; };                                               \
+                                                                                                          \
+   static inline ModuleObjName * MODULE##_##OBJ_NAME (gpointer ptr) {                                     \
+     return G_TYPE_CHECK_INSTANCE_CAST (ptr, module_obj_name##_get_type (), ModuleObjName); }             \
+-- 
+cgit v0.12
+

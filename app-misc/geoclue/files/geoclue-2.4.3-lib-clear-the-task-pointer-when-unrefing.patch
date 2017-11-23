@@ -1,0 +1,36 @@
+From 595bb7f5e9d4e784656ab381da8014d8ea1e10c8 Mon Sep 17 00:00:00 2001
+From: "Zeeshan Ali (Khattak)" <zeeshanak@gnome.org>
+Date: Tue, 1 Mar 2016 22:05:47 +0000
+Subject: lib: Clear the task pointer when unrefing
+
+Don't just unref the task pointer but ensure that the pointer we keep in
+private structure is also cleared, using g_clear_object.
+
+diff --git a/libgeoclue/gclue-simple.c b/libgeoclue/gclue-simple.c
+index 0915761..b0c1301 100644
+--- a/libgeoclue/gclue-simple.c
++++ b/libgeoclue/gclue-simple.c
+@@ -284,8 +284,10 @@ on_client_started (GObject      *source_object,
+ 
+         gclue_client_call_start_finish (client, res, &error);
+         if (error != NULL) {
++                GClueSimple *simple = g_task_get_source_object (task);
++
+                 g_task_return_error (task, error);
+-                g_object_unref (task);
++                g_clear_object (&simple->priv->task);
+         }
+ }
+ 
+@@ -302,7 +304,7 @@ on_client_created (GObject      *source_object,
+         priv->client = gclue_client_proxy_create_finish (res, &error);
+         if (error != NULL) {
+                 g_task_return_error (task, error);
+-                g_object_unref (task);
++                g_clear_object (&priv->task);
+ 
+                 return;
+         }
+-- 
+cgit v0.10.2
+
