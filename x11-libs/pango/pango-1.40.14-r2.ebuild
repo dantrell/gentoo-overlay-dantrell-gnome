@@ -3,14 +3,14 @@
 EAPI="6"
 GNOME2_LA_PUNT="yes"
 
-inherit gnome2 multilib-minimal toolchain-funcs meson
+inherit autotools gnome2 multilib-minimal toolchain-funcs
 
 DESCRIPTION="Internationalized text layout and rendering library"
 HOMEPAGE="http://www.pango.org/"
 
 LICENSE="LGPL-2+ FTL"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="X +introspection test"
 
@@ -35,21 +35,33 @@ DEPEND="${RDEPEND}
 	!<=sys-devel/autoconf-2.63:2.5
 "
 
+src_prepare() {
+	# From GNOME:
+	# 	https://git.gnome.org/browse/pango/commit/?id=0813fcabf5b13b2b90780ec45f3018ad00927da5
+	# 	https://git.gnome.org/browse/pango/commit/?id=3e5769aca2200b9f20614b1b9ec71f1bcf057ffe
+	eapply "${FILESDIR}"/${PN}-1.40.15-fix-test-build.patch
+	eapply "${FILESDIR}"/${PN}-1.40.15-pangocairo-pick-up-font-options-from-cairo-t.patch
+
+	eautoreconf
+	gnome2_src_prepare
+}
+
 multilib_src_configure() {
-	local emesonargs=(
-		-Denable_doc=true
-	)
-	meson_src_configure
+	tc-export CXX
+
+	ECONF_SOURCE=${S} \
+	gnome2_src_configure \
+		--with-cairo \
+		$(multilib_native_use_enable introspection) \
+		$(use_with X xft) \
+		"$(usex X --x-includes="${EPREFIX}/usr/include" "")" \
+		"$(usex X --x-libraries="${EPREFIX}/usr/$(get_libdir)" "")"
 
 	if multilib_is_native_abi; then
 		ln -s "${S}"/docs/html docs/html || die
 	fi
 }
 
-multilib_src_compile() {
-	meson_src_compile
-}
-
 multilib_src_install() {
-	meson_src_install
+	gnome2_src_install
 }

@@ -10,7 +10,7 @@ inherit distutils-r1
 
 DESCRIPTION="An open-source braille translator, back-translator and formatter"
 HOMEPAGE="http://www.liblouis.org/ https://github.com/liblouis/liblouis"
-SRC_URI="https://github.com/liblouis/liblouis/releases/download/v${PV}/${P}.tar.gz"
+SRC_URI="http://liblouis.org/downloads/${P}.tar.gz"
 
 LICENSE="LGPL-3"
 SLOT="0"
