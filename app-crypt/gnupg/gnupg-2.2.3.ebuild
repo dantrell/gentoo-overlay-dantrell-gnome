@@ -54,7 +54,6 @@ DOCS=(
 
 PATCHES=(
 	"${FILESDIR}/${PN}-2.1.20-gpgscm-Use-shorter-socket-path-lengts-to-improve-tes.patch"
-	"${FILESDIR}/${P}-fix-gnupg-wait.patch"
 )
 
 src_configure() {
@@ -102,7 +101,8 @@ src_compile() {
 }
 
 src_test() {
-	export TESTFLAGS=--parallel
+	#Bug: 638574
+	use tofu && export TESTFLAGS=--parallel
 	default
 }
 

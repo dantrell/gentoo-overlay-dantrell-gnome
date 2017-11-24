@@ -41,10 +41,12 @@ MULTILIB_CHOST_TOOLS=(
 )
 
 src_prepare() {
-	# See https://bugzilla.gnome.org/show_bug.cgi?id=756590
+	# From GNOME:
+	# 	https://bugzilla.gnome.org/show_bug.cgi?id=756590
 	eapply "${FILESDIR}"/${PN}-2.32.3-fix-lowmem-uclibc.patch
 
 	# From GNOME:
+	# 	https://bugzilla.gnome.org/show_bug.cgi?id=765094 (CVE-2015-4491)
 	# 	https://bugzilla.gnome.org/show_bug.cgi?id=784903 (CVE-2017-2870)
 	# 	https://bugzilla.gnome.org/show_bug.cgi?id=784866 (CVE-2017-2862)
 	eapply "${FILESDIR}"/${PN}-2.36.5-gdk-pixbuf-fix-overflow-check-in-gdk-pixbuf-new.patch
