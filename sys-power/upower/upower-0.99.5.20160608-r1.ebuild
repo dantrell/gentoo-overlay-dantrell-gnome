@@ -47,6 +47,7 @@ DEPEND="
 	dev-libs/gobject-introspection-common
 	dev-libs/libxslt
 	dev-util/intltool
+	>=sys-devel/gettext-0.17
 	virtual/pkgconfig
 "
 
@@ -127,7 +128,6 @@ src_configure() {
 		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
 		--with-systemdutildir="$(systemd_get_utildir)"
 		$(use_enable deprecated)
-		$(use_enable doc gtk-doc)
 		$(use_enable doc gtk-doc-html)
 		$(use_enable introspection)
 		$(use_with ios idevice)
@@ -139,10 +139,9 @@ src_install() {
 	default
 
 	if use doc; then
-		# http://bugs.gentoo.org/487400
-		insinto /usr/share/doc/${PF}/html/UPower
+		insinto /usr/share/gtk-doc/html/UPower
 		doins doc/html/*
-		dosym /usr/share/doc/${PF}/html/UPower /usr/share/gtk-doc/html/UPower
+		dosym /usr/share/gtk-doc/html/UPower /usr/share/doc/${PF}/html
 	fi
 
 	if use integration-test; then

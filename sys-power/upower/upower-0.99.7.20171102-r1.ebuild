@@ -47,6 +47,7 @@ DEPEND="
 	dev-libs/gobject-introspection-common
 	dev-libs/libxslt
 	dev-util/intltool
+	>=sys-devel/gettext-0.17
 	virtual/pkgconfig
 "
 
@@ -186,6 +187,66 @@ src_prepare() {
 
 	eapply "${FILESDIR}"/${PN}-0.99.5-0054-lib-simplify-string-checks.patch
 	eapply "${FILESDIR}"/${PN}-0.99.5-0055-do-not-spin-in-a-loop-when-proc-timer-stats-cannot-b.patch
+	eapply "${FILESDIR}"/${PN}-0.99.5-0056-released-upower-0-99-5.patch
+	eapply "${FILESDIR}"/${PN}-0.99.6-0001-trivial-post-release-version-bump.patch
+
+	if ! use deprecated; then
+		eapply "${FILESDIR}"/${PN}-0.99.6-0002-linux-correctly-close-inhibitor-fd.patch
+	fi
+
+	eapply "${FILESDIR}"/${PN}-0.99.6-0003-linux-add-test-for-wireless-joypad-connected-via-usb.patch
+
+	if ! use deprecated; then
+		eapply "${FILESDIR}"/${PN}-0.99.6-0004-lib-add-up-device-kind-gaming-input-for-gaming-devic.patch
+		eapply "${FILESDIR}"/${PN}-0.99.6-0005-linux-detect-joysticks-as-gaming-input-devices.patch
+		eapply "${FILESDIR}"/${PN}-0.99.6-0006-linux-move-function-to-prepare-for-new-use.patch
+		eapply "${FILESDIR}"/${PN}-0.99.6-0007-linux-grab-model-name-from-device-if-unavailable-fro.patch
+		eapply "${FILESDIR}"/${PN}-0.99.6-0008-lib-fix-api-docs-for-level-properties.patch
+	fi
+
+	eapply "${FILESDIR}"/${PN}-0.99.6-0009-freebsd-fix-lid-detection-on-freebsd.patch
+	eapply "${FILESDIR}"/${PN}-0.99.6-0010-linux-don-t-throw-an-error-if-there-s-no-data-to-rea.patch
+
+	if ! use deprecated; then
+		eapply "${FILESDIR}"/${PN}-0.99.6-0011-linux-add-better-debug-to-sysfs-get-capacity-level.patch
+	fi
+
+	eapply "${FILESDIR}"/${PN}-0.99.6-0012-hacking-mention-make-check-in-the-file.patch
+	eapply "${FILESDIR}"/${PN}-0.99.6-0013-daemon-remove-install-section-comment.patch
+	eapply "${FILESDIR}"/${PN}-0.99.6-0014-daemon-fix-crash-when-is-present-in-the-device-name.patch
+	eapply "${FILESDIR}"/${PN}-0.99.6-0015-linux-add-test-for-crash-when-battery-has-funky-name.patch
+
+	if ! use deprecated; then
+		eapply "${FILESDIR}"/${PN}-0.99.6-0016-daemon-only-reset-poll-if-warning-level-changed.patch
+		eapply "${FILESDIR}"/${PN}-0.99.6-0017-daemon-move-two-functions-up.patch
+		eapply "${FILESDIR}"/${PN}-0.99.6-0018-daemon-more-efficient-poll-resetting.patch
+	fi
+
+	eapply "${FILESDIR}"/${PN}-0.99.6-0019-openbsd-remove-sensor-max-types-upper-bound.patch
+
+	if ! use deprecated; then
+		eapply "${FILESDIR}"/${PN}-0.99.6-0020-revert-bug-99862-patchset.patch
+	fi
+
+	eapply "${FILESDIR}"/${PN}-0.99.6-0021-released-upower-0-99-6.patch
+	eapply "${FILESDIR}"/${PN}-0.99.7-0001-trivial-post-release-version-bump.patch
+	eapply "${FILESDIR}"/${PN}-0.99.7-0002-daemon-fix-critical-action-after-resume-from-hiberna.patch
+	eapply "${FILESDIR}"/${PN}-0.99.7-0003-linux-fix-compilation-with-libimobiledevice-git.patch
+
+	if ! use deprecated; then
+		eapply "${FILESDIR}"/${PN}-0.99.7-0004-daemon-allow-to-be-replaced-via-replace-r.patch
+		eapply "${FILESDIR}"/${PN}-0.99.7-0005-linux-remove-empty-api-docs.patch
+	fi
+
+	eapply "${FILESDIR}"/${PN}-0.99.7-0006-linux-add-example-to-run-a-single-test.patch
+
+	if ! use deprecated; then
+		eapply "${FILESDIR}"/${PN}-0.99.7-0007-linux-use-g-clear-object-when-possible.patch
+		eapply "${FILESDIR}"/${PN}-0.99.7-0008-main-use-g-clear-object-when-possible.patch
+		eapply "${FILESDIR}"/${PN}-0.99.7-0009-docs-better-documentation-for-the-batterylevel-prop.patch
+		eapply "${FILESDIR}"/${PN}-0.99.7-0010-linux-add-support-for-bluetooth-le-device-batteries.patch
+		eapply "${FILESDIR}"/${PN}-0.99.7-0011-linux-add-test-for-bluetooth-le-battery-support.patch
+	fi
 
 	if use deprecated; then
 		# From Funtoo:
@@ -231,7 +292,6 @@ src_configure() {
 		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
 		--with-systemdutildir="$(systemd_get_utildir)"
 		$(use_enable deprecated)
-		$(use_enable doc gtk-doc)
 		$(use_enable doc gtk-doc-html)
 		$(use_enable introspection)
 		$(use_with ios idevice)
@@ -243,10 +303,9 @@ src_install() {
 	default
 
 	if use doc; then
-		# http://bugs.gentoo.org/487400
-		insinto /usr/share/doc/${PF}/html/UPower
+		insinto /usr/share/gtk-doc/html/UPower
 		doins doc/html/*
-		dosym /usr/share/doc/${PF}/html/UPower /usr/share/gtk-doc/html/UPower
+		dosym /usr/share/gtk-doc/html/UPower /usr/share/doc/${PF}/html
 	fi
 
 	if use integration-test; then

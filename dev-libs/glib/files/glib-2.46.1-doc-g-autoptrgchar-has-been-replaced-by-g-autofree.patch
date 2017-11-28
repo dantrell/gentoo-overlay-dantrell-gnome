@@ -26,7 +26,7 @@ index a0e112b..d41899c 100644
   * before it goes out of scope.
   *
 - * See also g_steal_pointer().
-+ * See also g_auto(), g_autofree() and g_steal_pointer().
++ * See also g_auto() and g_autofree().
   *
   * Since: 2.44
   */

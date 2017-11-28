@@ -38,6 +38,7 @@ DEPEND="
 PATCHES=(
 	"${FILESDIR}/${PN}-2-snarf.patch"
 	"${FILESDIR}/${P}-darwin.patch"
+	"${FILESDIR}/${P}-ia64-fix-crash-thread-context-switch.patch"
 )
 
 src_prepare() {

@@ -137,7 +137,7 @@
 >=media-gfx/eog-plugins-3.26.0
 >=media-gfx/gnome-font-viewer-3.26.0
 >=media-gfx/gnome-photos-3.26.0
->=media-gfx/gnome-screenshot-3.25.0
+>=media-gfx/gnome-screenshot-3.26.0
 >=media-gfx/simple-scan-3.26.0
 >=media-libs/clutter-1.28.0
 >=media-libs/clutter-gst-3.1.0

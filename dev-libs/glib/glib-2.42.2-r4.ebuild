@@ -162,9 +162,6 @@ src_prepare() {
 	# 	https://git.gnome.org/browse/glib/commit/?id=d4791bd383189f4ea056e4f2aa0c90171bf7a6be
 	# 	https://git.gnome.org/browse/glib/commit/?id=3d39b8eb01aa5590865691a303ee9153b2a35cf5
 	# 	https://git.gnome.org/browse/glib/commit/?id=b5538416c065bafe760220e92754f891abd254b2
-	# 	https://git.gnome.org/browse/glib/commit/?id=e668796c5a90a19bce0ff893794817af6aad4dc2
-	# 	https://git.gnome.org/browse/glib/commit/?id=aa68b3d6d6f6d6c51e753b26b0fdc67b0eeefa17
-	# 	https://git.gnome.org/browse/glib/commit/?id=0110f2a810cfd638a0a6525deb69aeec7a0f0cab
 	# 	https://git.gnome.org/browse/glib/commit/?id=d0105f1c0845c1244c8419d0bb24c6f64ac9015f
 	# 	https://git.gnome.org/browse/glib/commit/?id=1b348a876f84342bb3a197fadd249f8ce95abfeb
 	# 	https://git.gnome.org/browse/glib/commit/?id=0550708ca7b615ab9e0df96ded43d18653f33ac2
@@ -198,9 +195,6 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-2.43.4-doc-fix-g-auto-and-g-autoptr-typo.patch
 	epatch "${FILESDIR}"/${PN}-2.43.4-add-g-declare-interface.patch
 	epatch "${FILESDIR}"/${PN}-2.43.4-glistmodel-use-g-declare-interface.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-add-new-api-g-steal-pointer.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-tests-add-a-test-case-for-g-steal-pointer.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-g-steal-pointer-make-it-c-clean.patch
 	epatch "${FILESDIR}"/${PN}-2.43.91-add-g-autofree.patch
 	epatch "${FILESDIR}"/${PN}-2.43.91-autocleanups-remove-g-autoptrgchar.patch
 	epatch "${FILESDIR}"/${PN}-2.43.91-tests-add-many-autoptr-tests.patch
@@ -208,10 +202,18 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-2.46.1-doc-g-autoptrgchar-has-been-replaced-by-g-autofree.patch
 
 	# From GNOME:
+	# 	https://git.gnome.org/browse/glib/commit/?id=ed4a742946374f7ee3c46b93eb943c95f04ec4c4
+	epatch "${FILESDIR}"/${PN}-2.43.92-http-proxy-support.patch
+
+	# From GNOME:
 	# 	https://git.gnome.org/browse/glib/commit/?id=d0219f25970c740ac1a8965754868d54bcd90eeb
 	# 	https://git.gnome.org/browse/glib/commit/?id=7dd9ffbcfff3561d2d1bcd247c052e4c4399623f
 	epatch "${FILESDIR}"/${PN}-2.47.2-glib-add-bounds-checked-unsigned-int-arithmetic.patch
 	epatch "${FILESDIR}"/${PN}-2.47.2-tests-test-bounds-checked-int-arithmetic.patch
+
+	# From GNOME:
+	# 	https://git.gnome.org/browse/glib/commit/?id=ec6971b864a3faffadd0bf4a87c7c1b47697fc83
+	epatch "${FILESDIR}"/${PN}-2.47.4-gtypes-h-move-g-static-assert-to-function-scope.patch
 
 	# From GNOME:
 	# 	https://git.gnome.org/browse/glib/commit/?id=1a2a689deacaac32b351ae97b00d8c35a6499cf6
