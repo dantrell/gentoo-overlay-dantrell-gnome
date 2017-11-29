@@ -14,7 +14,7 @@
 =sys-apps/openrc-0.34.6
 =sys-apps/openrc-0.34.7
 =sys-apps/openrc-0.34.8
-=sys-apps/openrc-0.34.9
+>sys-apps/openrc-0.34.8
 
 # Regression in meson_options.txt default values
 # Ref. https://bugs.freedesktop.org/show_bug.cgi?id=103162
