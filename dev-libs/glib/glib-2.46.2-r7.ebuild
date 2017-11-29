@@ -83,9 +83,6 @@ pkg_setup() {
 }
 
 src_prepare() {
-	# GDBusProxy: Fix a memory leak during initialization (from 2.46 branch)
-	epatch "${FILESDIR}"/${PN}-2.46.2-memleak.patch
-
 	# Prevent build failure in stage3 where pkgconfig is not available, bug #481056
 	mv -f "${WORKDIR}"/pkg-config-*/pkg.m4 "${S}"/m4macros/ || die
 
@@ -144,6 +141,18 @@ src_prepare() {
 	# 	https://git.gnome.org/browse/glib/commit/?id=7dd9ffbcfff3561d2d1bcd247c052e4c4399623f
 	epatch "${FILESDIR}"/${PN}-2.47.2-glib-add-bounds-checked-unsigned-int-arithmetic.patch
 	epatch "${FILESDIR}"/${PN}-2.47.2-tests-test-bounds-checked-int-arithmetic.patch
+
+	# From GNOME:
+	# 	https://git.gnome.org/browse/glib/commit/?id=db641e32920ee8b553ab6f2d318aafa156e4390c
+	epatch "${FILESDIR}"/${PN}-2.47.4-gdbusproxy-fix-a-memory-leak-during-initialization.patch
+
+	# From GNOME:
+	# 	https://git.gnome.org/browse/glib/commit/?id=ec6971b864a3faffadd0bf4a87c7c1b47697fc83
+	epatch "${FILESDIR}"/${PN}-2.47.4-gtypes-h-move-g-static-assert-to-function-scope.patch
+
+	# From GNOME:
+	# 	https://git.gnome.org/browse/glib/commit/?id=aead1c046dd39748cca449b55ec300ba5f025365
+	epatch "${FILESDIR}"/${PN}-2.47.92-gvariant-text-fix-scan-of-positional-parameters.patch
 
 	# From GNOME:
 	# 	https://git.gnome.org/browse/glib/commit/?id=f9d9f9c056d96eccbb75dcbdef2b58f6d2a3edea

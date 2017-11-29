@@ -3,6 +3,7 @@
 EAPI="6"
 PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6} )
 VALA_USE_DEPEND="vapigen"
+VALA_MAX_API_VERSION="0.36"
 
 inherit autotools bash-completion-r1 gnome2-utils ltprune python-r1 vala virtualx
 
@@ -14,9 +15,10 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="+X +emoji gconf +gtk +gtk2 +introspection kde +libnotify nls +python test vala wayland"
+IUSE="+X +emoji gconf +gtk +gtk2 +gtk3 +introspection kde +libnotify nls +python test vala wayland"
 REQUIRED_USE="emoji? ( gtk )
 	gtk2? ( gtk )
+	gtk3? ( gtk )
 	kde? ( gtk )
 	libnotify? ( gtk )
 	python? (
@@ -34,14 +36,14 @@ CDEPEND="app-text/iso-codes
 	sys-apps/dbus[X?]
 	X? (
 		x11-libs/libX11
-		!gtk? ( x11-libs/gtk+:2 )
+		!gtk3? ( x11-libs/gtk+:2 )
 	)
 	gconf? ( gnome-base/gconf:2 )
 	gtk? (
-		x11-libs/gtk+:3
 		x11-libs/libX11
 		x11-libs/libXi
 		gtk2? ( x11-libs/gtk+:2 )
+		gtk3? ( >=x11-libs/gtk+-3.22:3 )
 	)
 	introspection? ( dev-libs/gobject-introspection:= )
 	kde? ( dev-qt/qtgui:5 )
@@ -119,9 +121,9 @@ src_configure() {
 		$(use_with emoji unicode-emoji-dir "${unicodedir}"/emoji) \
 		$(use_with emoji emoji-annotation-dir "${unicodedir}"/cldr/common/annotations) \
 		$(use_enable gconf) \
-		$(use_enable gtk gtk3) \
 		$(use_enable gtk ui) \
 		$(use_enable gtk2) \
+		$(use_enable gtk3) \
 		$(use_enable introspection) \
 		$(use_enable kde appindicator) \
 		$(use_enable libnotify) \
@@ -166,16 +168,16 @@ pkg_preinst() {
 
 pkg_postinst() {
 	use gconf && gnome2_gconf_install
-	use gtk && gnome2_query_immodules_gtk3
 	use gtk2 && gnome2_query_immodules_gtk2
+	use gtk3 && gnome2_query_immodules_gtk3
 	gnome2_icon_cache_update
 	gnome2_schemas_update
 	dconf update
 }
 
 pkg_postrm() {
-	use gtk && gnome2_query_immodules_gtk3
 	use gtk2 && gnome2_query_immodules_gtk2
+	use gtk3 && gnome2_query_immodules_gtk3
 	gnome2_icon_cache_update
 	gnome2_schemas_update
 }

@@ -1,0 +1,63 @@
+From aead1c046dd39748cca449b55ec300ba5f025365 Mon Sep 17 00:00:00 2001
+From: Hanno Boeck <hanno@hboeck.de>
+Date: Mon, 22 Feb 2016 07:46:17 -0500
+Subject: GVariant text: fix scan of positional parameters
+
+The scanning to find the end of a positional parameter designator in
+GVariant text format (e.g. '%i') is currently broken in case the 'end'
+pointer is not specified.
+
+The scan is controlled by a somewhat complicated loop that needs to deal
+properly with cases like (123, %(ii)) [where '%(ii)' is to be taken
+together, but the final ')' not].
+
+This loop missed the case where a format string passed to
+g_variant_new_parsed() ended immediately after such a conversion, with a
+nul character.  In this case the 'end' pointer is NULL, so the only way
+we can find the end is by scanning for nul in the string.
+
+In case of g_variant_new_parsed() [which is what this code was designed
+to be used for], the bug is somewhat unlikely in practice: the only way
+that a valid text-form GVariant could ever contain a positional
+parameter replacement at the end of the string is if this positional
+parameter were the only thing being returned.  In that case, the user
+would likely have opted for a more direct approach.
+
+Unfortunately, this code is also active in the tokenisation phase of
+g_variant_parse(), before positional parameters are rejected as invalid
+for that case.  Anyone who calls this function with a nul-terminated
+string (and no end pointer) is vulnerable to a crash from malicious user
+input.  This can be seen, at the very least with many commandline tools:
+
+  $ dconf write /x '%i'
+  Segmentation fault
+
+We fix this problem by searching for the nul character in this case, in
+addition to comparing the end pointer.
+
+This problem is almost certainly limited to being able to cause crashes.
+The loop in question only performs reads and, in the security-sensitive
+case, the token will be quickly rejected after the loop is finished
+(since it starts with '%' and the 'app' pointer is unset).  This is
+further mitigated by the fact that there are no known cases of GVariant
+text format being used as part of a protocol at a privilege barrier.
+---
+ glib/gvariant-parser.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/glib/gvariant-parser.c b/glib/gvariant-parser.c
+index e7dab85..9f4bcc5 100644
+--- a/glib/gvariant-parser.c
++++ b/glib/gvariant-parser.c
+@@ -237,7 +237,7 @@ token_stream_prepare (TokenStream *stream)
+        * Also: ] and > are never in format strings.
+        */
+       for (end = stream->stream + 1;
+-           end != stream->end && *end != ',' &&
++           end != stream->end && *end != '\0' && *end != ',' &&
+            *end != ':' && *end != '>' && *end != ']' && !g_ascii_isspace (*end);
+            end++)
+ 
+-- 
+cgit v0.12
+

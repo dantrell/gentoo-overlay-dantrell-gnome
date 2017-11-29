@@ -1,4 +1,4 @@
-From e98e1eff83c742c73a148dd7b75c00d77e0cee40 Mon Sep 17 00:00:00 2001
+From db641e32920ee8b553ab6f2d318aafa156e4390c Mon Sep 17 00:00:00 2001
 From: Evangelos Foutras <evangelos@foutrelis.com>
 Date: Wed, 25 Nov 2015 23:29:18 +0200
 Subject: GDBusProxy: Fix a memory leak during initialization
