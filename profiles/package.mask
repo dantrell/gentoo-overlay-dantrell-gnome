@@ -235,8 +235,12 @@ gnome-base/gsettings-desktop-schemas::gentoo
 gnome-base/gsettings-desktop-schemas::gnome-kit
 gnome-base/libgnome-keyring::gentoo
 gnome-base/libgnome-keyring::gnome-kit
+gnome-base/libgnome::gentoo
+gnome-base/libgnome::gnome-kit
 gnome-base/libgnomekbd::gentoo
 gnome-base/libgnomekbd::gnome-kit
+gnome-base/libgnomeui::gentoo
+gnome-base/libgnomeui::gnome-kit
 gnome-base/libgtop::gentoo
 gnome-base/libgtop::gnome-kit
 gnome-base/librsvg::gentoo
