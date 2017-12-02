@@ -1,0 +1,31 @@
+From cee3919908c2d715fd75a796873e3308209a4c2e Mon Sep 17 00:00:00 2001
+From: William Hubbs <w.d.hubbs@gmail.com>
+Date: Fri, 1 Dec 2017 15:43:09 -0600
+Subject: Clean up the calls to group_add_service
+
+This function should only be called once and it does not take any
+arguments.
+
+X-Gentoo-Bug: 639166
+X-Gentoo-Bug-URL: https://bugs.gentoo.org/show_bug.cgi?id=639166
+---
+ sh/openrc-run.sh.in | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/sh/openrc-run.sh.in b/sh/openrc-run.sh.in
+index 05cb972..95d0eca 100644
+--- a/sh/openrc-run.sh.in
++++ b/sh/openrc-run.sh.in
+@@ -264,8 +264,7 @@ for _cmd; do
+ 				eerror "No permission to apply cgroup settings"
+ 				break
+ 			fi
+-			cgroup_add_service /sys/fs/cgroup/openrc
+-			cgroup_add_service /sys/fs/cgroup/systemd/system
++			cgroup_add_service
+ 		fi
+ 		[ "$(command -v cgroup_set_limits)" = "cgroup_set_limits" ] &&
+ 			cgroup_set_limits
+-- 
+cgit v1.1
+

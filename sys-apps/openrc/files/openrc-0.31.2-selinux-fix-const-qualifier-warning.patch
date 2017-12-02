@@ -1,0 +1,39 @@
+From 949daeb68b2a39fa1e64f2eb3fa72579f98df09e Mon Sep 17 00:00:00 2001
+From: Jason Zaman <jason@perfinion.com>
+Date: Sun, 17 Sep 2017 23:52:52 +0800
+Subject: selinux: fix const qualifier warning
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+rc-selinux.c: In function ‘selinux_setup’:
+rc-selinux.c:361:9: warning: assignment discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+  curr_t = context_type_get(curr_con);
+         ^
+---
+ src/rc/rc-selinux.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/src/rc/rc-selinux.c b/src/rc/rc-selinux.c
+index 514ca5e..bfaf155 100644
+--- a/src/rc/rc-selinux.c
++++ b/src/rc/rc-selinux.c
+@@ -358,14 +358,13 @@ void selinux_setup(char **argv)
+ 		goto out;
+ 	}
+ 
+-	curr_t = context_type_get(curr_con);
++	curr_t = xstrdup(context_type_get(curr_con));
+ 	if (!curr_t) {
+ 		context_free(curr_con);
+ 		free(curr_context);
+ 		goto out;
+ 	}
+ 
+-	curr_t = xstrdup(curr_t);
+ 	/* dont need them anymore so free() now */
+ 	context_free(curr_con);
+ 	free(curr_context);
+-- 
+cgit v1.1
+

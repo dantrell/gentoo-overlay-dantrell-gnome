@@ -407,6 +407,8 @@ sci-geosciences/geocode-glib::gentoo
 sci-geosciences/geocode-glib::gnome-kit
 sys-apps/accountsservice::gentoo
 sys-apps/accountsservice::nokit
+sys-apps/openrc::core-kit
+sys-apps/openrc::gentoo
 sys-apps/osinfo-db-tools::gentoo
 sys-apps/osinfo-db-tools::nokit
 sys-apps/osinfo-db::gentoo

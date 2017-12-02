@@ -1,0 +1,12 @@
+diff '--exclude=.git' -urN a/src/rc/openrc-run.c b/src/rc/openrc-run.c
+--- a/src/rc/openrc-run.c	2016-05-24 15:02:35.000000000 -0400
++++ b/src/rc/openrc-run.c	2016-06-15 15:44:08.961629657 -0400
+@@ -1174,7 +1174,7 @@
+ 		usage(EXIT_FAILURE);
+ 
+ 	if (runscript)
+-		ewarn("%s uses runscript, please convert to openrc-run.", service);
++		ewarnv("%s uses runscript, please convert to openrc-run.", service);
+ 
+ 	/* Change dir to / to ensure all init scripts don't use stuff in pwd */
+ 	if (chdir("/") == -1)
