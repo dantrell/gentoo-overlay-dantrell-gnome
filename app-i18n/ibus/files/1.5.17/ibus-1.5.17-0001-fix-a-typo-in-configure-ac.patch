@@ -1,0 +1,31 @@
+From e6bab7ab78c69d238a70a64e60963dd5a6711ffe Mon Sep 17 00:00:00 2001
+From: Felix Yan <felixonmars@archlinux.org>
+Date: Fri, 19 May 2017 12:13:04 +0900
+Subject: [PATCH 01/33] Fix a typo in configure.ac
+
+BUG=https://github.com/ibus/ibus/pull/1927
+R=Shawn.P.Huang@gmail.com
+
+Review URL: https://codereview.appspot.com/317640043
+
+Patch from Felix Yan <felixonmars@archlinux.org>.
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 219b89de..2cc96d18 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -727,7 +727,7 @@ Build options:
+   Enable surrounding-text       $enable_surrounding_text
+   Enable libnotify              $enable_libnotify
+   Enable Emoji dict             $enable_emoji_dict
+-  Uicode Emoji directory        $UNICODE_EMOJI_DIR
++  Unicode Emoji directory       $UNICODE_EMOJI_DIR
+   CLDR annotation directory     $EMOJI_ANNOTATION_DIR
+   Run test cases                $enable_tests
+ ])
+-- 
+2.15.1
+

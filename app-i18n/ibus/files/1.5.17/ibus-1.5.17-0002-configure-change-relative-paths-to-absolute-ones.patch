@@ -1,0 +1,42 @@
+From 4fe3050efa7335f82870fb1d5a1d170d20afc160 Mon Sep 17 00:00:00 2001
+From: fujiwarat <takao.fujiwara1@gmail.com>
+Date: Mon, 22 May 2017 12:04:28 +0900
+Subject: [PATCH 02/33] configure: Change relative paths to absolute ones
+
+BUG=https://github.com/ibus/ibus/issues/1926
+R=Shawn.P.Huang@gmail.com
+
+Review URL: https://codereview.appspot.com/322990043
+---
+ configure.ac | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/configure.ac b/configure.ac
+index 2cc96d18..cb48ad4c 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -634,10 +634,21 @@ if test x"$enable_emoji_dict" = x"yes"; then
+     if test ! -f $UNICODE_EMOJI_DIR/emoji-test.txt ; then
+         AC_MSG_ERROR(Not found $UNICODE_EMOJI_DIR/emoji-test.txt. You can get \
+ the emoji files from http://www.unicode.org/Public/emoji/4.0/)
++    else
++        # POSIX SHELL has no ${FOO:0:1}
++        head=`echo "$UNICODE_EMOJI_DIR" | cut -c1`;
++        if test $head != "/" ; then
++            UNICODE_EMOJI_DIR=`realpath "$UNICODE_EMOJI_DIR"`
++        fi
+     fi
+     if test ! -f $EMOJI_ANNOTATION_DIR/en.xml ; then
+         AC_MSG_ERROR(Not found $EMOJI_ANNOTATION_DIR/en.xml. You can get \
+ https://github.com/fujiwarat/cldr-emoji-annotation)
++    else
++        head=`echo "$EMOJI_ANNOTATION_DIR" | cut -c1`;
++        if test $head != "/" ; then
++            EMOJI_ANNOTATION_DIR=`realpath "$EMOJI_ANNOTATION_DIR"`
++        fi
+     fi
+     enable_emoji_dict="yes (enabled, use --disable-emoji-dict to disable)"
+ fi
+-- 
+2.15.1
+

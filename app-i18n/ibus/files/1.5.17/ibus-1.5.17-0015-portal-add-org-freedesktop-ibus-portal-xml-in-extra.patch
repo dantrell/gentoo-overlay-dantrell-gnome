@@ -1,0 +1,48 @@
+From 3e01bab972ad12b92c55a9dde554a0359c217290 Mon Sep 17 00:00:00 2001
+From: fujiwarat <takao.fujiwara1@gmail.com>
+Date: Wed, 6 Sep 2017 12:04:52 +0900
+Subject: [PATCH 15/33] portal: Add org.freedesktop.IBus.Portal.xml in
+ EXTRA_DIST
+
+Review URL: https://codereview.appspot.com/325370043
+---
+ portal/Makefile.am | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
+
+diff --git a/portal/Makefile.am b/portal/Makefile.am
+index 954fc591..d1e2051a 100644
+--- a/portal/Makefile.am
++++ b/portal/Makefile.am
+@@ -65,12 +65,6 @@ ibus_portal_LDADD = \
+ 	$(AM_LDADD) \
+ 	$(NULL)
+ 
+-EXTRA_DIST = \
+-	$(NULL)
+-
+-CLEANFILES = \
+-	$(NULL)
+-
+ $(libibus):
+ 	$(MAKE) -C $(top_builddir)/src
+ 
+@@ -89,7 +83,14 @@ $(ibus_dbus_built_sources) : org.freedesktop.IBus.Portal.xml
+ 		$^ \
+ 		$(NULL)
+ 
+-EXTRA_DIST += $(dbusservice_in_files)
+-CLEANFILES += $(dbusservice_DATA)
++EXTRA_DIST = \
++    $(dbusservice_in_files) \
++    org.freedesktop.IBus.Portal.xml \
++    $(NULL)
++
++CLEANFILES = \
++    $(dbusservice_DATA) \
++    $(NULL)
++
+ 
+ -include $(top_srcdir)/git.mk
+-- 
+2.15.1
+

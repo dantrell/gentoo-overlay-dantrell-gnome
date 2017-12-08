@@ -1,0 +1,134 @@
+From 081d09f1a927f459dacda3bcc59a1678ca2f9a95 Mon Sep 17 00:00:00 2001
+From: fujiwarat <takao.fujiwara1@gmail.com>
+Date: Mon, 29 May 2017 11:54:31 +0900
+Subject: [PATCH 04/33] ui/gtk3: Emojier supports Ctrl-c,v,x and Ctrl-Shift-c
+
+Ctrl-[c|v|x] copy, paste, or cut the emoji annotatons.
+Ctrl-Shift-c copies the selected emoji.
+Also Ctrl-Backspace is implemented to delete an annotation word.
+Also updated ibus-emoji.7.in man page.
+
+R=penghuang@google.com
+
+Review URL: https://codereview.appspot.com/316650043
+---
+ ui/gtk3/emojier.vala    | 58 +++++++++++++++++++++++++++++++++++++++++++++++--
+ ui/gtk3/ibus-emoji.7.in | 11 ++++++++++
+ 2 files changed, 67 insertions(+), 2 deletions(-)
+
+diff --git a/ui/gtk3/emojier.vala b/ui/gtk3/emojier.vala
+index d0d69ed6..1d105fd2 100644
+--- a/ui/gtk3/emojier.vala
++++ b/ui/gtk3/emojier.vala
+@@ -1392,7 +1392,26 @@ class IBusEmojier : Gtk.ApplicationWindow {
+             return true;
+         case Gdk.Key.BackSpace:
+             if (m_entry.get_text().len() > 0) {
+-                GLib.Signal.emit_by_name(m_entry, "backspace");
++                if ((modifiers & Gdk.ModifierType.CONTROL_MASK) != 0) {
++                    GLib.Signal.emit_by_name(m_entry, "delete-from-cursor",
++                                             Gtk.DeleteType.WORD_ENDS, -1);
++                } else {
++                    GLib.Signal.emit_by_name(m_entry, "backspace");
++                }
++                return true;
++            }
++            break;
++        case Gdk.Key.Delete:
++        case Gdk.Key.KP_Delete:
++            if (m_entry.get_text().len() > 0) {
++                if ((modifiers & Gdk.ModifierType.CONTROL_MASK) != 0) {
++                    GLib.Signal.emit_by_name(m_entry, "delete-from-cursor",
++                                             Gtk.DeleteType.WORD_ENDS, 1);
++                } else {
++                    GLib.Signal.emit_by_name(m_entry, "delete-from-cursor",
++                                             Gtk.DeleteType.CHARS, 1);
++                }
++                return true;
+             }
+             break;
+         case Gdk.Key.space:
+@@ -1445,6 +1464,10 @@ class IBusEmojier : Gtk.ApplicationWindow {
+             if (key_press_cursor_home_end(keyval, modifiers))
+                 return true;
+             break;
++        case Gdk.Key.Insert:
++        case Gdk.Key.KP_Insert:
++            GLib.Signal.emit_by_name(m_entry, "toggle-overwrite");
++            return true;
+         }
+ 
+         if ((modifiers & Gdk.ModifierType.CONTROL_MASK) != 0) {
+@@ -1470,8 +1493,13 @@ class IBusEmojier : Gtk.ApplicationWindow {
+                     return true;
+                 break;
+             case Gdk.Key.u:
+-                if (key_press_escape())
++                if (m_entry.get_text().len() > 0) {
++                    GLib.Signal.emit_by_name(m_entry,
++                                             "delete-from-cursor",
++                                             Gtk.DeleteType.PARAGRAPH_ENDS,
++                                             -1);
+                     return true;
++                }
+                 break;
+             case Gdk.Key.a:
+                 if (m_entry.get_text().len() > 0) {
+@@ -1479,6 +1507,32 @@ class IBusEmojier : Gtk.ApplicationWindow {
+                     return true;
+                 }
+                 break;
++            case Gdk.Key.x:
++                if (m_entry.get_text().len() > 0) {
++                    GLib.Signal.emit_by_name(m_entry, "cut-clipboard");
++                    return true;
++                }
++                break;
++            case Gdk.Key.C:
++            case Gdk.Key.c:
++                if ((modifiers & Gdk.ModifierType.SHIFT_MASK) != 0) {
++                    if (m_candidate_panel_is_visible) {
++                        uint index = m_lookup_table.get_cursor_pos();
++                        var text = m_lookup_table.get_candidate(index).text;
++                        Gtk.Clipboard clipboard =
++                                Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD);
++                        clipboard.set_text(text, -1);
++                        clipboard.store();
++                        return true;
++                    }
++                } else if (m_entry.get_text().len() > 0) {
++                    GLib.Signal.emit_by_name(m_entry, "copy-clipboard");
++                    return true;
++                }
++                break;
++            case Gdk.Key.v:
++                GLib.Signal.emit_by_name(m_entry, "paste-clipboard");
++                return true;
+             }
+             return false;
+         }
+diff --git a/ui/gtk3/ibus-emoji.7.in b/ui/gtk3/ibus-emoji.7.in
+index a5045f6c..4ee86364 100644
+--- a/ui/gtk3/ibus-emoji.7.in
++++ b/ui/gtk3/ibus-emoji.7.in
+@@ -83,6 +83,17 @@ Move to the next or previous page in the emoji list.
+ \fBHead, End, Control-h or Control-e\fR
+ Select the first or last emoji on the list if an annotation is not typed.
+ Otherwise move the cursor to the head or end in the typed annotation.
++.TP
++\fBControl-u\fR
++Erase the typed annotation.
++.TP
++\fBControl-x or Control-v or Control-c\fR
++Cut the selected annotation to the clipboard with Control-x. Paste
++the contents of the clipboard into the annotation entry with Control-v.
++Copy the selected annotation to the clipboard with Control-c.
++.TP
++\fBControl-Shift-c\fR
++Copy the selected emoji to the clipboard.
+ 
+ .SH BUGS
+ If you find a bug, please report it at https://github.com/ibus/ibus/issues
+-- 
+2.15.1
+

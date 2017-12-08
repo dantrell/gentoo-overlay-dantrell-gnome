@@ -27,6 +27,7 @@
 >=app-editors/gedit-plugins-3.20.0
 >=app-editors/ghex-3.20.0
 >=app-editors/latexila-3.20.0
+>=app-i18n/ibus-1.5.17
 >=app-misc/bijiben-3.20.0
 >=app-misc/geoclue-2.6.0
 >=app-misc/gnote-3.20.0

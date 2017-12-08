@@ -1,0 +1,39 @@
+From 91bebf01e41116d71e60876e793284cf9d8dc186 Mon Sep 17 00:00:00 2001
+From: fujiwarat <takao.fujiwara1@gmail.com>
+Date: Fri, 28 Jul 2017 11:45:28 +0900
+Subject: [PATCH 08/33] ui/gtk3: Fix SEGV of XKeysymToKeycode() on Wayland
+
+BUG=rhbz#1368593
+BUG=rhbz#1446816
+R=Shawn.P.Huang@gmail.com
+
+Review URL: https://codereview.appspot.com/325120043
+---
+ ui/gtk3/application.vala | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/ui/gtk3/application.vala b/ui/gtk3/application.vala
+index 5ae6e837..fa802721 100644
+--- a/ui/gtk3/application.vala
++++ b/ui/gtk3/application.vala
+@@ -3,6 +3,7 @@
+  * ibus - The Input Bus
+  *
+  * Copyright(c) 2011 Peng Huang <shawn.p.huang@gmail.com>
++ * Copyright(c) 2017 Takao Fujiwara <takao.fujiwara1@gmail.com>
+  *
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+@@ -99,6 +100,9 @@ class Application {
+     }
+ 
+     public static void main(string[] argv) {
++        // for Gdk.X11.get_default_xdisplay()
++        Gdk.set_allowed_backends("x11");
++
+         Application app = new Application(argv);
+         app.run();
+     }
+-- 
+2.15.1
+

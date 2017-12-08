@@ -1,0 +1,528 @@
+From 21bac4733684ca6a74ddb02f457c0fe19eb9180d Mon Sep 17 00:00:00 2001
+From: fujiwarat <takao.fujiwara1@gmail.com>
+Date: Wed, 6 Sep 2017 12:11:01 +0900
+Subject: [PATCH 16/33] ui/gtk3: Move ibus-emoji-dialog.vapi from ui/gtk3 to
+ bindings/vala
+
+R=Shawn.P.Huang@gmail.com
+
+Review URL: https://codereview.appspot.com/322590043
+---
+ .../vala}/IBusEmojiDialog-1.0.metadata             |   0
+ bindings/vala/Makefile.am                          | 165 +++++++++++++++++++--
+ .../vala}/ibus-emoji-dialog-1.0.deps               |   0
+ po/POTFILES.skip                                   |   5 +
+ ui/gtk3/Makefile.am                                | 113 ++++----------
+ ui/gtk3/emojier.vala                               |  19 +--
+ ui/gtk3/ibusemojidialog.h                          |  26 ++++
+ 7 files changed, 215 insertions(+), 113 deletions(-)
+ rename {ui/gtk3 => bindings/vala}/IBusEmojiDialog-1.0.metadata (100%)
+ rename {ui/gtk3 => bindings/vala}/ibus-emoji-dialog-1.0.deps (100%)
+
+diff --git a/ui/gtk3/IBusEmojiDialog-1.0.metadata b/bindings/vala/IBusEmojiDialog-1.0.metadata
+similarity index 100%
+rename from ui/gtk3/IBusEmojiDialog-1.0.metadata
+rename to bindings/vala/IBusEmojiDialog-1.0.metadata
+diff --git a/bindings/vala/Makefile.am b/bindings/vala/Makefile.am
+index 4e34afc7..fc8e2f01 100644
+--- a/bindings/vala/Makefile.am
++++ b/bindings/vala/Makefile.am
+@@ -3,7 +3,8 @@
+ # ibus - The Input Bus
+ #
+ # Copyright (c) 2007-2016 Peng Huang <shawn.p.huang@gmail.com>
+-# Copyright (c) 2007-2016 Red Hat, Inc.
++# Copyright (c) 2017 Takao Fujiwara <takao.fujiwara1@gmail.com>
++# Copyright (c) 2007-2017 Red Hat, Inc.
+ #
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+@@ -22,15 +23,47 @@
+ 
+ -include $(VAPIGEN_MAKEFILE)
+ 
++libibus = $(top_builddir)/src/libibus-@IBUS_API_VERSION@.la
++
++noinst_LTLIBRARIES =
++noinst_DATA =
++INTROSPECTION_GIRS =
++girdir = $(datadir)/gir-1.0
++
++AM_CPPFLAGS = \
++    -I$(top_srcdir)/src \
++    -I$(top_builddir)/src \
++    -include $(CONFIG_HEADER) \
++    $(NULL)
++AM_CFLAGS = \
++    -DG_LOG_DOMAIN=\"IBUS\" \
++    -DPKGDATADIR=\"$(pkgdatadir)\" \
++    -DIBUS_DISABLE_DEPRECATED \
++    -Wno-unused-variable \
++    -Wno-unused-but-set-variable \
++    -Wno-unused-function \
++    $(NULL)
++AM_VALAFLAGS = \
++    --vapidir=$(builddir) \
++    --vapidir=$(srcdir) \
++    --pkg=posix \
++    --pkg=gtk+-3.0 \
++    --pkg=gdk-x11-3.0 \
++    --pkg=ibus-1.0 \
++    --pkg=config \
++    --pkg=xi \
++    --target-glib="$(VALA_TARGET_GLIB_VERSION)" \
++    $(NULL)
++
+ vapi_deps = \
+ 	IBus-1.0.metadata \
+-	IBus-1.0-custom.vala \
+ 	$(top_builddir)/src/IBus-1.0.gir \
+ 	$(NULL)
+ 
+ ibus-1.0.vapi: $(vapi_deps)
+ 
+-VAPIGEN_VAPIS = ibus-1.0.vapi
++ibus_vapi = ibus-1.0.vapi
++VAPIGEN_VAPIS = $(ibus_vapi)
+ 
+ ibus_1_0_vapi_DEPS = gio-2.0
+ ibus_1_0_vapi_METADATADIRS = $(srcdir)
+@@ -40,18 +73,118 @@ ibus_1_0_vapi_FILES = \
+ 	$(NULL)
+ 
+ vapidir = $(datadir)/vala/vapi
+-vapi_DATA = $(VAPIGEN_VAPIS) $(VAPIGEN_VAPIS:.vapi=.deps)
+-
+-MAINTAINERCLEANFILES = $(VAPIGEN_VAPIS)
+-DISTCLEANFILES = $(VAPIGEN_VAPIS)
+-
+-EXTRA_DIST = \
+-	$(VAPIGEN_VAPIS) \
+-	IBus-1.0.metadata \
+-	IBus-1.0-custom.vala \
+-	ibus-1.0.deps \
+-	config.vapi \
+-	xi.vapi \
+-	$(NULL)
++vapi_DATA = $(ibus_vapi) $(ibus_vapi:.vapi=.deps)
++
++MAINTAINERCLEANFILES = $(ibus_vapi)
++DISTCLEANFILES = $(ibus_vapi)
++
++EXTRA_DIST =                                    \
++    $(ibus_vapi)                                \
++    IBus-1.0.metadata                           \
++    IBus-1.0-custom.vala                        \
++    IBusEmojiDialog-1.0.metadata                \
++    ibus-1.0.deps                               \
++    ibus-emoji-dialog-1.0.deps                  \
++    config.vapi                                 \
++    xi.vapi                                     \
++    $(NULL)
++
++if ENABLE_EMOJI_DICT
++AM_VALAFLAGS += --define=EMOJI_DICT
++
++libibus_emoji_dialog = libibus-emoji-dialog-1.0.la
++noinst_LTLIBRARIES += $(libibus_emoji_dialog)
++
++libibus_emoji_dialog_1_0_la_SOURCES =           \
++    candidatearea.vala                          \
++    emojier.vala                                \
++    iconwidget.vala                             \
++    pango.vala                                  \
++    separator.vala                              \
++    $(NULL)
++libibus_emoji_dialog_1_0_la_CFLAGS =            \
++    $(AM_CFLAGS)                                \
++    @GLIB2_CFLAGS@                              \
++    @GIO2_CFLAGS@                               \
++    @GTHREAD2_CFLAGS@                           \
++    @GTK3_CFLAGS@                               \
++    @X11_CFLAGS@                                \
++    -DBINDIR=\"$(bindir)\"                      \
++    $(NULL)
++libibus_emoji_dialog_1_0_la_LIBADD =            \
++    @GLIB2_LIBS@                                \
++    @GIO2_LIBS@                                 \
++    @GTHREAD2_LIBS@                             \
++    @GTK3_LIBS@                                 \
++    @X11_LIBS@                                  \
++    -lXi                                        \
++    $(libibus)                                  \
++    $(NULL)
++libibus_emoji_dialog_1_0_la_LDFLAGS =           \
++    -no-undefined                               \
++    -export-symbols-regex "ibus_.*"             \
++    $(NULL)
++
++# per file setting is needed to avoid conflicting LN_S by calling
++# duplicated times in parallel make
++%.vala: $(ibus_vapi)
++	if test ! -f $@ ; then                                              \
++	    $(LN_S) $(top_srcdir)/ui/gtk3/$@ .;                             \
++	fi;
++
++MAINTAINERCLEANFILES += $(libibus_emoji_dialog_1_0_la_SOURCES)
++DISTCLEANFILES += $(libibus_emoji_dialog_1_0_la_SOURCES)
++
++if HAVE_INTROSPECTION
++-include $(INTROSPECTION_MAKEFILE)
++INTROSPECTION_SCANNER_ARGS =
++INTROSPECTION_COMPILER_ARGS =                   \
++    --includedir=$(srcdir)                      \
++    --includedir=.                              \
++    --includedir=$(top_srcdir)/src              \
++    $(NULL)
++
++
++emoji_headers =                                 \
++    $(top_srcdir)/ui/gtk3/ibusemojidialog.h     \
++    $(NULL)
++
++IBusEmojiDialog-1.0.gir: $(libibus_emoji_dialog) Makefile
++IBusEmojiDialog_1_0_gir_SCANNERFLAGS =          \
++    --pkg-export=ibus-1.0                       \
++    --pkg=gtk+-3.0                              \
++    $(IBUS_GIR_SCANNERFLAGS)                    \
++    $(NULL)
++IBusEmojiDialog_1_0_gir_INCLUDES = Gtk-3.0 GLib-2.0 GObject-2.0 Gio-2.0
++IBusEmojiDialog_1_0_gir_LIBS = $(libibus_emoji_dialog) $(libibus)
++IBusEmojiDialog_1_0_gir_FILES = $(emoji_headers)
++IBusEmojiDialog_1_0_gir_CFLAGS =                \
++    -I$(srcdir)                                 \
++    -I$(builddir)                               \
++    -I$(top_srcdir)/src                         \
++    $(NULL)
++
++ibus_emoji_dialog_gir = IBusEmojiDialog-1.0.gir
++INTROSPECTION_GIRS += $(ibus_emoji_dialog_gir)
++noinst_DATA += $(ibus_emoji_dialog_gir)
++EXTRA_DIST += $(ibus_emoji_dialog_gir)
++MAINTAINERCLEANFILES += $(ibus_emoji_dialog_gir)
++DISTCLEANFILES += $(ibus_emoji_dialog_gir)
++
++ibus-emoji-dialog-1.0.vapi: $(ibus_emoji_dialog_gir) IBusEmojiDialog-1.0.metadata
++ibus_emoji_dialog_vapi = ibus-emoji-dialog-1.0.vapi
++ibus_emoji_dialog_1_0_vapi_DEPS = gtk+-3.0 gio-2.0
++ibus_emoji_dialog_1_0_vapi_METADATADIRS = $(srcdir)
++ibus_emoji_dialog_1_0_vapi_FILES = IBusEmojiDialog-1.0.gir
++VAPIGEN_VAPIS += $(ibus_emoji_dialog_vapi)
++noinst_DATA += $(ibus_emoji_dialog_vapi)
++EXTRA_DIST += $(ibus_emoji_dialog_vapi)
++MAINTAINERCLEANFILES += $(ibus_emoji_dialog_vapi)
++DISTCLEANFILES += $(ibus_emoji_dialog_vapi)
++
++endif
++#end of HAVE_INTROSPECTION
++endif
++# end of ENABLE_EMOJI_DICT
+ 
+ -include $(top_srcdir)/git.mk
+diff --git a/ui/gtk3/ibus-emoji-dialog-1.0.deps b/bindings/vala/ibus-emoji-dialog-1.0.deps
+similarity index 100%
+rename from ui/gtk3/ibus-emoji-dialog-1.0.deps
+rename to bindings/vala/ibus-emoji-dialog-1.0.deps
+diff --git a/po/POTFILES.skip b/po/POTFILES.skip
+index 7190221d..10b88298 100644
+--- a/po/POTFILES.skip
++++ b/po/POTFILES.skip
+@@ -2,6 +2,11 @@
+ # Please keep this file in alphabetical order.
+ # Files under ui/gtk2/ are not shipped in the distribution, but kept
+ # in the git repository for reference.
++bindings/vala/candidatearea.c
++bindings/vala/emojier.c
++bindings/vala/iconwidget.c
++bindings/vala/pango.c
++bindings/vala/separator.c
+ ibus/_config.py
+ tools/main.c
+ ui/gtk2/candidatepanel.py
+diff --git a/ui/gtk3/Makefile.am b/ui/gtk3/Makefile.am
+index c79641a5..786b80e6 100644
+--- a/ui/gtk3/Makefile.am
++++ b/ui/gtk3/Makefile.am
+@@ -81,10 +81,6 @@ AM_VALAFLAGS = \
+ 	--target-glib="$(VALA_TARGET_GLIB_VERSION)" \
+ 	$(NULL)
+ 
+-MAINTAINERCLEANFILES =
+-DISTCLEANFILES =
+-noinst_DATA =
+-
+ if ENABLE_LIBNOTIFY
+ AM_CFLAGS += \
+ 	@LIBNOTIFY_CFLAGS@ \
+@@ -158,9 +154,8 @@ man_seven_in_files = ibus-emoji.7.in
+ EXTRA_DIST =                            \
+     $(emoji_headers)                    \
+     $(man_seven_in_files)               \
+-    IBusEmojiDialog-1.0.metadata        \
++    emojierapp.vala                     \
+     gtkpanel.xml.in                     \
+-    ibus-emoji-dialog-1.0.deps          \
+     notification-item.xml               \
+     notification-watcher.xml            \
+     $(NULL)
+@@ -168,98 +163,40 @@ EXTRA_DIST =                            \
+ if ENABLE_EMOJI_DICT
+ AM_VALAFLAGS += --define=EMOJI_DICT
+ 
+-libibus_emoji_dialog = libibus-emoji-dialog-1.0.la
+-
+-noinst_LTLIBRARIES = $(libibus_emoji_dialog)
+-
+-libibus_emoji_dialog_1_0_la_CFLAGS = $(AM_CFLAGS)
+-libibus_emoji_dialog_1_0_la_LDFLAGS =   \
+-    -no-undefined                       \
+-    -export-symbols-regex "ibus_.*"     \
+-    -version-info @LT_VERSION_INFO@     \
+-    $(NULL)
+-libibus_emoji_dialog_1_0_la_SOURCES =   \
+-    candidatearea.vala                  \
+-    emojier.vala                        \
+-    iconwidget.vala                     \
+-    pango.vala                          \
+-    separator.vala                      \
+-    $(NULL)
+-
+ libexec_PROGRAMS += ibus-ui-emojier
+ 
+-ibus_ui_emojier_SOURCES =                       \
+-    $(libibus_emoji_dialog_1_0_la_SOURCES)      \
++ibus_ui_emojier_VALASOURCES =                   \
+     emojierapp.vala                             \
++    candidatearea.vala                          \
++    emojier.vala                                \
++    iconwidget.vala                             \
++    pango.vala                                  \
++    separator.vala                              \
++    $(NULL)
++ibus_ui_emojier_SOURCES =                       \
++    $(ibus_ui_emojier_VALASOURCES:.vala=.c)     \
+     $(NULL)
+ 
+ ibus_ui_emojier_LDADD =                         \
+     $(AM_LDADD)                                 \
+     $(NULL)
+ 
+--include $(INTROSPECTION_MAKEFILE)
+-INTROSPECTION_SCANNER_ARGS =
+-INTROSPECTION_COMPILER_ARGS =      \
+-    --includedir=$(srcdir)         \
+-    --includedir=.                 \
+-    --includedir=$(top_srcdir)/src \
++ibus_ui_emojier_VALAFLAGS =                     \
++    $(AM_VALAFLAGS)                             \
+     $(NULL)
+ 
+-if HAVE_INTROSPECTION
+-introspection_sources =                \
+-    $(emoji_headers)                   \
+-    $(NULL)
+-IBusEmojiDialog-1.0.gir: $(libibus_emoji_dialog) Makefile
+-IBusEmojiDialog_1_0_gir_SCANNERFLAGS = \
+-    --pkg-export=ibus-1.0              \
+-    --pkg=gtk+-3.0                     \
+-    $(IBUS_GIR_SCANNERFLAGS)           \
+-    $(NULL)
+-IBusEmojiDialog-1.0.gir: $(libibus_emoji_dialog) Makefile
+-IBusEmojiDialog_1_0_gir_INCLUDES = Gtk-3.0 GLib-2.0 GObject-2.0 Gio-2.0
+-IBusEmojiDialog_1_0_gir_LIBS = $(libibus_emoji_dialog) $(libibus)
+-IBusEmojiDialog_1_0_gir_FILES =                      \
+-    $(addprefix $(srcdir)/,$(introspection_sources)) \
+-    $(NULL)
+-IBusEmojiDialog_1_0_gir_CFLAGS =       \
+-    -DIBUS_COMPILATION                 \
+-    -I$(srcdir)                        \
+-    -I$(builddir)                      \
+-    -I$(top_srcdir)/src                \
+-    $(NULL)
+-INTROSPECTION_GIRS = IBusEmojiDialog-1.0.gir
+-
+-girdir = $(datadir)/gir-1.0
+-noinst_DATA += $(INTROSPECTION_GIRS)
+-CLEANFILES += $(INTROSPECTION_GIRS)
+-
+-typelibsdir = $(libdir)/girepository-1.0
+-noinst_DATA += $(INTROSPECTION_GIRS:.gir=.typelib)
+-CLEANFILES += $(INTROSPECTION_GIRS:.gir=.typelib)
+-
+-
+-if ENABLE_VAPIGEN
+--include $(VAPIGEN_MAKEFILE)
+-
+-ibus-emoji-dialog-1.0.vapi: $(INTROSPECTION_GIRS) IBusEmojiDialog-1.0.metadata
+-
+-VAPIGEN_VAPIS = ibus-emoji-dialog-1.0.vapi
+-
+-ibus_emoji_dialog_1_0_vapi_DEPS = gtk+-3.0 gio-2.0
+-ibus_emoji_dialog_1_0_vapi_METADATADIRS = $(srcdir)
+-ibus_emoji_dialog_1_0_vapi_FILES = $(INTROSPECTION_GIRS)
+-
+-vapidir = $(datadir)/vala/vapi
+-noinst_DATA += $(VAPIGEN_VAPIS) $(VAPIGEN_VAPIS:.vapi=.deps)
+-
+-MAINTAINERCLEANFILES += $(VAPIGEN_VAPIS)
+-DISTCLEANFILES += $(VAPIGEN_VAPIS)
+-EXTRA_DIST += $(VAPIGEN_VAPIS)
+-
+-# end of ENABLE_VAPIGEN
+-endif
+-# end of HAVE_INTROSPECTION
+-endif
++# This line and foo_VALASOURCES line can delete the duplicated entries
++# of emojier.c: emojier.vala
++emojierapp.c: $(ibus_ui_emojier_VALASOURCES)
++	$(AM_V_VALAC)$(am__cd) $(srcdir) && $(VALAC) $(AM_VALAFLAGS) \
++$(VALAFLAGS) -C $(ibus_ui_emojier_VALASOURCES)
++	$(NULL)
++# make dist creates .c files in a different srcdir
++emojierapp.o: $(srcdir)/emojierapp.c
++	$(AM_V_CC)source='$<' object='$@' libtool=no \
++	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
++	$(AM_V_CC_no)$(COMPILE) -c -o $@ $<
++	$(NULL)
+ 
+ man_seven_files = $(man_seven_in_files:.7.in=.7)
+ man_seven_DATA =$(man_seven_files:.7=.7.gz)
+@@ -276,7 +213,7 @@ CLEANFILES += \
+     $(man_seven_files) \
+     $(NULL)
+ 
++endif
+ # end of ENABLE_EMOJI_DICT
+-endif
+ 
+ -include $(top_srcdir)/git.mk
+diff --git a/ui/gtk3/emojier.vala b/ui/gtk3/emojier.vala
+index 9df59ac4..36ab4bab 100644
+--- a/ui/gtk3/emojier.vala
++++ b/ui/gtk3/emojier.vala
+@@ -1139,6 +1139,7 @@ class IBusEmojier : Gtk.ApplicationWindow {
+                     m_category_active_index = (int)list.length();
+         }
+         Gtk.Adjustment adjustment = m_list_box.get_adjustment();
++        m_scrolled_window.set_hadjustment(new Gtk.Adjustment(0, 0, 0, 0, 0, 0));
+         m_scrolled_window.set_vadjustment(adjustment);
+         show_category_list();
+     }
+@@ -1156,7 +1157,7 @@ class IBusEmojier : Gtk.ApplicationWindow {
+             else if (keyval == Gdk.Key.Right)
+                 m_lookup_table.cursor_down();
+             show_candidate_panel();
+-        } else if (m_entry.get_text().len() > 0) {
++        } else if (m_entry.get_text().length > 0) {
+             int step = 0;
+             if (keyval == Gdk.Key.Left)
+                 step = -1;
+@@ -1211,7 +1212,7 @@ class IBusEmojier : Gtk.ApplicationWindow {
+             show_candidate_panel();
+             return true;
+         }
+-        if (m_entry.get_text().len() > 0) {
++        if (m_entry.get_text().length > 0) {
+             int step = 0;
+             if (keyval == Gdk.Key.Home)
+                 step = -1;
+@@ -1410,7 +1411,7 @@ class IBusEmojier : Gtk.ApplicationWindow {
+             key_press_enter();
+             return true;
+         case Gdk.Key.BackSpace:
+-            if (m_entry.get_text().len() > 0) {
++            if (m_entry.get_text().length > 0) {
+                 if ((modifiers & Gdk.ModifierType.CONTROL_MASK) != 0) {
+                     GLib.Signal.emit_by_name(m_entry, "delete-from-cursor",
+                                              Gtk.DeleteType.WORD_ENDS, -1);
+@@ -1422,7 +1423,7 @@ class IBusEmojier : Gtk.ApplicationWindow {
+             break;
+         case Gdk.Key.Delete:
+         case Gdk.Key.KP_Delete:
+-            if (m_entry.get_text().len() > 0) {
++            if (m_entry.get_text().length > 0) {
+                 if ((modifiers & Gdk.ModifierType.CONTROL_MASK) != 0) {
+                     GLib.Signal.emit_by_name(m_entry, "delete-from-cursor",
+                                              Gtk.DeleteType.WORD_ENDS, 1);
+@@ -1436,7 +1437,7 @@ class IBusEmojier : Gtk.ApplicationWindow {
+         case Gdk.Key.space:
+         case Gdk.Key.KP_Space:
+             if ((modifiers & Gdk.ModifierType.SHIFT_MASK) != 0) {
+-                if (m_entry.get_text().len() > 0)
++                if (m_entry.get_text().length > 0)
+                     entry_enter_keyval(keyval);
+             } else if (m_candidate_panel_is_visible) {
+                 enter_notify_disable_with_timer();
+@@ -1512,7 +1513,7 @@ class IBusEmojier : Gtk.ApplicationWindow {
+                     return true;
+                 break;
+             case Gdk.Key.u:
+-                if (m_entry.get_text().len() > 0) {
++                if (m_entry.get_text().length > 0) {
+                     GLib.Signal.emit_by_name(m_entry,
+                                              "delete-from-cursor",
+                                              Gtk.DeleteType.PARAGRAPH_ENDS,
+@@ -1521,13 +1522,13 @@ class IBusEmojier : Gtk.ApplicationWindow {
+                 }
+                 break;
+             case Gdk.Key.a:
+-                if (m_entry.get_text().len() > 0) {
++                if (m_entry.get_text().length > 0) {
+                     m_entry.select_region(0, -1);
+                     return true;
+                 }
+                 break;
+             case Gdk.Key.x:
+-                if (m_entry.get_text().len() > 0) {
++                if (m_entry.get_text().length > 0) {
+                     GLib.Signal.emit_by_name(m_entry, "cut-clipboard");
+                     return true;
+                 }
+@@ -1544,7 +1545,7 @@ class IBusEmojier : Gtk.ApplicationWindow {
+                         clipboard.store();
+                         return true;
+                     }
+-                } else if (m_entry.get_text().len() > 0) {
++                } else if (m_entry.get_text().length > 0) {
+                     GLib.Signal.emit_by_name(m_entry, "copy-clipboard");
+                     return true;
+                 }
+diff --git a/ui/gtk3/ibusemojidialog.h b/ui/gtk3/ibusemojidialog.h
+index 24d195c8..ed8886a8 100644
+--- a/ui/gtk3/ibusemojidialog.h
++++ b/ui/gtk3/ibusemojidialog.h
+@@ -170,5 +170,31 @@ void          ibus_emojier_set_favorites          (gchar**      favorites,
+                                                    favorite_annotations,
+                                                    int
+                                                    favorite_annotations_length);
++
++/**
++ * ibus_emojier_set_partial_match:
++ * @has_partial_match: Enable the partial match if %TRUE. Otherwise if %FALSE.
++ *
++ * Set partial match for emoji annotations.
++ */
++void          ibus_emojier_set_partial_match      (gboolean  has_partial_match);
++
++/**
++ * ibus_emojier_set_partial_match_length:
++ * @length: minimum lenght to match partially.
++ *
++ * Set the minimum lenght to match partially.
++ */
++void          ibus_emojier_set_partial_match_length
++                                                  (gint         length);
++
++/**
++ * ibus_emojier_set_partial_match_condition:
++ * @condition: condition id between 0 and 2.
++ *
++ * Set the partial match condition with the integer.
++ */
++void          ibus_emojier_set_partial_match_condition
++                                                  (gint         condition);
+ G_END_DECLS
+ #endif
+-- 
+2.15.1
+

@@ -1,0 +1,47 @@
+From 44d053577a6ac115f3fd3b7beb7bdd65da81aa64 Mon Sep 17 00:00:00 2001
+From: fujiwarat <takao.fujiwara1@gmail.com>
+Date: Wed, 24 May 2017 11:52:19 +0900
+Subject: [PATCH 03/33] engine: Add Malay and Mongolian keymaps
+
+R=Shawn.P.Huang@gmail.com
+
+Review URL: https://codereview.appspot.com/325790043
+---
+ engine/simple.xml.in | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/engine/simple.xml.in b/engine/simple.xml.in
+index c08000f0..f35d7a58 100644
+--- a/engine/simple.xml.in
++++ b/engine/simple.xml.in
+@@ -706,5 +706,27 @@
+                         <icon>ibus-keyboard</icon>
+ 			<rank>1</rank>
+ 		</engine>
++                <engine>
++                        <name>xkb:my::msa</name>
++                        <language>ms</language>
++                        <license>GPL</license>
++                        <author>Peng Huang &lt;shawn.p.huang@gmail.com&gt;</author>
++                        <layout>my</layout>
++                        <longname>Malay (Jawi)</longname>
++                        <description>Malay (Jawi)</description>
++                        <icon>ibus-keyboard</icon>
++                        <rank>1</rank>
++                </engine>
++                <engine>
++                        <name>xkb:mn::mon</name>
++                        <language>mn</language>
++                        <license>GPL</license>
++                        <author>Peng Huang &lt;shawn.p.huang@gmail.com&gt;</author>
++                        <layout>mn</layout>
++                        <longname>Mongolian</longname>
++                        <description>Mongolian</description>
++                        <icon>ibus-keyboard</icon>
++                        <rank>1</rank>
++                </engine>
+ 	</engines>
+ </component>
+-- 
+2.15.1
+

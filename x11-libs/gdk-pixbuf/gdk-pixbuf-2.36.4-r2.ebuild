@@ -15,7 +15,7 @@ KEYWORDS="*"
 IUSE="X debug +introspection jpeg jpeg2k tiff test"
 
 COMMON_DEPEND="
-	>=dev-libs/glib-2.48.0:2[${MULTILIB_USEDEP}]
+	>=dev-libs/glib-2.37.6:2[${MULTILIB_USEDEP}]
 	>=media-libs/libpng-1.4:0=[${MULTILIB_USEDEP}]
 	introspection? ( >=dev-libs/gobject-introspection-0.9.3:= )
 	jpeg? ( virtual/jpeg:0=[${MULTILIB_USEDEP}] )
@@ -41,6 +41,40 @@ MULTILIB_CHOST_TOOLS=(
 )
 
 src_prepare() {
+	# From GNOME:
+	# 	https://bugzilla.gnome.org/show_bug.cgi?id=756590
+	eapply "${FILESDIR}"/${PN}-2.32.3-fix-lowmem-uclibc.patch
+
+	# From GNOME:
+	# 	https://bugzilla.gnome.org/show_bug.cgi?id=765094 (CVE-2015-4491)
+	# 	https://bugzilla.gnome.org/show_bug.cgi?id=784903 (CVE-2017-2870)
+	# 	https://bugzilla.gnome.org/show_bug.cgi?id=784866 (CVE-2017-2862)
+	eapply "${FILESDIR}"/${PN}-2.36.5-gdk-pixbuf-fix-overflow-check-in-gdk-pixbuf-new.patch
+	eapply "${FILESDIR}"/${PN}-2.36.6-jpeg-add-support-for-jpeg-com-exif-tag.patch
+	eapply "${FILESDIR}"/${PN}-2.36.7-tests-split-off-failing-test-into-2-separate-tests.patch
+	eapply "${FILESDIR}"/${PN}-2.36.7-jpeg-throw-error-when-number-of-color-components-is-unsupported.patch
+	eapply "${FILESDIR}"/${PN}-2.36.7-tiff-check-for-integer-overflows-in-multiplication.patch
+	eapply "${FILESDIR}"/${PN}-2.36.7-bmp-prevent-multiplication-overflow-in-decodeheader.patch
+	eapply "${FILESDIR}"/${PN}-2.36.8-bmp-tighten-image-dimension-checks.patch
+	eapply "${FILESDIR}"/${PN}-2.36.8-tests-fix-cve-2015-4491-test.patch
+	eapply "${FILESDIR}"/${PN}-2.36.8-jpeg-restore-grayscale-image-support.patch
+	eapply "${FILESDIR}"/${PN}-2.36.8-tests-add-grayscale-jpeg-tests.patch
+	eapply "${FILESDIR}"/${PN}-2.36.8-tests-fix-unused-variable-in-cve-2015-4491-test.patch
+	eapply "${FILESDIR}"/${PN}-2.36.8-gdk-pixbuf-tighten-rowstride-overflow-check.patch
+	eapply "${FILESDIR}"/${PN}-2.36.8-gdk-pixbuf-add-gdk-pixbuf-calculate-rowstride.patch
+	eapply "${FILESDIR}"/${PN}-2.36.8-bmp-avoid-allocating-large-buffers-when-not-needed.patch
+	eapply "${FILESDIR}"/${PN}-2.36.8-tests-add-test-for-rowstride-overflow.patch
+
+	# From GNOME:
+	# 	https://bugzilla.gnome.org/show_bug.cgi?id=778204 (CVE-2017-6311)
+	# 	https://bugzilla.gnome.org/show_bug.cgi?id=779012 (CVE-2017-6312)
+	# 	https://bugzilla.gnome.org/show_bug.cgi?id=779016 (CVE-2017-6313)
+	# 	https://bugzilla.gnome.org/show_bug.cgi?id=779020 (CVE-2017-6314)
+	eapply "${FILESDIR}"/${PN}-9999-CVE-2017-6311.patch
+	eapply "${FILESDIR}"/${PN}-9999-CVE-2017-6312.patch
+	eapply "${FILESDIR}"/${PN}-9999-CVE-2017-6313.patch
+	eapply "${FILESDIR}"/${PN}-9999-CVE-2017-6314.patch
+
 	# This will avoid polluting the pkg-config file with versioned libpng,
 	# which is causing problems with libpng14 -> libpng15 upgrade
 	# See upstream bug #667068

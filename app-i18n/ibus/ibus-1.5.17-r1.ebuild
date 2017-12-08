@@ -74,6 +74,10 @@ DEPEND="${CDEPEND}
 	nls? ( sys-devel/gettext )"
 
 src_prepare() {
+	# From IBus:
+	# 	https://github.com/ibus/ibus/commits/master
+	eapply "${FILESDIR}"/1.5.18
+
 	vala_src_prepare --ignore-use
 	if ! use emoji; then
 		touch \

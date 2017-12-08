@@ -1,0 +1,116 @@
+From 9937a0e4501ccf0cfd238ce7c97733c3099db3f7 Mon Sep 17 00:00:00 2001
+From: fujiwarat <takao.fujiwara1@gmail.com>
+Date: Mon, 4 Sep 2017 12:19:07 +0900
+Subject: [PATCH 14/33] bus: ibus-daemon activates ibus-portal
+
+When ibus-daemon restarts, ibus-portal exits with on_name_lost() and
+the clients wait for portal_name_appeared() until ibus-poral restarts.
+Now the clients can connect to ibus-daemon with this way and also
+they don't have to activate ibus-portal.
+
+BUG=https://github.com/flatpak/flatpak/issues/675
+R=Shawn.P.Huang@gmail.com
+
+Review URL: https://codereview.appspot.com/321530043
+---
+ bus/server.c    | 45 +++++++++++++++++++++++++++++++++++++++++++--
+ portal/portal.c |  6 +-----
+ 2 files changed, 44 insertions(+), 7 deletions(-)
+
+diff --git a/bus/server.c b/bus/server.c
+index ff3ea093..e2898274 100644
+--- a/bus/server.c
++++ b/bus/server.c
+@@ -93,6 +93,45 @@ bus_new_connection_cb (GDBusServer     *server,
+     return TRUE;
+ }
+ 
++static void
++_server_connect_start_portal_cb (GObject      *source_object,
++                                 GAsyncResult *res,
++                                 gpointer      user_data)
++{
++    GVariant *result;
++    GError *error = NULL;
++
++    result = g_dbus_connection_call_finish (G_DBUS_CONNECTION (source_object),
++                                            res,
++                                            &error);
++    if (result != NULL) {
++        g_variant_unref (result);
++    } else {
++        g_print ("portal is not running: %s\n", error->message);
++        g_error_free (error);
++    }
++}
++
++static void
++bus_acquired_handler (GDBusConnection *connection,
++                      const gchar     *name,
++                      gpointer         user_data)
++{
++    g_dbus_connection_call (connection,
++                            IBUS_SERVICE_PORTAL,
++                            IBUS_PATH_IBUS,
++                            "org.freedesktop.DBus.Peer",
++                            "Ping",
++                            g_variant_new ("()"),
++                            G_VARIANT_TYPE ("()"),
++                            G_DBUS_CALL_FLAGS_NONE,
++                            -1,
++                            NULL /* cancellable */,
++                            (GAsyncReadyCallback)
++                                    _server_connect_start_portal_cb,
++                            NULL);
++}
++
+ void
+ bus_server_init (void)
+ {
+@@ -134,8 +173,10 @@ bus_server_init (void)
+     ibus_write_address (address);
+ 
+     /* own a session bus name so that third parties can easily track our life-cycle */
+-    g_bus_own_name (G_BUS_TYPE_SESSION, IBUS_SERVICE_IBUS, G_BUS_NAME_OWNER_FLAGS_NONE,
+-                    NULL, NULL, NULL, NULL, NULL);
++    g_bus_own_name (G_BUS_TYPE_SESSION, IBUS_SERVICE_IBUS,
++                    G_BUS_NAME_OWNER_FLAGS_NONE,
++                    bus_acquired_handler,
++                    NULL, NULL, NULL, NULL);
+ }
+ 
+ const gchar *
+diff --git a/portal/portal.c b/portal/portal.c
+index 0415f996..cb24d257 100644
+--- a/portal/portal.c
++++ b/portal/portal.c
+@@ -101,10 +101,6 @@ _forward_method_cb (GObject *source_object,
+                     gpointer user_data)
+ {
+     GDBusMethodInvocation *invocation = user_data;
+-    IBusPortalContext *portal_context =
+-            (IBusPortalContext *) g_dbus_method_invocation_get_user_data (
+-                    invocation);
+-    IBusEngineDesc *desc;
+     GError *error = NULL;
+ 
+     GVariant *variant = g_dbus_proxy_call_finish ((GDBusProxy *) source_object,
+@@ -413,6 +409,7 @@ ibus_portal_context_handle_destroy (IBusDbusService       *object,
+                                     IBusPortalContext     *portal_context)
+ {
+     g_object_unref (portal_context);
++    return FALSE;
+ }
+ 
+ static IBusPortalContext *
+@@ -475,7 +472,6 @@ create_input_context_done (IBusBus               *bus,
+     GError *error = NULL;
+     IBusInputContext *context;
+     IBusPortalContext *portal_context;
+-    char *object_path;
+ 
+     context = ibus_bus_create_input_context_async_finish (ibus_bus,
+                                                           res,
+-- 
+2.15.1
+

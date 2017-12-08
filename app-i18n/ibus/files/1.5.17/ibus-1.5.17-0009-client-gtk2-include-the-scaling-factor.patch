@@ -1,0 +1,70 @@
+From 6a3301db85e77e0652f7e00894cce493b6a942f6 Mon Sep 17 00:00:00 2001
+From: Xiang Fan <sfanxiang@gmail.com>
+Date: Thu, 10 Aug 2017 11:24:39 +0900
+Subject: [PATCH 09/33] client/gtk2: include the scaling factor
+
+Scaling factor, which exists for HiDPI displays, needs to be included in
+the calculation of cursor location. This does not affect devices without
+a HiDPI display.
+
+Candidate windows would be misplaced to smaller coordinates without this
+patch.
+
+BUG=https://github.com/ibus/ibus/issues/1806
+
+Review URL: https://codereview.appspot.com/328250043
+
+Patch from Xiang Fan <sfanxiang@gmail.com>.
+---
+ client/gtk2/ibusimcontext.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/client/gtk2/ibusimcontext.c b/client/gtk2/ibusimcontext.c
+index 0df00620..41c7a3af 100644
+--- a/client/gtk2/ibusimcontext.c
++++ b/client/gtk2/ibusimcontext.c
+@@ -999,6 +999,24 @@ ibus_im_context_set_client_window (GtkIMContext *context, GdkWindow *client)
+         gtk_im_context_set_client_window (ibusimcontext->slave, client);
+ }
+ 
++static void
++_set_rect_scale_factor_with_window (GdkRectangle *area,
++                                    GdkWindow    *window)
++{
++#if GTK_CHECK_VERSION (3, 10, 0)
++    int scale_factor;
++
++    g_assert (area);
++    g_assert (GDK_IS_WINDOW (window));
++
++    scale_factor = gdk_window_get_scale_factor (window);
++    area->x *= scale_factor;
++    area->y *= scale_factor;
++    area->width *= scale_factor;
++    area->height *= scale_factor;
++#endif
++}
++
+ static gboolean
+ _set_cursor_location_internal (IBusIMContext *ibusimcontext)
+ {
+@@ -1024,6 +1042,8 @@ _set_cursor_location_internal (IBusIMContext *ibusimcontext)
+             window = parent;
+         }
+ 
++        _set_rect_scale_factor_with_window (&area,
++                                            ibusimcontext->client_window);
+         ibus_input_context_set_cursor_location_relative (
+             ibusimcontext->ibuscontext,
+             area.x,
+@@ -1049,6 +1069,7 @@ _set_cursor_location_internal (IBusIMContext *ibusimcontext)
+     gdk_window_get_root_coords (ibusimcontext->client_window,
+                                 area.x, area.y,
+                                 &area.x, &area.y);
++    _set_rect_scale_factor_with_window (&area, ibusimcontext->client_window);
+     ibus_input_context_set_cursor_location (ibusimcontext->ibuscontext,
+                                             area.x,
+                                             area.y,
+-- 
+2.15.1
+

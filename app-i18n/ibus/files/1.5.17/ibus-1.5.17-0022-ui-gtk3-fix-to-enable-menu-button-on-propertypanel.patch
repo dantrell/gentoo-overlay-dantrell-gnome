@@ -1,0 +1,41 @@
+From 4a541639f50f05bf01b1b84792a7f4039b88c296 Mon Sep 17 00:00:00 2001
+From: fujiwarat <takao.fujiwara1@gmail.com>
+Date: Fri, 15 Sep 2017 17:49:57 +0900
+Subject: [PATCH 22/33] ui/gtk3: Fix to enable menu button on PropertyPanel
+
+Review URL: https://codereview.appspot.com/330720043
+---
+ ui/gtk3/propertypanel.vala | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/ui/gtk3/propertypanel.vala b/ui/gtk3/propertypanel.vala
+index 857f8e20..f5d9cff7 100644
+--- a/ui/gtk3/propertypanel.vala
++++ b/ui/gtk3/propertypanel.vala
+@@ -84,6 +84,23 @@ public class PropertyPanel : Gtk.Box {
+     public void set_properties(IBus.PropList props) {
+         debug("set_properties()\n");
+ 
++        // When click PropMenuToolButton, the focus is changed and
++        // set_properties() is called here while the menu button is active.
++        // Ignore that case here not to remove items.
++        bool has_active = false;
++        foreach (var item in m_items) {
++            Type type = item.get_type();
++            if (type == typeof(PropMenuToolButton) ||
++                type == typeof(PropToggleToolButton)) {
++                if ((item as Gtk.ToggleToolButton).get_active()) {
++                    has_active = true;
++                    break;
++                }
++            }
++        }
++        if (has_active)
++            return;
++
+         foreach (var item in m_items)
+             remove((item as Gtk.Widget));
+         m_items = {};
+-- 
+2.15.1
+

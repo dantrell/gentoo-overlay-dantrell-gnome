@@ -1,0 +1,30 @@
+From c1b93f933f5cbd74f3e06575d26ed7432a5420fd Mon Sep 17 00:00:00 2001
+From: Mario Bodemann <mario.bodemann@gmail.com>
+Date: Tue, 15 Aug 2017 12:10:56 +0900
+Subject: [PATCH 10/33] Typo fix
+
+BUG=https://github.com/ibus/ibus/pull/1939
+
+Review URL: https://codereview.appspot.com/327080043
+
+Patch from Mario Bodemann <mario.bodemann@gmail.com>.
+---
+ ui/gtk3/ibus-emoji.7.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ui/gtk3/ibus-emoji.7.in b/ui/gtk3/ibus-emoji.7.in
+index 4ee86364..d5eae310 100644
+--- a/ui/gtk3/ibus-emoji.7.in
++++ b/ui/gtk3/ibus-emoji.7.in
+@@ -15,7 +15,7 @@
+ .SH "DESCRIPTION"
+ 
+ .PP
+-IBus Emojier provides a GUI to select an emoji by typing an emoji annotaion
++IBus Emojier provides a GUI to select an emoji by typing an emoji annotation
+ or choosing a character with mouse click and it's designed to work as
+ an extended IBus lookup window using Space, Enter, and Arrow keys.
+ The text entry accepts an emoji annotation or Unicode points.
+-- 
+2.15.1
+

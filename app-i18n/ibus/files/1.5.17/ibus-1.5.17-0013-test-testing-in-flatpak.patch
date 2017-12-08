@@ -1,0 +1,72 @@
+From 9772e800f3e6937510f2609c5ce9a6860c59cb81 Mon Sep 17 00:00:00 2001
+From: Alexander Larsson <alexl@redhat.com>
+Date: Mon, 4 Sep 2017 12:02:17 +0900
+Subject: [PATCH 13/33] test: Testing in flatpak
+
+Test with:
+flatpak-builder --force-clean app org.test.IBus.json
+flatpak-builder --run --nofilesystem=host app org.test.IBus.json zenity --entry
+
+BUG=https://github.com/flatpak/flatpak/issues/675
+R=Shawn.P.Huang@gmail.com
+
+Review URL: https://codereview.appspot.com/329090043
+
+Patch from Alexander Larsson <alexl@redhat.com>.
+---
+ test/org.test.IBus.json | 43 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+ create mode 100644 test/org.test.IBus.json
+
+diff --git a/test/org.test.IBus.json b/test/org.test.IBus.json
+new file mode 100644
+index 00000000..dc3caa62
+--- /dev/null
++++ b/test/org.test.IBus.json
+@@ -0,0 +1,43 @@
++{
++    "app-id": "org.test.IBus",
++    "runtime": "org.gnome.Platform",
++    "runtime-version": "3.24",
++    "sdk": "org.gnome.Sdk",
++    "command": "/usr/bin/zenity",
++    "finish-args": [
++        /* X11 + XShm access */
++        "--share=ipc", "--socket=x11",
++        /* Wayland access */
++        "--socket=wayland",
++        /* Needed for dconf to work */
++        "--filesystem=xdg-run/dconf", "--filesystem=~/.config/dconf:ro",
++        "--talk-name=ca.desrt.dconf", "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
++        "--env=GTK_IM_MODULE_FILE=/app/lib/gtk-3.0/3.0.0/immodules.cache"
++    ],
++    "build-options" : {
++        "cflags": "-O2 -g",
++        "cxxflags": "-O2 -g",
++        "env": {
++            "V": "1"
++        }
++    },
++    "cleanup": ["/include", "/lib/pkgconfig",
++                "/share/pkgconfig", "/share/aclocal",
++                "/man", "/share/man", "/share/gtk-doc",
++                "/share/vala",
++                "*.la", "*.a"],
++    "modules": [
++        {
++            "name": "ibus",
++            "sources": [
++                {
++                    "type": "git",
++                    "url": "https://github.com/alexlarsson/ibus",
++                    "branch": "ibus-portal"
++                }
++            ],
++            "config-opts": ["--disable-emoji-dict", "--disable-dconf"],
++            "post-install": ["gtk-query-immodules-3.0 /app/lib/gtk-3.0/3.0.0/immodules/im-ibus.so > /app/lib/gtk-3.0/3.0.0/immodules.cache"]
++        }
++    ]
++}
+-- 
+2.15.1
+
