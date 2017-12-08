@@ -407,6 +407,8 @@ sci-geosciences/geocode-glib::gentoo
 sci-geosciences/geocode-glib::gnome-kit
 sys-apps/accountsservice::gentoo
 sys-apps/accountsservice::nokit
+sys-apps/dbus::core-kit
+sys-apps/dbus::gentoo
 sys-apps/openrc::core-kit
 sys-apps/openrc::gentoo
 sys-apps/osinfo-db-tools::gentoo
@@ -419,6 +421,8 @@ sys-auth/elogind::gentoo
 sys-auth/elogind::nokit
 sys-auth/pambase::core-kit
 sys-auth/pambase::gentoo
+sys-auth/polkit::core-kit
+sys-auth/polkit::gentoo
 sys-devel/gettext::core-kit
 sys-devel/gettext::gentoo
 sys-fs/udisks::core-kit

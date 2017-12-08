@@ -1,7 +1,3 @@
 app-arch/gnome-autoar::dantrell-gnome ~*
 dev-lang/spidermonkey:38::gentoo ~*
 dev-libs/json-glib::dantrell-gnome ~*
-sys-apps/accountsservice::dantrell-gnome **
-sys-auth/elogind::dantrell-gnome ~*
-sys-auth/polkit::gentoo ~*
-sys-power/upower::dantrell-gnome **

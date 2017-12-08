@@ -34,6 +34,9 @@ DEPEND="
 	emacs? ( virtual/emacs )
 	sys-devel/gettext
 "
+PATCHES=(
+	"${FILESDIR}"/${PN}-2.2.3-gentoo-sandbox.patch
+)
 
 src_configure() {
 	# Seems to have issues with -Os, switch to -O2

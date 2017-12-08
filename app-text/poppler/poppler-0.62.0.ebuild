@@ -9,10 +9,10 @@ HOMEPAGE="https://poppler.freedesktop.org/"
 SRC_URI="https://poppler.freedesktop.org/${P}.tar.xz"
 
 LICENSE="GPL-2"
-SLOT="0/67"   # CHECK THIS WHEN BUMPING!!! SUBSLOT IS libpoppler.so SOVERSION
-KEYWORDS="*"
+SLOT="0/72"   # CHECK THIS WHEN BUMPING!!! SUBSLOT IS libpoppler.so SOVERSION
+KEYWORDS=""
 
-IUSE="cairo cjk curl cxx debug doc +introspection +jpeg +jpeg2k +lcms nss png qt4 qt5 tiff +utils"
+IUSE="cairo cjk curl cxx debug doc +introspection +jpeg +jpeg2k +lcms nss png qt5 tiff +utils"
 
 # No test data provided
 RESTRICT="test"
@@ -32,10 +32,6 @@ COMMON_DEPEND="
 	lcms? ( media-libs/lcms:2 )
 	nss? ( >=dev-libs/nss-3.19:0 )
 	png? ( media-libs/libpng:0= )
-	qt4? (
-		dev-qt/qtcore:4
-		dev-qt/qtgui:4
-	)
 	qt5? (
 		dev-qt/qtcore:5
 		dev-qt/qtgui:5
@@ -51,11 +47,10 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 PATCHES=(
-	"${FILESDIR}/${PN}-0.26.0-qt5-dependencies.patch"
+	"${FILESDIR}/${PN}-0.60.1-qt5-dependencies.patch"
 	"${FILESDIR}/${PN}-0.28.1-fix-multilib-configuration.patch"
-	"${FILESDIR}/${PN}-0.53.0-respect-cflags.patch"
-	"${FILESDIR}/${PN}-0.33.0-openjpeg2.patch"
-	"${FILESDIR}/${PN}-0.40-FindQt4.patch"
+	"${FILESDIR}/${PN}-0.61.0-respect-cflags.patch"
+	"${FILESDIR}/${PN}-0.62.0-openjpeg2.patch"
 )
 
 src_prepare() {
@@ -73,13 +68,17 @@ src_prepare() {
 	else
 		einfo "policy(SET CMP0002 OLD) - workaround can be removed"
 	fi
+
+	if tc-is-clang && [[ ${CHOST} == *-darwin* ]] ; then
+		# we need to up the C++ version, bug #622526
+		export CXX="$(tc-getCXX) -std=c++11"
+	fi
 }
 
 src_configure() {
 	xdg_environment_reset
 	local mycmakeargs=(
 		-DBUILD_GTK_TESTS=OFF
-		-DBUILD_QT4_TESTS=OFF
 		-DBUILD_QT5_TESTS=OFF
 		-DBUILD_CPP_TESTS=OFF
 		-DENABLE_SPLASH=ON
@@ -97,14 +96,18 @@ src_configure() {
 		-DWITH_JPEG="$(usex jpeg)"
 		-DWITH_NSS3="$(usex nss)"
 		-DWITH_PNG="$(usex png)"
-		-DWITH_Qt4="$(usex qt4)"
 		$(cmake-utils_use_find_package qt5 Qt5Core)
 		-DWITH_TIFF="$(usex tiff)"
 	)
+	if use jpeg; then
+		mycmakeargs+=(-DENABLE_DCTDECODER=libjpeg)
+	else
+		mycmakeargs+=(-DENABLE_DCTDECODER=none)
+	fi
 	if use jpeg2k; then
 		mycmakeargs+=(-DENABLE_LIBOPENJPEG=openjpeg2)
 	else
-		mycmakeargs+=(-DENABLE_LIBOPENJPEG=)
+		mycmakeargs+=(-DENABLE_LIBOPENJPEG=none)
 	fi
 	if use lcms; then
 		mycmakeargs+=(-DENABLE_CMS=lcms2)

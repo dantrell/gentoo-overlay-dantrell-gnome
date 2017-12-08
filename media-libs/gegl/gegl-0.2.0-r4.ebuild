@@ -1,13 +1,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
 WANT_AUTOMAKE=1.11  # see bug 471990, comment 3
 # vala and introspection support is broken, bug #468208
 #VALA_MIN_API_VERSION=0.14
 #VALA_USE_DEPEND=vapigen
 
-inherit versionator gnome2-utils eutils autotools #vala
+inherit versionator gnome2-utils autotools #vala
 
 DESCRIPTION="A graph based image processing framework"
 HOMEPAGE="http://www.gegl.org/"
@@ -34,7 +34,7 @@ RDEPEND="
 	jpeg2k? ( >=media-libs/jasper-1.900.1:= )
 	openexr? ( media-libs/openexr )
 	png? ( media-libs/libpng:0= )
-	raw? ( =media-libs/libopenraw-0.0.9 )
+	raw? ( >=media-libs/libopenraw-0.1:0= )
 	sdl? ( media-libs/libsdl )
 	svg? ( >=gnome-base/librsvg-2.14:2 )
 	umfpack? ( sci-libs/umfpack )
@@ -51,17 +51,15 @@ DEPEND="${RDEPEND}
 "
 #	vala? ( $(vala_depend) )"
 
-DOCS=( ChangeLog INSTALL README NEWS )
-
 src_prepare() {
 	# https://bugs.gentoo.org/show_bug.cgi?id=442016
-	epatch "${FILESDIR}/${P}-cve-2012-4433-1e92e523.patch"
-	epatch "${FILESDIR}/${P}-cve-2012-4433-4757cdf7.patch"
+	eapply "${FILESDIR}/${P}-cve-2012-4433-1e92e523.patch"
+	eapply "${FILESDIR}/${P}-cve-2012-4433-4757cdf7.patch"
 
 	# https://bugs.gentoo.org/show_bug.cgi?id=416587
-	epatch "${FILESDIR}/${P}-introspection-version.patch"
+	eapply "${FILESDIR}/${P}-introspection-version.patch"
 
-	epatch "${FILESDIR}/${P}-ffmpeg-0.11.diff"
+	eapply "${FILESDIR}/${P}-ffmpeg-0.11.diff"
 	# fix OSX loadable module filename extension
 	sed -i -e 's/\.dylib/.bundle/' configure.ac || die
 	# don't require Apple's OpenCL on versions of OSX that don't have it
@@ -69,11 +67,14 @@ src_prepare() {
 		sed -i -e 's/#ifdef __APPLE__/#if 0/' gegl/opencl/* || die
 	fi
 
-	epatch "${FILESDIR}"/${P}-g_log_domain.patch
+	eapply "${FILESDIR}"/${P}-g_log_domain.patch
 
 	# https://bugs.gentoo.org/show_bug.cgi?id=605216
 	# https://bugs.gentoo.org/show_bug.cgi?id=617430
-	epatch "${FILESDIR}"/${P}-underlinking.patch
+	eapply "${FILESDIR}"/${P}-underlinking.patch
+	eapply "${FILESDIR}"/${P}-libopenraw-0.1.patch  # bug 639834
+
+	eapply_user
 	eautoreconf
 
 	# https://bugs.gentoo.org/show_bug.cgi?id=468248

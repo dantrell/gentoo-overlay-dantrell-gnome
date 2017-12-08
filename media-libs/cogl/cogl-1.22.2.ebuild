@@ -11,12 +11,7 @@ LICENSE="MIT BSD"
 SLOT="1.0/20" # subslot = .so version
 KEYWORDS="*"
 
-# doc and profile disable for now due to bugs #484750 and #483332
-IUSE="debug examples gles2 gstreamer +introspection +kms +opengl +pango test wayland" # doc profile
-REQUIRED_USE="
-	wayland? ( gles2 )
-	|| ( gles2 opengl )
-"
+IUSE="doc debug examples gles2 gstreamer +introspection +pango test wayland"
 
 # Need classic mesa swrast for tests, llvmpipe causes a test failure
 # For some reason GL3 conformance test all fails again...
@@ -32,19 +27,18 @@ COMMON_DEPEND="
 	x11-libs/libXext
 	>=x11-libs/libXfixes-3
 	>=x11-libs/libXrandr-1.2
-	virtual/opengl
+	media-libs/mesa[egl]
 	gles2? ( media-libs/mesa[gles2] )
 	gstreamer? (
 		media-libs/gstreamer:1.0
 		media-libs/gst-plugins-base:1.0 )
 	introspection? ( >=dev-libs/gobject-introspection-1.34.2:= )
-	kms? (
-		media-libs/mesa[gbm]
-		x11-libs/libdrm:= )
 	pango? ( >=x11-libs/pango-1.20.0[introspection?] )
 	wayland? (
 		>=dev-libs/wayland-1.1.90
-		media-libs/mesa[egl,wayland] )
+		media-libs/mesa[egl,gbm,wayland]
+		x11-libs/libdrm:= 
+	)
 "
 # before clutter-1.7, cogl was part of clutter
 RDEPEND="${COMMON_DEPEND}
@@ -54,9 +48,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-util/gtk-doc-am-1.13
 	>=sys-devel/gettext-0.19
 	virtual/pkgconfig
-	test? (
-		app-eselect/eselect-opengl
-		media-libs/mesa[classic] )
+	test? ( media-libs/mesa[classic] )
 "
 
 src_prepare() {
@@ -77,33 +69,32 @@ src_prepare() {
 }
 
 src_configure() {
-	# TODO: think about quartz, sdl
-	# Prefer gl over gles2 if both are selected
+	# Prefer gl driver by default
 	# Profiling needs uprof, which is not available in portage yet, bug #484750
-	# FIXME: Doesn't provide prebuilt docs, but they can neither be rebuilt, bug #483332
+	# native backend without wayland is useless
 	gnome2_src_configure \
 		--disable-examples-install \
 		--disable-maintainer-flags \
 		--enable-cairo             \
 		--enable-deprecated        \
 		--enable-gdk-pixbuf        \
+		--enable-gl                \
 		--enable-glib              \
+		--enable-glx               \
+		--disable-profile          \
+		--with-default-driver=gl   \
 		$(use_enable debug)        \
-		$(use_enable opengl glx)   \
-		$(use_enable opengl gl)    \
+		$(use_enable doc gtk-doc)  \
 		$(use_enable gles2)        \
 		$(use_enable gles2 cogl-gles2) \
 		$(use_enable gles2 xlib-egl-platform) \
-		$(usex gles2 --with-default-driver=$(usex opengl gl gles2)) \
 		$(use_enable gstreamer cogl-gst)    \
 		$(use_enable introspection) \
-		$(use_enable kms kms-egl-platform) \
 		$(use_enable pango cogl-pango) \
 		$(use_enable test unit-tests) \
+		$(use_enable wayland kms-egl-platform) \
 		$(use_enable wayland wayland-egl-platform) \
-		$(use_enable wayland wayland-egl-server) \
-		--disable-profile
-#		$(use_enable profile)
+		$(use_enable wayland wayland-egl-server)
 }
 
 src_test() {

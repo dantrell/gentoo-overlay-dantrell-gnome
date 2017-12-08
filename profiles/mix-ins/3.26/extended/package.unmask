@@ -33,7 +33,7 @@
 ~dev-libs/folks-0.11.4::dantrell-gnome
 ~dev-libs/gjs-1.50.2::dantrell-gnome-3-26
 ~dev-libs/glib-2.54.2::dantrell-gnome
-~dev-libs/gmime-3.0.4::dantrell-gnome
+~dev-libs/gmime-3.0.5::dantrell-gnome
 ~dev-libs/gobject-introspection-1.54.1::dantrell-gnome-3-26
 ~dev-libs/gobject-introspection-common-1.54.1::dantrell-gnome-3-26
 ~dev-libs/gom-0.3.3::dantrell-gnome
@@ -117,7 +117,7 @@
 ~gnome-extra/gnome-system-monitor-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/gnome-todo-3.26.2::dantrell-gnome-3-26
 ~gnome-extra/gnome-tweak-tool-3.26.3::dantrell-gnome-3-26
-~gnome-extra/gnome-user-docs-3.26.2::dantrell-gnome-3-26
+~gnome-extra/gnome-user-docs-3.26.2.1::dantrell-gnome-3-26
 ~gnome-extra/gnome-user-share-3.18.3::dantrell-gnome
 ~gnome-extra/gnome-weather-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/gucharmap-10.0.3::dantrell-gnome

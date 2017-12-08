@@ -10,18 +10,17 @@ HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="gtk test"
 
 RDEPEND="
-	>=dev-libs/dbus-glib-0.74
 	>=dev-libs/glib-2.32:2
-	>=net-misc/networkmanager-0.9.10:=
-	>=net-vpn/openvpn-2.1_rc9
+	>=net-misc/networkmanager-1.7.0:=
+	>=net-vpn/openvpn-2.1
 	gtk? (
-		app-crypt/libsecret
-		>=gnome-extra/nm-applet-1.0.5
+		>=app-crypt/libsecret-0.18
+		>=gnome-extra/nm-applet-1.7.0
 		>=x11-libs/gtk+-3.4:3
 	)
 "
@@ -35,6 +34,14 @@ pkg_setup() {
 	enewgroup nm-openvpn
 	enewuser nm-openvpn -1 -1 -1 nm-openvpn
 }
+
+PATCHES=(
+	# Fix unusable config imports (from 'master')
+	"${FILESDIR}/${PN}-1.8.0-user_cert.patch"
+
+	# Fix validation of static-key in GUI (from 'master')
+	"${FILESDIR}/${PN}-1.8.0-static-key.patch"
+)
 
 src_prepare() {
 	# Test will fail if the machine doesn't have a particular locale installed
@@ -52,6 +59,5 @@ src_configure() {
 		--disable-more-warnings \
 		--disable-static \
 		--with-dist-version=Gentoo \
-		$(use_with gtk gnome) \
-		$(use_with test tests)
+		$(use_with gtk gnome)
 }

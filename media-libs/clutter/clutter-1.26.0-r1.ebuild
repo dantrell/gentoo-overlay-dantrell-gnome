@@ -29,12 +29,11 @@ RDEPEND="
 	>=x11-libs/cairo-1.14:=[aqua?,glib]
 	>=x11-libs/pango-1.30[introspection?]
 
-	virtual/opengl
 	x11-libs/libdrm:=
 
 	egl? (
 		>=dev-libs/libinput-0.19.0
-		media-libs/cogl[gles2,kms]
+		media-libs/cogl[gles2,wayland]
 		>=virtual/libgudev-136
 		x11-libs/libxkbcommon
 	)
@@ -64,9 +63,11 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	# From GNOME:
-	# 	https://git.gnome.org/browse/clutter/commit/?id=be8602fbb491c30c1e2febb92553375b2f4ce584
-	eapply "${FILESDIR}"/${PN}-1.26.0-reorganize-backends.patch
+	if ! use wayland; then
+		# From GNOME:
+		# 	https://git.gnome.org/browse/clutter/commit/?id=be8602fbb491c30c1e2febb92553375b2f4ce584
+		eapply "${FILESDIR}"/${PN}-1.26.0-reorganize-backends.patch
+	fi
 
 	# We only need conformance tests, the rest are useless for us
 	sed -e 's/^\(SUBDIRS =\).*/\1 accessibility conform/g' \

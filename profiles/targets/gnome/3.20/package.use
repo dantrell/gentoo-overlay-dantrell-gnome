@@ -2,4 +2,3 @@ dev-libs/libgusb vala
 media-libs/clutter-gst X
 media-libs/gegl jpeg
 media-libs/gegl png
-net-misc/networkmanager upower

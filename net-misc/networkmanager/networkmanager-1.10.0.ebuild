@@ -16,7 +16,7 @@ LICENSE="GPL-2+"
 SLOT="0" # add subslot if libnm-util.so.2 or libnm-glib.so.4 bumps soname version
 KEYWORDS="~*"
 
-IUSE="audit bluetooth connection-sharing consolekit +dhclient dhcpcd elogind gnutls +introspection json kernel_linux +nss +modemmanager ncurses ofono ovs policykit +ppp resolvconf selinux systemd teamd test upower vala +vanilla +wext +wifi"
+IUSE="audit bluetooth ck connection-sharing consolekit +dhclient dhcpcd elogind gnutls +introspection json kernel_linux +nss +modemmanager ncurses ofono ovs policykit +ppp resolvconf selinux systemd teamd test vala +vanilla +wext +wifi"
 REQUIRED_USE="
 	modemmanager? ( ppp )
 	vala? ( introspection )
@@ -24,7 +24,7 @@ REQUIRED_USE="
 	wext? ( wifi )
 	^^ ( nss gnutls )
 	^^ ( dhclient dhcpcd )
-	?? ( consolekit elogind systemd upower )
+	?? ( ck consolekit elogind systemd )
 "
 
 # gobject-introspection-0.10.3 is needed due to gnome bug 642300
@@ -44,10 +44,11 @@ COMMON_DEPEND="
 	>=virtual/libudev-175:=[${MULTILIB_USEDEP}]
 	audit? ( sys-process/audit )
 	bluetooth? ( >=net-wireless/bluez-5 )
+	ck? ( >=sys-power/upower-0.99:=[ck] )
 	connection-sharing? (
 		net-dns/dnsmasq[dbus,dhcp]
 		net-firewall/iptables )
-	consolekit? ( >=sys-auth/consolekit-1.0.0 )
+	consolekit? ( >=sys-auth/consolekit-0.9 )
 	dhclient? ( >=net-misc/dhcp-4[client] )
 	dhcpcd? ( net-misc/dhcpcd )
 	elogind? ( >=sys-auth/elogind-219 )
@@ -72,7 +73,6 @@ COMMON_DEPEND="
 		dev-libs/jansson
 		>=net-misc/libteam-1.9
 	)
-	upower? ( sys-power/upower )
 "
 RDEPEND="${COMMON_DEPEND}
 	|| (
@@ -161,7 +161,6 @@ src_prepare() {
 		root password, add your user account to the 'plugdev' group."
 
 	eautoreconf
-
 	use vala && vala_src_prepare
 	gnome2_src_prepare
 }

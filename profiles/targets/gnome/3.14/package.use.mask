@@ -1,2 +1,1 @@
 app-i18n/ibus gtk3
-x11-wm/mutter wayland

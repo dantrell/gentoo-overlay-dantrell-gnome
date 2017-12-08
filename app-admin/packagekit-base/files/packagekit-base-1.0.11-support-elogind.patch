@@ -1,0 +1,145 @@
+diff '--exclude=.git' -urN a/config.h.in b/config.h.in
+--- a/config.h.in	2015-11-27 09:48:40.000000000 -0500
++++ b/config.h.in	2017-12-04 15:11:56.902345071 -0500
+@@ -66,6 +66,9 @@
+ /* Define to 1 if you have the <string.h> header file. */
+ #undef HAVE_STRING_H
+ 
++/* Build elogind code */
++#undef HAVE_ELOGIND
++
+ /* Build systemd code */
+ #undef HAVE_SYSTEMD
+ 
+diff '--exclude=.git' -urN a/configure.ac b/configure.ac
+--- a/configure.ac	2015-11-19 03:58:44.000000000 -0500
++++ b/configure.ac	2017-12-04 15:11:56.904345061 -0500
+@@ -233,6 +233,22 @@
+ fi
+ 
+ dnl ---------------------------------------------------------------------------
++dnl - Use elogind and logind rather than ConsoleKit
++dnl ---------------------------------------------------------------------------
++AC_ARG_ENABLE(elogind, AS_HELP_STRING([--enable-elogind],[enable elogind and logind code]),
++	      enable_elogind=$enableval,enable_elogind=yes)
++if test x$enable_elogind = xyes; then
++	PKG_CHECK_MODULES(SYSTEMD, libelogind)
++	AC_ARG_WITH([systemdsystemunitdir],
++		    AS_HELP_STRING([--with-systemdsystemunitdir=DIR], [Directory for elogind service files]),
++		    [has_systemdsystemunitdir=$with_systemdsystemunitdir],
++		    [has_systemdsystemunitdir=$($PKG_CONFIG --variable=systemdsystemunitdir elogind)])
++	AC_DEFINE(HAVE_ELOGIND,1,[Build elogind code])
++	AC_SUBST([systemdsystemunitdir], [$has_systemdsystemunitdir])
++fi
++AM_CONDITIONAL(HAVE_ELOGIND, [test -n "$has_systemdsystemunitdir"])
++
++dnl ---------------------------------------------------------------------------
+ dnl - Use systemd and logind rather than ConsoleKit
+ dnl ---------------------------------------------------------------------------
+ AC_ARG_ENABLE(systemd, AS_HELP_STRING([--enable-systemd],[enable systemd and logind code]),
+@@ -622,6 +638,7 @@
+         cflags:                    ${CFLAGS}
+         cppflags:                  ${CPPFLAGS}
+         Able to run locally:       ${enable_local}
++        Use elogind:               ${enable_elogind}
+         Use systemd:               ${enable_systemd}
+         Networking stacks:         ${networking_apis}
+         Browser plugin:            ${build_browser_plugin}
+diff '--exclude=.git' -urN a/src/pk-dbus.c b/src/pk-dbus.c
+--- a/src/pk-dbus.c	2015-09-29 13:05:46.000000000 -0400
++++ b/src/pk-dbus.c	2017-12-04 15:13:35.214854217 -0500
+@@ -27,6 +27,10 @@
+ #include <glib.h>
+ #include <gio/gio.h>
+ 
++#ifdef HAVE_ELOGIND
++#include <elogind/sd-login.h>
++#endif
++
+ #ifdef HAVE_SYSTEMD
+  #include <systemd/sd-login.h>
+ #endif
+@@ -178,7 +182,7 @@
+ 	return cmdline;
+ }
+ 
+-#ifdef HAVE_SYSTEMD
++#if defined(HAVE_ELOGIND) || defined(HAVE_SYSTEMD)
+ /**
+  * pk_dbus_get_session_systemd:
+  **/
+@@ -221,7 +225,7 @@
+ pk_dbus_get_session (PkDbus *dbus, const gchar *sender)
+ {
+ 	gchar *session = NULL;
+-#ifndef HAVE_SYSTEMD
++#ifndef HAVE_SYSTEMD_SD_LOGIN_H
+ 	_cleanup_error_free_ GError *error = NULL;
+ #endif
+ 	guint pid;
+@@ -251,7 +255,7 @@
+ 	}
+ 
+ 	/* get session from systemd or ConsoleKit */
+-#ifdef HAVE_SYSTEMD
++#if defined(HAVE_ELOGIND) || defined(HAVE_SYSTEMD)
+ 	session = pk_dbus_get_session_systemd (pid);
+ #else
+ 	/* get session from ConsoleKit */
+diff '--exclude=.git' -urN a/src/pk-engine.c b/src/pk-engine.c
+--- a/src/pk-engine.c	2015-09-29 13:05:46.000000000 -0400
++++ b/src/pk-engine.c	2017-12-04 15:12:54.362058154 -0500
+@@ -94,7 +94,7 @@
+ 	guint			 owner_id;
+ 	GDBusNodeInfo		*introspection;
+ 	GDBusConnection		*connection;
+-#ifdef HAVE_SYSTEMD
++#if defined(HAVE_ELOGIND) || defined(HAVE_SYSTEMD)
+ 	GDBusProxy		*logind_proxy;
+ 	gint			 logind_fd;
+ #endif
+@@ -277,7 +277,7 @@
+ static void
+ pk_engine_inhibit (PkEngine *engine)
+ {
+-#ifdef HAVE_SYSTEMD
++#if defined(HAVE_ELOGIND) || defined(HAVE_SYSTEMD)
+ 	const gint *fd_list;
+ 	gint fd_list_len = 0;
+ 	_cleanup_error_free_ GError *error = NULL;
+@@ -330,7 +330,7 @@
+ static void
+ pk_engine_uninhibit (PkEngine *engine)
+ {
+-#ifdef HAVE_SYSTEMD
++#if defined(HAVE_ELOGIND) || defined(HAVE_SYSTEMD)
+ 	if (engine->priv->logind_fd == 0)
+ 		return;
+ 	g_debug ("closed logind fd %i", engine->priv->logind_fd);
+@@ -1659,7 +1659,7 @@
+ 	}
+ }
+ 
+-#ifdef HAVE_SYSTEMD
++#if defined(HAVE_ELOGIND) || defined(HAVE_SYSTEMD)
+ /**
+  * pk_engine_proxy_logind_cb:
+  **/
+@@ -1701,7 +1701,7 @@
+ 	/* save copy for emitting signals */
+ 	engine->priv->connection = g_object_ref (connection);
+ 
+-#ifdef HAVE_SYSTEMD
++#if defined(HAVE_ELOGIND) || defined(HAVE_SYSTEMD)
+ 	/* connect to logind */
+ 	g_dbus_proxy_new (connection,
+ 			  G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES,
+@@ -1858,7 +1858,7 @@
+ 	if (engine->priv->connection != NULL)
+ 		g_object_unref (engine->priv->connection);
+ 
+-#ifdef HAVE_SYSTEMD
++#if defined(HAVE_ELOGIND) || defined(HAVE_SYSTEMD)
+ 	/* uninhibit */
+ 	if (engine->priv->logind_fd != 0)
+ 		close (engine->priv->logind_fd);

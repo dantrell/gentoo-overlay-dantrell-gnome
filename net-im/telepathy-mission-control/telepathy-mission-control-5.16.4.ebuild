@@ -14,7 +14,10 @@ LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="debug +deprecated networkmanager systemd"
+IUSE="ck debug elogind networkmanager systemd"
+REQUIRED_USE="
+	?? ( ck elogind systemd )
+"
 
 # Tests are broken, see upstream bug #29334 and #64212
 # upstream doesn't want it enabled everywhere (#29334#c12)
@@ -27,12 +30,9 @@ RDEPEND="
 	>=net-libs/telepathy-glib-0.20
 	networkmanager? ( >=net-misc/networkmanager-1:= )
 
-	!deprecated? (
-		systemd? ( >=sys-apps/systemd-186:0= )
-	)
-	!systemd? (
-		>=sys-power/upower-0.99:=[deprecated?]
-	)
+	ck? ( >=sys-power/upower-0.99:=[ck] )
+	elogind? ( sys-auth/elogind )
+	systemd? ( >=sys-apps/systemd-186:0= )
 "
 DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
@@ -53,7 +53,7 @@ src_prepare() {
 src_configure() {
 	gnome2_src_configure \
 		 --disable-static \
+		$(use_enable ck deprecated) \
 		$(use_enable debug) \
-		$(use_enable deprecated) \
 		$(use_with networkmanager connectivity nm)
 }

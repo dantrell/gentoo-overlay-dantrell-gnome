@@ -4,7 +4,7 @@ EAPI="6"
 GNOME2_LA_PUNT="yes"
 VALA_USE_DEPEND="vapigen"
 
-inherit gnome2 user readme.gentoo-r1 systemd udev vala
+inherit autotools gnome2 user readme.gentoo-r1 systemd udev vala
 
 DESCRIPTION="Modem and mobile broadband management libraries"
 HOMEPAGE="https://cgit.freedesktop.org/ModemManager/ModemManager/"
@@ -14,14 +14,16 @@ LICENSE="GPL-2+"
 SLOT="0/1" # subslot = dbus interface version, i.e. N in org.freedesktop.ModemManager${N}
 KEYWORDS="*"
 
-IUSE="+introspection mbim policykit +qmi systemd vala"
+IUSE="ck +introspection mbim policykit +qmi systemd vala"
 REQUIRED_USE="
 	vala? ( introspection )
+	?? ( ck systemd )
 "
 
 RDEPEND="
 	>=dev-libs/glib-2.36.0:2
 	>=virtual/libgudev-230:=
+	ck? ( >=sys-power/upower-0.99:=[ck] )
 	introspection? ( >=dev-libs/gobject-introspection-0.9.6:= )
 	mbim? ( >=net-libs/libmbim-1.14.0 )
 	policykit? ( >=sys-auth/polkit-0.106[introspection] )
@@ -49,6 +51,13 @@ src_prepare() {
 			add your user account to the 'plugdev' group."
 	fi
 
+	# From ModemManager:
+	# 	https://cgit.freedesktop.org/ModemManager/ModemManager/commit/?id=1f13909d9b59176afd9cec32cfbd623b44ec8d80
+	# 	https://cgit.freedesktop.org/ModemManager/ModemManager/commit/?id=ae2988da933f39d8983c94aaeef3c1b6f98f3e4e
+	# 	https://cgit.freedesktop.org/ModemManager/ModemManager/commit/?id=6197a06931ffd197b4f66b92c4d729b5911e0e36
+	eapply "${FILESDIR}"/${PN}-1.6.10-restore-deprecated-code.patch
+
+	eautoreconf
 	use vala && vala_src_prepare
 	gnome2_src_prepare
 }
@@ -62,7 +71,7 @@ src_configure() {
 		$(use_enable introspection) \
 		$(use_with mbim) \
 		$(use_with policykit polkit) \
-		$(usex systemd --with-suspend-resume=systemd --with-suspend-resume=no) \
+		$(usex systemd --with-suspend-resume=systemd $(usex ck --with-suspend-resume=upower --with-suspend-resume=no)) \
 		$(use_with qmi) \
 		$(use_enable vala)
 }

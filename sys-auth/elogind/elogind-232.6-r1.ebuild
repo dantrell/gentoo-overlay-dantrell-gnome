@@ -39,7 +39,10 @@ PDEPEND="
 	policykit? ( sys-auth/polkit )
 "
 
-PATCHES=( "${FILESDIR}/${PN}-226.4-docs.patch" )
+PATCHES=(
+	"${FILESDIR}/${PN}-226.4-docs.patch"
+	"${FILESDIR}/${PN}-233.7-xlocale.h.patch"
+)
 
 pkg_setup() {
 	local CONFIG_CHECK="~CGROUPS ~EPOLL ~INOTIFY_USER ~SECURITY_SMACK

@@ -12,7 +12,7 @@ LICENSE="LGPL-2.1+ FDL-1.1+"
 SLOT="1.0"
 KEYWORDS="*"
 
-IUSE="aqua debug doc egl elogind gtk +introspection test wayland X"
+IUSE="aqua debug doc egl gtk +introspection test wayland X"
 REQUIRED_USE="
 	|| ( aqua wayland X )
 	wayland? ( egl )
@@ -29,12 +29,11 @@ RDEPEND="
 	>=x11-libs/cairo-1.14:=[aqua?,glib]
 	>=x11-libs/pango-1.30[introspection?]
 
-	virtual/opengl
 	x11-libs/libdrm:=
 
 	egl? (
 		>=dev-libs/libinput-0.19.0
-		media-libs/cogl[gles2,kms]
+		media-libs/cogl[gles2,wayland]
 		>=virtual/libgudev-136
 		x11-libs/libxkbcommon
 	)
@@ -64,7 +63,7 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	if ! use elogind; then
+	if ! use wayland; then
 		# From GNOME:
 		# 	https://git.gnome.org/browse/clutter/commit/?id=be8602fbb491c30c1e2febb92553375b2f4ce584
 		eapply "${FILESDIR}"/${PN}-1.26.2-reorganize-backends.patch

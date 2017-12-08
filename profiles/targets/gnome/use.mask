@@ -1,2 +1,3 @@
+consolekit
 systemd
 -elogind

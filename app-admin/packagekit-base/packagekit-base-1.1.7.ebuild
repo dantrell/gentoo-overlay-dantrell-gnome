@@ -7,7 +7,7 @@ EAPI="6"
 PYTHON_COMPAT=( python2_7 )
 VALA_USE_DEPEND="vapigen"
 
-inherit autotools bash-completion-r1 multilib python-single-r1 systemd vala xdg
+inherit autotools bash-completion-r1 multilib python-single-r1 systemd vala xdg-utils
 
 MY_PN="PackageKit"
 MY_P=${MY_PN}-${PV}
@@ -20,10 +20,10 @@ LICENSE="GPL-2"
 SLOT="0/18"
 KEYWORDS="*"
 
-IUSE="connman consolekit cron command-not-found elogind +introspection networkmanager entropy systemd test vala"
+IUSE="ck connman consolekit cron command-not-found elogind +introspection networkmanager entropy systemd test vala"
 REQUIRED_USE="
 	${PYTHON_REQUIRED_USE}
-	?? ( consolekit elogind systemd )
+	?? ( ck consolekit elogind systemd )
 	vala? ( introspection )
 "
 
@@ -37,8 +37,9 @@ COMMON_DEPEND="
 	>=sys-auth/polkit-0.98
 	>=sys-apps/dbus-1.3.0
 	${PYTHON_DEPS}
+	ck? ( <sys-auth/consolekit-0.9 )
 	connman? ( net-misc/connman )
-	consolekit? ( sys-auth/consolekit )
+	consolekit? ( >=sys-auth/consolekit-0.9 )
 	elogind? ( sys-auth/elogind )
 	introspection? ( >=dev-libs/gobject-introspection-0.9.9:= )
 	networkmanager? ( >=net-misc/networkmanager-0.6.4:= )
@@ -75,6 +76,8 @@ PATCHES=(
 S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
+	default
+
 	# Disable unittests not working with portage backend
 	# console: requires terminal input
 	sed -e 's:^\(.*/packagekit-glib2/control\)://\1:' \
@@ -89,15 +92,12 @@ src_prepare() {
 	    -e 's:^\(.*/packagekit/backend\)://\1:' \
 		-i src/pk-self-test.c || die
 
-	eapply_user
-	use vala && vala_src_prepare
-	xdg_src_prepare
-
-	# Needed by elogind patch:
 	eautoreconf
+	use vala && vala_src_prepare
 }
 
 src_configure() {
+	xdg_environment_reset
 	econf \
 		--disable-gstreamer-plugin \
 		--disable-gtk-doc \
@@ -126,6 +126,4 @@ src_configure() {
 src_install() {
 	emake DESTDIR="${D}" install
 	prune_libtool_files --all
-
-	dodoc AUTHORS ChangeLog MAINTAINERS NEWS README
 }

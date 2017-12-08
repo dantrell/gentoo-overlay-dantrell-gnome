@@ -10,7 +10,8 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="consolekit cracklib debug elogind gnome-keyring minimal mktemp +nullok pam_krb5 pam_ssh passwdqc securetty selinux +sha512 systemd"
+IUSE="ck consolekit cracklib debug elogind gnome-keyring minimal mktemp +nullok pam_krb5 pam_ssh passwdqc securetty selinux +sha512 systemd"
+REQUIRED_USE="?? ( ck consolekit elogind systemd )"
 
 RESTRICT="binchecks"
 
@@ -21,7 +22,8 @@ RDEPEND="
 		>=sys-libs/pam-${MIN_PAM_REQ}
 		( sys-auth/openpam || ( sys-freebsd/freebsd-pam-modules sys-netbsd/netbsd-pam-modules ) )
 	)
-	consolekit? ( sys-auth/consolekit[pam] )
+	ck? ( <sys-auth/consolekit-0.9[pam] )
+	consolekit? ( >=sys-auth/consolekit-0.9[pam] )
 	cracklib? ( sys-libs/pam[cracklib] )
 	elogind? ( sys-auth/elogind[pam] )
 	gnome-keyring? ( gnome-base/gnome-keyring[pam] )
@@ -46,20 +48,6 @@ PATCHES=(
 	"${FILESDIR}"/${P}-elogind.patch #599498
 )
 
-pkg_setup() {
-	local stcnt=0
-
-	use consolekit && stcnt=$((stcnt+1))
-	use elogind && stcnt=$((stcnt+1))
-	use systemd && stcnt=$((stcnt+1))
-
-	if [[ ${stcnt} -gt 1 ]] ; then
-		ewarn "You are enabling ${stcnt} session trackers at the same time."
-		ewarn "This is not a recommended setup to have. Please consider enabling"
-		ewarn "only one of USE=\"consolekit\", USE=\"elogind\" or USE=\"systemd\"."
-	fi
-}
-
 src_compile() {
 	local implementation linux_pam_version
 	if has_version sys-libs/pam; then
@@ -79,14 +67,23 @@ src_compile() {
 		echo "${varname}=${varvalue}"
 	}
 
+	local myconf=()
+	if use ck; then
+		myconf+=( $(use_var consolekit ck) )
+	elif use consolekit; then
+		myconf+=( $(use_var consolekit) )
+	elif use elogind; then
+		myconf+=( $(use_var elogind) )
+	elif use systemd; then
+		myconf+=( $(use_var systemd) )
+	fi
+
 	emake \
 		GIT=true \
 		$(use_var debug) \
 		$(use_var cracklib) \
 		$(use_var passwdqc) \
-		$(use_var consolekit) \
-		$(use_var elogind) \
-		$(use_var systemd) \
+		"${myconf[@]}" \
 		$(use_var GNOME_KEYRING gnome-keyring) \
 		$(use_var selinux) \
 		$(use_var nullok) \

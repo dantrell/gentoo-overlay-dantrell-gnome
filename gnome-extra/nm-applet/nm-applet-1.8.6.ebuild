@@ -13,7 +13,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="+introspection gcr +modemmanager selinux teamd"
+IUSE="gcr +introspection +modemmanager selinux teamd"
 
 RDEPEND="
 	>=app-crypt/libsecret-0.18
@@ -53,8 +53,8 @@ src_configure() {
 		--disable-more-warnings
 		--disable-static
 		--localstatedir=/var
-		$(use_enable introspection)
 		$(use_with gcr)
+		$(use_enable introspection)
 		$(use_with modemmanager wwan)
 		$(use_with selinux)
 		$(use_with teamd team)

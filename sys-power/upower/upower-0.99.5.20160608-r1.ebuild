@@ -12,7 +12,7 @@ LICENSE="GPL-2"
 SLOT="0/3" # based on SONAME of libupower-glib.so
 KEYWORDS="*"
 
-IUSE="doc +deprecated integration-test +introspection ios kernel_FreeBSD kernel_linux selinux"
+IUSE="ck doc integration-test +introspection ios kernel_FreeBSD kernel_linux selinux"
 
 COMMON_DEPS="
 	>=dev-libs/dbus-glib-0.100
@@ -20,7 +20,7 @@ COMMON_DEPS="
 	dev-util/gdbus-codegen
 	sys-apps/dbus:=
 	>=sys-auth/polkit-0.110
-	deprecated? (
+	ck? (
 		sys-power/acpid
 		sys-power/pm-utils
 	)
@@ -84,7 +84,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-0.99.5-0011-linux-add-better-debug-for-idevice-startup-poll.patch
 	eapply "${FILESDIR}"/${PN}-0.99.5-0012-linux-lower-initial-power-usage-when-idevice-isn-t-a.patch
 
-	if use deprecated; then
+	if use ck; then
 		# From Funtoo:
 		# 	https://bugs.funtoo.org/browse/FL-1329
 		eapply "${FILESDIR}"/${PN}-0.99.2-restore-deprecated-code.patch
@@ -127,7 +127,7 @@ src_configure() {
 		--with-html-dir="${EPREFIX%/}"/usr/share/doc/${PF}/html
 		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
 		--with-systemdutildir="$(systemd_get_utildir)"
-		$(use_enable deprecated)
+		$(use_enable ck deprecated)
 		$(use_enable doc gtk-doc-html)
 		$(use_enable introspection)
 		$(use_with ios idevice)
