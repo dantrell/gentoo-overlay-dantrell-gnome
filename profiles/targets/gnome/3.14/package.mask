@@ -26,6 +26,7 @@
 >=dev-libs/libIDL-0.8.14-r2
 >=gnome-base/orbit-2.14.19-r5
 >=gnome-extra/gnome-commander-1.6.1
+>=media-gfx/frogr-1.3
 >=media-gfx/gimp-2.9.0
 >=media-libs/gegl-0.3.20
 >=net-p2p/transmission-remote-gtk-1.3.1

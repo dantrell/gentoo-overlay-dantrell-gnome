@@ -51,7 +51,7 @@
 ~dev-python/pyatspi-2.26.0::dantrell-gnome-3-26
 ~dev-python/pygobject-3.26.1::dantrell-gnome-3-26
 ~dev-util/anjuta-3.22.0::dantrell-gnome
-~dev-util/devhelp-3.26.0::dantrell-gnome-3-26
+~dev-util/devhelp-3.26.1::dantrell-gnome-3-26
 ~dev-util/gdbus-codegen-2.54.2::dantrell-gnome
 ~dev-util/gnome-devel-docs-3.26.0::dantrell-gnome-3-26
 ~dev-util/gtk-doc-1.25::dantrell-gnome
@@ -175,7 +175,7 @@
 ~sys-apps/gnome-disk-utility-3.26.2::dantrell-gnome-3-26
 ~www-client/epiphany-3.26.3::dantrell-gnome-3-26
 ~x11-libs/gdk-pixbuf-2.36.4::dantrell-gnome
-~x11-libs/gtksourceview-3.24.5::dantrell-gnome
+~x11-libs/gtksourceview-3.24.6::dantrell-gnome
 ~x11-libs/gtk+-3.22.26::dantrell-gnome
 ~x11-libs/libdazzle-3.26.1::dantrell-gnome-3-26
 ~x11-libs/libnotify-0.7.7::dantrell-gnome

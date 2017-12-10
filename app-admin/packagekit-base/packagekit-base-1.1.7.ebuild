@@ -20,7 +20,7 @@ LICENSE="GPL-2"
 SLOT="0/18"
 KEYWORDS="*"
 
-IUSE="ck connman consolekit cron command-not-found elogind +introspection networkmanager entropy systemd test vala"
+IUSE="ck consolekit cron command-not-found elogind +introspection entropy systemd test vala"
 REQUIRED_USE="
 	${PYTHON_REQUIRED_USE}
 	?? ( ck consolekit elogind systemd )
@@ -38,11 +38,9 @@ COMMON_DEPEND="
 	>=sys-apps/dbus-1.3.0
 	${PYTHON_DEPS}
 	ck? ( <sys-auth/consolekit-0.9 )
-	connman? ( net-misc/connman )
 	consolekit? ( >=sys-auth/consolekit-0.9 )
 	elogind? ( sys-auth/elogind )
 	introspection? ( >=dev-libs/gobject-introspection-0.9.9:= )
-	networkmanager? ( >=net-misc/networkmanager-0.6.4:= )
 	systemd? ( >=sys-apps/systemd-204 )
 "
 # vala-common needed for eautoreconf
@@ -110,12 +108,10 @@ src_configure() {
 		--enable-portage \
 		--localstatedir=/var \
 		$(use_enable command-not-found) \
-		$(use_enable connman) \
 		$(use_enable cron) \
 		$(use_enable elogind) \
 		$(use_enable entropy) \
 		$(use_enable introspection) \
-		$(use_enable networkmanager) \
 		$(use_enable systemd) \
 		$(use_enable test daemon-tests) \
 		$(use_enable test local) \
