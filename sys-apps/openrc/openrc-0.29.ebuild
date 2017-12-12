@@ -12,7 +12,7 @@ LICENSE="BSD-2"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="audit debug ncurses pam newnet prefix +netifrc selinux static-libs unicode +vanilla-loopback vanilla-shutdown +vanilla-warnings kernel_linux kernel_FreeBSD"
+IUSE="audit debug ncurses pam newnet prefix +netifrc selinux static-libs unicode +vanilla-loopback +vanilla-warnings kernel_linux kernel_FreeBSD"
 
 COMMON_DEPEND="kernel_FreeBSD? ( || ( >=sys-freebsd/freebsd-ubin-9.0_rc sys-process/fuser-bsd ) )
 	ncurses? ( sys-libs/ncurses:0= )

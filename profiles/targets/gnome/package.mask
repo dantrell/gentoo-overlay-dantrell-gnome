@@ -23,8 +23,8 @@
 
 # Masked to prefer stable releases
 # Ref. https://forums.gentoo.org/viewtopic-t-1022050.html
-=media-libs/mesa-17.3.0_rc*
 =media-libs/mesa-17.4.0_rc*
 =media-libs/mesa-17.5.0_rc*
 =media-libs/mesa-17.6.0_rc*
+=media-libs/mesa-17.7.0_rc*
 =media-libs/mesa-18.0.0_rc*
