@@ -42,6 +42,12 @@ MULTILIB_CHOST_TOOLS=(
 
 src_prepare() {
 	# From GNOME:
+	# 	https://bugzilla.gnome.org/show_bug.cgi?id=756590
+	# 	https://bugzilla.gnome.org/show_bug.cgi?id=788770
+	eapply "${FILESDIR}"/${PN}-2.32.3-fix-lowmem-uclibc.patch
+	eapply "${FILESDIR}"/${PN}-2.36.11-fix-libtiff-disable.patch
+
+	# From GNOME:
 	# 	https://bugzilla.gnome.org/show_bug.cgi?id=779012 (CVE-2017-6312)
 	# 	https://bugzilla.gnome.org/show_bug.cgi?id=779016 (CVE-2017-6313)
 	# 	https://bugzilla.gnome.org/show_bug.cgi?id=779020 (CVE-2017-6314)
