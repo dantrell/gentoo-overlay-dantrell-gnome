@@ -17,10 +17,12 @@ diff --git a/libical.pc.in b/libical.pc.in
 index 7774dce..bf88476 100644
 --- a/libical.pc.in
 +++ b/libical.pc.in
-@@ -8,5 +8,5 @@ iculib=@ICU_LIBRARIES@ @ICU_I18N_LIBRARIES@
+@@ -8,8 +8,8 @@ iculib=@ICU_LIBRARIES@ @ICU_I18N_LIBRARIES@
  Name: libical
  Description: An implementation of basic iCAL protocols
- Version: @VERSION@
--Libs: -L${libdir} -lical -licalss -licalvcal ${threadslib} ${iculib}
-+Libs: -lical -licalss -licalvcal ${threadslib} ${iculib}
+ Version: @LIBICAL_LIB_VERSION_STRING@
+-Libs: -L${libdir} -lical -licalss -licalvcal
++Libs: -lical -licalss -licalvcal
+ Libs.private: @PTHREAD_LIBS@
+ @REQUIRES_PRIVATE_ICU@
  Cflags: -I${includedir}

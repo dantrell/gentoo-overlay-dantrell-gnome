@@ -2,11 +2,11 @@
 
 EAPI="6"
 
-inherit autotools bash-completion-r1 eutils linux-info systemd udev xdg-utils
+inherit bash-completion-r1 eutils linux-info systemd udev xdg-utils
 
 DESCRIPTION="Daemon providing interfaces to work with storage devices"
 HOMEPAGE="https://www.freedesktop.org/wiki/Software/udisks"
-SRC_URI="https://github.com/storaged-project/${PN}/archive/${P}.tar.gz"
+SRC_URI="https://github.com/storaged-project/udisks/releases/download/${P}/${P}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="2"
@@ -44,15 +44,14 @@ DEPEND="${COMMON_DEPEND}
 	app-text/docbook-xsl-stylesheets
 	dev-libs/libxslt
 	>=dev-util/gdbus-codegen-2.32
-	>=dev-util/gtk-doc-1.3
-	gnome-base/gnome-common:3
-	sys-devel/autoconf-archive
+	>=dev-util/gtk-doc-am-1.3
 	>=sys-kernel/linux-headers-3.1
 	virtual/pkgconfig
 	nls? ( dev-util/intltool )
 "
-
-S="${WORKDIR}/${PN}-${P}"
+# If adding a eautoreconf, then these might be needed at buildtime:
+# gnome-base/gnome-common:3
+# sys-devel/autoconf-archive
 
 QA_MULTILIB_PATHS="usr/lib/udisks2/udisksd"
 
@@ -72,8 +71,6 @@ src_prepare() {
 	xdg_environment_reset
 
 	default
-
-	eautoreconf
 
 	if ! use systemd ; then
 		sed -i -e 's:libsystemd-login:&disable:' configure || die
@@ -103,7 +100,7 @@ src_install() {
 	prune_libtool_files
 	keepdir /var/lib/udisks2 #383091
 
-	rm -rf "${ED}"/usr/share/bash-completion
+	rm -rf "${ED%/}"/usr/share/bash-completion
 	dobashcomp data/completions/udisksctl
 }
 

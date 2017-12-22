@@ -26,7 +26,12 @@ DEPEND="${RDEPEND}
 	dev-lang/perl
 "
 
-PATCHES=( "${FILESDIR}/${PN}-2.0.0-fix-libdir-location.patch" )
+PATCHES=(
+	"${FILESDIR}/${PN}-2.0.0-libical.pc-set-full-version.patch"
+	"${FILESDIR}/${PN}-2.0.0-libical.pc-icu-remove-full-paths.patch"
+	"${FILESDIR}/${PN}-2.0.0-libical.pc-icu-move-to-requires.patch"
+	"${FILESDIR}/${PN}-2.0.0-libical.pc-fix-libdir-location.patch"
+)
 
 src_configure() {
 	# See above, introspection is disabled for v2.0.0 at least.

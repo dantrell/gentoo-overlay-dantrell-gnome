@@ -91,7 +91,7 @@
 ~gnome-base/gvfs-1.32.1::dantrell-gnome-3-24
 ~gnome-base/libgnomekbd-3.22.0.1::dantrell-gnome
 ~gnome-base/libgtop-2.36.0::dantrell-gnome
-~gnome-base/librsvg-2.40.19::dantrell-gnome
+~gnome-base/librsvg-2.40.20::dantrell-gnome
 ~gnome-base/nautilus-3.24.2.1::dantrell-gnome-3-24
 ~gnome-extra/evolution-data-server-3.24.7::dantrell-gnome-3-24
 ~gnome-extra/evolution-ews-3.24.6::dantrell-gnome-3-24
@@ -129,7 +129,7 @@
 ~mail-client/evolution-3.24.6::dantrell-gnome-3-24
 ~media-gfx/eog-3.24.1::dantrell-gnome-3-24
 ~media-gfx/gnome-font-viewer-3.24.0::dantrell-gnome-3-24
-~media-gfx/gnome-photos-3.24.4::dantrell-gnome-3-24
+~media-gfx/gnome-photos-3.24.5::dantrell-gnome-3-24
 ~media-gfx/gnome-screenshot-3.22.0::dantrell-gnome
 ~media-gfx/simple-scan-3.24.1::dantrell-gnome-3-24
 ~media-libs/clutter-1.26.2::dantrell-gnome
@@ -160,7 +160,7 @@
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/phodav-2.2::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome
-~net-libs/webkit-gtk-2.18.3::dantrell-gnome
+~net-libs/webkit-gtk-2.18.4::dantrell-gnome
 ~net-misc/gnome-online-miners-3.24.0::dantrell-gnome-3-24
 ~net-misc/networkmanager-1.8.4::dantrell-gnome
 ~net-misc/rygel-0.34.0::dantrell-gnome-3-24

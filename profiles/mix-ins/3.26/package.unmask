@@ -94,7 +94,7 @@
 ~gnome-base/gvfs-1.34.1::dantrell-gnome-3-26
 ~gnome-base/libgnomekbd-3.6.0::dantrell-gnome
 ~gnome-base/libgtop-2.38.0::dantrell-gnome
-~gnome-base/librsvg-2.40.19::dantrell-gnome
+~gnome-base/librsvg-2.40.20::dantrell-gnome
 ~gnome-base/nautilus-3.26.2::dantrell-gnome-3-26
 ~gnome-extra/evolution-data-server-3.26.3::dantrell-gnome-3-26
 ~gnome-extra/evolution-ews-3.26.3::dantrell-gnome-3-26
@@ -113,7 +113,7 @@
 ~gnome-extra/gnome-recipes-1.6.2::dantrell-gnome
 ~gnome-extra/gnome-shell-extensions-3.26.2::dantrell-gnome-3-26
 ~gnome-extra/gnome-shell-frippery-3.26.2::dantrell-gnome-3-26
-~gnome-extra/gnome-software-3.26.3::dantrell-gnome-3-26
+~gnome-extra/gnome-software-3.26.4::dantrell-gnome-3-26
 ~gnome-extra/gnome-system-monitor-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/gnome-todo-3.26.2::dantrell-gnome-3-26
 ~gnome-extra/gnome-tweak-tool-3.26.4::dantrell-gnome-3-26
@@ -133,7 +133,7 @@
 ~media-gfx/eog-3.26.2::dantrell-gnome-3-26
 ~media-gfx/eog-plugins-3.26.1::dantrell-gnome-3-26
 ~media-gfx/gnome-font-viewer-3.26.0::dantrell-gnome-3-26
-~media-gfx/gnome-photos-3.26.2::dantrell-gnome-3-26
+~media-gfx/gnome-photos-3.26.3::dantrell-gnome-3-26
 ~media-gfx/gnome-screenshot-3.26.0::dantrell-gnome-3-26
 ~media-gfx/simple-scan-3.26.2::dantrell-gnome-3-26
 ~media-libs/clutter-1.26.2::dantrell-gnome
@@ -153,7 +153,7 @@
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
 ~net-irc/polari-3.26.2::dantrell-gnome-3-26
 ~net-libs/glib-networking-2.54.1::dantrell-gnome-3-26
-~net-libs/gnome-online-accounts-3.26.1::dantrell-gnome-3-26
+~net-libs/gnome-online-accounts-3.26.2::dantrell-gnome-3-26
 ~net-libs/gssdp-1.0.2::dantrell-gnome
 ~net-libs/gtk-vnc-0.7.1::dantrell-gnome
 ~net-libs/gupnp-1.0.2::dantrell-gnome
@@ -163,7 +163,7 @@
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/phodav-2.2::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome
-~net-libs/webkit-gtk-2.18.3::dantrell-gnome
+~net-libs/webkit-gtk-2.18.4::dantrell-gnome
 ~net-misc/gnome-online-miners-3.26.0::dantrell-gnome-3-26
 ~net-misc/networkmanager-1.8.4::dantrell-gnome
 ~net-misc/rygel-0.36.0::dantrell-gnome-3-26
@@ -173,7 +173,7 @@
 ~sci-geosciences/gnome-maps-3.26.2::dantrell-gnome-3-26
 ~sys-apps/baobab-3.26.1::dantrell-gnome-3-26
 ~sys-apps/gnome-disk-utility-3.26.2::dantrell-gnome-3-26
-~www-client/epiphany-3.26.4::dantrell-gnome-3-26
+~www-client/epiphany-3.26.5.1::dantrell-gnome-3-26
 ~x11-libs/gdk-pixbuf-2.36.4::dantrell-gnome
 ~x11-libs/gtksourceview-3.24.6::dantrell-gnome
 ~x11-libs/gtk+-3.22.26::dantrell-gnome
