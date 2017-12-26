@@ -34,16 +34,16 @@ RDEPEND="${COMMON_DEPEND}
 
 src_prepare() {
 	# Fix FHS compliance, see upstream bug #535524
-	epatch "${FILESDIR}/${PN}-2.28.3-fix-codegen-location.patch"
+	epatch "${FILESDIR}"/${PN}-2.28.3-fix-codegen-location.patch
 
 	# Do not build tests if unneeded, bug #226345
-	epatch "${FILESDIR}/${PN}-2.28.3-make_check.patch"
+	epatch "${FILESDIR}"/${PN}-2.28.3-make_check.patch
 
 	# Support installation for multiple Python versions, upstream bug #648292
-	epatch "${FILESDIR}/${PN}-2.28.3-support_multiple_python_versions.patch"
+	epatch "${FILESDIR}"/${PN}-2.28.3-support_multiple_python_versions.patch
 
 	# Disable introspection tests when we build with --disable-introspection
-	epatch "${FILESDIR}/${PN}-2.28.6-tests-no-introspection.patch"
+	epatch "${FILESDIR}"/${PN}-2.28.6-tests-no-introspection.patch
 
 	sed -i \
 		-e 's:AM_CONFIG_HEADER:AC_CONFIG_HEADERS:' \

@@ -89,7 +89,7 @@ src_install() {
 
 	if use emacs; then
 		elisp-install ${PN} tools/gtk-doc.el*
-		elisp-site-file-install "${FILESDIR}/${SITEFILE}"
+		elisp-site-file-install "${FILESDIR}"/${SITEFILE}
 		readme.gentoo_create_doc
 	fi
 }

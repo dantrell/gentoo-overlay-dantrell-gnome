@@ -21,7 +21,7 @@ DEPEND="${RDEPEND}
 	dev-lang/perl
 "
 
-PATCHES=( "${FILESDIR}/${PN}-1.0.1-fix-libdir-location.patch" )
+PATCHES=( "${FILESDIR}"/${PN}-1.0.1-fix-libdir-location.patch )
 
 src_configure() {
 	local mycmakeargs=(

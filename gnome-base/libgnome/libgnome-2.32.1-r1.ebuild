@@ -37,7 +37,7 @@ PDEPEND="gnome-base/gvfs"
 
 src_prepare() {
 	# Make sure menus have icons. People don't like change
-	epatch "${FILESDIR}/${PN}-2.28.0-menus-have-icons.patch"
+	epatch "${FILESDIR}"/${PN}-2.28.0-menus-have-icons.patch
 
 	use branding && epatch "${FILESDIR}"/${PN}-2.26.0-branding.patch
 

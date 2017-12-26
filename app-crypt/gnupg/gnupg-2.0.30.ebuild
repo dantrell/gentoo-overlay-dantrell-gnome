@@ -54,7 +54,7 @@ RDEPEND="!static? ( ${COMMON_DEPEND_LIBS} )
 	nls? ( virtual/libintl )"
 
 src_prepare() {
-	epatch "${FILESDIR}/${PN}-2.0.17-gpgsm-gencert.patch"
+	epatch "${FILESDIR}"/${PN}-2.0.17-gpgsm-gencert.patch
 	epatch_user
 }
 

@@ -1,0 +1,30 @@
+From f2fb877ef796c543f8ca166c7e05a434f163faf7 Mon Sep 17 00:00:00 2001
+From: Allison Ryan Lortie <desrt@desrt.ca>
+Date: Fri, 27 Nov 2015 11:31:41 -0500
+Subject: glibconfig.h.win32.in: remove G_CAN_INLINE
+
+We now define this unconditionally in gmacros.h.
+
+Thanks to John Emmas for the tip.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=757374
+---
+ glib/glibconfig.h.win32.in | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/glib/glibconfig.h.win32.in b/glib/glibconfig.h.win32.in
+index 35abba9..72f24a5 100644
+--- a/glib/glibconfig.h.win32.in
++++ b/glib/glibconfig.h.win32.in
+@@ -184,8 +184,6 @@ typedef unsigned __int64 guintptr;
+ #endif /* !_MSC_VER and !__DMC__ */
+ #endif	/* !__cplusplus */
+ 
+-#define G_CAN_INLINE	1
+-
+ #ifndef _MSC_VER
+ #define G_HAVE_ISO_VARARGS 1
+ 
+-- 
+cgit v0.12
+

@@ -38,7 +38,7 @@ src_prepare() {
 	sed -i -e "/get-language/d" tests/test-languagemanager.c || die
 
 	# Patch from 3.x for bug #394925
-	epatch "${FILESDIR}/${P}-G_CONST_RETURN.patch"
+	epatch "${FILESDIR}"/${P}-G_CONST_RETURN.patch
 
 	gnome2_src_prepare
 }

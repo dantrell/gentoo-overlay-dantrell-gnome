@@ -37,10 +37,10 @@ pkg_setup() {
 
 PATCHES=(
 	# Fix unusable config imports (from 'master')
-	"${FILESDIR}/${PN}-1.8.0-user_cert.patch"
+	"${FILESDIR}"/${PN}-1.8.0-user_cert.patch
 
 	# Fix validation of static-key in GUI (from 'master')
-	"${FILESDIR}/${PN}-1.8.0-static-key.patch"
+	"${FILESDIR}"/${PN}-1.8.0-static-key.patch
 )
 
 src_prepare() {

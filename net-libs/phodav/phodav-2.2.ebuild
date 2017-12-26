@@ -48,8 +48,8 @@ src_install() {
 
 	if use spice ; then
 		if ! use systemd ; then
-			newinitd "${FILESDIR}/spice-webdavd.initd" spice-webdavd
-			udev_dorules "${FILESDIR}/70-spice-webdavd.rules"
+			newinitd "${FILESDIR}"/spice-webdavd.initd spice-webdavd
+			udev_dorules "${FILESDIR}"/70-spice-webdavd.rules
 			rm -r "${D}$(systemd_get_systemunitdir)" || die
 		fi
 	else

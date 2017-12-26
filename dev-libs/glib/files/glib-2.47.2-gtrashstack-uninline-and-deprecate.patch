@@ -1,0 +1,218 @@
+From 0bfbb0d257593b2fcfaaf9bf09c586057ecfac25 Mon Sep 17 00:00:00 2001
+From: Allison Ryan Lortie <desrt@desrt.ca>
+Date: Mon, 9 Nov 2015 15:54:58 +0000
+Subject: GTrashStack: uninline and deprecate
+
+Deprecate GTrashStack and remove the inline implementations for the
+functions.  This will help us clean up the mess that is inline functions
+in GLib.
+
+Because of how G_INLINE_FUNC worked, we have these functions on our ABI,
+so we must continue to export them as normal functions.  We are safe to
+remove the inline versions, however, because any existing binaries will
+continue to carry them and any new builds will just start using the
+non-inline versions.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=757374
+---
+ glib/gtrashstack.c | 61 ++++++++++++++++++++++++++++++++++++++++++++++---
+ glib/gtrashstack.h | 67 ++++++++----------------------------------------------
+ 2 files changed, 68 insertions(+), 60 deletions(-)
+
+diff --git a/glib/gtrashstack.c b/glib/gtrashstack.c
+index 5c3b317..3a0d0bf 100644
+--- a/glib/gtrashstack.c
++++ b/glib/gtrashstack.c
+@@ -24,6 +24,8 @@
+ 
+ #include "config.h"
+ 
++#include "gtrashstack.h"
++
+ /**
+  * SECTION:trash_stack
+  * @title: Trash Stacks
+@@ -36,6 +38,11 @@
+  *
+  * There is no function to create a #GTrashStack. A %NULL #GTrashStack*
+  * is a perfectly valid empty stack.
++ *
++ * There is no longer any good reason to use #GTrashStack.  If you have
++ * extra pieces of memory, free() them and allocate them again later.
++ *
++ * Deprecated: 2.48: #GTrashStack is deprecated without replacement
+  */
+ 
+ /**
+@@ -46,6 +53,8 @@
+  *
+  * Each piece of memory that is pushed onto the stack
+  * is cast to a GTrashStack*.
++ *
++ * Deprecated: 2.48: #GTrashStack is deprecated without replacement
+  */
+ 
+ /**
+@@ -54,7 +63,17 @@
+  * @data_p: (not nullable): the piece of memory to push on the stack
+  *
+  * Pushes a piece of memory onto a #GTrashStack.
++ * Deprecated: 2.48: #GTrashStack is deprecated without replacement
+  */
++void
++g_trash_stack_push (GTrashStack **stack_p,
++                    gpointer      data_p)
++{
++  GTrashStack *data = (GTrashStack *) data_p;
++
++  data->next = *stack_p;
++  *stack_p = data;
++}
+ 
+ /**
+  * g_trash_stack_pop:
+@@ -63,7 +82,25 @@
+  * Pops a piece of memory off a #GTrashStack.
+  *
+  * Returns: the element at the top of the stack
++ * Deprecated: 2.48: #GTrashStack is deprecated without replacement
+  */
++gpointer
++g_trash_stack_pop (GTrashStack **stack_p)
++{
++  GTrashStack *data;
++
++  data = *stack_p;
++  if (data)
++    {
++      *stack_p = data->next;
++      /* NULLify private pointer here, most platforms store NULL as
++       * subsequent 0 bytes
++       */
++      data->next = NULL;
++    }
++
++  return data;
++}
+ 
+ /**
+  * g_trash_stack_peek:
+@@ -73,7 +110,17 @@
+  * which may be %NULL.
+  *
+  * Returns: the element at the top of the stack
++ * Deprecated: 2.48: #GTrashStack is deprecated without replacement
+  */
++gpointer
++g_trash_stack_peek (GTrashStack **stack_p)
++{
++  GTrashStack *data;
++
++  data = *stack_p;
++
++  return data;
++}
+ 
+ /**
+  * g_trash_stack_height:
+@@ -85,8 +132,16 @@
+  * where N denotes the number of items on the stack.
+  *
+  * Returns: the height of the stack
++ * Deprecated: 2.48: #GTrashStack is deprecated without replacement
+  */
++guint
++g_trash_stack_height (GTrashStack **stack_p)
++{
++  GTrashStack *data;
++  guint i = 0;
+ 
+-#define G_IMPLEMENT_INLINES 1
+-#define __G_TRASH_STACK_C__
+-#include "gtrashstack.h"
++  for (data = *stack_p; data; data = data->next)
++    i++;
++
++  return i;
++}
+diff --git a/glib/gtrashstack.h b/glib/gtrashstack.h
+index 3e513a0..c1150d5 100644
+--- a/glib/gtrashstack.h
++++ b/glib/gtrashstack.h
+@@ -39,63 +39,16 @@ struct _GTrashStack
+   GTrashStack *next;
+ };
+ 
+-G_INLINE_FUNC void      g_trash_stack_push   (GTrashStack **stack_p,
+-                                              gpointer      data_p);
+-G_INLINE_FUNC gpointer  g_trash_stack_pop    (GTrashStack **stack_p);
+-G_INLINE_FUNC gpointer  g_trash_stack_peek   (GTrashStack **stack_p);
+-G_INLINE_FUNC guint     g_trash_stack_height (GTrashStack **stack_p);
+-
+-#if defined (G_CAN_INLINE) || defined (__G_TRASH_STACK_C__)
+-
+-G_INLINE_FUNC void
+-g_trash_stack_push (GTrashStack **stack_p,
+-                    gpointer      data_p)
+-{
+-  GTrashStack *data = (GTrashStack *) data_p;
+-
+-  data->next = *stack_p;
+-  *stack_p = data;
+-}
+-G_INLINE_FUNC gpointer
+-g_trash_stack_pop (GTrashStack **stack_p)
+-{
+-  GTrashStack *data;
+-
+-  data = *stack_p;
+-  if (data)
+-    {
+-      *stack_p = data->next;
+-      /* NULLify private pointer here, most platforms store NULL as
+-       * subsequent 0 bytes
+-       */
+-      data->next = NULL;
+-    }
+-
+-  return data;
+-}
+-G_INLINE_FUNC gpointer
+-g_trash_stack_peek (GTrashStack **stack_p)
+-{
+-  GTrashStack *data;
+-
+-  data = *stack_p;
+-
+-  return data;
+-}
+-G_INLINE_FUNC guint
+-g_trash_stack_height (GTrashStack **stack_p)
+-{
+-  GTrashStack *data;
+-  guint i = 0;
+-
+-  for (data = *stack_p; data; data = data->next)
+-    i++;
+-
+-  return i;
+-}
+-
+-#endif  /* G_CAN_INLINE || __G_TRASH_STACK_C__ */
++GLIB_DEPRECATED_IN_2_48
++void      g_trash_stack_push   (GTrashStack **stack_p,
++                                gpointer      data_p);
++GLIB_DEPRECATED_IN_2_48
++gpointer  g_trash_stack_pop    (GTrashStack **stack_p);
++GLIB_DEPRECATED_IN_2_48
++gpointer  g_trash_stack_peek   (GTrashStack **stack_p);
++GLIB_DEPRECATED_IN_2_48
++guint     g_trash_stack_height (GTrashStack **stack_p);
+ 
+ G_END_DECLS
+ 
+-#endif /* __G_UTILS_H__ */
++#endif /* __G_TRASH_STACK_H_ */
+-- 
+cgit v0.12
+

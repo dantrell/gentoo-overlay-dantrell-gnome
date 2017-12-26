@@ -1,0 +1,199 @@
+From 9834f79279574e2cddc4dcb6149da9bd782dd40d Mon Sep 17 00:00:00 2001
+From: Allison Ryan Lortie <desrt@desrt.ca>
+Date: Mon, 9 Nov 2015 16:12:18 +0000
+Subject: gutils: clean up bit funcs inlining mess
+
+gutils.h and gutils.c define three utility functions as inlines that are
+also exported via the ABI.  This is done via complicated G_INLINE_FUNC
+and G_IMPLEMENT_INLINES logic.
+
+In order to be able to remove this mess, we create a another convoluted
+but slightly cleaner approach: write straight-up inline versions of the
+functions named _impl() in the header.  Define macros with the "public"
+function names that call these inlines.  From the .c file, export the
+ABI versions of these functions, implemented using the _impl() version.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=757374
+---
+ glib/gutils.c | 31 ++++++++++++++++++++++++-------
+ glib/gutils.h | 53 ++++++++++++++++++++++++++++++++---------------------
+ 2 files changed, 56 insertions(+), 28 deletions(-)
+
+diff --git a/glib/gutils.c b/glib/gutils.c
+index d0711e3..e82ce54 100644
+--- a/glib/gutils.c
++++ b/glib/gutils.c
+@@ -27,7 +27,8 @@
+  */
+ 
+ #include "config.h"
+-#include "glibconfig.h"
++
++#include "gutils.h"
+ 
+ #include <stdarg.h>
+ #include <stdlib.h>
+@@ -50,12 +51,6 @@
+ #include <crt_externs.h> /* for _NSGetEnviron */
+ #endif
+ 
+-/* implement gutils's inline functions
+- */
+-#define	G_IMPLEMENT_INLINES 1
+-#define	__G_UTILS_C__
+-#include "gutils.h"
+-
+ #include "glib-init.h"
+ #include "glib-private.h"
+ #include "genviron.h"
+@@ -483,6 +478,10 @@ g_find_program_in_path (const gchar *program)
+   return NULL;
+ }
+ 
++/* The functions below are defined this way for compatibility reasons.
++ * See the note in gutils.h.
++ */
++
+ /**
+  * g_bit_nth_lsf:
+  * @mask: a #gulong containing flags
+@@ -496,6 +495,12 @@ g_find_program_in_path (const gchar *program)
+  * Returns: the index of the first bit set which is higher than @nth_bit, or -1
+  *    if no higher bits are set
+  */
++gint
++(g_bit_nth_lsf) (gulong mask,
++                 gint   nth_bit)
++{
++  return g_bit_nth_lsf_impl (mask, nth_bit);
++}
+ 
+ /**
+  * g_bit_nth_msf:
+@@ -511,6 +516,13 @@ g_find_program_in_path (const gchar *program)
+  * Returns: the index of the first bit set which is lower than @nth_bit, or -1
+  *    if no lower bits are set
+  */
++gint
++(g_bit_nth_msf) (gulong mask,
++                 gint   nth_bit)
++{
++  return g_bit_nth_msf_impl (mask, nth_bit);
++}
++
+ 
+ /**
+  * g_bit_storage:
+@@ -521,6 +533,11 @@ g_find_program_in_path (const gchar *program)
+  *
+  * Returns: the number of bits used to hold @number
+  */
++guint
++(g_bit_storage) (gulong number)
++{
++  return g_bit_storage_impl (number);
++}
+ 
+ G_LOCK_DEFINE_STATIC (g_utils_global);
+ 
+diff --git a/glib/gutils.h b/glib/gutils.h
+index 530a86d..49fa116 100644
+--- a/glib/gutils.h
++++ b/glib/gutils.h
+@@ -262,19 +262,29 @@ GLIB_AVAILABLE_IN_ALL
+ gchar*  g_find_program_in_path  (const gchar *program);
+ 
+ /* Bit tests
++ *
++ * These are defined in a convoluted way because we want the compiler to
++ * be able to inline the code for performance reasons, but for
++ * historical reasons, we must continue to provide non-inline versions
++ * on our ABI.
++ *
++ * We define these as functions in gutils.c which are just implemented
++ * as calls to the _impl() versions in order to preserve the ABI.
+  */
+-G_INLINE_FUNC gint	g_bit_nth_lsf (gulong  mask,
+-				       gint    nth_bit) G_GNUC_CONST;
+-G_INLINE_FUNC gint	g_bit_nth_msf (gulong  mask,
+-				       gint    nth_bit) G_GNUC_CONST;
+-G_INLINE_FUNC guint	g_bit_storage (gulong  number) G_GNUC_CONST;
+ 
+-/* inline function implementations
+- */
+-#if defined (G_CAN_INLINE) || defined (__G_UTILS_C__)
+-G_INLINE_FUNC gint
+-g_bit_nth_lsf (gulong mask,
+-	       gint   nth_bit)
++#define g_bit_nth_lsf(mask, nth_bit) g_bit_nth_lsf_impl(mask, nth_bit)
++#define g_bit_nth_msf(mask, nth_bit) g_bit_nth_msf_impl(mask, nth_bit)
++#define g_bit_storage(number)        g_bit_storage_impl(number)
++
++gint    (g_bit_nth_lsf)         (gulong mask,
++                                 gint   nth_bit);
++gint    (g_bit_nth_msf)         (gulong mask,
++                                 gint   nth_bit);
++guint   (g_bit_storage)         (gulong number);
++
++static inline gint
++g_bit_nth_lsf_impl (gulong mask,
++                    gint   nth_bit)
+ {
+   if (G_UNLIKELY (nth_bit < -1))
+     nth_bit = -1;
+@@ -282,13 +292,14 @@ g_bit_nth_lsf (gulong mask,
+     {
+       nth_bit++;
+       if (mask & (1UL << nth_bit))
+-	return nth_bit;
++        return nth_bit;
+     }
+   return -1;
+ }
+-G_INLINE_FUNC gint
+-g_bit_nth_msf (gulong mask,
+-	       gint   nth_bit)
++
++static inline gint
++g_bit_nth_msf_impl (gulong mask,
++                    gint   nth_bit)
+ {
+   if (nth_bit < 0 || G_UNLIKELY (nth_bit > GLIB_SIZEOF_LONG * 8))
+     nth_bit = GLIB_SIZEOF_LONG * 8;
+@@ -296,19 +307,20 @@ g_bit_nth_msf (gulong mask,
+     {
+       nth_bit--;
+       if (mask & (1UL << nth_bit))
+-	return nth_bit;
++        return nth_bit;
+     }
+   return -1;
+ }
+-G_INLINE_FUNC guint
+-g_bit_storage (gulong number)
++
++static inline guint
++g_bit_storage_impl (gulong number)
+ {
+ #if defined(__GNUC__) && (__GNUC__ >= 4) && defined(__OPTIMIZE__)
+   return G_LIKELY (number) ?
+-	   ((GLIB_SIZEOF_LONG * 8U - 1) ^ (guint) __builtin_clzl(number)) + 1 : 1;
++           ((GLIB_SIZEOF_LONG * 8U - 1) ^ (guint) __builtin_clzl(number)) + 1 : 1;
+ #else
+   guint n_bits = 0;
+-  
++
+   do
+     {
+       n_bits++;
+@@ -318,7 +330,6 @@ g_bit_storage (gulong number)
+   return n_bits;
+ #endif
+ }
+-#endif  /* G_CAN_INLINE || __G_UTILS_C__ */
+ 
+ #ifndef G_DISABLE_DEPRECATED
+ 
+-- 
+cgit v0.12
+

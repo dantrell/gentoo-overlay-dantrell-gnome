@@ -95,12 +95,12 @@ DEPEND="${COMMON_DEPEND}
 "
 
 PATCHES=(
-	"${FILESDIR}/${PN}-0.91_pre3-automagic.patch"
-	"${FILESDIR}/${PN}-0.91_pre3-cppflags.patch"
-	"${FILESDIR}/${PN}-0.91_pre3-desktop.patch"
-	"${FILESDIR}/${PN}-0.91_pre3-exif.patch"
-	"${FILESDIR}/${PN}-0.91_pre3-sk-man.patch"
-	"${FILESDIR}/${PN}-0.48.4-epython.patch"
+	"${FILESDIR}"/${PN}-0.91_pre3-automagic.patch
+	"${FILESDIR}"/${PN}-0.91_pre3-cppflags.patch
+	"${FILESDIR}"/${PN}-0.91_pre3-desktop.patch
+	"${FILESDIR}"/${PN}-0.91_pre3-exif.patch
+	"${FILESDIR}"/${PN}-0.91_pre3-sk-man.patch
+	"${FILESDIR}"/${PN}-0.48.4-epython.patch
 )
 
 S=${WORKDIR}/${MY_P}
@@ -118,7 +118,7 @@ src_prepare() {
 		src/extension/implementation/script.cpp || die
 
 	if ! use deprecated; then
-		eapply "${FILESDIR}/${PN}-0.91-fix-gtkmm-2.48.patch"
+		eapply "${FILESDIR}"/${PN}-0.91-fix-gtkmm-2.48.patch
 	fi
 
 	eautoreconf

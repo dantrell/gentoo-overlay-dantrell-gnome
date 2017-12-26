@@ -33,7 +33,7 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	epatch "${FILESDIR}/${P}-qt5.patch" #523122
+	epatch "${FILESDIR}"/${P}-qt5.patch #523122
 
 	eautoreconf
 

@@ -39,7 +39,7 @@ src_prepare() {
 
 	# From Funtoo:
 	# 	https://bugs.funtoo.org/browse/FL-1715
-	eapply "${FILESDIR}/${P}"-fix-upower.patch
+	eapply "${FILESDIR}"/${P}-fix-upower.patch
 
 	gnome2_src_prepare
 	eautoreconf

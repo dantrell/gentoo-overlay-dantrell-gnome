@@ -29,7 +29,7 @@ src_prepare() {
 	sed -e 's:AM_CONFIG_HEADER:AC_CONFIG_HEADERS:g' -i configure.in || die
 
 	# Fix duplicated file installation, bug #346949
-	epatch "${FILESDIR}/${P}-fix-install.patch"
+	epatch "${FILESDIR}"/${P}-fix-install.patch
 
 	eautoreconf
 	gnome2_src_prepare

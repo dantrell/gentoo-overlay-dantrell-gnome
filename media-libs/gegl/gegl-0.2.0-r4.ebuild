@@ -53,13 +53,13 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	# https://bugs.gentoo.org/show_bug.cgi?id=442016
-	eapply "${FILESDIR}/${P}-cve-2012-4433-1e92e523.patch"
-	eapply "${FILESDIR}/${P}-cve-2012-4433-4757cdf7.patch"
+	eapply "${FILESDIR}"/${P}-cve-2012-4433-1e92e523.patch
+	eapply "${FILESDIR}"/${P}-cve-2012-4433-4757cdf7.patch
 
 	# https://bugs.gentoo.org/show_bug.cgi?id=416587
-	eapply "${FILESDIR}/${P}-introspection-version.patch"
+	eapply "${FILESDIR}"/${P}-introspection-version.patch
 
-	eapply "${FILESDIR}/${P}-ffmpeg-0.11.diff"
+	eapply "${FILESDIR}"/${P}-ffmpeg-0.11.diff
 	# fix OSX loadable module filename extension
 	sed -i -e 's/\.dylib/.bundle/' configure.ac || die
 	# don't require Apple's OpenCL on versions of OSX that don't have it

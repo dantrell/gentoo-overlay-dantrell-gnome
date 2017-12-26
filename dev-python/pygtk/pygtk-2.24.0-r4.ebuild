@@ -36,20 +36,20 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	# Fix declaration of codegen in .pc
-	epatch "${FILESDIR}/${PN}-2.13.0-fix-codegen-location.patch"
-	epatch "${FILESDIR}/${PN}-2.14.1-libdir-pc.patch"
+	epatch "${FILESDIR}"/${PN}-2.13.0-fix-codegen-location.patch
+	epatch "${FILESDIR}"/${PN}-2.14.1-libdir-pc.patch
 
 	# Fix leaks of Pango objects
-	epatch "${FILESDIR}/${PN}-2.24.0-fix-leaks.patch"
+	epatch "${FILESDIR}"/${PN}-2.24.0-fix-leaks.patch
 
 	# Fail when tests are failing, bug #391307
-	epatch "${FILESDIR}/${PN}-2.24.0-test-fail.patch"
+	epatch "${FILESDIR}"/${PN}-2.24.0-test-fail.patch
 
 	# Fix broken tests, https://bugzilla.gnome.org/show_bug.cgi?id=709304
-	epatch "${FILESDIR}/${P}-test_dialog.patch"
+	epatch "${FILESDIR}"/${P}-test_dialog.patch
 
 	# Fix build on Darwin
-	epatch "${FILESDIR}/${PN}-2.24.0-quartz-objc.patch"
+	epatch "${FILESDIR}"/${PN}-2.24.0-quartz-objc.patch
 
 	# Examples is handled "manually"
 	sed -e 's/\(SUBDIRS = .* \)examples/\1/' \

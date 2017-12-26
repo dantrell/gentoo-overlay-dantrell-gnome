@@ -98,8 +98,8 @@ src_prepare() {
 			-i libgda-report/RML/Makefile.{am,in} || die
 
 	# Prevent file collisions with libgda:4
-	eapply "${FILESDIR}/${PN}-4.99.1-gda-browser-doc-collision.patch"
-	eapply "${FILESDIR}/${PN}-4.99.1-control-center-icon-collision.patch"
+	eapply "${FILESDIR}"/${PN}-4.99.1-gda-browser-doc-collision.patch
+	eapply "${FILESDIR}"/${PN}-4.99.1-control-center-icon-collision.patch
 	# Move files with mv (since eapply can't handle rename diffs) and
 	# update pre-generated gtk-doc files (for non-git versions of libgda)
 	local f

@@ -37,7 +37,7 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	# https://bugzilla.gnome.org/show_bug.cgi?id=653323
-	eapply "${FILESDIR}/${PN}-2.40.12-gtk-optional.patch"
+	eapply "${FILESDIR}"/${PN}-2.40.12-gtk-optional.patch
 
 	eautoreconf
 

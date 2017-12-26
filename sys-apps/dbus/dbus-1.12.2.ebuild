@@ -56,7 +56,7 @@ DOC_CONTENTS="
 TBD="${WORKDIR}/${P}-tests-build"
 
 PATCHES=(
-	"${FILESDIR}/${PN}-enable-elogind.patch"
+	"${FILESDIR}"/${PN}-enable-elogind.patch
 )
 
 pkg_setup() {

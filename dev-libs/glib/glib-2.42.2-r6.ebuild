@@ -209,6 +209,24 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-2.47.2-tests-test-bounds-checked-int-arithmetic.patch
 
 	# From GNOME:
+	# 	https://git.gnome.org/browse/glib/commit/?id=1a2a689deacaac32b351ae97b00d8c35a6499cf6
+	# 	https://git.gnome.org/browse/glib/commit/?id=15c5e643c64b5f428fdbb515625dd6e939dcd40b
+	# 	https://git.gnome.org/browse/glib/commit/?id=b36b4941a634af096d21f906caae25ef35161166
+	# 	https://git.gnome.org/browse/glib/commit/?id=0bfbb0d257593b2fcfaaf9bf09c586057ecfac25
+	# 	https://git.gnome.org/browse/glib/commit/?id=9834f79279574e2cddc4dcb6149da9bd782dd40d
+	# 	https://git.gnome.org/browse/glib/commit/?id=db2367e8782d7a39fc3e93d13f6a16f10cad04c2
+	# 	https://git.gnome.org/browse/glib/commit/?id=ba12fbf8f8861e634def9fc0fb5e9ea603269803
+	# 	https://git.gnome.org/browse/glib/commit/?id=f2fb877ef796c543f8ca166c7e05a434f163faf7
+	epatch "${FILESDIR}"/${PN}-2.43.2-doc-glib-fix-all-undocumented-unused-undeclared-symbols.patch
+	epatch "${FILESDIR}"/${PN}-2.45.1-gversionmacros-add-2-46-version-macros.patch
+	epatch "${FILESDIR}"/${PN}-2.47.1-glib-add-2-48-availibity-macros.patch
+	epatch "${FILESDIR}"/${PN}-2.47.2-gtrashstack-uninline-and-deprecate.patch
+	epatch "${FILESDIR}"/${PN}-2.47.2-gutils-clean-up-bit-funcs-inlining-mess.patch
+	epatch "${FILESDIR}"/${PN}-2.47.2-glib-clean-up-the-inline-mess-once-and-for-all.patch
+	epatch "${FILESDIR}"/${PN}-2.47.3-gutils-g-bit-inlines-add-visibility-macros.patch
+	epatch "${FILESDIR}"/${PN}-2.47.4-glibconfig-h-win32-in-remove-g-can-inline.patch
+
+	# From GNOME:
 	# 	https://git.gnome.org/browse/glib/commit/?id=ec6971b864a3faffadd0bf4a87c7c1b47697fc83
 	epatch "${FILESDIR}"/${PN}-2.47.4-gtypes-h-move-g-static-assert-to-function-scope.patch
 
@@ -217,7 +235,6 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-2.47.92-gvariant-text-fix-scan-of-positional-parameters.patch
 
 	# From GNOME:
-	# 	https://git.gnome.org/browse/glib/commit/?id=1a2a689deacaac32b351ae97b00d8c35a6499cf6
 	# 	https://git.gnome.org/browse/glib/commit/?id=f9d9f9c056d96eccbb75dcbdef2b58f6d2a3edea
 	# 	https://git.gnome.org/browse/glib/commit/?id=3624e70508d414ae734c0b51f81839f8b5b1c809
 	# 	https://git.gnome.org/browse/glib/commit/?id=61136c2c7333a937adb20a4a43f32e66bf89c2f5
@@ -227,7 +244,6 @@ src_prepare() {
 	# 	https://git.gnome.org/browse/glib/commit/?id=0d1eecddd4a87f4fcf6273e0ca95f11019582778
 	# 	https://git.gnome.org/browse/glib/commit/?id=4e1567a079c13036320802f49ee8f78f78d0273a
 	# 	https://git.gnome.org/browse/glib/commit/?id=8e23a514b02c67104f03545dec58116f00087229
-	epatch "${FILESDIR}"/${PN}-2.43.2-doc-glib-fix-all-undocumented-unused-undeclared-symbols.patch
 	epatch "${FILESDIR}"/${PN}-2.47.1-update-to-unicode-8-0.patch
 	epatch "${FILESDIR}"/${PN}-2.47.1-update-unicode-test-data-for-unicode-8.patch
 	epatch "${FILESDIR}"/${PN}-2.47.4-trivial-doc-comment-fix.patch

@@ -137,6 +137,22 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-2.47.2-tests-test-bounds-checked-int-arithmetic.patch
 
 	# From GNOME:
+	# 	https://git.gnome.org/browse/glib/commit/?id=15c5e643c64b5f428fdbb515625dd6e939dcd40b
+	# 	https://git.gnome.org/browse/glib/commit/?id=b36b4941a634af096d21f906caae25ef35161166
+	# 	https://git.gnome.org/browse/glib/commit/?id=0bfbb0d257593b2fcfaaf9bf09c586057ecfac25
+	# 	https://git.gnome.org/browse/glib/commit/?id=9834f79279574e2cddc4dcb6149da9bd782dd40d
+	# 	https://git.gnome.org/browse/glib/commit/?id=db2367e8782d7a39fc3e93d13f6a16f10cad04c2
+	# 	https://git.gnome.org/browse/glib/commit/?id=ba12fbf8f8861e634def9fc0fb5e9ea603269803
+	# 	https://git.gnome.org/browse/glib/commit/?id=f2fb877ef796c543f8ca166c7e05a434f163faf7
+	epatch "${FILESDIR}"/${PN}-2.45.1-gversionmacros-add-2-46-version-macros.patch
+	epatch "${FILESDIR}"/${PN}-2.47.1-glib-add-2-48-availibity-macros.patch
+	epatch "${FILESDIR}"/${PN}-2.47.2-gtrashstack-uninline-and-deprecate.patch
+	epatch "${FILESDIR}"/${PN}-2.47.2-gutils-clean-up-bit-funcs-inlining-mess.patch
+	epatch "${FILESDIR}"/${PN}-2.47.2-glib-clean-up-the-inline-mess-once-and-for-all.patch
+	epatch "${FILESDIR}"/${PN}-2.47.3-gutils-g-bit-inlines-add-visibility-macros.patch
+	epatch "${FILESDIR}"/${PN}-2.47.4-glibconfig-h-win32-in-remove-g-can-inline.patch
+
+	# From GNOME:
 	# 	https://git.gnome.org/browse/glib/commit/?id=ec6971b864a3faffadd0bf4a87c7c1b47697fc83
 	epatch "${FILESDIR}"/${PN}-2.47.4-gtypes-h-move-g-static-assert-to-function-scope.patch
 

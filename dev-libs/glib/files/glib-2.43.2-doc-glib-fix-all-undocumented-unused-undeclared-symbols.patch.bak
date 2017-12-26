@@ -7,57 +7,9 @@ There is one issue left in gscanner.h due to a bug #741305 in gtk-doc.
 
 https://bugzilla.gnome.org/show_bug.cgi?id=740814
 ---
- docs/reference/glib/glib-sections.txt  | 36 ++++++++++++++++++++++++++++++++++++
  glib/gunicode.h                        |  4 +--
- 2 files changed, 38 insertions(+), 2 deletions(-)
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/docs/reference/glib/glib-sections.txt b/docs/reference/glib/glib-sections.txt
-index 20b7101..d34600f 100644
---- a/docs/reference/glib/glib-sections.txt
-+++ b/docs/reference/glib/glib-sections.txt
-@@ -127,6 +129,42 @@ GLIB_VERSION_2_44
- GLIB_VERSION_MIN_REQUIRED
- GLIB_VERSION_MAX_ALLOWED
- GLIB_DISABLE_DEPRECATION_WARNINGS
-+
-+<SUBSECTION Private>
-+G_ENCODE_VERSION
-+GLIB_AVAILABLE_IN_ALL
-+GLIB_AVAILABLE_IN_2_26
-+GLIB_AVAILABLE_IN_2_28
-+GLIB_AVAILABLE_IN_2_30
-+GLIB_AVAILABLE_IN_2_32
-+GLIB_AVAILABLE_IN_2_34
-+GLIB_AVAILABLE_IN_2_36
-+GLIB_AVAILABLE_IN_2_38
-+GLIB_AVAILABLE_IN_2_40
-+GLIB_AVAILABLE_IN_2_42
-+GLIB_AVAILABLE_IN_2_44
-+GLIB_DEPRECATED_IN_2_26
-+GLIB_DEPRECATED_IN_2_26_FOR
-+GLIB_DEPRECATED_IN_2_28
-+GLIB_DEPRECATED_IN_2_28_FOR
-+GLIB_DEPRECATED_IN_2_30
-+GLIB_DEPRECATED_IN_2_30_FOR
-+GLIB_DEPRECATED_IN_2_32
-+GLIB_DEPRECATED_IN_2_32_FOR
-+GLIB_DEPRECATED_IN_2_34
-+GLIB_DEPRECATED_IN_2_34_FOR
-+GLIB_DEPRECATED_IN_2_36
-+GLIB_DEPRECATED_IN_2_36_FOR
-+GLIB_DEPRECATED_IN_2_38
-+GLIB_DEPRECATED_IN_2_38_FOR
-+GLIB_DEPRECATED_IN_2_40
-+GLIB_DEPRECATED_IN_2_40_FOR
-+GLIB_DEPRECATED_IN_2_42
-+GLIB_DEPRECATED_IN_2_42_FOR
-+GLIB_DEPRECATED_IN_2_44
-+GLIB_DEPRECATED_IN_2_44_FOR
-+GLIB_VERSION_CUR_STABLE
-+GLIB_VERSION_PREV_STABLE
- </SECTION>
- 
- <SECTION>
 diff --git a/glib/gunicode.h b/glib/gunicode.h
 index 7ec6862..3109233 100644
 --- a/glib/gunicode.h

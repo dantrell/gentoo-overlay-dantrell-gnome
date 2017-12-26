@@ -95,13 +95,13 @@ DEPEND="${COMMON_DEPEND}
 "
 
 PATCHES=(
-	"${FILESDIR}/${PN}-0.92.1-automagic.patch"
-	"${FILESDIR}/${PN}-0.91_pre3-cppflags.patch"
-	"${FILESDIR}/${PN}-0.92.1-desktop.patch"
-	"${FILESDIR}/${PN}-0.91_pre3-exif.patch"
-	"${FILESDIR}/${PN}-0.91_pre3-sk-man.patch"
-	"${FILESDIR}/${PN}-0.48.4-epython.patch"
-	"${FILESDIR}/${PN}-0.92.1-poppler.patch"
+	"${FILESDIR}"/${PN}-0.92.1-automagic.patch
+	"${FILESDIR}"/${PN}-0.91_pre3-cppflags.patch
+	"${FILESDIR}"/${PN}-0.92.1-desktop.patch
+	"${FILESDIR}"/${PN}-0.91_pre3-exif.patch
+	"${FILESDIR}"/${PN}-0.91_pre3-sk-man.patch
+	"${FILESDIR}"/${PN}-0.48.4-epython.patch
+	"${FILESDIR}"/${PN}-0.92.1-poppler.patch
 )
 
 S=${WORKDIR}/${MY_P}

@@ -31,15 +31,15 @@ DEPEND="${RDEPEND}
 	sys-devel/libtool"
 
 src_prepare() {
-	epatch "${FILESDIR}/${P}-fix_guile-config.patch" \
-		"${FILESDIR}/${P}-gcc46.patch" \
-		"${FILESDIR}/${P}-gcc5.patch" \
-		"${FILESDIR}/${P}-makeinfo-5.patch" \
-		"${FILESDIR}/${P}-gtexinfo-5.patch" \
-		"${FILESDIR}/${P}-readline.patch" \
-		"${FILESDIR}/${P}-tinfo.patch" \
-		"${FILESDIR}/${P}-sandbox.patch" \
-		"${FILESDIR}/${P}-mkdir-mask.patch"
+	epatch "${FILESDIR}"/${P}-fix_guile-config.patch \
+		"${FILESDIR}"/${P}-gcc46.patch \
+		"${FILESDIR}"/${P}-gcc5.patch \
+		"${FILESDIR}"/${P}-makeinfo-5.patch \
+		"${FILESDIR}"/${P}-gtexinfo-5.patch \
+		"${FILESDIR}"/${P}-readline.patch \
+		"${FILESDIR}"/${P}-tinfo.patch \
+		"${FILESDIR}"/${P}-sandbox.patch \
+		"${FILESDIR}"/${P}-mkdir-mask.patch
 
 	sed \
 		-e "s/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/g" \
@@ -103,7 +103,7 @@ src_install() {
 
 	if use emacs; then
 		elisp-install ${PN} emacs/*.{el,elc} || die
-		elisp-site-file-install "${FILESDIR}/50${PN}-gentoo.el" || die
+		elisp-site-file-install "${FILESDIR}"/50${PN}-gentoo.el || die
 	fi
 
 	# Necessary for avoiding ldconfig warnings

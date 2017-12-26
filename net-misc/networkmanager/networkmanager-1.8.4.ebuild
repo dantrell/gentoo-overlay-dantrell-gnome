@@ -282,13 +282,13 @@ multilib_src_install_all() {
 
 	if use vanilla; then
 		if use elogind; then
-			newinitd "${FILESDIR}/init.d.NetworkManager-elogind" NetworkManager
+			newinitd "${FILESDIR}"/init.d.NetworkManager-elogind NetworkManager
 		else
-			newinitd "${FILESDIR}/init.d.NetworkManager" NetworkManager
+			newinitd "${FILESDIR}"/init.d.NetworkManager NetworkManager
 		fi
-		newconfd "${FILESDIR}/conf.d.NetworkManager" NetworkManager
+		newconfd "${FILESDIR}"/conf.d.NetworkManager NetworkManager
 	else
-		newinitd "${FILESDIR}/init.d.NetworkManager-dhcpcd" NetworkManager
+		newinitd "${FILESDIR}"/init.d.NetworkManager-dhcpcd NetworkManager
 		insinto /etc/NetworkManager
 		doins "${FILESDIR}"/NetworkManager.conf
 	fi
@@ -299,7 +299,7 @@ multilib_src_install_all() {
 	if use vanilla; then
 		# Provide openrc net dependency only when nm is connected
 		exeinto /etc/NetworkManager/dispatcher.d
-		newexe "${FILESDIR}/10-openrc-status-r4" 10-openrc-status
+		newexe "${FILESDIR}"/10-openrc-status-r4 10-openrc-status
 		sed -e "s:@EPREFIX@:${EPREFIX}:g" \
 			-i "${ED}/etc/NetworkManager/dispatcher.d/10-openrc-status" || die
 	fi
@@ -309,7 +309,7 @@ multilib_src_install_all() {
 
 	# Allow users in plugdev group to modify system connections
 	insinto /usr/share/polkit-1/rules.d/
-	doins "${FILESDIR}/01-org.freedesktop.NetworkManager.settings.modify.system.rules"
+	doins "${FILESDIR}"/01-org.freedesktop.NetworkManager.settings.modify.system.rules
 }
 
 pkg_postinst() {

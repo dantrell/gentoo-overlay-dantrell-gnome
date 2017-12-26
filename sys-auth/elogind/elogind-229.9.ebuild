@@ -40,8 +40,8 @@ PDEPEND="
 "
 
 PATCHES=(
-	"${FILESDIR}/${PN}-226.4-docs.patch"
-	"${FILESDIR}/${PN}-229.9-xlocale.h.patch"
+	"${FILESDIR}"/${PN}-226.4-docs.patch
+	"${FILESDIR}"/${PN}-229.9-xlocale.h.patch
 )
 
 pkg_setup() {
@@ -55,7 +55,7 @@ pkg_setup() {
 
 src_prepare() {
 	default
-	eautoreconf # Makefile.am patched by "${FILESDIR}/${P}-docs.patch"
+	eautoreconf # Makefile.am patched by "${FILESDIR}"/${P}-docs.patch
 	xdg_environment_reset
 }
 

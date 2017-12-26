@@ -31,7 +31,7 @@ DEPEND="${COMMON_DEPEND}
 
 src_prepare() {
 	# Don't show KDE standalone settings desktop files in GNOME others menu
-	epatch "${FILESDIR}/${PN}-3.8.0-ignore_kde_standalone.patch"
+	epatch "${FILESDIR}"/${PN}-3.8.0-ignore_kde_standalone.patch
 
 	# desktop-entries: support multiple desktops in XDG_CURRENT_DESKTOP
 	# (from 'master')

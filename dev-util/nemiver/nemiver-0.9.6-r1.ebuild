@@ -39,13 +39,13 @@ DEPEND="${RDEPEND}
 PATCHES=(
 	# Use RefPtr::bool() operator in the conditions, fixed in next
 	# version
-	"${FILESDIR}/${P}-bool-build.patch"
+	"${FILESDIR}"/${P}-bool-build.patch
 
 	# Fix compiliation warnings & errors, fixed in next version
-	"${FILESDIR}/${P}-fix-build.patch"
+	"${FILESDIR}"/${P}-fix-build.patch
 
 	# Fix building with GCC-6 and CXXFLAGS="-Werror=terminate"
-	"${FILESDIR}/${P}-gcc6-throw-in-dtors.patch"
+	"${FILESDIR}"/${P}-gcc6-throw-in-dtors.patch
 )
 
 src_configure() {

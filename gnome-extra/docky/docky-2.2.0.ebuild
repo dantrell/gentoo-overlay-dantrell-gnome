@@ -44,7 +44,7 @@ src_prepare() {
 
 	# From Funtoo:
 	# 	https://bugs.funtoo.org/browse/FL-1715
-	epatch "${FILESDIR}/${P}"-fix-upower.patch
+	epatch "${FILESDIR}"/${P}-fix-upower.patch
 
 	eautoreconf
 }

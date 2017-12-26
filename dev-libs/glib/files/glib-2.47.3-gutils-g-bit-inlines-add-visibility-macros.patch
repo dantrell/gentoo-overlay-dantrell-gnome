@@ -1,0 +1,32 @@
+From ba12fbf8f8861e634def9fc0fb5e9ea603269803 Mon Sep 17 00:00:00 2001
+From: Allison Ryan Lortie <desrt@desrt.ca>
+Date: Wed, 25 Nov 2015 08:48:06 -0500
+Subject: gutils: g_bit_ inlines: add visibility macros
+
+My careful efforts to preserve the exporting of these symbols on our ABI
+was thwarted by our symbol visibility filtering.  Let's fix that.
+---
+ glib/gutils.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/glib/gutils.h b/glib/gutils.h
+index f68e300..b24bc0b 100644
+--- a/glib/gutils.h
++++ b/glib/gutils.h
+@@ -241,10 +241,13 @@ gchar*  g_find_program_in_path  (const gchar *program);
+ #define g_bit_nth_msf(mask, nth_bit) g_bit_nth_msf_impl(mask, nth_bit)
+ #define g_bit_storage(number)        g_bit_storage_impl(number)
+ 
++GLIB_AVAILABLE_IN_ALL
+ gint    (g_bit_nth_lsf)         (gulong mask,
+                                  gint   nth_bit);
++GLIB_AVAILABLE_IN_ALL
+ gint    (g_bit_nth_msf)         (gulong mask,
+                                  gint   nth_bit);
++GLIB_AVAILABLE_IN_ALL
+ guint   (g_bit_storage)         (gulong number);
+ 
+ static inline gint
+-- 
+cgit v0.12
+

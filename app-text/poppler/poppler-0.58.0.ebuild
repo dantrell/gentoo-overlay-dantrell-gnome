@@ -51,11 +51,11 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 PATCHES=(
-	"${FILESDIR}/${PN}-0.26.0-qt5-dependencies.patch"
-	"${FILESDIR}/${PN}-0.28.1-fix-multilib-configuration.patch"
-	"${FILESDIR}/${PN}-0.53.0-respect-cflags.patch"
-	"${FILESDIR}/${PN}-0.33.0-openjpeg2.patch"
-	"${FILESDIR}/${PN}-0.40-FindQt4.patch"
+	"${FILESDIR}"/${PN}-0.26.0-qt5-dependencies.patch
+	"${FILESDIR}"/${PN}-0.28.1-fix-multilib-configuration.patch
+	"${FILESDIR}"/${PN}-0.53.0-respect-cflags.patch
+	"${FILESDIR}"/${PN}-0.33.0-openjpeg2.patch
+	"${FILESDIR}"/${PN}-0.40-FindQt4.patch
 )
 
 src_prepare() {

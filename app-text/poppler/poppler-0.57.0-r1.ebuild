@@ -51,23 +51,23 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 PATCHES=(
-	"${FILESDIR}/${PN}-0.26.0-qt5-dependencies.patch"
-	"${FILESDIR}/${PN}-0.28.1-fix-multilib-configuration.patch"
-	"${FILESDIR}/${PN}-0.53.0-respect-cflags.patch"
-	"${FILESDIR}/${PN}-0.33.0-openjpeg2.patch"
-	"${FILESDIR}/${PN}-0.40-FindQt4.patch"
-	"${FILESDIR}/${P}-disable-internal-jpx.patch"
+	"${FILESDIR}"/${PN}-0.26.0-qt5-dependencies.patch
+	"${FILESDIR}"/${PN}-0.28.1-fix-multilib-configuration.patch
+	"${FILESDIR}"/${PN}-0.53.0-respect-cflags.patch
+	"${FILESDIR}"/${PN}-0.33.0-openjpeg2.patch
+	"${FILESDIR}"/${PN}-0.40-FindQt4.patch
+	"${FILESDIR}"/${P}-disable-internal-jpx.patch
 	# Fedora backports from upstream
-	"${FILESDIR}/${P}-CVE-2017-14517.patch"
-	"${FILESDIR}/${P}-CVE-2017-14518.patch"
-	"${FILESDIR}/${P}-CVE-2017-14519.patch"
-	"${FILESDIR}/${P}-CVE-2017-14520.patch"
-	"${FILESDIR}/${P}-CVE-2017-14617.patch"
-	"${FILESDIR}/${P}-CVE-2017-14926.patch"
-	"${FILESDIR}/${P}-CVE-2017-14927.patch"
-	"${FILESDIR}/${P}-CVE-2017-14928.patch"
-	"${FILESDIR}/${P}-CVE-2017-14929.patch"
-	"${FILESDIR}/${P}-CVE-2017-15565.patch"
+	"${FILESDIR}"/${P}-CVE-2017-14517.patch
+	"${FILESDIR}"/${P}-CVE-2017-14518.patch
+	"${FILESDIR}"/${P}-CVE-2017-14519.patch
+	"${FILESDIR}"/${P}-CVE-2017-14520.patch
+	"${FILESDIR}"/${P}-CVE-2017-14617.patch
+	"${FILESDIR}"/${P}-CVE-2017-14926.patch
+	"${FILESDIR}"/${P}-CVE-2017-14927.patch
+	"${FILESDIR}"/${P}-CVE-2017-14928.patch
+	"${FILESDIR}"/${P}-CVE-2017-14929.patch
+	"${FILESDIR}"/${P}-CVE-2017-15565.patch
 )
 
 src_prepare() {

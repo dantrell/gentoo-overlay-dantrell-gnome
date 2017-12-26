@@ -36,7 +36,7 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	# https://bugzilla.gnome.org/show_bug.cgi?id=663779
-	epatch "${FILESDIR}/${PN}-0.30.1-alt-meta.patch"
+	epatch "${FILESDIR}"/${PN}-0.30.1-alt-meta.patch
 	gnome2_src_prepare
 }
 

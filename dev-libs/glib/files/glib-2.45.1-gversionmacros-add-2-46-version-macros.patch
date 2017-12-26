@@ -1,0 +1,109 @@
+From 15c5e643c64b5f428fdbb515625dd6e939dcd40b Mon Sep 17 00:00:00 2001
+From: Dan Winship <danw@gnome.org>
+Date: Fri, 6 Mar 2015 13:43:37 -0500
+Subject: gversionmacros: add 2.46 version macros
+
+---
+ docs/reference/glib/glib-sections.txt |  4 ++++
+ glib/gversionmacros.h                 | 44 +++++++++++++++++++++++++++--------
+ 2 files changed, 38 insertions(+), 10 deletions(-)
+
+diff --git a/docs/reference/glib/glib-sections.txt b/docs/reference/glib/glib-sections.txt
+index 5fb0923..25b6146 100644
+--- a/docs/reference/glib/glib-sections.txt
++++ b/docs/reference/glib/glib-sections.txt
+@@ -126,6 +126,7 @@ GLIB_VERSION_2_38
+ GLIB_VERSION_2_40
+ GLIB_VERSION_2_42
+ GLIB_VERSION_2_44
++GLIB_VERSION_2_46
+ GLIB_VERSION_MIN_REQUIRED
+ GLIB_VERSION_MAX_ALLOWED
+ GLIB_DISABLE_DEPRECATION_WARNINGS
+@@ -143,6 +144,7 @@ GLIB_AVAILABLE_IN_2_38
+ GLIB_AVAILABLE_IN_2_40
+ GLIB_AVAILABLE_IN_2_42
+ GLIB_AVAILABLE_IN_2_44
++GLIB_AVAILABLE_IN_2_46
+ GLIB_DEPRECATED_IN_2_26
+ GLIB_DEPRECATED_IN_2_26_FOR
+ GLIB_DEPRECATED_IN_2_28
+@@ -163,6 +165,8 @@ GLIB_DEPRECATED_IN_2_42
+ GLIB_DEPRECATED_IN_2_42_FOR
+ GLIB_DEPRECATED_IN_2_44
+ GLIB_DEPRECATED_IN_2_44_FOR
++GLIB_DEPRECATED_IN_2_46
++GLIB_DEPRECATED_IN_2_46_FOR
+ GLIB_VERSION_CUR_STABLE
+ GLIB_VERSION_PREV_STABLE
+ </SECTION>
+diff --git a/glib/gversionmacros.h b/glib/gversionmacros.h
+index c4c04ad..a7c9b16 100644
+--- a/glib/gversionmacros.h
++++ b/glib/gversionmacros.h
+@@ -125,6 +125,26 @@
+  */
+ #define GLIB_VERSION_2_42       (G_ENCODE_VERSION (2, 42))
+ 
++/**
++ * GLIB_VERSION_2_44:
++ *
++ * A macro that evaluates to the 2.44 version of GLib, in a format
++ * that can be used by the C pre-processor.
++ *
++ * Since: 2.44
++ */
++#define GLIB_VERSION_2_44       (G_ENCODE_VERSION (2, 44))
++
++/**
++ * GLIB_VERSION_2_46:
++ *
++ * A macro that evaluates to the 2.46 version of GLib, in a format
++ * that can be used by the C pre-processor.
++ *
++ * Since: 2.46
++ */
++#define GLIB_VERSION_2_46       (G_ENCODE_VERSION (2, 46))
++
+ /* evaluates to the current stable version; for development cycles,
+  * this means the next stable target
+  */
+@@ -142,16 +162,6 @@
+ #endif
+ 
+ /**
+- * GLIB_VERSION_2_44:
+- *
+- * A macro that evaluates to the 2.44 version of GLib, in a format
+- * that can be used by the C pre-processor.
+- *
+- * Since: 2.44
+- */
+-#define GLIB_VERSION_2_44       (G_ENCODE_VERSION (2, 44))
+-
+-/**
+  * GLIB_VERSION_MIN_REQUIRED:
+  *
+  * A macro that should be defined by the user prior to including
+@@ -366,4 +376,18 @@
+ # define GLIB_AVAILABLE_IN_2_44                 _GLIB_EXTERN
+ #endif
+ 
++#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_46
++# define GLIB_DEPRECATED_IN_2_46                GLIB_DEPRECATED
++# define GLIB_DEPRECATED_IN_2_46_FOR(f)         GLIB_DEPRECATED_FOR(f)
++#else
++# define GLIB_DEPRECATED_IN_2_46                _GLIB_EXTERN
++# define GLIB_DEPRECATED_IN_2_46_FOR(f)         _GLIB_EXTERN
++#endif
++
++#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_46
++# define GLIB_AVAILABLE_IN_2_46                 GLIB_UNAVAILABLE(2, 46)
++#else
++# define GLIB_AVAILABLE_IN_2_46                 _GLIB_EXTERN
++#endif
++
+ #endif /*  __G_VERSION_MACROS_H__ */
+-- 
+cgit v0.12
+
