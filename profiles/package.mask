@@ -71,7 +71,6 @@ app-text/gspell::gnome-kit
 app-text/gtkspell::gentoo
 app-text/gtkspell::gnome-kit
 app-text/libgepub::gentoo
-app-text/libgepub::text-kit
 app-text/libgxps::gentoo
 app-text/libgxps::gnome-kit
 app-text/poppler::gentoo
@@ -127,8 +126,8 @@ dev-libs/libgee::gentoo
 dev-libs/libgee::gnome-kit
 dev-libs/libgit2-glib::gentoo
 dev-libs/libgit2-glib::gnome-kit
-dev-libs/libgit2::dev-kit
 dev-libs/libgit2::gentoo
+dev-libs/libgit2::gnome-kit
 dev-libs/libgnome-games-support::dev-kit
 dev-libs/libgnome-games-support::gentoo
 dev-libs/libgpg-error::core-kit
@@ -162,7 +161,7 @@ dev-libs/vala-common::gnome-kit
 dev-python/pyatspi::gentoo
 dev-python/pyatspi::gnome-kit
 dev-python/pycairo::gentoo
-dev-python/pycairo::python-kit
+dev-python/pycairo::gnome-kit
 dev-python/pycups::gentoo
 dev-python/pycups::python-kit
 dev-python/pygobject::gentoo
@@ -427,8 +426,8 @@ sys-devel/gettext::core-kit
 sys-devel/gettext::gentoo
 sys-fs/udisks::core-kit
 sys-fs/udisks::gentoo
+sys-libs/libosinfo::core-kit
 sys-libs/libosinfo::gentoo
-sys-libs/libosinfo::gnome-kit
 sys-power/acpid::gentoo
 sys-power/acpid::nokit
 sys-power/upower::gentoo
