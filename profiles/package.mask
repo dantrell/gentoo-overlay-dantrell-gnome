@@ -45,7 +45,7 @@ app-editors/gedit::gnome-kit
 app-editors/ghex::editors-kit
 app-editors/ghex::gentoo
 app-emulation/libvirt-glib::gentoo
-app-emulation/libvirt-glib::gnome-kit
+app-emulation/libvirt-glib::nokit
 app-emulation/spice-protocol::gentoo
 app-emulation/spice-protocol::nokit
 app-emulation/spice::gentoo
@@ -126,8 +126,8 @@ dev-libs/libgee::gentoo
 dev-libs/libgee::gnome-kit
 dev-libs/libgit2-glib::gentoo
 dev-libs/libgit2-glib::gnome-kit
+dev-libs/libgit2::dev-kit
 dev-libs/libgit2::gentoo
-dev-libs/libgit2::gnome-kit
 dev-libs/libgnome-games-support::dev-kit
 dev-libs/libgnome-games-support::gentoo
 dev-libs/libgpg-error::core-kit
@@ -161,7 +161,7 @@ dev-libs/vala-common::gnome-kit
 dev-python/pyatspi::gentoo
 dev-python/pyatspi::gnome-kit
 dev-python/pycairo::gentoo
-dev-python/pycairo::gnome-kit
+dev-python/pycairo::python-kit
 dev-python/pycups::gentoo
 dev-python/pycups::python-kit
 dev-python/pygobject::gentoo
