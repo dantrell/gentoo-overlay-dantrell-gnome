@@ -1,0 +1,9 @@
+# Disabled because only one USE flag in every REQUIRED_USE set can be enabled at a time
+kde-plasma/plasma-desktop -gtk3
+
+# Disabled to prevent circular dependencies
+dev-qt/qtgui -gtk
+dev-util/cmake -qt5
+media-libs/harfbuzz -graphite
+x11-libs/gtk+ -colord
+x11-misc/colord -vala

@@ -1,31 +1,7 @@
-# arch      profile_directory               status
+# arch      profile_directory                                   status
 
-amd64       default/amd64/3.14              stable
-amd64       default/amd64/3.14/extended     stable
-amd64       default/amd64/3.16              stable
-amd64       default/amd64/3.16/extended     stable
-amd64       default/amd64/3.18              stable
-amd64       default/amd64/3.18/extended     stable
-amd64       default/amd64/3.20              stable
-amd64       default/amd64/3.20/extended     stable
-amd64       default/amd64/3.22              stable
-amd64       default/amd64/3.22/extended     stable
-amd64       default/amd64/3.24              stable
-amd64       default/amd64/3.24/extended     stable
-amd64       default/amd64/3.26              stable
-amd64       default/amd64/3.26/extended     stable
+amd64       default/linux/amd64/13.0/desktop/gnome+plasma       stable
+amd64       default/linux/amd64/17.0/desktop/gnome+plasma       stable
 
-x86         default/x86/3.14                stable
-x86         default/x86/3.14/extended       stable
-x86         default/x86/3.16                stable
-x86         default/x86/3.16/extended       stable
-x86         default/x86/3.18                stable
-x86         default/x86/3.18/extended       stable
-x86         default/x86/3.20                stable
-x86         default/x86/3.20/extended       stable
-x86         default/x86/3.22                stable
-x86         default/x86/3.22/extended       stable
-x86         default/x86/3.24                stable
-x86         default/x86/3.24/extended       stable
-x86         default/x86/3.26                stable
-x86         default/x86/3.26/extended       stable
+x86         default/linux/x86/13.0/desktop/gnome+plasma         stable
+x86         default/linux/x86/17.0/desktop/gnome+plasma         stable
