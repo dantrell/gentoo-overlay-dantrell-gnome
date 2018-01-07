@@ -43,6 +43,13 @@ do_python() {
 	fi
 }
 
+pkg_pretend() {
+	local MAX_WORKDIR=66
+
+	[[ "${#WORKDIR}" -le "${MAX_WORKDIR}" ]] ||
+		die "Cannot build package as WORKDIR '${WORKDIR}' is longer than ${MAX_WORKDIR} which will fail build"
+}
+
 pkg_setup() {
 	addpredict /run/user/$(id -u)/gnupg
 }
@@ -50,10 +57,10 @@ pkg_setup() {
 src_prepare() {
 	default
 
-	# Fix too long socket path for gpg-agent, this is mainly a problem
-	# for Prefix, where the builddir is deeper in the FS tree.
-	sed -i -e '/GNUPGHOME/s:$(abs_builddir):'"${T}"':' \
-		tests/gpg/Makefile.{am,in} || die
+	# Make best effort to allow longer PORTAGE_TMPDIR
+	# as usock limitation fails build/tests
+	ln -s "${P}" "${WORKDIR}/b"
+	S="${WORKDIR}/b"
 }
 
 src_configure() {

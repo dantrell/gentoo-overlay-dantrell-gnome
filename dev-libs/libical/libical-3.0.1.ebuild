@@ -10,7 +10,7 @@ DESCRIPTION="An implementation of basic iCAL protocols"
 HOMEPAGE="https://github.com/libical/libical"
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
-LICENSE="|| ( MPL-1.0 LGPL-2.1 )"
+LICENSE="|| ( MPL-2.0 LGPL-2.1 )"
 SLOT="0/3"
 KEYWORDS="~*"
 
