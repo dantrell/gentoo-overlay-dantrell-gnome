@@ -32,7 +32,7 @@
 ~dev-libs/atk-2.26.1::dantrell-gnome-3-26
 ~dev-libs/folks-0.11.4::dantrell-gnome
 ~dev-libs/gjs-1.50.2::dantrell-gnome-3-26
-~dev-libs/glib-2.54.2::dantrell-gnome
+~dev-libs/glib-2.54.3::dantrell-gnome
 ~dev-libs/gmime-3.0.5::dantrell-gnome
 ~dev-libs/gobject-introspection-1.54.1::dantrell-gnome-3-26
 ~dev-libs/gobject-introspection-common-1.54.1::dantrell-gnome-3-26
@@ -52,7 +52,7 @@
 ~dev-python/pygobject-3.26.1::dantrell-gnome-3-26
 ~dev-util/anjuta-3.22.0::dantrell-gnome
 ~dev-util/devhelp-3.26.1::dantrell-gnome-3-26
-~dev-util/gdbus-codegen-2.54.2::dantrell-gnome
+~dev-util/gdbus-codegen-2.54.3::dantrell-gnome
 ~dev-util/gnome-devel-docs-3.26.0::dantrell-gnome-3-26
 ~dev-util/gtk-doc-1.25::dantrell-gnome
 ~dev-util/nemiver-0.9.6::dantrell-gnome
@@ -96,10 +96,10 @@
 ~gnome-base/libgtop-2.38.0::dantrell-gnome
 ~gnome-base/librsvg-2.40.20::dantrell-gnome
 ~gnome-base/nautilus-3.26.2::dantrell-gnome-3-26
-~gnome-extra/evolution-data-server-3.26.3::dantrell-gnome-3-26
-~gnome-extra/evolution-ews-3.26.3::dantrell-gnome-3-26
+~gnome-extra/evolution-data-server-3.26.4::dantrell-gnome-3-26
+~gnome-extra/evolution-ews-3.26.4::dantrell-gnome-3-26
 ~gnome-extra/gnome-boxes-3.26.2::dantrell-gnome-3-26
-~gnome-extra/gnome-builder-3.26.2::dantrell-gnome-3-26
+~gnome-extra/gnome-builder-3.26.3::dantrell-gnome-3-26
 ~gnome-extra/gnome-calculator-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/gnome-calendar-3.26.2::dantrell-gnome-3-26
 ~gnome-extra/gnome-characters-3.26.2::dantrell-gnome-3-26
@@ -113,7 +113,7 @@
 ~gnome-extra/gnome-recipes-1.6.2::dantrell-gnome
 ~gnome-extra/gnome-shell-extensions-3.26.2::dantrell-gnome-3-26
 ~gnome-extra/gnome-shell-frippery-3.26.2::dantrell-gnome-3-26
-~gnome-extra/gnome-software-3.26.4::dantrell-gnome-3-26
+~gnome-extra/gnome-software-3.26.5::dantrell-gnome-3-26
 ~gnome-extra/gnome-system-monitor-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/gnome-todo-3.26.2::dantrell-gnome-3-26
 ~gnome-extra/gnome-tweak-tool-3.26.4::dantrell-gnome-3-26
@@ -129,7 +129,7 @@
 ~gnome-extra/sushi-3.24.0::dantrell-gnome
 ~gnome-extra/yelp-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/zenity-3.24.0::dantrell-gnome
-~mail-client/evolution-3.26.3::dantrell-gnome-3-26
+~mail-client/evolution-3.26.4::dantrell-gnome-3-26
 ~media-gfx/eog-3.26.2::dantrell-gnome-3-26
 ~media-gfx/eog-plugins-3.26.1::dantrell-gnome-3-26
 ~media-gfx/gnome-font-viewer-3.26.0::dantrell-gnome-3-26
@@ -158,12 +158,12 @@
 ~net-libs/gtk-vnc-0.7.1::dantrell-gnome
 ~net-libs/gupnp-1.0.2::dantrell-gnome
 ~net-libs/gupnp-igd-0.2.5::dantrell-gnome
-~net-libs/libsoup-2.60.2::dantrell-gnome-3-26
+~net-libs/libsoup-2.60.3::dantrell-gnome-3-26
 ~net-libs/libsoup-gnome-2.60.0::dantrell-gnome-3-26
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/phodav-2.2::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome
-~net-libs/webkit-gtk-2.18.4::dantrell-gnome
+~net-libs/webkit-gtk-2.18.5::dantrell-gnome
 ~net-misc/gnome-online-miners-3.26.0::dantrell-gnome-3-26
 ~net-misc/networkmanager-1.8.4::dantrell-gnome
 ~net-misc/rygel-0.36.0::dantrell-gnome-3-26
@@ -177,7 +177,7 @@
 ~x11-libs/gdk-pixbuf-2.36.4::dantrell-gnome
 ~x11-libs/gtksourceview-3.24.6::dantrell-gnome
 ~x11-libs/gtk+-3.22.26::dantrell-gnome
-~x11-libs/libdazzle-3.26.1::dantrell-gnome-3-26
+~x11-libs/libdazzle-3.26.2::dantrell-gnome-3-26
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.24.1::dantrell-gnome
 ~x11-libs/pango-1.40.14::dantrell-gnome

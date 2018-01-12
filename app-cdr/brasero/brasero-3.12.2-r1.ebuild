@@ -36,16 +36,13 @@ COMMON_DEPEND="
 "
 RDEPEND="${COMMON_DEPEND}
 	media-libs/gst-plugins-good:1.0
-	media-plugins/gst-plugins-meta:1.0
+	media-plugins/gst-plugins-meta:1.0[mp3?]
 	x11-themes/hicolor-icon-theme
 	css? ( media-libs/libdvdcss:1.2 )
 	!libburn? (
 		app-cdr/cdrdao
 		app-cdr/dvd+rw-tools
 		virtual/cdrtools )
-	mp3? (
-		media-libs/gst-plugins-ugly:1.0
-		media-plugins/gst-plugins-mad:1.0 )
 	packagekit? ( app-admin/packagekit-base )
 "
 DEPEND="${COMMON_DEPEND}

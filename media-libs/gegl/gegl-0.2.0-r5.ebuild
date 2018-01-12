@@ -15,7 +15,7 @@ SRC_URI="https://download.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.bz2"
 
 LICENSE="|| ( GPL-3 LGPL-3 )"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="cairo debug ffmpeg jpeg jpeg2k lensfun libav cpu_flags_x86_mmx openexr png raw sdl cpu_flags_x86_sse svg umfpack" # +introspection vala
 
@@ -27,7 +27,7 @@ RDEPEND="
 	sys-libs/zlib
 	cairo? ( x11-libs/cairo )
 	ffmpeg? (
-		libav? ( <media-video/libav-11.3:0= )
+		libav? ( >=media-video/libav-11.3:0= )
 		!libav? ( media-video/ffmpeg:0= )
 	)
 	jpeg? ( virtual/jpeg:0 )
@@ -52,6 +52,9 @@ DEPEND="${RDEPEND}
 #	vala? ( $(vala_depend) )"
 
 src_prepare() {
+	# https://bugs.gentoo.org/show_bug.cgi?id=636780
+	eapply "${FILESDIR}"/${P}-ffmpeg-av_frame_alloc.patch
+
 	# https://bugs.gentoo.org/show_bug.cgi?id=442016
 	eapply "${FILESDIR}"/${P}-cve-2012-4433-1e92e523.patch
 	eapply "${FILESDIR}"/${P}-cve-2012-4433-4757cdf7.patch

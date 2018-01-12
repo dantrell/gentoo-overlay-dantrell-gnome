@@ -44,8 +44,7 @@ PATCHES=(
 )
 
 pkg_setup() {
-	local CONFIG_CHECK="~CGROUPS ~EPOLL ~INOTIFY_USER ~SECURITY_SMACK
-		~SIGNALFD ~TIMERFD"
+	local CONFIG_CHECK="~CGROUPS ~EPOLL ~INOTIFY_USER ~SIGNALFD ~TIMERFD"
 
 	if use kernel_linux; then
 		linux-info_pkg_setup
