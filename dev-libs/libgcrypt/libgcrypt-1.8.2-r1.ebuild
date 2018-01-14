@@ -12,10 +12,9 @@ LICENSE="LGPL-2.1 MIT"
 SLOT="0/20" # subslot = soname major version
 KEYWORDS="*"
 
-IUSE="doc static-libs"
+IUSE="doc o-flag-munging static-libs"
 
-RDEPEND=">=dev-libs/libgpg-error-1.25[${MULTILIB_USEDEP}]
-"
+RDEPEND=">=dev-libs/libgpg-error-1.25[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}
 	doc? ( virtual/texi2dvi )"
 
@@ -43,7 +42,7 @@ multilib_src_configure() {
 	local myeconfargs=(
 		--disable-dependency-tracking
 		--enable-noexecstack
-		--disable-O-flag-munging
+		$(use_enable o-flag-munging O-flag-munging)
 		$(use_enable static-libs static)
 
 		# disabled due to various applications requiring privileges
