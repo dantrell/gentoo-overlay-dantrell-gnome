@@ -18,7 +18,6 @@ IUSE=""
 
 RDEPEND="${PYTHON_DEPS}
 	>=dev-libs/glib-2.50:2[dbus]
-	dev-python/dbus-python[${PYTHON_USEDEP}]
 	>=dev-python/pygobject-3.12:3[cairo,${PYTHON_USEDEP}]
 	gnome-base/gsettings-desktop-schemas
 	>=x11-libs/gtk+-3.14:3[introspection]

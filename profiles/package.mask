@@ -406,6 +406,7 @@ sci-geosciences/geocode-glib::gentoo
 sci-geosciences/geocode-glib::gnome-kit
 sys-apps/accountsservice::gentoo
 sys-apps/accountsservice::nokit
+sys-apps/bubblewrap::gentoo
 sys-apps/dbus::core-kit
 sys-apps/dbus::gentoo
 sys-apps/openrc::core-kit

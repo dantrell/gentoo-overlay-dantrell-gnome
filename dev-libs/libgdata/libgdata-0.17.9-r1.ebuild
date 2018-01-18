@@ -20,7 +20,7 @@ REQUIRED_USE="
 
 RDEPEND="
 	>=dev-libs/glib-2.44.0:2
-	>=dev-libs/json-glib-0.15
+	>=dev-libs/json-glib-0.15[introspection?]
 	>=dev-libs/libxml2-2:2
 	>=net-libs/liboauth-0.9.4
 	>=net-libs/libsoup-2.42.0:2.4[introspection?]

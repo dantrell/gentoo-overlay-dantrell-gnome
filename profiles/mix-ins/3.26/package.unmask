@@ -19,7 +19,7 @@
 ~app-misc/tracker-miners-2.0.3::dantrell-gnome-3-26
 ~app-text/evince-3.26.0::dantrell-gnome-3-26
 ~app-text/gspell-1.6.1::dantrell-gnome
-~app-text/libgepub-0.5.2::dantrell-gnome
+~app-text/libgepub-0.5.3::dantrell-gnome
 ~app-text/libgxps-0.3.0::dantrell-gnome
 ~app-text/yelp-tools-3.18.0::dantrell-gnome
 ~dev-cpp/atkmm-2.24.2::dantrell-gnome
@@ -31,7 +31,7 @@
 ~dev-libs/appstream-glib-0.6.13::dantrell-gnome
 ~dev-libs/atk-2.26.1::dantrell-gnome-3-26
 ~dev-libs/folks-0.11.4::dantrell-gnome
-~dev-libs/gjs-1.50.2::dantrell-gnome-3-26
+~dev-libs/gjs-1.50.3::dantrell-gnome-3-26
 ~dev-libs/glib-2.54.3::dantrell-gnome
 ~dev-libs/gmime-3.0.5::dantrell-gnome
 ~dev-libs/gobject-introspection-1.54.1::dantrell-gnome-3-26
@@ -84,6 +84,7 @@
 ~gnome-base/gnome-core-apps-3.26.0::dantrell-gnome-3-26
 ~gnome-base/gnome-core-libs-3.26.0::dantrell-gnome-3-26
 ~gnome-base/gnome-desktop-3.25.4::dantrell-gnome-3-26
+~gnome-base/gnome-desktop-3.26.2::dantrell-gnome-3-26
 ~gnome-base/gnome-extra-apps-3.26.0::dantrell-gnome-3-26
 ~gnome-base/gnome-flashback-3.26.0::dantrell-gnome-3-26
 ~gnome-base/gnome-light-3.26.0::dantrell-gnome-3-26
@@ -101,7 +102,7 @@
 ~gnome-extra/gnome-boxes-3.26.2::dantrell-gnome-3-26
 ~gnome-extra/gnome-builder-3.26.3::dantrell-gnome-3-26
 ~gnome-extra/gnome-calculator-3.26.0::dantrell-gnome-3-26
-~gnome-extra/gnome-calendar-3.26.2::dantrell-gnome-3-26
+~gnome-extra/gnome-calendar-3.26.3::dantrell-gnome-3-26
 ~gnome-extra/gnome-characters-3.26.2::dantrell-gnome-3-26
 ~gnome-extra/gnome-clocks-3.26.1::dantrell-gnome-3-26
 ~gnome-extra/gnome-color-manager-3.26.0::dantrell-gnome-3-26

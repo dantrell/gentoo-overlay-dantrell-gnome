@@ -19,7 +19,7 @@ RESTRICT="mirror"
 RDEPEND="
 	!dev-scheme/guile:2
 
-	>=dev-libs/boehm-gc-7.0[threads?]
+	>=dev-libs/boehm-gc-7.0:=[threads?]
 	>=dev-libs/gmp-4.2:0=
 	virtual/libffi
 	dev-libs/libltdl:=
