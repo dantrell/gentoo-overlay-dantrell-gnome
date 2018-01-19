@@ -28,7 +28,7 @@ RDEPEND="
 	mbim? ( >=net-libs/libmbim-1.14.0 )
 	policykit? ( >=sys-auth/polkit-0.106[introspection] )
 	qmi? ( >=net-libs/libqmi-1.16.0:= )
-	systemd? ( >=sys-apps/systemd-183 )
+	systemd? ( >=sys-apps/systemd-209 )
 "
 DEPEND="${RDEPEND}
 	dev-util/gdbus-codegen

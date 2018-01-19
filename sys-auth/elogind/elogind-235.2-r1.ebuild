@@ -41,6 +41,7 @@ PDEPEND="
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-235.1-docs.patch
+	"${FILESDIR}"/${P}-legacy-cgroupmode.patch
 )
 
 pkg_setup() {
@@ -62,9 +63,9 @@ src_configure() {
 	rccgroupmode="$(grep rc_cgroup_mode /etc/rc.conf | cut -d '"' -f 2)"
 	cgroupmode="legacy"
 
-	if [ "xhybrid" = "x${rccgroupmode}" ] ; then
+	if [[ "xhybrid" = "x${rccgroupmode}" ]] ; then
 		cgroupmode="hybrid"
-	elif [ "xunified" = "x${rccgroupmode}" ] ; then
+	elif [[ "xunified" = "x${rccgroupmode}" ]] ; then
 		cgroupmode="unified"
 	fi
 
@@ -86,9 +87,9 @@ src_configure() {
 		--buildtype $(usex debug debug release) \
 		-Dacl=$(usex acl true false) \
 		-Dpam=$(usex pam true false) \
-		-Dselinux=$(usex selinux true false)
+		-Dselinux=$(usex selinux true false) \
 		-Dbashcompletiondir="${EPREFIX}/usr/share/bash-completion/completions" \
-		-Dzsh-completion="${EPREFIX}/usr/share/zsh/site-functions" \
+		-Dzsh-completion="${EPREFIX}/usr/share/zsh/site-functions"
 	)
 	meson_src_configure
 }
