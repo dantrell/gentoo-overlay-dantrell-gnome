@@ -54,7 +54,7 @@ src_install() {
 	# 	https://github.com/dantrell/gentoo-project-gnome-without-systemd#configuration-funtoo-linux
 	if use multischema; then
 		insinto /usr/share/eselect/modules
-		newins "${FILESDIR}"/${PN}-1.4.10-support-multiple-schemas.sh profile.eselect || die
+		newins "${FILESDIR}"/${PN}-1.4.11-support-multiple-schemas.sh profile.eselect || die
 	fi
 }
 
