@@ -15,7 +15,7 @@ KEYWORDS="*"
 
 # TODO: --enable-profiling
 # Vala isn't really optional, https://bugzilla.gnome.org/show_bug.cgi?id=701099
-IUSE="bluetooth debug eds +telepathy test tracker utils zeitgeist"
+IUSE="bluetooth debug eds +telepathy test tracker utils"
 REQUIRED_USE="bluetooth? ( eds )"
 
 COMMON_DEPEND="
@@ -32,7 +32,6 @@ COMMON_DEPEND="
 	eds? ( >=gnome-extra/evolution-data-server-3.13.90:=[vala] )
 	telepathy? ( >=net-libs/telepathy-glib-0.19.9[vala] )
 	tracker? ( >=app-misc/tracker-1:0= )
-	zeitgeist? ( >=gnome-extra/zeitgeist-0.9.14 )
 "
 # telepathy-mission-control needed at runtime; it is used by the telepathy
 # backend via telepathy-glib's AccountManager binding.
@@ -72,12 +71,12 @@ src_configure() {
 		$(use_enable tracker tracker-backend) \
 		$(use_enable utils inspect-tool) \
 		$(use_enable test modular-tests) \
-		$(use_enable zeitgeist) \
 		--enable-vala \
 		--enable-import-tool \
 		--disable-docs \
 		--disable-fatal-warnings \
-		--disable-libsocialweb-backend
+		--disable-libsocialweb-backend \
+		--disable-zeitgeist
 }
 
 src_test() {

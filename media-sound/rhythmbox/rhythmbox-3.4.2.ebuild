@@ -14,7 +14,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="cdr daap dbus gnome-keyring ipod libnotify lirc mtp nsplugin +python test +udev upnp-av zeitgeist"
+IUSE="cdr daap dbus gnome-keyring ipod libnotify lirc mtp nsplugin +python test +udev upnp-av"
 REQUIRED_USE="
 	ipod? ( udev )
 	mtp? ( udev )
@@ -23,7 +23,7 @@ REQUIRED_USE="
 "
 
 COMMON_DEPEND="
-	>=dev-libs/glib-2.36:2
+	>=dev-libs/glib-2.38:2
 	>=dev-libs/libxml2-2.7.8:2
 	>=x11-libs/gtk+-3.16:3[X,introspection]
 	>=x11-libs/gdk-pixbuf-2.18:2
@@ -51,7 +51,6 @@ COMMON_DEPEND="
 		virtual/libgudev:=
 		ipod? ( >=media-libs/libgpod-0.7.92[udev] )
 		mtp? ( >=media-libs/libmtp-0.3 ) )
-	zeitgeist? ( gnome-extra/zeitgeist )
 "
 RDEPEND="${COMMON_DEPEND}
 	media-plugins/gst-plugins-soup:1.0

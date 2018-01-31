@@ -71,6 +71,10 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
+	# bug 558558
+	export GIT_CEILING_DIRECTORIES="${WORKDIR}"
+	echo GIT_CEILING_DIRECTORIES=${GIT_CEILING_DIRECTORIES}
+
 	default
 
 	eautoreconf

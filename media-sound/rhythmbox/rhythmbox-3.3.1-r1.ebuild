@@ -14,7 +14,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="cdr daap dbus gnome-keyring ipod libnotify lirc mtp nsplugin +python test +udev upnp-av visualizer webkit zeitgeist"
+IUSE="cdr daap dbus gnome-keyring ipod libnotify lirc mtp nsplugin +python test +udev upnp-av visualizer webkit"
 REQUIRED_USE="
 	ipod? ( udev )
 	mtp? ( udev )
@@ -63,7 +63,6 @@ COMMON_DEPEND="
 		>=x11-libs/mx-1.0.1:1.0
 		>=media-plugins/gst-plugins-libvisual-1.4:1.0 )
 	webkit? ( net-libs/webkit-gtk:4 )
-	zeitgeist? ( gnome-extra/zeitgeist )
 "
 RDEPEND="${COMMON_DEPEND}
 	media-plugins/gst-plugins-soup:1.0

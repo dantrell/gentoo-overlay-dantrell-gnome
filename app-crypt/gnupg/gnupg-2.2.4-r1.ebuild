@@ -14,7 +14,7 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="bzip2 doc +gnutls ldap nls readline selinux +smartcard tofu tools usb wks-server"
+IUSE="bzip2 doc ldap nls readline selinux +smartcard ssl tofu tools usb wks-server"
 
 COMMON_DEPEND_LIBS="
 	>=dev-libs/npth-1.2
@@ -23,7 +23,7 @@ COMMON_DEPEND_LIBS="
 	>=dev-libs/libgpg-error-1.24
 	>=dev-libs/libksba-1.3.4
 	>=net-misc/curl-7.10
-	gnutls? ( >=net-libs/gnutls-3.0:0= )
+	ssl? ( >=net-libs/gnutls-3.0:0= )
 	sys-libs/zlib
 	ldap? ( net-nds/openldap )
 	bzip2? ( app-arch/bzip2 )
@@ -81,7 +81,7 @@ src_configure() {
 	econf \
 		"${myconf[@]}" \
 		$(use_enable bzip2) \
-		$(use_enable gnutls) \
+		$(use_enable ssl gnutls) \
 		$(use_enable nls) \
 		$(use_enable tofu) \
 		$(use_enable wks-server wks-tools) \

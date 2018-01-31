@@ -15,7 +15,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE_plugins="charmap git terminal vala zeitgeist"
+IUSE_plugins="charmap git terminal vala"
 IUSE="+python ${IUSE_plugins}"
 # python-single-r1 would request disabling PYTHON_TARGETS on libpeas
 REQUIRED_USE="
@@ -23,7 +23,6 @@ REQUIRED_USE="
 	git? ( python )
 	python? ( ${PYTHON_REQUIRED_USE} )
 	terminal? ( python )
-	zeitgeist? ( python )
 "
 
 RDEPEND="
@@ -48,7 +47,6 @@ RDEPEND="
 	git? ( >=dev-libs/libgit2-glib-0.0.6 )
 	terminal? ( x11-libs/vte:2.91[introspection] )
 	vala? ( $(vala_depend) )
-	zeitgeist? ( >=gnome-extra/zeitgeist-0.9.12[introspection] )
 "
 DEPEND="${RDEPEND}
 	app-text/yelp-tools
@@ -70,7 +68,7 @@ src_configure() {
 	gnome2_src_configure \
 		$(use_enable python) \
 		$(use_enable vala) \
-		$(use_enable zeitgeist)
+		--disable-zeitgeist
 }
 
 src_install() {

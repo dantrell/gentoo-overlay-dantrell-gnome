@@ -26,10 +26,14 @@ DEPEND="${RDEPEND}
 	>=media-gfx/graphviz-2.16
 	test? (
 		dev-libs/dbus-glib
-		>=dev-libs/glib-2.26:2 )
+		>=dev-libs/glib-2.26:2
+		dev-libs/gobject-introspection:= )
 "
 
 src_configure() {
+	# bug 483134
+	export GIT_CEILING_DIRECTORIES="${WORKDIR}"
+
 	# weasyprint enables generation of PDF from HTML
 	gnome2_src_configure \
 		--disable-unversioned \

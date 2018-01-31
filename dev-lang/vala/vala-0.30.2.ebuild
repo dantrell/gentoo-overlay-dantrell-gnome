@@ -25,9 +25,14 @@ DEPEND="${RDEPEND}
 	virtual/yacc
 	test? (
 		dev-libs/dbus-glib
-		>=dev-libs/glib-2.26:2 )
+		>=dev-libs/glib-2.26:2
+		dev-libs/gobject-introspection:= )
 "
 
 src_configure() {
-	gnome2_src_configure --disable-unversioned
+	# bug 483134
+	export GIT_CEILING_DIRECTORIES="${WORKDIR}"
+
+	gnome2_src_configure \
+		--disable-unversioned
 }

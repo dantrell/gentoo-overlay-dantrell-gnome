@@ -1,4 +1,4 @@
-~dev-lang/vala-0.38.5::dantrell-gnome
-~dev-libs/vala-common-0.38.5::dantrell-gnome
+~dev-lang/vala-0.38.6::dantrell-gnome
+~dev-libs/vala-common-0.38.6::dantrell-gnome
 dev-lang/spidermonkey:52::gentoo
 x11-themes/gnome-icon-theme-extras::dantrell-gnome
