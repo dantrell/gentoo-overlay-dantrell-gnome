@@ -27,7 +27,7 @@
 ~dev-cpp/gtkmm-3.22.2::dantrell-gnome
 ~dev-cpp/mm-common-0.9.11::dantrell-gnome
 ~dev-cpp/pangomm-2.40.1::dantrell-gnome
-~dev-lang/vala-0.38.6::dantrell-gnome
+~dev-lang/vala-0.38.7::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.5::dantrell-gnome
 ~dev-libs/atk-2.26.1::dantrell-gnome-3-26
 ~dev-libs/folks-0.11.4::dantrell-gnome
@@ -47,7 +47,7 @@
 ~dev-libs/libpeas-1.22.0::dantrell-gnome-3-26
 ~dev-libs/template-glib-3.26.1::dantrell-gnome-3-26
 ~dev-libs/totem-pl-parser-3.26.0::dantrell-gnome-3-26
-~dev-libs/vala-common-0.38.6::dantrell-gnome
+~dev-libs/vala-common-0.38.7::dantrell-gnome
 ~dev-python/pyatspi-2.26.0::dantrell-gnome-3-26
 ~dev-python/pygobject-3.26.1::dantrell-gnome-3-26
 ~dev-util/anjuta-3.22.0::dantrell-gnome
@@ -96,8 +96,8 @@
 ~gnome-base/libgtop-2.38.0::dantrell-gnome
 ~gnome-base/librsvg-2.40.20::dantrell-gnome
 ~gnome-base/nautilus-3.26.2::dantrell-gnome-3-26
-~gnome-extra/evolution-data-server-3.26.4::dantrell-gnome-3-26
-~gnome-extra/evolution-ews-3.26.4::dantrell-gnome-3-26
+~gnome-extra/evolution-data-server-3.26.5::dantrell-gnome-3-26
+~gnome-extra/evolution-ews-3.26.5::dantrell-gnome-3-26
 ~gnome-extra/gnome-boxes-3.26.2::dantrell-gnome-3-26
 ~gnome-extra/gnome-builder-3.26.4::dantrell-gnome-3-26
 ~gnome-extra/gnome-calculator-3.26.0::dantrell-gnome-3-26
@@ -129,7 +129,7 @@
 ~gnome-extra/sushi-3.24.0::dantrell-gnome
 ~gnome-extra/yelp-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/zenity-3.24.0::dantrell-gnome
-~mail-client/evolution-3.26.4::dantrell-gnome-3-26
+~mail-client/evolution-3.26.5::dantrell-gnome-3-26
 ~media-gfx/eog-3.26.2::dantrell-gnome-3-26
 ~media-gfx/eog-plugins-3.26.1::dantrell-gnome-3-26
 ~media-gfx/gnome-font-viewer-3.26.0::dantrell-gnome-3-26

@@ -18,8 +18,9 @@ IUSE="nls"
 DEPEND="
 	>=app-crypt/gcr-3.10.1:0=[gtk,introspection,vala]
 	app-crypt/libsecret
+	app-text/iso-codes
 	dev-db/sqlite:3
-	dev-libs/glib:2[dbus]
+	>=dev-libs/glib-2.42:2[dbus]
 	>=dev-libs/libgee-0.8.5:0.8=
 	dev-libs/libxml2:2
 	dev-libs/gmime:2.6
@@ -69,6 +70,7 @@ src_configure() {
 		-DGSETTINGS_COMPILE=OFF
 		-DICON_UPDATE=OFF
 		-DVALA_EXECUTABLE="${VALAC}"
+		-DVAPIGEN="${VAPIGEN}"
 		-DWITH_UNITY=OFF
 		-DDESKTOP_VALIDATE=OFF
 	)
