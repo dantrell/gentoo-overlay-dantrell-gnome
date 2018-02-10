@@ -27,6 +27,7 @@ RDEPEND="
 	>=dev-libs/dbus-glib-0.82
 	>=dev-libs/glib-2.32:2
 	>=sys-apps/dbus-0.95
+	>=sys-power/upower-0.99:=
 	>=net-libs/telepathy-glib-0.20
 	networkmanager? ( >=net-misc/networkmanager-1:= )
 
