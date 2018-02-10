@@ -31,6 +31,7 @@ media-libs/clutter X
 media-libs/clutter gtk
 media-libs/clutter-gtk X
 media-libs/clutter-gtk gtk
+media-libs/cogl gles2
 media-libs/gd fontconfig
 media-libs/gd jpeg
 media-libs/gd png
@@ -49,6 +50,7 @@ media-libs/libcanberra gstreamer
 media-libs/libmediaart -qt4
 media-libs/libmediaart -qt5
 media-libs/libpng apng
+media-libs/libsdl2 gles
 media-libs/mesa gles2
 media-plugins/audacious-plugins -qt5
 media-plugins/grilo-plugins upnp-av
