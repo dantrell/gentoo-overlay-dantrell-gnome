@@ -53,6 +53,8 @@ multilib_src_configure() {
 		# causes bus-errors on sparc64-solaris
 		$([[ ${CHOST} == *86*-darwin* ]] && echo "--disable-asm")
 		$([[ ${CHOST} == sparcv9-*-solaris* ]] && echo "--disable-asm")
+
+		GPG_ERROR_CONFIG="${EPREFIX}/usr/bin/${CHOST}-gpg-error-config"
 	)
 	ECONF_SOURCE="${S}" econf "${myeconfargs[@]}"
 }
