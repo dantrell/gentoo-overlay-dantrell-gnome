@@ -205,9 +205,9 @@ src_prepare() {
 	fi
 
 	eapply "${FILESDIR}"/${PN}-0.99.6-0009-freebsd-fix-lid-detection-on-freebsd.patch
-	eapply "${FILESDIR}"/${PN}-0.99.6-0010-linux-don-t-throw-an-error-if-there-s-no-data-to-rea.patch
 
 	if ! use ck; then
+		eapply "${FILESDIR}"/${PN}-0.99.6-0010-linux-don-t-throw-an-error-if-there-s-no-data-to-rea.patch
 		eapply "${FILESDIR}"/${PN}-0.99.6-0011-linux-add-better-debug-to-sysfs-get-capacity-level.patch
 	fi
 
@@ -247,8 +247,6 @@ src_prepare() {
 		eapply "${FILESDIR}"/${PN}-0.99.7-0010-linux-add-support-for-bluetooth-le-device-batteries.patch
 		eapply "${FILESDIR}"/${PN}-0.99.7-0011-linux-add-test-for-bluetooth-le-battery-support.patch
 	fi
-
-	eapply "${FILESDIR}"/${PN}-0.99.7-0012-released-upower-0-99-7.patch
 
 	if use ck; then
 		# From Funtoo:
