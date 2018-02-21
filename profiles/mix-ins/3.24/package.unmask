@@ -50,7 +50,7 @@
 ~dev-util/anjuta-3.22.0::dantrell-gnome
 ~dev-util/devhelp-3.24.0::dantrell-gnome-3-24
 ~dev-util/gdbus-codegen-2.52.3::dantrell-gnome
-~dev-util/glade-3.20.2::dantrell-gnome
+~dev-util/glade-3.20.3::dantrell-gnome
 ~dev-util/gnome-devel-docs-3.22.1::dantrell-gnome
 ~dev-util/gtk-doc-1.25::dantrell-gnome
 ~dev-util/nemiver-0.9.6::dantrell-gnome

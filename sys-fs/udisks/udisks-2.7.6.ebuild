@@ -48,8 +48,6 @@ DEPEND="${COMMON_DEPEND}
 # gnome-base/gnome-common:3
 # sys-devel/autoconf-archive
 
-QA_MULTILIB_PATHS="usr/lib/udisks2/udisksd"
-
 pkg_setup() {
 	# Listing only major arch's here to avoid tracking kernel's defconfig
 	if use amd64 || use arm || use ppc || use ppc64 || use x86; then
