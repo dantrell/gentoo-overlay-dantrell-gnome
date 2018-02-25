@@ -19,7 +19,7 @@ app-admin/system-config-printer::gnome-kit
 app-arch/file-roller::gentoo
 app-arch/file-roller::gnome-kit
 app-arch/gcab::gentoo
-app-arch/gcab::nokit
+app-arch/gcab::gnome-kit
 app-arch/gnome-autoar::gentoo
 app-arch/gnome-autoar::nokit
 app-cdr/brasero::gentoo
@@ -136,8 +136,8 @@ dev-libs/libgusb::gentoo
 dev-libs/libgusb::gnome-kit
 dev-libs/libgweather::gentoo
 dev-libs/libgweather::gnome-kit
+dev-libs/libical::core-kit
 dev-libs/libical::gentoo
-dev-libs/libical::gnome-kit
 dev-libs/libintl::core-kit
 dev-libs/libintl::gentoo
 dev-libs/liblouis::gentoo
@@ -421,8 +421,8 @@ sys-auth/elogind::gentoo
 sys-auth/elogind::nokit
 sys-auth/pambase::core-kit
 sys-auth/pambase::gentoo
-sys-auth/polkit::core-kit
 sys-auth/polkit::gentoo
+sys-auth/polkit::gnome-kit
 sys-devel/gettext::core-kit
 sys-devel/gettext::gentoo
 sys-fs/udisks::core-kit
