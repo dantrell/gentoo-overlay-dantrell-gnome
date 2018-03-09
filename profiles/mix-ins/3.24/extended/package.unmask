@@ -50,7 +50,7 @@
 ~dev-util/anjuta-3.22.0::dantrell-gnome
 ~dev-util/devhelp-3.24.0::dantrell-gnome-3-24
 ~dev-util/gdbus-codegen-2.52.3::dantrell-gnome
-~dev-util/glade-3.20.3::dantrell-gnome
+~dev-util/glade-3.20.4::dantrell-gnome
 ~dev-util/gnome-devel-docs-3.22.1::dantrell-gnome
 ~dev-util/gtk-doc-1.25::dantrell-gnome
 ~dev-util/nemiver-0.9.6::dantrell-gnome
@@ -88,7 +88,7 @@
 ~gnome-base/gnome-settings-daemon-3.24.3::dantrell-gnome-3-24
 ~gnome-base/gnome-shell-3.24.3::dantrell-gnome-3-24
 ~gnome-base/gsettings-desktop-schemas-3.24.1::dantrell-gnome
-~gnome-base/gvfs-1.32.1::dantrell-gnome-3-24
+~gnome-base/gvfs-1.32.2::dantrell-gnome-3-24
 ~gnome-base/libgnomekbd-3.22.0.1::dantrell-gnome
 ~gnome-base/libgtop-2.36.0::dantrell-gnome
 ~gnome-base/librsvg-2.40.20::dantrell-gnome
