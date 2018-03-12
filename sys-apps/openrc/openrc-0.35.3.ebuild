@@ -46,7 +46,7 @@ RDEPEND="${COMMON_DEPEND}
 		>=sec-policy/selinux-base-policy-2.20170204-r4
 		>=sec-policy/selinux-openrc-2.20170204-r4
 	)
-	!<app-shells/gentoo-bashcomp-20140911-r1
+	!<app-shells/gentoo-bashcomp-20180302
 	!<app-shells/gentoo-zsh-completions-20180228
 "
 

@@ -56,7 +56,7 @@
 ~dev-util/nemiver-0.9.6::dantrell-gnome
 ~dev-vcs/gitg-3.24.0::dantrell-gnome-3-24
 ~games-arcade/gnome-nibbles-3.24.0::dantrell-gnome
-~games-arcade/gnome-robots-3.22.2::dantrell-gnome
+~games-arcade/gnome-robots-3.22.3::dantrell-gnome
 ~games-board/aisleriot-3.22.4::dantrell-gnome
 ~games-board/four-in-a-row-3.22.2::dantrell-gnome
 ~games-board/gnome-chess-3.24.1::dantrell-gnome-3-24
@@ -65,7 +65,7 @@
 ~games-board/iagno-3.22.0::dantrell-gnome
 ~games-board/tali-3.22.0::dantrell-gnome
 ~games-puzzle/five-or-more-3.22.2::dantrell-gnome
-~games-puzzle/gnome-klotski-3.22.2::dantrell-gnome
+~games-puzzle/gnome-klotski-3.22.3::dantrell-gnome
 ~games-puzzle/gnome-sudoku-3.24.0::dantrell-gnome-3-24
 ~games-puzzle/gnome-taquin-3.22.0::dantrell-gnome
 ~games-puzzle/gnome-tetravex-3.22.0::dantrell-gnome
@@ -133,7 +133,7 @@
 ~media-gfx/gnome-screenshot-3.22.0::dantrell-gnome
 ~media-gfx/simple-scan-3.24.1::dantrell-gnome-3-24
 ~media-libs/clutter-1.26.2::dantrell-gnome
-~media-libs/clutter-gst-3.0.24::dantrell-gnome
+~media-libs/clutter-gst-3.0.26::dantrell-gnome
 ~media-libs/clutter-gtk-1.8.4::dantrell-gnome
 ~media-libs/cogl-1.22.2::dantrell-gnome
 ~media-libs/grilo-0.3.4::dantrell-gnome
