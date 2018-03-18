@@ -1,5 +1,5 @@
 ~app-accessibility/accerciser-3.22.0::dantrell-gnome
-~app-accessibility/at-spi2-atk-2.26.1::dantrell-gnome-3-26
+~app-accessibility/at-spi2-atk-2.26.2::dantrell-gnome-3-26
 ~app-accessibility/at-spi2-core-2.26.2::dantrell-gnome-3-26
 ~app-accessibility/caribou-0.4.21::dantrell-gnome
 ~app-accessibility/orca-3.26.0::dantrell-gnome-3-26
@@ -59,7 +59,7 @@
 ~dev-vcs/gitg-3.26.0::dantrell-gnome-3-26
 ~games-arcade/gnome-nibbles-3.24.0::dantrell-gnome
 ~games-arcade/gnome-robots-3.22.3::dantrell-gnome
-~games-board/aisleriot-3.22.4::dantrell-gnome
+~games-board/aisleriot-3.22.5::dantrell-gnome
 ~games-board/four-in-a-row-3.22.2::dantrell-gnome
 ~games-board/gnome-chess-3.26.0::dantrell-gnome-3-26
 ~games-board/gnome-mahjongg-3.22.0::dantrell-gnome
@@ -120,7 +120,7 @@
 ~gnome-extra/gnome-user-docs-3.26.2.1::dantrell-gnome-3-26
 ~gnome-extra/gnome-user-share-3.18.3::dantrell-gnome
 ~gnome-extra/gnome-weather-3.26.0::dantrell-gnome-3-26
-~gnome-extra/gucharmap-10.0.3::dantrell-gnome
+~gnome-extra/gucharmap-10.0.4::dantrell-gnome
 ~gnome-extra/libgsf-1.14.42::dantrell-gnome
 ~gnome-extra/mousetweaks-3.12.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
@@ -175,8 +175,8 @@
 ~sys-apps/gnome-disk-utility-3.26.2::dantrell-gnome-3-26
 ~www-client/epiphany-3.26.6::dantrell-gnome-3-26
 ~x11-libs/gdk-pixbuf-2.36.4::dantrell-gnome
-~x11-libs/gtksourceview-3.24.6::dantrell-gnome
-~x11-libs/gtk+-3.22.28::dantrell-gnome
+~x11-libs/gtksourceview-4.0.0::dantrell-gnome
+~x11-libs/gtk+-3.22.29::dantrell-gnome
 ~x11-libs/libdazzle-3.26.3::dantrell-gnome-3-26
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.24.1::dantrell-gnome
