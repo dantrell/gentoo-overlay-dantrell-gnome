@@ -1,0 +1,14 @@
+app-crypt/gcr gtk
+app-i18n/ibus gtk
+dev-libs/libpeas gtk
+gnome-base/gvfs gtk
+gnome-extra/evolution-data-server gtk
+media-libs/clutter gtk
+media-libs/clutter-gtk gtk
+media-libs/libchamplain gtk
+media-sound/pulseaudio alsa
+media-video/ffmpegthumbnailer gtk
+net-dns/dnsmasq script
+net-misc/spice-gtk -python_single_target_python3_4
+net-misc/spice-gtk -python_single_target_python3_5
+net-misc/spice-gtk -python_single_target_python3_6

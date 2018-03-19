@@ -1,0 +1,44 @@
+From 4ad97abc893ded93296f7c157631369fbddcf90a Mon Sep 17 00:00:00 2001
+From: Christian Persch <chpe@src.gnome.org>
+Date: Tue, 13 Mar 2018 12:32:15 +0100
+Subject: build: Explicitly link to libdl
+
+https://bugzilla.gnome.org/show_bug.cgi?id=794281
+---
+ configure.ac          | 7 +++++++
+ gucharmap/Makefile.am | 1 +
+ 2 files changed, 8 insertions(+)
+
+diff --git a/configure.ac b/configure.ac
+index edbeafc..a4aa04a 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -120,6 +120,13 @@ PKG_CHECK_MODULES([GTK],[
+   freetype2
+ ])
+ 
++sv_LIBS="$LIBS"
++LIBS=
++AC_SEARCH_LIBS([dlsym],[dl])
++LIBDL="$LIBS"
++LIBS="$sv_LIBS"
++AC_SUBST([LIBDL])
++
+ GLIB_GENMARSHAL="$($PKG_CONFIG --variable=glib_genmarshal glib-2.0)"
+ AC_SUBST([GLIB_GENMARSHAL])
+ GLIB_MKENUMS="$($PKG_CONFIG --variable=glib_mkenums glib-2.0)"
+diff --git a/gucharmap/Makefile.am b/gucharmap/Makefile.am
+index e14b9d0..86b8b01 100644
+--- a/gucharmap/Makefile.am
++++ b/gucharmap/Makefile.am
+@@ -156,6 +156,7 @@ gucharmap_LDFLAGS = \
+ gucharmap_LDADD = \
+ 	libgucharmap@GUCHARMAP_LIBRARY_SUFFIX_U@.la	\
+ 	$(GTK_LIBS)	\
++	$(LIBDL) \
+ 	$(INTL_LIBS)
+ 
+ dist_noinst_DATA = gucharmap-menus.ui
+-- 
+cgit v0.12
+

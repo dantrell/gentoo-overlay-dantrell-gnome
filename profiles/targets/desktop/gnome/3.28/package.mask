@@ -1,0 +1,6 @@
+# Masked to test on GNOME 3.30 first
+>=net-libs/webkit-gtk-2.22.0
+
+# Masked to freeze the state of GNOME
+>=dev-cpp/cairomm-1.13.0
+>=dev-libs/libsigc++-2.99.0

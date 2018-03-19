@@ -3,7 +3,7 @@
 EAPI="6"
 VALA_USE_DEPEND="vapigen"
 
-inherit gnome2 vala versionator
+inherit autotools gnome2 vala versionator
 
 DESCRIPTION="Unicode character map viewer and library"
 HOMEPAGE="https://wiki.gnome.org/Apps/Gucharmap"
@@ -44,6 +44,11 @@ src_prepare() {
 	# avoid autoreconf
 	sed -e 's/-Wall //g' -i configure || die "sed failed"
 
+	# From GNOME:
+	# 	https://git.gnome.org/browse/gucharmap/commit/?id=4ad97abc893ded93296f7c157631369fbddcf90a
+	eapply "${FILESDIR}"/${PN}-10.0.5-build-explicitly-link-to-libdl.patch
+
+	eautoreconf
 	use vala && vala_src_prepare
 	gnome2_src_prepare
 }
