@@ -1,4 +1,5 @@
 app-crypt/gcr gtk
+app-crypt/libsecret vala
 app-emulation/qemu smartcard
 app-emulation/qemu spice
 app-emulation/qemu usbredir
