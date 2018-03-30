@@ -47,6 +47,7 @@ PATCHES=(
 	"${FILESDIR}"/${P}-build.patch
 	"${FILESDIR}"/${P}-Disable-tooltips-in-keyboard-grabbing-mode.patch
 	"${FILESDIR}"/${P}-gtk2-Fix-a-problem-with-fvwm.patch
+	"${FILESDIR}"/${P}-make-icon-work-under-Plasma-Wayland.patch
 )
 
 src_prepare() {

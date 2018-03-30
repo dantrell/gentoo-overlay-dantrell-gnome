@@ -15,14 +15,12 @@ LICENSE="|| ( LGPL-2.1 MPL-1.1 )"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="doc examples test xcb"
+IUSE="doc examples test"
 
-# Note: xpyb is used as the C header, not Python modules
 RDEPEND="
-	>=x11-libs/cairo-1.13.1[svg,xcb?]
+	>=x11-libs/cairo-1.13.1[svg]
 "
 DEPEND="${RDEPEND}
-	xcb? ( $(python_gen_cond_dep '>=x11-libs/xpyb-1.3' 'python2*') )
 	doc? ( dev-python/sphinx )
 	test? (
 		dev-python/pytest[${PYTHON_USEDEP}]
@@ -30,28 +28,12 @@ DEPEND="${RDEPEND}
 	)
 "
 
-python_prepare_all() {
-	# Fix pkgconfig path
-	sed -i -e "/libdir =/s:\"lib\":\"$(get_libdir)\":" setup.py || die
-	distutils-r1_python_prepare_all
-}
-
-python_compile() {
-	local enable_xpyb
-	python_is_python3 || enable_xpyb=$(usex xcb "--enable-xpyb" "")
-
-	esetup.py build ${enable_xpyb}
-}
-
 python_compile_all() {
 	use doc && emake -C docs
 }
 
 python_test() {
-	local enable_xpyb
-	python_is_python3 || enable_xpyb=$(usex xcb "--enable-xpyb" "")
-
-	esetup.py test ${enable_xpyb}
+	esetup.py test
 }
 
 python_install_all() {

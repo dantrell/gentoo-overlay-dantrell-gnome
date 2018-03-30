@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit autotools ltprune systemd
+inherit autotools ltprune systemd xdg-utils
 
 DESCRIPTION="Abstraction for enumerating power devices, listening to device events and querying history and statistics"
 HOMEPAGE="https://upower.freedesktop.org/"
@@ -299,6 +299,7 @@ src_configure() {
 		$(use_enable introspection)
 		$(use_with ios idevice)
 	)
+	xdg_environment_reset
 	econf "${myeconfargs[@]}"
 }
 

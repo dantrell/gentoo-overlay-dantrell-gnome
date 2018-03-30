@@ -1,0 +1,32 @@
+From 9357aa60e7773d997e6208c9b3cab09adc166e38 Mon Sep 17 00:00:00 2001
+From: Martin Szulecki <martin.szulecki@libimobiledevice.org>
+Date: Tue, 20 Mar 2018 15:00:21 +0100
+Subject: [PATCH 3/4] linux: Prevent crash after attaching an Apple TV
+
+As Apple TVs do not have a battery and do not provide the
+"BatteryIsCharging" lockdown key, upower would crash due to a
+missing check whether the retrieved node is actually valid.
+
+https://bugzilla.freedesktop.org/show_bug.cgi?id=105625
+---
+ src/linux/up-device-idevice.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/linux/up-device-idevice.c b/src/linux/up-device-idevice.c
+index 97d230c..a583881 100644
+--- a/src/linux/up-device-idevice.c
++++ b/src/linux/up-device-idevice.c
+@@ -297,6 +297,10 @@ up_device_idevice_refresh (UpDevice *device)
+ 
+ 	/* get charging status */
+ 	node = plist_dict_get_item (dict, "BatteryIsCharging");
++	if (!node) {
++		plist_free(dict);
++		goto out;
++	}
+ 	plist_get_bool_val (node, &charging);
+ 
+ 	if (percentage == 100)
+-- 
+2.16.3
+

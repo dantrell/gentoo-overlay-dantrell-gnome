@@ -1,0 +1,61 @@
+From 41bce284476030b22cd6d60280fb875f507f47a2 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 2 Mar 2018 17:39:23 +0100
+Subject: [PATCH 2/4] lib: Fix warnings when D-Bus related properties change
+
+When UPower would appear, or disappear, we'd get warnings like:
+g_object_notify: object class 'UpDevice' has no property named 'g-name-owner'
+or:
+g_object_notify: object class 'UpClient' has no property named 'g-name-owner'
+
+This was caused by the property proxying added in 7531dbd and 28438a7
+being too lax about which properties it tried to proxy, which included
+ones that didn't apply to the object types in question.
+
+See https://bugs.freedesktop.org/show_bug.cgi?id=43001
+
+https://bugs.freedesktop.org/show_bug.cgi?id=102350
+---
+ libupower-glib/up-client.c | 7 ++++++-
+ libupower-glib/up-device.c | 7 +++++++
+ 2 files changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/libupower-glib/up-client.c b/libupower-glib/up-client.c
+index 330c0ad..d92a407 100644
+--- a/libupower-glib/up-client.c
++++ b/libupower-glib/up-client.c
+@@ -274,7 +274,12 @@ up_client_notify_cb (GObject    *gobject,
+ 		     UpClient   *client)
+ {
+ 	/* Proxy the notification from the D-Bus glue object
+-	 * to the real one */
++	 * to the real one, but only if the property exists
++	 * for UpClient */
++	if (!g_object_class_find_property (G_OBJECT_GET_CLASS (client),
++					  pspec->name))
++		return;
++
+ 	g_object_notify (G_OBJECT (client), pspec->name);
+ }
+ 
+diff --git a/libupower-glib/up-device.c b/libupower-glib/up-device.c
+index 4015039..f90b862 100644
+--- a/libupower-glib/up-device.c
++++ b/libupower-glib/up-device.c
+@@ -103,6 +103,13 @@ G_DEFINE_TYPE (UpDevice, up_device, G_TYPE_OBJECT)
+ static void
+ up_device_changed_cb (UpExportedDevice *proxy, GParamSpec *pspec, UpDevice *device)
+ {
++	/* Proxy the notification from the D-Bus glue object
++	 * to the real one, but only if the property exists
++	 * for UpClient */
++	if (!g_object_class_find_property (G_OBJECT_GET_CLASS (device), pspec->name) &&
++	    !g_str_equal (pspec->name, "type"))
++		return;
++
+ 	if (g_strcmp0 (pspec->name, "type") == 0)
+ 		g_object_notify (G_OBJECT (device), "kind");
+ 	else
+-- 
+2.16.3
+

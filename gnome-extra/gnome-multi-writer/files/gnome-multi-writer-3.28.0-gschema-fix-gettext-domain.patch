@@ -1,0 +1,11 @@
+diff --git a/data/org.gnome.MultiWriter.gschema.xml b/data/org.gnome.MultiWriter.gschema.xml
+index 6554b05..84b2769 100644
+--- a/data/org.gnome.MultiWriter.gschema.xml
++++ b/data/org.gnome.MultiWriter.gschema.xml
+@@ -1,5 +1,5 @@
+ <schemalist>
+-  <schema id="org.gnome.MultiWriter" path="/org/gnome/MultiWriter/">
++  <schema id="org.gnome.MultiWriter" path="/org/gnome/MultiWriter/" gettext-domain="gnome-multi-writer">
+     <key name="filename" type="s">
+       <default>''</default>
+       <!-- TRANSLATORS: schema summary -->

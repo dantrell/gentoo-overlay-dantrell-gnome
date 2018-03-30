@@ -3,7 +3,7 @@
 EAPI="6"
 GNOME2_LA_PUNT="yes"
 
-inherit gnome2 virtualx
+inherit autotools gnome2 virtualx
 
 DESCRIPTION="Clutter is a library for creating graphical user interfaces"
 HOMEPAGE="https://wiki.gnome.org/Projects/Clutter"
@@ -69,12 +69,17 @@ src_prepare() {
 		eapply "${FILESDIR}"/${PN}-1.26.2-reorganize-backends.patch
 	fi
 
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/mutter/commit/31779404f0e083fba11d1d263f278154e0580374
+	eapply "${FILESDIR}"/${PN}-1.26.2-clutter-avoid-unnecessary-relayouts-in-cluttertext.patch
+
 	# We only need conformance tests, the rest are useless for us
 	sed -e 's/^\(SUBDIRS =\).*/\1 accessibility conform/g' \
 		-i tests/Makefile.am || die "am tests sed failed"
 	sed -e 's/^\(SUBDIRS =\)[^\]*/\1  accessibility conform/g' \
 		-i tests/Makefile.in || die "in tests sed failed"
 
+	eautoreconf
 	gnome2_src_prepare
 }
 

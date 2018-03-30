@@ -1,5 +1,5 @@
-# Masked to test on GNOME 3.28 first
->=net-libs/webkit-gtk-2.20.0
+# Masked to test on GNOME 3.30 first
+>=net-libs/webkit-gtk-2.22.0
 
 # Requires GLib 2.52 (or greater)
 >=net-libs/phodav-2.2
@@ -7,6 +7,7 @@
 # Requires GLib 2.50 (or greater)
 >=dev-util/meld-3.18.0
 >=sys-apps/dbus-broker-4
+>=sys-fs/udisks-2.7.6
 >=x11-wm/page-1.9.9
 
 # Requires GLib 2.48 (or greater)

@@ -1,0 +1,47 @@
+From 598fdbc5e00573d1b56d4107798f82bd615842b3 Mon Sep 17 00:00:00 2001
+From: Martin Szulecki <martin.szulecki@libimobiledevice.org>
+Date: Tue, 20 Mar 2018 15:04:26 +0100
+Subject: [PATCH 4/4] linux: Check "HasBattery" key for newer iOS versions
+
+This adds an extra check to query if the iOS device has a
+battery at all before actually trying to retrieve the battery
+status. Should still work for older iOS versions which do not
+provide this key.
+
+https://bugzilla.freedesktop.org/show_bug.cgi?id=105625
+---
+ src/linux/up-device-idevice.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/src/linux/up-device-idevice.c b/src/linux/up-device-idevice.c
+index a583881..0c404cc 100644
+--- a/src/linux/up-device-idevice.c
++++ b/src/linux/up-device-idevice.c
+@@ -269,7 +269,7 @@ up_device_idevice_refresh (UpDevice *device)
+ 	lockdownd_client_t client = NULL;
+ 	plist_t dict, node;
+ 	guint64 percentage;
+-	guint8 charging;
++	guint8 charging, has_battery;
+ 	UpDeviceState state;
+ 	gboolean retval = FALSE;
+ 
+@@ -284,6 +284,15 @@ up_device_idevice_refresh (UpDevice *device)
+ 	if (lockdownd_get_value (client, "com.apple.mobile.battery", NULL, &dict) != LOCKDOWN_E_SUCCESS)
+ 		goto out;
+ 
++	node = plist_dict_get_item (dict, "HasBattery");
++	if (node) {
++		plist_get_bool_val (node, &has_battery);
++		if (!has_battery) {
++			plist_free(dict);
++			goto out;
++		}
++	}
++
+ 	/* get battery status */
+ 	node = plist_dict_get_item (dict, "BatteryCurrentCapacity");
+ 	if (!node) {
+-- 
+2.16.3
+

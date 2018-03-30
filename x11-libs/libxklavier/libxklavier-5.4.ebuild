@@ -10,7 +10,7 @@ SRC_URI="https://people.freedesktop.org/~svu/${P}.tar.bz2"
 
 LICENSE="LGPL-2"
 SLOT="0/16"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+introspection vala"
 REQUIRED_USE="vala? ( introspection )"

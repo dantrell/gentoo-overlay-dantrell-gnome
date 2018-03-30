@@ -34,7 +34,6 @@ RDEPEND="
 		media-libs/gst-plugins-good:1.0
 		)
 	>=x11-libs/pixman-0.17.7
-	>=media-libs/celt-0.5.1.1:0.5.1
 	media-libs/opus
 	gtk3? ( x11-libs/gtk+:3[introspection?] )
 	>=dev-libs/glib-2.36:2
@@ -70,6 +69,11 @@ DEPEND="${RDEPEND}
 	vala? ( $(vala_depend) )
 "
 
+PATCHES=(
+	"${FILESDIR}"/${P}-libressl.patch
+	"${FILESDIR}"/${P}-openssl11.patch
+)
+
 src_prepare() {
 	# bug 558558
 	export GIT_CEILING_DIRECTORIES="${WORKDIR}"
@@ -99,25 +103,26 @@ src_configure() {
 	fi
 
 	myconf="
-		--disable-maintainer-mode \
-		$(use_enable static-libs static) \
-		$(use_enable introspection) \
-		$(use_with sasl) \
-		$(use_enable smartcard) \
-		$(use_enable usbredir) \
-		$(use_with usbredir usb-ids-path /usr/share/misc/usb.ids) \
-		$(use_with usbredir usb-acl-helper-dir /usr/libexec) \
-		$(use_with gtk3 gtk 3.0) \
-		$(use_enable policykit polkit) \
-		$(use_enable pulseaudio pulse) \
-		$(use_enable gstaudio) \
-		$(use_enable gstvideo) \
-		$(use_enable mjpeg builtin-mjpeg) \
-		$(use_enable vala) \
-		$(use_enable webdav) \
-		$(use_enable dbus) \
-		--disable-gtk-doc \
-		--disable-werror \
+		$(use_enable static-libs static)
+		$(use_enable introspection)
+		$(use_with sasl)
+		$(use_enable smartcard)
+		$(use_enable usbredir)
+		$(use_with usbredir usb-ids-path /usr/share/misc/usb.ids)
+		$(use_with usbredir usb-acl-helper-dir /usr/libexec)
+		$(use_with gtk3 gtk 3.0)
+		$(use_enable policykit polkit)
+		$(use_enable pulseaudio pulse)
+		$(use_enable gstaudio)
+		$(use_enable gstvideo)
+		$(use_enable mjpeg builtin-mjpeg)
+		$(use_enable vala)
+		$(use_enable webdav)
+		$(use_enable dbus)
+		--disable-celt051
+		--disable-gtk-doc
+		--disable-maintainer-mode
+		--disable-werror
 		--enable-pie"
 
 	econf ${myconf}

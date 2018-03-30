@@ -1,5 +1,5 @@
-# Masked to test on GNOME 3.28 first
->=net-libs/webkit-gtk-2.20.0
+# Masked to test on GNOME 3.30 first
+>=net-libs/webkit-gtk-2.22.0
 
 # Requires GLib 2.52 (or greater)
 >=net-libs/phodav-2.2
