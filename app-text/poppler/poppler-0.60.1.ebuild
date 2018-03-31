@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit cmake-utils toolchain-funcs xdg-utils
+inherit cmake-utils flag-o-matic toolchain-funcs xdg-utils
 
 DESCRIPTION="PDF rendering library based on the xpdf-3.0 code base"
 HOMEPAGE="https://poppler.freedesktop.org/"
@@ -10,7 +10,7 @@ SRC_URI="https://poppler.freedesktop.org/${P}.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0/71"   # CHECK THIS WHEN BUMPING!!! SUBSLOT IS libpoppler.so SOVERSION
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="cairo cjk curl cxx debug doc +introspection +jpeg +jpeg2k +lcms nss png qt4 qt5 tiff +utils"
 
@@ -56,6 +56,11 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-0.60.1-respect-cflags.patch
 	"${FILESDIR}"/${PN}-0.33.0-openjpeg2.patch
 	"${FILESDIR}"/${PN}-0.40-FindQt4.patch
+	"${FILESDIR}"/${PN}-0.57.0-disable-internal-jpx.patch
+	# From CVE Details:
+	# 	https://www.cvedetails.com/product/24992/Freedesktop-Poppler.html?vendor_id=7971
+	"${FILESDIR}"/${PN}-0.60.1-CVE-2017-15565.patch
+	"${FILESDIR}"/${PN}-0.60.1-CVE-2017-1000456.patch
 )
 
 src_prepare() {
@@ -74,10 +79,8 @@ src_prepare() {
 		einfo "policy(SET CMP0002 OLD) - workaround can be removed"
 	fi
 
-	if tc-is-clang && [[ ${CHOST} == *-darwin* ]] ; then
-		# we need to up the C++ version, bug #622526
-		export CXX="$(tc-getCXX) -std=c++11"
-	fi
+	# we need to up the C++ version, bug #622526, #643278
+	append-cxxflags -std=c++11
 }
 
 src_configure() {
