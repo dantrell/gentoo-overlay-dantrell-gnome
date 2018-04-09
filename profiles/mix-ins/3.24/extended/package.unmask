@@ -24,7 +24,7 @@
 ~app-text/yelp-tools-3.18.0::dantrell-gnome
 ~dev-cpp/atkmm-2.24.2::dantrell-gnome
 ~dev-cpp/cairomm-1.12.2::dantrell-gnome
-~dev-cpp/mm-common-0.9.11::dantrell-gnome
+~dev-cpp/mm-common-0.9.12::dantrell-gnome
 ~dev-cpp/pangomm-2.40.1::dantrell-gnome
 ~dev-lang/vala-0.36.12::dantrell-gnome
 ~dev-libs/appstream-glib-0.6.13::dantrell-gnome
@@ -51,6 +51,7 @@
 ~dev-util/devhelp-3.24.0::dantrell-gnome-3-24
 ~dev-util/gdbus-codegen-2.52.3::dantrell-gnome
 ~dev-util/glade-3.20.4::dantrell-gnome
+~dev-util/gnome-builder-3.24.2::dantrell-gnome-3-24
 ~dev-util/gnome-devel-docs-3.22.1::dantrell-gnome
 ~dev-util/gtk-doc-1.25::dantrell-gnome
 ~dev-util/nemiver-0.9.6::dantrell-gnome
@@ -96,7 +97,6 @@
 ~gnome-extra/evolution-data-server-3.24.7::dantrell-gnome-3-24
 ~gnome-extra/evolution-ews-3.24.6::dantrell-gnome-3-24
 ~gnome-extra/gnome-boxes-3.24.1::dantrell-gnome-3-24
-~gnome-extra/gnome-builder-3.24.2::dantrell-gnome-3-24
 ~gnome-extra/gnome-calculator-3.24.0::dantrell-gnome-3-24
 ~gnome-extra/gnome-calendar-3.24.3::dantrell-gnome-3-24
 ~gnome-extra/gnome-characters-3.24.0::dantrell-gnome-3-24
@@ -108,7 +108,7 @@
 ~gnome-extra/gnome-packagekit-3.24.0::dantrell-gnome-3-24
 ~gnome-extra/gnome-power-manager-3.24.0::dantrell-gnome-3-24
 ~gnome-extra/gnome-shell-extensions-3.24.3::dantrell-gnome-3-24
-~gnome-extra/gnome-shell-frippery-3.24.0::dantrell-gnome-3-24
+~gnome-extra/gnome-shell-frippery-3.24.1::dantrell-gnome-3-24
 ~gnome-extra/gnome-software-3.24.3::dantrell-gnome-3-24
 ~gnome-extra/gnome-system-monitor-3.24.0::dantrell-gnome-3-24
 ~gnome-extra/gnome-todo-3.24.2::dantrell-gnome-3-24

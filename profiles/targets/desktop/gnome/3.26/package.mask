@@ -56,6 +56,7 @@
 >=dev-util/devhelp-3.28.0
 >=dev-util/gdbus-codegen-2.54.0
 >=dev-util/glade-3.28.0
+>=dev-util/gnome-builder-3.28.0
 >=dev-util/gnome-devel-docs-3.28.0
 >=dev-util/gtk-update-icon-cache-3.28.0
 >=dev-util/sysprof-3.28.0
@@ -104,8 +105,7 @@
 >=gnome-extra/california-0.5.0
 >=gnome-extra/evolution-data-server-3.28.0
 >=gnome-extra/evolution-ews-3.28.0
->=gnome-extra/gnome-boxes-3.28.0
->=gnome-extra/gnome-builder-3.28.0
+>=gnome-extra/gnome-boxes-3.27.0
 >=gnome-extra/gnome-calculator-3.25.0
 >=gnome-extra/gnome-calendar-3.28.0
 >=gnome-extra/gnome-characters-3.28.0
@@ -117,7 +117,7 @@
 >=gnome-extra/gnome-getting-started-docs-3.28.0
 >=gnome-extra/gnome-logs-3.28.0
 >=gnome-extra/gnome-packagekit-3.28.0
->=gnome-extra/gnome-power-manager-3.25.0
+>=gnome-extra/gnome-power-manager-3.28.0
 >=gnome-extra/gnome-shell-extensions-3.28.0
 >=gnome-extra/gnome-shell-frippery-3.28.0
 >=gnome-extra/gnome-software-3.28.0
@@ -125,7 +125,7 @@
 >=gnome-extra/gnome-todo-3.28.0
 >=gnome-extra/gnome-tweak-tool-3.28.0
 >=gnome-extra/gnome-user-docs-3.28.0
->=gnome-extra/gnome-user-share-3.28.0
+>=gnome-extra/gnome-user-share-3.27.0
 >=gnome-extra/gnome-weather-3.28.0
 >=gnome-extra/nautilus-tracker-tags-2.0.0
 >=gnome-extra/sushi-3.23.0

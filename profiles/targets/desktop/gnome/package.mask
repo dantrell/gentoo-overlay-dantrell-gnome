@@ -1,3 +1,7 @@
+# Masked to prefer specific releases
+# Ref. https://gitweb.gentoo.org/repo/gentoo.git/commit/?id=6b4c897174a7089836a3a221f38482594c5bc2b2
+>=dev-python/jedi-0.11.0
+
 # Regression in shutdown process
 # Ref. https://github.com/OpenRC/openrc/issues/163
 # Ref. https://github.com/OpenRC/openrc/issues/166

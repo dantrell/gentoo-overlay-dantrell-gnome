@@ -79,6 +79,7 @@
 >=dev-util/devhelp-3.18.0
 >=dev-util/gdbus-codegen-2.46.0
 >=dev-util/glade-3.20.0
+>=dev-util/gnome-builder-3.18.0
 >=dev-util/gnome-devel-docs-3.18.0
 >=dev-util/gtk-update-icon-cache-3.18.0
 >=dev-util/sysprof-3.22.0
@@ -128,7 +129,6 @@
 >=gnome-extra/evolution-data-server-3.18.0
 >=gnome-extra/evolution-ews-3.18.0
 >=gnome-extra/gnome-boxes-3.18.0
->=gnome-extra/gnome-builder-3.18.0
 >=gnome-extra/gnome-calculator-3.18.0
 >=gnome-extra/gnome-calendar-3.18.0
 >=gnome-extra/gnome-characters-3.18.0

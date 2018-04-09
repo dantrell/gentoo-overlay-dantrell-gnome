@@ -25,7 +25,7 @@
 ~dev-cpp/atkmm-2.24.2::dantrell-gnome
 ~dev-cpp/glibmm-2.54.1::dantrell-gnome
 ~dev-cpp/gtkmm-3.22.2::dantrell-gnome
-~dev-cpp/mm-common-0.9.11::dantrell-gnome
+~dev-cpp/mm-common-0.9.12::dantrell-gnome
 ~dev-cpp/pangomm-2.40.1::dantrell-gnome
 ~dev-lang/vala-0.38.8::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.5::dantrell-gnome
@@ -53,6 +53,7 @@
 ~dev-util/anjuta-3.22.0::dantrell-gnome
 ~dev-util/devhelp-3.26.1::dantrell-gnome-3-26
 ~dev-util/gdbus-codegen-2.54.3::dantrell-gnome
+~dev-util/gnome-builder-3.26.4::dantrell-gnome-3-26
 ~dev-util/gnome-devel-docs-3.26.0::dantrell-gnome-3-26
 ~dev-util/gtk-doc-1.25::dantrell-gnome
 ~dev-util/nemiver-0.9.6::dantrell-gnome
@@ -67,7 +68,6 @@
 ~games-board/iagno-3.26.1::dantrell-gnome-3-26
 ~games-board/tali-3.22.0::dantrell-gnome
 ~games-puzzle/five-or-more-3.26.0::dantrell-gnome-3-26
-~games-puzzle/gnome2048-3.26.1::dantrell-gnome-3-26
 ~games-puzzle/gnome-klotski-3.22.3::dantrell-gnome
 ~games-puzzle/gnome-sudoku-3.26.0::dantrell-gnome-3-26
 ~games-puzzle/gnome-taquin-3.26.1::dantrell-gnome-3-26
@@ -99,7 +99,6 @@
 ~gnome-extra/evolution-data-server-3.26.6::dantrell-gnome-3-26
 ~gnome-extra/evolution-ews-3.26.6::dantrell-gnome-3-26
 ~gnome-extra/gnome-boxes-3.26.2::dantrell-gnome-3-26
-~gnome-extra/gnome-builder-3.26.4::dantrell-gnome-3-26
 ~gnome-extra/gnome-calculator-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/gnome-calendar-3.26.4::dantrell-gnome-3-26
 ~gnome-extra/gnome-characters-3.26.2::dantrell-gnome-3-26
@@ -109,10 +108,9 @@
 ~gnome-extra/gnome-documents-3.26.2::dantrell-gnome-3-26
 ~gnome-extra/gnome-getting-started-docs-3.26.2::dantrell-gnome-3-26
 ~gnome-extra/gnome-packagekit-3.26.0::dantrell-gnome-3-26
-~gnome-extra/gnome-power-manager-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/gnome-recipes-2.0.2::dantrell-gnome
 ~gnome-extra/gnome-shell-extensions-3.26.2::dantrell-gnome-3-26
-~gnome-extra/gnome-shell-frippery-3.26.2::dantrell-gnome-3-26
+~gnome-extra/gnome-shell-frippery-3.26.3::dantrell-gnome-3-26
 ~gnome-extra/gnome-software-3.26.7::dantrell-gnome-3-26
 ~gnome-extra/gnome-system-monitor-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/gnome-todo-3.26.2::dantrell-gnome-3-26
@@ -124,16 +122,14 @@
 ~gnome-extra/libgsf-1.14.42::dantrell-gnome
 ~gnome-extra/mousetweaks-3.12.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
-~gnome-extra/nautilus-tracker-tags-2.0.3::dantrell-gnome-3-26
 ~gnome-extra/nm-applet-1.8.6::dantrell-gnome
 ~gnome-extra/sushi-3.24.0::dantrell-gnome
 ~gnome-extra/yelp-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/zenity-3.24.0::dantrell-gnome
 ~mail-client/evolution-3.26.6::dantrell-gnome-3-26
 ~media-gfx/eog-3.26.2::dantrell-gnome-3-26
-~media-gfx/eog-plugins-3.26.2::dantrell-gnome-3-26
 ~media-gfx/gnome-font-viewer-3.26.0::dantrell-gnome-3-26
-~media-gfx/gnome-photos-3.26.3::dantrell-gnome-3-26
+~media-gfx/gnome-photos-3.26.4::dantrell-gnome-3-26
 ~media-gfx/gnome-screenshot-3.26.0::dantrell-gnome
 ~media-gfx/simple-scan-3.26.3::dantrell-gnome-3-26
 ~media-libs/clutter-1.26.2::dantrell-gnome

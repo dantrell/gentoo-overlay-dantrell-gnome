@@ -134,7 +134,7 @@ pkg_setup() {
 		check-reqs_pkg_setup
 	fi
 
-	[[ ${MERGE_TYPE} = "binary" ]] || python-any-r1_pkg_setup
+	python-any-r1_pkg_setup
 }
 
 src_prepare() {

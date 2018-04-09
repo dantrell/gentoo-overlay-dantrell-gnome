@@ -8,7 +8,7 @@ MY_PN="PackageKit"
 MY_P=${MY_PN}-${PV}
 
 DESCRIPTION="Gtk3 PackageKit backend library"
-HOMEPAGE="http://www.packagekit.org/"
+HOMEPAGE="https://www.freedesktop.org/software/PackageKit/"
 SRC_URI="https://www.freedesktop.org/software/${MY_PN}/releases/${MY_P}.tar.xz"
 
 LICENSE="GPL-2"

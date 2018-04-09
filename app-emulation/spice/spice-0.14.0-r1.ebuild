@@ -53,7 +53,7 @@ python_check_deps() {
 }
 
 pkg_setup() {
-	[[ ${MERGE_TYPE} != binary ]] && python-any-r1_pkg_setup
+	python-any-r1_pkg_setup
 }
 
 src_prepare() {

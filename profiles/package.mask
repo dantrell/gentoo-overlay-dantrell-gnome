@@ -260,6 +260,8 @@ gnome-extra/gnome-contacts::gnome-kit
 gnome-extra/gnome-dvb-daemon::gentoo
 gnome-extra/gnome-dvb-daemon::gnome-kit
 gnome-extra/gnome-multi-writer::gentoo
+gnome-extra/gnome-power-manager::gentoo
+gnome-extra/gnome-power-manager::gnome-kit
 gnome-extra/gnome-recipes::gentoo
 gnome-extra/gnome-user-share::gentoo
 gnome-extra/gnome-user-share::gnome-kit
@@ -277,6 +279,8 @@ gnome-extra/mousetweaks::gentoo
 gnome-extra/mousetweaks::gnome-kit
 gnome-extra/nautilus-sendto::gentoo
 gnome-extra/nautilus-sendto::gnome-kit
+gnome-extra/nautilus-tracker-tags::gentoo
+gnome-extra/nautilus-tracker-tags::gnome-kit
 gnome-extra/nm-applet::gentoo
 gnome-extra/nm-applet::gnome-kit
 gnome-extra/seahorse-nautilus::gentoo

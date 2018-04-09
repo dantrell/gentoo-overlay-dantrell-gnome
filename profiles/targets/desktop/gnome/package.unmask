@@ -1,5 +1,5 @@
-~dev-lang/vala-0.40.2::dantrell-gnome
-~dev-libs/vala-common-0.40.2::dantrell-gnome
+~dev-lang/vala-0.40.3::dantrell-gnome
+~dev-libs/vala-common-0.40.3::dantrell-gnome
 dev-lang/spidermonkey:52::gentoo
 dev-libs/libgames-support::dantrell-gnome
 net-libs/webkit-gtk:2::dantrell-gnome

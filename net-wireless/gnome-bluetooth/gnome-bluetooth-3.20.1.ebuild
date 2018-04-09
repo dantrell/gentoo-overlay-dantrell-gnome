@@ -67,7 +67,7 @@ src_install() {
 
 pkg_postinst() {
 	gnome2_pkg_postinst
-	if ! has_version sys-auth/consolekit[acl] && ! has_version sys-apps/systemd[acl] ; then
+	if ! has_version sys-auth/consolekit[acl] && ! has_version sys-auth/elogind[acl] && ! has_version sys-apps/systemd[acl] ; then
 		elog "Don't forget to add yourself to the plugdev group "
 		elog "if you want to be able to control bluetooth transmitter."
 	fi

@@ -3,7 +3,7 @@
 EAPI="6"
 
 DESCRIPTION="PackageKit Package Manager interface (meta package)"
-HOMEPAGE="http://www.packagekit.org/"
+HOMEPAGE="https://www.freedesktop.org/software/PackageKit/"
 SRC_URI=""
 
 LICENSE="metapackage"

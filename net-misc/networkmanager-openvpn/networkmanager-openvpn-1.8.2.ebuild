@@ -35,14 +35,6 @@ pkg_setup() {
 	enewuser nm-openvpn -1 -1 -1 nm-openvpn
 }
 
-PATCHES=(
-	# Fix unusable config imports (from 'master')
-	"${FILESDIR}"/${PN}-1.8.0-user_cert.patch
-
-	# Fix validation of static-key in GUI (from 'master')
-	"${FILESDIR}"/${PN}-1.8.0-static-key.patch
-)
-
 src_prepare() {
 	# Test will fail if the machine doesn't have a particular locale installed
 	# FAIL: (tls-import-data) unexpected 'ca' secret value, upstream bug #742708
