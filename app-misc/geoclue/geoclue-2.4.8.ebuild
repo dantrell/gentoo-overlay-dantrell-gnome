@@ -21,7 +21,7 @@ RDEPEND="
 	>=net-libs/libsoup-2.42:2.4
 	sys-apps/dbus
 	introspection? ( >=dev-libs/gobject-introspection-0.9.6:= )
-	modemmanager? ( >=net-misc/modemmanager-1 )
+	modemmanager? ( >=net-misc/modemmanager-1.6 )
 	zeroconf? ( >=net-dns/avahi-0.6.10[dbus] )
 	!<sci-geosciences/geocode-glib-3.10.0
 "

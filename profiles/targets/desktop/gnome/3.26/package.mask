@@ -105,7 +105,7 @@
 >=gnome-extra/california-0.5.0
 >=gnome-extra/evolution-data-server-3.28.0
 >=gnome-extra/evolution-ews-3.28.0
->=gnome-extra/gnome-boxes-3.27.0
+>=gnome-extra/gnome-boxes-3.28.0
 >=gnome-extra/gnome-calculator-3.25.0
 >=gnome-extra/gnome-calendar-3.28.0
 >=gnome-extra/gnome-characters-3.28.0
@@ -125,7 +125,7 @@
 >=gnome-extra/gnome-todo-3.28.0
 >=gnome-extra/gnome-tweak-tool-3.28.0
 >=gnome-extra/gnome-user-docs-3.28.0
->=gnome-extra/gnome-user-share-3.27.0
+>=gnome-extra/gnome-user-share-3.28.0
 >=gnome-extra/gnome-weather-3.28.0
 >=gnome-extra/nautilus-tracker-tags-2.0.0
 >=gnome-extra/sushi-3.23.0
@@ -183,6 +183,6 @@
 >=x11-themes/adwaita-icon-theme-3.28
 >=x11-themes/gnome-backgrounds-3.28
 >=x11-themes/gnome-themes-standard-3.28
->=x11-themes/gtk-engines-adwaita-3.28.0
+>=x11-themes/gtk-engines-adwaita-3.28
 >=x11-wm/metacity-3.28.0
 >=x11-wm/mutter-3.28.0
