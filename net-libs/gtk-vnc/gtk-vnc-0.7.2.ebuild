@@ -10,7 +10,7 @@ inherit gnome2 multibuild python-r1 vala
 DESCRIPTION="VNC viewer widget for GTK"
 HOMEPAGE="https://wiki.gnome.org/Projects/gtk-vnc"
 
-LICENSE="GPL-2"
+LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
 
