@@ -1,7 +1,7 @@
 ~app-accessibility/accerciser-3.22.0::dantrell-gnome
 ~app-accessibility/at-spi2-atk-2.26.2::dantrell-gnome
 ~app-accessibility/at-spi2-core-2.28.0::dantrell-gnome-3-28
-~app-accessibility/orca-3.28.0::dantrell-gnome-3-28
+~app-accessibility/orca-3.28.1::dantrell-gnome-3-28
 ~app-admin/gnome-system-log-20170809::dantrell-gnome
 ~app-arch/file-roller-3.28.0::dantrell-gnome-3-28
 ~app-arch/gcab-1.1::dantrell-gnome
@@ -28,11 +28,11 @@
 ~dev-cpp/gtkmm-3.22.2::dantrell-gnome
 ~dev-cpp/mm-common-0.9.12::dantrell-gnome
 ~dev-cpp/pangomm-2.40.1::dantrell-gnome
-~dev-lang/vala-0.40.3::dantrell-gnome
+~dev-lang/vala-0.40.4::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.5::dantrell-gnome
 ~dev-libs/atk-2.28.1::dantrell-gnome-3-28
 ~dev-libs/folks-0.11.4::dantrell-gnome
-~dev-libs/gjs-1.52.1::dantrell-gnome-3-28
+~dev-libs/gjs-1.52.2::dantrell-gnome-3-28
 ~dev-libs/glib-2.56.1::dantrell-gnome
 ~dev-libs/gmime-3.0.5::dantrell-gnome
 ~dev-libs/gobject-introspection-1.56.1::dantrell-gnome-3-28
@@ -48,7 +48,7 @@
 ~dev-libs/libpeas-1.22.0::dantrell-gnome
 ~dev-libs/template-glib-3.28.0::dantrell-gnome-3-28
 ~dev-libs/totem-pl-parser-3.26.0::dantrell-gnome
-~dev-libs/vala-common-0.40.3::dantrell-gnome
+~dev-libs/vala-common-0.40.4::dantrell-gnome
 ~dev-python/pyatspi-2.26.0::dantrell-gnome
 ~dev-python/pygobject-3.28.2::dantrell-gnome-3-28
 ~dev-util/anjuta-3.22.0::dantrell-gnome
@@ -116,7 +116,7 @@
 ~gnome-extra/gnome-user-share-3.28.0::dantrell-gnome-3-28
 ~gnome-extra/gnome-weather-3.26.0::dantrell-gnome
 ~gnome-extra/gucharmap-10.0.4::dantrell-gnome
-~gnome-extra/libgsf-1.14.42::dantrell-gnome
+~gnome-extra/libgsf-1.14.43::dantrell-gnome
 ~gnome-extra/mousetweaks-3.12.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
 ~gnome-extra/nm-applet-1.8.6::dantrell-gnome
@@ -159,7 +159,7 @@
 ~net-libs/rest-0.8.1::dantrell-gnome
 ~net-libs/webkit-gtk-2.20.0::dantrell-gnome
 ~net-misc/gnome-online-miners-3.26.0::dantrell-gnome
-~net-misc/networkmanager-1.10.2::dantrell-gnome
+~net-misc/networkmanager-1.8.4::dantrell-gnome
 ~net-misc/rygel-0.36.1::dantrell-gnome
 ~net-misc/vino-3.22.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.28.0::dantrell-gnome-3-28
@@ -167,10 +167,10 @@
 ~sci-geosciences/gnome-maps-3.28.1::dantrell-gnome-3-28
 ~sys-apps/baobab-3.28.0::dantrell-gnome-3-28
 ~sys-apps/gnome-disk-utility-3.28.1::dantrell-gnome-3-28
-~www-client/epiphany-3.28.1::dantrell-gnome-3-28
+~www-client/epiphany-3.28.1.1::dantrell-gnome-3-28
 ~x11-libs/gdk-pixbuf-2.36.4::dantrell-gnome
 ~x11-libs/gtksourceview-4.0.0::dantrell-gnome
-~x11-libs/gtk+-3.22.29::dantrell-gnome
+~x11-libs/gtk+-3.22.30::dantrell-gnome
 ~x11-libs/libdazzle-3.28.1::dantrell-gnome-3-28
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/pango-1.42.1::dantrell-gnome

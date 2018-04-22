@@ -79,7 +79,10 @@ RDEPEND="${COMMON_DEPEND}
 	!<dev-util/gtk-builder-convert-${PV}
 	!<x11-libs/vte-0.28.2-r201:0
 	>=x11-themes/adwaita-icon-theme-3.14
-	x11-themes/gnome-themes-standard
+	|| (
+		x11-themes/gnome-themes-standard
+		x11-themes/gnome-themes-extra
+	)
 "
 # librsvg for svg icons (PDEPEND to avoid circular dep), bug #547710
 PDEPEND="

@@ -118,7 +118,7 @@
 ~gnome-extra/gnome-user-share-3.18.3::dantrell-gnome
 ~gnome-extra/gnome-weather-3.24.0::dantrell-gnome-3-24
 ~gnome-extra/gucharmap-9.0.4::dantrell-gnome
-~gnome-extra/libgsf-1.14.42::dantrell-gnome
+~gnome-extra/libgsf-1.14.43::dantrell-gnome
 ~gnome-extra/mousetweaks-3.12.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
 ~gnome-extra/nautilus-tracker-tags-1.12.4::dantrell-gnome-3-24
@@ -174,7 +174,7 @@
 ~www-client/epiphany-3.24.5::dantrell-gnome-3-24
 ~x11-libs/gdk-pixbuf-2.36.4::dantrell-gnome
 ~x11-libs/gtksourceview-4.0.0::dantrell-gnome
-~x11-libs/gtk+-3.22.29::dantrell-gnome
+~x11-libs/gtk+-3.22.30::dantrell-gnome
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.20.1::dantrell-gnome
 ~x11-libs/pango-1.40.14::dantrell-gnome

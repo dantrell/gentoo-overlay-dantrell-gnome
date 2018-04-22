@@ -32,3 +32,10 @@
 =media-libs/mesa-17.6.0_rc*
 =media-libs/mesa-17.7.0_rc*
 =media-libs/mesa-18.0.0_rc*
+=media-libs/mesa-18.1.0_rc*
+=media-libs/mesa-18.2.0_rc*
+=media-libs/mesa-18.3.0_rc*
+=media-libs/mesa-19.0.0_rc*
+=media-libs/mesa-19.1.0_rc*
+=media-libs/mesa-19.2.0_rc*
+=media-libs/mesa-19.3.0_rc*

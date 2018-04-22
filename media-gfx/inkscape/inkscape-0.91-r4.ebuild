@@ -25,6 +25,7 @@ RESTRICT="test"
 COMMON_DEPEND="
 	${PYTHON_DEPS}
 	>=app-text/poppler-0.26.0:=[cairo]
+	<app-text/poppler-0.58.0
 	>=dev-cpp/glibmm-2.28
 	>=dev-cpp/gtkmm-2.18.0:2.4
 	>=dev-cpp/cairomm-1.9.8
@@ -101,6 +102,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-0.91_pre3-exif.patch
 	"${FILESDIR}"/${PN}-0.91_pre3-sk-man.patch
 	"${FILESDIR}"/${PN}-0.48.4-epython.patch
+	"${FILESDIR}"/${PN}-0.91-gcc-7.patch
 )
 
 S=${WORKDIR}/${MY_P}

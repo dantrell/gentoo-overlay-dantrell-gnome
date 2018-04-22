@@ -2,7 +2,7 @@
 
 EAPI="5"
 
-inherit autotools fdo-mime multilib vala
+inherit autotools multilib vala xdg-utils
 
 MY_PV=${PV/_/}
 MY_P="${PN}-${MY_PV}"
@@ -120,9 +120,9 @@ pkg_preinst() {
 }
 
 pkg_postinst() {
-	fdo-mime_mime_database_update
+	xdg_mimeinfo_database_update
 }
 
 pkg_postrm() {
-	fdo-mime_mime_database_update
+	xdg_mimeinfo_database_update
 }

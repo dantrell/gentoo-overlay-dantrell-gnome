@@ -25,6 +25,7 @@ RESTRICT="test"
 COMMON_DEPEND="
 	${PYTHON_DEPS}
 	>=app-text/poppler-0.26.0:=[cairo]
+	<app-text/poppler-0.64.0
 	>=dev-cpp/glibmm-2.28
 	>=dev-cpp/gtkmm-2.18.0:2.4
 	>=dev-cpp/cairomm-1.9.8

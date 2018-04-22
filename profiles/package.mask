@@ -394,7 +394,6 @@ net-misc/networkmanager-libreswan::net-kit
 net-misc/networkmanager-openconnect::gentoo
 net-misc/networkmanager-openconnect::net-kit
 net-misc/networkmanager-openswan::gentoo
-net-misc/networkmanager-openswan::net-kit
 net-misc/networkmanager-openvpn::gentoo
 net-misc/networkmanager-openvpn::net-kit
 net-misc/networkmanager-pptp::gentoo
