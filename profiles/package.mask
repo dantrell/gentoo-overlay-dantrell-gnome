@@ -476,6 +476,8 @@ x11-libs/pango::gnome-kit
 x11-libs/tepl::gentoo
 x11-libs/vte::gentoo
 x11-libs/vte::gnome-kit
+x11-libs/xpyb::gentoo
+x11-libs/xpyb::xorg-kit
 x11-misc/colord::gentoo
 x11-misc/colord::gnome-kit
 x11-misc/notification-daemon::gentoo
