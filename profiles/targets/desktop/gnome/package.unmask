@@ -4,4 +4,5 @@ dev-lang/spidermonkey:52::gentoo
 dev-libs/libgames-support::dantrell-gnome
 net-libs/webkit-gtk:2::dantrell-gnome
 net-libs/webkit-gtk:3::dantrell-gnome
+x11-libs/xpyb::dantrell-gnome
 x11-themes/gnome-icon-theme-extras::dantrell-gnome
