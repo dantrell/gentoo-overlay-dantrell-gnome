@@ -75,7 +75,7 @@
 ~games-puzzle/quadrapassel-3.22.0::dantrell-gnome
 ~games-puzzle/swell-foop-3.24.0::dantrell-gnome-3-24
 ~gnome-base/dconf-0.26.1::dantrell-gnome
-~gnome-base/dconf-editor-3.23.4::dantrell-gnome-3-24
+~gnome-base/dconf-editor-3.24.3::dantrell-gnome-3-24
 ~gnome-base/gdm-3.24.3::dantrell-gnome-3-24
 ~gnome-base/gnome-3.24.0::dantrell-gnome-3-24
 ~gnome-base/gnome-control-center-3.24.3::dantrell-gnome-3-24

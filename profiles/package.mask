@@ -449,6 +449,7 @@ sys-power/acpid::gentoo
 sys-power/acpid::nokit
 sys-power/upower::gentoo
 sys-power/upower::gnome-kit
+x11-libs/amtk::gentoo
 x11-libs/cairo::gentoo
 x11-libs/cairo::gnome-kit
 x11-libs/colord-gtk::gentoo

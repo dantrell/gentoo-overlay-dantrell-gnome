@@ -90,6 +90,10 @@ src_prepare() {
 	# https://bugzilla.gnome.org/show_bug.cgi?id=761424
 	eapply "${FILESDIR}"/${PN}-5.2.4-vala-check.patch
 
+	# Fix UnicodeDecodeError,
+	# https://bugs.gentoo.org/647892
+	eapply "${FILESDIR}"/${PN}-5.2.4-utf8.patch
+
 	use berkdb && append-cppflags "-I$(db_includedir)"
 
 	use reports ||

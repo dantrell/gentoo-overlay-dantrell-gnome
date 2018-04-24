@@ -9,8 +9,8 @@ HOMEPAGE="https://libgit2.github.com/"
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2-with-linking-exception"
-SLOT="0/26"
-KEYWORDS="*"
+SLOT="0/27"
+KEYWORDS=""
 
 IUSE="+curl examples gssapi libressl +ssh test +threads trace"
 
@@ -31,7 +31,7 @@ DOCS=( AUTHORS CONTRIBUTING.md CONVENTIONS.md README.md )
 
 src_prepare() {
 	# skip online tests
-	sed -i '/libgit2_clar/s/-ionline/-xonline/' CMakeLists.txt || die
+	sed -i '/libgit2_clar/s/-ionline/-xonline/' tests/CMakeLists.txt || die
 
 	cmake-utils_src_prepare
 }

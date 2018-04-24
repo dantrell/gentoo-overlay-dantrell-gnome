@@ -18,8 +18,7 @@
 ~app-misc/tracker-2.0.3::dantrell-gnome
 ~app-misc/tracker-miners-2.0.4::dantrell-gnome
 ~app-text/evince-3.28.2::dantrell-gnome-3-28
-~app-text/gspell-1.6.1::dantrell-gnome
-~app-text/libgepub-0.5.3::dantrell-gnome
+~app-text/libgepub-0.6.0::dantrell-gnome
 ~app-text/libgxps-0.3.0::dantrell-gnome
 ~app-text/yelp-tools-3.28.0::dantrell-gnome-3-28
 ~dev-cpp/atkmm-2.24.2::dantrell-gnome
@@ -51,7 +50,7 @@
 ~dev-libs/vala-common-0.40.4::dantrell-gnome
 ~dev-python/pyatspi-2.26.0::dantrell-gnome
 ~dev-python/pygobject-3.28.2::dantrell-gnome-3-28
-~dev-util/anjuta-3.22.0::dantrell-gnome
+~dev-util/anjuta-3.28.0::dantrell-gnome-3-28
 ~dev-util/devhelp-3.28.1::dantrell-gnome-3-28
 ~dev-util/gdbus-codegen-2.56.1::dantrell-gnome
 ~dev-util/gnome-builder-3.28.1::dantrell-gnome-3-28
@@ -121,7 +120,7 @@
 ~gnome-extra/mousetweaks-3.12.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
 ~gnome-extra/nm-applet-1.8.6::dantrell-gnome
-~gnome-extra/sushi-3.24.0::dantrell-gnome
+~gnome-extra/sushi-3.28.3::dantrell-gnome-3-28
 ~gnome-extra/yelp-3.28.1::dantrell-gnome-3-28
 ~gnome-extra/yelp-xsl-3.28.0::dantrell-gnome-3-28
 ~gnome-extra/zenity-3.28.1::dantrell-gnome-3-28
@@ -141,7 +140,7 @@
 ~media-libs/libmediaart-1.9.4::dantrell-gnome
 ~media-plugins/grilo-plugins-0.3.5::dantrell-gnome
 ~media-sound/gnome-music-3.28.1::dantrell-gnome-3-28
-~media-sound/gnome-sound-recorder-3.24.0.1::dantrell-gnome
+~media-sound/gnome-sound-recorder-3.28.1::dantrell-gnome-3-28
 ~media-video/cheese-3.28.0::dantrell-gnome-3-28
 ~media-video/gnome-video-effects-0.4.3::dantrell-gnome
 ~media-video/totem-3.26.0::dantrell-gnome
