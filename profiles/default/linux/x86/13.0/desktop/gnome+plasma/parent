@@ -1,3 +1,4 @@
-gentoo:default/linux/x86/13.0/desktop/plasma
+dantrell-gnome:releases/13.0
+gentoo:targets/desktop/plasma
 dantrell-gnome-3-26:default/linux/x86/13.0/desktop/gnome/3.26/extended
 ../../../..
