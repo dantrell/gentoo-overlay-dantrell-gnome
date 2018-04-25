@@ -63,6 +63,7 @@ zoo     - app-arch/zoo"
 src_prepare() {
 	# File providing Gentoo package names for various archivers
 	cp -f "${FILESDIR}"/3.6.0-packages.match data/packages.match || die
+
 	gnome2_src_prepare
 }
 

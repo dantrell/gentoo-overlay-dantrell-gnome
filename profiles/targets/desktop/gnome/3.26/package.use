@@ -8,4 +8,5 @@ media-libs/gegl png
 media-libs/gsound vala
 media-libs/mesa egl
 net-libs/gnome-online-accounts vala
+x11-libs/gtksourceview:3.0 vala
 x11-misc/colord vala

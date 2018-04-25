@@ -5,6 +5,7 @@
 >=net-libs/phodav-2.2
 
 # Requires GLib 2.50 (or greater)
+>=dev-util/lxqt-build-tools-0.4.0
 >=dev-util/meld-3.18.0
 >=sys-apps/dbus-broker-4
 >=sys-fs/udisks-2.7.6
