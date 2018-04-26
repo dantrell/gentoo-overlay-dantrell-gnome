@@ -1,0 +1,27 @@
+From 0840bb266e9aa577f354a3820bbca88e5f168f79 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Wed, 18 Apr 2018 16:34:42 +0200
+Subject: [PATCH 10/14] linux: Add a README with a couple of debugging commands
+
+---
+ src/linux/README.debugging | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+ create mode 100644 src/linux/README.debugging
+
+diff --git a/src/linux/README.debugging b/src/linux/README.debugging
+new file mode 100644
+index 0000000..5ca525c
+--- /dev/null
++++ b/src/linux/README.debugging
+@@ -0,0 +1,8 @@
++===============
++Debugging
++===============
++
++When filing new bugs, please include information about the
++output of "upower -d", "/usr/libexec/upowerd -v -r", and:
++find  /sys/class/power_supply/hidpp_battery_1/ -type f -exec echo {} \; -exec cat {} \; -exec echo \;
++as appropriate.
+-- 
+2.17.0
+

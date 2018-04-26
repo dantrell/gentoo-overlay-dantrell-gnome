@@ -1,0 +1,24 @@
+From 17dba403e7e82754ce8356dcc8c34f48418885bb Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 12 Apr 2018 22:34:04 +0200
+Subject: [PATCH 06/14] linux: Fix memory leak if logind returns an error
+
+---
+ src/linux/up-backend.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/linux/up-backend.c b/src/linux/up-backend.c
+index 60ca58f..3126c58 100644
+--- a/src/linux/up-backend.c
++++ b/src/linux/up-backend.c
+@@ -670,6 +670,7 @@ up_backend_inhibitor_lock_take (UpBackend *backend)
+ 	if (out == NULL) {
+ 		g_warning ("Could not acquire inhibitor lock: %s",
+ 			   error ? error->message : "Unknown reason");
++		g_clear_error (&error);
+ 		return;
+ 	}
+ 
+-- 
+2.17.0
+

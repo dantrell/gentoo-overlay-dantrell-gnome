@@ -1,0 +1,33 @@
+From 33e9039eb058401ad7815a83eaf144459b1ecc32 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 19 Apr 2018 02:57:48 +0200
+Subject: [PATCH 11/14] linux: Add support for "Unknown" capacity level
+
+Rather than leaving the percentage untouched, set the battery level at
+50.0 as a "middle-ground".
+
+This percentage is supposed to be ignored if a BatteryLevel is set so
+this is better than showing "0%" which makes it look like a bug.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=97484
+---
+ src/linux/up-device-supply.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index 11a14e1..f6b4b55 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -493,7 +493,8 @@ sysfs_get_capacity_level (const char    *native_path,
+ 		{ "High",      70.0, UP_DEVICE_LEVEL_HIGH },
+ 		{ "Low",       10.0, UP_DEVICE_LEVEL_LOW },
+ 		{ "Critical",   5.0, UP_DEVICE_LEVEL_CRITICAL },
+-		{ "Full",     100.0, UP_DEVICE_LEVEL_FULL }
++		{ "Full",     100.0, UP_DEVICE_LEVEL_FULL },
++		{ "Unknown",   50.0, UP_DEVICE_LEVEL_UNKNOWN }
+ 	};
+ 	guint len;
+ 
+-- 
+2.17.0
+

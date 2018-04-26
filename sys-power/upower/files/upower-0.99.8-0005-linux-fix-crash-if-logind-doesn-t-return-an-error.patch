@@ -1,0 +1,27 @@
+From c68daf665f2a5f09179cdf19fa9bcc0bf935b8ec Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 12 Apr 2018 22:32:13 +0200
+Subject: [PATCH 05/14] linux: Fix crash if logind doesn't return an error
+
+For example, when using an incomplete mock logind.
+---
+ src/linux/up-backend.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/linux/up-backend.c b/src/linux/up-backend.c
+index e668dc8..60ca58f 100644
+--- a/src/linux/up-backend.c
++++ b/src/linux/up-backend.c
+@@ -668,7 +668,8 @@ up_backend_inhibitor_lock_take (UpBackend *backend)
+ 							NULL,
+ 							&error);
+ 	if (out == NULL) {
+-		g_warning ("Could not acquire inhibitor lock: %s", error->message);
++		g_warning ("Could not acquire inhibitor lock: %s",
++			   error ? error->message : "Unknown reason");
+ 		return;
+ 	}
+ 
+-- 
+2.17.0
+

@@ -1,0 +1,98 @@
+From a3c58db73501eccb60e8089ac1e419b4f5a31e2d Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Wed, 18 Apr 2018 12:45:51 +0200
+Subject: [PATCH 09/14] lib: Simplify resource destruction
+
+Use g_clear_pointer() and g_clear_object() when possible.
+---
+ libupower-glib/up-client.c  |  6 ++----
+ libupower-glib/up-device.c  | 10 +++-------
+ libupower-glib/up-wakeups.c |  6 ++----
+ 3 files changed, 7 insertions(+), 15 deletions(-)
+
+diff --git a/libupower-glib/up-client.c b/libupower-glib/up-client.c
+index d92a407..00a42c6 100644
+--- a/libupower-glib/up-client.c
++++ b/libupower-glib/up-client.c
+@@ -261,8 +261,7 @@ up_client_add (UpClient *client, const gchar *object_path)
+ 	/* add to array */
+ 	g_signal_emit (client, signals [UP_CLIENT_DEVICE_ADDED], 0, device);
+ out:
+-	if (device != NULL)
+-		g_object_unref (device);
++	g_clear_object (&device);
+ }
+ 
+ /*
+@@ -494,8 +493,7 @@ up_client_finalize (GObject *object)
+ 
+ 	client = UP_CLIENT (object);
+ 
+-	if (client->priv->proxy != NULL)
+-		g_object_unref (client->priv->proxy);
++	g_clear_object (&client->priv->proxy);
+ 
+ 	G_OBJECT_CLASS (up_client_parent_class)->finalize (object);
+ }
+diff --git a/libupower-glib/up-device.c b/libupower-glib/up-device.c
+index f90b862..23a84ed 100644
+--- a/libupower-glib/up-device.c
++++ b/libupower-glib/up-device.c
+@@ -495,8 +495,7 @@ up_device_get_history_sync (UpDevice *device, const gchar *type, guint timespec,
+ 	g_variant_iter_free (iter);
+ 
+ out:
+-	if (gva != NULL)
+-		g_variant_unref (gva);
++	g_clear_pointer (&gva, g_variant_unref);
+ 	return array;
+ }
+ 
+@@ -571,8 +570,7 @@ up_device_get_statistics_sync (UpDevice *device, const gchar *type, GCancellable
+ 	g_variant_iter_free (iter);
+ 
+ out:
+-	if (gva != NULL)
+-		g_variant_unref (gva);
++	g_clear_pointer (&gva, g_variant_unref);
+ 	return array;
+ }
+ 
+@@ -1231,9 +1229,7 @@ up_device_finalize (GObject *object)
+ 
+ 	device = UP_DEVICE (object);
+ 
+-	if (device->priv->proxy_device != NULL)
+-		g_object_unref (device->priv->proxy_device);
+-
++	g_clear_object (&device->priv->proxy_device);
+ 	g_clear_pointer (&device->priv->offline_props, g_hash_table_unref);
+ 
+ 	G_OBJECT_CLASS (up_device_parent_class)->finalize (object);
+diff --git a/libupower-glib/up-wakeups.c b/libupower-glib/up-wakeups.c
+index f4f3ec1..400aedc 100644
+--- a/libupower-glib/up-wakeups.c
++++ b/libupower-glib/up-wakeups.c
+@@ -153,8 +153,7 @@ up_wakeups_get_data_sync (UpWakeups *wakeups, GCancellable *cancellable, GError
+ 	}
+ 	g_variant_iter_free (iter);
+ out:
+-	if (gva != NULL)
+-		g_variant_unref (gva);
++	g_clear_pointer (&gva, g_variant_unref);
+ 	return array;
+ }
+ 
+@@ -279,8 +278,7 @@ up_wakeups_finalize (GObject *object)
+ 	g_return_if_fail (UP_IS_WAKEUPS (object));
+ 
+ 	wakeups = UP_WAKEUPS (object);
+-	if (wakeups->priv->proxy != NULL)
+-		g_object_unref (wakeups->priv->proxy);
++	g_clear_object (&wakeups->priv->proxy);
+ 
+ 	G_OBJECT_CLASS (up_wakeups_parent_class)->finalize (object);
+ }
+-- 
+2.17.0
+

@@ -1,0 +1,63 @@
+From b0cdb7e9fe93b662d4f4a29b3af7f66ef3763c67 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Mon, 16 Apr 2018 09:02:44 +0200
+Subject: [PATCH 08/14] daemon: Lock down systemd service file
+
+Use systemd's service file to lockdown the UPower daemon to stop
+eventual security problems.
+
+https://bugs.freedesktop.org/show_bug.cgi?id=102898
+---
+ src/Makefile.am       |  2 +-
+ src/upower.service.in | 23 +++++++++++++++++++++++
+ 2 files changed, 24 insertions(+), 1 deletion(-)
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 17fdb8a..f7922a7 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -176,7 +176,7 @@ systemdservicedir       = $(systemdsystemunitdir)
+ systemdservice_DATA     = $(systemdservice_in_files:.service.in=.service)
+ 
+ $(systemdservice_DATA): $(systemdservice_in_files) Makefile
+-	@sed -e "s|\@libexecdir\@|$(libexecdir)|" $< > $@
++	@sed -e "s|\@libexecdir\@|$(libexecdir)|" -e "s|\@historydir\@|$(historydir)|" $< > $@
+ endif
+ 
+ install-data-hook:
+diff --git a/src/upower.service.in b/src/upower.service.in
+index d0945f0..835529a 100644
+--- a/src/upower.service.in
++++ b/src/upower.service.in
+@@ -8,5 +8,28 @@ BusName=org.freedesktop.UPower
+ ExecStart=@libexecdir@/upowerd
+ Restart=on-failure
+ 
++# Filesystem lockdown
++ProtectSystem=strict
++ProtectKernelTunables=true
++ProtectControlGroups=true
++ReadWritePaths=@historydir@
++ProtectHome=true
++PrivateTmp=true
++
++# Network
++PrivateNetwork=true
++
++# Execute Mappings
++MemoryDenyWriteExecute=true
++
++# Modules
++ProtectKernelModules=true
++
++# Real-time
++RestrictRealtime=true
++
++# Privilege escalation
++NoNewPrivileges=true
++
+ [Install]
+ WantedBy=graphical.target
+-- 
+2.17.0
+
