@@ -134,3 +134,9 @@ src_configure() {
 	)
 	meson_src_configure
 }
+
+src_compile() {
+	# From GNOME:
+	# 	https://bugzilla.gnome.org/show_bug.cgi?id=786248
+	MAKEOPTS="${MAKEOPTS} -j1" meson_src_compile
+}

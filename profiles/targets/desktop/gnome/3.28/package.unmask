@@ -87,7 +87,7 @@
 ~gnome-base/gnome-light-3.28.0::dantrell-gnome-3-28
 ~gnome-base/gnome-session-3.28.1::dantrell-gnome-3-28
 ~gnome-base/gnome-settings-daemon-3.28.1::dantrell-gnome-3-28
-~gnome-base/gnome-shell-3.28.0::dantrell-gnome-3-28
+~gnome-base/gnome-shell-3.28.1::dantrell-gnome-3-28
 ~gnome-base/gsettings-desktop-schemas-3.28.0::dantrell-gnome-3-28
 ~gnome-base/gvfs-1.36.1::dantrell-gnome-3-28
 ~gnome-base/libgnomekbd-3.6.0::dantrell-gnome
@@ -106,7 +106,7 @@
 ~gnome-extra/gnome-getting-started-docs-3.28.1::dantrell-gnome-3-28
 ~gnome-extra/gnome-packagekit-3.28.0::dantrell-gnome-3-28
 ~gnome-extra/gnome-recipes-2.0.2::dantrell-gnome
-~gnome-extra/gnome-shell-extensions-3.28.0::dantrell-gnome-3-28
+~gnome-extra/gnome-shell-extensions-3.28.1::dantrell-gnome-3-28
 ~gnome-extra/gnome-software-3.28.1::dantrell-gnome-3-28
 ~gnome-extra/gnome-system-monitor-3.28.1::dantrell-gnome-3-28
 ~gnome-extra/gnome-todo-3.28.1::dantrell-gnome-3-28
@@ -182,4 +182,4 @@
 ~x11-themes/gnome-themes-extra-3.28::dantrell-gnome-3-28
 ~x11-themes/gtk-engines-adwaita-3.28::dantrell-gnome-3-28
 ~x11-wm/metacity-3.28.0::dantrell-gnome-3-28
-~x11-wm/mutter-3.28.0::dantrell-gnome-3-28
+~x11-wm/mutter-3.28.1::dantrell-gnome-3-28

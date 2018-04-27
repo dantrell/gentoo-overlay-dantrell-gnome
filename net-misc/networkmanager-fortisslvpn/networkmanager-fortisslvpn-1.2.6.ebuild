@@ -2,8 +2,8 @@
 
 EAPI="6"
 GNOME_ORG_MODULE="NetworkManager-${PN##*-}"
-GNOME2_LA_PUNT="yes"
 GNOME2_EAUTORECONF="yes"
+GNOME2_LA_PUNT="yes"
 
 inherit gnome2
 

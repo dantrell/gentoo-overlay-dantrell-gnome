@@ -3,7 +3,7 @@
 EAPI="6"
 CMAKE_MAKEFILE_GENERATOR="ninja"
 PYTHON_COMPAT=( python2_7 )
-USE_RUBY="ruby22 ruby23 ruby24 ruby25"
+USE_RUBY="ruby23 ruby24 ruby25"
 
 inherit check-reqs cmake-utils flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs versionator virtualx
 
@@ -192,10 +192,8 @@ src_configure() {
 		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby25)"
 	elif has_version "virtual/rubygems[ruby_targets_ruby24]"; then
 		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby24)"
-	elif has_version "virtual/rubygems[ruby_targets_ruby23]"; then
-		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby23)"
 	else
-		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby22)"
+		ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ruby23)"
 	fi
 
 	# TODO: Check Web Audio support
