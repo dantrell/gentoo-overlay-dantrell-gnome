@@ -29,6 +29,7 @@ RDEPEND="
 	>=x11-libs/cairo-1.14:=[aqua?,glib]
 	>=x11-libs/pango-1.30[introspection?]
 
+	virtual/opengl
 	x11-libs/libdrm:=
 
 	egl? (
@@ -37,14 +38,13 @@ RDEPEND="
 		>=virtual/libgudev-136
 		x11-libs/libxkbcommon
 	)
-	gtk? ( >=x11-libs/gtk+-3.22.6:3[aqua?] )
+	gtk? ( >=x11-libs/gtk+-3.3.18:3[aqua?] )
 	introspection? ( >=dev-libs/gobject-introspection-1.39:= )
 	X? (
 		media-libs/fontconfig
 		>=x11-libs/libX11-1.3.1
 		x11-libs/libXext
 		x11-libs/libXdamage
-		x11-proto/inputproto
 		>=x11-libs/libXi-1.3
 		>=x11-libs/libXcomposite-0.4 )
 	wayland? (
@@ -59,6 +59,7 @@ DEPEND="${RDEPEND}
 		>=dev-util/gtk-doc-1.20
 		>=app-text/docbook-sgml-utils-0.6.14[jadetex]
 		dev-libs/libxslt )
+	X? ( x11-base/xorg-proto )
 	test? ( x11-libs/gdk-pixbuf )
 "
 
@@ -66,7 +67,7 @@ src_prepare() {
 	if ! use wayland; then
 		# From GNOME:
 		# 	https://git.gnome.org/browse/clutter/commit/?id=be8602fbb491c30c1e2febb92553375b2f4ce584
-		eapply "${FILESDIR}"/${PN}-1.26.2-reorganize-backends.patch
+		eapply "${FILESDIR}"/${PN}-1.26.0-reorganize-backends.patch
 	fi
 
 	# From GNOME:
