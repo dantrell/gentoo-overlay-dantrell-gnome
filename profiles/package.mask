@@ -416,6 +416,8 @@ net-print/cups-filters::gentoo
 net-print/cups-filters::net-kit
 net-voip/telepathy-gabble::gentoo
 net-voip/telepathy-gabble::gnome-kit
+net-wireless/bluez::core-kit
+net-wireless/bluez::gentoo
 net-wireless/gnome-bluetooth::gentoo
 net-wireless/gnome-bluetooth::gnome-kit
 sci-geosciences/geocode-glib::gentoo

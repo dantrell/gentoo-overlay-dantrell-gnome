@@ -3,6 +3,7 @@ app-i18n/ibus gtk
 dev-libs/libpeas gtk
 gnome-base/gvfs gtk
 gnome-extra/evolution-data-server gtk
+media-gfx/graphviz -svg
 media-libs/clutter gtk
 media-libs/clutter-gtk gtk
 media-libs/libchamplain gtk
