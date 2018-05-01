@@ -8,6 +8,5 @@ gnome-base/libgtop::dantrell-gnome **
 media-libs/babl::dantrell-gnome ~*
 media-libs/gegl:0.3::dantrell-gnome ~*
 media-libs/mesa::gentoo ~*
-sys-auth/elogind::dantrell-gnome **
 x11-libs/cairo::dantrell-gnome ~*
 x11-libs/libdrm::gentoo ~*

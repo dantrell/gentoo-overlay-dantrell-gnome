@@ -39,11 +39,7 @@ PDEPEND="
 	policykit? ( sys-auth/polkit )
 "
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-235.2-docs.patch
-	"${FILESDIR}"/${P}-legacy-cgroupmode.patch
-	"${FILESDIR}"/${P}-drop-logintest.patch # bug 645156
-)
+PATCHES=( "${FILESDIR}"/${P}-docs.patch )
 
 pkg_setup() {
 	local CONFIG_CHECK="~CGROUPS ~EPOLL ~INOTIFY_USER ~SIGNALFD ~TIMERFD"
@@ -78,7 +74,6 @@ src_configure() {
 		-Drootlibexecdir="${EPREFIX}"/$(get_libdir)/elogind
 		-Drootprefix="${EPREFIX}/"
 		-Dbashcompletiondir="${EPREFIX}/usr/share/bash-completion/completions"
-		-Dzsh-completion="${EPREFIX}/usr/share/zsh/site-functions"
 		-Dman=auto
 		-Dsmack=true
 		-Dcgroup-controller=openrc
@@ -96,6 +91,7 @@ src_configure() {
 }
 
 src_install() {
+
 	meson_src_install
 
 	newinitd "${FILESDIR}"/${PN}.init ${PN}

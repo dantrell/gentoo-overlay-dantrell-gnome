@@ -10,7 +10,7 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="CC0-1.0 LGPL-2.1+ public-domain"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="+acl debug doc +pam +policykit selinux"
 
@@ -40,9 +40,8 @@ PDEPEND="
 "
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-235.1-docs.patch
-	"${FILESDIR}"/${P}-legacy-cgroupmode.patch
-	"${FILESDIR}"/${P}-drop-logintest.patch # bug 645156
+	"${FILESDIR}"/${PN}-235.2-docs.patch
+	"${FILESDIR}"/${PN}-235.2-drop-logintest.patch # bug 645156
 )
 
 pkg_setup() {
@@ -69,26 +68,27 @@ src_configure() {
 	fi
 
 	local emesonargs=(
-		-Ddocdir="${EPREFIX}/usr/share/doc/${P}"
-		-Dhtmldir="${EPREFIX}/usr/share/doc/${P}/html"
+		-Ddocdir="${EPREFIX}/usr/share/doc/${PF}"
+		-Dhtmldir="${EPREFIX}/usr/share/doc/${PF}/html"
 		-Dpamlibdir=$(getpam_mod_dir)
 		-Dudevrulesdir="$(get_udevdir)"/rules.d
 		--libdir="${EPREFIX}"/usr/$(get_libdir)
 		-Drootlibdir="${EPREFIX}"/$(get_libdir)
 		-Drootlibexecdir="${EPREFIX}"/$(get_libdir)/elogind
 		-Drootprefix="${EPREFIX}/"
-		-Dsmack=true
-		-Dman=auto
-		-Dhtml=$(usex doc auto false)
-		-Dcgroup-controller=openrc
-		-Ddefault-hierarchy=${cgroupmode}
-		-Ddebug=$(usex debug elogind false)
-		--buildtype $(usex debug debug release)
-		-Dacl=$(usex acl true false)
-		-Dpam=$(usex pam true false)
-		-Dselinux=$(usex selinux true false)
 		-Dbashcompletiondir="${EPREFIX}/usr/share/bash-completion/completions"
 		-Dzsh-completion="${EPREFIX}/usr/share/zsh/site-functions"
+		-Dman=auto
+		-Dsmack=true
+		-Dcgroup-controller=openrc
+		-Ddefault-hierarchy=${cgroupmode}
+		-Ddefault-kill-user-processes=false
+		-Dacl=$(usex acl true false)
+		-Ddebug=$(usex debug elogind false)
+		--buildtype $(usex debug debug release)
+		-Dhtml=$(usex doc auto false)
+		-Dpam=$(usex pam true false)
+		-Dselinux=$(usex selinux true false)
 	)
 
 	meson_src_configure
@@ -105,7 +105,7 @@ src_install() {
 
 pkg_postinst() {
 	if [[ "$(rc-config list boot | grep elogind)" != "" ]]; then
-		ewarn "elogind is currently started from boot runlevel."
+		elog "elogind is currently started from boot runlevel."
 	elif [[ "$(rc-config list default | grep elogind)" != "" ]]; then
 		ewarn "elogind is currently started from default runlevel."
 		ewarn "Please remove elogind from the default runlevel and"
@@ -116,13 +116,5 @@ pkg_postinst() {
 		ewarn "elogind is currently not started from any runlevel."
 		ewarn "You may add it to the boot runlevel by:"
 		ewarn "# rc-update add elogind boot"
-	fi
-	ewarn "Alternatively you can leave elogind out of any"
-	ewarn "runlevel. It will then be started automatically"
-	if use pam; then
-		ewarn "when the first service calls it via dbus, or the"
-		ewarn "first user logs into the system."
-	else
-		ewarn "when the first service calls it via dbus."
 	fi
 }

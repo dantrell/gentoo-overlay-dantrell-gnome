@@ -45,6 +45,16 @@ DEPEND="${RDEPEND}
 
 PDEPEND="virtual/notification-daemon" #546134
 
+PATCHES=(
+	# shared/compat: fix memory handling of nm_setting_vpn_get_*_keys
+	# (from 'master')
+	"${FILESDIR}"/${P}-vpn-crash.patch
+
+	# libnma/cert-chooser: handle case of no avalable modules (from
+	# 'master')
+	"${FILESDIR}"/${P}-cert-chooser.patch
+)
+
 src_configure() {
 	local myconf=(
 		--without-appindicator
