@@ -75,6 +75,10 @@ PATCHES=(
 
 	# ???
 	"${FILESDIR}"/${PN}-0004-agent-Assert-possible-infinite-loop.patch
+
+	# From BlueZ:
+	# 	https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=2c3bba7b38be03834162e34069156f1fd49f0528
+	"${FILESDIR}"/${PN}-5.50-adapter-dont-refresh-adv-manager-for-non-le-devices.patch
 )
 
 pkg_setup() {

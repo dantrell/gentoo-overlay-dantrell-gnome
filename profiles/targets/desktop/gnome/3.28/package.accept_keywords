@@ -9,7 +9,7 @@ media-libs/babl::dantrell-gnome ~*
 media-libs/gegl:0.3::dantrell-gnome ~*
 media-libs/mesa::gentoo ~*
 sys-apps/osinfo-db-tools **
-sys-auth/elogind::dantrell-gnome **
+sys-auth/elogind::dantrell-gnome ~*
 sys-libs/libosinfo::dantrell-gnome ~*
 sys-power/upower::dantrell-gnome ~*
 x11-libs/cairo::dantrell-gnome ~*
