@@ -5,7 +5,7 @@
 ~app-accessibility/orca-3.26.0::dantrell-gnome-3-26
 ~app-admin/gnome-system-log-20170809::dantrell-gnome
 ~app-arch/file-roller-3.26.2::dantrell-gnome-3-26
-~app-arch/gcab-0.7::dantrell-gnome
+~app-arch/gcab-1.1::dantrell-gnome
 ~app-crypt/gcr-3.20.0::dantrell-gnome
 ~app-crypt/libsecret-0.18.6::dantrell-gnome
 ~app-dicts/gnome-dictionary-3.26.1::dantrell-gnome
@@ -23,12 +23,12 @@
 ~app-text/libgxps-0.3.0::dantrell-gnome
 ~app-text/yelp-tools-3.18.0::dantrell-gnome
 ~dev-cpp/atkmm-2.24.2::dantrell-gnome
-~dev-cpp/glibmm-2.54.1::dantrell-gnome
+~dev-cpp/glibmm-2.56.0::dantrell-gnome
 ~dev-cpp/gtkmm-3.22.2::dantrell-gnome
 ~dev-cpp/mm-common-0.9.12::dantrell-gnome
 ~dev-cpp/pangomm-2.40.1::dantrell-gnome
 ~dev-lang/vala-0.38.9::dantrell-gnome
-~dev-libs/appstream-glib-0.7.5::dantrell-gnome
+~dev-libs/appstream-glib-0.7.8::dantrell-gnome
 ~dev-libs/atk-2.26.1::dantrell-gnome-3-26
 ~dev-libs/folks-0.11.4::dantrell-gnome
 ~dev-libs/gjs-1.50.4::dantrell-gnome-3-26
@@ -91,7 +91,7 @@
 ~gnome-base/gnome-shell-3.26.2::dantrell-gnome-3-26
 ~gnome-base/gsettings-desktop-schemas-3.24.1::dantrell-gnome
 ~gnome-base/gvfs-1.34.2.1::dantrell-gnome-3-26
-~gnome-base/libgnomekbd-3.6.0::dantrell-gnome
+~gnome-base/libgnomekbd-3.26.0::dantrell-gnome
 ~gnome-base/libgtop-2.38.0::dantrell-gnome
 ~gnome-base/librsvg-2.40.20::dantrell-gnome
 ~gnome-base/nautilus-3.26.2::dantrell-gnome-3-26
@@ -122,7 +122,7 @@
 ~gnome-extra/libgsf-1.14.43::dantrell-gnome
 ~gnome-extra/mousetweaks-3.12.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
-~gnome-extra/nm-applet-1.8.6::dantrell-gnome
+~gnome-extra/nm-applet-1.8.10::dantrell-gnome
 ~gnome-extra/sushi-3.24.0::dantrell-gnome
 ~gnome-extra/yelp-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/zenity-3.24.0::dantrell-gnome
@@ -161,7 +161,7 @@
 ~net-libs/rest-0.8.1::dantrell-gnome
 ~net-libs/webkit-gtk-2.18.6::dantrell-gnome
 ~net-misc/gnome-online-miners-3.26.0::dantrell-gnome
-~net-misc/networkmanager-1.8.4::dantrell-gnome
+~net-misc/networkmanager-1.8.6::dantrell-gnome
 ~net-misc/rygel-0.36.1::dantrell-gnome
 ~net-misc/vino-3.22.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.26.1::dantrell-gnome-3-26
@@ -171,12 +171,12 @@
 ~sys-apps/gnome-disk-utility-3.26.2::dantrell-gnome-3-26
 ~www-client/epiphany-3.26.6::dantrell-gnome-3-26
 ~x11-libs/gdk-pixbuf-2.36.4::dantrell-gnome
-~x11-libs/gtksourceview-4.0.0::dantrell-gnome
+~x11-libs/gtksourceview-4.0.1::dantrell-gnome
 ~x11-libs/gtk+-3.22.30::dantrell-gnome
 ~x11-libs/libdazzle-3.26.3::dantrell-gnome-3-26
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.24.1::dantrell-gnome
-~x11-libs/pango-1.40.14::dantrell-gnome
+~x11-libs/pango-1.42.1::dantrell-gnome
 ~x11-libs/vte-0.50.3::dantrell-gnome-3-26
 ~x11-misc/gpaste-3.26.0::dantrell-gnome-3-26
 ~x11-terms/gnome-terminal-3.26.2::dantrell-gnome-3-26

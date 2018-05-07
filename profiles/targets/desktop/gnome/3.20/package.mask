@@ -38,7 +38,7 @@
 >=dev-cpp/glibmm-2.50.0
 >=dev-cpp/gtkmm-3.22.0
 >=dev-cpp/gtksourceviewmm-3.22.0
->=dev-cpp/libxmlpp-3.0.0
+>=dev-cpp/libxmlpp-3.1.0
 >=dev-cpp/pangomm-2.42.0
 >=dev-libs/appstream-glib-0.6.1
 >=dev-libs/atk-2.22.0

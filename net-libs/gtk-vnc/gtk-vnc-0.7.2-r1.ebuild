@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/gtk-vnc"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="examples +introspection pulseaudio sasl vala"
 REQUIRED_USE="

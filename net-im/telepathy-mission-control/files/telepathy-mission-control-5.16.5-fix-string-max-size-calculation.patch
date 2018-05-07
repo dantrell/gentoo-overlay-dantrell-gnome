@@ -1,0 +1,27 @@
+From 19f10ec2a59cadd4c59d6bc3147c612007c1c615 Mon Sep 17 00:00:00 2001
+From: Tiago Salem Herrmann <tiagosh@gmail.com>
+Date: Wed, 25 Jan 2017 15:30:04 -0200
+Subject: Fix string max size calculation.
+
+Reviewed-by: George Kiagiadakis <gkiagia@tolabaki.gr>
+https://github.com/TelepathyIM/telepathy-mission-control/pull/1
+---
+ src/mcd-connection.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/mcd-connection.c b/src/mcd-connection.c
+index e225da2..fe7029f 100644
+--- a/src/mcd-connection.c
++++ b/src/mcd-connection.c
+@@ -1396,7 +1396,7 @@ translate_g_error (GQuark domain,
+ 
+               if (p != NULL)
+                 {
+-                  gchar *tmp = g_strndup (message, message - p);
++                  gchar *tmp = g_strndup (message, p - message);
+ 
+                   /* The syntactic restrictions for error names are the same
+                    * as for interface names. */
+-- 
+cgit v1.1
+

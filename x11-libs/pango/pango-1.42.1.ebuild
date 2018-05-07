@@ -10,7 +10,7 @@ HOMEPAGE="http://www.pango.org/"
 
 LICENSE="LGPL-2+ FTL"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="X +introspection test"
 

@@ -9,7 +9,7 @@ HOMEPAGE="https://git.gnome.org/browse/gnome-common"
 
 LICENSE="GPL-3"
 SLOT="3"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 

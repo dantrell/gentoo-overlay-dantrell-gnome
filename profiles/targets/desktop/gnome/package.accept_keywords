@@ -1,3 +1,4 @@
+dev-libs/fribidi::gentoo ~*
 dev-libs/libgudev::gentoo ~*
 dev-util/meson::gentoo ~*
 games-board/crafty::gentoo ~*

@@ -15,6 +15,7 @@ KEYWORDS="*"
 IUSE=""
 
 RDEPEND="
+	<dev-libs/libical-3.0
 	>=dev-libs/glib-2.38:2
 	>=dev-libs/gobject-introspection-1.38:=
 	>=dev-libs/libgdata-0.14:=

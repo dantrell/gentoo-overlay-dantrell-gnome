@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Gom"
 
 LICENSE="LGPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+introspection python"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} introspection )"

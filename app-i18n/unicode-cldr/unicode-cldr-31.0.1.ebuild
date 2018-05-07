@@ -13,6 +13,8 @@ KEYWORDS="*"
 IUSE=""
 
 DEPEND="app-arch/unzip"
+RDEPEND=""
+
 S="${WORKDIR}"
 
 src_install() {

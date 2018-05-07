@@ -8,12 +8,12 @@ PYTHON_REQ_USE="threads(+)"
 inherit distutils-r1
 
 DESCRIPTION="Python bindings for the cairo library"
-HOMEPAGE="https://www.cairographics.org/pycairo/ https://github.com/pygobject/pycairo"
+HOMEPAGE="https://cairographics.org/pycairo/ https://github.com/pygobject/pycairo"
 SRC_URI="https://github.com/pygobject/${PN}/releases/download/v${PV}/${P}.tar.gz"
 
 LICENSE="|| ( LGPL-2.1 MPL-1.1 )"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="doc examples test"
 

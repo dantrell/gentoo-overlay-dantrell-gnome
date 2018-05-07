@@ -5,8 +5,8 @@ EAPI="5"
 inherit eutils
 
 DESCRIPTION="Sudoku puzzle generator and solver"
-HOMEPAGE="http://qqwing.com/"
-SRC_URI="http://qqwing.com/${P}.tar.gz"
+HOMEPAGE="https://qqwing.com"
+SRC_URI="https://qqwing.com/${P}.tar.gz"
 
 LICENSE="GPL-2+"
 SLOT="0/2"
