@@ -2,8 +2,8 @@
 
 EAPI="6"
 GNOME_ORG_MODULE="NetworkManager-${PN##*-}"
-GNOME2_EAUTORECONF="yes"
 GNOME2_LA_PUNT="yes"
+GNOME2_EAUTORECONF="yes"
 
 inherit gnome2
 
@@ -32,13 +32,6 @@ DEPEND="${RDEPEND}
 	>=dev-util/intltool-0.35
 	virtual/pkgconfig
 "
-
-PATCHES=(
-	# Upstream patch e5d476076e068f58ef4fa938f09945159fce36a6
-	"${FILESDIR}"/${P}-location-fix.diff
-	# Upstream patch 4195187fbe5be348222c9a8472f7c9cf0e51d346
-	"${FILESDIR}"/${P}-nm-utils-dependency-fix.diff
-)
 
 src_configure() {
 	gnome2_src_configure \

@@ -24,7 +24,7 @@
 >=app-text/yelp-tools-3.28.0
 >=dev-cpp/atkmm-2.26.0
 >=dev-cpp/cairomm-1.13.0
->=dev-cpp/glibmm-2.54.0
+>=dev-cpp/glibmm-2.56.0
 >=dev-cpp/gtkmm-3.28.0
 >=dev-cpp/gtksourceviewmm-3.28.0
 >=dev-cpp/libxmlpp-3.1.0

@@ -3,9 +3,7 @@
 ~app-accessibility/at-spi2-core-2.26.2::dantrell-gnome-3-26
 ~app-accessibility/caribou-0.4.21::dantrell-gnome
 ~app-accessibility/orca-3.26.0::dantrell-gnome-3-26
-~app-admin/gnome-system-log-20170809::dantrell-gnome
 ~app-arch/file-roller-3.26.2::dantrell-gnome-3-26
-~app-arch/gcab-1.1::dantrell-gnome
 ~app-crypt/gcr-3.20.0::dantrell-gnome
 ~app-crypt/libsecret-0.18.6::dantrell-gnome
 ~app-dicts/gnome-dictionary-3.26.1::dantrell-gnome
@@ -22,11 +20,7 @@
 ~app-text/libgepub-0.5.3::dantrell-gnome
 ~app-text/libgxps-0.3.0::dantrell-gnome
 ~app-text/yelp-tools-3.18.0::dantrell-gnome
-~dev-cpp/atkmm-2.24.2::dantrell-gnome
-~dev-cpp/glibmm-2.56.0::dantrell-gnome
-~dev-cpp/gtkmm-3.22.2::dantrell-gnome
 ~dev-cpp/mm-common-0.9.12::dantrell-gnome
-~dev-cpp/pangomm-2.40.1::dantrell-gnome
 ~dev-lang/vala-0.38.9::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.8::dantrell-gnome
 ~dev-libs/atk-2.26.1::dantrell-gnome-3-26
@@ -55,7 +49,6 @@
 ~dev-util/gdbus-codegen-2.54.3::dantrell-gnome
 ~dev-util/gnome-builder-3.26.4::dantrell-gnome-3-26
 ~dev-util/gnome-devel-docs-3.26.0::dantrell-gnome-3-26
-~dev-util/gtk-doc-1.25::dantrell-gnome
 ~dev-util/nemiver-0.9.6::dantrell-gnome
 ~dev-vcs/gitg-3.26.0::dantrell-gnome
 ~games-arcade/gnome-nibbles-3.24.0::dantrell-gnome
@@ -171,12 +164,9 @@
 ~sys-apps/gnome-disk-utility-3.26.2::dantrell-gnome-3-26
 ~www-client/epiphany-3.26.6::dantrell-gnome-3-26
 ~x11-libs/gdk-pixbuf-2.36.4::dantrell-gnome
-~x11-libs/gtksourceview-4.0.1::dantrell-gnome
-~x11-libs/gtk+-3.22.30::dantrell-gnome
 ~x11-libs/libdazzle-3.26.3::dantrell-gnome-3-26
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.24.1::dantrell-gnome
-~x11-libs/pango-1.42.1::dantrell-gnome
 ~x11-libs/vte-0.50.3::dantrell-gnome-3-26
 ~x11-misc/gpaste-3.26.0::dantrell-gnome-3-26
 ~x11-terms/gnome-terminal-3.26.2::dantrell-gnome-3-26
