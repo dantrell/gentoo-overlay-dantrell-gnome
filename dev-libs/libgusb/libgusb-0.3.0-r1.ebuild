@@ -3,7 +3,7 @@
 EAPI="6"
 VALA_USE_DEPEND="vapigen"
 
-inherit gnome2 multilib-minimal vala meson
+inherit autotools gnome2 multilib-minimal vala
 
 DESCRIPTION="GObject wrapper for libusb"
 HOMEPAGE="https://github.com/hughsie/libgusb"
@@ -32,15 +32,21 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
+	# From GUsb:
+	# 	https://github.com/hughsie/libgusb/commit/50cf84ee2deee38e9c2c67a58e013d04ddfe8325
+	eapply "${FILESDIR}"/${PN}-0.3.0-support-autotools.patch
+
+	eautoreconf
 	gnome2_src_prepare
 	use vala && vala_src_prepare
 }
 
 multilib_src_configure() {
-	local emesonargs=(
-		-D vapi=$(usex vala true false)
-	)
-	meson_src_configure
+	ECONF_SOURCE=${S} \
+	gnome2_src_configure \
+		$(multilib_native_use_enable introspection) \
+		$(use_enable static-libs static) \
+		$(multilib_native_use_enable vala)
 
 	if multilib_is_native_abi; then
 		ln -s "${S}"/docs/api/html docs/api/html || die
@@ -48,5 +54,5 @@ multilib_src_configure() {
 }
 
 multilib_src_install() {
-	meson_src_install
+	gnome2_src_install
 }

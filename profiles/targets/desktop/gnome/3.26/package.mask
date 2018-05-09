@@ -176,6 +176,7 @@
 >=x11-libs/gtksourceview-3.28.0
 >=x11-libs/gtk+-3.28.0
 >=x11-libs/libwnck-3.28.0
+>=x11-libs/tepl-4.0
 >=x11-libs/vte-0.52.0
 >=x11-misc/gpaste-3.28.0
 >=x11-misc/notification-daemon-3.28.0
