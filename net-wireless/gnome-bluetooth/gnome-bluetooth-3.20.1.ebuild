@@ -34,7 +34,7 @@ DEPEND="${COMMON_DEPEND}
 	dev-util/itstool
 	virtual/libudev
 	virtual/pkgconfig
-	x11-proto/xproto
+	x11-base/xorg-proto
 "
 # eautoreconf needs:
 #	gnome-base/gnome-common

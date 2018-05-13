@@ -25,7 +25,7 @@ RDEPEND="
 	>=net-libs/libsoup-2.26.0:2.4
 "
 DEPEND="${RDEPEND}
-	x11-proto/xproto
+	x11-base/xorg-proto
 	sys-devel/gettext
 	>=dev-util/intltool-0.40.0
 	virtual/pkgconfig

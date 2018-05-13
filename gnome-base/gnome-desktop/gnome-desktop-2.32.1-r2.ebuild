@@ -37,8 +37,7 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	>=app-text/gnome-doc-utils-0.3.2
 	~app-text/docbook-xml-dtd-4.1.2
-	x11-proto/xproto
-	>=x11-proto/randrproto-1.2
+	x11-base/xorg-proto
 "
 PDEPEND=">=dev-python/pygtk-2.8:2[${PYTHON_USEDEP}]
 	>=dev-python/pygobject-2.14:2[${PYTHON_USEDEP}]

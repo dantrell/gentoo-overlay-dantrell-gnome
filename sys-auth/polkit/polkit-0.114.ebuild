@@ -10,13 +10,13 @@ SRC_URI="https://www.freedesktop.org/software/${PN}/releases/${P}.tar.gz"
 
 LICENSE="LGPL-2"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="ck consolekit elogind examples gtk +introspection jit kde nls pam selinux systemd test"
 REQUIRED_USE="?? ( ck consolekit elogind systemd )"
 
 CDEPEND="
-	dev-lang/spidermonkey:0/mozjs185[-debug]
+	dev-lang/spidermonkey:52[-debug]
 	dev-libs/glib:2
 	dev-libs/expat
 	elogind? ( sys-auth/elogind )
@@ -84,7 +84,7 @@ src_prepare() {
 
 	# From Gentoo:
 	# 	https://bugs.gentoo.org/598615
-	eapply "${FILESDIR}"/${PN}-0.113-elogind.patch
+	eapply "${FILESDIR}"/${PN}-0.114-elogind.patch
 
 	# Fix cross-building, bug #590764, elogind patch, bug #598615
 	eautoreconf
@@ -93,22 +93,23 @@ src_prepare() {
 src_configure() {
 	xdg_environment_reset
 
-	econf \
-		--localstatedir="${EPREFIX}"/var \
-		--disable-static \
-		--enable-man-pages \
-		--disable-gtk-doc \
-		--disable-examples \
-		--with-mozjs=mozjs185 \
-		$(use_enable elogind libelogind) \
-		$(use_enable introspection) \
-		$(use_enable nls) \
-		$(use pam && echo --with-pam-module-dir="$(getpam_mod_dir)") \
-		--with-authfw=$(usex pam pam shadow) \
-		$(use_enable systemd libsystemd-login) \
-		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)" \
-		$(use_enable test) \
+	local myeconfargs=(
+		--localstatedir="${EPREFIX}"/var
+		--disable-static
+		--enable-man-pages
+		--disable-gtk-doc
+		--disable-examples
+		$(use_enable elogind libelogind)
+		$(use_enable introspection)
+		$(use_enable nls)
+		$(usex pam "--with-pam-module-dir=$(getpam_mod_dir)" '')
+		--with-authfw=$(usex pam pam shadow)
+		$(use_enable systemd libsystemd-login)
+		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
+		$(use_enable test)
 		--with-os-type=gentoo
+	)
+	econf "${myeconfargs[@]}"
 }
 
 src_compile() {
@@ -131,7 +132,7 @@ src_install() {
 		doins src/examples/{*.c,*.policy*}
 	fi
 
-	find "${D}" -name '*.la' -delete || die
+	find "${ED}" -name '*.la' -delete || die
 }
 
 pkg_postinst() {

@@ -12,7 +12,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="caps emacs gnome-keyring gtk ncurses qt5 static"
+IUSE="caps emacs gnome-keyring fltk gtk ncurses qt5 static"
 REQUIRED_USE="
 	gtk? ( !static )
 	qt5? ( !static )
@@ -24,6 +24,7 @@ CDEPEND="
 	>=dev-libs/libgcrypt-1.6.3
 	>=dev-libs/libgpg-error-1.17
 	caps? ( sys-libs/libcap )
+	fltk? ( x11-libs/fltk )
 	gnome-keyring? ( app-crypt/libsecret )
 	gtk? ( x11-libs/gtk+:2 )
 	ncurses? ( sys-libs/ncurses:0= )
@@ -62,6 +63,7 @@ src_configure() {
 		--enable-pinentry-tty \
 		$(use_with caps libcap) \
 		$(use_enable emacs pinentry-emacs) \
+		$(use_enable fltk pinentry-fltk) \
 		$(use_enable gnome-keyring libsecret) \
 		$(use_enable gnome-keyring pinentry-gnome3) \
 		$(use_enable gtk pinentry-gtk2) \

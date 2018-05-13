@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-GNOME2_EAUTORECONF="yes"
 
 inherit autotools gnome2 systemd
 
@@ -11,7 +10,7 @@ SRC_URI="https://www.freedesktop.org/software/${PN}/${P}.tar.xz"
 
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="ck consolekit doc elogind +introspection selinux systemd"
 REQUIRED_USE="?? ( ck consolekit elogind systemd )"
@@ -42,13 +41,12 @@ RDEPEND="${CDEPEND}
 "
 
 src_prepare() {
-	# From GNOME:
+	# From AccountsService:
 	# 	https://cgit.freedesktop.org/accountsservice/commit/?id=9fdd1d95ec094a0df6d8d3dd9c8f04fa8499b845
 	eapply -R "${FILESDIR}"/${PN}-0.6.46-configure-elogind-on-non-systemd-systems.patch
 
 	eapply "${FILESDIR}"/${PN}-0.6.35-gentoo-system-users.patch
-	eapply "${FILESDIR}"/${PN}-0.6.45-support-elogind.patch
-	eapply "${FILESDIR}"/${PN}-0.6.46-daemon-dont-treat-explicitly-requested-users-as-cached.patch
+	eapply "${FILESDIR}"/${PN}-0.6.49-support-elogind.patch
 
 	eautoreconf
 	gnome2_src_prepare
