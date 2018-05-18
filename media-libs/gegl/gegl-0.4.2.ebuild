@@ -28,7 +28,7 @@ REQUIRED_USE="
 RDEPEND="
 	>=dev-libs/glib-2.44:2
 	dev-libs/json-glib
-	>=media-libs/babl-0.1.46
+	>=media-libs/babl-0.1.48
 	sys-libs/zlib
 	>=x11-libs/gdk-pixbuf-2.32:2
 	x11-libs/pango
@@ -58,7 +58,8 @@ DEPEND="${RDEPEND}
 	dev-lang/perl
 	virtual/pkgconfig
 	>=sys-devel/libtool-2.2
-	test? ( introspection? (
+	test? ( ffmpeg? ( media-libs/gexiv2 )
+		introspection? (
 		$(python_gen_any_dep '>=dev-python/pygobject-3.2[${PYTHON_USEDEP}]') ) )
 	vala? ( $(vala_depend) )
 "
@@ -94,6 +95,14 @@ src_prepare() {
 	use vala && vala_src_prepare
 }
 
+_use_with_both() {
+	if use "$1" && use "$2"; then
+		echo "--with-$3"
+	else
+		echo "--without-$3"
+	fi
+}
+
 src_configure() {
 	# never enable altering of CFLAGS via profile option
 	# libspiro: not in portage main tree
@@ -108,6 +117,7 @@ src_configure() {
 	#    (e.g. ruby, asciidoc, dot (of graphviz), enscript)
 	#
 	#  - Parameter --with-exiv2 compiles a noinst-app only, no use
+	#    but needed during testing
 	#
 	#  - Parameter --disable-workshop disables any use of Lua, effectivly
 	#
@@ -139,7 +149,7 @@ src_configure() {
 		$(use_with cairo pangocairo) \
 		--without-exiv2 \
 		$(use_with ffmpeg libavformat) \
-		--without-gexiv2 \
+		$(_use_with_both ffmpeg test gexiv2) \
 		--without-graphviz \
 		$(use_with jpeg2k jasper) \
 		$(use_with lcms) \

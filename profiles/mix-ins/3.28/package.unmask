@@ -70,7 +70,7 @@
 ~games-puzzle/swell-foop-3.28.0::dantrell-gnome-3-28
 ~gnome-base/dconf-0.28.0::dantrell-gnome
 ~gnome-base/dconf-editor-3.28.0::dantrell-gnome-3-28
-~gnome-base/gdm-3.28.1::dantrell-gnome-3-28
+~gnome-base/gdm-3.28.2::dantrell-gnome-3-28
 ~gnome-base/gnome-3.28.0::dantrell-gnome-3-28
 ~gnome-base/gnome-control-center-3.28.1::dantrell-gnome-3-28
 ~gnome-base/gnome-core-apps-3.28.0::dantrell-gnome-3-28
