@@ -128,7 +128,7 @@
 >=gnome-extra/gnome-user-share-3.28.0
 >=gnome-extra/gnome-weather-3.28.0
 >=gnome-extra/nautilus-tracker-tags-2.0.0
->=gnome-extra/sushi-3.23.0
+>=gnome-extra/sushi-3.28.0
 >=gnome-extra/yelp-3.28.0
 >=gnome-extra/yelp-xsl-3.28.0
 >=gnome-extra/zenity-3.28.0

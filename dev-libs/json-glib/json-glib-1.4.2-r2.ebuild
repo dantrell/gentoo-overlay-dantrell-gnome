@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome2 meson multilib-minimal
+inherit gnome2 multilib-minimal meson
 
 DESCRIPTION="Library providing GLib serialization and deserialization for the JSON format"
 HOMEPAGE="https://wiki.gnome.org/Projects/JsonGlib"
@@ -25,12 +25,6 @@ DEPEND="${RDEPEND}
 	>=sys-devel/gettext-0.18
 	virtual/pkgconfig[${MULTILIB_USEDEP}]
 "
-
-src_prepare() {
-	# Do not touch CFLAGS with --enable-debug=yes
-	sed -e 's/CFLAGS -g/CFLAGS/' -i "${S}"/configure || die
-	gnome2_src_prepare
-}
 
 multilib_src_configure() {
 	local emesonargs=(

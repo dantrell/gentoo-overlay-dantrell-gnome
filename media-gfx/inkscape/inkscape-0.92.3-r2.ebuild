@@ -6,7 +6,7 @@ PYTHON_REQ_USE="xml"
 
 inherit autotools flag-o-matic gnome2-utils xdg toolchain-funcs python-single-r1
 
-MY_P=${P/_/}
+MY_P="${P/_/}"
 
 DESCRIPTION="A SVG based generic vector-drawing program"
 HOMEPAGE="https://inkscape.org/"
@@ -25,7 +25,7 @@ RESTRICT="test"
 COMMON_DEPEND="
 	${PYTHON_DEPS}
 	>=app-text/poppler-0.26.0:=[cairo]
-	<app-text/poppler-0.64.0:=
+	<app-text/poppler-0.66.0:=
 	>=dev-cpp/glibmm-2.28
 	>=dev-cpp/gtkmm-2.18.0:2.4
 	>=dev-cpp/cairomm-1.9.8
@@ -102,9 +102,11 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-0.91_pre3-exif.patch
 	"${FILESDIR}"/${PN}-0.91_pre3-sk-man.patch
 	"${FILESDIR}"/${PN}-0.48.4-epython.patch
+	"${FILESDIR}"/${PN}-0.92.3-freetype_pkgconfig.patch
+	"${FILESDIR}"/${PN}-0.92.3-poppler-0.64.patch
 )
 
-S=${WORKDIR}/${MY_P}
+S="${WORKDIR}/${MY_P}"
 
 pkg_pretend() {
 	if use openmp; then
@@ -125,33 +127,39 @@ src_prepare() {
 }
 
 src_configure() {
+	local myconf=()
+
 	# aliasing unsafe wrt #310393
 	append-flags -fno-strict-aliasing
 
 	if use deprecated; then
 		# disabling strict build required due to glibmm / glib2 deprecation misconfiguration
 		# https://trac.macports.org/ticket/52248
-		local myconf="--disable-strict-build"
+		myconf+=(
+			--disable-strict-build
+		)
 	fi
 
-	econf \
-		$(use_enable static-libs static) \
-		$(use_enable nls) \
-		$(use_enable openmp) \
-		$(use_enable exif) \
-		$(use_enable jpeg) \
-		$(use_enable lcms) \
-		--enable-poppler-cairo \
-		$(use_enable wpg) \
-		$(use_enable visio) \
-		$(use_enable cdr) \
-		$(use_enable dbus dbusapi) \
-		$(use_enable imagemagick magick) \
-		$(use_with gnome gnome-vfs) \
-		$(use_with inkjar) \
-		$(use_with spell gtkspell) \
-		$(use_with spell aspell) \
-		${myconf}
+	local myeconfargs=(
+		$(use_enable static-libs static)
+		$(use_enable nls)
+		$(use_enable openmp)
+		$(use_enable exif)
+		$(use_enable jpeg)
+		$(use_enable lcms)
+		--enable-poppler-cairo
+		$(use_enable wpg)
+		$(use_enable visio)
+		$(use_enable cdr)
+		$(use_enable dbus dbusapi)
+		$(use_enable imagemagick magick)
+		$(use_with gnome gnome-vfs)
+		$(use_with inkjar)
+		$(use_with spell gtkspell)
+		$(use_with spell aspell)
+		"${myconf[@]}"
+	)
+	econf "${myeconfargs[@]}"
 }
 
 src_compile() {
@@ -161,8 +169,8 @@ src_compile() {
 src_install() {
 	default
 
-	prune_libtool_files
-	python_optimize "${ED}"/usr/share/${PN}/extensions
+	find "${ED}" -name "*.la" -delete || die
+	python_optimize "${ED%/}"/usr/share/${PN}/extensions
 }
 
 pkg_preinst() {
