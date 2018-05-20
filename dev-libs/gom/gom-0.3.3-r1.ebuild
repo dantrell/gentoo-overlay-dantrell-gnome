@@ -12,16 +12,14 @@ LICENSE="LGPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="+introspection python"
-REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} introspection )"
+IUSE="+introspection"
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-RDEPEND="
+RDEPEND="${PYTHON_DEPS}
 	>=dev-db/sqlite-3.7:3
 	>=dev-libs/glib-2.36:2
+	>=dev-python/pygobject-3.16:3[${PYTHON_USEDEP}]
 	introspection? ( >=dev-libs/gobject-introspection-1.30.0:= )
-	python? (
-		${PYTHON_DEPS}
-		>=dev-python/pygobject-3.16:3[${PYTHON_USEDEP}] )
 "
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.14
@@ -30,42 +28,20 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	x11-libs/gdk-pixbuf:2
 "
-# TODO: make gdk-pixbuf properly optional with USE=test
 
 pkg_setup() {
-	use python && python_setup
-}
-
-src_prepare() {
-	gnome2_src_prepare
-
-	use python && python_copy_sources
+	python_setup
 }
 
 src_configure() {
-	local emasonargs=(
+	local emesonargs=(
 		-D enable-introspection=$(usex introspection true false)
 	)
 	meson_src_configure
-
-	if use python ; then
-		python_foreach_impl run_in_build_dir \
-		gnome2_src_configure \
-			${myconf[@]} \
-			--enable-python
-	fi
 }
 
 src_install() {
 	meson_src_install
-
-	if use python ; then
-		docinto examples
-		dodoc examples/*.py
-
-		python_foreach_impl run_in_build_dir \
-		emake DESTDIR="${D}" install-overridesPYTHON
-	fi
 }
 
 pkg_postrm() {
