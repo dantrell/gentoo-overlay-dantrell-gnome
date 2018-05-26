@@ -168,7 +168,7 @@ dev-python/pyatspi::gnome-kit
 dev-python/pycairo::gentoo
 dev-python/pycairo::gnome-kit
 dev-python/pycups::gentoo
-dev-python/pycups::python-kit
+dev-python/pycups::python-modules-kit
 dev-python/pygobject::gentoo
 dev-python/pygobject::gnome-kit
 dev-python/pygtk::gentoo

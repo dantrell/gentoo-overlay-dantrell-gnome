@@ -59,15 +59,15 @@ DOC_CONTENTS="
 PATCHES=(
 	# Use static group "plugdev" to not force people to become root for
 	# controlling the devices.
-	"${FILESDIR}"/bluez-plugdev.patch
+	"${FILESDIR}"/${PN}-plugdev.patch
 
 	# Try both udevadm paths to cover udev/systemd vs. eudev locations (#539844)
 	# http://www.spinics.net/lists/linux-bluetooth/msg58739.html
-	"${FILESDIR}"/bluez-udevadm-path.patch
+	"${FILESDIR}"/${PN}-udevadm-path.patch
 
 	# build: Quote systemd variable names, bug #527432
 	# http://article.gmane.org/gmane.linux.bluez.kernel/67230
-	"${FILESDIR}"/bluez-5.39-systemd-quote.patch
+	"${FILESDIR}"/${PN}-5.39-systemd-quote.patch
 
 	# Fedora patches
 	# http://www.spinics.net/lists/linux-bluetooth/msg40136.html

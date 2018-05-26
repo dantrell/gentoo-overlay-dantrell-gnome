@@ -28,8 +28,7 @@ RDEPEND=">=dev-libs/glib-1.2.10-r6:1[${MULTILIB_USEDEP}]
 	>=x11-libs/libXi-1.7.2[${MULTILIB_USEDEP}]
 	>=x11-libs/libXt-1.1.4[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}
-	>=x11-proto/inputproto-2.2-r1[${MULTILIB_USEDEP}]
-	>=x11-proto/xextproto-7.2.1-r1[${MULTILIB_USEDEP}]
+	x11-base/xorg-proto
 	nls? ( sys-devel/gettext dev-util/intltool )"
 
 MULTILIB_CHOST_TOOLS=(/usr/bin/gtk-config)
