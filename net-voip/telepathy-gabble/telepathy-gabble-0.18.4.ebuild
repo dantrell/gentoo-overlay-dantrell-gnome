@@ -14,7 +14,7 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="gnutls +jingle plugins test"
+IUSE="gnutls +jingle libressl plugins test"
 
 # Prevent false positives due nested configure
 QA_CONFIGURE_OPTIONS=".*"
@@ -33,7 +33,10 @@ RDEPEND="
 	dev-db/sqlite:3
 
 	gnutls? ( >=net-libs/gnutls-2.10.2 )
-	!gnutls? ( >=dev-libs/openssl-0.9.8g:0[-bindist] )
+	!gnutls? (
+		libressl? ( dev-libs/libressl:0= )
+		!libressl? ( >=dev-libs/openssl-0.9.8g:0=[-bindist] )
+	)
 	jingle? (
 		>=net-libs/libsoup-2.42
 		>=net-libs/libnice-0.0.11 )
