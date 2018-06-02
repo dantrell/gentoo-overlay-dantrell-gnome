@@ -38,6 +38,7 @@
 ~dev-libs/libgee-0.20.1::dantrell-gnome
 ~dev-libs/libgnome-games-support-1.2.3::dantrell-gnome
 ~dev-libs/libgweather-3.26.2::dantrell-gnome-3-26
+~dev-libs/libical-3.0.3::dantrell-gnome
 ~dev-libs/libpeas-1.22.0::dantrell-gnome
 ~dev-libs/template-glib-3.26.1::dantrell-gnome-3-26
 ~dev-libs/totem-pl-parser-3.26.0::dantrell-gnome
@@ -87,7 +88,6 @@
 ~gnome-base/libgnomekbd-3.26.0::dantrell-gnome
 ~gnome-base/libgtop-2.38.0::dantrell-gnome
 ~gnome-base/librsvg-2.40.20::dantrell-gnome
-~gnome-base/nautilus-3.26.2::dantrell-gnome-3-26
 ~gnome-base/nautilus-3.26.3.1::dantrell-gnome-3-26
 ~gnome-extra/evolution-data-server-3.26.6::dantrell-gnome-3-26
 ~gnome-extra/evolution-ews-3.26.6::dantrell-gnome-3-26

@@ -52,14 +52,8 @@ RDEPEND="${COMMON_DEPEND}
 
 PDEPEND="netifrc? ( net-misc/netifrc )"
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-0.35.5-Add-_POSIX_C_SOURCE-definition-to-Linux-build.patch
-)
-
 src_prepare() {
 	default
-
-	sed -i 's:0444:0644:' mk/sys.mk || die
 
 	if ! use vanilla-warnings; then
 		# We shouldn't have to deal with deprecation warnings for runscript

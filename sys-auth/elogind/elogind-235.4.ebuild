@@ -77,7 +77,7 @@ src_configure() {
 		-Drootlibexecdir="${EPREFIX}"/$(get_libdir)/elogind
 		-Drootprefix="${EPREFIX}/"
 		-Dbashcompletiondir="${EPREFIX}/usr/share/bash-completion/completions"
-		-Dzsh-completion="${EPREFIX}/usr/share/zsh/site-functions"
+		-Dzshcompletiondir="${EPREFIX}/usr/share/zsh/site-functions"
 		-Dman=auto
 		-Dsmack=true
 		-Dcgroup-controller=openrc
