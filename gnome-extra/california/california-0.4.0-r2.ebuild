@@ -15,7 +15,7 @@ KEYWORDS="*"
 IUSE=""
 
 RDEPEND="
-	<dev-libs/libical-3.0:=
+	dev-libs/libical:=
 	>=dev-libs/glib-2.38:2
 	>=dev-libs/gobject-introspection-1.38:=
 	>=dev-libs/libgdata-0.14:=
@@ -38,6 +38,10 @@ src_prepare() {
 	# From GNOME:
 	# 	https://bugzilla.gnome.org/show_bug.cgi?id=743961
 	eapply "${FILESDIR}"/${PN}-0.4.0-fix-build-with-evolution-data-server-3.13.90.patch
+
+	# From Fedora:
+	# 	https://src.fedoraproject.org/cgit/rpms/california.git/tree/?h=f28
+	eapply "${FILESDIR}"/${PN}-0.4.0-fix-build-with-libical-3.0.patch
 
 	vala_src_prepare
 	gnome2_src_prepare

@@ -1,0 +1,43 @@
+diff '--exclude=.git' -urN a/src/application/california-application.vala b/src/application/california-application.vala
+--- a/src/application/california-application.vala	2015-03-23 19:36:24.000000000 -0400
++++ b/src/application/california-application.vala	2018-06-07 03:37:52.529950201 -0400
+@@ -55,7 +55,7 @@
+         }
+     }
+     
+-    private static const ActionEntry[] action_entries = {
++    private const ActionEntry[] action_entries = {
+         // public actions
+         { ACTION_CALENDAR_MANAGER, on_calendar_manager },
+         { ACTION_HELP, on_help },
+diff '--exclude=.git' -urN a/src/component/component.vala b/src/component/component.vala
+--- a/src/component/component.vala	2015-03-23 19:36:24.000000000 -0400
++++ b/src/component/component.vala	2018-06-07 03:37:52.530950195 -0400
+@@ -224,7 +224,6 @@
+     ical_dt->hour = 0;
+     ical_dt->minute = 0;
+     ical_dt->second = 0;
+-    ical_dt->is_utc = 0;
+     ical_dt->is_date = 1;
+     ical_dt->is_daylight = 0;
+     ical_dt->zone = null;
+@@ -240,7 +239,6 @@
+     ical_dt->hour = exact_time.hour;
+     ical_dt->minute = exact_time.minute;
+     ical_dt->second = exact_time.second;
+-    ical_dt->is_utc = exact_time.tz.is_utc ? 1 : 0;
+     ical_dt->is_date = 0;
+     ical_dt->is_daylight = exact_time.is_dst ? 1 : 0;
+     ical_dt->zone = iCal.icaltimezone.get_builtin_timezone(exact_time.tz.zone.value);
+diff '--exclude=.git' -urN a/src/host/host-main-window.vala b/src/host/host-main-window.vala
+--- a/src/host/host-main-window.vala	2015-03-23 19:36:24.000000000 -0400
++++ b/src/host/host-main-window.vala	2018-06-07 03:37:52.531950189 -0400
+@@ -71,7 +71,7 @@
+     private const string ACTION_RESET_FONT = "reset-font";
+     private const string ACCEL_RESET_FONT = "KP_Multiply";
+     
+-    private static const ActionEntry[] action_entries = {
++    private const ActionEntry[] action_entries = {
+         { ACTION_QUICK_CREATE_EVENT, on_quick_create_event },
+         { ACTION_JUMP_TO_TODAY, on_jump_to_today },
+         { ACTION_NEXT, on_next },
