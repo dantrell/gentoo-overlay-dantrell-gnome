@@ -20,7 +20,7 @@ COMMON_DEPEND_LIBS="
 	>=dev-libs/npth-1.2
 	>=dev-libs/libassuan-2.5.0
 	>=dev-libs/libgcrypt-1.7.3
-	>=dev-libs/libgpg-error-1.24
+	>=dev-libs/libgpg-error-1.28
 	>=dev-libs/libksba-1.3.4
 	>=net-misc/curl-7.10
 	ssl? ( >=net-libs/gnutls-3.0:0= )
