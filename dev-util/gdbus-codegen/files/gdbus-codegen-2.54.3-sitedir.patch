@@ -1,11 +1,8 @@
-diff '--exclude=.git' -urN a/gio/gdbus-2.0/codegen/gdbus-codegen.in b/gio/gdbus-2.0/codegen/gdbus-codegen.in
---- a/gio/gdbus-2.0/codegen/gdbus-codegen.in	2017-07-15 08:05:03.000000000 -0400
-+++ b/gio/gdbus-2.0/codegen/gdbus-codegen.in	2017-10-09 15:40:50.142124127 -0400
-@@ -24,20 +24,10 @@
- import sys
- 
- srcdir = os.getenv('UNINSTALLED_GLIB_SRCDIR', None)
--filedir = os.path.dirname(__file__)
+diff --git a/gio/gdbus-2.0/codegen/gdbus-codegen.in b/gio/gdbus-2.0/codegen/gdbus-codegen.in
+index 8050981..932410a 100644
+--- a/gdbus-codegen.in
++++ b/gdbus-codegen.in
+@@ -28,16 +28,7 @@ filedir = os.path.dirname(__file__)
  
  if srcdir is not None:
      path = os.path.join(srcdir, 'gio', 'gdbus-2.0')
