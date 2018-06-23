@@ -105,6 +105,10 @@ src_prepare() {
 	# https://bugzilla.gnome.org/show_bug.cgi?id=737831
 	rm -v lib/rb-marshal.{c,h} || die
 
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/rhythmbox/commit/b182c6b9e1d09e601bac0b703cc5f8b159ebbc3a
+	eapply "${FILESDIR}"/${PN}-3.4.3-fmradio-fix-build-with-gstreamer-master.patch
+
 	gnome2_src_prepare
 }
 
