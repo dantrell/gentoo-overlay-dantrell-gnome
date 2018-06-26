@@ -88,9 +88,6 @@ pkg_setup() {
 }
 
 src_prepare() {
-	# Prevent pylint usage by tests, bug #482538
-	sed -i -e 's/ check-pylint//' src/plugins/Makefile.plugins || die
-
 	# Support the FFMPEG Thumbnailer out-of-the-box
 	if ! use vanilla-thumbnailer; then
 		sed -e "s/totem-video-thumbnailer/ffmpegthumbnailer/" \

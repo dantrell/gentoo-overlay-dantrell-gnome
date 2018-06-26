@@ -82,6 +82,10 @@ DEPEND="${COMMON_DEPEND}
 	test? ( dev-libs/check )
 "
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-3.4.2-gstreamer-1.14.patch
+)
+
 pkg_setup() {
 	use python && python-single-r1_pkg_setup
 }

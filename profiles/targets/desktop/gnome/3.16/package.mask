@@ -1,6 +1,9 @@
 # Masked to test on GNOME 3.30 first
 >=net-libs/webkit-gtk-2.22.0
 
+# Requires GLib 2.54 (or greater)
+>=media-gfx/gimp-2.10.0
+
 # Requires GLib 2.52 (or greater)
 >=net-libs/phodav-2.2
 

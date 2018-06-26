@@ -107,7 +107,8 @@ src_prepare() {
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/rhythmbox/commit/b182c6b9e1d09e601bac0b703cc5f8b159ebbc3a
-	eapply "${FILESDIR}"/${PN}-3.4.3-fmradio-fix-build-with-gstreamer-master.patch
+	#eapply "${FILESDIR}"/${PN}-3.4.3-fmradio-fix-build-with-gstreamer-master.patch
+	eapply "${FILESDIR}"/${PN}-3.4.2-gstreamer-1.14.patch
 
 	gnome2_src_prepare
 }
