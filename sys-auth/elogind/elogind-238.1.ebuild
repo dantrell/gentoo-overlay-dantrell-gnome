@@ -39,7 +39,9 @@ PDEPEND="
 	policykit? ( sys-auth/polkit )
 "
 
-PATCHES=( "${FILESDIR}"/${P}-docs.patch )
+PATCHES=(
+	"${FILESDIR}"/${PN}-238.1-docs.patch
+)
 
 pkg_setup() {
 	local CONFIG_CHECK="~CGROUPS ~EPOLL ~INOTIFY_USER ~SIGNALFD ~TIMERFD"
@@ -91,7 +93,6 @@ src_configure() {
 }
 
 src_install() {
-
 	meson_src_install
 
 	newinitd "${FILESDIR}"/${PN}.init ${PN}
