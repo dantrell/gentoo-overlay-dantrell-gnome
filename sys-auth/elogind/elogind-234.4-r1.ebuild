@@ -41,6 +41,7 @@ PDEPEND="
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-226.4-docs.patch
+	"${FILESDIR}"/${PN}-233.7-missing-syscall-when-adding-syscall-replacements-use-different-names.patch
 )
 
 pkg_setup() {

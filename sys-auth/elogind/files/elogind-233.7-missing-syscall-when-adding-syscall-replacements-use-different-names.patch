@@ -1,0 +1,188 @@
+diff '--exclude=.git' -urN a/src/basic/missing_syscall.h b/src/basic/missing_syscall.h
+--- a/src/basic/missing_syscall.h	2017-09-25 05:52:49.000000000 -0400
++++ b/src/basic/missing_syscall.h	2018-07-04 19:11:44.360193257 -0400
+@@ -24,9 +24,11 @@
+ 
+ #if 0 /// UNNEEDED by elogind
+ #if !HAVE_DECL_PIVOT_ROOT
+-static inline int pivot_root(const char *new_root, const char *put_old) {
++static inline int missing_pivot_root(const char *new_root, const char *put_old) {
+         return syscall(SYS_pivot_root, new_root, put_old);
+ }
++
++#  define pivot_root missing_pivot_root
+ #endif
+ #endif // 0
+ 
+@@ -59,7 +61,7 @@
+ #    endif
+ #  endif
+ 
+-static inline int memfd_create(const char *name, unsigned int flags) {
++static inline int missing_memfd_create(const char *name, unsigned int flags) {
+ #  ifdef __NR_memfd_create
+         return syscall(__NR_memfd_create, name, flags);
+ #  else
+@@ -67,6 +69,8 @@
+         return -1;
+ #  endif
+ }
++
++#  define memfd_create missing_memfd_create
+ #endif
+ 
+ /* ======================================================================= */
+@@ -104,7 +108,7 @@
+ #    endif
+ #  endif
+ 
+-static inline int getrandom(void *buffer, size_t count, unsigned flags) {
++static inline int missing_getrandom(void *buffer, size_t count, unsigned flags) {
+ #  ifdef __NR_getrandom
+         return syscall(__NR_getrandom, buffer, count, flags);
+ #  else
+@@ -112,14 +116,18 @@
+         return -1;
+ #  endif
+ }
++
++#  define getrandom missing_getrandom
+ #endif
+ 
+ /* ======================================================================= */
+ 
+ #if !HAVE_DECL_GETTID
+-static inline pid_t gettid(void) {
++static inline pid_t missing_gettid(void) {
+         return (pid_t) syscall(SYS_gettid);
+ }
++
++#  define gettid missing_gettid
+ #endif
+ 
+ /* ======================================================================= */
+@@ -145,7 +153,7 @@
+         unsigned char f_handle[0];
+ };
+ 
+-static inline int name_to_handle_at(int fd, const char *name, struct file_handle *handle, int *mnt_id, int flags) {
++static inline int missing_name_to_handle_at(int fd, const char *name, struct file_handle *handle, int *mnt_id, int flags) {
+ #  ifdef __NR_name_to_handle_at
+         return syscall(__NR_name_to_handle_at, fd, name, handle, mnt_id, flags);
+ #  else
+@@ -153,6 +161,8 @@
+         return -1;
+ #  endif
+ }
++
++#  define name_to_handle_at missing_name_to_handle_at
+ #endif
+ 
+ /* ======================================================================= */
+@@ -168,7 +178,7 @@
+ #    endif
+ #  endif
+ 
+-static inline int setns(int fd, int nstype) {
++static inline int missing_setns(int fd, int nstype) {
+ #  ifdef __NR_setns
+         return syscall(__NR_setns, fd, nstype);
+ #  else
+@@ -176,6 +186,8 @@
+         return -1;
+ #  endif
+ }
++
++#  define setns missing_setns
+ #endif
+ 
+ /* ======================================================================= */
+@@ -217,7 +229,7 @@
+ #    endif
+ #  endif
+ 
+-static inline int renameat2(int oldfd, const char *oldname, int newfd, const char *newname, unsigned flags) {
++static inline int missing_renameat2(int oldfd, const char *oldname, int newfd, const char *newname, unsigned flags) {
+ #  ifdef __NR_renameat2
+         return syscall(__NR_renameat2, oldfd, oldname, newfd, newname, flags);
+ #  else
+@@ -225,12 +237,14 @@
+         return -1;
+ #  endif
+ }
++
++#  define renameat2 missing_renameat2
+ #endif
+ 
+ /* ======================================================================= */
+ 
+ #if !HAVE_DECL_KCMP
+-static inline int kcmp(pid_t pid1, pid_t pid2, int type, unsigned long idx1, unsigned long idx2) {
++static inline int missing_kcmp(pid_t pid1, pid_t pid2, int type, unsigned long idx1, unsigned long idx2) {
+ #  ifdef __NR_kcmp
+         return syscall(__NR_kcmp, pid1, pid2, type, idx1, idx2);
+ #  else
+@@ -238,36 +252,44 @@
+         return -1;
+ #  endif
+ }
++
++#  define kcmp missing_kcmp
+ #endif
+ 
+ /* ======================================================================= */
+ 
+ #if !HAVE_DECL_KEYCTL
+-static inline long keyctl(int cmd, unsigned long arg2, unsigned long arg3, unsigned long arg4,unsigned long arg5) {
++static inline long missing_keyctl(int cmd, unsigned long arg2, unsigned long arg3, unsigned long arg4,unsigned long arg5) {
+ #  ifdef __NR_keyctl
+         return syscall(__NR_keyctl, cmd, arg2, arg3, arg4, arg5);
+ #  else
+         errno = ENOSYS;
+         return -1;
+ #  endif
++
++#  define keyctl missing_keyctl
+ }
+ 
+-static inline key_serial_t add_key(const char *type, const char *description, const void *payload, size_t plen, key_serial_t ringid) {
++static inline key_serial_t missing_add_key(const char *type, const char *description, const void *payload, size_t plen, key_serial_t ringid) {
+ #  ifdef __NR_add_key
+         return syscall(__NR_add_key, type, description, payload, plen, ringid);
+ #  else
+         errno = ENOSYS;
+         return -1;
+ #  endif
++
++#  define add_key missing_add_key
+ }
+ 
+-static inline key_serial_t request_key(const char *type, const char *description, const char * callout_info, key_serial_t destringid) {
++static inline key_serial_t missing_request_key(const char *type, const char *description, const char * callout_info, key_serial_t destringid) {
+ #  ifdef __NR_request_key
+         return syscall(__NR_request_key, type, description, callout_info, destringid);
+ #  else
+         errno = ENOSYS;
+         return -1;
+ #  endif
++
++#  define request_key missing_request_key
+ }
+ #endif
+ 
+@@ -292,7 +314,7 @@
+ #    endif
+ #  endif
+ 
+-static inline ssize_t copy_file_range(int fd_in, loff_t *off_in,
++static inline ssize_t missing_copy_file_range(int fd_in, loff_t *off_in,
+                                       int fd_out, loff_t *off_out,
+                                       size_t len,
+                                       unsigned int flags) {
+@@ -303,4 +325,6 @@
+         return -1;
+ #  endif
+ }
++
++#  define copy_file_range missing_copy_file_range
+ #endif
