@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CMAKE_BUILD_TYPE="Release"
 CMAKE_MAKEFILE_GENERATOR="ninja"
 PYTHON_COMPAT=( python2_7 )
 USE_RUBY="ruby23 ruby24 ruby25"
@@ -151,6 +150,10 @@ pkg_setup() {
 src_prepare() {
 	# https://bugs.gentoo.org/show_bug.cgi?id=555504
 	eapply "${FILESDIR}"/${PN}-2.8.5-fix-ia64-build.patch
+
+	# https://bugs.webkit.org/show_bug.cgi?id=180637
+	eapply "${FILESDIR}"/${PN}-2.18.6-b3-b3switchvalue-cpp-replace-the-include.patch
+
 	cmake-utils_src_prepare
 	gnome2_src_prepare
 }
@@ -243,6 +246,7 @@ src_configure() {
 		-DENABLE_X11_TARGET=$(usex X)
 		-DENABLE_OPENGL=${opengl_enabled}
 		-DENABLE_ACCELERATED_2D_CANVAS=${canvas_enabled}
+		-DCMAKE_BUILD_TYPE=Release
 		-DPORT=GTK
 		${ruby_interpreter}
 	)
