@@ -43,6 +43,8 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-226.4-docs.patch
 	"${FILESDIR}"/${PN}-233.7-xlocale.h.patch
 	"${FILESDIR}"/${PN}-233.7-missing-syscall-when-adding-syscall-replacements-use-different-names.patch
+	"${FILESDIR}"/${PN}-233.7-introduce-elogind-uaccess-command-to-replace-uaccess-builtin.patch
+	"${FILESDIR}"/${PN}-235.3-uaccess-command-trivial-differentiate-apply-vs-reset-error-log.patch
 )
 
 pkg_setup() {

@@ -1,0 +1,36 @@
+From e38c16d909d17371c8ec6e090f07da7a1f528ce6 Mon Sep 17 00:00:00 2001
+From: Arthur Taylor <art@ified.ca>
+Date: Tue, 13 Feb 2018 11:51:19 -0800
+Subject: uaccess-command: [trivial] Differentiate apply vs reset error log
+ messages.
+
+Also change systemd to logind in a comment.
+---
+ src/uaccess-command/uaccess-command.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/uaccess-command/uaccess-command.c b/src/uaccess-command/uaccess-command.c
+index efb9dcd..df790e1 100644
+--- a/src/uaccess-command/uaccess-command.c
++++ b/src/uaccess-command/uaccess-command.c
+@@ -40,7 +40,7 @@ static int dev_uaccess(const char *path, const char *seat) {
+ 
+         umask(0022);
+ 
+-        /* don't muck around with ACLs when the system is not running systemd */
++        /* don't muck around with ACLs when the system is not running logind */
+         if (!logind_running())
+                 return 0;
+ 
+@@ -73,7 +73,7 @@ finish:
+                 /* Better be safe than sorry and reset ACL */
+                 k = devnode_acl(path, true, false, 0, false, 0);
+                 if (k < 0) {
+-                        log_full_errno(errno == ENOENT ? LOG_DEBUG : LOG_ERR, k, "Failed to apply ACL on %s: %m", path);
++                        log_full_errno(errno == ENOENT ? LOG_DEBUG : LOG_ERR, k, "Failed to reset ACL on %s: %m", path);
+                         if (r >= 0)
+                                 r = k;
+                 }
+-- 
+cgit v1.1
+
