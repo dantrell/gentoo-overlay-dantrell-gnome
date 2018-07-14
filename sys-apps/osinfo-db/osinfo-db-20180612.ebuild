@@ -3,14 +3,14 @@
 EAPI="6"
 
 DESCRIPTION="osinfo database files"
-HOMEPAGE="http://libosinfo.org/"
+HOMEPAGE="https://libosinfo.org/"
 SRC_URI="https://releases.pagure.org/libosinfo/${P}.tar.xz"
 
 S="${WORKDIR}"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 RDEPEND=""
 DEPEND="${RDEPEND}

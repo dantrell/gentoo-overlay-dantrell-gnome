@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit bash-completion-r1 eutils linux-info systemd udev xdg-utils
+inherit bash-completion-r1 linux-info systemd udev xdg-utils
 
 DESCRIPTION="Daemon providing interfaces to work with storage devices"
 HOMEPAGE="https://www.freedesktop.org/wiki/Software/udisks"
@@ -97,7 +97,7 @@ src_configure() {
 
 src_install() {
 	default
-	prune_libtool_files
+	find "${ED}" -name "*.la" -delete || die
 	keepdir /var/lib/udisks2 #383091
 
 	rm -rf "${ED%/}"/usr/share/bash-completion
