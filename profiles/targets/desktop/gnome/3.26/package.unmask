@@ -129,11 +129,11 @@
 ~media-libs/clutter-gst-3.0.26::dantrell-gnome
 ~media-libs/clutter-gtk-1.8.4::dantrell-gnome
 ~media-libs/cogl-1.22.2::dantrell-gnome
-~media-libs/grilo-0.3.4::dantrell-gnome
+~media-libs/grilo-0.3.5::dantrell-gnome
 ~media-libs/gsound-1.0.2::dantrell-gnome
 ~media-libs/libchamplain-0.12.16::dantrell-gnome
 ~media-libs/libmediaart-1.9.4::dantrell-gnome
-~media-plugins/grilo-plugins-0.3.5::dantrell-gnome
+~media-plugins/grilo-plugins-0.3.6::dantrell-gnome
 ~media-sound/gnome-music-3.26.2::dantrell-gnome-3-26
 ~media-sound/gnome-sound-recorder-3.24.0.1::dantrell-gnome
 ~media-video/cheese-3.26.0::dantrell-gnome-3-26
@@ -154,7 +154,7 @@
 ~net-libs/rest-0.8.1::dantrell-gnome
 ~net-libs/webkit-gtk-2.18.6::dantrell-gnome
 ~net-misc/gnome-online-miners-3.26.0::dantrell-gnome
-~net-misc/networkmanager-1.8.6::dantrell-gnome
+~net-misc/networkmanager-1.8.8::dantrell-gnome
 ~net-misc/rygel-0.36.1::dantrell-gnome
 ~net-misc/vino-3.22.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.26.1::dantrell-gnome-3-26
