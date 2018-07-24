@@ -11,7 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Geary"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="nls"
 

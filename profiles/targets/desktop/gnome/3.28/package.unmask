@@ -121,7 +121,7 @@
 ~gnome-extra/yelp-xsl-3.28.0::dantrell-gnome-3-28
 ~gnome-extra/zenity-3.28.1::dantrell-gnome-3-28
 ~mail-client/evolution-3.28.4::dantrell-gnome-3-28
-~media-gfx/eog-3.28.2::dantrell-gnome-3-28
+~media-gfx/eog-3.28.3::dantrell-gnome-3-28
 ~media-gfx/gnome-font-viewer-3.28.0::dantrell-gnome-3-28
 ~media-gfx/gnome-photos-3.28.0::dantrell-gnome-3-28
 ~media-gfx/gnome-screenshot-3.26.0::dantrell-gnome
