@@ -40,7 +40,7 @@ RDEPEND=">=dev-libs/lzo-2.06-r1[${MULTILIB_USEDEP}]
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	>=sys-devel/libtool-2
-	X? ( x11-base/xorg-proto[${MULTILIB_USEDEP}] )
+	X? ( x11-base/xorg-proto )
 "
 
 REQUIRED_USE="
