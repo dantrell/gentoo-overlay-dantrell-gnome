@@ -28,6 +28,7 @@
 
 # Requires GLib 2.44 (or greater)
 >=dev-db/mysql-workbench-6.3.9
+>=dev-db/percona-server-5.6.40.84.0
 >=dev-libs/libIDL-0.8.14-r2
 >=gnome-base/orbit-2.14.19-r5
 >=gnome-extra/gnome-commander-1.6.1

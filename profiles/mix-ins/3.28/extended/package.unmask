@@ -48,7 +48,7 @@
 ~dev-util/anjuta-3.28.0::dantrell-gnome-3-28
 ~dev-util/devhelp-3.28.1::dantrell-gnome-3-28
 ~dev-util/gdbus-codegen-2.56.1::dantrell-gnome
-~dev-util/gnome-builder-3.28.3::dantrell-gnome-3-28
+~dev-util/gnome-builder-3.28.4::dantrell-gnome-3-28
 ~dev-util/gnome-devel-docs-3.28.0::dantrell-gnome-3-28
 ~dev-vcs/gitg-3.26.0::dantrell-gnome
 ~games-arcade/gnome-nibbles-3.24.0::dantrell-gnome
@@ -129,16 +129,16 @@
 ~media-libs/clutter-gst-3.0.26::dantrell-gnome
 ~media-libs/clutter-gtk-1.8.4::dantrell-gnome
 ~media-libs/cogl-1.22.2::dantrell-gnome
-~media-libs/grilo-0.3.5::dantrell-gnome
+~media-libs/grilo-0.3.6::dantrell-gnome
 ~media-libs/gsound-1.0.2::dantrell-gnome
 ~media-libs/libchamplain-0.12.16::dantrell-gnome
 ~media-libs/libmediaart-1.9.4::dantrell-gnome
-~media-plugins/grilo-plugins-0.3.6::dantrell-gnome
+~media-plugins/grilo-plugins-0.3.7::dantrell-gnome
 ~media-sound/gnome-music-3.28.2.1::dantrell-gnome-3-28
 ~media-sound/gnome-sound-recorder-3.28.1::dantrell-gnome-3-28
 ~media-video/cheese-3.28.0::dantrell-gnome-3-28
 ~media-video/gnome-video-effects-0.4.3::dantrell-gnome
-~media-video/totem-3.26.1::dantrell-gnome
+~media-video/totem-3.26.2::dantrell-gnome
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
 ~net-irc/polari-3.28.1::dantrell-gnome-3-28
 ~net-libs/glib-networking-2.56.1::dantrell-gnome-3-28
@@ -165,7 +165,7 @@
 ~www-client/epiphany-3.28.3.1::dantrell-gnome-3-28
 ~x11-libs/gdk-pixbuf-2.36.4::dantrell-gnome
 ~x11-libs/gtksourceview-4.0.2::dantrell-gnome
-~x11-libs/libdazzle-3.28.3::dantrell-gnome-3-28
+~x11-libs/libdazzle-3.28.4::dantrell-gnome-3-28
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/pango-1.42.2::dantrell-gnome
 ~x11-libs/vte-0.52.2::dantrell-gnome-3-28
