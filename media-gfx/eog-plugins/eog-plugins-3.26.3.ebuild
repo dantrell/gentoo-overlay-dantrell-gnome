@@ -13,7 +13,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="+exif flickr map picasa +python"
+IUSE="+exif map picasa +python"
 REQUIRED_USE="
 	map? ( exif )
 	python? ( ${PYTHON_REQUIRED_USE} )
@@ -25,7 +25,6 @@ RDEPEND="
 	>=media-gfx/eog-3.15.90
 	>=x11-libs/gtk+-3.14:3
 	exif? ( >=media-libs/libexif-0.6.16 )
-	flickr? ( media-gfx/postr )
 	map? (
 		media-libs/libchamplain:0.12[gtk]
 		>=media-libs/clutter-1.9.4:1.0
@@ -41,9 +40,10 @@ RDEPEND="
 		x11-libs/gtk+:3[introspection]
 		x11-libs/pango[introspection] )
 "
+# libxml2 required for glib-compile-resources
 DEPEND="${RDEPEND}
-	>=dev-util/intltool-0.50.1
-	sys-devel/gettext
+	dev-libs/libxml2:2
+	>=sys-devel/gettext-0.19.7
 	virtual/pkgconfig
 "
 
@@ -54,7 +54,6 @@ pkg_setup() {
 src_configure() {
 	local plugins="fit-to-width,send-by-mail,hide-titlebar,light-theme"
 	use exif && plugins="${plugins},exif-display"
-	use flickr && plugins="${plugins},postr"
 	use map && plugins="${plugins},map"
 	use picasa && plugins="${plugins},postasa"
 	use python && plugins="${plugins},slideshowshuffle,pythonconsole,fullscreenbg,export-to-folder,maximize-windows"

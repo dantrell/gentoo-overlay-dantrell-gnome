@@ -7,7 +7,7 @@ inherit flag-o-matic gnome2
 DESCRIPTION="A library that provides top functionality to applications"
 HOMEPAGE="https://git.gnome.org/browse/libgtop"
 
-LICENSE="GPL-2"
+LICENSE="GPL-2+"
 SLOT="2/10" # libgtop soname version
 KEYWORDS="~*"
 

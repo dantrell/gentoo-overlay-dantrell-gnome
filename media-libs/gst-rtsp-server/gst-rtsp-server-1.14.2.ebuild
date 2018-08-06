@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit eutils gstreamer
+inherit gstreamer
 
 DESCRIPTION="A GStreamer based RTSP server"
 HOMEPAGE="https://gstreamer.freedesktop.org/modules/gst-rtsp-server.html"
@@ -56,11 +56,11 @@ multilib_src_install() {
 	emake install DESTDIR="${D}"
 	# Handle broken upstream modifications to defaults of gtk-doc
 	emake install -C docs/libs DESTDIR="${D}"
-	prune_libtool_files
 }
 
 multilib_src_install_all() {
 	einstalldocs
+	find "${ED}" -name '*.la' -delete || die
 
 	if use examples ; then
 		insinto /usr/share/doc/${PF}/examples

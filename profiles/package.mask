@@ -67,6 +67,7 @@ app-i18n/unicode-emoji::nokit
 app-misc/geoclue::gentoo
 app-misc/geoclue::gnome-kit
 app-misc/tracker-miners::gentoo
+app-misc/tracker-miners::gnome-kit
 app-misc/tracker::gentoo
 app-misc/tracker::gnome-kit
 app-text/gnome-doc-utils::gentoo
@@ -76,6 +77,7 @@ app-text/gspell::gnome-kit
 app-text/gtkspell::gentoo
 app-text/gtkspell::gnome-kit
 app-text/libgepub::gentoo
+app-text/libgepub::gnome-kit
 app-text/libgxps::gentoo
 app-text/libgxps::gnome-kit
 app-text/poppler::gentoo
@@ -222,6 +224,7 @@ games-puzzle/gnome-taquin::gnome-kit
 games-puzzle/gnome-tetravex::gentoo
 games-puzzle/gnome-tetravex::gnome-kit
 games-puzzle/gnome2048::gentoo
+games-puzzle/gnome2048::gnome-kit
 games-puzzle/hitori::gentoo
 games-puzzle/hitori::gnome-kit
 games-puzzle/quadrapassel::gentoo
@@ -233,11 +236,13 @@ gnome-base/gnome-common::gnome-kit
 gnome-base/gnome-desktop::gentoo
 gnome-base/gnome-desktop::gnome-kit
 gnome-base/gnome-flashback::gentoo
+gnome-base/gnome-flashback::gnome-kit
 gnome-base/gnome-keyring::gentoo
 gnome-base/gnome-keyring::gnome-kit
 gnome-base/gnome-menus::gentoo
 gnome-base/gnome-menus::gnome-kit
 gnome-base/gnome-shell-common::gentoo
+gnome-base/gnome-shell-common::gnome-kit
 gnome-base/gsettings-desktop-schemas::gentoo
 gnome-base/gsettings-desktop-schemas::gnome-kit
 gnome-base/libgnome-keyring::gentoo
@@ -263,6 +268,7 @@ gnome-extra/gnome-multi-writer::gentoo
 gnome-extra/gnome-power-manager::gentoo
 gnome-extra/gnome-power-manager::gnome-kit
 gnome-extra/gnome-recipes::gentoo
+gnome-extra/gnome-recipes::gnome-kit
 gnome-extra/gnome-user-share::gentoo
 gnome-extra/gnome-user-share::gnome-kit
 gnome-extra/gnome-weather::gentoo
@@ -477,6 +483,7 @@ x11-libs/libxklavier::gnome-kit
 x11-libs/pango::gentoo
 x11-libs/pango::gnome-kit
 x11-libs/tepl::gentoo
+x11-libs/tepl::gnome-kit
 x11-libs/vte::gentoo
 x11-libs/vte::gnome-kit
 x11-libs/xpyb::gentoo

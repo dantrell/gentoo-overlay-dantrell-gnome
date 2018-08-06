@@ -24,6 +24,7 @@ RDEPEND="
 	vala? ( $(vala_depend) )
 "
 DEPEND="${RDEPEND}
+	dev-libs/libxml2:2
 	>=dev-util/gtk-doc-am-1.25
 	>=sys-devel/gettext-0.19.4
 	virtual/pkgconfig

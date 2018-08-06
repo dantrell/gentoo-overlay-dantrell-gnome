@@ -18,7 +18,7 @@ IUSE="daap dvd examples chromaprint flickr freebox gnome-online-accounts lua sub
 # Bump gom requirement to avoid segfaults
 RDEPEND="
 	>=dev-libs/glib-2.44:2
-	>=media-libs/grilo-0.3.1:${SLOT}=[network,playlist]
+	>=media-libs/grilo-0.3.6:${SLOT}=[network,playlist]
 	media-libs/libmediaart:2.0
 	>=dev-libs/gom-0.3.2
 
