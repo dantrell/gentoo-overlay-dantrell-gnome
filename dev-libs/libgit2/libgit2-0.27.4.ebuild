@@ -2,15 +2,17 @@
 
 EAPI="6"
 
-inherit cmake-utils
+PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6} )
+
+inherit cmake-utils python-any-r1
 
 DESCRIPTION="A linkable library for Git"
 HOMEPAGE="https://libgit2.github.com/"
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2-with-linking-exception"
-SLOT="0/26"
-KEYWORDS="*"
+SLOT="0/27"
+KEYWORDS=""
 
 IUSE="+curl examples gssapi libressl +ssh test +threads trace"
 
@@ -27,14 +29,13 @@ RDEPEND="
 	ssh? ( net-libs/libssh2 )
 "
 DEPEND="${RDEPEND}
+	${PYTHON_DEPS}
 	virtual/pkgconfig
 "
 
-DOCS=( AUTHORS CONTRIBUTING.md CONVENTIONS.md README.md )
-
 src_prepare() {
 	# skip online tests
-	sed -i '/libgit2_clar/s/-ionline/-xonline/' CMakeLists.txt || die
+	sed -i '/libgit2_clar/s/-ionline/-xonline/' tests/CMakeLists.txt || die
 
 	cmake-utils_src_prepare
 }
