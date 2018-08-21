@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6} )
+PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6,3_7} )
 
 inherit autotools ltprune python-any-r1 readme.gentoo-r1 xdg-utils
 
@@ -45,6 +45,7 @@ DEPEND="${RDEPEND}
 PATCHES=(
 	"${FILESDIR}"/${P}-libressl_fix.patch
 	"${FILESDIR}"/${P}-openssl1.1_fix.patch
+	"${FILESDIR}"/${P}-fix-flexible-array-buffer-overflow.patch
 )
 
 python_check_deps() {

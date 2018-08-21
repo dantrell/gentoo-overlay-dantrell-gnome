@@ -114,7 +114,7 @@
 ~gnome-extra/libgsf-1.14.44::dantrell-gnome
 ~gnome-extra/mousetweaks-3.12.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
-~gnome-extra/nm-applet-1.8.14::dantrell-gnome
+~gnome-extra/nm-applet-1.8.16::dantrell-gnome
 ~gnome-extra/sushi-3.24.0::dantrell-gnome
 ~gnome-extra/yelp-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/zenity-3.24.0::dantrell-gnome
