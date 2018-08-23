@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CMAKE_BUILD_TYPE="Release"
 CMAKE_MAKEFILE_GENERATOR="ninja"
 PYTHON_COMPAT=( python2_7 )
 USE_RUBY="ruby23 ruby24 ruby25"
@@ -15,7 +14,7 @@ SRC_URI="https://www.webkitgtk.org/releases/${MY_P}.tar.xz"
 
 LICENSE="LGPL-2+ BSD"
 SLOT="4/37" # soname version of libwebkit2gtk-4.0
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="aqua coverage doc +egl +geolocation gles2 gnome-keyring +gstreamer +introspection +jit libnotify nsplugin +opengl spell wayland +webgl +X"
 # webgl needs gstreamer, bug #560612

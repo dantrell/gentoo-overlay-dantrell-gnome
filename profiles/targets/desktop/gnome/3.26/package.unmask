@@ -52,7 +52,7 @@
 ~dev-util/gnome-devel-docs-3.26.0::dantrell-gnome-3-26
 ~dev-util/nemiver-0.9.6::dantrell-gnome
 ~dev-vcs/gitg-3.26.0::dantrell-gnome
-~games-arcade/gnome-nibbles-3.24.0::dantrell-gnome
+~games-arcade/gnome-nibbles-3.24.1::dantrell-gnome
 ~games-arcade/gnome-robots-3.22.3::dantrell-gnome
 ~games-board/aisleriot-3.22.5::dantrell-gnome
 ~games-board/four-in-a-row-3.22.2::dantrell-gnome
