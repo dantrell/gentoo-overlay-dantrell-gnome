@@ -20,7 +20,7 @@ MIN_PAM_REQ=1.1.3
 RDEPEND="
 	|| (
 		>=sys-libs/pam-${MIN_PAM_REQ}
-		( sys-auth/openpam || ( sys-freebsd/freebsd-pam-modules sys-netbsd/netbsd-pam-modules ) )
+		( sys-auth/openpam sys-freebsd/freebsd-pam-modules )
 	)
 	ck? ( <sys-auth/consolekit-0.9[pam] )
 	consolekit? ( >=sys-auth/consolekit-0.9[pam] )

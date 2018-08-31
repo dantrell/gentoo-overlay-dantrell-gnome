@@ -14,26 +14,16 @@ KEYWORDS="*"
 
 IUSE="test"
 
-COMMON_DEPEND="
-	>=app-accessibility/at-spi2-core-2.17.90[${MULTILIB_USEDEP}]
-	>=dev-libs/atk-2.15.4[${MULTILIB_USEDEP}]
-	>=dev-libs/glib-2.32:2[${MULTILIB_USEDEP}]
+RDEPEND="
 	>=sys-apps/dbus-1.5[${MULTILIB_USEDEP}]
+	>=dev-libs/glib-2.32:2[${MULTILIB_USEDEP}]
+	>=dev-libs/atk-2.25.2[${MULTILIB_USEDEP}]
+	>=app-accessibility/at-spi2-core-2.25.3[${MULTILIB_USEDEP}]
 "
-RDEPEND="${COMMON_DEPEND}
-	!<gnome-extra/at-spi-1.32.0-r1
-"
-DEPEND="${COMMON_DEPEND}
+DEPEND="${RDEPEND}
 	virtual/pkgconfig[${MULTILIB_USEDEP}]
 	test? ( >=dev-libs/libxml2-2.9.1 )
 "
-
-src_prepare() {
-	# Upstream forgot to put this in tarball, upstream #770615
-	cp -n "${FILESDIR}"/${PN}-2.20.0-tests-data/*.xml "${S}"/tests/data/ || die
-
-	gnome2_src_prepare
-}
 
 multilib_src_configure() {
 	ECONF_SOURCE=${S} \

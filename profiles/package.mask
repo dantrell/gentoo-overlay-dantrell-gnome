@@ -149,13 +149,13 @@ dev-libs/libintl::core-kit
 dev-libs/libintl::gentoo
 dev-libs/liblouis::gentoo
 dev-libs/liblouis::gnome-kit
-dev-libs/libpcre2::dev-kit
+dev-libs/libpcre2::core-kit
 dev-libs/libpcre2::gentoo
 dev-libs/libpeas::gentoo
 dev-libs/libpeas::gnome-kit
 dev-libs/libsigc++::dev-kit
 dev-libs/libsigc++::gentoo
-dev-libs/libunistring::dev-kit
+dev-libs/libunistring::core-kit
 dev-libs/libunistring::gentoo
 dev-libs/npth::core-kit
 dev-libs/npth::gentoo
