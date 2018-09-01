@@ -183,6 +183,8 @@ dev-util/gdbus-codegen::gentoo
 dev-util/gdbus-codegen::gnome-kit
 dev-util/glade::gentoo
 dev-util/glade::gnome-kit
+dev-util/glib-utils::dev-kit
+dev-util/glib-utils::gentoo
 dev-util/gnome-devel-docs::gentoo
 dev-util/gnome-devel-docs::gnome-kit
 dev-util/gtk-builder-convert::gentoo
