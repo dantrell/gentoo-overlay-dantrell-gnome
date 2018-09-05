@@ -1,0 +1,3 @@
+dev-libs/folks tracker
+gnome-base/gnome-shell deprecated-background
+x11-wm/mutter deprecated-background

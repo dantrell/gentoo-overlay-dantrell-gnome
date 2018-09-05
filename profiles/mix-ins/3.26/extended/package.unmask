@@ -22,7 +22,7 @@
 ~app-text/yelp-tools-3.18.0::dantrell-gnome
 ~dev-cpp/mm-common-0.9.12::dantrell-gnome
 ~dev-lang/vala-0.38.10::dantrell-gnome
-~dev-libs/appstream-glib-0.7.9::dantrell-gnome
+~dev-libs/appstream-glib-0.7.12::dantrell-gnome
 ~dev-libs/atk-2.26.1::dantrell-gnome-3-26
 ~dev-libs/folks-0.11.4::dantrell-gnome
 ~dev-libs/gjs-1.50.4::dantrell-gnome-3-26
@@ -103,7 +103,7 @@
 ~gnome-extra/gnome-packagekit-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/gnome-recipes-2.0.2::dantrell-gnome
 ~gnome-extra/gnome-shell-extensions-3.26.2::dantrell-gnome-3-26
-~gnome-extra/gnome-shell-frippery-3.26.3::dantrell-gnome-3-26
+~gnome-extra/gnome-shell-frippery-3.26.5::dantrell-gnome-3-26
 ~gnome-extra/gnome-software-3.26.8::dantrell-gnome-3-26
 ~gnome-extra/gnome-system-monitor-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/gnome-todo-3.26.2::dantrell-gnome-3-26

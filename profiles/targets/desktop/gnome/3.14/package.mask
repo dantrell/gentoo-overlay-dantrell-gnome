@@ -1,5 +1,5 @@
-# Masked to test on GNOME 3.30 first
->=net-libs/webkit-gtk-2.22.0
+# Masked to test on GNOME 3.32 first
+>=net-libs/webkit-gtk-2.24.0
 
 # Requires GLib 2.52 (or greater)
 >=net-libs/phodav-2.2
@@ -24,6 +24,7 @@
 >=x11-misc/colord-1.3.0
 
 # Requires GLib 2.45 (or greater)
+>=media-fonts/cantarell-0.101
 >=sys-apps/fwupd-0.8.0
 
 # Requires GLib 2.44 (or greater)

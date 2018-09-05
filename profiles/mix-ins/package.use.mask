@@ -1,6 +1,8 @@
 dev-libs/gobject-introspection python_single_target_python3_4
 dev-libs/gobject-introspection python_single_target_python3_5
 dev-libs/gobject-introspection python_single_target_python3_6
+dev-libs/gobject-introspection python_single_target_python3_7
 dev-libs/gobject-introspection python_targets_python3_4
 dev-libs/gobject-introspection python_targets_python3_5
 dev-libs/gobject-introspection python_targets_python3_6
+dev-libs/gobject-introspection python_targets_python3_7

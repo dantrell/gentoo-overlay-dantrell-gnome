@@ -1,5 +1,5 @@
-# Masked to test on GNOME 3.30 first
->=net-libs/webkit-gtk-2.22.0
+# Masked to test on GNOME 3.32 first
+>=net-libs/webkit-gtk-2.24.0
 
 # Masked to freeze the state of GNOME
 >=app-accessibility/accerciser-3.28.0
@@ -33,10 +33,10 @@
 >=dev-libs/atk-2.28.0
 >=dev-libs/folks-0.12.0
 >=dev-libs/gdl-3.28.0
->=dev-libs/gjs-1.50.0
->=dev-libs/glib-2.54.0
->=dev-libs/gobject-introspection-1.54.0
->=dev-libs/gobject-introspection-common-1.54.0
+>=dev-libs/gjs-1.52.0
+>=dev-libs/glib-2.56.0
+>=dev-libs/gobject-introspection-1.56.0
+>=dev-libs/gobject-introspection-common-1.56.0
 >=dev-libs/gom-0.4.0
 >=dev-libs/json-glib-1.5.0
 >=dev-libs/libgames-support-1.4.0
@@ -46,7 +46,7 @@
 >=dev-libs/libgusb-0.3.0
 >=dev-libs/libgweather-3.28.0
 >=dev-libs/libical-4.0.0
->=dev-libs/libpeas-1.22.0
+>=dev-libs/libpeas-1.24.0
 >=dev-libs/libsigc++-2.99.0
 >=dev-libs/libunistring-0.10.0
 >=dev-libs/totem-pl-parser-3.26.0
@@ -54,7 +54,7 @@
 >=dev-python/pygobject-3.28.0
 >=dev-util/anjuta-3.28.0
 >=dev-util/devhelp-3.28.0
->=dev-util/gdbus-codegen-2.54.0
+>=dev-util/gdbus-codegen-2.56.0
 >=dev-util/glade-3.28.0
 >=dev-util/gnome-builder-3.28.0
 >=dev-util/gnome-devel-docs-3.28.0
@@ -155,7 +155,7 @@
 >=net-libs/dleyna-connector-dbus-0.4.0
 >=net-libs/dleyna-core-0.7.0
 >=net-libs/dleyna-renderer-0.7.0
->=net-libs/glib-networking-2.54.0
+>=net-libs/glib-networking-2.56.0
 >=net-libs/gnome-online-accounts-3.28.0
 >=net-libs/libsoup-2.60.0
 >=net-libs/libsoup-gnome-2.60.0

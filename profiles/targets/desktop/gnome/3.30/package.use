@@ -1,0 +1,15 @@
+app-crypt/gcr vala
+dev-lang/python sqlite
+dev-libs/libgusb vala
+dev-libs/libgweather vala
+gnome-base/librsvg vala
+media-libs/clutter-gst X
+media-libs/gegl jpeg
+media-libs/gegl png
+media-libs/gsound vala
+media-libs/mesa egl
+net-libs/gnome-online-accounts vala
+net-libs/gtk-vnc vala
+net-misc/spice-gtk vala
+x11-libs/gtksourceview:3.0 vala
+x11-misc/colord vala
