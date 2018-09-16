@@ -116,7 +116,7 @@ src_prepare() {
 		fi
 
 		# Some tests need ipv6, upstream bug #667468
-		# https://bugs.gentoo.org/show_bug.cgi?id=508752
+		# https://bugs.gentoo.org/508752
 		if [[ ! -f /proc/net/if_inet6 ]]; then
 			sed -i -e "/gdbus\/peer-to-peer/d" gio/tests/gdbus-peer.c || die
 			sed -i -e "/gdbus\/delayed-message-processing/d" gio/tests/gdbus-peer.c || die

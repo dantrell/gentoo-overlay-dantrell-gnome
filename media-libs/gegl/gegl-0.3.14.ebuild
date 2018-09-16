@@ -78,7 +78,7 @@ src_prepare() {
 		sed -i -e 's/#ifdef __APPLE__/#if 0/' gegl/opencl/* || die
 	fi
 
-	# https://bugs.gentoo.org/show_bug.cgi?id=617618
+	# https://bugs.gentoo.org/617618
 	eapply "${FILESDIR}"/${P}-g_log_domain.patch
 
 	# commit 7c78497b : tests that use gegl.png are broken on non-amd64
@@ -123,7 +123,7 @@ src_configure() {
 	#    is enabled
 	#
 	# So that's why USE="exif graphviz lua v4l" got resolved.  More at:
-	# https://bugs.gentoo.org/show_bug.cgi?id=451136
+	# https://bugs.gentoo.org/451136
 	#
 	econf \
 		--disable-docs \

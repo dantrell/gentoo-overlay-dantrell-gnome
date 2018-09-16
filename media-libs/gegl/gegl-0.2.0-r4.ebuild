@@ -52,11 +52,11 @@ DEPEND="${RDEPEND}
 #	vala? ( $(vala_depend) )"
 
 src_prepare() {
-	# https://bugs.gentoo.org/show_bug.cgi?id=442016
+	# https://bugs.gentoo.org/442016
 	eapply "${FILESDIR}"/${P}-cve-2012-4433-1e92e523.patch
 	eapply "${FILESDIR}"/${P}-cve-2012-4433-4757cdf7.patch
 
-	# https://bugs.gentoo.org/show_bug.cgi?id=416587
+	# https://bugs.gentoo.org/416587
 	eapply "${FILESDIR}"/${P}-introspection-version.patch
 
 	eapply "${FILESDIR}"/${P}-ffmpeg-0.11.diff
@@ -69,8 +69,8 @@ src_prepare() {
 
 	eapply "${FILESDIR}"/${P}-g_log_domain.patch
 
-	# https://bugs.gentoo.org/show_bug.cgi?id=605216
-	# https://bugs.gentoo.org/show_bug.cgi?id=617430
+	# https://bugs.gentoo.org/605216
+	# https://bugs.gentoo.org/617430
 	eapply "${FILESDIR}"/${P}-underlinking.patch
 	eapply "${FILESDIR}"/${P}-libopenraw-0.1.patch  # bug 639834
 	eapply "${FILESDIR}"/${P}-fix-without-exiv2.patch  # bug 641872
@@ -78,7 +78,7 @@ src_prepare() {
 	eapply_user
 	eautoreconf
 
-	# https://bugs.gentoo.org/show_bug.cgi?id=468248
+	# https://bugs.gentoo.org/468248
 	local deps_file="${PN}/${PN}-$(get_version_component_range 1-2).deps"
 	[[ -f "${deps_file}" ]] || touch "${deps_file}"
 
@@ -109,7 +109,7 @@ src_configure() {
 	#    which toggles HAVE_GRAPHVIZ that is not used anywhere.  Yes.
 	#
 	# So that's why USE="exif graphviz lua v4l" got resolved.  More at:
-	# https://bugs.gentoo.org/show_bug.cgi?id=451136
+	# https://bugs.gentoo.org/451136
 	#
 	econf \
 		--disable-silent-rules \

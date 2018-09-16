@@ -21,6 +21,7 @@ RDEPEND="
 	sys-apps/dbus
 "
 DEPEND="${RDEPEND}
+	$(vala_depend)
 	app-text/docbook-xml-dtd:4.2
 	app-text/docbook-xsl-stylesheets
 	dev-libs/libxslt
@@ -28,11 +29,9 @@ DEPEND="${RDEPEND}
 	sys-devel/gettext
 	app-shells/bash-completion
 	virtual/pkgconfig
-	$(vala_depend)
 "
 
 src_prepare() {
-	vala_src_prepare
 	default
 }
 

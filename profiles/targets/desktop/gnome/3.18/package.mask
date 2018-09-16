@@ -76,6 +76,7 @@
 >=dev-util/devhelp-3.20.0
 >=dev-util/gdbus-codegen-2.48.0
 >=dev-util/glade-3.20.0
+>=dev-util/glib-utils-2.48.0
 >=dev-util/gnome-builder-3.20.0
 >=dev-util/gnome-devel-docs-3.20.0
 >=dev-util/gtk-update-icon-cache-3.20.0

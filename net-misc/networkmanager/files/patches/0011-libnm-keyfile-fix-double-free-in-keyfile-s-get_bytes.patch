@@ -1,0 +1,27 @@
+From 1c56be409064ee6919246970bd4457df3a846beb Mon Sep 17 00:00:00 2001
+From: Thomas Haller <thaller@redhat.com>
+Date: Sun, 2 Sep 2018 14:33:34 +0200
+Subject: [PATCH 11/14] libnm/keyfile: fix double free in keyfile's get_bytes()
+
+Fixes: 5e7b14af03fef98566367c211c0e7f75ad9a9525
+(cherry picked from commit fcf254c03a7c2a37ae1138240f756760f217ca6f)
+---
+ libnm-core/nm-keyfile.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libnm-core/nm-keyfile.c b/libnm-core/nm-keyfile.c
+index 5c94c35c3..c894e2503 100644
+--- a/libnm-core/nm-keyfile.c
++++ b/libnm-core/nm-keyfile.c
+@@ -926,7 +926,7 @@ get_bytes (KeyfileReaderInfo *info,
+ 		 * byte-array. The reason is that zero_terminate is there to terminate
+ 		 * *valid* strings. It's not there to terminated invalid (empty) strings.
+ 		 */
+-		return g_bytes_new_take (tmp_string, 0);
++		return g_bytes_new_static ("", 0);
+ 	}
+ 
+ 	for (length = 0; tmp_string[length]; length++) {
+-- 
+2.17.0
+

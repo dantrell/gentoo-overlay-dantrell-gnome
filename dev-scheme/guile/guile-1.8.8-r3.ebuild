@@ -60,7 +60,7 @@ src_configure() {
 	replace-flags -Os -O2
 
 	# Necessary for LilyPond
-	# 	https://bugs.gentoo.org/show_bug.cgi?id=178499
+	# 	https://bugs.gentoo.org/178499
 	filter-flags -ftree-vectorize
 
 	econf \
@@ -112,12 +112,12 @@ src_install() {
 	mv ${D}/usr/$(get_libdir)/libguile-*-gdb.scm ${D}/usr/share/gdb/auto-load/$(get_libdir)
 
 	# Necessary for TeXmacs
-	# 	https://bugs.gentoo.org/show_bug.cgi?id=23493
+	# 	https://bugs.gentoo.org/23493
 	dodir /etc/env.d
 	echo "GUILE_LOAD_PATH=\"${EPREFIX}/usr/share/guile/${MAJOR}\"" > "${ED}"/etc/env.d/50guile
 
 	# Necessary for registering SLIB
-	# 	https://bugs.gentoo.org/show_bug.cgi?id=206896
+	# 	https://bugs.gentoo.org/206896
 	keepdir /usr/share/guile/site
 }
 

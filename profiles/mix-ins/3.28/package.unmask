@@ -16,7 +16,7 @@
 ~app-misc/gnote-3.28.0::dantrell-gnome-3-28
 ~app-misc/tracker-2.0.4::dantrell-gnome
 ~app-misc/tracker-miners-2.0.5::dantrell-gnome
-~app-text/evince-3.28.2::dantrell-gnome-3-28
+~app-text/evince-3.28.3::dantrell-gnome-3-28
 ~app-text/libgepub-0.6.0::dantrell-gnome
 ~app-text/libgxps-0.3.0::dantrell-gnome
 ~app-text/yelp-tools-3.28.0::dantrell-gnome-3-28
@@ -35,6 +35,7 @@
 ~dev-libs/jsonrpc-glib-3.28.1::dantrell-gnome-3-28
 ~dev-libs/json-glib-1.4.2::dantrell-gnome
 ~dev-libs/libcroco-0.6.12::dantrell-gnome
+~dev-libs/libdazzle-3.28.5::dantrell-gnome-3-28
 ~dev-libs/libgdata-0.17.9::dantrell-gnome
 ~dev-libs/libgee-0.20.1::dantrell-gnome
 ~dev-libs/libgnome-games-support-1.4.2::dantrell-gnome
@@ -83,7 +84,7 @@
 ~gnome-base/gnome-session-3.28.1::dantrell-gnome-3-28
 ~gnome-base/gnome-settings-daemon-3.28.1::dantrell-gnome-3-28
 ~gnome-base/gnome-shell-3.28.3::dantrell-gnome-3-28
-~gnome-base/gsettings-desktop-schemas-3.28.0::dantrell-gnome-3-28
+~gnome-base/gsettings-desktop-schemas-3.28.1::dantrell-gnome-3-28
 ~gnome-base/gvfs-1.36.2::dantrell-gnome-3-28
 ~gnome-base/libgnomekbd-3.26.0::dantrell-gnome
 ~gnome-base/libgtop-2.38.0::dantrell-gnome
@@ -115,7 +116,7 @@
 ~gnome-extra/libgsf-1.14.44::dantrell-gnome
 ~gnome-extra/mousetweaks-3.12.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
-~gnome-extra/nm-applet-1.8.16::dantrell-gnome
+~gnome-extra/nm-applet-1.8.18::dantrell-gnome
 ~gnome-extra/sushi-3.28.3::dantrell-gnome-3-28
 ~gnome-extra/yelp-3.28.1::dantrell-gnome-3-28
 ~gnome-extra/yelp-xsl-3.28.0::dantrell-gnome-3-28
@@ -123,7 +124,7 @@
 ~mail-client/evolution-3.28.5::dantrell-gnome-3-28
 ~media-gfx/eog-3.28.3::dantrell-gnome-3-28
 ~media-gfx/gnome-font-viewer-3.28.0::dantrell-gnome-3-28
-~media-gfx/gnome-photos-3.28.0::dantrell-gnome-3-28
+~media-gfx/gnome-photos-3.28.1::dantrell-gnome-3-28
 ~media-gfx/gnome-screenshot-3.26.0::dantrell-gnome
 ~media-gfx/simple-scan-3.28.1::dantrell-gnome-3-28
 ~media-libs/clutter-1.26.2::dantrell-gnome
@@ -156,17 +157,16 @@
 ~net-libs/webkit-gtk-2.20.5::dantrell-gnome
 ~net-misc/gnome-online-miners-3.26.0::dantrell-gnome
 ~net-misc/networkmanager-1.10.10::dantrell-gnome
-~net-misc/rygel-0.36.1::dantrell-gnome
+~net-misc/rygel-0.36.2::dantrell-gnome
 ~net-misc/vino-3.22.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.28.2::dantrell-gnome-3-28
 ~sci-geosciences/geocode-glib-3.25.4.1::dantrell-gnome
 ~sci-geosciences/gnome-maps-3.28.2::dantrell-gnome-3-28
 ~sys-apps/baobab-3.28.0::dantrell-gnome-3-28
 ~sys-apps/gnome-disk-utility-3.28.3::dantrell-gnome-3-28
-~www-client/epiphany-3.28.3.1::dantrell-gnome-3-28
+~www-client/epiphany-3.28.4::dantrell-gnome-3-28
 ~x11-libs/gdk-pixbuf-2.36.4::dantrell-gnome
-~x11-libs/gtksourceview-4.0.2::dantrell-gnome
-~x11-libs/libdazzle-3.28.5::dantrell-gnome-3-28
+~x11-libs/gtksourceview-4.0.3::dantrell-gnome
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/pango-1.42.4::dantrell-gnome
 ~x11-libs/vte-0.52.2::dantrell-gnome-3-28

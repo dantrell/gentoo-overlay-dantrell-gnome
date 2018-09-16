@@ -1,0 +1,27 @@
+From 4f747c66d41f50d017191583e670fec2468c9815 Mon Sep 17 00:00:00 2001
+From: Gilles Dartiguelongue <eva@gentoo.org>
+Date: Sun, 3 Sep 2017 12:21:17 +0200
+Subject: [PATCH] Building against Qt5 requires c++11
+
+---
+ configure.ac | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/configure.ac b/configure.ac
+index ce3209b6..88cecedc 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -44,6 +44,10 @@ LT_INIT
+ LT_LANG([C])
+ LT_LANG([C++])
+ 
++AC_LANG_CPLUSPLUS
++AC_LANG_COMPILER_REQUIRE
++AX_CXX_COMPILE_STDCXX_11([], [mandatory])
++
+ # ************
+ # Dependencies
+ # ************
+-- 
+2.14.1
+

@@ -10,7 +10,7 @@ HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2+"
 SLOT="2"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="aqua cups examples +introspection test vim-syntax xinerama"
 REQUIRED_USE="
@@ -110,8 +110,9 @@ set_gtk2_confdir() {
 }
 
 src_prepare() {
-	# marshalers code was pre-generated with glib-2.31, upstream bug #662109
-	eapply "${FILESDIR}"/${PN}-2.24.31-marshallers-replace-g-value-get-schar.patch
+	# Various glib marshaller churn could break build against a different glib version, force regeneration
+	rm -v gdk/gdkmarshalers.{c,h} gtk/gtkmarshal.{c,h} gtk/gtkmarshalers.{c,h} \
+		perf/marshalers.{c,h} gtk/gtkaliasdef.c gtk/gtkalias.h || die
 
 	# Stop trying to build unmaintained docs, bug #349754, upstream bug #623150
 	strip_builddir SUBDIRS tutorial docs/Makefile.{am,in}
@@ -161,9 +162,10 @@ src_prepare() {
 
 	# Fix tests running when building out of sources, bug #510596, upstream bug #730319
 	eapply "${FILESDIR}"/${PN}-2.24.24-out-of-source.patch
-
 	# Rely on split gtk-update-icon-cache package, bug #528810
 	eapply "${FILESDIR}"/${PN}-2.24.31-update-icon-cache.patch
+	# Upstream gtk-2-24 branch up to 2018-09-08 state, bug #650536 safety
+	eapply "${FILESDIR}"/patches
 
 	eautoreconf
 	gnome2_src_prepare

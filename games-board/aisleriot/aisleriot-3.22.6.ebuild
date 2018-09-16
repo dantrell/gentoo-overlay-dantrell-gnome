@@ -42,6 +42,9 @@ src_prepare() {
 	# Fix SVG detection and usage
 	eapply "${FILESDIR}"/${PN}-3.22.0-detect-svg.patch
 
+	# Fix build with Qt5, bug #617256
+	eapply "${FILESDIR}"/${PN}-3.22.2-qt5-requires-cxx11.patch
+
 	eautoreconf
 	gnome2_src_prepare
 }

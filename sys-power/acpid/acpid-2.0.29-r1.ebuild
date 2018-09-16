@@ -34,10 +34,12 @@ PATCHES=(
 	"${FILESDIR}"/patches/add-cinnamon-pms.patch
 
 	# From Gentoo:
-	# 	https://bugs.gentoo.org/show_bug.cgi?id=515088
-	# 	https://bugs.gentoo.org/show_bug.cgi?id=538590
+	# 	https://bugs.gentoo.org/515088
+	# 	https://bugs.gentoo.org/538590
+	# 	https://bugs.gentoo.org/628698
 	"${FILESDIR}"/patches/fix-kde4-pms.patch
 	"${FILESDIR}"/patches/add-mate-pms.patch
+	"${FILESDIR}"/patches/add-kde5-pms.patch
 )
 
 src_install() {

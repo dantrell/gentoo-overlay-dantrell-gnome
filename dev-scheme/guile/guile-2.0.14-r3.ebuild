@@ -52,11 +52,11 @@ src_configure() {
 	replace-flags -Os -O2
 
 	# Necessary for LilyPond
-	# 	https://bugs.gentoo.org/show_bug.cgi?id=178499
+	# 	https://bugs.gentoo.org/178499
 	filter-flags -ftree-vectorize
 
 	# Seems to have issues with -gddb3, switch to -gddb2
-	# 	https://bugs.gentoo.org/show_bug.cgi?id=608190
+	# 	https://bugs.gentoo.org/608190
 	replace-flags -ggdb[3-9] -ggdb2
 
 	econf \
@@ -95,7 +95,7 @@ src_install() {
 	mv "${ED}"/usr/$(get_libdir)/libguile-*-gdb.scm "${ED}"/usr/share/gdb/auto-load/$(get_libdir) || die
 
 	# Necessary for registering SLIB
-	# 	https://bugs.gentoo.org/show_bug.cgi?id=206896
+	# 	https://bugs.gentoo.org/206896
 	keepdir /usr/share/guile/site
 
 	# Necessary for some dependencies

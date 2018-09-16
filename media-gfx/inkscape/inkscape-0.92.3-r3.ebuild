@@ -105,6 +105,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-0.92.3-freetype_pkgconfig.patch
 	"${FILESDIR}"/${PN}-0.92.3-poppler-0.64.patch
 	"${FILESDIR}"/${PN}-0.92.3-poppler-0.65.patch
+	"${FILESDIR}"/${PN}-0.92.3-poppler-0.64-2.patch
 )
 
 S="${WORKDIR}/${MY_P}"

@@ -26,8 +26,11 @@ RDEPEND="
 		>=x11-libs/gtk+-3.4:3
 	)
 "
+# libxml2 required for glib-compile-resources
 DEPEND="${RDEPEND}
 	sys-devel/gettext
+	dev-libs/libxml2:2
+	dev-util/gdbus-codegen
 	dev-util/intltool
 	virtual/pkgconfig
 "

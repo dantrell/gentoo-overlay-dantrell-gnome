@@ -34,6 +34,7 @@
 ~dev-libs/jsonrpc-glib-3.26.1::dantrell-gnome-3-26
 ~dev-libs/json-glib-1.4.2::dantrell-gnome
 ~dev-libs/libcroco-0.6.12::dantrell-gnome
+~dev-libs/libdazzle-3.26.3::dantrell-gnome-3-26
 ~dev-libs/libgdata-0.17.9::dantrell-gnome
 ~dev-libs/libgee-0.20.1::dantrell-gnome
 ~dev-libs/libgnome-games-support-1.2.3::dantrell-gnome
@@ -54,7 +55,7 @@
 ~dev-vcs/gitg-3.26.0::dantrell-gnome
 ~games-arcade/gnome-nibbles-3.24.1::dantrell-gnome
 ~games-arcade/gnome-robots-3.22.3::dantrell-gnome
-~games-board/aisleriot-3.22.5::dantrell-gnome
+~games-board/aisleriot-3.22.6::dantrell-gnome
 ~games-board/four-in-a-row-3.22.2::dantrell-gnome
 ~games-board/gnome-chess-3.26.0::dantrell-gnome-3-26
 ~games-board/gnome-mahjongg-3.22.0::dantrell-gnome
@@ -115,7 +116,7 @@
 ~gnome-extra/libgsf-1.14.44::dantrell-gnome
 ~gnome-extra/mousetweaks-3.12.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
-~gnome-extra/nm-applet-1.8.16::dantrell-gnome
+~gnome-extra/nm-applet-1.8.18::dantrell-gnome
 ~gnome-extra/sushi-3.24.0::dantrell-gnome
 ~gnome-extra/yelp-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/zenity-3.24.0::dantrell-gnome
@@ -155,7 +156,7 @@
 ~net-libs/webkit-gtk-2.18.6::dantrell-gnome
 ~net-misc/gnome-online-miners-3.26.0::dantrell-gnome
 ~net-misc/networkmanager-1.8.8::dantrell-gnome
-~net-misc/rygel-0.36.1::dantrell-gnome
+~net-misc/rygel-0.36.2::dantrell-gnome
 ~net-misc/vino-3.22.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.26.1::dantrell-gnome-3-26
 ~sci-geosciences/geocode-glib-3.25.4.1::dantrell-gnome
@@ -164,7 +165,6 @@
 ~sys-apps/gnome-disk-utility-3.26.2::dantrell-gnome-3-26
 ~www-client/epiphany-3.26.7::dantrell-gnome-3-26
 ~x11-libs/gdk-pixbuf-2.36.4::dantrell-gnome
-~x11-libs/libdazzle-3.26.3::dantrell-gnome-3-26
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.24.1::dantrell-gnome
 ~x11-libs/vte-0.50.4::dantrell-gnome-3-26

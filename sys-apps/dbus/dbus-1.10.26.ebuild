@@ -266,6 +266,6 @@ pkg_postinst() {
 		ewarn "https://lists.freedesktop.org/archives/systemd-devel/2015-January/027711.html"
 		ewarn
 		ewarn "Known issues are tracked here:"
-		ewarn "https://bugs.gentoo.org/show_bug.cgi?id=576028"
+		ewarn "https://bugs.gentoo.org/576028"
 	fi
 }

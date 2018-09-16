@@ -1,0 +1,64 @@
+From 17a89f7061310c71506ccf5d62a4971c9ec28dc8 Mon Sep 17 00:00:00 2001
+From: Beniamino Galvani <bgalvani@redhat.com>
+Date: Thu, 2 Aug 2018 17:45:09 +0200
+Subject: [PATCH 13/14] manager: don't update ifindex of existing devices
+
+When NM has to rebuild the platform cache, it first generates ADD and
+then REMOVE events for the links.  So, if an interface is removed and
+readded, platform will emit the ADDED event with a new ifindex while
+the device with old ifindex still exists.
+
+In such case the manager currently updates the device's ifindex but
+this causes problems as the DNS manager tracks configurations by their
+ifindex and so the configurations for the old device will become
+stale.
+
+Fix this by removing the device and adding it again when we detect a
+change of ifindex on a device that already had valid one.
+
+https://bugzilla.redhat.com/show_bug.cgi?id=1542366
+(cherry picked from commit 281974b93216a33941b9527d823c9e20d9087bc4)
+---
+ src/nm-manager.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
+
+diff --git a/src/nm-manager.c b/src/nm-manager.c
+index 289dcf838..ad906169f 100644
+--- a/src/nm-manager.c
++++ b/src/nm-manager.c
+@@ -3008,10 +3008,21 @@ platform_link_added (NMManager *self,
+ 			continue;
+ 
+ 		if (nm_device_is_real (candidate)) {
+-			/* Ignore the link added event since there's already a realized
+-			 * device with the link's name.
++			/* There's already a realized device with the link's name
++			 * and a different ifindex.
+ 			 */
+-			nm_device_update_from_platform_link (candidate, plink);
++			if (nm_device_get_ifindex (candidate) <= 0)
++				nm_device_update_from_platform_link (candidate, plink);
++			else {
++				/* The ifindex of a device can't be changed after
++				 * initialization because it is used as a key by
++				 * the dns-manager.
++				 */
++				_LOGD (LOGD_DEVICE, "(%s): removing old device %p after ifindex change from %d to %d",
++				       plink->name, candidate, nm_device_get_ifindex (candidate), ifindex);
++				remove_device (self, candidate, FALSE, TRUE);
++				goto add;
++			}
+ 			return;
+ 		} else if (nm_device_realize_start (candidate,
+ 		                                    plink,
+@@ -3031,6 +3042,7 @@ platform_link_added (NMManager *self,
+ 		/* Try next unrealized device */
+ 	}
+ 
++add:
+ 	/* Try registered device factories */
+ 	factory = nm_device_factory_manager_find_factory_for_link_type (plink->type);
+ 	if (factory) {
+-- 
+2.17.0
+

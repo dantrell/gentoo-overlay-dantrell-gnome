@@ -1,0 +1,11 @@
+diff '--exclude=.git' -urN a/samples/powerbtn/powerbtn.sh b/samples/powerbtn/powerbtn.sh
+--- a/samples/powerbtn/powerbtn.sh	2018-06-18 21:17:40.000000000 -0500
++++ b/samples/powerbtn/powerbtn.sh	2018-09-15 18:05:27.155395444 -0500
+@@ -53,7 +53,6 @@
+ # A list of power management system process names.
+ PMS="gnome-power-manager kpowersave xfce4-power-manager"
+ PMS="$PMS guidance-power-manager.py dalston-power-applet"
+-PMS="$PMS mate-power-manager org_kde_powerdevil"
+ 
+ # If one of those is running or any of several others,
+ if pidof x $PMS > /dev/null ||

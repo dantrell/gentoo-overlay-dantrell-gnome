@@ -121,7 +121,7 @@ src_configure() {
 	#    is enabled
 	#
 	# So that's why USE="exif graphviz lua v4l" got resolved.  More at:
-	# https://bugs.gentoo.org/show_bug.cgi?id=451136
+	# https://bugs.gentoo.org/451136
 	#
 	econf \
 		--disable-docs \

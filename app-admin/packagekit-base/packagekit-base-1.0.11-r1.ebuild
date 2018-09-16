@@ -80,7 +80,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-1.1.1-cache-qafix.patch
 
 	# Adds elogind support:
-	# - https://bugs.gentoo.org/show_bug.cgi?id=620948
+	# - https://bugs.gentoo.org/620948
 	"${FILESDIR}"/${PN}-1.0.11-support-elogind.patch
 )
 

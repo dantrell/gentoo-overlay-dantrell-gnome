@@ -13,13 +13,10 @@ KEYWORDS="*"
 
 IUSE=""
 
-RDEPEND="
-	>=x11-libs/gtk+-2.90.3:3
-"
+RDEPEND=">=dev-libs/glib-2.25.9:2"
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.9
-	>=dev-util/intltool-0.35
-	sys-devel/gettext
+	>=sys-devel/gettext-0.19.8
+	dev-libs/appstream-glib
 	virtual/pkgconfig
 "
 

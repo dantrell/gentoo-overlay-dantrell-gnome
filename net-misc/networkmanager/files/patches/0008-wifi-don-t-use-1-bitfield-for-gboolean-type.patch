@@ -1,0 +1,43 @@
+From f326feaba3ddba91416cf02a21de5f040df95636 Mon Sep 17 00:00:00 2001
+From: Thomas Haller <thaller@redhat.com>
+Date: Sun, 26 Aug 2018 18:21:25 +0200
+Subject: [PATCH 08/14] wifi: don't use :1 bitfield for gboolean type
+
+gboolean is a typedef for "int".
+
+While older compilers might treat such bitfields as unsigned ([1]),
+commonly such a bitfield is signed and can only contain the values 0
+and -1.
+
+We only want to use numeric 1 for TRUE, hence, creating such bitfields
+is wrong, or at least error prone.
+
+In fact, in this case it's a bug, because later we compare
+it with a regular gboolean
+
+  if (priv->scanning != new_scanning)
+
+[1] https://lgtm.com/rules/1506024027114/
+
+Fixes: e0f96770188eeaada70a299bd6dab7a50ec34a53
+(cherry picked from commit 610ca87016a71a01cf3a7ddf148270290efb7ac3)
+---
+ src/supplicant/nm-supplicant-interface.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/supplicant/nm-supplicant-interface.c b/src/supplicant/nm-supplicant-interface.c
+index 71e6a35ac..e16e3130e 100644
+--- a/src/supplicant/nm-supplicant-interface.c
++++ b/src/supplicant/nm-supplicant-interface.c
+@@ -111,7 +111,7 @@ typedef struct {
+ 	NMSupplicantInterfaceState state;
+ 	int            disconnect_reason;
+ 
+-	gboolean       scanning:1;
++	bool           scanning:1;
+ 
+ 	bool           scan_done_pending:1;
+ 	bool           scan_done_success:1;
+-- 
+2.17.0
+

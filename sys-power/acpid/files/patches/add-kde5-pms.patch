@@ -1,0 +1,11 @@
+diff '--exclude=.git' -urN a/samples/powerbtn/powerbtn.sh b/samples/powerbtn/powerbtn.sh
+--- a/samples/powerbtn/powerbtn.sh	2018-09-15 17:58:45.106162796 -0500
++++ b/samples/powerbtn/powerbtn.sh	2018-09-15 17:59:57.210895421 -0500
+@@ -58,6 +58,7 @@
+ PMS="$PMS guidance-power-manager.py"
+ PMS="$PMS kpowersave"
+ PMS="$PMS mate-power-manager"
++PMS="$PMS org_kde_powerdevil"
+ PMS="$PMS xfce4-power-manager"
+ 
+ # If one of those is running or any of several others,

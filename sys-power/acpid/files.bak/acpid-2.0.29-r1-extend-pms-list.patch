@@ -1,0 +1,29 @@
+From 99d1847cfa19f11885bbab246271e6cfe42641a7 Mon Sep 17 00:00:00 2001
+From: Andrey Utkin <andrey_utkin@gentoo.org>
+Date: Tue, 8 May 2018 20:31:55 +0100
+Subject: [PATCH] samples: powerbtn: extend the list of known PMS
+
+Gentoo users actually use this script by default.
+This patch makes users of Mate and KDE5 happy.
+
+Link: https://bugs.gentoo.org/538590
+Link: https://bugs.gentoo.org/628698
+---
+ samples/powerbtn/powerbtn.sh | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/samples/powerbtn/powerbtn.sh b/samples/powerbtn/powerbtn.sh
+index 39a3d9b..c089349 100755
+--- a/samples/powerbtn/powerbtn.sh
++++ b/samples/powerbtn/powerbtn.sh
+@@ -53,6 +53,7 @@ getXconsole
+ # A list of power management system process names.
+ PMS="gnome-power-manager kpowersave xfce4-power-manager"
+ PMS="$PMS guidance-power-manager.py dalston-power-applet"
++PMS="$PMS mate-power-manager org_kde_powerdevil"
+ 
+ # If one of those is running or any of several others,
+ if pidof x $PMS > /dev/null ||
+-- 
+2.17.0
+

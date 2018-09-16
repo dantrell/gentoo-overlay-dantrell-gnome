@@ -50,7 +50,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-3.12.2-fix-return-types.patch
 	"${FILESDIR}"/${PN}-3.12.2-port-gcr-3.patch
 	# Support GnuPG 2.2
-	# https://bugs.gentoo.org/show_bug.cgi?id=629572
+	# https://bugs.gentoo.org/629572
 	"${FILESDIR}"/${PN}-3.12.2-gnupg-2.2.patch
 )
 
