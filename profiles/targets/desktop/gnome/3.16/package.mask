@@ -68,6 +68,7 @@
 >=dev-libs/gobject-introspection-common-1.46.0
 >=dev-libs/gom-0.4.0
 >=dev-libs/json-glib-1.1.0
+>=dev-libs/libdazzle-3.26.0
 >=dev-libs/libgames-support-0.2
 >=dev-libs/libgdata-0.18.0
 >=dev-libs/libgit2-0.23.0
