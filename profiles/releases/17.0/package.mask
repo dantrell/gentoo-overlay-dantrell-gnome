@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 # Andreas K. Huettel <dilfridge@gentoo.org> (27 May 2017)
@@ -12,7 +12,7 @@
 # Andreas K. Huettel <dilfridge@gentoo.org> (1 Dec 2017)
 # The following packages require GCC 5 or earlier and are therefore
 # masked in the 17.0 profiles.
-app-text/pdftk
+=app-text/pdftk-2*
 dev-java/ecj-gcj
 dev-java/gcj-jdk
 <dev-util/nvidia-cuda-toolkit-9
@@ -22,4 +22,3 @@ dev-java/gcj-jdk
 # The following packages require pdftk and are therefore
 # masked in the 17.0 profiles.
 app-office/auto-multiple-choice
-<app-office/impressive-0.11.2

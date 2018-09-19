@@ -1,8 +1,10 @@
 # Masked to prefer specific releases
+#
 # Ref. https://gitweb.gentoo.org/repo/gentoo.git/commit/?id=6b4c897174a7089836a3a221f38482594c5bc2b2
 >=dev-python/jedi-0.11.0
 
 # Regression in shutdown process
+#
 # Ref. https://github.com/OpenRC/openrc/issues/163
 # Ref. https://github.com/OpenRC/openrc/issues/166
 =sys-apps/openrc-0.30*
@@ -22,10 +24,12 @@
 =sys-apps/openrc-0.34.10
 
 # Regression in meson_options.txt default values
+#
 # Ref. https://bugs.freedesktop.org/show_bug.cgi?id=103162
 =dev-util/meson-0.43.0
 
 # Masked to prefer stable releases
+#
 # Ref. https://forums.gentoo.org/viewtopic-t-1022050.html
 =media-libs/mesa-17.4.0_rc*
 =media-libs/mesa-17.5.0_rc*
