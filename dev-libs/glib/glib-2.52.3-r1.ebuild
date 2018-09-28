@@ -117,8 +117,8 @@ src_prepare() {
 	fi
 
 	# From GNOME:
-	# 	https://git.gnome.org/browse/glib/commit/?id=4e1567a079c13036320802f49ee8f78f78d0273a
-	# 	https://git.gnome.org/browse/glib/commit/?id=8e23a514b02c67104f03545dec58116f00087229
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/4e1567a079c13036320802f49ee8f78f78d0273a
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/8e23a514b02c67104f03545dec58116f00087229
 	eapply "${FILESDIR}"/${PN}-2.53.4-unicode-update-to-unicode-10-0-0.patch
 	eapply "${FILESDIR}"/${PN}-2.53.4-unicode-update-test-data-files-for-unicode-10-0-0.patch
 

@@ -66,7 +66,7 @@ DEPEND="${RDEPEND}
 src_prepare() {
 	if ! use wayland; then
 		# From GNOME:
-		# 	https://git.gnome.org/browse/clutter/commit/?id=be8602fbb491c30c1e2febb92553375b2f4ce584
+		# 	https://gitlab.gnome.org/GNOME/clutter/commit/be8602fbb491c30c1e2febb92553375b2f4ce584
 		eapply "${FILESDIR}"/${PN}-1.26.0-reorganize-backends.patch
 	fi
 

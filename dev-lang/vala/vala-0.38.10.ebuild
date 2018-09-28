@@ -14,7 +14,7 @@ KEYWORDS="*"
 IUSE="test"
 
 RDEPEND="
-	>=dev-libs/glib-2.32:2
+	>=dev-libs/glib-2.40:2
 	>=dev-libs/vala-common-${PV}
 "
 DEPEND="${RDEPEND}
@@ -26,14 +26,14 @@ DEPEND="${RDEPEND}
 	>=media-gfx/graphviz-2.16
 	test? (
 		dev-libs/dbus-glib
-		>=dev-libs/glib-2.26:2
+		>=dev-libs/glib-2.40:2
 		dev-libs/gobject-introspection:= )
 "
 
 src_prepare() {
 	# From GNOME:
-	# 	https://git.gnome.org/browse/vala/commit/?id=2b742fce82eb1326faaee3b2cc4ff993e701ef53
-	# 	https://git.gnome.org/browse/vala/commit/?id=c63247759dca09d1a81dce6bc2e2992746d7c996
+	# 	https://gitlab.gnome.org/GNOME/vala/commit/2b742fce82eb1326faaee3b2cc4ff993e701ef53
+	# 	https://gitlab.gnome.org/GNOME/vala/commit/c63247759dca09d1a81dce6bc2e2992746d7c996
 	eapply "${FILESDIR}"/${PN}-0.38.8-uncouple-valadoc.patch
 
 	eautoreconf

@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-VALA_MAX_API_VERSION="0.34"
+VALA_MIN_API_VERSION="0.38"
 
 # Keep cmake-utils at the end
 inherit gnome2 vala cmake-utils
@@ -11,7 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Geary"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="nls"
 
@@ -28,6 +28,7 @@ DEPEND="
 	>=net-libs/webkit-gtk-2.10.0:4=[introspection]
 	>=x11-libs/gtk+-3.14.0:3[introspection]
 	x11-libs/libnotify
+	app-text/enchant:0
 "
 RDEPEND="${DEPEND}
 	gnome-base/gsettings-desktop-schemas
@@ -42,8 +43,13 @@ DEPEND="${DEPEND}
 "
 
 src_prepare() {
-	# https://bugzilla.gnome.org/show_bug.cgi?id=751557
-	eapply "${FILESDIR}"/${PN}-0.12.0-vapigen.patch
+	# From Fedora:
+	# 	https://src.fedoraproject.org/cgit/rpms/geary.git/tree/?h=f29
+	eapply "${FILESDIR}"/${PN}-0.12-use-upstream-jsc.patch
+
+	# From GNOME:
+	# 	https://bugzilla.gnome.org/show_bug.cgi?id=751557
+	eapply "${FILESDIR}"/${PN}-0.12.4-vapigen.patch
 
 	local i
 	if use nls ; then
@@ -59,8 +65,8 @@ src_prepare() {
 	fi
 
 	cmake-utils_src_prepare
-	gnome2_src_prepare
 	vala_src_prepare
+	gnome2_src_prepare
 }
 
 src_configure() {

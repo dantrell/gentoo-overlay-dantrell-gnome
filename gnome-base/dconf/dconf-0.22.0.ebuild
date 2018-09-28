@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome2 bash-completion-r1 virtualx
+inherit bash-completion-r1 gnome2 vala virtualx
 
 DESCRIPTION="Simple low-level configuration system"
 HOMEPAGE="https://wiki.gnome.org/action/show/Projects/dconf"
@@ -11,7 +11,6 @@ LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
 
-# TODO: coverage ?
 IUSE="test X"
 
 RDEPEND="
@@ -22,6 +21,7 @@ RDEPEND="
 		>=x11-libs/gtk+-3.4:3 )
 "
 DEPEND="${RDEPEND}
+	$(vala_depend)
 	dev-libs/libxslt
 	dev-util/gdbus-codegen
 	>=dev-util/gtk-doc-am-1.15
@@ -30,12 +30,16 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 "
 
+src_prepare() {
+	vala_src_prepare
+	gnome2_src_prepare
+}
+
 src_configure() {
 	gnome2_src_configure \
 		--disable-gcov \
 		--enable-man \
-		$(use_enable X editor) \
-		VALAC=$(type -P true)
+		$(use_enable X editor)
 }
 
 src_test() {

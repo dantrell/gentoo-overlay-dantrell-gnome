@@ -1,0 +1,30 @@
+diff '--exclude=.git' -urN a/configure.ac b/configure.ac
+--- a/configure.ac	2018-09-26 22:34:56.000000000 -0500
++++ b/configure.ac	2018-09-27 20:00:21.319676912 -0500
+@@ -545,14 +545,21 @@
+ 	AC_MSG_ERROR([Vala Extensions (Utility GObject clases written in Vala) is requested but Vala Bindings is disable. Use --enable-vala])
+ fi
+ 
+-AM_PROG_VALAC([0.30.0])
+-AC_PATH_PROG(VAPIGEN, [vapigen], [no])
+ vala_api="No Vala bindings will be generated"
+-if test "x$VAPIGEN" = "xno"
++if test "x$enable_vala" = "xyes"
+ then
+-	enable_vala_ext = "no"
++	AM_PROG_VALAC()
++	if test "x$VALA_API_VERSION" = "x"
++	then
++		VAPIGEN_CHECK(,,,no)
++		vala_api="`pkg-config --modversion vapigen` (Default)"
++	else
++		VAPIGEN_CHECK(,$VALA_API_VERSION,,no)
++		vala_api=$VALA_API_VERSION
++	fi
++else
++	AM_CONDITIONAL(ENABLE_VAPIGEN,false)
+ fi
+-AM_CONDITIONAL(ENABLE_VAPIGEN, test "x$VAPIGEN" != "xno")
+ 
+ dnl Check for libgee
+ GEE_REQUIRED="0.8.0"

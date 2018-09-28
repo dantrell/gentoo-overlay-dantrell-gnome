@@ -5,6 +5,7 @@ EAPI="6"
 inherit gnome2 systemd user versionator
 
 MY_PV=$(get_version_component_range 1-2)
+
 DESCRIPTION="A geoinformation D-Bus service"
 HOMEPAGE="https://freedesktop.org/wiki/Software/GeoClue"
 SRC_URI="https://www.freedesktop.org/software/${PN}/releases/${MY_PV}/${P}.tar.xz"

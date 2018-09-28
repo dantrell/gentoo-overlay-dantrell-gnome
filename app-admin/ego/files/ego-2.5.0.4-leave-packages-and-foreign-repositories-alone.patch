@@ -1,0 +1,22 @@
+diff '--exclude=.git' -urN a/modules/sync.ego b/modules/sync.ego
+--- a/modules/sync.ego	2018-09-01 01:23:28.000000000 -0500
++++ b/modules/sync.ego	2018-09-22 20:54:14.440903553 -0500
+@@ -315,18 +315,6 @@
+ 				Output.error("Could not update ego profiles automatically due to permissions (code in /root, most likely.)")
+ 				Output.error("Please run 'epro update' manually as root.")
+ 
+-		if self.config.root_path == "/":
+-			repos_configs = os.listdir("/etc/portage/repos.conf")
+-			foreign_repo = False
+-			for repoitem in repos_configs:
+-				if not repoitem.startswith("ego-"):
+-					foreign_repo = True
+-					break
+-			if foreign_repo:
+-				Output.log(Color.bold("Updating non-funtoo repositories..."))
+-				run("/usr/bin/emerge --sync --package-moves=n", quiet=True)
+-			# do package moves and slotmoves...
+-			self._do_package_moves()
+ 		if len(kit_stab_ratings):
+ 			print()
+ 			Output.log(Color.darkcyan("The following non-prime kits are currently selected:"))

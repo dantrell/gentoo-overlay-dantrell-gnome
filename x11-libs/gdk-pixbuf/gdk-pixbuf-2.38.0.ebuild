@@ -5,7 +5,7 @@ EAPI="6"
 inherit flag-o-matic gnome2 meson multilib-minimal multilib
 
 DESCRIPTION="Image loading library for GTK+"
-HOMEPAGE="https://git.gnome.org/browse/gdk-pixbuf"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/gdk-pixbuf"
 
 LICENSE="LGPL-2+"
 SLOT="2"

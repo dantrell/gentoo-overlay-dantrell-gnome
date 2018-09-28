@@ -17,21 +17,26 @@ IUSE="+introspection tools vala"
 REQUIRED_USE="vala? ( introspection )"
 
 RDEPEND="
-	>=dev-libs/glib-2.34.3:2[${MULTILIB_USEDEP}]
-	>=x11-libs/cairo-1.12.14-r4[${MULTILIB_USEDEP}]
+	>=dev-libs/glib-2.12.0:2[${MULTILIB_USEDEP}]
+	>=x11-libs/cairo-1.2.0[${MULTILIB_USEDEP}]
 	>=x11-libs/pango-1.38.0[${MULTILIB_USEDEP}]
-	>=dev-libs/libxml2-2.9.1-r4:2[${MULTILIB_USEDEP}]
-	>=dev-libs/libcroco-0.6.8-r1[${MULTILIB_USEDEP}]
-	>=x11-libs/gdk-pixbuf-2.30.7:2[introspection?,${MULTILIB_USEDEP}]
+	>=dev-libs/libxml2-2.9.0:2[${MULTILIB_USEDEP}]
+	>=dev-libs/libcroco-0.6.1[${MULTILIB_USEDEP}]
+	>=x11-libs/gdk-pixbuf-2.20:2[introspection?,${MULTILIB_USEDEP}]
 	introspection? ( >=dev-libs/gobject-introspection-0.10.8:= )
 	tools? ( >=x11-libs/gtk+-3.10.0:3 )
 "
+# vala? ( $(vala_depend) ) removed because it causes the following circular dependency:
+#
+# dev-lang/vala
+#  media-gfx/graphviz
+#   gnome-base/librsvg
+#    dev-lang/vala
 DEPEND="${RDEPEND}
 	dev-libs/gobject-introspection-common
 	dev-libs/vala-common
 	>=dev-util/gtk-doc-am-1.13
 	>=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}]
-	vala? ( $(vala_depend) )
 "
 # >=gtk-doc-am-1.13, gobject-introspection-common, vala-common needed by eautoreconf
 
@@ -40,7 +45,6 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-2.40.12-gtk-optional.patch
 
 	eautoreconf
-
 	use vala && vala_src_prepare
 	gnome2_src_prepare
 }

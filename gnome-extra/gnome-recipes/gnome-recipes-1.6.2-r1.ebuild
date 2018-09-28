@@ -26,7 +26,7 @@ DEPEND="
 src_prepare() {
 	cd "${S}"/subprojects
 	rm -rf libgd
-	git clone https://git.gnome.org/browse/libgd
+	git clone https://gitlab.gnome.org/GNOME/libgd
 	cd "${S}"
 	rm -rf build
 

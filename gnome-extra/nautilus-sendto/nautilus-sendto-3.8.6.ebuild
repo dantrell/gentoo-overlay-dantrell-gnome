@@ -5,7 +5,7 @@ EAPI="6"
 inherit gnome2 meson
 
 DESCRIPTION="A nautilus extension for sending files to locations"
-HOMEPAGE="https://git.gnome.org/browse/nautilus-sendto/"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/nautilus-sendto/"
 
 LICENSE="GPL-2+"
 SLOT="0"

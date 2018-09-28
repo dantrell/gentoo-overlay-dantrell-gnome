@@ -1,12 +1,20 @@
 # Masked to test on GNOME 3.32 first
 >=net-libs/webkit-gtk-2.24.0
 
+# Requires GLib 2.56 (or greater)
+>=media-sound/pulseeffects-4.3.5
+>=x11-misc/xpad-5.1.0
+
+# Requires GLib 2.54 (or greater)
+>=net-misc/networkmanager-wireguard-9999
+
 # Requires GLib 2.52 (or greater)
 >=net-libs/phodav-2.2
 
 # Requires GLib 2.50 (or greater)
 >=dev-util/lxqt-build-tools-0.4.0
 >=dev-util/meld-3.18.0
+>=sys-apps/bolt-0.4
 >=sys-apps/dbus-broker-4
 >=sys-fs/udisks-2.7.6
 >=x11-wm/page-1.9.9
@@ -166,6 +174,7 @@
 >=gnome-extra/gnome-documents-3.16.0
 >=gnome-extra/gnome-getting-started-docs-3.16.0
 >=gnome-extra/gnome-logs-3.16.0
+>=gnome-extra/gnome-multi-writer-3.16.0
 >=gnome-extra/gnome-packagekit-3.16.0
 >=gnome-extra/gnome-power-manager-3.16.0
 >=gnome-extra/gnome-shell-extensions-3.16.0
@@ -173,7 +182,9 @@
 >=gnome-extra/gnome-software-3.16.0
 >=gnome-extra/gnome-system-monitor-3.16.0
 >=gnome-extra/gnome-todo-3.18.0
+>=gnome-extra/gnome-tweaks-3.28.0
 >=gnome-extra/gnome-tweak-tool-3.16.0
+>=gnome-extra/gnome-usage-3.28.0
 >=gnome-extra/gnome-user-docs-3.16.0
 >=gnome-extra/gnome-user-share-3.18.0
 >=gnome-extra/gnome-weather-3.16.0

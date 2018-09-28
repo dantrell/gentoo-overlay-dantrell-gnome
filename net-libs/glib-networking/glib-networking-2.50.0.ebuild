@@ -6,7 +6,7 @@ GNOME2_LA_PUNT="yes"
 inherit gnome2 multilib-minimal virtualx
 
 DESCRIPTION="Network-related giomodules for glib"
-HOMEPAGE="https://git.gnome.org/browse/glib-networking/"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/glib-networking/"
 
 LICENSE="LGPL-2+"
 SLOT="0"

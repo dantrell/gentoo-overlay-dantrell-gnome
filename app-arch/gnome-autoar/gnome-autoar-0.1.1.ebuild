@@ -5,7 +5,7 @@ EAPI="6"
 inherit gnome2
 
 DESCRIPTION="Automatic archives creating and extracting library"
-HOMEPAGE="https://git.gnome.org/browse/gnome-autoar"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-autoar"
 
 LICENSE="LGPL-2+ GPL-2+"
 SLOT="0"

@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome2 bash-completion-r1 virtualx
+inherit bash-completion-r1 gnome2 vala virtualx
 
 DESCRIPTION="Simple low-level configuration system"
 HOMEPAGE="https://wiki.gnome.org/action/show/Projects/dconf"
@@ -18,6 +18,7 @@ RDEPEND="
 	sys-apps/dbus
 "
 DEPEND="${RDEPEND}
+	$(vala_depend)
 	app-text/docbook-xml-dtd:4.2
 	app-text/docbook-xsl-stylesheets
 	dev-libs/libxslt
@@ -27,11 +28,15 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 "
 
+src_prepare() {
+	vala_src_prepare
+	gnome2_src_prepare
+}
+
 src_configure() {
 	gnome2_src_configure \
 		--disable-gcov \
-		--enable-man \
-		VALAC=$(type -P true)
+		--enable-man
 }
 
 src_test() {

@@ -16,8 +16,9 @@ LICENSE="GPL-2+"
 SLOT="0" # add subslot if libnm-util.so.2 or libnm-glib.so.4 bumps soname version
 KEYWORDS="~*"
 
-IUSE="audit bluetooth ck connection-sharing consolekit +dhclient dhcpcd elogind gnutls +introspection json kernel_linux +nss +modemmanager ncurses ofono ovs policykit +ppp resolvconf selinux systemd teamd test vala +vanilla +wext +wifi"
+IUSE="audit bluetooth ck connection-sharing consolekit +dhclient dhcpcd doc elogind gnutls +introspection json kernel_linux +nss +modemmanager ncurses ofono ovs policykit +ppp resolvconf selinux systemd teamd test vala +vanilla +wext +wifi"
 REQUIRED_USE="
+	doc? ( introspection )
 	modemmanager? ( ppp )
 	vala? ( introspection )
 	vanilla? ( !dhcpcd )
@@ -91,11 +92,12 @@ RDEPEND="${COMMON_DEPEND}
 "
 DEPEND="${COMMON_DEPEND}
 	dev-util/gdbus-codegen
-	dev-util/gtk-doc-am
 	>=dev-util/intltool-0.40
 	>=sys-devel/gettext-0.17
 	>=sys-kernel/linux-headers-2.6.29
 	virtual/pkgconfig[${MULTILIB_USEDEP}]
+	!doc? ( dev-util/gtk-doc-am )
+	doc? ( dev-util/gtk-doc )
 	introspection? (
 		$(python_gen_any_dep 'dev-python/pygobject:3[${PYTHON_USEDEP}]')
 		dev-lang/perl
@@ -160,6 +162,10 @@ src_prepare() {
 	DOC_CONTENTS="To modify system network connections without needing to enter the
 		root password, add your user account to the 'plugdev' group."
 
+	# From OpenEmbedded:
+	# 	https://github.com/openembedded/meta-openembedded/commit/575c14ded56e1e97582a6df0921d19b4da630961
+	eapply "${FILESDIR}"/${PN}-1.8.8-do-not-create-settings-settings-property-documentation.patch
+
 	eautoreconf
 	use vala && vala_src_prepare
 	gnome2_src_prepare
@@ -179,7 +185,7 @@ multilib_src_configure() {
 		--without-netconfig
 		--with-dbus-sys-dir=/etc/dbus-1/system.d
 		# We need --with-libnm-glib (and dbus-glib dep) as reverse deps are
-		# still not ready for removing that lib
+		# still not ready for removing that lib, bug #665338
 		--with-libnm-glib
 		--with-nmcli=yes
 		--with-udev-dir="$(get_udevdir)"
@@ -194,6 +200,7 @@ multilib_src_configure() {
 		$(use_with dhclient)
 		$(use_with dhcpcd)
 		$(multilib_native_use_enable introspection)
+		$(multilib_native_use_enable doc gtk-doc)
 		$(use_enable json json-validation)
 		$(multilib_native_use_enable ppp)
 		--without-libpsl

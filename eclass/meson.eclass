@@ -1,10 +1,11 @@
-# Copyright 2017 Gentoo Foundation
+# Copyright 2017-2018 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: meson.eclass
 # @MAINTAINER:
 # William Hubbs <williamh@gentoo.org>
 # Mike Gilbert <floppym@gentoo.org>
+# @SUPPORTED_EAPIS: 6 7
 # @BLURB: common ebuild functions for meson-based packages
 # @DESCRIPTION:
 # This eclass contains the default phase functions for packages which
@@ -34,7 +35,7 @@
 # @CODE
 
 case ${EAPI:-0} in
-	6) ;;
+	6|7) ;;
 	*) die "EAPI=${EAPI} is not supported" ;;
 esac
 
@@ -59,7 +60,7 @@ EXPORT_FUNCTIONS src_configure src_compile src_test src_install
 if [[ -z ${_MESON_ECLASS} ]]; then
 _MESON_ECLASS=1
 
-MESON_DEPEND=">=dev-util/meson-0.42.1
+MESON_DEPEND=">=dev-util/meson-0.45.1
 	>=dev-util/ninja-1.7.2"
 
 # @ECLASS-VARIABLE: MESON_AUTO_DEPEND
@@ -69,7 +70,11 @@ MESON_DEPEND=">=dev-util/meson-0.42.1
 # their own DEPEND string.
 : ${MESON_AUTO_DEPEND:=yes}
 if [[ ${MESON_AUTO_DEPEND} != "no" ]] ; then
-	DEPEND=${MESON_DEPEND}
+	if [[ ${EAPI:-0} == [0123456] ]]; then
+		DEPEND=${MESON_DEPEND}
+	else
+		BDEPEND=${MESON_DEPEND}
+	fi
 fi
 __MESON_AUTO_DEPEND=${MESON_AUTO_DEPEND} # See top of eclass
 
@@ -157,22 +162,29 @@ _meson_create_cross_file() {
 	# This may require adjustment based on CFLAGS
 	local cpu=${CHOST%%-*}
 
-	cat > "${T}/meson.${CHOST}" <<-EOF
+	cat > "${T}/meson.${CHOST}.${ABI}" <<-EOF
 	[binaries]
-	ar = '$(tc-getAR)'
-	c = '$(tc-getCC)'
-	cpp = '$(tc-getCXX)'
+	ar = $(_meson_env_array "$(tc-getAR)")
+	c = $(_meson_env_array "$(tc-getCC)")
+	cpp = $(_meson_env_array "$(tc-getCXX)")
+	fortran = $(_meson_env_array "$(tc-getFC)")
+	llvm-config = '$(tc-getPROG LLVM_CONFIG llvm-config)'
+	objc = $(_meson_env_array "$(tc-getPROG OBJC cc)")
+	objcpp = $(_meson_env_array "$(tc-getPROG OBJCXX c++)")
 	pkgconfig = '$(tc-getPKG_CONFIG)'
-	strip = '$(tc-getSTRIP)'
+	strip = $(_meson_env_array "$(tc-getSTRIP)")
 
 	[properties]
-	c_args = $(_meson_env_array "${CFLAGS}")
-	c_link_args = $(_meson_env_array "${LDFLAGS}")
-	cpp_args = $(_meson_env_array "${CXXFLAGS}")
-	cpp_link_args = $(_meson_env_array "${LDFLAGS}")
+	c_args = $(_meson_env_array "${CFLAGS} ${CPPFLAGS}")
+	c_link_args = $(_meson_env_array "${CFLAGS} ${LDFLAGS}")
+	cpp_args = $(_meson_env_array "${CXXFLAGS} ${CPPFLAGS}")
+	cpp_link_args = $(_meson_env_array "${CXXFLAGS} ${LDFLAGS}")
 	fortran_args = $(_meson_env_array "${FCFLAGS}")
-	objc_args = $(_meson_env_array "${OBJCFLAGS}")
-	objcpp_args = $(_meson_env_array "${OBJCXXFLAGS}")
+	fortran_link_args = $(_meson_env_array "${FCFLAGS} ${LDFLAGS}")
+	objc_args = $(_meson_env_array "${OBJCFLAGS} ${CPPFLAGS}")
+	objc_link_args = $(_meson_env_array "${OBJCFLAGS} ${LDFLAGS}")
+	objcpp_args = $(_meson_env_array "${OBJCXXFLAGS} ${CPPFLAGS}")
+	objcpp_link_args = $(_meson_env_array "${OBJCXXFLAGS} ${LDFLAGS}")
 
 	[host_machine]
 	system = '${system}'
@@ -211,9 +223,9 @@ meson_src_configure() {
 		--wrap-mode nodownload
 		)
 
-	if tc-is-cross-compiler; then
+	if tc-is-cross-compiler || [[ ${ABI} != ${DEFAULT_ABI-${ABI}} ]]; then
 		_meson_create_cross_file || die "unable to write meson cross file"
-		mesonargs+=( --cross-file "${T}/meson.${CHOST}" )
+		mesonargs+=( --cross-file "${T}/meson.${CHOST}.${ABI}" )
 	fi
 
 	# https://bugs.gentoo.org/625396

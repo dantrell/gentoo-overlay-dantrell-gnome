@@ -2,10 +2,7 @@
 
 EAPI="6"
 
-VALA_USE_DEPEND="vapigen"
-VALA_MIN_API_VERSION="0.39"
-
-inherit gnome2 bash-completion-r1 virtualx meson vala
+inherit bash-completion-r1 gnome2 meson vala
 
 DESCRIPTION="Simple low-level configuration system"
 HOMEPAGE="https://wiki.gnome.org/action/show/Projects/dconf"
@@ -27,12 +24,12 @@ DEPEND="${RDEPEND}
 	dev-libs/libxslt
 	>=dev-util/gtk-doc-am-1.15
 	sys-devel/gettext
-	app-shells/bash-completion
 	virtual/pkgconfig
 "
 
 src_prepare() {
-	default
+	vala_src_prepare
+	gnome2_src_prepare
 }
 
 src_install() {

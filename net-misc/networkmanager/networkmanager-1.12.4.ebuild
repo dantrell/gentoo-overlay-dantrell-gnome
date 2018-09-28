@@ -6,8 +6,8 @@ GNOME2_LA_PUNT="yes"
 VALA_USE_DEPEND="vapigen"
 PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6,3_7} )
 
-inherit bash-completion-r1 gnome2 linux-info multilib python-any-r1 systemd \
-	user readme.gentoo-r1 vala virtualx udev multilib-minimal
+inherit autotools bash-completion-r1 gnome2 linux-info multilib python-any-r1 systemd \
+	user readme.gentoo-r1 toolchain-funcs vala versionator virtualx udev multilib-minimal
 
 DESCRIPTION="A set of co-operative tools that make networking simple and straightforward"
 HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
@@ -16,8 +16,9 @@ LICENSE="GPL-2+"
 SLOT="0" # add subslot if libnm-util.so.2 or libnm-glib.so.4 bumps soname version
 KEYWORDS="~*"
 
-IUSE="audit bluetooth ck connection-sharing consolekit +dhclient dhcpcd elogind gnutls +introspection iwd json kernel_linux +nss +modemmanager ncurses ofono ovs policykit +ppp resolvconf selinux systemd teamd test vala +vanilla +wext +wifi"
+IUSE="audit bluetooth ck connection-sharing consolekit +dhclient dhcpcd doc elogind gnutls +introspection iwd json kernel_linux +nss +modemmanager ncurses ofono ovs policykit +ppp resolvconf selinux systemd teamd test vala +vanilla +wext +wifi"
 REQUIRED_USE="
+	doc? ( introspection )
 	modemmanager? ( ppp )
 	vala? ( introspection )
 	vanilla? ( !dhcpcd )
@@ -92,11 +93,12 @@ RDEPEND="${COMMON_DEPEND}
 "
 DEPEND="${COMMON_DEPEND}
 	dev-util/gdbus-codegen
-	dev-util/gtk-doc-am
 	>=dev-util/intltool-0.40
 	>=sys-devel/gettext-0.17
 	>=sys-kernel/linux-headers-2.6.29
 	virtual/pkgconfig[${MULTILIB_USEDEP}]
+	!doc? ( dev-util/gtk-doc-am )
+	doc? ( dev-util/gtk-doc )
 	introspection? (
 		$(python_gen_any_dep 'dev-python/pygobject:3[${PYTHON_USEDEP}]')
 		dev-lang/perl
@@ -161,6 +163,10 @@ src_prepare() {
 	DOC_CONTENTS="To modify system network connections without needing to enter the
 		root password, add your user account to the 'plugdev' group."
 
+	# From OpenEmbedded:
+	# 	https://github.com/openembedded/meta-openembedded/commit/575c14ded56e1e97582a6df0921d19b4da630961
+	eapply "${FILESDIR}"/${PN}-1.12.4-do-not-create-settings-settings-property-documentation.patch
+
 	eautoreconf
 	use vala && vala_src_prepare
 	gnome2_src_prepare
@@ -192,6 +198,7 @@ multilib_src_configure() {
 		$(use_with dhclient)
 		$(use_with dhcpcd)
 		$(multilib_native_use_enable introspection)
+		$(multilib_native_use_enable doc gtk-doc)
 		$(use_enable json json-validation)
 		$(multilib_native_use_enable ppp)
 		--without-libpsl

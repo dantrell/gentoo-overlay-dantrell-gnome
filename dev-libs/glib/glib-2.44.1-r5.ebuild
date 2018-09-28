@@ -131,19 +131,19 @@ src_prepare() {
 	fi
 
 	# From GNOME:
-	# 	https://git.gnome.org/browse/glib/commit/?id=d0219f25970c740ac1a8965754868d54bcd90eeb
-	# 	https://git.gnome.org/browse/glib/commit/?id=7dd9ffbcfff3561d2d1bcd247c052e4c4399623f
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/d0219f25970c740ac1a8965754868d54bcd90eeb
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/7dd9ffbcfff3561d2d1bcd247c052e4c4399623f
 	epatch "${FILESDIR}"/${PN}-2.47.2-glib-add-bounds-checked-unsigned-int-arithmetic.patch
 	epatch "${FILESDIR}"/${PN}-2.47.2-tests-test-bounds-checked-int-arithmetic.patch
 
 	# From GNOME:
-	# 	https://git.gnome.org/browse/glib/commit/?id=15c5e643c64b5f428fdbb515625dd6e939dcd40b
-	# 	https://git.gnome.org/browse/glib/commit/?id=b36b4941a634af096d21f906caae25ef35161166
-	# 	https://git.gnome.org/browse/glib/commit/?id=0bfbb0d257593b2fcfaaf9bf09c586057ecfac25
-	# 	https://git.gnome.org/browse/glib/commit/?id=9834f79279574e2cddc4dcb6149da9bd782dd40d
-	# 	https://git.gnome.org/browse/glib/commit/?id=db2367e8782d7a39fc3e93d13f6a16f10cad04c2
-	# 	https://git.gnome.org/browse/glib/commit/?id=ba12fbf8f8861e634def9fc0fb5e9ea603269803
-	# 	https://git.gnome.org/browse/glib/commit/?id=f2fb877ef796c543f8ca166c7e05a434f163faf7
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/15c5e643c64b5f428fdbb515625dd6e939dcd40b
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/b36b4941a634af096d21f906caae25ef35161166
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/0bfbb0d257593b2fcfaaf9bf09c586057ecfac25
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/9834f79279574e2cddc4dcb6149da9bd782dd40d
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/db2367e8782d7a39fc3e93d13f6a16f10cad04c2
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/ba12fbf8f8861e634def9fc0fb5e9ea603269803
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/f2fb877ef796c543f8ca166c7e05a434f163faf7
 	epatch "${FILESDIR}"/${PN}-2.45.1-gversionmacros-add-2-46-version-macros.patch
 	epatch "${FILESDIR}"/${PN}-2.47.1-glib-add-2-48-availibity-macros.patch
 	epatch "${FILESDIR}"/${PN}-2.47.2-gtrashstack-uninline-and-deprecate.patch
@@ -153,23 +153,23 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-2.47.4-glibconfig-h-win32-in-remove-g-can-inline.patch
 
 	# From GNOME:
-	# 	https://git.gnome.org/browse/glib/commit/?id=ec6971b864a3faffadd0bf4a87c7c1b47697fc83
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/ec6971b864a3faffadd0bf4a87c7c1b47697fc83
 	epatch "${FILESDIR}"/${PN}-2.47.4-gtypes-h-move-g-static-assert-to-function-scope.patch
 
 	# From GNOME:
-	# 	https://git.gnome.org/browse/glib/commit/?id=aead1c046dd39748cca449b55ec300ba5f025365
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/aead1c046dd39748cca449b55ec300ba5f025365
 	epatch "${FILESDIR}"/${PN}-2.47.92-gvariant-text-fix-scan-of-positional-parameters.patch
 
 	# From GNOME:
-	# 	https://git.gnome.org/browse/glib/commit/?id=f9d9f9c056d96eccbb75dcbdef2b58f6d2a3edea
-	# 	https://git.gnome.org/browse/glib/commit/?id=3624e70508d414ae734c0b51f81839f8b5b1c809
-	# 	https://git.gnome.org/browse/glib/commit/?id=61136c2c7333a937adb20a4a43f32e66bf89c2f5
-	# 	https://git.gnome.org/browse/glib/commit/?id=c7f46997351805e436803ac74a49a88aa1602579
-	# 	https://git.gnome.org/browse/glib/commit/?id=ba18667bb467ef4734f5d8a9bbeabcad39be4ecc
-	# 	https://git.gnome.org/browse/glib/commit/?id=1ff79690fbd57a1029918ff37b7890b1096854b6
-	# 	https://git.gnome.org/browse/glib/commit/?id=0d1eecddd4a87f4fcf6273e0ca95f11019582778
-	# 	https://git.gnome.org/browse/glib/commit/?id=4e1567a079c13036320802f49ee8f78f78d0273a
-	# 	https://git.gnome.org/browse/glib/commit/?id=8e23a514b02c67104f03545dec58116f00087229
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/f9d9f9c056d96eccbb75dcbdef2b58f6d2a3edea
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/3624e70508d414ae734c0b51f81839f8b5b1c809
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/61136c2c7333a937adb20a4a43f32e66bf89c2f5
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/c7f46997351805e436803ac74a49a88aa1602579
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/ba18667bb467ef4734f5d8a9bbeabcad39be4ecc
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/1ff79690fbd57a1029918ff37b7890b1096854b6
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/0d1eecddd4a87f4fcf6273e0ca95f11019582778
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/4e1567a079c13036320802f49ee8f78f78d0273a
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/8e23a514b02c67104f03545dec58116f00087229
 	epatch "${FILESDIR}"/${PN}-2.47.1-update-to-unicode-8-0.patch
 	epatch "${FILESDIR}"/${PN}-2.47.1-update-unicode-test-data-for-unicode-8.patch
 	epatch "${FILESDIR}"/${PN}-2.47.4-trivial-doc-comment-fix.patch

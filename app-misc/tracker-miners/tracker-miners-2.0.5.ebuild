@@ -25,6 +25,6 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	eautoreconf # See bug #367975
-	gnome2_src_prepare
 	vala_src_prepare
+	gnome2_src_prepare
 }

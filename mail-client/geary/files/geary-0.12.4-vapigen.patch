@@ -1,0 +1,17 @@
+diff '--exclude=.git' -urN a/src/CMakeLists.txt b/src/CMakeLists.txt
+--- a/src/CMakeLists.txt	2018-08-29 08:57:20.000000000 -0500
++++ b/src/CMakeLists.txt	2018-09-26 02:50:29.880497710 -0500
+@@ -430,12 +430,7 @@
+ include(ValaPrecompile)
+ 
+ # Vapigen
+-find_program(VAPIGEN vapigen)
+-if (VAPIGEN STREQUAL "VAPIGEN-NOTFOUND")
+-    message(FATAL_ERROR "vapigen must be installed to build Geary.")
+-else ()
+-    message(STATUS "Found vapigen: " ${VAPIGEN})
+-endif ()
++set(VAPIGEN $ENV{VAPIGEN})
+ 
+ # Packages
+ if (LIBMESSAGINGMENU_FOUND)

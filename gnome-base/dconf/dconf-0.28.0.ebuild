@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome2 bash-completion-r1 virtualx vala meson
+inherit bash-completion-r1 gnome2 meson vala
 
 DESCRIPTION="Simple low-level configuration system"
 HOMEPAGE="https://wiki.gnome.org/action/show/Projects/dconf"

@@ -45,7 +45,7 @@ src_prepare() {
 	sed -i -e 's/Clearlooks/Adwaita/' schemas/desktop_gnome_interface.schemas.in.in || die
 
 	# From GNOME:
-	# 	https://git.gnome.org/browse/libgnome/commit/?id=33313713c4f5c1de500859ff128d6fd7e3af5722
+	# 	https://gitlab.gnome.org/GNOME/libgnome/commit/33313713c4f5c1de500859ff128d6fd7e3af5722
 	epatch "${FILESDIR}"/${PN}-2.32.2-gnome-config-h-fix-invalid-utf-8-in-header.patch
 
 	gnome2_src_prepare

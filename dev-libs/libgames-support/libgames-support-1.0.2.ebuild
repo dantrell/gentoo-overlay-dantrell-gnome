@@ -5,7 +5,7 @@ EAPI="6"
 inherit gnome2 vala
 
 DESCRIPTION="Library for code common to Gnome games"
-HOMEPAGE="https://git.gnome.org/browse/libgnome-games-support/"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/libgnome-games-support/"
 
 LICENSE="LGPL-3+"
 SLOT="0"
@@ -25,6 +25,6 @@ DEPEND="${DEPEND}
 "
 
 src_prepare() {
-	gnome2_src_prepare
 	vala_src_prepare
+	gnome2_src_prepare
 }

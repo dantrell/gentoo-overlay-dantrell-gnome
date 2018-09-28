@@ -6,7 +6,7 @@ GNOME2_LA_PUNT="yes"
 inherit gnome2 multilib
 
 DESCRIPTION="Personal file sharing for the GNOME desktop"
-HOMEPAGE="https://git.gnome.org/browse/gnome-user-share"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-user-share"
 
 LICENSE="GPL-2"
 SLOT="0"

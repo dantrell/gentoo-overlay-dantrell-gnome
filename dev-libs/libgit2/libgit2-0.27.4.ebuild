@@ -12,7 +12,7 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2-with-linking-exception"
 SLOT="0/27"
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="+curl examples gssapi libressl +ssh test +threads trace"
 

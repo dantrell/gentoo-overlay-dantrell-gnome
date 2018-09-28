@@ -1,3 +1,12 @@
 app-crypt/gpgme python
 dev-lang/spidermonkey system-icu
+dev-python/pycurl curl_ssl_gnutls
+dev-python/pycurl curl_ssl_libressl
+dev-python/pycurl curl_ssl_nss
 gnome-base/gnome-extra-apps flashback
+net-libs/liboauth curl
+net-misc/curl curl_ssl_axtls
+net-misc/curl curl_ssl_gnutls
+net-misc/curl curl_ssl_libressl
+net-misc/curl curl_ssl_mbedtls
+net-misc/curl curl_ssl_nss

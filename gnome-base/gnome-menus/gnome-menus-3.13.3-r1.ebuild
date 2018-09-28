@@ -6,7 +6,7 @@ GCONF_DEBUG="yes"
 inherit eutils gnome2
 
 DESCRIPTION="Library for the Desktop Menu fd.o specification"
-HOMEPAGE="https://git.gnome.org/browse/gnome-menus"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-menus"
 
 LICENSE="GPL-2+ LGPL-2+"
 SLOT="3"

@@ -112,12 +112,12 @@ src_prepare() {
 	fi
 
 	# From GNOME:
-	# 	https://git.gnome.org/browse/glib/commit/?id=c7f46997351805e436803ac74a49a88aa1602579
-	# 	https://git.gnome.org/browse/glib/commit/?id=ba18667bb467ef4734f5d8a9bbeabcad39be4ecc
-	# 	https://git.gnome.org/browse/glib/commit/?id=1ff79690fbd57a1029918ff37b7890b1096854b6
-	# 	https://git.gnome.org/browse/glib/commit/?id=0d1eecddd4a87f4fcf6273e0ca95f11019582778
-	# 	https://git.gnome.org/browse/glib/commit/?id=4e1567a079c13036320802f49ee8f78f78d0273a
-	# 	https://git.gnome.org/browse/glib/commit/?id=8e23a514b02c67104f03545dec58116f00087229
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/c7f46997351805e436803ac74a49a88aa1602579
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/ba18667bb467ef4734f5d8a9bbeabcad39be4ecc
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/1ff79690fbd57a1029918ff37b7890b1096854b6
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/0d1eecddd4a87f4fcf6273e0ca95f11019582778
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/4e1567a079c13036320802f49ee8f78f78d0273a
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/8e23a514b02c67104f03545dec58116f00087229
 	eapply "${FILESDIR}"/${PN}-2.50.1-unicode-update-break-mappings.patch
 	eapply "${FILESDIR}"/${PN}-2.50.1-unicode-update-to-unicode-9-0-0.patch
 	eapply "${FILESDIR}"/${PN}-2.50.1-unicode-update-test-data-files-for-unicode-9-0-0.patch

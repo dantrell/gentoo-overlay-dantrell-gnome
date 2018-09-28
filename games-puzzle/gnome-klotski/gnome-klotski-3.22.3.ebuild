@@ -31,6 +31,6 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	gnome2_src_prepare
 	vala_src_prepare
+	gnome2_src_prepare
 }

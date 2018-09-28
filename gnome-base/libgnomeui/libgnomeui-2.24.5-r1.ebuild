@@ -51,7 +51,7 @@ src_prepare() {
 	fi
 
 	# From GNOME:
-	# 	https://git.gnome.org/browse/libgnomeui/commit/?id=30334c28794ef85d8973f4ed0779b5ceed6594f2
+	# 	https://gitlab.gnome.org/GNOME/libgnomeui/commit/30334c28794ef85d8973f4ed0779b5ceed6594f2
 	epatch "${FILESDIR}"/${PN}-2.24.5-gnome-scores-h-convert-to-utf-8.patch
 
 	gnome2_src_prepare

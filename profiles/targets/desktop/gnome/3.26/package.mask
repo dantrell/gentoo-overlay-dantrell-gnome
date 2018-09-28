@@ -17,8 +17,8 @@
 >=app-misc/bijiben-3.28.0
 >=app-misc/geoclue-2.6.0
 >=app-misc/gnote-3.28.0
->=app-misc/tracker-2.2.0
->=app-misc/tracker-miners-2.2.0
+>=app-misc/tracker-2.1.0
+>=app-misc/tracker-miners-2.1.0
 >=app-text/evince-3.28.0
 >=app-text/gspell-1.6.0
 >=app-text/yelp-tools-3.28.0
@@ -118,6 +118,7 @@
 >=gnome-extra/gnome-documents-3.28.0
 >=gnome-extra/gnome-getting-started-docs-3.28.0
 >=gnome-extra/gnome-logs-3.28.0
+>=gnome-extra/gnome-multi-writer-3.28.0
 >=gnome-extra/gnome-packagekit-3.28.0
 >=gnome-extra/gnome-power-manager-3.28.0
 >=gnome-extra/gnome-shell-extensions-3.28.0
@@ -125,7 +126,9 @@
 >=gnome-extra/gnome-software-3.28.0
 >=gnome-extra/gnome-system-monitor-3.28.0
 >=gnome-extra/gnome-todo-3.28.0
+>=gnome-extra/gnome-tweaks-3.28.0
 >=gnome-extra/gnome-tweak-tool-3.28.0
+>=gnome-extra/gnome-usage-3.28.0
 >=gnome-extra/gnome-user-docs-3.28.0
 >=gnome-extra/gnome-user-share-3.28.0
 >=gnome-extra/gnome-weather-3.28.0
@@ -176,7 +179,7 @@
 >=x11-libs/gdk-pixbuf-2.38.0
 >=x11-libs/gnome-pty-helper-0.52.0
 >=x11-libs/gtksourceview-3.28.0
->=x11-libs/gtk+-3.28.0
+>=x11-libs/gtk+-3.24.0
 >=x11-libs/libwnck-3.28.0
 >=x11-libs/tepl-4.0
 >=x11-libs/vte-0.52.0
