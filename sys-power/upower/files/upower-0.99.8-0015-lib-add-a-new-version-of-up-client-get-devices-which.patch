@@ -1,0 +1,104 @@
+From cb1071b9ab6bf743d7c51545841dfadcbfe7ec9c Mon Sep 17 00:00:00 2001
+From: Robert Ancell <robert.ancell@canonical.com>
+Date: Thu, 31 May 2018 09:42:56 +1200
+Subject: [PATCH 15/26] lib: Add a new version of up_client_get_devices which
+ unrefs contents
+
+The existing function didn't set the free function on the GPtrArray.
+This means a libupower user can easily make a mistake in the reference
+counting of the array contents.
+---
+ libupower-glib/up-client.c | 25 +++++++++++++++++++++++--
+ libupower-glib/up-client.h |  3 ++-
+ tools/up-tool.c            |  4 ++--
+ 3 files changed, 27 insertions(+), 5 deletions(-)
+
+diff --git a/libupower-glib/up-client.c b/libupower-glib/up-client.c
+index 00a42c6..6a48780 100644
+--- a/libupower-glib/up-client.c
++++ b/libupower-glib/up-client.c
+@@ -80,14 +80,35 @@ G_DEFINE_TYPE_WITH_CODE (UpClient, up_client, G_TYPE_OBJECT,
+  * up_client_get_devices:
+  * @client: a #UpClient instance.
+  *
+- * Get a copy of the device objects.
++ * Get a copy of the device objects. This function does not set the free
++ * function for the #GPtrArray so you need use g_object_unref on all
++ * elements when you are finished with the array.
+  *
+  * Return value: (element-type UpDevice) (transfer full): an array of #UpDevice objects, free with g_ptr_array_unref()
+  *
+  * Since: 0.9.0
++ * Deprecated: 0.99.8
+  **/
+ GPtrArray *
+ up_client_get_devices (UpClient *client)
++{
++	GPtrArray *array = up_client_get_devices2 (client);
++	g_ptr_array_set_free_func (array, NULL);
++	return array;
++}
++
++/**
++ * up_client_get_devices2:
++ * @client: a #UpClient instance.
++ *
++ * Get a copy of the device objects.
++ *
++ * Return value: (element-type UpDevice) (transfer full): an array of #UpDevice objects, free with g_ptr_array_unref()
++ *
++ * Since: 0.99.8
++ **/
++GPtrArray *
++up_client_get_devices2 (UpClient *client)
+ {
+ 	GError *error = NULL;
+ 	char **devices;
+@@ -105,7 +126,7 @@ up_client_get_devices (UpClient *client)
+ 		return NULL;
+ 	}
+ 
+-	array = g_ptr_array_new ();
++	array = g_ptr_array_new_with_free_func ((GDestroyNotify) g_object_unref);
+ 
+ 	for (i = 0; devices[i] != NULL; i++) {
+ 		UpDevice *device;
+diff --git a/libupower-glib/up-client.h b/libupower-glib/up-client.h
+index 5b9af3c..2342a48 100644
+--- a/libupower-glib/up-client.h
++++ b/libupower-glib/up-client.h
+@@ -79,7 +79,8 @@ UpDevice *	 up_client_get_display_device		(UpClient *client);
+ char *		 up_client_get_critical_action		(UpClient *client);
+ 
+ /* accessors */
+-GPtrArray	*up_client_get_devices			(UpClient		*client);
++GPtrArray	*up_client_get_devices			(UpClient		*client) G_DEPRECATED_FOR(up_client_get_devices2);
++GPtrArray	*up_client_get_devices2			(UpClient		*client);
+ const gchar	*up_client_get_daemon_version		(UpClient		*client);
+ gboolean	 up_client_get_lid_is_closed		(UpClient		*client);
+ gboolean	 up_client_get_lid_is_present		(UpClient		*client);
+diff --git a/tools/up-tool.c b/tools/up-tool.c
+index db31075..724e468 100644
+--- a/tools/up-tool.c
++++ b/tools/up-tool.c
+@@ -173,7 +173,7 @@ up_tool_do_monitor (UpClient *client)
+ 	g_signal_connect (client, "device-removed", G_CALLBACK (up_tool_device_removed_cb), NULL);
+ 	g_signal_connect (client, "notify", G_CALLBACK (up_tool_changed_cb), NULL);
+ 
+-	devices = up_client_get_devices (client);
++	devices = up_client_get_devices2 (client);
+ 	for (i=0; i < devices->len; i++) {
+ 		UpDevice *device;
+ 		device = g_ptr_array_index (devices, i);
+@@ -314,7 +314,7 @@ main (int argc, char **argv)
+ 
+ 	if (opt_enumerate || opt_dump) {
+ 		GPtrArray *devices;
+-		devices = up_client_get_devices (client);
++		devices = up_client_get_devices2 (client);
+ 		for (i=0; i < devices->len; i++) {
+ 			device = (UpDevice*) g_ptr_array_index (devices, i);
+ 			if (opt_enumerate) {
+-- 
+2.19.0
+

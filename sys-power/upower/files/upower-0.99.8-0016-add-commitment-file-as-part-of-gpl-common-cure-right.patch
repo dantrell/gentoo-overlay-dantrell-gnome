@@ -1,0 +1,72 @@
+From 041e70867fe3e34a998a60716a73e368179f27b7 Mon Sep 17 00:00:00 2001
+From: Richard Hughes <richard@hughsie.com>
+Date: Mon, 18 Jun 2018 15:58:28 +0100
+Subject: [PATCH 16/26] Add COMMITMENT file as part of GPL Common Cure Rights
+ Commitment
+
+This is part of more broader commitment Red Hat along with IBM, Google, and
+Facebook made in November 2017.
+
+More on this can be found online:
+
+https://www.redhat.com/en/blog/fostering-greater-open-source-development &
+https://www.redhat.com/en/about/gplv3-enforcement-statement
+---
+ COMMITMENT | 45 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
+ create mode 100644 COMMITMENT
+
+diff --git a/COMMITMENT b/COMMITMENT
+new file mode 100644
+index 0000000..bfa237f
+--- /dev/null
++++ b/COMMITMENT
+@@ -0,0 +1,45 @@
++Common Cure Rights Commitment, version 1.0
++
++Before filing or continuing to prosecute any legal proceeding or claim
++(other than a Defensive Action) arising from termination of a Covered
++License, we commit to extend to the person or entity ('you') accused
++of violating the Covered License the following provisions regarding
++cure and reinstatement, taken from GPL version 3. As used here, the
++term 'this License' refers to the specific Covered License being
++enforced.
++
++    However, if you cease all violation of this License, then your
++    license from a particular copyright holder is reinstated (a)
++    provisionally, unless and until the copyright holder explicitly
++    and finally terminates your license, and (b) permanently, if the
++    copyright holder fails to notify you of the violation by some
++    reasonable means prior to 60 days after the cessation.
++
++    Moreover, your license from a particular copyright holder is
++    reinstated permanently if the copyright holder notifies you of the
++    violation by some reasonable means, this is the first time you
++    have received notice of violation of this License (for any work)
++    from that copyright holder, and you cure the violation prior to 30
++    days after your receipt of the notice.
++
++We intend this Commitment to be irrevocable, and binding and
++enforceable against us and assignees of or successors to our
++copyrights.
++
++Definitions
++
++'Covered License' means the GNU General Public License, version 2
++(GPLv2), the GNU Lesser General Public License, version 2.1
++(LGPLv2.1), or the GNU Library General Public License, version 2
++(LGPLv2), all as published by the Free Software Foundation.
++
++'Defensive Action' means a legal proceeding or claim that We bring
++against you in response to a prior proceeding or claim initiated by
++you or your affiliate.
++
++'We' means each contributor to this repository as of the date of
++inclusion of this file, including subsidiaries of a corporate
++contributor.
++
++This work is available under a Creative Commons Attribution-ShareAlike
++4.0 International license.
+-- 
+2.19.0
+

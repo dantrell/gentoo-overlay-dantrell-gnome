@@ -1,0 +1,38 @@
+From 054cb3f4b83bbf15b05daca5cb02c8f83a6493b2 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 19 Jun 2018 13:10:24 +0200
+Subject: [PATCH 21/26] linux: Fix possible double-close on exit
+
+Fix double-close on exit. If we created a GIOChannel from the file
+descriptor, then g_io_channel_shutdown() will close that file descriptor
+as well. Close the channel first, so that the file descriptor is only
+closed manually if we didn't manage to create a GIOChannel from it.
+
+https://gitlab.freedesktop.org/upower/upower/issues/60
+---
+ src/linux/up-input.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/src/linux/up-input.c b/src/linux/up-input.c
+index 7e3ad42..c5df937 100644
+--- a/src/linux/up-input.c
++++ b/src/linux/up-input.c
+@@ -286,12 +286,13 @@ up_input_finalize (GObject *object)
+ 	g_return_if_fail (input->priv != NULL);
+ 
+ 	g_clear_object (&input->priv->daemon);
+-	if (input->priv->eventfp >= 0)
+-		close (input->priv->eventfp);
+ 	if (input->priv->channel) {
+ 		g_io_channel_shutdown (input->priv->channel, FALSE, NULL);
++		input->priv->eventfp = -1;
+ 		g_io_channel_unref (input->priv->channel);
+ 	}
++	if (input->priv->eventfp >= 0)
++		close (input->priv->eventfp);
+ 	G_OBJECT_CLASS (up_input_parent_class)->finalize (object);
+ }
+ 
+-- 
+2.19.0
+

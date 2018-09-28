@@ -1,0 +1,30 @@
+From c937dabd1e4af3a0e467173e558641e2180b4878 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Mon, 18 Jun 2018 18:20:50 +0200
+Subject: [PATCH 19/26] linux: Clean up after running test suite in "distcheck"
+
+Don't leave the history files installed when running "make uninstall".
+Those files will likely have been created by the test suite when running
+"make distcheck"
+---
+ src/linux/Makefile.am | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/src/linux/Makefile.am b/src/linux/Makefile.am
+index bacf815..0121067 100644
+--- a/src/linux/Makefile.am
++++ b/src/linux/Makefile.am
+@@ -75,4 +75,10 @@ libupshared_la_LIBADD = $(GIO_LIBS)
+ clean-local :
+ 	rm -f *~
+ 
++uninstall-hook:
++	rm -f $(DESTDIR)$(localstatedir)/lib/upower/history-* && \
++	rmdir $(DESTDIR)$(localstatedir)/lib/upower && \
++	rmdir $(DESTDIR)$(localstatedir)/lib && \
++	rmdir $(DESTDIR)$(localstatedir)
++
+ -include $(top_srcdir)/git.mk
+-- 
+2.19.0
+

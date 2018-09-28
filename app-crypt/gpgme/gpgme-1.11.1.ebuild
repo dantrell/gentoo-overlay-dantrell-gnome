@@ -1,11 +1,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6,3_7} )
 DISTUTILS_OPTIONAL=1
 
-inherit distutils-r1 flag-o-matic libtool ltprune qmake-utils toolchain-funcs
+inherit distutils-r1 flag-o-matic libtool qmake-utils toolchain-funcs
 
 DESCRIPTION="GnuPG Made Easy is a library for making GnuPG easier to use"
 HOMEPAGE="http://www.gnupg.org/related_software/gpgme"
@@ -25,7 +25,6 @@ COMMON_DEPEND=">=app-crypt/gnupg-2
 	qt5? ( dev-qt/qtcore:5 )"
 	#doc? ( app-doc/doxygen[dot] )
 DEPEND="${COMMON_DEPEND}
-	python? ( dev-lang/swig )
 	qt5? ( dev-qt/qttest:5 )"
 RDEPEND="${COMMON_DEPEND}
 	cxx? (
@@ -34,6 +33,7 @@ RDEPEND="${COMMON_DEPEND}
 		!<kde-apps/kdepimlibs-4.14.10_p20160611:4
 		!=kde-apps/kdepimlibs-4.14.11_pre20160211*:4
 	)"
+BDEPEND="python? ( dev-lang/swig )"
 
 do_python() {
 	if use python; then
@@ -107,7 +107,7 @@ src_test() {
 src_install() {
 	default
 	do_python
-	prune_libtool_files
+	find "${D}" -name '*.la' -delete || die
 
 	# backward compatibility for gentoo
 	# in the past we had slots

@@ -1,0 +1,89 @@
+From c4ca520f248afceffdf55725f37d7d931ddbc2ca Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Mon, 18 Jun 2018 17:21:43 +0200
+Subject: [PATCH 17/26] linux: Better error reporting from
+ sysfs_get_double_with_error()
+
+sysfs_get_double_with_error() used to return -1.0 for errors, but in
+some cases, we might want -1.0 to be a valid value, such as for negative
+discharge rates. Return FALSE on error instead.
+---
+ src/linux/sysfs-utils.c      | 22 +++++++++++++++-------
+ src/linux/sysfs-utils.h      |  4 +++-
+ src/linux/up-device-supply.c |  3 +--
+ 3 files changed, 19 insertions(+), 10 deletions(-)
+
+diff --git a/src/linux/sysfs-utils.c b/src/linux/sysfs-utils.c
+index a1b7891..2a56f2c 100644
+--- a/src/linux/sysfs-utils.c
++++ b/src/linux/sysfs-utils.c
+@@ -43,23 +43,31 @@
+ 
+ #include "sysfs-utils.h"
+ 
+-double
+-sysfs_get_double_with_error (const char *dir, const char *attribute)
++gboolean
++sysfs_get_double_with_error (const char *dir,
++			     const char *attribute,
++			     double     *value)
+ {
+-	double result;
+ 	char *contents;
+ 	char *filename;
++	gboolean ret = FALSE;
++	double parsed;
++
++	g_return_val_if_fail (value != NULL, FALSE);
+ 
+ 	filename = g_build_filename (dir, attribute, NULL);
+ 	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
+-		result = g_ascii_strtod (contents, NULL);
++		parsed = g_ascii_strtod (contents, NULL);
++		if (errno == 0)
++			ret = TRUE;
+ 		g_free (contents);
+-	} else {
+-		result = -1.0;
+ 	}
+ 	g_free (filename);
+ 
+-	return result;
++	if (ret)
++		*value = parsed;
++
++	return ret;
+ }
+ 
+ double
+diff --git a/src/linux/sysfs-utils.h b/src/linux/sysfs-utils.h
+index df85137..613c508 100644
+--- a/src/linux/sysfs-utils.h
++++ b/src/linux/sysfs-utils.h
+@@ -28,6 +28,8 @@ char     *sysfs_get_string    (const char *dir, const char *attribute);
+ int       sysfs_get_int       (const char *dir, const char *attribute);
+ gboolean  sysfs_get_bool      (const char *dir, const char *attribute);
+ gboolean  sysfs_file_exists   (const char *dir, const char *attribute);
+-double    sysfs_get_double_with_error (const char *dir, const char *attribute);
++gboolean  sysfs_get_double_with_error (const char *dir,
++				       const char *attribute,
++				       double     *value);
+ 
+ #endif /* __SYSFS_UTILS_H__ */
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index f6b4b55..8c45dee 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -959,8 +959,7 @@ up_device_supply_refresh_device (UpDeviceSupply *supply,
+ 	}
+ 
+ 	/* get a precise percentage */
+-	percentage = sysfs_get_double_with_error (native_path, "capacity");
+-	if (percentage < 0.0)
++	if (!sysfs_get_double_with_error (native_path, "capacity", &percentage))
+ 		percentage = sysfs_get_capacity_level (native_path, &level);
+ 
+ 	if (percentage < 0.0) {
+-- 
+2.19.0
+

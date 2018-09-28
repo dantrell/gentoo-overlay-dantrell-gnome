@@ -1,0 +1,38 @@
+From e99877b809e1a8459838bd0a81f9dbd3dda6069d Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 19 Jun 2018 14:26:47 +0200
+Subject: [PATCH 20/26] build: Add CI
+
+---
+ .gitlab-ci.yml | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+ create mode 100644 .gitlab-ci.yml
+
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+new file mode 100644
+index 0000000..6df4106
+--- /dev/null
++++ b/.gitlab-ci.yml
+@@ -0,0 +1,19 @@
++image: fedora:rawhide
++
++variables:
++  DEPENDENCIES: gettext libtool intltool gtk-doc
++                autoconf automake
++                gcc redhat-rpm-config gcc-c++ glibc-devel make
++                systemd sqlite-devel gobject-introspection-devel
++                libusbx-devel libgudev-devel libimobiledevice-devel
++                glib2-devel
++                umockdev python3-dbusmock
++
++build_stable:
++  before_script:
++    - dnf update -y --nogpgcheck && dnf install -y --nogpgcheck $DEPENDENCIES
++  script:
++    - ./autogen.sh
++    - make
++    - make install
++    - make check
+-- 
+2.19.0
+

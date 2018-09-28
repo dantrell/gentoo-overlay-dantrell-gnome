@@ -1,0 +1,38 @@
+From 6d8eb754644922a2a3d5a074ce51a1d25a2cd1ee Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Mon, 18 Jun 2018 17:51:22 +0200
+Subject: [PATCH 26/26] 0.99.8
+
+---
+ NEWS | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/NEWS b/NEWS
+index bb6f8d3..81d16ad 100644
+--- a/NEWS
++++ b/NEWS
+@@ -1,3 +1,21 @@
++Version 0.99.8
++~~~~~~~~~~~~~~
++Released: 2018-06-18
++
++New Features:
++ - Lock down systemd service file
++ - Add support for "Unknown" capacity level, and clarify handling
++   of devices with coarse battery levels
++ - Add a new version of up_client_get_devices() which unrefs contents
++
++Bugfixes:
++ - Fix warnings when D-Bus related properties change
++ - Prevent crash after attaching an Apple TV, and support newer
++   versions of iOS
++ - Lower severity of "unhandled action" messages
++ - Fix battery status on MacBooks after a plug or unplug event
++ - Fix double-close on exit
++
+ Version 0.99.7
+ ~~~~~~~~~~~~~~
+ Released: 2017-11-28
+-- 
+2.19.0
+

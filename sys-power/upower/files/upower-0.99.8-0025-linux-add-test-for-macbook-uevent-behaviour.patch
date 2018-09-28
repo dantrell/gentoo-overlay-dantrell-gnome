@@ -1,0 +1,58 @@
+From 1c9892d7638ce914b50a02494fb5374314f296ad Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 19 Jun 2018 14:00:07 +0200
+Subject: [PATCH 25/26] linux: Add test for MacBook uevent behaviour
+
+See https://gitlab.freedesktop.org/upower/upower/issues/56
+---
+ src/linux/integration-test | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index cc65a34..2aa5a4c 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -348,6 +348,40 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_dev_property(devs[0], 'Online'), False)
+         self.stop_daemon()
+ 
++    def test_macbook_uevent(self):
++        '''MacBooks sent uevent 5 seconds before battery updates'''
++
++        ac = self.testbed.add_device('power_supply', 'AC', None,
++                                     ['type', 'Mains', 'online', '0'], [])
++        bat0 = self.testbed.add_device('power_supply', 'BAT0', None,
++                                       ['type', 'Battery',
++                                        'present', '1',
++                                        'status', 'Discharging',
++                                        'energy_full', '60000000',
++                                        'energy_full_design', '80000000',
++                                        'energy_now', '48000000',
++                                        'voltage_now', '12000000'], [])
++        self.testbed.add_device('virtual', 'virtual/dmi', None,
++                                ['id/product_name', 'MacBookAir7,2'], [])
++        self.start_daemon()
++        devs = self.proxy.EnumerateDevices()
++        self.assertEqual(len(devs), 2)
++        if 'BAT' in devs[0] == ac_up:
++            (bat0_up, ac_up) = devs
++        else:
++            (ac_up, bat0_up) = devs
++
++        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'State'), UP_DEVICE_STATE_DISCHARGING)
++
++        self.testbed.set_attribute(ac, 'online', '1')
++        self.testbed.uevent(ac, 'change')
++        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'State'), UP_DEVICE_STATE_DISCHARGING)
++        time.sleep(3)
++        self.testbed.set_attribute(bat0, 'status', 'Charging')
++        time.sleep(1)
++
++        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'State'), UP_DEVICE_STATE_CHARGING)
++
+     def test_battery_ac(self):
+         '''properties with dynamic battery/AC'''
+ 
+-- 
+2.19.0
+

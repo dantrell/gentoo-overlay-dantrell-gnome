@@ -1,0 +1,24 @@
+From 21dcc00cdbd0f3a376253da0b492f18027f202e0 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Mon, 18 Jun 2018 17:26:55 +0200
+Subject: [PATCH 18/26] linux: Remove extra linefeed
+
+---
+ src/linux/sysfs-utils.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/src/linux/sysfs-utils.c b/src/linux/sysfs-utils.c
+index 2a56f2c..8a811ca 100644
+--- a/src/linux/sysfs-utils.c
++++ b/src/linux/sysfs-utils.c
+@@ -85,7 +85,6 @@ sysfs_get_double (const char *dir, const char *attribute)
+ 	}
+ 	g_free (filename);
+ 
+-
+ 	return result;
+ }
+ 
+-- 
+2.19.0
+

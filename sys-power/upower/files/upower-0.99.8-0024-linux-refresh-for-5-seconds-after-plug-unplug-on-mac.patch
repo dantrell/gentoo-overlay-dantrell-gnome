@@ -1,0 +1,42 @@
+From 7188cc04179bc4da26b94ce5114bbe25921cab02 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 19 Jun 2018 13:44:24 +0200
+Subject: [PATCH 24/26] linux: Refresh for 5 seconds after plug/unplug on
+ MacBooks
+
+Pull the 2 previous changes together to refresh the battery status for a
+couple of seconds after receiving an event on the power line. This fixes
+charge status being inaccurate for up to 120 seconds (the normal poll
+timeout on MacBooks).
+
+https://gitlab.freedesktop.org/upower/upower/issues/56
+---
+ src/linux/up-device-supply.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index 00b9c70..000a00f 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -38,6 +38,7 @@
+ #include "up-types.h"
+ #include "up-constants.h"
+ #include "up-device-supply.h"
++#include "up-backend-linux-private.h"
+ 
+ #define UP_DEVICE_SUPPLY_CHARGED_THRESHOLD	90.0f	/* % */
+ 
+@@ -1146,8 +1147,8 @@ up_device_supply_setup_unknown_poll (UpDevice      *device,
+ 		return;
+ 
+ 	/* if it's unknown, poll faster than we would normally */
+-	if (state == UP_DEVICE_STATE_UNKNOWN &&
+-	    supply->priv->unknown_retries < UP_DAEMON_UNKNOWN_RETRIES) {
++	if (supply->priv->unknown_retries < UP_DAEMON_UNKNOWN_RETRIES &&
++	    (state == UP_DEVICE_STATE_UNKNOWN || up_backend_needs_poll_after_uevent ())) {
+ 		gint64 now;
+ 		supply->priv->poll_timer_id =
+ 			g_timeout_add_seconds (UP_DAEMON_UNKNOWN_TIMEOUT,
+-- 
+2.19.0
+
