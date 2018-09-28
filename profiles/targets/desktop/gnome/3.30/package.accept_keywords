@@ -13,7 +13,6 @@ media-libs/babl::dantrell-gnome ~*
 media-libs/gegl:0.3::dantrell-gnome ~*
 media-libs/mesa::gentoo ~*
 sys-auth/elogind::dantrell-gnome ~*
-sys-auth/elogind::dantrell-gnome **
 sys-auth/polkit::dantrell-gnome ~*
 sys-libs/libosinfo::dantrell-gnome ~*
 sys-power/upower::dantrell-gnome ~*
