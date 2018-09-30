@@ -1,5 +1,4 @@
 app-arch/gnome-autoar::dantrell-gnome ~*
-app-text/enchant::dantrell-gnome ~*
 app-text/gspell::dantrell-gnome ~*
 app-text/libgepub::dantrell-gnome ~*
 dev-lang/spidermonkey:52::gentoo ~*

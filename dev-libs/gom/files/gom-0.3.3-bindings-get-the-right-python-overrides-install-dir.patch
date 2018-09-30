@@ -1,0 +1,38 @@
+From e8b7c314ce61d459132cf03c9e455d2a01fdc6ea Mon Sep 17 00:00:00 2001
+From: Mathieu Bridon <bochecha@daitauha.fr>
+Date: Wed, 25 Jul 2018 18:44:22 +0200
+Subject: [PATCH] bindings: Get the right Python overrides install dir
+
+On most platforms, Python's LIBDIR is:
+
+    /usr/lib (or something similar)
+
+However, on Debian, and inside org.gnome.Sdk//master, that's instead:
+
+    /usr/lib/{arch}
+
+As a result, we weren't installing the GI overrides in the right
+directory.
+
+On all those platforms, SCRIPTDIR is always /usr/lib, which makes it a
+better path to use.
+---
+ bindings/python/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/bindings/python/meson.build b/bindings/python/meson.build
+index feb4a9c..37ea47a 100644
+--- a/bindings/python/meson.build
++++ b/bindings/python/meson.build
+@@ -4,7 +4,7 @@ get_overridedir = '''
+ import os
+ import sysconfig
+ 
+-libdir = sysconfig.get_config_var('LIBDIR')
++libdir = sysconfig.get_config_var('SCRIPTDIR')
+ 
+ if not libdir:
+   libdir = '/usr/lib'
+-- 
+2.18.0
+

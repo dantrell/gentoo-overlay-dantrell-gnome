@@ -55,7 +55,7 @@ RDEPEND="
 		>=media-libs/gst-plugins-base-1.2:1.0 )
 	introspection? ( >=dev-libs/gobject-introspection-1.32.0:= )
 	opengl? ( virtual/opengl )
-	spell? ( >=app-text/enchant-0.22:= )
+	spell? ( >=app-text/enchant-0.22:0= )
 	webgl? (
 		x11-libs/cairo[opengl]
 		x11-libs/libXcomposite

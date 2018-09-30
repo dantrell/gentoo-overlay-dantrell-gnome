@@ -12,7 +12,7 @@ LICENSE="LGPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="+introspection"
+IUSE="doc +introspection"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RDEPEND="${PYTHON_DEPS}
@@ -22,19 +22,27 @@ RDEPEND="${PYTHON_DEPS}
 	introspection? ( >=dev-libs/gobject-introspection-1.30.0:= )
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.14
+	!doc? ( >=dev-util/gtk-doc-1.14 )
+	doc? ( >=dev-util/gtk-doc-am-1.14 )
 	>=dev-util/intltool-0.40.0
 	sys-devel/gettext
 	virtual/pkgconfig
 	x11-libs/gdk-pixbuf:2
 "
 
-pkg_setup() {
-	python_setup
-}
+PATCHES=(
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/gom/commit/e8b7c314ce61d459132cf03c9e455d2a01fdc6ea
+	"${FILESDIR}"/${PN}-0.3.3-bindings-get-the-right-python-overrides-install-dir.patch
+
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/gnome-builder/blob/master/src/libide/meson.build#L171
+	"${FILESDIR}"/${PN}-0.3.3-correctly-find-python-3.patch
+)
 
 src_configure() {
 	local emesonargs=(
+		-D enable-gtk-doc=$(usex doc true false)
 		-D enable-introspection=$(usex introspection true false)
 	)
 	meson_src_configure

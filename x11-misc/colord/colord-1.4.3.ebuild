@@ -4,7 +4,7 @@ EAPI="6"
 GNOME2_LA_PUNT="yes"
 VALA_USE_DEPEND="vapigen"
 
-inherit autotools bash-completion-r1 check-reqs gnome2 user systemd udev vala multilib-minimal
+inherit autotools bash-completion-r1 check-reqs gnome2 meson user systemd udev vala multilib-minimal
 
 DESCRIPTION="System service to accurately color manage input and output devices"
 HOMEPAGE="https://www.freedesktop.org/software/colord/"

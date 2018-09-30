@@ -28,7 +28,7 @@ DEPEND="
 	>=net-libs/webkit-gtk-2.10.0:4=[introspection]
 	>=x11-libs/gtk+-3.14.0:3[introspection]
 	x11-libs/libnotify
-	app-text/enchant:0
+	app-text/enchant:0=
 "
 RDEPEND="${DEPEND}
 	gnome-base/gsettings-desktop-schemas
