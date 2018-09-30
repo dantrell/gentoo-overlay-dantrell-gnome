@@ -164,7 +164,7 @@ src_prepare() {
 
 	# From OpenEmbedded:
 	# 	https://github.com/openembedded/meta-openembedded/commit/575c14ded56e1e97582a6df0921d19b4da630961
-	eapply "${FILESDIR}"/${PN}-1.8.8-do-not-create-settings-settings-property-documentation.patch
+	eapply "${FILESDIR}"/${PN}-1.10.10-do-not-create-settings-settings-property-documentation.patch
 
 	eautoreconf
 	use vala && vala_src_prepare
