@@ -19,6 +19,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	$(vala_depend)
+	>=app-shells/bash-completion-2
 	app-text/docbook-xml-dtd:4.2
 	app-text/docbook-xsl-stylesheets
 	dev-libs/libxslt
