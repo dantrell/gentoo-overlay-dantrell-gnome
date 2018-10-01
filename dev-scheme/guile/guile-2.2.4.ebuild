@@ -19,7 +19,7 @@ RDEPEND="
 
 	>=dev-libs/boehm-gc-7.0:=[threads?]
 	>=dev-libs/gmp-4.2:0=
-	virtual/libffi
+	virtual/libffi:=
 	dev-libs/libltdl:=
 	>=dev-libs/libunistring-0.9.3
 	>=sys-devel/libtool-1.5.6

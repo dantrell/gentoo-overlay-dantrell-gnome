@@ -32,7 +32,7 @@ RDEPEND="
 	!<dev-util/gdbus-codegen-${PV}
 	>=dev-libs/libpcre-8.13:3[${MULTILIB_USEDEP},static-libs?]
 	>=virtual/libiconv-0-r1[${MULTILIB_USEDEP}]
-	>=virtual/libffi-3.0.13-r1[${MULTILIB_USEDEP}]
+	>=virtual/libffi-3.0.13-r1:=[${MULTILIB_USEDEP}]
 	>=virtual/libintl-0-r2[${MULTILIB_USEDEP}]
 	>=sys-libs/zlib-1.2.8-r1[${MULTILIB_USEDEP}]
 	selinux? ( >=sys-libs/libselinux-2.2.2-r5[${MULTILIB_USEDEP}] )
