@@ -78,6 +78,8 @@ src_configure() {
 	CC="$(tc-getCC)" CXX="$(tc-getCXX)" \
 	AR="$(tc-getAR)" RANLIB="$(tc-getRANLIB)" \
 	LD="$(tc-getLD)" \
+	ac_cv_lib_dnet_dnet_ntoa=no \
+	ac_cv_lib_dnet_stub_dnet_ntoa=no \
 	econf \
 		${myopts} \
 		--enable-jemalloc \
