@@ -6,7 +6,7 @@ VALA_USE_DEPEND="vapigen"
 inherit gnome2 udev vala
 
 DESCRIPTION="GObject library for managing information about real and virtual OSes"
-HOMEPAGE="http://libosinfo.org/"
+HOMEPAGE="https://libosinfo.org/"
 SRC_URI="https://releases.pagure.org/libosinfo/${P}.tar.gz"
 
 LICENSE="GPL-2 LGPL-2.1"
@@ -23,7 +23,7 @@ RDEPEND="
 	>=dev-libs/libxml2-2.6.0
 	>=dev-libs/libxslt-1.0.0
 	sys-apps/hwids[pci,usb]
-	sys-apps/osinfo-db-tools
+	>=sys-apps/osinfo-db-tools-1.1.0
 	sys-apps/osinfo-db
 	introspection? ( >=dev-libs/gobject-introspection-0.9.7:= )
 "

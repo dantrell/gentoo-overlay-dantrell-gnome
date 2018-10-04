@@ -22,8 +22,8 @@ RDEPEND="
 	>=dev-libs/libxml2-2.6.0
 	>=dev-libs/libxslt-1.0.0
 	sys-apps/hwids[pci,usb]
-	sys-apps/osinfo-db-tools
-	sys-apps/osinfo-db
+	>=sys-apps/osinfo-db-tools-1.2.0
+	>=sys-apps/osinfo-db-20180612
 	introspection? ( >=dev-libs/gobject-introspection-0.9.7:= )
 "
 # perl dep is for pod2man, and configure.ac checks for it too now
