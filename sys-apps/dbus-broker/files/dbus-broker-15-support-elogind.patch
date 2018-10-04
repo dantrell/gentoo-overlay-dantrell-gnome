@@ -1,0 +1,143 @@
+diff '--exclude=.git' -urN a/meson.build b/meson.build
+--- a/meson.build	2018-08-08 05:45:19.000000000 -0500
++++ b/meson.build	2018-10-03 21:15:56.088110711 -0500
+@@ -64,10 +64,31 @@
+         dep_dbus = dependency('dbus-1', version: '>=1.10')
+         dep_expat = dependency('expat', version: '>=2.2')
+         dep_glib = dependency('glib-2.0', version: '>=2.50')
+-        dep_libsystemd = dependency('libsystemd', version: '>=230')
+-        dep_systemd = dependency('systemd', version: '>=230')
+ 
+-        add_project_arguments('-DSYSTEMUIDMAX=' + dep_systemd.get_pkgconfig_variable('systemuidmax'), language: 'c')
++        enable_elogind = get_option('elogind')
++        if enable_elogind
++            dep_libsystemd = dependency('libelogind', version: '>= 230')
++            dep_systemd = dependency('libelogind', version: '>=230')
++
++            awk = find_program('awk')
++            system_uid_max = run_command(
++                    awk,
++                    '/^\s*SYS_UID_MAX\s+/ { uid=$2 } END { print uid }',
++                    '/etc/login.defs').stdout().strip()
++            if system_uid_max == ''
++                    system_uid_max = '999'
++            endif
++            system_uid_max = system_uid_max.to_int()
++
++            add_project_arguments('-DSYSTEMUIDMAX=' + system_uid_max.to_string(), language: 'c')
++        else
++            dep_libsystemd = dependency('libsystemd', version: '>=230')
++            dep_systemd = dependency('systemd', version: '>=230')
++
++            add_project_arguments('-DSYSTEMUIDMAX=' + dep_systemd.get_pkgconfig_variable('systemuidmax'), language: 'c')
++        endif
++        conf.set('HAVE_ELOGIND', enable_elogind)
++
+         conf.set('systemunitdir', dep_systemd.get_pkgconfig_variable('systemdsystemunitdir'))
+         conf.set('userunitdir', dep_systemd.get_pkgconfig_variable('systemduserunitdir'))
+ endif
+diff '--exclude=.git' -urN a/meson_options.txt b/meson_options.txt
+--- a/meson_options.txt	2018-08-08 05:45:19.000000000 -0500
++++ b/meson_options.txt	2018-10-03 21:27:06.267939505 -0500
+@@ -1,6 +1,7 @@
+ option('audit', type: 'boolean', value: false, description: 'Audit support')
+ option('launcher', type: 'boolean', value: true, description: 'Build compatibility launcher')
+ option('docs', type: 'boolean', value: false, description: 'Build documentation')
++option('elogind', type: 'boolean', value: true, description: 'Use elogind')
+ option('reference-test', type: 'boolean', value: false, description: 'Run test suite against reference implementation')
+ option('selinux', type: 'boolean', value: false, description: 'SELinux support')
+ option('system-console-users', type: 'array', value: [], description: 'Additional set of names of system-users to be considered at-console')
+diff '--exclude=.git' -urN a/src/launch/main.c b/src/launch/main.c
+--- a/src/launch/main.c	2018-08-08 05:45:19.000000000 -0500
++++ b/src/launch/main.c	2018-10-03 19:48:18.523114519 -0500
+@@ -17,10 +17,19 @@
+ #include <sys/types.h>
+ #include <sys/un.h>
+ #include <sys/wait.h>
++
++#ifdef HAVE_ELOGIND
++#include <elogind/sd-bus.h>
++#include <elogind/sd-daemon.h>
++#include <elogind/sd-event.h>
++#include <elogind/sd-id128.h>
++#else
+ #include <systemd/sd-bus.h>
+ #include <systemd/sd-daemon.h>
+ #include <systemd/sd-event.h>
+ #include <systemd/sd-id128.h>
++#endif
++
+ #include <unistd.h>
+ #include "launch/config.h"
+ #include "launch/nss-cache.h"
+diff '--exclude=.git' -urN a/src/launch/policy.c b/src/launch/policy.c
+--- a/src/launch/policy.c	2018-08-08 05:45:19.000000000 -0500
++++ b/src/launch/policy.c	2018-10-03 19:48:13.195137652 -0500
+@@ -6,7 +6,13 @@
+ #include <c-macro.h>
+ #include <c-rbtree.h>
+ #include <stdlib.h>
++
++#ifdef HAVE_ELOGIND
++#include <elogind/sd-bus.h>
++#else
+ #include <systemd/sd-bus.h>
++#endif
++
+ #include "dbus/protocol.h"
+ #include "launch/config.h"
+ #include "launch/policy.h"
+diff '--exclude=.git' -urN a/src/launch/policy.h b/src/launch/policy.h
+--- a/src/launch/policy.h	2018-08-08 05:45:19.000000000 -0500
++++ b/src/launch/policy.h	2018-10-03 19:48:09.865152109 -0500
+@@ -8,7 +8,13 @@
+ #include <c-macro.h>
+ #include <c-rbtree.h>
+ #include <stdlib.h>
++
++#ifdef HAVE_ELOGIND
++#include <elogind/sd-bus.h>
++#else
+ #include <systemd/sd-bus.h>
++#endif
++
+ #include "launch/config.h"
+ 
+ typedef struct Policy Policy;
+diff '--exclude=.git' -urN a/test/dbus/util-broker.c b/test/dbus/util-broker.c
+--- a/test/dbus/util-broker.c	2018-08-08 05:45:19.000000000 -0500
++++ b/test/dbus/util-broker.c	2018-10-03 19:47:57.431206093 -0500
+@@ -12,8 +12,15 @@
+ #include <sys/types.h>
+ #include <sys/un.h>
+ #include <sys/wait.h>
++
++#ifdef HAVE_ELOGIND
++#include <elogind/sd-bus.h>
++#include <elogind/sd-event.h>
++#else
+ #include <systemd/sd-bus.h>
+ #include <systemd/sd-event.h>
++#endif
++
+ #include "dbus/protocol.h"
+ #include "util-broker.h"
+ 
+diff '--exclude=.git' -urN a/test/dbus/util-broker.h b/test/dbus/util-broker.h
+--- a/test/dbus/util-broker.h	2018-08-08 05:45:19.000000000 -0500
++++ b/test/dbus/util-broker.h	2018-10-03 19:47:18.314375926 -0500
+@@ -10,8 +10,14 @@
+ #include <sys/socket.h>
+ #include <sys/types.h>
+ #include <sys/un.h>
++
++#ifdef HAVE_ELOGIND
++#include <elogind/sd-bus.h>
++#include <elogind/sd-event.h>
++#else
+ #include <systemd/sd-bus.h>
+ #include <systemd/sd-event.h>
++#endif
+ 
+ typedef struct Broker Broker;
+ 

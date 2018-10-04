@@ -25,6 +25,7 @@ RDEPEND="
 	)
 "
 DEPEND="${RDEPEND}
+	dev-libs/libxml2:2
 	sys-devel/gettext
 	>=dev-util/intltool-0.35
 	virtual/pkgconfig
