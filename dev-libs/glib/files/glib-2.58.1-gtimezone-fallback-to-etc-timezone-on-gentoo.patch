@@ -1,0 +1,17 @@
+diff '--exclude=.git' -urN a/glib/gtimezone.c b/glib/gtimezone.c
+--- a/glib/gtimezone.c	2018-09-21 09:23:53.000000000 -0500
++++ b/glib/gtimezone.c	2018-10-05 13:37:54.389734333 -0500
+@@ -454,6 +454,13 @@
+                                                     &resolved_identifier,
+                                                     NULL, NULL))
+             g_strchomp (resolved_identifier);
++          /* Fallback to the content of /etc/timezone if /etc/localtime is
++           * not a symlink. This is where Gentoo (and others)
++           * stores the timezone chosen by the user. */
++          else if (not_a_symlink && g_file_get_contents ("/etc/timezone",
++                                                         &resolved_identifier,
++                                                         NULL, NULL))
++            g_strchomp (resolved_identifier);
+           else
+             {
+               /* Error */
