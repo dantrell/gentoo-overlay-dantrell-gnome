@@ -66,6 +66,7 @@ app-i18n/unicode-emoji::gentoo
 app-i18n/unicode-emoji::nokit
 app-misc/geoclue::gentoo
 app-misc/geoclue::gnome-kit
+app-misc/iio-sensor-proxy::gentoo
 app-misc/tracker-miners::gentoo
 app-misc/tracker-miners::gnome-kit
 app-misc/tracker::gentoo
