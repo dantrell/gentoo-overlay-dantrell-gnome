@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit flag-o-matic systemd toolchain-funcs
 
@@ -16,35 +16,31 @@ KEYWORDS="*"
 
 IUSE="bzip2 doc ldap nls readline selinux +smartcard ssl tofu tools usb wks-server"
 
-COMMON_DEPEND_LIBS="
-	>=dev-libs/npth-1.2
+# Existence of executables is checked during configuration.
+DEPEND="!app-crypt/dirmngr
 	>=dev-libs/libassuan-2.5.0
 	>=dev-libs/libgcrypt-1.7.3
 	>=dev-libs/libgpg-error-1.28
 	>=dev-libs/libksba-1.3.4
+	>=dev-libs/npth-1.2
 	>=net-misc/curl-7.10
-	ssl? ( >=net-libs/gnutls-3.0:0= )
-	sys-libs/zlib
-	ldap? ( net-nds/openldap )
 	bzip2? ( app-arch/bzip2 )
+	ldap? ( net-nds/openldap )
 	readline? ( sys-libs/readline:0= )
 	smartcard? ( usb? ( virtual/libusb:0 ) )
+	ssl? ( >=net-libs/gnutls-3.0:0= )
+	sys-libs/zlib
 	tofu? ( >=dev-db/sqlite-3.7 )
-	virtual/mta
-	"
-COMMON_DEPEND_BINS="app-crypt/pinentry
-	!app-crypt/dirmngr"
+	virtual/mta"
 
-# Existence of executables is checked during configuration.
-DEPEND="${COMMON_DEPEND_LIBS}
-	${COMMON_DEPEND_BINS}
-	nls? ( sys-devel/gettext )
-	doc? ( sys-apps/texinfo )"
+RDEPEND="${DEPEND}
+	app-crypt/pinentry
+	nls? ( virtual/libintl )
+	selinux? ( sec-policy/selinux-gpg )"
 
-RDEPEND="${COMMON_DEPEND_LIBS}
-	${COMMON_DEPEND_BINS}
-	selinux? ( sec-policy/selinux-gpg )
-	nls? ( virtual/libintl )"
+BDEPEND="virtual/pkgconfig
+	doc? ( sys-apps/texinfo )
+	nls? ( sys-devel/gettext )"
 
 S="${WORKDIR}/${MY_P}"
 
@@ -60,17 +56,9 @@ PATCHES=(
 src_configure() {
 	local myconf=()
 
-	if use smartcard; then
-		myconf+=(
-			--enable-scdaemon
-			$(use_enable usb ccid-driver)
-		)
-		if use prefix && use usb ; then
-			# bug #649598
-			append-cppflags -I"${EPREFIX}/usr/include/libusb-1.0"
-		fi
-	else
-		myconf+=( --disable-scdaemon )
+	if use prefix && use usb; then
+		# bug #649598
+		append-cppflags -I"${EPREFIX}/usr/include/libusb-1.0"
 	fi
 
 	if use elibc_SunOS || use elibc_AIX; then
@@ -86,17 +74,21 @@ src_configure() {
 	econf \
 		"${myconf[@]}" \
 		$(use_enable bzip2) \
-		$(use_enable ssl gnutls) \
 		$(use_enable nls) \
+		$(use_enable smartcard scdaemon) \
+		$(use_enable ssl gnutls) \
 		$(use_enable tofu) \
+		$(use_enable usb ccid-driver) \
 		$(use_enable wks-server wks-tools) \
 		$(use_with ldap) \
 		$(use_with readline) \
+		--disable-ntbtls \
+		--enable-all-tests \
 		--enable-gpg \
 		--enable-gpgsm \
 		--enable-large-secmem \
-		--enable-all-tests \
-		CC_FOR_BUILD="$(tc-getBUILD_CC)"
+		CC_FOR_BUILD="$(tc-getBUILD_CC)" \
+		$(./configure --help | grep -- --with-.*-prefix | sed -e 's/prefix.*/prefix/' -e "s#\$#=${EROOT}/usr#")
 }
 
 src_compile() {

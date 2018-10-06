@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-inherit libtool ltprune multilib-minimal toolchain-funcs
+inherit libtool multilib-minimal toolchain-funcs
 
 DESCRIPTION="Contains error handling functions used by GnuPG software"
 HOMEPAGE="http://www.gnupg.org/related_software/libgpg-error"
@@ -15,8 +15,8 @@ KEYWORDS="*"
 IUSE="common-lisp nls static-libs"
 
 RDEPEND="nls? ( >=virtual/libintl-0-r1[${MULTILIB_USEDEP}] )"
-DEPEND="${RDEPEND}
-	nls? ( sys-devel/gettext )"
+DEPEND="${RDEPEND}"
+BDEPEND="nls? ( sys-devel/gettext )"
 
 MULTILIB_CHOST_TOOLS=(
 	/usr/bin/gpg-error-config
@@ -33,15 +33,16 @@ src_prepare() {
 
 multilib_src_configure() {
 	ECONF_SOURCE="${S}" econf \
-		CC_FOR_BUILD="$(tc-getBUILD_CC)" \
-		--enable-threads \
+		$(multilib_is_native_abi || echo --disable-languages) \
+		$(use_enable common-lisp languages) \
 		$(use_enable nls) \
 		$(use_enable static-libs static) \
-		$(use_enable common-lisp languages) \
-		$(multilib_is_native_abi || echo --disable-languages)
+		--enable-threads \
+		CC_FOR_BUILD="$(tc-getBUILD_CC)" \
+		$("${S}/configure" --help | grep -- --with-.*-prefix | sed -e 's/prefix.*/prefix/' -e "s#\$#=${EROOT}/usr#")
 }
 
 multilib_src_install_all() {
 	einstalldocs
-	prune_libtool_files --all
+	find "${D}" -name '*.la' -delete || die
 }

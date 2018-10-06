@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit autotools flag-o-matic qmake-utils toolchain-funcs
 
@@ -18,7 +18,7 @@ REQUIRED_USE="
 	qt5? ( !static )
 "
 
-CDEPEND="
+DEPEND="
 	app-eselect/eselect-pinentry
 	>=dev-libs/libassuan-2.1
 	>=dev-libs/libgcrypt-1.6.3
@@ -35,12 +35,12 @@ CDEPEND="
 	)
 	static? ( >=sys-libs/ncurses-5.7-r5:0=[static-libs,-gpm] )
 "
-DEPEND="${CDEPEND}
+RDEPEND="${DEPEND}
+	gnome-keyring? ( app-crypt/gcr )
+"
+BDEPEND="
 	sys-devel/gettext
 	virtual/pkgconfig
-"
-RDEPEND="${CDEPEND}
-	gnome-keyring? ( app-crypt/gcr )
 "
 
 PATCHES=(
@@ -60,22 +60,23 @@ src_configure() {
 	export QTLIB="$(qt5_get_libdir)"
 
 	econf \
-		--enable-pinentry-tty \
-		$(use_with caps libcap) \
 		$(use_enable emacs pinentry-emacs) \
 		$(use_enable fltk pinentry-fltk) \
 		$(use_enable gnome-keyring libsecret) \
 		$(use_enable gnome-keyring pinentry-gnome3) \
 		$(use_enable gtk pinentry-gtk2) \
-		$(use_enable ncurses pinentry-curses) \
 		$(use_enable ncurses fallback-curses) \
+		$(use_enable ncurses pinentry-curses) \
 		$(use_enable qt5 pinentry-qt) \
-		MOC="$(qt5_get_bindir)"/moc
+		$(use_with caps libcap) \
+		--enable-pinentry-tty \
+		MOC="$(qt5_get_bindir)"/moc \
+		$(./configure --help | grep -- --with-.*-prefix | sed -e 's/prefix.*/prefix/' -e "s#\$#=${EROOT}/usr#")
 }
 
 src_install() {
 	default
-	rm -f "${ED}"/usr/bin/pinentry || die
+	rm -f "${ED}"/usr/bin/pinentry
 
 	use qt5 && dosym pinentry-qt /usr/bin/pinentry-qt4
 }

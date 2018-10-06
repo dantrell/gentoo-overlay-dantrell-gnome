@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-inherit autotools flag-o-matic ltprune multilib-minimal
+inherit autotools flag-o-matic multilib-minimal
 
 DESCRIPTION="General purpose crypto library based on the code used in GnuPG"
 HOMEPAGE="http://www.gnupg.org/"
@@ -15,8 +15,8 @@ KEYWORDS="*"
 IUSE="doc o-flag-munging static-libs"
 
 RDEPEND=">=dev-libs/libgpg-error-1.25[${MULTILIB_USEDEP}]"
-DEPEND="${RDEPEND}
-	doc? ( virtual/texi2dvi )"
+DEPEND="${RDEPEND}"
+BDEPEND="doc? ( virtual/texi2dvi )"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.6.1-uscore.patch
@@ -56,7 +56,8 @@ multilib_src_configure() {
 
 		GPG_ERROR_CONFIG="${EROOT}/usr/bin/${CHOST}-gpg-error-config"
 	)
-	ECONF_SOURCE="${S}" econf "${myeconfargs[@]}"
+	ECONF_SOURCE="${S}" econf "${myeconfargs[@]}" \
+		$("${S}/configure" --help | grep -- --with-.*-prefix | sed -e 's/prefix.*/prefix/' -e "s#\$#=${EROOT}/usr#")
 }
 
 multilib_src_compile() {
@@ -71,5 +72,5 @@ multilib_src_install() {
 
 multilib_src_install_all() {
 	default
-	prune_libtool_files
+	find "${D}" -name '*.la' -delete || die
 }

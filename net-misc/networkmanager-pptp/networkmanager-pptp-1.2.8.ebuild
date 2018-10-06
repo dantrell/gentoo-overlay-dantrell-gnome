@@ -5,8 +5,8 @@ GNOME_ORG_MODULE="NetworkManager-${PN##*-}"
 
 inherit gnome2
 
-DESCRIPTION="NetworkManager PPTP plugin"
-HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
+DESCRIPTION="NetworkManager PPTP VPN plugin"
+HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager/VPN"
 
 LICENSE="GPL-2+"
 SLOT="0"

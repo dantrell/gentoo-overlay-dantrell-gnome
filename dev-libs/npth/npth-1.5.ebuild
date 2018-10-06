@@ -20,7 +20,8 @@ src_prepare() {
 }
 
 src_configure() {
-	econf $(use_enable static-libs static)
+	econf \
+		$(use_enable static-libs static)
 }
 
 src_install() {

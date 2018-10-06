@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-inherit libtool ltprune
+inherit libtool
 
 DESCRIPTION="IPC library used by GnuPG and GPGME"
 HOMEPAGE="http://www.gnupg.org/related_software/libassuan/index.en.html"
@@ -34,11 +34,12 @@ src_prepare() {
 
 src_configure() {
 	econf \
-		$(use_enable static-libs static)
+		$(use_enable static-libs static) \
+		$(./configure --help | grep -- --with-.*-prefix | sed -e 's/prefix.*/prefix/' -e "s#\$#=${EROOT}/usr#")
 }
 
 src_install() {
 	default
 	# ppl need to use libassuan-config for --cflags and --libs
-	prune_libtool_files
+	find "${D}" -name '*.la' -delete || die
 }
