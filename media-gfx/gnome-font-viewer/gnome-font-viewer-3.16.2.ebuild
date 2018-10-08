@@ -4,7 +4,7 @@ EAPI="6"
 
 inherit gnome2
 
-DESCRIPTION="Font viewer for GNOME"
+DESCRIPTION="Font viewer utility for GNOME"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-font-viewer"
 
 LICENSE="GPL-2+ LGPL-2.1+"
@@ -13,7 +13,6 @@ KEYWORDS="*"
 
 IUSE=""
 
-# Rebuild between GLib slot changes to prevent "--usepkg" merge conflicts
 RDEPEND="
 	>=dev-libs/glib-2.35.1:2=
 	gnome-base/gnome-desktop:3=

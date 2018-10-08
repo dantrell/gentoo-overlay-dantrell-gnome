@@ -135,7 +135,7 @@
 ~media-libs/gsound-1.0.2::dantrell-gnome
 ~media-libs/libchamplain-0.12.16::dantrell-gnome
 ~media-libs/libmediaart-1.9.4::dantrell-gnome
-~media-plugins/grilo-plugins-0.3.7::dantrell-gnome
+~media-plugins/grilo-plugins-0.3.8::dantrell-gnome
 ~media-sound/gnome-music-3.28.2.1::dantrell-gnome-3-28
 ~media-sound/gnome-sound-recorder-3.28.1::dantrell-gnome
 ~media-video/cheese-3.28.0::dantrell-gnome-3-28

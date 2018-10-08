@@ -1,9 +1,0 @@
-diff '--exclude=.git' -urN a/bindings/python/meson.build b/bindings/python/meson.build
---- a/bindings/python/meson.build	2017-06-21 09:41:17.000000000 -0500
-+++ b/bindings/python/meson.build	2018-09-28 18:25:19.330729452 -0500
-@@ -1,4 +1,4 @@
--python3 = import('python3').find_python()
-+python3 = find_program('python3')
- 
- get_overridedir = '''
- import os
