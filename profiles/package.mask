@@ -204,6 +204,7 @@ dev-util/meld::dev-kit
 dev-util/meld::gentoo
 dev-util/nemiver::gentoo
 dev-util/nemiver::gnome-kit
+dev-util/valadoc::gentoo
 dev-vcs/gitg::gentoo
 dev-vcs/gitg::gnome-kit
 games-arcade/gnome-nibbles::gentoo
