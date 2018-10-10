@@ -1,0 +1,37 @@
+diff '--exclude=.git' -urN a/Makefile.am b/Makefile.am
+--- a/Makefile.am	2018-02-15 03:24:52.000000000 -0600
++++ b/Makefile.am	2018-10-10 15:51:23.312066791 -0500
+@@ -7,12 +7,6 @@
+ 	vala \
+ 	ccode \
+ 	codegen \
+-	compiler \
+-	vapi \
+-	tests \
+-	doc \
+-	gobject-introspection \
+-	vapigen \
+ 	libvaladoc \
+ 	valadoc \
+ 	$(NULL)
+diff '--exclude=.git' -urN a/configure.ac b/configure.ac
+--- a/configure.ac	2018-02-15 03:24:52.000000000 -0600
++++ b/configure.ac	2018-10-10 15:51:24.528061349 -0500
+@@ -146,17 +146,6 @@
+            ccode/Makefile
+            vala/Makefile
+            codegen/Makefile
+-           compiler/Makefile
+-           vapi/Makefile
+-           tests/Makefile
+-           doc/Makefile
+-           doc/manual/Makefile
+-           doc/manual/version.xml
+-           gobject-introspection/Makefile
+-           vapigen/vapigen.pc
+-           vapigen/Makefile
+-           vapigen/vala-gen-introspect/Makefile
+-           vapigen/vala-gen-introspect/vala-gen-introspect
+            libvaladoc/valadoc.pc
+            libvaladoc/valadoc.deps
+            libvaladoc/Makefile
