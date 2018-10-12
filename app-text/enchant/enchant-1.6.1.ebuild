@@ -17,7 +17,8 @@ KEYWORDS="*"
 IUSE="aspell +hunspell static-libs test"
 REQUIRED_USE="|| ( hunspell aspell )"
 
-# FIXME: depends on unittest++ but through pkgconfig which is a Debian hack, bug #629742
+RESTRICT="test"
+
 COMMON_DEPENDS="
 	>=dev-libs/glib-2.6:2
 	aspell? ( app-text/aspell )
@@ -28,7 +29,6 @@ RDEPEND="${COMMON_DEPENDS}"
 DEPEND="${COMMON_DEPENDS}
 	virtual/pkgconfig
 "
-#	test? ( dev-libs/unittest++ )
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.6.0-hunspell150_fix.patch

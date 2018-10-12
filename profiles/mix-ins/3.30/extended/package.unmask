@@ -33,7 +33,7 @@
 ~dev-libs/gobject-introspection-1.58.0::dantrell-gnome-3-30
 ~dev-libs/gobject-introspection-common-1.58.0::dantrell-gnome-3-30
 ~dev-libs/gom-0.3.3::dantrell-gnome
-~dev-libs/jsonrpc-glib-3.30.0::dantrell-gnome-3-30
+~dev-libs/jsonrpc-glib-3.30.1::dantrell-gnome-3-30
 ~dev-libs/json-glib-1.4.4::dantrell-gnome
 ~dev-libs/libcroco-0.6.12::dantrell-gnome
 ~dev-libs/libdazzle-3.30.1::dantrell-gnome-3-30
@@ -89,7 +89,7 @@
 ~gnome-base/libgnomekbd-3.26.0::dantrell-gnome
 ~gnome-base/libgtop-2.38.0::dantrell-gnome
 ~gnome-base/librsvg-2.44.7::dantrell-gnome
-~gnome-base/nautilus-3.30.1::dantrell-gnome-3-30
+~gnome-base/nautilus-3.30.2::dantrell-gnome-3-30
 ~gnome-extra/evolution-data-server-3.30.1::dantrell-gnome-3-30
 ~gnome-extra/evolution-ews-3.30.1::dantrell-gnome-3-30
 ~gnome-extra/gnome-boxes-3.30.1::dantrell-gnome-3-30

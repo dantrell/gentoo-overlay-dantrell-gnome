@@ -7,15 +7,14 @@ HOMEPAGE="https://abiword.github.io/enchant/"
 SRC_URI="https://github.com/AbiWord/enchant/releases/download/v${PV}/${P}.tar.gz"
 
 LICENSE="LGPL-2.1"
-SLOT="2/1"
-KEYWORDS="*"
+SLOT="2/2"
+KEYWORDS="~*"
 
 IUSE="aspell +hunspell static-libs test"
 REQUIRED_USE="|| ( hunspell aspell )"
 
 RESTRICT="test"
 
-# FIXME: depends on unittest++ but through pkgconfig which is a Debian hack, bug #629742
 COMMON_DEPENDS="
 	>=dev-libs/glib-2.6:2
 	aspell? ( app-text/aspell )
@@ -26,7 +25,6 @@ RDEPEND="${COMMON_DEPENDS}"
 DEPEND="${COMMON_DEPENDS}
 	virtual/pkgconfig
 "
-#	test? ( dev-libs/unittest++ )
 
 src_configure() {
 	econf \
@@ -43,7 +41,7 @@ src_install() {
 	# 	https://github.com/AbiWord/enchant/issues/162
 	# 	https://github.com/AbiWord/enchant/issues/168
 	emake install DESTDIR="${D}" \
-		pkgdatadir=/usr/share/${PN}-${SLOT}
+		pkgdatadir=/usr/share/${PN}-${SLOT%/*}
 
 	find "${D}" -name '*.la' -delete || die
 }
