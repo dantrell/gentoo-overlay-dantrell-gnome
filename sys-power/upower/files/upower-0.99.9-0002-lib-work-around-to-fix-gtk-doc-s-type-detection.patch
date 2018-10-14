@@ -1,0 +1,134 @@
+From 0c180d044f05895eeff746e6aaf3227df7ac2f3c Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
+Date: Tue, 29 May 2018 15:30:00 +0200
+Subject: [PATCH 02/11] lib: Work-around to fix gtk-doc's type detection
+
+Without the braces on the same line gtk-doc adds function pointers as
+functions to the documentation and fails to detect the types as
+GObjects. This fixes object names in the index and cross refs.
+
+See the examples in
+
+https://developer.gnome.org/gtk-doc-manual/stable/documenting_symbols.html.en
+---
+ libupower-glib/up-client.h       | 8 ++++----
+ libupower-glib/up-device.h       | 8 +++-----
+ libupower-glib/up-history-item.h | 6 ++----
+ libupower-glib/up-stats-item.h   | 6 ++----
+ libupower-glib/up-wakeup-item.h  | 6 ++----
+ 5 files changed, 13 insertions(+), 21 deletions(-)
+
+diff --git a/libupower-glib/up-client.h b/libupower-glib/up-client.h
+index 2342a48..0180dd4 100644
+--- a/libupower-glib/up-client.h
++++ b/libupower-glib/up-client.h
+@@ -44,15 +44,15 @@ G_BEGIN_DECLS
+ 
+ typedef struct _UpClientPrivate UpClientPrivate;
+ 
+-typedef struct
+-{
++typedef struct {
+ 	 GObject		 parent;
+ 	 UpClientPrivate	*priv;
+ } UpClient;
+ 
+-typedef struct
+-{
++typedef struct {
++	/*< private >*/
+ 	GObjectClass		 parent_class;
++	/*< public >*/
+ 	void			(*device_added)		(UpClient		*client,
+ 							 UpDevice		*device);
+ 	void			(*device_removed)	(UpClient		*client,
+diff --git a/libupower-glib/up-device.h b/libupower-glib/up-device.h
+index 5186796..22d168a 100644
+--- a/libupower-glib/up-device.h
++++ b/libupower-glib/up-device.h
+@@ -44,16 +44,14 @@ G_BEGIN_DECLS
+ 
+ typedef struct _UpDevicePrivate UpDevicePrivate;
+ 
+-typedef struct
+-{
++typedef struct {
+ 	 GObject		 parent;
+ 	 UpDevicePrivate	*priv;
+ } UpDevice;
+ 
+-typedef struct
+-{
+-	GObjectClass		 parent_class;
++typedef struct {
+ 	/*< private >*/
++	GObjectClass		 parent_class;
+ 	/* Padding for future expansion */
+ 	void (*_up_device_reserved1) (void);
+ 	void (*_up_device_reserved2) (void);
+diff --git a/libupower-glib/up-history-item.h b/libupower-glib/up-history-item.h
+index 8378060..0175cdf 100644
+--- a/libupower-glib/up-history-item.h
++++ b/libupower-glib/up-history-item.h
+@@ -40,14 +40,12 @@ G_BEGIN_DECLS
+ 
+ typedef struct UpHistoryItemPrivate UpHistoryItemPrivate;
+ 
+-typedef struct
+-{
++typedef struct {
+ 	 GObject		 parent;
+ 	 UpHistoryItemPrivate	*priv;
+ } UpHistoryItem;
+ 
+-typedef struct
+-{
++typedef struct {
+ 	GObjectClass		 parent_class;
+ } UpHistoryItemClass;
+ 
+diff --git a/libupower-glib/up-stats-item.h b/libupower-glib/up-stats-item.h
+index 85b8a6d..ee6c33c 100644
+--- a/libupower-glib/up-stats-item.h
++++ b/libupower-glib/up-stats-item.h
+@@ -39,14 +39,12 @@ G_BEGIN_DECLS
+ 
+ typedef struct UpStatsItemPrivate UpStatsItemPrivate;
+ 
+-typedef struct
+-{
++typedef struct {
+ 	 GObject		 parent;
+ 	 UpStatsItemPrivate	*priv;
+ } UpStatsItem;
+ 
+-typedef struct
+-{
++typedef struct {
+ 	GObjectClass		 parent_class;
+ } UpStatsItemClass;
+ 
+diff --git a/libupower-glib/up-wakeup-item.h b/libupower-glib/up-wakeup-item.h
+index 3e32559..e0dd6b3 100644
+--- a/libupower-glib/up-wakeup-item.h
++++ b/libupower-glib/up-wakeup-item.h
+@@ -40,14 +40,12 @@ G_BEGIN_DECLS
+ 
+ typedef struct UpWakeupItemPrivate UpWakeupItemPrivate;
+ 
+-typedef struct
+-{
++typedef struct {
+ 	 GObject		 parent;
+ 	 UpWakeupItemPrivate	*priv;
+ } UpWakeupItem;
+ 
+-typedef struct
+-{
++typedef struct {
+ 	GObjectClass		 parent_class;
+ } UpWakeupItemClass;
+ 
+-- 
+2.19.1
+

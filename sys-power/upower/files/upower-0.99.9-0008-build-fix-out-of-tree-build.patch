@@ -1,0 +1,31 @@
+From ca2174aa3f7ca82deeece61199b1282c8388ca21 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 21 Aug 2018 17:22:04 +0200
+Subject: [PATCH 08/11] build: Fix out-of-tree build
+
+The generated headers for the dbus service are in the build dir, not
+the source dir.
+
+../../libupower-glib/up-client.c:39:10: fatal error: up-daemon-generated.h: No such file or directory
+ #include "up-daemon-generated.h"
+          ^~~~~~~~~~~~~~~~~~~~~~~
+---
+ libupower-glib/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libupower-glib/Makefile.am b/libupower-glib/Makefile.am
+index a7bc2f5..08755d6 100644
+--- a/libupower-glib/Makefile.am
++++ b/libupower-glib/Makefile.am
+@@ -3,7 +3,7 @@ AM_CPPFLAGS = \
+ 	$(GIO_UNIX_CFLAGS)					\
+ 	-I$(top_builddir)					\
+ 	-I$(top_srcdir)						\
+-	-I$(top_srcdir)/dbus					\
++	-I$(top_builddir)/dbus					\
+ 	-I$(top_srcdir)/libupower-glib				\
+ 	-DUP_COMPILATION					\
+ 	-DG_LOG_DOMAIN=\"libupower-glib\"			\
+-- 
+2.19.1
+

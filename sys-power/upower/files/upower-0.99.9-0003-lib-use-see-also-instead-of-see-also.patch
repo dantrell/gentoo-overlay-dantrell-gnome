@@ -1,0 +1,158 @@
+From 409b2ccc89b55d43456a419e7923b9db5eee2b1a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
+Date: Tue, 29 May 2018 15:38:25 +0200
+Subject: [PATCH 03/11] lib: Use @see_also instead of "See also"
+
+This ensures consistent rendering.
+
+See https://developer.gnome.org/gtk-doc-manual/stable/documenting_sections.html.en
+---
+ libupower-glib/up-client.c       | 3 +--
+ libupower-glib/up-device.c       | 3 +--
+ libupower-glib/up-history-item.c | 3 +--
+ libupower-glib/up-stats-item.c   | 3 +--
+ libupower-glib/up-types.c        | 3 +--
+ libupower-glib/up-version.h.in   | 3 +--
+ libupower-glib/up-wakeup-item.c  | 3 +--
+ libupower-glib/upower.h          | 3 +--
+ 8 files changed, 8 insertions(+), 16 deletions(-)
+
+diff --git a/libupower-glib/up-client.c b/libupower-glib/up-client.c
+index 6a48780..bc9c17e 100644
+--- a/libupower-glib/up-client.c
++++ b/libupower-glib/up-client.c
+@@ -22,11 +22,10 @@
+ /**
+  * SECTION:up-client
+  * @short_description: Main client object for accessing the UPower daemon
++ * @see_also: #UpDevice
+  *
+  * A helper GObject to use for accessing UPower information, and to be notified
+  * when it is changed.
+- *
+- * See also: #UpDevice
+  */
+ 
+ #include "config.h"
+diff --git a/libupower-glib/up-device.c b/libupower-glib/up-device.c
+index 8bfd98a..2f2c4cf 100644
+--- a/libupower-glib/up-device.c
++++ b/libupower-glib/up-device.c
+@@ -22,11 +22,10 @@
+ /**
+  * SECTION:up-device
+  * @short_description: Client object for accessing information about UPower devices
++ * @see_also: #UpClient
+  *
+  * A helper GObject to use for accessing UPower devices, and to be notified
+  * when it is changed.
+- *
+- * See also: #UpClient
+  */
+ 
+ #include "config.h"
+diff --git a/libupower-glib/up-history-item.c b/libupower-glib/up-history-item.c
+index bb8e4e4..19f4c5d 100644
+--- a/libupower-glib/up-history-item.c
++++ b/libupower-glib/up-history-item.c
+@@ -22,11 +22,10 @@
+ /**
+  * SECTION:up-history-item
+  * @short_description: Helper object representing one item of historical data.
++ * @see_also: #UpDevice, #UpClient
+  *
+  * This object represents one item of data which may be returned from the
+  * daemon in response to a query.
+- *
+- * See also: #UpDevice, #UpClient
+  */
+ 
+ #include "config.h"
+diff --git a/libupower-glib/up-stats-item.c b/libupower-glib/up-stats-item.c
+index afa9f7e..555aa3a 100644
+--- a/libupower-glib/up-stats-item.c
++++ b/libupower-glib/up-stats-item.c
+@@ -22,11 +22,10 @@
+ /**
+  * SECTION:up-stats-item
+  * @short_description: Helper object representing one item of statistics data.
++ * @see_also: #UpDevice, #UpClient
+  *
+  * This object represents one item of data which may be returned from the
+  * daemon in response to a query.
+- *
+- * See also: #UpDevice, #UpClient
+  */
+ 
+ #include "config.h"
+diff --git a/libupower-glib/up-types.c b/libupower-glib/up-types.c
+index 0984ad9..525cd02 100644
+--- a/libupower-glib/up-types.c
++++ b/libupower-glib/up-types.c
+@@ -22,11 +22,10 @@
+ /**
+  * SECTION:up-types
+  * @short_description: Types used by UPower and libupower-glib
++ * @see_also: #UpClient, #UpDevice
+  *
+  * These helper functions provide a way to marshal enumerated values to
+  * text and back again.
+- *
+- * See also: #UpClient, #UpDevice
+  */
+ 
+ #include "config.h"
+diff --git a/libupower-glib/up-version.h.in b/libupower-glib/up-version.h.in
+index 9d502fb..f2bd261 100644
+--- a/libupower-glib/up-version.h.in
++++ b/libupower-glib/up-version.h.in
+@@ -22,11 +22,10 @@
+ /**
+  * SECTION:up-version
+  * @short_description: Obtains the version for the installed UPower
++ * @see_also: #UpClient, #UpDevice
+  *
+  * These compile time macros allow the user to enable parts of client code
+  * depending on the version of libupower-glib installed.
+- *
+- * See also: #UpClient, #UpDevice
+  */
+ 
+ #if !defined (__UPOWER_H_INSIDE__) && !defined (UP_COMPILATION)
+diff --git a/libupower-glib/up-wakeup-item.c b/libupower-glib/up-wakeup-item.c
+index c11f7a7..cefbe62 100644
+--- a/libupower-glib/up-wakeup-item.c
++++ b/libupower-glib/up-wakeup-item.c
+@@ -22,11 +22,10 @@
+ /**
+  * SECTION:up-wakeup-item
+  * @short_description: Helper object representing one item of wakeup data.
++ * @see_also: #UpDevice, #UpClient
+  *
+  * This object represents one item of data which may be returned from the
+  * daemon in response to a query.
+- *
+- * See also: #UpDevice, #UpClient
+  */
+ 
+ #include "config.h"
+diff --git a/libupower-glib/upower.h b/libupower-glib/upower.h
+index 681bc2b..3d7c98e 100644
+--- a/libupower-glib/upower.h
++++ b/libupower-glib/upower.h
+@@ -22,11 +22,10 @@
+ /**
+  * SECTION:upower
+  * @short_description: Client objects for accessing UPower
++ * @see_also: #UpClient, #UpDevice
+  *
+  * These objects allow client programs to trivially get details about the power
+  * state, and about devices on the system.
+- *
+- * See also: #UpClient, #UpDevice
+  */
+ 
+ #ifndef __UPOWER_H__
+-- 
+2.19.1
+

@@ -1,0 +1,25 @@
+From afdf4f99192120e3c5fc0611eb54f0f2d6cf722c Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
+Date: Tue, 29 May 2018 15:57:18 +0200
+Subject: [PATCH 04/11] lib: UpClient: Fix stray '%'
+
+---
+ libupower-glib/up-client.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libupower-glib/up-client.c b/libupower-glib/up-client.c
+index bc9c17e..7172ae4 100644
+--- a/libupower-glib/up-client.c
++++ b/libupower-glib/up-client.c
+@@ -524,7 +524,7 @@ up_client_finalize (GObject *object)
+  * @error: Return location for error or %NULL.
+  *
+  * Creates a new #UpClient object. If connecting to upowerd on D-Bus fails,
+- % this returns %NULL and sets @error.
++ * this returns %NULL and sets @error.
+  *
+  * Return value: a new UpClient object, or %NULL on failure.
+  *
+-- 
+2.19.1
+

@@ -1,0 +1,25 @@
+From ff31184186af36bf00c3fdce0fca7c960669ba6f Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 21 Aug 2018 19:30:59 +0200
+Subject: [PATCH 07/11] build: Add missing python3-dbus package to CI
+
+---
+ .gitlab-ci.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 6df4106..292dda2 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -7,7 +7,7 @@ variables:
+                 systemd sqlite-devel gobject-introspection-devel
+                 libusbx-devel libgudev-devel libimobiledevice-devel
+                 glib2-devel
+-                umockdev python3-dbusmock
++                umockdev python3-dbus python3-dbusmock
+ 
+ build_stable:
+   before_script:
+-- 
+2.19.1
+

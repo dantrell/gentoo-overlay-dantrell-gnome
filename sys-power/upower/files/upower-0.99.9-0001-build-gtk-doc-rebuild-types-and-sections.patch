@@ -1,0 +1,27 @@
+From 3167b97d8848e4f64065f3486ecdb3783eb7e7bf Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
+Date: Tue, 29 May 2018 15:26:17 +0200
+Subject: [PATCH 01/11] build: gtk-doc: Rebuild types and sections
+
+This makes sure we stay up to date and get the object hierarchy
+generated.
+---
+ doc/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/doc/Makefile.am b/doc/Makefile.am
+index 3628c6c..d11a150 100644
+--- a/doc/Makefile.am
++++ b/doc/Makefile.am
+@@ -12,7 +12,7 @@ DOC_MODULE=UPower
+ DOC_MAIN_SGML_FILE=upower-docs.xml
+ 
+ # Extra options to supply to gtkdoc-scan
+-SCAN_OPTIONS=--ignore-headers=config.h
++SCAN_OPTIONS=--ignore-headers=config.h --rebuild-types --rebuild-sections
+ 
+ # The directory containing the source code. Relative to $(srcdir)
+ DOC_SOURCE_DIR=../libupower-glib
+-- 
+2.19.1
+

@@ -1,0 +1,27 @@
+From 5ffcb1c2697cf4259470229f8fe8cb4c85faf76e Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
+Date: Tue, 29 May 2018 16:03:57 +0200
+Subject: [PATCH 05/11] lib: UpClient: up_client_get_display_device returns a
+ UpDevice
+
+It doesn't return a UpClient.
+---
+ libupower-glib/up-client.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libupower-glib/up-client.c b/libupower-glib/up-client.c
+index 7172ae4..1491a98 100644
+--- a/libupower-glib/up-client.c
++++ b/libupower-glib/up-client.c
+@@ -151,7 +151,7 @@ up_client_get_devices2 (UpClient *client)
+  * @client: a #UpClient instance.
+  *
+  * Get the composite display device.
+- * Return value: (transfer full): a #UpClient object, or %NULL on error.
++ * Return value: (transfer full): a #UpDevice object, or %NULL on error.
+  *
+  * Since: 1.0
+  **/
+-- 
+2.19.1
+

@@ -1,0 +1,45 @@
+From feac8653662909847f92cc884128aa3b3694da93 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 21 Aug 2018 18:07:06 +0200
+Subject: [PATCH 09/11] test: Fix up-self-test crash during out-of-tree builds
+
+When the layout of the build tree doesn't match the expectations in
+up-self-test, the test would crash failing to find UPower.conf. Pass the
+path as a macro during build so we always know where it is.
+---
+ src/Makefile.am    | 1 +
+ src/up-self-test.c | 6 +-----
+ 2 files changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index f7922a7..d311c7a 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -15,6 +15,7 @@ AM_CPPFLAGS = \
+ 	$(PIE_CFLAGS)						\
+ 	-I$(top_builddir)/src -I$(top_srcdir)/src		\
+ 	-I$(top_builddir)/ -I$(top_srcdir)/			\
++	-DUPOWER_CONF_PATH=\""$(top_srcdir)/etc/UPower.conf"\"	\
+ 	-DPACKAGE_LIBEXEC_DIR=\""$(libexecdir)"\"		\
+ 	-DPACKAGE_SYSCONF_DIR=\""$(sysconfdir)"\"		\
+ 	-DPACKAGE_DATA_DIR=\""$(datadir)"\"			\
+diff --git a/src/up-self-test.c b/src/up-self-test.c
+index f9f3cf7..3b9ac53 100644
+--- a/src/up-self-test.c
++++ b/src/up-self-test.c
+@@ -295,11 +295,7 @@ main (int argc, char **argv)
+ #endif
+ 	g_test_init (&argc, &argv, NULL);
+ 
+-	/* make check, vs. make distcheck */
+-	if (g_file_test ("../etc/UPower.conf", G_FILE_TEST_EXISTS))
+-		g_setenv ("UPOWER_CONF_FILE_NAME", "../etc/UPower.conf", TRUE);
+-	else
+-		g_setenv ("UPOWER_CONF_FILE_NAME", "../../../etc/UPower.conf", TRUE);
++	g_setenv ("UPOWER_CONF_FILE_NAME", UPOWER_CONF_PATH, TRUE);
+ 
+ 	/* tests go here */
+ 	g_test_add_func ("/power/backend", up_test_backend_func);
+-- 
+2.19.1
+

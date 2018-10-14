@@ -1,0 +1,28 @@
+From fe7726acefb79741630245345ec8c3d619d170a4 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 21 Aug 2018 16:42:57 +0200
+Subject: [PATCH 10/11] build: Build upower out-of-tree
+
+So that this particular setup is tested.
+---
+ .gitlab-ci.yml | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 292dda2..57a9a13 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -13,7 +13,9 @@ build_stable:
+   before_script:
+     - dnf update -y --nogpgcheck && dnf install -y --nogpgcheck $DEPENDENCIES
+   script:
+-    - ./autogen.sh
++    - mkdir _build
++    - cd _build
++    - ../autogen.sh
+     - make
+     - make install
+     - make check
+-- 
+2.19.1
+
