@@ -18,17 +18,19 @@ REQUIRED_USE="
 	?? ( caps suid )
 "
 
-RDEPEND="sys-libs/libseccomp"
 DEPEND="
-	${RDEPEND}
 	>=app-shells/bash-completion-2
+	dev-libs/libxslt
+	sys-libs/libseccomp
 	caps? ( sys-libs/libcap )
 	man? ( dev-libs/libxslt )
+	selinux? ( >=sys-libs/libselinux-2.1.9 )
 	sudo? ( app-admin/sudo )
 "
+RDEPEND="${DEPEND}"
 
 pkg_pretend() {
-	use namespaces && CONFIG_CHECK="~USER_NS"
+	use namespaces && CONFIG_CHECK="~UTS_NS ~IPC_NS ~USER_NS ~PID_NS ~NET_NS"
 	CONFIG_CHECK+=" ~SECCOMP"
 	check_extra_config
 }
