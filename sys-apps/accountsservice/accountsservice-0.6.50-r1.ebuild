@@ -48,6 +48,12 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-0.6.35-gentoo-system-users.patch
 	eapply "${FILESDIR}"/${PN}-0.6.49-support-elogind.patch
 
+	# From AccountsService:
+	# 	https://cgit.freedesktop.org/accountsservice/commit/?id=c7fa612023a163e8b2352e1170c6df3fceb19b27
+	# 	https://cgit.freedesktop.org/accountsservice/commit/?id=74fed8d975fd2e2cba644eeb8021393fc81b7151
+	eapply "${FILESDIR}"/${PN}-0.6.51-lib-dont-set-loaded-state-until-seat-is-fetched.patch
+	eapply "${FILESDIR}"/${PN}-0.6.51-lib-dont-fail-loading-if-logind-isnt-working-right.patch
+
 	eautoreconf
 	gnome2_src_prepare
 }

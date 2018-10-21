@@ -1,0 +1,45 @@
+From 74fed8d975fd2e2cba644eeb8021393fc81b7151 Mon Sep 17 00:00:00 2001
+From: Ray Strode <rstrode@redhat.com>
+Date: Fri, 10 Aug 2018 15:15:51 -0400
+Subject: lib: don't fail loading if logind isn't working right
+
+At the moment if logind can fail in two ways when
+asking the session associated with the current pid:
+
+1) ENOENT, the process isn't part of a registered session
+2) ENODATA, the mechanism for checking which session a
+process is registered with isn't working.
+
+If we hit the second case then wefail loading the user manager
+entirely.  This leads to the dbus proxy associated with a user
+from loading and the user getting stuck with defaults like a
+NULL xsession and systemaccount=TRUE
+
+This commit changes the behavior for the second case to be
+like the first. Namely, to accept there's no associated
+session and carry on as best we can.
+---
+ src/libaccountsservice/act-user-manager.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/src/libaccountsservice/act-user-manager.c b/src/libaccountsservice/act-user-manager.c
+index e7e26b1..6dc1d15 100644
+--- a/src/libaccountsservice/act-user-manager.c
++++ b/src/libaccountsservice/act-user-manager.c
+@@ -1139,12 +1139,9 @@ _get_current_systemd_session_id (ActUserManager *manager)
+         res = sd_pid_get_session (0, &session_id);
+ 
+         if (res == -ENOENT) {
+-                session_id = NULL;
+-        } else if (res < 0) {
+                 g_debug ("Failed to identify the current session: %s",
+                          strerror (-res));
+-                unload_seat (manager);
+-                return;
++                session_id = NULL;
+         }
+ 
+         manager->priv->seat.session_id = g_strdup (session_id);
+-- 
+cgit v1.1
+
