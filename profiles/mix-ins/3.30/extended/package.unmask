@@ -9,10 +9,10 @@
 ~app-crypt/libsecret-0.18.6::dantrell-gnome
 ~app-crypt/seahorse-3.30::dantrell-gnome-3-30
 ~app-dicts/gnome-dictionary-3.26.1::dantrell-gnome
-~app-editors/gedit-3.30.1::dantrell-gnome-3-30
+~app-editors/gedit-3.30.2::dantrell-gnome-3-30
 ~app-editors/ghex-3.18.3::dantrell-gnome
 ~app-editors/gnome-latex-3.30.2::dantrell-gnome-3-30
-~app-misc/bijiben-3.30.1::dantrell-gnome-3-30
+~app-misc/bijiben-3.30.2::dantrell-gnome-3-30
 ~app-misc/geoclue-2.4.8::dantrell-gnome
 ~app-misc/gnote-3.30.0::dantrell-gnome-3-30
 ~app-text/enchant-2.2.3::dantrell-gnome
@@ -96,7 +96,7 @@
 ~gnome-extra/gnome-calculator-3.30.1::dantrell-gnome-3-30
 ~gnome-extra/gnome-calendar-3.30.0::dantrell-gnome-3-30
 ~gnome-extra/gnome-characters-3.29.91::dantrell-gnome-3-30
-~gnome-extra/gnome-clocks-3.30.0::dantrell-gnome-3-30
+~gnome-extra/gnome-clocks-3.30.1::dantrell-gnome-3-30
 ~gnome-extra/gnome-color-manager-3.30.0::dantrell-gnome-3-30
 ~gnome-extra/gnome-contacts-3.30.1::dantrell-gnome-3-30
 ~gnome-extra/gnome-documents-3.29.91::dantrell-gnome-3-30
@@ -163,7 +163,7 @@
 ~sci-geosciences/gnome-maps-3.30.1::dantrell-gnome-3-30
 ~sys-apps/baobab-3.30.0::dantrell-gnome-3-30
 ~sys-apps/gnome-disk-utility-3.30.1::dantrell-gnome-3-30
-~www-client/epiphany-3.30.1::dantrell-gnome-3-30
+~www-client/epiphany-3.30.2::dantrell-gnome-3-30
 ~x11-libs/gdk-pixbuf-2.38.0::dantrell-gnome
 ~x11-libs/gtksourceview-4.0.3::dantrell-gnome
 ~x11-libs/libnotify-0.7.7::dantrell-gnome

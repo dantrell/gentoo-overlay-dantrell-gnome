@@ -14,7 +14,7 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="bzip2 doc ldap nls readline selinux +smartcard ssl tofu tools usb wks-server"
+IUSE="bzip2 doc ldap nls readline selinux +smartcard ssl tofu tools usb user-socket wks-server"
 
 # Existence of executables is checked during configuration.
 DEPEND="!app-crypt/dirmngr
@@ -65,6 +65,11 @@ src_configure() {
 		myconf+=( --disable-symcryptrun )
 	else
 		myconf+=( --enable-symcryptrun )
+	fi
+
+	#bug 663142
+	if use user-socket; then
+		myconf+=( --enable-run-gnupg-user-socket )
 	fi
 
 	# glib fails and picks up clang's internal stdint.h causing weird errors
