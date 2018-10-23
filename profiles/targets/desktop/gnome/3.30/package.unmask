@@ -24,10 +24,10 @@
 ~dev-cpp/cairomm-1.12.2::dantrell-gnome
 ~dev-cpp/mm-common-0.9.12::dantrell-gnome
 ~dev-lang/vala-0.42.2::dantrell-gnome
-~dev-libs/appstream-glib-0.7.12::dantrell-gnome
+~dev-libs/appstream-glib-0.7.14::dantrell-gnome
 ~dev-libs/atk-2.30.0::dantrell-gnome-3-30
 ~dev-libs/folks-0.11.4::dantrell-gnome
-~dev-libs/gjs-1.54.1::dantrell-gnome-3-30
+~dev-libs/gjs-1.54.2::dantrell-gnome-3-30
 ~dev-libs/glib-2.58.1::dantrell-gnome
 ~dev-libs/gmime-3.0.5::dantrell-gnome
 ~dev-libs/gobject-introspection-1.58.0::dantrell-gnome-3-30
@@ -70,7 +70,7 @@
 ~games-puzzle/lightsoff-3.30.0::dantrell-gnome-3-30
 ~games-puzzle/quadrapassel-3.22.0::dantrell-gnome
 ~games-puzzle/swell-foop-3.30.0::dantrell-gnome-3-30
-~gnome-base/dconf-0.30.0::dantrell-gnome
+~gnome-base/dconf-0.30.1::dantrell-gnome
 ~gnome-base/dconf-editor-3.30.2::dantrell-gnome-3-30
 ~gnome-base/gdm-3.30.1::dantrell-gnome-3-30
 ~gnome-base/gnome-3.30.0::dantrell-gnome-3-30
@@ -90,8 +90,8 @@
 ~gnome-base/libgtop-2.38.0::dantrell-gnome
 ~gnome-base/librsvg-2.44.7::dantrell-gnome
 ~gnome-base/nautilus-3.30.2::dantrell-gnome-3-30
-~gnome-extra/evolution-data-server-3.30.1::dantrell-gnome-3-30
-~gnome-extra/evolution-ews-3.30.1::dantrell-gnome-3-30
+~gnome-extra/evolution-data-server-3.30.2::dantrell-gnome-3-30
+~gnome-extra/evolution-ews-3.30.2::dantrell-gnome-3-30
 ~gnome-extra/gnome-boxes-3.30.1::dantrell-gnome-3-30
 ~gnome-extra/gnome-calculator-3.30.1::dantrell-gnome-3-30
 ~gnome-extra/gnome-calendar-3.30.0::dantrell-gnome-3-30
@@ -112,7 +112,7 @@
 ~gnome-extra/gnome-user-docs-3.30.1::dantrell-gnome-3-30
 ~gnome-extra/gnome-user-share-3.28.0::dantrell-gnome
 ~gnome-extra/gnome-weather-3.26.0::dantrell-gnome
-~gnome-extra/gucharmap-11.0.2::dantrell-gnome
+~gnome-extra/gucharmap-11.0.3::dantrell-gnome
 ~gnome-extra/libgsf-1.14.44::dantrell-gnome
 ~gnome-extra/mousetweaks-3.12.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
@@ -121,7 +121,7 @@
 ~gnome-extra/yelp-3.30.0::dantrell-gnome-3-30
 ~gnome-extra/yelp-xsl-3.30.1::dantrell-gnome-3-30
 ~gnome-extra/zenity-3.28.1::dantrell-gnome
-~mail-client/evolution-3.30.1::dantrell-gnome-3-30
+~mail-client/evolution-3.30.2::dantrell-gnome-3-30
 ~media-gfx/eog-3.28.4::dantrell-gnome
 ~media-gfx/gnome-font-viewer-3.30.0::dantrell-gnome-3-30
 ~media-gfx/gnome-photos-3.30.1::dantrell-gnome-3-30
@@ -149,8 +149,8 @@
 ~net-libs/gssdp-1.0.2::dantrell-gnome
 ~net-libs/gupnp-1.0.3::dantrell-gnome
 ~net-libs/gupnp-igd-0.2.5::dantrell-gnome
-~net-libs/libsoup-2.64.1::dantrell-gnome-3-30
-~net-libs/libsoup-gnome-2.64.1::dantrell-gnome-3-30
+~net-libs/libsoup-2.64.2::dantrell-gnome-3-30
+~net-libs/libsoup-gnome-2.64.2::dantrell-gnome-3-30
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/phodav-2.2::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome
@@ -160,7 +160,7 @@
 ~net-misc/vino-3.22.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.28.2::dantrell-gnome
 ~sci-geosciences/geocode-glib-3.26.0::dantrell-gnome
-~sci-geosciences/gnome-maps-3.30.1::dantrell-gnome-3-30
+~sci-geosciences/gnome-maps-3.30.2::dantrell-gnome-3-30
 ~sys-apps/baobab-3.30.0::dantrell-gnome-3-30
 ~sys-apps/gnome-disk-utility-3.30.1::dantrell-gnome-3-30
 ~www-client/epiphany-3.30.2::dantrell-gnome-3-30
@@ -169,9 +169,9 @@
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.30.0::dantrell-gnome-3-30
 ~x11-libs/pango-1.42.4::dantrell-gnome
-~x11-libs/vte-0.54.1::dantrell-gnome-3-30
+~x11-libs/vte-0.54.2::dantrell-gnome-3-30
 ~x11-misc/gpaste-3.30.1::dantrell-gnome-3-30
-~x11-terms/gnome-terminal-3.30.1::dantrell-gnome-3-30
+~x11-terms/gnome-terminal-3.30.2::dantrell-gnome-3-30
 ~x11-themes/adwaita-icon-theme-3.30.0::dantrell-gnome-3-30
 ~x11-themes/gnome-backgrounds-3.30.0::dantrell-gnome-3-30
 ~x11-themes/gnome-themes-extra-3.28::dantrell-gnome

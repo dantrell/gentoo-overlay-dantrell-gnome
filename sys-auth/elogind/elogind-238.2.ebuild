@@ -42,9 +42,6 @@ PDEPEND="
 PATCHES=(
 	"${FILESDIR}"/${PN}-238.1-docs.patch
 	"${FILESDIR}"/${PN}-238.1-meson-0.48.patch
-	# From elogind:
-	# 	https://github.com/elogind/elogind/commit/b0c24eee5154ec046725b108fdb3cded008afc00
-	"${FILESDIR}"/${PN}-238.2-support-system-bus-socket-to-be-found-in-var-run-dbus-as-well-as-run-dbus.patch
 )
 
 pkg_setup() {
