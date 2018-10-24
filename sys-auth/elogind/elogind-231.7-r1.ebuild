@@ -48,9 +48,7 @@ PATCHES=(
 pkg_setup() {
 	local CONFIG_CHECK="~CGROUPS ~EPOLL ~INOTIFY_USER ~SIGNALFD ~TIMERFD"
 
-	if use kernel_linux; then
-		linux-info_pkg_setup
-	fi
+	use kernel_linux && linux-info_pkg_setup
 }
 
 src_prepare() {

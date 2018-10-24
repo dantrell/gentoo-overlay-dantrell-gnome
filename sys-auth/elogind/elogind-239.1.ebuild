@@ -41,15 +41,12 @@ PDEPEND="
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-238.1-docs.patch
-	"${FILESDIR}"/${PN}-238.1-meson-0.48.patch
 )
 
 pkg_setup() {
 	local CONFIG_CHECK="~CGROUPS ~EPOLL ~INOTIFY_USER ~SIGNALFD ~TIMERFD"
 
-	if use kernel_linux; then
-		linux-info_pkg_setup
-	fi
+	use kernel_linux && linux-info_pkg_setup
 }
 
 src_prepare() {
@@ -83,7 +80,7 @@ src_configure() {
 		-Ddefault-hierarchy=${cgroupmode}
 		-Ddefault-kill-user-processes=false
 		-Dacl=$(usex acl true false)
-		-Ddebug=$(usex debug elogind false)
+		-Ddebug-extra=$(usex debug elogind false)
 		--buildtype $(usex debug debug release)
 		-Dhtml=$(usex doc auto false)
 		-Dpam=$(usex pam true false)

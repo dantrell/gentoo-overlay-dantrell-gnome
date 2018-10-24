@@ -16,7 +16,7 @@
 ~app-misc/gnote-3.28.0::dantrell-gnome-3-28
 ~app-misc/tracker-2.0.4::dantrell-gnome
 ~app-misc/tracker-miners-2.0.5::dantrell-gnome
-~app-text/evince-3.28.4::dantrell-gnome-3-28
+~app-text/evince-3.28.5::dantrell-gnome-3-28
 ~app-text/gspell-1.8.1::dantrell-gnome
 ~app-text/libgepub-0.6.0::dantrell-gnome
 ~app-text/libgxps-0.3.0::dantrell-gnome

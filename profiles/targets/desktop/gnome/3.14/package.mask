@@ -12,12 +12,14 @@
 >=net-libs/phodav-2.2
 
 # Requires GLib 2.50 (or greater)
+>=app-text/zathura-0.4.1
 >=dev-util/lxqt-build-tools-0.4.0
 >=dev-util/meld-3.18.0
 >=sys-apps/bolt-0.4
 >=sys-apps/dbus-broker-4
 >=sys-fs/udisks-2.7.6
 >=x11-wm/page-1.9.9
+>=xfce-extra/xfce4-screensaver-0.1.0
 
 # Requires GLib 2.48 (or greater)
 >=gnome-base/librsvg-2.42.0
@@ -36,8 +38,6 @@
 >=sys-apps/fwupd-0.8.0
 
 # Requires GLib 2.44 (or greater)
->=dev-db/mysql-workbench-6.3.9
->=dev-db/percona-server-5.6.40.84.0
 >=dev-libs/libIDL-0.8.14-r2
 >=gnome-base/orbit-2.14.19-r5
 >=gnome-extra/gnome-commander-1.6.1

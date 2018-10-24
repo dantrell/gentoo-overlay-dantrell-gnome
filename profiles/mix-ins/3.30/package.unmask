@@ -16,7 +16,7 @@
 ~app-misc/geoclue-2.4.8::dantrell-gnome
 ~app-misc/gnote-3.30.0::dantrell-gnome-3-30
 ~app-text/enchant-2.2.3::dantrell-gnome
-~app-text/evince-3.30.1::dantrell-gnome-3-30
+~app-text/evince-3.30.2::dantrell-gnome-3-30
 ~app-text/gspell-1.8.1::dantrell-gnome
 ~app-text/libgepub-0.6.0::dantrell-gnome
 ~app-text/libgxps-0.3.0::dantrell-gnome
@@ -126,7 +126,7 @@
 ~media-gfx/gnome-font-viewer-3.30.0::dantrell-gnome-3-30
 ~media-gfx/gnome-photos-3.30.1::dantrell-gnome-3-30
 ~media-gfx/gnome-screenshot-3.30.0::dantrell-gnome-3-30
-~media-gfx/simple-scan-3.30.1.1::dantrell-gnome-3-30
+~media-gfx/simple-scan-3.30.2::dantrell-gnome-3-30
 ~media-libs/clutter-1.26.2::dantrell-gnome
 ~media-libs/clutter-gst-3.0.26::dantrell-gnome
 ~media-libs/clutter-gtk-1.8.4::dantrell-gnome
@@ -137,7 +137,7 @@
 ~media-libs/libmediaart-1.9.4::dantrell-gnome
 ~media-plugins/grilo-plugins-0.3.8::dantrell-gnome
 ~media-sound/gnome-music-3.30.0::dantrell-gnome-3-30
-~media-sound/gnome-music-3.30.1::dantrell-gnome-3-30
+~media-sound/gnome-music-3.30.2::dantrell-gnome-3-30
 ~media-sound/gnome-sound-recorder-3.28.1::dantrell-gnome
 ~media-video/cheese-3.30.0::dantrell-gnome-3-30
 ~media-video/gnome-video-effects-0.4.3::dantrell-gnome
@@ -162,7 +162,7 @@
 ~sci-geosciences/geocode-glib-3.26.0::dantrell-gnome
 ~sci-geosciences/gnome-maps-3.30.2::dantrell-gnome-3-30
 ~sys-apps/baobab-3.30.0::dantrell-gnome-3-30
-~sys-apps/gnome-disk-utility-3.30.1::dantrell-gnome-3-30
+~sys-apps/gnome-disk-utility-3.30.2::dantrell-gnome-3-30
 ~www-client/epiphany-3.30.2::dantrell-gnome-3-30
 ~x11-libs/gdk-pixbuf-2.38.0::dantrell-gnome
 ~x11-libs/gtksourceview-4.0.3::dantrell-gnome

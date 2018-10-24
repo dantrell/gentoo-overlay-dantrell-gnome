@@ -8,11 +8,13 @@
 >=net-libs/phodav-2.2
 
 # Requires GLib 2.50 (or greater)
+>=app-text/zathura-0.4.1
 >=dev-util/lxqt-build-tools-0.4.0
 >=dev-util/meld-3.18.0
 >=sys-apps/dbus-broker-4
 >=sys-fs/udisks-2.7.6
 >=x11-wm/page-1.9.9
+>=xfce-extra/xfce4-screensaver-0.1.0
 
 # Masked to freeze the state of GNOME
 >=app-accessibility/accerciser-3.22.0
