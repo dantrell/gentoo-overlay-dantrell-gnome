@@ -42,7 +42,9 @@ MULTILIB_CHOST_TOOLS=(
 )
 
 PATCHES=(
-	# See https://bugzilla.gnome.org/show_bug.cgi?id=756590
+	# From GNOME:
+	# 	https://bugzilla.gnome.org/show_bug.cgi?id=756590
+	# 	https://bugzilla.gnome.org/show_bug.cgi?id=788770
 	"${FILESDIR}"/${PN}-2.32.3-fix-lowmem-uclibc.patch
 )
 
