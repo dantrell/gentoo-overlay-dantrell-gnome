@@ -11,7 +11,7 @@ HOMEPAGE="https://libgit2.github.com/"
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2-with-linking-exception"
-SLOT="0/26"
+SLOT="0/27"
 KEYWORDS="*"
 
 IUSE="+curl examples gssapi libressl +ssh test +threads trace"
@@ -33,13 +33,6 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 "
 
-src_prepare() {
-	# skip online tests
-	sed -i '/libgit2_clar/s/-ionline/-xonline/' CMakeLists.txt || die
-
-	cmake-utils_src_prepare
-}
-
 src_configure() {
 	local mycmakeargs=(
 		-DLIB_INSTALL_DIR="${EPREFIX}/usr/$(get_libdir)"
@@ -60,7 +53,7 @@ src_test() {
 		ewarn "Skipping tests: non-root privileges are required for all tests to pass"
 	else
 		local TEST_VERBOSE=1
-		cmake-utils_src_test
+		cmake-utils_src_test -R offline
 	fi
 }
 

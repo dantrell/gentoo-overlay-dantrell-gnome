@@ -52,7 +52,7 @@
 ~dev-util/gdbus-codegen-2.58.1::dantrell-gnome
 ~dev-util/gnome-builder-3.30.1::dantrell-gnome-3-30
 ~dev-util/gnome-devel-docs-3.30.1::dantrell-gnome-3-30
-~dev-vcs/gitg-3.26.0::dantrell-gnome
+~dev-vcs/gitg-3.30.1::dantrell-gnome-3-30
 ~games-arcade/gnome-nibbles-3.24.1::dantrell-gnome
 ~games-arcade/gnome-robots-3.22.3::dantrell-gnome
 ~games-board/four-in-a-row-3.28.0::dantrell-gnome
@@ -136,7 +136,6 @@
 ~media-libs/libchamplain-0.12.16::dantrell-gnome
 ~media-libs/libmediaart-1.9.4::dantrell-gnome
 ~media-plugins/grilo-plugins-0.3.8::dantrell-gnome
-~media-sound/gnome-music-3.30.0::dantrell-gnome-3-30
 ~media-sound/gnome-music-3.30.2::dantrell-gnome-3-30
 ~media-sound/gnome-sound-recorder-3.28.1::dantrell-gnome
 ~media-video/cheese-3.30.0::dantrell-gnome-3-30
