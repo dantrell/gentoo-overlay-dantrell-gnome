@@ -22,8 +22,7 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RESTRICT="test"
 
-COMMON_DEPEND="
-	${PYTHON_DEPS}
+COMMON_DEPEND="${PYTHON_DEPS}
 	>=app-text/poppler-0.26.0:=[cairo]
 	<app-text/poppler-0.66.0:=
 	>=dev-cpp/glibmm-2.28
@@ -46,9 +45,9 @@ COMMON_DEPEND="
 	>=x11-libs/gtk+-2.10.7:2
 	>=x11-libs/pango-1.24
 	cdr? (
-		media-libs/libcdr
 		app-text/libwpg:0.3
 		dev-libs/librevenge
+		media-libs/libcdr
 	)
 	dbus? ( dev-libs/dbus-glib )
 	!deprecated? ( >=dev-cpp/glibmm-2.48 )
@@ -62,16 +61,15 @@ COMMON_DEPEND="
 		app-text/gtkspell:2
 	)
 	visio? (
-		media-libs/libvisio
 		app-text/libwpg:0.3
 		dev-libs/librevenge
+		media-libs/libvisio
 	)
 	wpg? (
 		app-text/libwpg:0.3
 		dev-libs/librevenge
 	)
 "
-
 # These only use executables provided by these packages
 # See share/extensions for more details. inkscape can tell you to
 # install these so we could of course just not depend on those and rely
@@ -87,7 +85,6 @@ RDEPEND="${COMMON_DEPEND}
 	)
 	postscript? ( app-text/ghostscript-gpl )
 "
-
 DEPEND="${COMMON_DEPEND}
 	>=dev-libs/boost-1.36:=
 	>=dev-util/intltool-0.40
@@ -173,10 +170,6 @@ src_install() {
 
 	find "${ED}" -name "*.la" -delete || die
 	python_optimize "${ED%/}"/usr/share/${PN}/extensions
-}
-
-pkg_preinst() {
-	gnome2_icon_savelist
 }
 
 pkg_postinst() {

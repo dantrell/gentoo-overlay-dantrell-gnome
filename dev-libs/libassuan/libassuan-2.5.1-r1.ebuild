@@ -35,7 +35,8 @@ src_prepare() {
 src_configure() {
 	econf \
 		$(use_enable static-libs static) \
-		$(./configure --help | grep -- --with-.*-prefix | sed -e 's/prefix.*/prefix/' -e "s#\$#=${EROOT}/usr#")
+		GPG_ERROR_CONFIG="${EROOT}/usr/bin/${CHOST}-gpg-error-config" \
+		$("${S}/configure" --help | grep -- '--without-.*-prefix' | sed -e 's/^ *\([^ ]*\) .*/\1/g')
 }
 
 src_install() {

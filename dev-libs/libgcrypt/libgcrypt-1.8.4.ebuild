@@ -57,7 +57,7 @@ multilib_src_configure() {
 		GPG_ERROR_CONFIG="${EROOT}/usr/bin/${CHOST}-gpg-error-config"
 	)
 	ECONF_SOURCE="${S}" econf "${myeconfargs[@]}" \
-		$("${S}/configure" --help | grep -- --with-.*-prefix | sed -e 's/prefix.*/prefix/' -e "s#\$#=${EROOT}/usr#")
+		$("${S}/configure" --help | grep -- '--without-.*-prefix' | sed -e 's/^ *\([^ ]*\) .*/\1/g')
 }
 
 multilib_src_compile() {

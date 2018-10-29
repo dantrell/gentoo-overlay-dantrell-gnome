@@ -39,7 +39,7 @@ multilib_src_configure() {
 		$(use_enable static-libs static) \
 		--enable-threads \
 		CC_FOR_BUILD="$(tc-getBUILD_CC)" \
-		$("${S}/configure" --help | grep -- --with-.*-prefix | sed -e 's/prefix.*/prefix/' -e "s#\$#=${EROOT}/usr#")
+		$("${S}/configure" --help | grep -- '--without-.*-prefix' | sed -e 's/^ *\([^ ]*\) .*/\1/g')
 }
 
 multilib_src_install_all() {
