@@ -1,0 +1,27 @@
+From 2f4df9174ea673f525bc7a9b61fa02b1a4fc9006 Mon Sep 17 00:00:00 2001
+From: Laurent Bigonville <bigon@bigon.be>
+Date: Tue, 2 Oct 2018 11:29:04 +0200
+Subject: [PATCH 13/17] src/linux/up-device-hid.c: usage_code is defined as an
+ unsigned integer
+
+Also define "value" as a signed 32 bits integer
+---
+ src/linux/up-device-hid.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/linux/up-device-hid.c b/src/linux/up-device-hid.c
+index 1d48449..095d55a 100644
+--- a/src/linux/up-device-hid.c
++++ b/src/linux/up-device-hid.c
+@@ -180,7 +180,7 @@ up_device_hid_convert_device_technology (const gchar *type)
+  * up_device_hid_set_values:
+  **/
+ static gboolean
+-up_device_hid_set_values (UpDeviceHid *hid, int code, int value)
++up_device_hid_set_values (UpDeviceHid *hid, guint32 code, gint32 value)
+ {
+ 	const gchar *type;
+ 	gboolean ret = TRUE;
+-- 
+2.19.1
+

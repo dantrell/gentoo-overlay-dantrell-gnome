@@ -1,0 +1,33 @@
+From 7c17075ac04a10e2727a63e5c973c142b077ba1f Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 25 Oct 2018 13:01:19 +0200
+Subject: [PATCH 14/17] build: Fix up-daemon-generated.h not being found on
+ distcheck
+
+---
+ libupower-glib/Makefile.am | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/libupower-glib/Makefile.am b/libupower-glib/Makefile.am
+index 08755d6..dd3ead2 100644
+--- a/libupower-glib/Makefile.am
++++ b/libupower-glib/Makefile.am
+@@ -3,6 +3,7 @@ AM_CPPFLAGS = \
+ 	$(GIO_UNIX_CFLAGS)					\
+ 	-I$(top_builddir)					\
+ 	-I$(top_srcdir)						\
++	-I$(top_srcdir)/dbus					\
+ 	-I$(top_builddir)/dbus					\
+ 	-I$(top_srcdir)/libupower-glib				\
+ 	-DUP_COMPILATION					\
+@@ -53,6 +54,7 @@ libupower_glib_la_LDFLAGS =					\
+ 	-export-symbols-regex '^up_.*'
+ 
+ libupower_glib_la_CFLAGS =					\
++	$(AM_CPPFLAGS)						\
+ 	$(WARNINGFLAGS_C)					\
+ 	$(NULL)
+ 
+-- 
+2.19.1
+

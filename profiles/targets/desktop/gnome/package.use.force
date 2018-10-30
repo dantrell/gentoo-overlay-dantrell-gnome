@@ -1,4 +1,3 @@
 dev-libs/glib mime
 dev-python/pycurl curl_ssl_openssl
 net-misc/curl curl_ssl_openssl
-x11-libs/cairo utils

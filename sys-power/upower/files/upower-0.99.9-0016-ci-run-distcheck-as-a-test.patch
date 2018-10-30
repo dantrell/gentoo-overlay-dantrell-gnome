@@ -1,0 +1,21 @@
+From 52dcda8c73bbfd8626947993026a5d174b0468c7 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 25 Oct 2018 11:47:07 +0200
+Subject: [PATCH 16/17] ci: Run distcheck as a test
+
+---
+ .gitlab-ci.yml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 57a9a13..5497a33 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -19,3 +19,4 @@ build_stable:
+     - make
+     - make install
+     - make check
++    - make distcheck
+-- 
+2.19.1
+

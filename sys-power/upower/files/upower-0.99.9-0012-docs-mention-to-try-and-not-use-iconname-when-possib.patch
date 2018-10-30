@@ -1,0 +1,27 @@
+From 0980b2dd4054a25c8f091f7b3a2f22e80ce61cd6 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 2 Oct 2018 10:43:27 +0200
+Subject: [PATCH 12/17] docs: Mention to try and not use IconName when possible
+
+See https://gitlab.freedesktop.org/upower/upower/merge_requests/16#note_41003
+---
+ dbus/org.freedesktop.UPower.Device.xml | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/dbus/org.freedesktop.UPower.Device.xml b/dbus/org.freedesktop.UPower.Device.xml
+index 178fba3..d20f13e 100644
+--- a/dbus/org.freedesktop.UPower.Device.xml
++++ b/dbus/org.freedesktop.UPower.Device.xml
+@@ -745,7 +745,8 @@ method return sender=:1.386 -> dest=:1.477 reply_serial=2
+       <doc:doc>
+         <doc:description>
+           <doc:para>
+-            An icon name, following the <a href="http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html">Icon Naming Specification</a>
++            <p>An icon name, following the <a href="http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html">Icon Naming Specification</a></p>
++            <p>Note that the icons might not match end-user expectations in terms of presentation relative to the amount of battery left or perceived to be left. It is recommended that front-ends use the BatteryLevel property first, if available, followed by the Percentage, to present a more realistic battery level to the user.</p>
+           </doc:para>
+         </doc:description>
+       </doc:doc>
+-- 
+2.19.1
+

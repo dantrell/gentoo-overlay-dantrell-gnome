@@ -1,8 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
+PYTHON_COMPAT=( python{3_4,3_5,3_6,3_7} )
 
-inherit autotools ltprune systemd
+inherit autotools ltprune python-single-r1 systemd xdg-utils
 
 DESCRIPTION="Abstraction for enumerating power devices, listening to device events and querying history and statistics"
 HOMEPAGE="https://upower.freedesktop.org/"
@@ -10,11 +11,13 @@ SRC_URI="https://${PN}.freedesktop.org/releases/${PN}-0.99.3.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0/3" # based on SONAME of libupower-glib.so
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="ck doc integration-test +introspection ios kernel_FreeBSD kernel_linux selinux"
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 COMMON_DEPS="
+	${PYTHON_DEPS}
 	>=dev-libs/dbus-glib-0.100
 	>=dev-libs/glib-2.34:2
 	dev-util/gdbus-codegen
@@ -24,7 +27,10 @@ COMMON_DEPS="
 		sys-power/acpid
 		sys-power/pm-utils
 	)
-	integration-test? ( dev-util/umockdev )
+	integration-test? (
+		dev-python/dbusmock[${PYTHON_USEDEP}]
+		dev-util/umockdev
+	)
 	introspection? ( dev-libs/gobject-introspection:= )
 	kernel_linux? (
 		virtual/libusb:1
@@ -54,6 +60,10 @@ DEPEND="
 QA_MULTILIB_PATHS="usr/lib/${PN}/.*"
 
 S="${WORKDIR}/${PN}-0.99.3"
+
+pkg_setup() {
+	python-single-r1_pkg_setup
+}
 
 src_prepare() {
 	# From UPower:
@@ -249,6 +259,7 @@ src_prepare() {
 	fi
 
 	eapply "${FILESDIR}"/${PN}-0.99.7-0012-released-upower-0-99-7.patch
+	eapply "${FILESDIR}"/${PN}-0.99.8-0001-trivial-post-release-version-bump.patch
 
 	if use ck; then
 		# From Funtoo:
@@ -298,6 +309,7 @@ src_configure() {
 		$(use_enable introspection)
 		$(use_with ios idevice)
 	)
+	xdg_environment_reset
 	econf "${myeconfargs[@]}"
 }
 
@@ -312,6 +324,7 @@ src_install() {
 
 	if use integration-test; then
 		newbin src/linux/integration-test upower-integration-test
+		python_fix_shebang "${D}"usr/bin/upower-integration-test
 	fi
 
 	keepdir /var/lib/upower #383091
