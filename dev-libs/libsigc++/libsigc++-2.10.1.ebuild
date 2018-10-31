@@ -8,13 +8,15 @@ DESCRIPTION="Typesafe callback system for standard C++"
 HOMEPAGE="http://libsigc.sourceforge.net/"
 
 LICENSE="LGPL-2.1+"
-SLOT="2/4"
+SLOT="2/10"
 KEYWORDS="*"
 
 IUSE="doc static-libs test"
 
 RDEPEND=""
-DEPEND="sys-devel/m4"
+DEPEND="sys-devel/m4
+	doc? ( app-doc/doxygen )
+	test? ( dev-libs/boost:=[${MULTILIB_USEDEP}] )"
 # Needs mm-common for eautoreconf
 
 src_prepare() {
@@ -36,7 +38,8 @@ multilib_src_configure() {
 
 	ECONF_SOURCE="${S}" gnome2_src_configure \
 		$(multilib_native_use_enable doc documentation) \
-		$(use_enable static-libs static)
+		$(use_enable static-libs static) \
+		$(use_enable test benchmark)
 }
 
 multilib_src_install() {

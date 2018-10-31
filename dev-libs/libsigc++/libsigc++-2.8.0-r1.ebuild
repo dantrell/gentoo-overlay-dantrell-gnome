@@ -48,8 +48,5 @@ multilib_src_install_all() {
 
 	# Note: html docs are installed into /usr/share/doc/libsigc++-2.0
 	# We can't use /usr/share/doc/${PF} because of links from glibmm etc. docs
-	if use doc ; then
-		insinto /usr/share/doc/${PF}
-		doins -r examples
-	fi
+	use doc && dodoc -r examples
 }
