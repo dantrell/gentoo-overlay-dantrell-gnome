@@ -13,7 +13,7 @@ SRC_URI="https://github.com/zdohnal/${PN}/releases/download/${PV}/${P}.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="doc gnome-keyring policykit"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"

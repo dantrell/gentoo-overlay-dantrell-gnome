@@ -26,11 +26,11 @@ RDEPEND="${COMMON_DEPEND}
 	!<gnome-extra/gucharmap-3:0
 "
 DEPEND="${RDEPEND}
-	app-text/yelp-tools
 	dev-libs/appstream-glib
 	dev-util/desktop-file-utils
 	>=dev-util/gtk-doc-am-1
 	>=dev-util/intltool-0.40
+	dev-util/itstool
 	sys-devel/gettext
 	virtual/pkgconfig
 	test? (	app-text/docbook-xml-dtd:4.1.2 )
