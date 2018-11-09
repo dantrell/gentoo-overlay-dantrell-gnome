@@ -42,6 +42,11 @@ DEPEND="${RDEPEND}
 "
 # >=gtk-doc-am-1.13, gobject-introspection-common, vala-common needed by eautoreconf
 
+# Rust does not know the *-pc-* variants of target triples, but these ones.
+CHOST_amd64=x86_64-unknown-linux-gnu
+CHOST_x86=i686-unknown-linux-gnu
+CHOST_arm64=aarch64-unknown-linux-gnu
+
 src_prepare() {
 	# https://bugzilla.gnome.org/show_bug.cgi?id=653323
 	eapply "${FILESDIR}"/${PN}-2.40.12-gtk-optional.patch
@@ -62,7 +67,9 @@ multilib_src_configure() {
 	# --disable-tools even when USE=tools; the tools/ subdirectory is useful
 	# only for librsvg developers
 	ECONF_SOURCE=${S} \
+	cross_compiling=yes \
 	gnome2_src_configure \
+		--build=${CHOST_default} \
 		--disable-static \
 		--disable-tools \
 		$(use_enable debug) \
