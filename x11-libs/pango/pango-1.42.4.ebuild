@@ -10,7 +10,7 @@ HOMEPAGE="http://www.pango.org/"
 
 LICENSE="LGPL-2+ FTL"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="X +introspection test"
 
@@ -40,7 +40,7 @@ src_prepare() {
 	gnome2_src_prepare
 	# This should be updated if next release fails to pre-generate the manpage as well, or src_prepare removed if is properly generated
 	# https://gitlab.gnome.org/GNOME/pango/issues/270
-	cp -v "${FILESDIR}"/${PV}-pango-view.1.in "${S}/utils/pango-view.1.in" || die
+	cp -v "${FILESDIR}"/1.42.4-pango-view.1.in "${S}/utils/pango-view.1.in" || die
 }
 
 multilib_src_configure() {

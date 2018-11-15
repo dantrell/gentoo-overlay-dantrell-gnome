@@ -35,7 +35,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	dev-libs/gobject-introspection-common
 	dev-libs/vala-common
-	dev-util/cargo
+	virtual/cargo
 	virtual/rust
 	>=dev-util/gtk-doc-am-1.13
 	>=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}]
