@@ -4,5 +4,6 @@ dev-libs/libgames-support::dantrell-gnome
 dev-libs/vala-common:0.42::dantrell-gnome
 gnome-extra/nautilus-sendto::dantrell-gnome
 media-gfx/shotwell::dantrell-gnome
+sys-apps/bubblewrap::dantrell-gnome
 x11-libs/xpyb::dantrell-gnome
 x11-themes/gnome-icon-theme-extras::dantrell-gnome

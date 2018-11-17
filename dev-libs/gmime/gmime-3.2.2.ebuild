@@ -33,6 +33,10 @@ DEPEND="${RDEPEND}
 # gnupg is needed for tests if --enable-cryptography is enabled, which we do unconditionally
 
 src_prepare() {
+	# From GMime:
+	# 	https://mail.gnome.org/archives/gmime-devel-list/2016-December/msg00061.html
+	eapply "${FILESDIR}"/${PN}-3.2.2-metadata.patch
+
 	gnome2_src_prepare
 	use vala && vala_src_prepare
 }
