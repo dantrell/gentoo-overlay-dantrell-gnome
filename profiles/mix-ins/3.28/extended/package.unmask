@@ -11,7 +11,7 @@
 ~app-editors/gedit-3.28.1::dantrell-gnome-3-28
 ~app-editors/ghex-3.18.3::dantrell-gnome
 ~app-editors/gnome-latex-3.28.1::dantrell-gnome-3-28
-~app-misc/bijiben-3.28.3::dantrell-gnome-3-28
+~app-misc/bijiben-3.28.4.1::dantrell-gnome-3-28
 ~app-misc/geoclue-2.4.8::dantrell-gnome
 ~app-misc/gnote-3.28.0::dantrell-gnome-3-28
 ~app-misc/tracker-2.0.4::dantrell-gnome
