@@ -48,8 +48,10 @@ src_configure() {
 	local myeconfargs=(
 		--with-bash-completion-dir=$(get_bashcompdir)
 		$(use_enable selinux)
-		$(use_enable sudo)
 	)
+	if use sudo; then
+		myeconfargs+=( --enable-sudo )
+	fi
 	if use suid; then
 		myeconfargs+=( --with-priv-mode=setuid )
 		if use namespaces; then

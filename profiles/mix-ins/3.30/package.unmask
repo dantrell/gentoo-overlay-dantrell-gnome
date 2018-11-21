@@ -31,7 +31,7 @@
 ~dev-libs/glib-2.58.1::dantrell-gnome
 ~dev-libs/gmime-3.2.2::dantrell-gnome
 ~dev-libs/gobject-introspection-1.58.1::dantrell-gnome-3-30
-~dev-libs/gobject-introspection-common-1.58.0::dantrell-gnome-3-30
+~dev-libs/gobject-introspection-common-1.58.1::dantrell-gnome-3-30
 ~dev-libs/gom-0.3.3::dantrell-gnome
 ~dev-libs/jsonrpc-glib-3.30.1::dantrell-gnome-3-30
 ~dev-libs/json-glib-1.4.4::dantrell-gnome
@@ -172,7 +172,7 @@
 ~x11-libs/vte-0.54.2::dantrell-gnome-3-30
 ~x11-misc/gpaste-3.30.1::dantrell-gnome-3-30
 ~x11-terms/gnome-terminal-3.30.2::dantrell-gnome-3-30
-~x11-themes/adwaita-icon-theme-3.30.0::dantrell-gnome-3-30
+~x11-themes/adwaita-icon-theme-3.30.1::dantrell-gnome-3-30
 ~x11-themes/gnome-backgrounds-3.30.0::dantrell-gnome-3-30
 ~x11-themes/gnome-themes-extra-3.28::dantrell-gnome
 ~x11-wm/metacity-3.30.1::dantrell-gnome-3-30
