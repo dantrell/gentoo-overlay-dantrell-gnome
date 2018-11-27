@@ -12,9 +12,9 @@ SRC_URI="https://www.freedesktop.org/software/${PN}/releases/${MY_PV}/${P}.tar.x
 
 LICENSE="LGPL-2"
 SLOT="2.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
-IUSE="+introspection +modemmanager zeroconf"
+IUSE="+introspection modemmanager zeroconf"
 
 RDEPEND="
 	>=dev-libs/glib-2.34:2

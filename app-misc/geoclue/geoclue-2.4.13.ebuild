@@ -2,17 +2,15 @@
 
 EAPI="6"
 
-inherit autotools gnome2 systemd user versionator
-
-MY_PV=$(get_version_component_range 1-2)
+inherit autotools gnome2 systemd user
 
 DESCRIPTION="A geoinformation D-Bus service"
 HOMEPAGE="https://freedesktop.org/wiki/Software/GeoClue"
-SRC_URI="https://www.freedesktop.org/software/${PN}/releases/${MY_PV}/${P}.tar.xz"
+SRC_URI="https://gitlab.freedesktop.org/geoclue/${PN}/-/archive/${PV}/${P}.tar.bz2"
 
 LICENSE="LGPL-2"
 SLOT="2.0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="+introspection modemmanager zeroconf"
 
@@ -22,13 +20,14 @@ RDEPEND="
 	>=net-libs/libsoup-2.42:2.4
 	sys-apps/dbus
 	introspection? ( >=dev-libs/gobject-introspection-0.9.6:= )
-	modemmanager? ( >=net-misc/modemmanager-1 )
+	modemmanager? ( >=net-misc/modemmanager-1.6 )
 	zeroconf? ( >=net-dns/avahi-0.6.10[dbus] )
 	!<sci-geosciences/geocode-glib-3.10.0
+	x11-libs/libnotify
 "
 DEPEND="${RDEPEND}
 	dev-util/gdbus-codegen
-	>=dev-util/gtk-doc-am-1
+	>=dev-util/gtk-doc-1
 	>=dev-util/intltool-0.40
 	sys-devel/gettext
 	virtual/pkgconfig
@@ -38,14 +37,8 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-2.4.1-fix-GLIBC-features.patch
 
 	# From GeoClue:
-	# 	https://cgit.freedesktop.org/geoclue/commit/?id=7414f60e8849a6fdeba8827197721b3d36c48754
-	# 	https://cgit.freedesktop.org/geoclue/commit/?id=595bb7f5e9d4e784656ab381da8014d8ea1e10c8
-	# 	https://cgit.freedesktop.org/geoclue/commit/?id=1194c23407f04153e541d4dc636e1dfa83786624
-	# 	https://cgit.freedesktop.org/geoclue/commit/?id=4cefb6bf6d1835776e687f7302967e4ba9c22335
-	eapply "${FILESDIR}"/${PN}-2.4.2-gir-correct-namespace-version.patch
-	eapply "${FILESDIR}"/${PN}-2.4.3-lib-clear-the-task-pointer-when-unrefing.patch
-	eapply "${FILESDIR}"/${PN}-2.4.4-main-remove-stray-semicolon.patch
-	eapply "${FILESDIR}"/${PN}-2.4.4-service-client-fix-comparison-against-zero.patch
+	# 	https://cgit.freedesktop.org/geoclue/commit/?h=2.4.x&id=5ae456312c941ba2951563de0aef64ca5c25b0e6
+	eapply -R "${FILESDIR}"/${PN}-2.4.11-require-glib-2-44.patch
 
 	eautoreconf
 	gnome2_src_prepare
@@ -54,6 +47,7 @@ src_prepare() {
 src_configure() {
 	# debug only affects CFLAGS
 	gnome2_src_configure \
+		--enable-backend \
 		--with-dbus-service-user=geoclue \
 		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)" \
 		$(use_enable introspection) \

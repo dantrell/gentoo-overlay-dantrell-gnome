@@ -23,7 +23,6 @@ app-arch/file-roller::gnome-kit
 app-arch/gcab::gentoo
 app-arch/gcab::gnome-kit
 app-arch/gnome-autoar::gentoo
-app-arch/gnome-autoar::nokit
 app-cdr/brasero::gentoo
 app-cdr/brasero::gnome-kit
 app-crypt/gcr::gentoo
@@ -61,7 +60,6 @@ app-i18n/ibus::gnome-kit
 app-i18n/unicode-cldr::gentoo
 app-i18n/unicode-cldr::nokit
 app-i18n/unicode-data::gentoo
-app-i18n/unicode-data::nokit
 app-i18n/unicode-emoji::gentoo
 app-i18n/unicode-emoji::nokit
 app-misc/geoclue::gentoo
@@ -72,7 +70,6 @@ app-misc/tracker-miners::gnome-kit
 app-misc/tracker::gentoo
 app-misc/tracker::gnome-kit
 app-text/enchant::gentoo
-app-text/enchant::text-kit
 app-text/gnome-doc-utils::gentoo
 app-text/gnome-doc-utils::gnome-kit
 app-text/gspell::gentoo
@@ -105,7 +102,7 @@ dev-cpp/mm-common::gnome-kit
 dev-cpp/pangomm::gentoo
 dev-cpp/pangomm::gnome-kit
 dev-lang/spidermonkey::gentoo
-dev-lang/spidermonkey::lang-kit
+dev-lang/spidermonkey::net-kit
 dev-lang/vala::gentoo
 dev-lang/vala::gnome-kit
 dev-libs/appstream-glib::gentoo
@@ -158,7 +155,7 @@ dev-libs/libpcre2::core-kit
 dev-libs/libpcre2::gentoo
 dev-libs/libpeas::gentoo
 dev-libs/libpeas::gnome-kit
-dev-libs/libsigc++::dev-kit
+dev-libs/libsigc++::core-kit
 dev-libs/libsigc++::gentoo
 dev-libs/libunistring::core-kit
 dev-libs/libunistring::gentoo
@@ -332,7 +329,6 @@ media-libs/clutter::gnome-kit
 media-libs/cogl::gentoo
 media-libs/cogl::gnome-kit
 media-libs/gegl::gentoo
-media-libs/gegl::media-kit
 media-libs/grilo::gentoo
 media-libs/grilo::gnome-kit
 media-libs/gsound::gentoo
@@ -449,8 +445,8 @@ sys-apps/osinfo-db-tools::gentoo
 sys-apps/osinfo-db-tools::nokit
 sys-apps/osinfo-db::gentoo
 sys-apps/osinfo-db::nokit
-sys-auth/consolekit::core-kit
 sys-auth/consolekit::gentoo
+sys-auth/consolekit::nokit
 sys-auth/elogind::gentoo
 sys-auth/elogind::nokit
 sys-auth/pambase::core-kit
@@ -497,7 +493,6 @@ x11-libs/tepl::gnome-kit
 x11-libs/vte::gentoo
 x11-libs/vte::gnome-kit
 x11-libs/xpyb::gentoo
-x11-libs/xpyb::xorg-kit
 x11-misc/colord::gentoo
 x11-misc/colord::gnome-kit
 x11-misc/notification-daemon::gentoo

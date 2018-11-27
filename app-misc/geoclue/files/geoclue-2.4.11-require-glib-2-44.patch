@@ -1,0 +1,26 @@
+From 5ae456312c941ba2951563de0aef64ca5c25b0e6 Mon Sep 17 00:00:00 2001
+From: Zeeshan Ali <zeenix@collabora.co.uk>
+Date: Thu, 17 May 2018 15:30:19 +0200
+Subject: Require glib >= 2.44
+
+We need that for using g_autofree() that we just started using.
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 2f624d6..0b61dae 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -37,7 +37,7 @@ GETTEXT_PACKAGE=AC_PACKAGE_NAME
+ AC_SUBST(GETTEXT_PACKAGE)
+ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE",[The name of the gettext domain])
+ 
+-GLIB_MIN_VERSION=2.34.0
++GLIB_MIN_VERSION=2.44.0
+ JSON_GLIB_MIN_VERSION=0.14
+ LIBMM_GLIB_MIN_VERSION=1.6
+ LIBSOUP_MIN_VERSION=2.42
+-- 
+cgit v1.1
+

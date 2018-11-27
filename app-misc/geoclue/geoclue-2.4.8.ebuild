@@ -14,7 +14,7 @@ LICENSE="LGPL-2"
 SLOT="2.0"
 KEYWORDS="*"
 
-IUSE="+introspection +modemmanager zeroconf"
+IUSE="+introspection modemmanager zeroconf"
 
 RDEPEND="
 	>=dev-libs/glib-2.34:2
