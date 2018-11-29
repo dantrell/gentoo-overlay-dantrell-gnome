@@ -60,6 +60,7 @@ app-i18n/ibus::gnome-kit
 app-i18n/unicode-cldr::gentoo
 app-i18n/unicode-cldr::nokit
 app-i18n/unicode-data::gentoo
+app-i18n/unicode-data::nokit
 app-i18n/unicode-emoji::gentoo
 app-i18n/unicode-emoji::nokit
 app-misc/geoclue::gentoo
@@ -304,6 +305,10 @@ gnome-extra/zenity::gentoo
 gnome-extra/zenity::gnome-kit
 mail-client/geary::gentoo
 mail-client/geary::gnome-kit
+media-fonts/croscorefonts::gentoo
+media-fonts/croscorefonts::xorg-kit
+media-fonts/noto::gentoo
+media-fonts/noto::media-kit
 media-gfx/eog-plugins::gentoo
 media-gfx/eog-plugins::gnome-kit
 media-gfx/eog::gentoo

@@ -3,6 +3,8 @@ dev-libs/libgudev::gentoo ~*
 dev-util/meson::gentoo ~*
 games-board/crafty::gentoo ~*
 games-board/sjeng::gentoo ~*
+media-fonts/crosextrafonts-caladea::gentoo ~*
+media-fonts/crosextrafonts-carlito::gentoo ~*
 media-gfx/scour::gentoo ~*
 media-libs/libopenraw::gentoo ~*
 virtual/libgudev::gentoo ~*

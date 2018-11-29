@@ -49,7 +49,7 @@ src_prepare() {
 	# Do not mess with CFLAGS with USE="debug"
 	sed -e '/CFLAGS="$CFLAGS -g/d' \
 		-e '/CFLAGS="$CFLAGS -O0/d' \
-		-i configure.ac || die "sed 1 failed"
+		-i configure.ac configure || die "sed 1 failed"
 
 	gnome2_src_prepare
 }

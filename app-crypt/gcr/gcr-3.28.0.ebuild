@@ -32,6 +32,7 @@ RDEPEND="${COMMON_DEPEND}
 DEPEND="${COMMON_DEPEND}
 	${PYTHON_DEPS}
 	dev-libs/gobject-introspection-common
+	dev-libs/libxml2:2
 	dev-libs/libxslt
 	dev-libs/vala-common
 	dev-util/gdbus-codegen
