@@ -14,7 +14,7 @@ LICENSE="OFL-1.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="cjk emoji +minimal"
+IUSE="cjk emoji extra minimal"
 
 RESTRICT="binchecks strip"
 
@@ -47,7 +47,13 @@ FONT_CONF=(
 #
 # 	https://www.google.com/get/noto/
 #
-# Also based on their homepage (and GitHub repository) the minimal set of fonts include:
+# Also based on their homepage (and GitHub repository) the extra font variants include:
+#
+# 	Condensed
+# 	Extra
+# 	SemiBold
+#
+# And the minimal set of fonts include:
 #
 # 	Noto Sans
 # 	Noto Serif
@@ -62,22 +68,28 @@ FONT_CONF=(
 #
 # 	https://github.com/googlei18n/noto-fonts/pull/400
 src_install() {
-	if use minimal; then
-		mv "${S}/hinted/" "${S}/hinted.old" || die
-		mkdir "${S}/hinted/" || die
-
-		cp "${S}/hinted.old/Arimo"* "${S}/hinted/" || die
-		cp "${S}/hinted.old/Cousine"* "${S}/hinted/" || die
-		cp "${S}/hinted.old/NotoMusic"* "${S}/hinted/" || die
-		cp "${S}/hinted.old/NotoSansDisplay-"* "${S}/hinted/" || die
-		cp "${S}/hinted.old/NotoSansMono-"* "${S}/hinted/" || die
-		cp "${S}/hinted.old/NotoSans-"* "${S}/hinted/" || die
-		cp "${S}/hinted.old/NotoSerifDisplay-"* "${S}/hinted/" || die
-		cp "${S}/hinted.old/NotoSerif-"* "${S}/hinted/" || die
-		cp "${S}/hinted.old/Tinos"* "${S}/hinted/" || die
-	else
-		FONT_S="${S}/unhinted/" font_src_install
+	if ! use extra; then
+		rm "${S}"/{hinted,unhinted}/Noto*Condensed*.ttf || die
+		rm "${S}"/{hinted,unhinted}/Noto*Extra*.ttf || die
+		rm "${S}"/{hinted,unhinted}/Noto*SemiBold*.ttf || die
 	fi
 
-	FONT_S="${S}/hinted/" font_src_install
+	if use minimal; then
+		mv "${S}"/hinted/ "${S}"/hinted.old || die
+		mkdir "${S}"/hinted/ || die
+
+		cp "${S}"/hinted.old/Arimo* "${S}"/hinted/ || die
+		cp "${S}"/hinted.old/Cousine* "${S}"/hinted/ || die
+		cp "${S}"/hinted.old/NotoMusic* "${S}"/hinted/ || die
+		cp "${S}"/hinted.old/NotoSansDisplay-* "${S}"/hinted/ || die
+		cp "${S}"/hinted.old/NotoSansMono-* "${S}"/hinted/ || die
+		cp "${S}"/hinted.old/NotoSans-* "${S}"/hinted/ || die
+		cp "${S}"/hinted.old/NotoSerifDisplay-* "${S}"/hinted/ || die
+		cp "${S}"/hinted.old/NotoSerif-* "${S}"/hinted/ || die
+		cp "${S}"/hinted.old/Tinos* "${S}"/hinted/ || die
+	else
+		FONT_S="${S}"/unhinted/ font_src_install
+	fi
+
+	FONT_S="${S}"/hinted/ font_src_install
 }
