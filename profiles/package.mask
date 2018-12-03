@@ -23,6 +23,7 @@ app-arch/file-roller::gnome-kit
 app-arch/gcab::gentoo
 app-arch/gcab::gnome-kit
 app-arch/gnome-autoar::gentoo
+app-arch/gnome-autoar::gnome-kit
 app-cdr/brasero::gentoo
 app-cdr/brasero::gnome-kit
 app-crypt/gcr::gentoo
@@ -71,6 +72,7 @@ app-misc/tracker-miners::gnome-kit
 app-misc/tracker::gentoo
 app-misc/tracker::gnome-kit
 app-text/enchant::gentoo
+app-text/enchant::text-kit
 app-text/gnome-doc-utils::gentoo
 app-text/gnome-doc-utils::gnome-kit
 app-text/gspell::gentoo
@@ -334,6 +336,7 @@ media-libs/clutter::gnome-kit
 media-libs/cogl::gentoo
 media-libs/cogl::gnome-kit
 media-libs/gegl::gentoo
+media-libs/gegl::gnome-kit
 media-libs/grilo::gentoo
 media-libs/grilo::gnome-kit
 media-libs/gsound::gentoo
@@ -399,8 +402,8 @@ net-misc/dleyna-server::gentoo
 net-misc/dleyna-server::net-kit
 net-misc/gnome-online-miners::gentoo
 net-misc/gnome-online-miners::gnome-kit
-net-misc/modemmanager::core-kit
 net-misc/modemmanager::gentoo
+net-misc/modemmanager::net-kit
 net-misc/networkmanager-fortisslvpn::gentoo
 net-misc/networkmanager-fortisslvpn::net-kit
 net-misc/networkmanager-libreswan::gentoo
@@ -417,7 +420,7 @@ net-misc/networkmanager-sstp::net-kit
 net-misc/networkmanager-vpnc::gentoo
 net-misc/networkmanager-vpnc::net-kit
 net-misc/networkmanager::gentoo
-net-misc/networkmanager::gnome-kit
+net-misc/networkmanager::net-kit
 net-misc/rygel::gentoo
 net-misc/rygel::gnome-kit
 net-misc/spice-gtk::gentoo
@@ -462,8 +465,8 @@ sys-devel/gettext::core-kit
 sys-devel/gettext::gentoo
 sys-fs/udisks::gentoo
 sys-fs/udisks::gnome-kit
-sys-libs/libosinfo::core-kit
 sys-libs/libosinfo::gentoo
+sys-libs/libosinfo::gnome-kit
 sys-power/acpid::gentoo
 sys-power/acpid::nokit
 sys-power/upower::gentoo
