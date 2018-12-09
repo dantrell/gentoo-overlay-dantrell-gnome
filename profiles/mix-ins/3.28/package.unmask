@@ -155,7 +155,7 @@
 ~net-libs/phodav-2.2::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome
 ~net-misc/gnome-online-miners-3.26.0::dantrell-gnome
-~net-misc/networkmanager-1.10.12::dantrell-gnome
+~net-misc/networkmanager-1.10.14::dantrell-gnome
 ~net-misc/rygel-0.36.2::dantrell-gnome
 ~net-misc/vino-3.22.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.28.2::dantrell-gnome

@@ -12,9 +12,9 @@ SRC_URI="https://www.freedesktop.org/software/ModemManager/ModemManager-${PV}.ta
 
 LICENSE="GPL-2+"
 SLOT="0/1" # subslot = dbus interface version, i.e. N in org.freedesktop.ModemManager${N}
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="ck +introspection mbim policykit +qmi systemd vala"
+IUSE="ck +introspection mbim policykit +qmi systemd +udev vala"
 REQUIRED_USE="
 	vala? ( introspection )
 	?? ( ck systemd )
@@ -22,19 +22,18 @@ REQUIRED_USE="
 
 RDEPEND="
 	>=dev-libs/glib-2.36.0:2
-	>=virtual/libgudev-230:=
 	ck? ( >=sys-power/upower-0.99:=[ck] )
 	introspection? ( >=dev-libs/gobject-introspection-0.9.6:= )
-	mbim? ( >=net-libs/libmbim-1.14.0 )
+	mbim? ( >=net-libs/libmbim-1.16.0 )
 	policykit? ( >=sys-auth/polkit-0.106[introspection] )
-	qmi? ( >=net-libs/libqmi-1.16.0:= )
+	qmi? ( >=net-libs/libqmi-1.20.0:= )
 	systemd? ( >=sys-apps/systemd-209 )
+	udev? ( >=virtual/libgudev-230:= )
 "
 DEPEND="${RDEPEND}
 	dev-util/gdbus-codegen
 	>=dev-util/gtk-doc-am-1
-	>=dev-util/intltool-0.40
-	>=sys-devel/gettext-0.19.3
+	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
 "
@@ -56,7 +55,7 @@ src_prepare() {
 	# 	https://cgit.freedesktop.org/ModemManager/ModemManager/commit/?id=1f13909d9b59176afd9cec32cfbd623b44ec8d80
 	# 	https://cgit.freedesktop.org/ModemManager/ModemManager/commit/?id=ae2988da933f39d8983c94aaeef3c1b6f98f3e4e
 	# 	https://cgit.freedesktop.org/ModemManager/ModemManager/commit/?id=6197a06931ffd197b4f66b92c4d729b5911e0e36
-	eapply "${FILESDIR}"/${PN}-1.6.10-restore-deprecated-code.patch
+	eapply "${FILESDIR}"/${PN}-1.8.2-restore-deprecated-code.patch
 
 	eautoreconf
 	use vala && vala_src_prepare
@@ -69,10 +68,12 @@ src_configure() {
 		--disable-static \
 		--with-dist-version=${PVR} \
 		--with-udev-base-dir="$(get_udevdir)" \
+		$(use_with udev) \
 		$(use_enable introspection) \
 		$(use_with mbim) \
 		$(use_with policykit polkit) \
 		$(usex systemd --with-suspend-resume=systemd $(usex ck --with-suspend-resume=upower --with-suspend-resume=no)) \
+		$(use_with systemd systemd-journal) \
 		$(use_with qmi) \
 		$(use_enable vala)
 }
@@ -111,6 +112,11 @@ pkg_postinst() {
 			elog "without changing its behavior, you may want to remove it."
 			;;
 		esac
+	fi
+
+	if ! use udev; then
+		ewarn "You have built ModemManager without udev support. You may have to teach it"
+		ewarn "about your modem port manually."
 	fi
 
 	systemd_reenable ModemManager.service

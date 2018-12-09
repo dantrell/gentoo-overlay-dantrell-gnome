@@ -196,6 +196,7 @@ dev-util/gtk-builder-convert::gentoo
 dev-util/gtk-builder-convert::gnome-kit
 dev-util/gtk-doc-am::core-kit
 dev-util/gtk-doc-am::gentoo
+dev-util/gtk-doc-am::gnome-kit
 dev-util/gtk-doc::gentoo
 dev-util/gtk-doc::gnome-kit
 dev-util/gtk-update-icon-cache::gentoo
@@ -277,6 +278,7 @@ gnome-extra/gnome-recipes::gnome-kit
 gnome-extra/gnome-todo::gentoo
 gnome-extra/gnome-todo::gnome-kit
 gnome-extra/gnome-usage::gentoo
+gnome-extra/gnome-usage::gnome-kit
 gnome-extra/gnome-user-share::gentoo
 gnome-extra/gnome-user-share::gnome-kit
 gnome-extra/gnome-weather::gentoo
@@ -386,6 +388,7 @@ net-libs/gupnp-igd::gnome-kit
 net-libs/gupnp::gentoo
 net-libs/gupnp::gnome-kit
 net-libs/libpsl::gentoo
+net-libs/libpsl::gnome-kit
 net-libs/libzapojit::gentoo
 net-libs/libzapojit::gnome-kit
 net-libs/phodav::gentoo
@@ -472,6 +475,7 @@ sys-power/acpid::nokit
 sys-power/upower::gentoo
 sys-power/upower::gnome-kit
 x11-libs/amtk::gentoo
+x11-libs/amtk::gnome-kit
 x11-libs/cairo::gentoo
 x11-libs/cairo::gnome-kit
 x11-libs/colord-gtk::gentoo
@@ -512,6 +516,7 @@ x11-themes/gnome-icon-theme-symbolic::gnome-kit
 x11-themes/gnome-icon-theme::gentoo
 x11-themes/gnome-icon-theme::gnome-kit
 x11-themes/gnome-themes-extra::gentoo
+x11-themes/gnome-themes-extra::gnome-kit
 x11-themes/gnome-themes-standard::gentoo
 x11-themes/gnome-themes-standard::gnome-kit
 x11-themes/gtk-engines-adwaita::gentoo

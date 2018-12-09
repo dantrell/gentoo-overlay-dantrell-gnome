@@ -21,10 +21,10 @@ stop() {
 	ebegin "Stopping NetworkManager"
 	start-stop-daemon --stop --quiet --pidfile /run/NetworkManager/NetworkManager.pid
 	# If dhcpcd is used it must be killed or it will stick around.
-	killall -9 dhcpcd || true
+	killall -9 dhcpcd > /dev/null 2>&1 || true
 	# Starting from 1.2.4 the devices used must be flushed for the service to be restarted.
 	# It might actually be restarting but nm-applet itself is glitchy.
-	ip addr flush dev eth0 || true
+	ip addr flush dev eth0 > /dev/null 2>&1 || true
 	eend $?
 }
 

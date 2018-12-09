@@ -12,7 +12,7 @@ LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="3.0/3"
 KEYWORDS="*"
 
-IUSE="glade +introspection vala"
+IUSE="glade +introspection +vala"
 REQUIRED_USE="vala? ( introspection )"
 
 RDEPEND="
@@ -25,7 +25,6 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.25
 	>=sys-devel/gettext-0.19.4
-	dev-util/itstool
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
 "
@@ -37,7 +36,6 @@ src_prepare() {
 
 src_configure() {
 	gnome2_src_configure \
-		--disable-deprecations \
 		$(use_enable glade glade-catalog) \
 		$(use_enable introspection) \
 		$(use_enable vala)

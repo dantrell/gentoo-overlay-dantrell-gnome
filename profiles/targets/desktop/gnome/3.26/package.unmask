@@ -27,7 +27,6 @@
 ~dev-libs/folks-0.11.4::dantrell-gnome
 ~dev-libs/gjs-1.50.4::dantrell-gnome-3-26
 ~dev-libs/glib-2.54.3::dantrell-gnome
-~dev-libs/gmime-3.0.5::dantrell-gnome
 ~dev-libs/gobject-introspection-1.54.1::dantrell-gnome-3-26
 ~dev-libs/gobject-introspection-common-1.54.1::dantrell-gnome-3-26
 ~dev-libs/gom-0.3.3::dantrell-gnome
@@ -156,7 +155,6 @@
 ~net-libs/phodav-2.2::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome
 ~net-misc/gnome-online-miners-3.26.0::dantrell-gnome
-~net-misc/networkmanager-1.8.8::dantrell-gnome
 ~net-misc/rygel-0.36.2::dantrell-gnome
 ~net-misc/vino-3.22.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.26.1::dantrell-gnome-3-26

@@ -12,7 +12,7 @@ SRC_URI="https://telepathy.freedesktop.org/releases/${PN}/${P}.tar.gz"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="gnutls +jingle libressl plugins test"
 
@@ -24,7 +24,7 @@ QA_CONFIGURE_OPTIONS=".*"
 # x11-libs/gtksourceview:3.0 needed by telepathy-gabble-xmpp-console, bug #495184
 # Keep in mind some deps or higher minimum versions are in ext/wocky/configure.ac
 RDEPEND="
-	>=dev-libs/glib-2.32:2
+	>=dev-libs/glib-2.44:2
 	>=sys-apps/dbus-1.1.0
 	>=dev-libs/dbus-glib-0.82
 	>=net-libs/telepathy-glib-0.19.9
@@ -38,7 +38,7 @@ RDEPEND="
 		!libressl? ( >=dev-libs/openssl-0.9.8g:0=[-bindist] )
 	)
 	jingle? (
-		>=net-libs/libsoup-2.33.1
+		>=net-libs/libsoup-2.42
 		>=net-libs/libnice-0.0.11 )
 	plugins? ( x11-libs/gtksourceview:3.0[introspection] )
 
@@ -65,6 +65,7 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.18.4-build-fix-no-jingle.patch # build with USE=-jingle, bug #523230
+	"${FILESDIR}"/${PN}-0.18.4-openssl-1.1.patch # bug #658902
 )
 
 pkg_setup() {

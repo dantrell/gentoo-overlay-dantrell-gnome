@@ -25,5 +25,5 @@ DEPEND="${RDEPEND}
 src_configure() {
 	gnome2_src_configure \
 		$(use_enable introspection) \
-		VALAC=$(type -P false)
+		VALAC="$(type -P false)"
 }

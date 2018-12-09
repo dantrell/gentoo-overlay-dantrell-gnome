@@ -10,7 +10,7 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="CC0-1.0 LGPL-2.1+ public-domain"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="+acl debug doc +pam +policykit selinux"
 
@@ -80,7 +80,7 @@ src_configure() {
 		-Ddefault-hierarchy=${cgroupmode}
 		-Ddefault-kill-user-processes=false
 		-Dacl=$(usex acl true false)
-		-Ddebug-extra=$(usex debug elogind false)
+		-Ddebug-extra=elogind
 		--buildtype $(usex debug debug release)
 		-Dhtml=$(usex doc auto false)
 		-Dpam=$(usex pam true false)

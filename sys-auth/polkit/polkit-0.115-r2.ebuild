@@ -50,6 +50,10 @@ PDEPEND="
 	kde? ( kde-plasma/polkit-kde-agent )
 "
 
+PATCHES=(
+	"${FILESDIR}"/CVE-2018-19788.patch
+)
+
 QA_MULTILIB_PATHS="
 	usr/lib/polkit-1/polkit-agent-helper-1
 	usr/lib/polkit-1/polkitd"

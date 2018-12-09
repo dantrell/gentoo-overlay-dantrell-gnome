@@ -64,8 +64,7 @@ DEPEND="${RDEPEND}
 #)
 
 PATCHES=(
-	# Fix build with USE=-jingle, bug #523230
-	"${FILESDIR}"/${PN}-0.18.4-build-fix-no-jingle.patch
+	"${FILESDIR}"/${PN}-0.18.4-build-fix-no-jingle.patch # build with USE=-jingle, bug #523230
 )
 
 pkg_setup() {

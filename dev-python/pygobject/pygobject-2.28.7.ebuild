@@ -12,7 +12,7 @@ HOMEPAGE="http://www.pygtk.org/"
 
 LICENSE="LGPL-2.1+"
 SLOT="2"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="examples libffi test"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
