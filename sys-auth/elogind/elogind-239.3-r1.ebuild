@@ -80,12 +80,15 @@ src_configure() {
 		-Ddefault-hierarchy=${cgroupmode}
 		-Ddefault-kill-user-processes=false
 		-Dacl=$(usex acl true false)
-		-Ddebug-extra=elogind
 		--buildtype $(usex debug debug release)
 		-Dhtml=$(usex doc auto false)
 		-Dpam=$(usex pam true false)
 		-Dselinux=$(usex selinux true false)
 	)
+
+	if use debug; then
+		emesonargs+=( -Ddebug-extra=elogind )
+	fi
 
 	meson_src_configure
 }

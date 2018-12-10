@@ -3,6 +3,7 @@
 EAPI="6"
 PYTHON_COMPAT=( python{3_4,3_5,3_6,3_7} )
 GNOME2_LA_PUNT="yes"
+VALA_USE_DEPEND="vapigen"
 
 inherit vala gnome2 python-any-r1
 

@@ -2,6 +2,7 @@
 
 EAPI="6"
 GNOME2_LA_PUNT="yes"
+VALA_USE_DEPEND="vapigen"
 
 inherit vala gnome2
 
