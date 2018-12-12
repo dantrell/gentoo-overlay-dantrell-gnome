@@ -353,6 +353,8 @@ media-libs/libmediaart::gentoo
 media-libs/libmediaart::gnome-kit
 media-libs/memphis::gentoo
 media-libs/memphis::media-kit
+media-libs/musicbrainz::gentoo
+media-libs/musicbrainz::media-kit
 media-plugins/grilo-plugins::gentoo
 media-plugins/grilo-plugins::gnome-kit
 media-sound/gnome-sound-recorder::gentoo
@@ -361,6 +363,8 @@ media-sound/rhythmbox::gentoo
 media-sound/rhythmbox::media-kit
 media-sound/sound-juicer::gentoo
 media-sound/sound-juicer::gnome-kit
+media-video/gnome-mplayer::gentoo
+media-video/gnome-mplayer::media-kit
 media-video/gnome-video-effects::gentoo
 media-video/gnome-video-effects::gnome-kit
 media-video/totem::gentoo

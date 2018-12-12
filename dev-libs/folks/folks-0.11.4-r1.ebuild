@@ -56,6 +56,9 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_prepare() {
+	# Force re-generation of introspection files, otherwise it does not match installed libs
+	find -name "*.vala" -exec touch {} \; || die
+
 	vala_src_prepare
 	gnome2_src_prepare
 }
