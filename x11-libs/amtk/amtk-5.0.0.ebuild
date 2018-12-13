@@ -4,8 +4,8 @@ EAPI="6"
 
 inherit gnome2 virtualx
 
-DESCRIPTION="GtkSourceView-based text editors and IDE helper library"
-HOMEPAGE="https://wiki.gnome.org/Projects/Gtef"
+DESCRIPTION="A basic GtkUIManager replacement based on GAction"
+HOMEPAGE="https://wiki.gnome.org/Projects/Amtk"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"

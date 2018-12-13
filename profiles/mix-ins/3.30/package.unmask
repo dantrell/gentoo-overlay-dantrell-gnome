@@ -52,6 +52,7 @@
 ~dev-util/gdbus-codegen-2.58.1::dantrell-gnome
 ~dev-util/gnome-builder-3.30.2::dantrell-gnome-3-30
 ~dev-util/gnome-devel-docs-3.30.2::dantrell-gnome-3-30
+~dev-util/sysprof-3.30.2::dantrell-gnome-3-30
 ~dev-vcs/gitg-3.30.1::dantrell-gnome-3-30
 ~games-arcade/gnome-nibbles-3.24.1::dantrell-gnome
 ~games-arcade/gnome-robots-3.22.3::dantrell-gnome
@@ -89,7 +90,7 @@
 ~gnome-base/libgnomekbd-3.26.0::dantrell-gnome
 ~gnome-base/libgtop-2.38.0::dantrell-gnome
 ~gnome-base/librsvg-2.44.10::dantrell-gnome
-~gnome-base/nautilus-3.30.4::dantrell-gnome-3-30
+~gnome-base/nautilus-3.30.5::dantrell-gnome-3-30
 ~gnome-extra/evolution-data-server-3.30.3::dantrell-gnome-3-30
 ~gnome-extra/evolution-ews-3.30.3::dantrell-gnome-3-30
 ~gnome-extra/gnome-boxes-3.30.3::dantrell-gnome-3-30
@@ -153,7 +154,7 @@
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/phodav-2.2::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome
-~net-libs/webkit-gtk-2.22.4::dantrell-gnome
+~net-libs/webkit-gtk-2.22.5::dantrell-gnome
 ~net-misc/gnome-online-miners-3.30.0::dantrell-gnome-3-30
 ~net-misc/networkmanager-1.14.4::dantrell-gnome
 ~net-misc/rygel-0.36.2::dantrell-gnome

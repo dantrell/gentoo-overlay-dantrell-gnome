@@ -3,7 +3,6 @@
 EAPI="6"
 
 # PackageKit supports 3.2+, but entropy and portage backends are untested
-# Future note: use --enable-python3
 PYTHON_COMPAT=( python2_7 )
 VALA_USE_DEPEND="vapigen"
 
@@ -25,6 +24,7 @@ REQUIRED_USE="
 	${PYTHON_REQUIRED_USE}
 	?? ( ck consolekit elogind systemd )
 	vala? ( introspection )
+	entropy? ( $(python_gen_useflags 'python2*' ) )
 "
 
 RESTRICT="test"
@@ -59,6 +59,7 @@ DEPEND="${COMMON_DEPEND}
 	dev-libs/vala-common
 	>=dev-util/gtk-doc-am-1.11
 	>=dev-util/intltool-0.35.0
+	sys-devel/autoconf-archive
 	sys-devel/gettext
 	virtual/pkgconfig
 	nsplugin? ( >=net-misc/npapi-sdk-0.27 )

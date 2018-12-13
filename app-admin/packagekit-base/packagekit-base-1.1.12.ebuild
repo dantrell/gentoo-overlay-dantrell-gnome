@@ -6,7 +6,7 @@ EAPI="6"
 PYTHON_COMPAT=( python2_7 )
 VALA_USE_DEPEND="vapigen"
 
-inherit autotools bash-completion-r1 multilib python-single-r1 systemd vala xdg-utils
+inherit autotools bash-completion-r1 multilib python-single-r1 systemd vala xdg
 
 MY_PN="PackageKit"
 MY_P=${MY_PN}-${PV}
@@ -17,7 +17,7 @@ SRC_URI="https://www.freedesktop.org/software/${MY_PN}/releases/${MY_P}.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0/18"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="ck consolekit cron command-not-found elogind +introspection entropy systemd test vala"
 REQUIRED_USE="
@@ -33,20 +33,22 @@ COMMON_DEPEND="
 	>=app-shells/bash-completion-2
 	dev-db/sqlite:3
 	>=dev-libs/dbus-glib-0.74
-	>=dev-libs/glib-2.46.0:2
-	>=sys-auth/polkit-0.98
+	>=dev-libs/glib-2.54.0:2
+	>=sys-auth/polkit-0.114
 	>=sys-apps/dbus-1.3.0
 	${PYTHON_DEPS}
 	ck? ( <sys-auth/consolekit-0.9 )
 	consolekit? ( >=sys-auth/consolekit-0.9 )
-	elogind? ( sys-auth/elogind )
+	elogind? ( >=sys-auth/elogind-229.4 )
 	introspection? ( >=dev-libs/gobject-introspection-0.9.9:= )
-	systemd? ( >=sys-apps/systemd-204 )
+	systemd? ( >=sys-apps/systemd-213 )
 "
 # vala-common needed for eautoreconf
 DEPEND="${COMMON_DEPEND}
+	app-text/docbook-xsl-stylesheets
 	>=dev-cpp/glibmm-2.4
-	dev-libs/libxslt[${PYTHON_USEDEP}]
+	dev-libs/libxml2:2
+	dev-libs/libxslt
 	dev-libs/vala-common
 	>=dev-util/gtk-doc-am-1.11
 	>=dev-util/intltool-0.35.0
@@ -68,18 +70,20 @@ PATCHES=(
 	# Fixes QA Notices:
 	# - https://github.com/gentoo/gentoo/pull/1760
 	# - https://github.com/hughsie/PackageKit/issues/143
-	"${FILESDIR}"/${PN}-1.1.1-cache-qafix.patch
+	"${FILESDIR}"/${PN}-1.1.12-cache-qafix.patch
 
 	# Adds elogind support:
 	# - https://bugs.gentoo.org/620948
 	"${FILESDIR}"/${PN}-1.1.10-support-elogind.patch
+
+	# From master
+	"${FILESDIR}"/${PN}-1.1.12-use-autotool-python.patch
+	"${FILESDIR}"/${PN}-1.1.12-add-missing-config.h.patch
 )
 
 S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
-	default
-
 	# Disable unittests not working with portage backend
 	# console: requires terminal input
 	sed -e 's:^\(.*/packagekit-glib2/control\)://\1:' \
@@ -90,16 +94,18 @@ src_prepare() {
 		-e 's:^\(.*/packagekit-glib2/console\)://\1:' \
 		-i lib/packagekit-glib2/pk-test-daemon.c || die
 	sed -e 's:^\(.*/packagekit/spawn\)://\1:' \
-	    -e 's:^\(.*/packagekit/transaction-db\)://\1:' \
-	    -e 's:^\(.*/packagekit/backend\)://\1:' \
+		-e 's:^\(.*/packagekit/transaction-db\)://\1:' \
+		-e 's:^\(.*/packagekit/backend\)://\1:' \
 		-i src/pk-self-test.c || die
+
+	eapply_user
 
 	eautoreconf
 	use vala && vala_src_prepare
+	xdg_src_prepare
 }
 
 src_configure() {
-	xdg_environment_reset
 	econf \
 		--disable-gstreamer-plugin \
 		--disable-gtk-doc \
@@ -124,6 +130,8 @@ src_configure() {
 }
 
 src_install() {
+	python_fix_shebang backends/portage/portageBackend.py
+
 	emake DESTDIR="${D}" install
-	prune_libtool_files --all
+	find "${D}" -name '*.la' -delete || die
 }
