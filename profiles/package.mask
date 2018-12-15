@@ -447,7 +447,7 @@ net-wireless/gnome-bluetooth::gnome-kit
 sci-geosciences/geocode-glib::gentoo
 sci-geosciences/geocode-glib::gnome-kit
 sys-apps/accountsservice::gentoo
-sys-apps/accountsservice::nokit
+sys-apps/accountsservice::gnome-kit
 sys-apps/bubblewrap::gentoo
 sys-apps/bubblewrap::nokit
 sys-apps/dbus-broker::gentoo
@@ -463,7 +463,7 @@ sys-apps/osinfo-db::nokit
 sys-auth/consolekit::gentoo
 sys-auth/consolekit::nokit
 sys-auth/elogind::gentoo
-sys-auth/elogind::nokit
+sys-auth/elogind::gnome-kit
 sys-auth/pambase::core-kit
 sys-auth/pambase::gentoo
 sys-auth/polkit::gentoo

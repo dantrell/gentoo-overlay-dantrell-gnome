@@ -9,12 +9,14 @@ inherit autotools gnome2 multilib-minimal vala
 DESCRIPTION="Scalable Vector Graphics (SVG) rendering library"
 HOMEPAGE="https://wiki.gnome.org/Projects/LibRsvg"
 
-LICENSE="LGPL-2"
+LICENSE="LGPL-2+"
 SLOT="2"
 KEYWORDS="*"
 
 IUSE="+introspection tools vala"
 REQUIRED_USE="vala? ( introspection )"
+
+RESTRICT="test" # Lots of issues due to freetype changes and more; ever since newer tests got backported into 2.40.19
 
 RDEPEND="
 	>=dev-libs/glib-2.12.0:2[${MULTILIB_USEDEP}]
@@ -45,6 +47,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-2.40.12-gtk-optional.patch
 
 	eautoreconf
+
 	use vala && vala_src_prepare
 	gnome2_src_prepare
 }

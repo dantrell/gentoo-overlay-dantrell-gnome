@@ -9,7 +9,7 @@ inherit autotools gnome2 multilib-minimal vala
 DESCRIPTION="Scalable Vector Graphics (SVG) rendering library"
 HOMEPAGE="https://wiki.gnome.org/Projects/LibRsvg"
 
-LICENSE="LGPL-2"
+LICENSE="LGPL-2+"
 SLOT="2"
 KEYWORDS="~*"
 
@@ -52,6 +52,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-2.40.12-gtk-optional.patch
 
 	eautoreconf
+
 	use vala && vala_src_prepare
 	gnome2_src_prepare
 }
