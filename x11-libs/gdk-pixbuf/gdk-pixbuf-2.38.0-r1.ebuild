@@ -46,6 +46,10 @@ PATCHES=(
 	# 	https://bugzilla.gnome.org/show_bug.cgi?id=756590
 	# 	https://bugzilla.gnome.org/show_bug.cgi?id=788770
 	"${FILESDIR}"/${PN}-2.32.3-fix-lowmem-uclibc.patch
+
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/gdk-pixbuf/commit/f59d1d177f641562f44915401577d22569ed2a8c
+	"${FILESDIR}"/${PN}-2.38.1-thumbnailer-unbreak-thumbnailing-of-gifs.patch
 )
 
 meson_use_multilib_native_enable() {

@@ -1,0 +1,42 @@
+From f59d1d177f641562f44915401577d22569ed2a8c Mon Sep 17 00:00:00 2001
+From: Debarshi Ray <debarshir@gnome.org>
+Date: Wed, 12 Dec 2018 18:57:27 +0100
+Subject: [PATCH] thumbnailer: Unbreak thumbnailing of GIFs
+
+The GIF codec throws GDK_PIXBUF_ERROR_INCOMPLETE_ANIMATION if it's
+closed without decoding all the frames. The thumbnailer has always,
+both now with gdk_pixbuf_new_from_file_at_scale and earlier, decoded
+only the first animation frame, which is why this specific error needs
+to be ignored [1].
+
+Fixes: dd1f222f78eed2b7d70a5e8507199c78e3f9e12b
+
+[1] https://gitlab.gnome.org/GNOME/gnome-desktop/commit/f9b2c480e38d
+
+https://gitlab.gnome.org/GNOME/gdk-pixbuf/issues/99
+---
+ thumbnailer/gdk-pixbuf-thumbnailer.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/thumbnailer/gdk-pixbuf-thumbnailer.c b/thumbnailer/gdk-pixbuf-thumbnailer.c
+index d50ede8ee..8308ecaf7 100644
+--- a/thumbnailer/gdk-pixbuf-thumbnailer.c
++++ b/thumbnailer/gdk-pixbuf-thumbnailer.c
+@@ -36,6 +36,14 @@ file_to_pixbuf (const char  *path,
+ 	if (pixbuf == NULL)
+ 		return NULL;
+ 
++	/* The GIF codec throws GDK_PIXBUF_ERROR_INCOMPLETE_ANIMATION
++	 * if it's closed without decoding all the frames. Since
++	 * gdk_pixbuf_new_from_file_at_size only decodes the first
++	 * frame, this specific error needs to be ignored.
++	 */
++	if (error != NULL && g_error_matches (*error, GDK_PIXBUF_ERROR, GDK_PIXBUF_ERROR_INCOMPLETE_ANIMATION))
++		g_clear_error (error);
++
+ 	tmp_pixbuf = gdk_pixbuf_apply_embedded_orientation (pixbuf);
+ 	gdk_pixbuf_copy_options (pixbuf, tmp_pixbuf);
+ 	gdk_pixbuf_remove_option (tmp_pixbuf, "orientation");
+-- 
+2.18.1
+

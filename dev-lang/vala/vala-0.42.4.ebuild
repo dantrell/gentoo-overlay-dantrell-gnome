@@ -8,7 +8,7 @@ DESCRIPTION="Compiler for the GObject type system"
 HOMEPAGE="https://wiki.gnome.org/Projects/Vala"
 
 LICENSE="LGPL-2.1"
-SLOT="0.40"
+SLOT="0.42"
 KEYWORDS="*"
 
 IUSE="test"
@@ -34,7 +34,7 @@ src_prepare() {
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/vala/commit/2b742fce82eb1326faaee3b2cc4ff993e701ef53
 	# 	https://gitlab.gnome.org/GNOME/vala/commit/c63247759dca09d1a81dce6bc2e2992746d7c996
-	eapply "${FILESDIR}"/${PN}-0.38.8-uncouple-valadoc.patch
+	eapply "${FILESDIR}"/${PN}-0.40.12-uncouple-valadoc.patch
 
 	eautoreconf
 	gnome2_src_prepare

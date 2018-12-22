@@ -1,6 +1,6 @@
 diff '--exclude=.git' -urN a/Makefile.am b/Makefile.am
---- a/Makefile.am	2018-11-07 10:05:17.000000000 -0600
-+++ b/Makefile.am	2018-11-07 15:51:46.086224544 -0600
+--- a/Makefile.am	2018-12-20 09:09:25.000000000 -0600
++++ b/Makefile.am	2018-12-21 21:03:08.289176839 -0600
 @@ -13,8 +13,6 @@
  	doc \
  	gobject-introspection \
@@ -11,9 +11,9 @@ diff '--exclude=.git' -urN a/Makefile.am b/Makefile.am
  
  if ENABLE_UNVERSIONED
 diff '--exclude=.git' -urN a/configure.ac b/configure.ac
---- a/configure.ac	2018-11-07 10:05:17.000000000 -0600
-+++ b/configure.ac	2018-11-07 15:51:46.086224544 -0600
-@@ -179,16 +179,6 @@
+--- a/configure.ac	2018-12-20 09:09:25.000000000 -0600
++++ b/configure.ac	2018-12-21 21:03:08.289176839 -0600
+@@ -170,16 +170,6 @@
             vapigen/Makefile
             vapigen/vala-gen-introspect/Makefile
             vapigen/vala-gen-introspect/vala-gen-introspect
@@ -31,8 +31,8 @@ diff '--exclude=.git' -urN a/configure.ac b/configure.ac
  
  AC_OUTPUT
 diff '--exclude=.git' -urN a/doc/Makefile.am b/doc/Makefile.am
---- a/doc/Makefile.am	2018-11-07 10:05:17.000000000 -0600
-+++ b/doc/Makefile.am	2018-11-07 15:54:34.850397504 -0600
+--- a/doc/Makefile.am	2018-12-20 08:00:31.000000000 -0600
++++ b/doc/Makefile.am	2018-12-21 21:02:57.910227000 -0600
 @@ -6,20 +6,18 @@
  
  dist_man_MANS = \
@@ -67,7 +67,7 @@ diff '--exclude=.git' -urN a/doc/Makefile.am b/doc/Makefile.am
  vala-gen-introspect.1:
  	$(HELP2MAN) $(top_builddir)/gobject-introspection/gen-introspect \
  		--include $(srcdir)/vala-gen-introspect.h2m \
-@@ -49,88 +42,6 @@
+@@ -49,93 +42,6 @@
  if ENABLE_UNVERSIONED
  install-data-hook:
  	cd $(DESTDIR)$(man1dir) && $(LN_S) -f valac@PACKAGE_SUFFIX@.1 valac.1
@@ -102,6 +102,7 @@ diff '--exclude=.git' -urN a/doc/Makefile.am b/doc/Makefile.am
 -		$(COMMON_VALADOCFLAGS) \
 -		--package-name gee \
 -		--package-version $(PACKAGE_VERSION) \
+-		--deps \
 -		$(filter %.vala,$^)
 -	@touch $@
 -
@@ -112,6 +113,7 @@ diff '--exclude=.git' -urN a/doc/Makefile.am b/doc/Makefile.am
 -		--package-name vala \
 -		--package-version $(PACKAGE_VERSION) \
 -		--vapidir=$(top_builddir)/gee --pkg gee \
+-		--deps \
 -		$(filter %.vala,$^)
 -	@touch $@
 -
@@ -123,6 +125,7 @@ diff '--exclude=.git' -urN a/doc/Makefile.am b/doc/Makefile.am
 -		--package-version $(PACKAGE_VERSION) \
 -		--vapidir=$(top_builddir)/gee --pkg gee \
 -		--vapidir=$(top_builddir)/vala --pkg vala \
+-		--deps \
 -		$(filter %.vala,$^)
 -	@touch $@
 -
@@ -135,6 +138,7 @@ diff '--exclude=.git' -urN a/doc/Makefile.am b/doc/Makefile.am
 -		--vapidir=$(top_builddir)/gee --pkg gee \
 -		--vapidir=$(top_builddir)/vala --pkg vala \
 -		--vapidir=$(top_builddir)/ccode --pkg ccode \
+-		--deps \
 -		$(filter %.vala,$^)
 -	@touch $@
 -
@@ -149,6 +153,7 @@ diff '--exclude=.git' -urN a/doc/Makefile.am b/doc/Makefile.am
 -		--vapidir=$(top_builddir)/vala --pkg vala \
 -		--vapidir=$(top_builddir)/ccode --pkg ccode \
 -		--vapidir=$(top_builddir)/codegen --pkg codegen \
+-		--deps \
 -		$(filter %.vala,$^)
 -	@touch $@
 -
