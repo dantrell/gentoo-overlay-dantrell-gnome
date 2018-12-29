@@ -1,3 +1,6 @@
+# Regression in linking process
+>=sys-fs/udev-240
+
 # Regression in meson_options.txt default values
 #
 # Ref. https://bugs.freedesktop.org/show_bug.cgi?id=103162
