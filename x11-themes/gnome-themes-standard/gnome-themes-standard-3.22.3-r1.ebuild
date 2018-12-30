@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit autotools gnome.org
+inherit autotools gnome.org gnome2-utils
 
 DESCRIPTION="Standard Themes for GNOME Applications"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-themes-standard/"
@@ -42,4 +42,12 @@ src_configure() {
 		--disable-gtk2-engine \
 		--disable-gtk3-engine \
 		GTK_UPDATE_ICON_CACHE=$(type -P true)
+}
+
+pkg_postinst() {
+	gnome2_icon_cache_update
+}
+
+pkg_postrm() {
+	gnome2_icon_cache_update
 }

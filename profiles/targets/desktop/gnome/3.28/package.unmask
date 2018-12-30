@@ -6,7 +6,7 @@
 ~app-arch/gcab-1.1::dantrell-gnome
 ~app-arch/gnome-autoar-0.2.3::dantrell-gnome
 ~app-crypt/gcr-3.28.0::dantrell-gnome
-~app-crypt/libsecret-0.18.6::dantrell-gnome
+~app-crypt/libsecret-0.18.7::dantrell-gnome
 ~app-dicts/gnome-dictionary-3.26.1::dantrell-gnome
 ~app-editors/gedit-3.28.1::dantrell-gnome-3-28
 ~app-editors/ghex-3.18.3::dantrell-gnome
