@@ -30,8 +30,8 @@
 ~dev-libs/gjs-1.54.3::dantrell-gnome-3-30
 ~dev-libs/glib-2.58.2::dantrell-gnome
 ~dev-libs/gmime-3.2.3::dantrell-gnome
-~dev-libs/gobject-introspection-1.58.2::dantrell-gnome-3-30
-~dev-libs/gobject-introspection-common-1.58.2::dantrell-gnome-3-30
+~dev-libs/gobject-introspection-1.58.3::dantrell-gnome-3-30
+~dev-libs/gobject-introspection-common-1.58.3::dantrell-gnome-3-30
 ~dev-libs/gom-0.3.3::dantrell-gnome
 ~dev-libs/jsonrpc-glib-3.30.1::dantrell-gnome-3-30
 ~dev-libs/json-glib-1.4.4::dantrell-gnome

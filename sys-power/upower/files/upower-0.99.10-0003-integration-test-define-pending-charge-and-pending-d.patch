@@ -1,0 +1,30 @@
+From eb0282701501b51293a7ef56198cb8ecef725b24 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jo=C3=A3o=20Paulo=20Rechi=20Vita?= <jprvita@endlessm.com>
+Date: Fri, 2 Nov 2018 09:49:33 -0700
+Subject: [PATCH 3/4] integration-test: Define PENDING_CHARGE and
+ PENDING_DISCHARGE states
+
+Add definitions for UP_DEVICE_STATE_PENDING_CHARGE and
+UP_DEVICE_STATE_PENDING_DISCHARGE.
+---
+ src/linux/integration-test | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 2aa5a4c..7f36ca6 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -60,7 +60,9 @@ BATTERY_IFACE = 'org.bluez.Battery1'
+  UP_DEVICE_STATE_CHARGING,
+  UP_DEVICE_STATE_DISCHARGING,
+  UP_DEVICE_STATE_EMPTY,
+- UP_DEVICE_STATE_FULLY_CHARGED) = (0, 1, 2, 3, 4)
++ UP_DEVICE_STATE_FULLY_CHARGED,
++ UP_DEVICE_STATE_PENDING_CHARGE,
++ UP_DEVICE_STATE_PENDING_DISCHARGE) = (0, 1, 2, 3, 4, 5, 6)
+ 
+ (UP_DEVICE_LEVEL_UNKNOWN,
+  UP_DEVICE_LEVEL_NONE,
+-- 
+2.20.1
+

@@ -11,7 +11,7 @@ SRC_URI="https://${PN}.freedesktop.org/releases/${PN}-0.99.3.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0/3" # based on SONAME of libupower-glib.so
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="ck doc integration-test +introspection ios kernel_FreeBSD kernel_linux selinux"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
@@ -260,6 +260,85 @@ src_prepare() {
 
 	eapply "${FILESDIR}"/${PN}-0.99.7-0012-released-upower-0-99-7.patch
 	eapply "${FILESDIR}"/${PN}-0.99.8-0001-trivial-post-release-version-bump.patch
+	eapply "${FILESDIR}"/${PN}-0.99.8-0002-lib-fix-warnings-when-d-bus-related-properties-chang.patch
+	eapply "${FILESDIR}"/${PN}-0.99.8-0003-linux-prevent-crash-after-attaching-an-apple-tv.patch
+	eapply "${FILESDIR}"/${PN}-0.99.8-0004-linux-check-hasbattery-key-for-newer-ios-versions.patch
+
+	if ! use ck; then
+		eapply "${FILESDIR}"/${PN}-0.99.8-0005-linux-fix-crash-if-logind-doesn-t-return-an-error.patch
+		eapply "${FILESDIR}"/${PN}-0.99.8-0006-linux-fix-memory-leak-if-logind-returns-an-error.patch
+	fi
+
+	eapply "${FILESDIR}"/${PN}-0.99.8-0007-linux-lower-severity-of-unhandled-action-messages.patch
+	eapply "${FILESDIR}"/${PN}-0.99.8-0008-daemon-lock-down-systemd-service-file.patch
+	eapply "${FILESDIR}"/${PN}-0.99.8-0009-lib-simplify-resource-destruction.patch
+	eapply "${FILESDIR}"/${PN}-0.99.8-0010-linux-add-a-readme-with-a-couple-of-debugging-comman.patch
+
+	if ! use ck; then
+		eapply "${FILESDIR}"/${PN}-0.99.8-0011-linux-add-support-for-unknown-capacity-level.patch
+		eapply "${FILESDIR}"/${PN}-0.99.8-0012-daemon-add-battery-level-specific-icons.patch
+		eapply "${FILESDIR}"/${PN}-0.99.8-0013-linux-add-a-test-for-logitech-hid-charging-states.patch
+		eapply "${FILESDIR}"/${PN}-0.99.8-0014-lib-mention-that-battery-level-is-preferred-when-pre.patch
+		eapply "${FILESDIR}"/${PN}-0.99.8-0015-lib-add-a-new-version-of-up-client-get-devices-which.patch
+	fi
+
+	eapply "${FILESDIR}"/${PN}-0.99.8-0016-add-commitment-file-as-part-of-gpl-common-cure-right.patch
+
+	if ! use ck; then
+		eapply "${FILESDIR}"/${PN}-0.99.8-0017-linux-better-error-reporting-from-sysfs-get-double-w.patch
+	fi
+
+	eapply "${FILESDIR}"/${PN}-0.99.8-0018-linux-remove-extra-linefeed.patch
+	eapply "${FILESDIR}"/${PN}-0.99.8-0019-linux-clean-up-after-running-test-suite-in-distcheck.patch
+	eapply "${FILESDIR}"/${PN}-0.99.8-0020-build-add-ci.patch
+
+	if ! use ck; then
+		eapply "${FILESDIR}"/${PN}-0.99.8-0021-linux-fix-possible-double-close-on-exit.patch
+		eapply "${FILESDIR}"/${PN}-0.99.8-0022-linux-make-sure-unknown-poll-lasts-5-seconds.patch
+		eapply "${FILESDIR}"/${PN}-0.99.8-0023-linux-detect-hardware-that-needs-more-polling-after.patch
+		eapply "${FILESDIR}"/${PN}-0.99.8-0024-linux-refresh-for-5-seconds-after-plug-unplug-on-mac.patch
+	fi
+
+	eapply "${FILESDIR}"/${PN}-0.99.8-0025-linux-add-test-for-macbook-uevent-behaviour.patch
+	eapply "${FILESDIR}"/${PN}-0.99.8-0026-0-99-8.patch
+
+	eapply "${FILESDIR}"/${PN}-0.99.9-0001-build-gtk-doc-rebuild-types-and-sections.patch
+	eapply "${FILESDIR}"/${PN}-0.99.9-0002-lib-work-around-to-fix-gtk-doc-s-type-detection.patch
+	eapply "${FILESDIR}"/${PN}-0.99.9-0003-lib-use-see-also-instead-of-see-also.patch
+
+	if ! use ck; then
+		eapply "${FILESDIR}"/${PN}-0.99.9-0004-lib-upclient-fix-stray.patch
+	fi
+
+	eapply "${FILESDIR}"/${PN}-0.99.9-0005-lib-upclient-up-client-get-display-device-returns-a.patch
+	eapply "${FILESDIR}"/${PN}-0.99.9-0006-daemon-fix-upower-not-having-access-to-udev-events.patch
+	eapply "${FILESDIR}"/${PN}-0.99.9-0007-build-add-missing-python3-dbus-package-to-ci.patch
+
+	if ! use ck; then
+		eapply "${FILESDIR}"/${PN}-0.99.9-0008-build-fix-out-of-tree-build.patch
+	fi
+
+	eapply "${FILESDIR}"/${PN}-0.99.9-0009-test-fix-up-self-test-crash-during-out-of-tree-build.patch
+	eapply "${FILESDIR}"/${PN}-0.99.9-0010-build-build-upower-out-of-tree.patch
+	eapply "${FILESDIR}"/${PN}-0.99.9-0011-daemon-fix-upower-s-keyboard-backlight-support.patch
+
+	if ! use ck; then
+		eapply "${FILESDIR}"/${PN}-0.99.9-0012-docs-mention-to-try-and-not-use-iconname-when-possib.patch
+	fi
+
+	eapply "${FILESDIR}"/${PN}-0.99.9-0013-src-linux-up-device-hid-c-usage-code-is-defined-as-a.patch
+
+	if ! use ck; then
+		eapply "${FILESDIR}"/${PN}-0.99.9-0014-build-fix-up-daemon-generated-h-not-being-found-on-d.patch
+		eapply "${FILESDIR}"/${PN}-0.99.9-0015-doc-fix-dist-not-working.patch
+	fi
+
+	eapply "${FILESDIR}"/${PN}-0.99.9-0016-ci-run-distcheck-as-a-test.patch
+	eapply "${FILESDIR}"/${PN}-0.99.9-0017-0-99-9.patch
+	eapply "${FILESDIR}"/${PN}-0.99.10-0001-daemon-make-comment-more-succinct.patch
+	eapply "${FILESDIR}"/${PN}-0.99.10-0002-daemon-consider-pending-charge-when-calculating-the.patch
+	eapply "${FILESDIR}"/${PN}-0.99.10-0003-integration-test-define-pending-charge-and-pending-d.patch
+	eapply "${FILESDIR}"/${PN}-0.99.10-0004-integration-test-test-displaydevice-pending-charge.patch
 
 	if use ck; then
 		# From Funtoo:

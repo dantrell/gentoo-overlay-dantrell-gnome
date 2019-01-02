@@ -65,7 +65,9 @@ RDEPEND="
 "
 
 # java dep shouldn't rely on slots, bug #450004
+# TODO: libgee shouldn't be needed at build with USE=-vala, but needs build system fixes - bug 674066
 DEPEND="${RDEPEND}
+	dev-libs/libgee:0.8
 	>=app-text/gnome-doc-utils-0.9
 	app-text/yelp-tools
 	dev-util/gtk-doc-am
@@ -138,6 +140,7 @@ src_configure() {
 		"$(use_with java java $JAVA_HOME)" \
 		$(use_enable json) \
 		$(use_with ldap) \
+		--with-ldap-libdir-name="$(get_libdir)" \
 		$(use_with mdb mdb /usr) \
 		$(use_with mysql mysql /usr) \
 		$(use_with oci8 oracle) \
