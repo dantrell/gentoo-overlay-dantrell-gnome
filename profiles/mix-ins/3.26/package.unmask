@@ -18,7 +18,7 @@
 ~app-text/evince-3.26.0::dantrell-gnome-3-26
 ~app-text/gspell-1.6.1::dantrell-gnome
 ~app-text/libgepub-0.5.3::dantrell-gnome
-~app-text/libgxps-0.3.0::dantrell-gnome
+~app-text/libgxps-0.3.1::dantrell-gnome
 ~app-text/yelp-tools-3.18.0::dantrell-gnome
 ~dev-cpp/mm-common-0.9.12::dantrell-gnome
 ~dev-lang/vala-0.38.10::dantrell-gnome
@@ -38,7 +38,7 @@
 ~dev-libs/libgee-0.20.1::dantrell-gnome
 ~dev-libs/libgnome-games-support-1.2.3::dantrell-gnome
 ~dev-libs/libgweather-3.26.2::dantrell-gnome-3-26
-~dev-libs/libical-3.0.3::dantrell-gnome
+~dev-libs/libical-3.0.4::dantrell-gnome
 ~dev-libs/libpeas-1.22.0::dantrell-gnome
 ~dev-libs/template-glib-3.26.1::dantrell-gnome-3-26
 ~dev-libs/totem-pl-parser-3.26.1::dantrell-gnome

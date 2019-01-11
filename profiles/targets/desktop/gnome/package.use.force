@@ -1,3 +1,4 @@
 dev-libs/glib mime
 dev-python/pycurl curl_ssl_openssl
+net-libs/webkit-gtk opengl
 net-misc/curl curl_ssl_openssl
