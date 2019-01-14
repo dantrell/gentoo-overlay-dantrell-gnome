@@ -10,9 +10,9 @@ HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2+"
 SLOT="3/24" # From WebKit: http://trac.webkit.org/changeset/195811
-KEYWORDS=""
+KEYWORDS="~*"
 
-IUSE="aqua broadway cloudprint colord cups examples +introspection test vim-syntax wayland X xinerama"
+IUSE="aqua broadway cloudprint colord cups doc examples +introspection test vim-syntax wayland X xinerama"
 REQUIRED_USE="
 	|| ( aqua wayland X )
 	xinerama? ( X )
@@ -67,6 +67,7 @@ DEPEND="${COMMON_DEPEND}
 	dev-libs/gobject-introspection-common
 	>=dev-util/gdbus-codegen-2.48
 	>=dev-util/gtk-doc-am-1.20
+	doc? ( >=dev-util/gtk-doc-1.20 )
 	>=sys-devel/gettext-0.19.7[${MULTILIB_USEDEP}]
 	virtual/pkgconfig[${MULTILIB_USEDEP}]
 	X? ( x11-base/xorg-proto )
@@ -143,6 +144,7 @@ multilib_src_configure() {
 		$(use_enable cloudprint) \
 		$(use_enable colord) \
 		$(use_enable cups cups auto) \
+		$(multilib_native_use_enable doc gtk-doc) \
 		$(multilib_native_use_enable introspection) \
 		$(use_enable wayland wayland-backend) \
 		$(use_enable X x11-backend) \
