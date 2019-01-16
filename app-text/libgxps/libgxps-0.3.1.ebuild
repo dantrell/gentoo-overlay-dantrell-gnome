@@ -11,7 +11,7 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="+introspection jpeg lcms tiff"
+IUSE="doc +introspection jpeg lcms tiff"
 
 # There is no automatic test suite, only an interactive test application
 RESTRICT="test"
@@ -31,13 +31,14 @@ DEPEND="${RDEPEND}
 	app-text/docbook-xsl-stylesheets
 	dev-libs/libxslt
 	dev-util/gtk-doc-am
+	doc? ( dev-util/gtk-doc )
 	virtual/pkgconfig
 "
 
 src_configure() {
 	local emesonargs=(
 		-Denable-test=false
-		-Denable-gtk-doc=false
+		-Denable-gtk-doc=$(usex doc true false)
 		-Denable-man=true
 		-Ddisable-introspection=$(usex introspection false true)
 		-Dwith-liblcms2=$(usex lcms true false)

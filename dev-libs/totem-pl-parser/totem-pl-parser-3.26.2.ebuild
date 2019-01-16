@@ -11,12 +11,11 @@ LICENSE="LGPL-2+"
 SLOT="0/18"
 KEYWORDS="*"
 
-IUSE="archive crypt +introspection +quvi test"
+IUSE="archive crypt doc +introspection +quvi test"
 
 RDEPEND="
 	dev-libs/glib:2=
-	>=dev-libs/glib-2.31:2
-	dev-libs/gmime:2.6
+	>=dev-libs/glib-2.36:2
 	>=net-libs/libsoup-2.43:2.4
 	archive? ( >=app-arch/libarchive-3 )
 	crypt? ( dev-libs/libgcrypt:0= )
@@ -27,7 +26,8 @@ DEPEND="${RDEPEND}
 	!<media-video/totem-2.21
 	dev-libs/gobject-introspection-common
 	>=dev-util/intltool-0.35
-	>=dev-util/gtk-doc-1.14
+	>=dev-util/gtk-doc-am-1.14
+	doc? ( >=dev-util/gtk-doc-1.14 )
 	sys-devel/autoconf-archive
 	>=sys-devel/gettext-0.17
 	virtual/pkgconfig
@@ -52,7 +52,7 @@ src_configure() {
 		-D enable-quvi=$(usex quvi yes no)
 		-D enable-libarchive=$(usex archive yes no)
 		-D enable-libgcrypt=$(usex crypt yes no)
-		-D enable-gtk-doc=true
+		-D enable-gtk-doc=$(usex doc true false)
 	)
 	meson_src_configure
 }
