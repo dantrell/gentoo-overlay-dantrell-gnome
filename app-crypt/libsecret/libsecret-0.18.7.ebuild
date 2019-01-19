@@ -32,8 +32,7 @@ DEPEND="${RDEPEND}
 	dev-libs/libxslt
 	dev-util/gdbus-codegen
 	>=dev-util/gtk-doc-am-1.9
-	>=dev-util/intltool-0.35.0
-	sys-devel/gettext
+	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig[${MULTILIB_USEDEP}]
 	test? (
 		$(python_gen_any_dep '

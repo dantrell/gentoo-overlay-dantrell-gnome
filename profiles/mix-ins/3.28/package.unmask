@@ -5,7 +5,7 @@
 ~app-arch/file-roller-3.28.1::dantrell-gnome-3-28
 ~app-arch/gcab-1.1::dantrell-gnome
 ~app-arch/gnome-autoar-0.2.3::dantrell-gnome
-~app-crypt/gcr-3.28.0::dantrell-gnome
+~app-crypt/gcr-3.28.1::dantrell-gnome
 ~app-crypt/libsecret-0.18.7::dantrell-gnome
 ~app-dicts/gnome-dictionary-3.26.1::dantrell-gnome
 ~app-editors/gedit-3.28.1::dantrell-gnome-3-28
@@ -145,7 +145,7 @@
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
 ~net-irc/polari-3.28.1::dantrell-gnome-3-28
 ~net-libs/glib-networking-2.56.1::dantrell-gnome-3-28
-~net-libs/gnome-online-accounts-3.28.0::dantrell-gnome-3-28
+~net-libs/gnome-online-accounts-3.28.1::dantrell-gnome-3-28
 ~net-libs/gssdp-1.0.2::dantrell-gnome
 ~net-libs/gtk-vnc-0.7.2::dantrell-gnome
 ~net-libs/gupnp-1.0.3::dantrell-gnome
