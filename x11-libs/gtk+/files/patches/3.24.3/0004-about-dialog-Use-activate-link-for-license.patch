@@ -1,0 +1,28 @@
+From ab748d05f06562e70ac2a6a76fcd90f16bf81884 Mon Sep 17 00:00:00 2001
+From: Matthias Clasen <mclasen@redhat.com>
+Date: Tue, 15 Jan 2019 23:16:16 -0500
+Subject: [PATCH 04/15] about dialog: Use ::activate-link for license
+
+This should behave the same as all the other links
+in this dialog.
+
+Closes: #1561
+---
+ gtk/ui/gtkaboutdialog.ui | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/gtk/ui/gtkaboutdialog.ui b/gtk/ui/gtkaboutdialog.ui
+index adfbfb7af6..31bb628d9e 100644
+--- a/gtk/ui/gtkaboutdialog.ui
++++ b/gtk/ui/gtkaboutdialog.ui
+@@ -125,6 +125,7 @@
+                         <property name="selectable">1</property>
+                         <property name="no-show-all">1</property>
+                         <property name="max-width-chars">60</property>
++                        <signal name="activate-link" handler="emit_activate_link" object="GtkAboutDialog" swapped="yes"/>
+                       </object>
+                       <packing>
+                         <property name="fill">0</property>
+-- 
+2.17.0
+

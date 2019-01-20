@@ -165,7 +165,7 @@ src_prepare() {
 	# Rely on split gtk-update-icon-cache package, bug #528810
 	eapply "${FILESDIR}"/${PN}-2.24.31-update-icon-cache.patch
 	# Upstream gtk-2-24 branch up to 2018-09-08 state, bug #650536 safety
-	eapply "${FILESDIR}"/patches
+	eapply "${FILESDIR}"/patches/2.24.32
 
 	eautoreconf
 	gnome2_src_prepare

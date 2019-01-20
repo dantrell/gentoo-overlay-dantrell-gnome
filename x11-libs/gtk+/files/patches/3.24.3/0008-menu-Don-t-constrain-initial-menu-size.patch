@@ -1,0 +1,115 @@
+From 00486efd51b29e234cfb180b814dd584805ebae5 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jonas=20=C3=85dahl?= <jadahl@gmail.com>
+Date: Thu, 17 Jan 2019 19:14:37 +0100
+Subject: [PATCH 08/15] menu: Don't constrain initial menu size
+
+Don't constrain the initial menu size by the work area of some monitor;
+instead let the move_to_rect() logic in the backend do the constraining.
+This fixes two things:
+
+1) The anchor delta provided to the backend will not be invalid. The
+delta is calculated by looking at the active menu item, calculating the
+offset given that, but since we clamped the window size before showing
+the window, the delta became invalid. This caused visible issues when
+the delta was large enough to make the initially calculated popup window
+geometry to be placed outside the geometry of the parent window, which
+is a violation of the Wayland protocol.
+
+2) The scroll offset to be correct when receiving the positioning
+feedback. While the scroll offset was based on the pre-clamped window
+size, the feedback, which was used to calculate the new offset, was not,
+causing the scroll offset to be clamped as well.
+---
+ gtk/gtkmenu.c          |  6 ++++++
+ gtk/gtkwindow.c        | 24 ++++++++++++++++++++++--
+ gtk/gtkwindowprivate.h |  4 ++++
+ 3 files changed, 32 insertions(+), 2 deletions(-)
+
+diff --git a/gtk/gtkmenu.c b/gtk/gtkmenu.c
+index 8ab4634878..ec74a5a006 100644
+--- a/gtk/gtkmenu.c
++++ b/gtk/gtkmenu.c
+@@ -5243,10 +5243,16 @@ gtk_menu_position (GtkMenu  *menu,
+ 
+   if (!rect_window)
+     {
++      gtk_window_set_unlimited_guessed_size (GTK_WINDOW (priv->toplevel),
++                                             FALSE, FALSE);
+       gtk_menu_position_legacy (menu, set_scroll_offset);
+       return;
+     }
+ 
++  gtk_window_set_unlimited_guessed_size (GTK_WINDOW (priv->toplevel),
++                                         !!(anchor_hints & GDK_ANCHOR_RESIZE_X),
++                                         !!(anchor_hints & GDK_ANCHOR_RESIZE_Y));
++
+   /* Realize so we have the proper width and height to figure out
+    * the right place to popup the menu.
+    */
+diff --git a/gtk/gtkwindow.c b/gtk/gtkwindow.c
+index 0ee06f719e..4806504a78 100644
+--- a/gtk/gtkwindow.c
++++ b/gtk/gtkwindow.c
+@@ -262,6 +262,8 @@ struct _GtkWindowPrivate
+   guint    maximized                 : 1;
+   guint    fullscreen                : 1;
+   guint    tiled                     : 1;
++  guint    unlimited_guessed_size_x  : 1;
++  guint    unlimited_guessed_size_y  : 1;
+ 
+   guint    use_subsurface            : 1;
+ 
+@@ -6455,6 +6457,17 @@ gtk_window_unmap (GtkWidget *widget)
+     gtk_widget_unmap (child);
+ }
+ 
++void
++gtk_window_set_unlimited_guessed_size (GtkWindow *window,
++                                       gboolean   x,
++                                       gboolean   y)
++{
++  GtkWindowPrivate *priv = window->priv;
++
++  priv->unlimited_guessed_size_x = x;
++  priv->unlimited_guessed_size_y = y;
++}
++
+ /* (Note: Replace "size" with "width" or "height". Also, the request
+  * mode is honoured.)
+  * For selecting the default window size, the following conditions
+@@ -6493,8 +6506,15 @@ gtk_window_guess_default_size (GtkWindow *window,
+ 
+   gdk_monitor_get_workarea (monitor, &workarea);
+ 
+-  *width = workarea.width;
+-  *height = workarea.height;
++  if (window->priv->unlimited_guessed_size_x)
++    *width = INT_MAX;
++  else
++    *width = workarea.width;
++
++  if (window->priv->unlimited_guessed_size_y)
++    *height = INT_MAX;
++  else
++    *height = workarea.height;
+ 
+   if (gtk_widget_get_request_mode (widget) == GTK_SIZE_REQUEST_WIDTH_FOR_HEIGHT)
+     {
+diff --git a/gtk/gtkwindowprivate.h b/gtk/gtkwindowprivate.h
+index 5cb5a72db2..0f4c631b77 100644
+--- a/gtk/gtkwindowprivate.h
++++ b/gtk/gtkwindowprivate.h
+@@ -135,6 +135,10 @@ void       gtk_window_set_hardcoded_window (GtkWindow *window,
+ 
+ GdkScreen *_gtk_window_get_screen (GtkWindow *window);
+ 
++void       gtk_window_set_unlimited_guessed_size (GtkWindow *window,
++                                                  gboolean   x,
++                                                  gboolean   y);
++
+ /* Exported handles */
+ 
+ typedef void (*GtkWindowHandleExported)  (GtkWindow               *window,
+-- 
+2.17.0
+

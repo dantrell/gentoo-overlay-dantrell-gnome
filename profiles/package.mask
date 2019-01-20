@@ -98,8 +98,8 @@ dev-cpp/gtkmm::gentoo
 dev-cpp/gtkmm::gnome-kit
 dev-cpp/gtksourceviewmm::dev-kit
 dev-cpp/gtksourceviewmm::gentoo
-dev-cpp/libxmlpp::dev-kit
 dev-cpp/libxmlpp::gentoo
+dev-cpp/libxmlpp::gnome-kit
 dev-cpp/mm-common::gentoo
 dev-cpp/mm-common::gnome-kit
 dev-cpp/pangomm::gentoo

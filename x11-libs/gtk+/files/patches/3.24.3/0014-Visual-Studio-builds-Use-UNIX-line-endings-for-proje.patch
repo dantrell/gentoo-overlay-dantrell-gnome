@@ -1,0 +1,393 @@
+From c89328766a13ea8d35a28131b1a39e7b0c6edf2f Mon Sep 17 00:00:00 2001
+From: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date: Fri, 18 Jan 2019 16:43:47 +0800
+Subject: [PATCH 14/15] Visual Studio builds: Use UNIX line endings for
+ projects
+
+Make things consistent across the board.  Only the .sln files and the
+various README files under build/win32 should have Windows CR/LF line
+endings.
+---
+ build/win32/vs10/gtk3-introspect.vcxproj | 212 +++++++++++------------
+ build/win32/vs9/gtk3-introspect.vcproj   | 152 ++++++++--------
+ 2 files changed, 182 insertions(+), 182 deletions(-)
+
+diff --git a/build/win32/vs10/gtk3-introspect.vcxproj b/build/win32/vs10/gtk3-introspect.vcxproj
+index 8e61b6f086..6c191dde9e 100644
+--- a/build/win32/vs10/gtk3-introspect.vcxproj
++++ b/build/win32/vs10/gtk3-introspect.vcxproj
+@@ -1,107 +1,107 @@
+-﻿<?xml version="1.0" encoding="utf-8"?>
+-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+-  <ItemGroup Label="ProjectConfigurations">
+-    <ProjectConfiguration Include="Debug|Win32">
+-      <Configuration>Debug</Configuration>
+-      <Platform>Win32</Platform>
+-    </ProjectConfiguration>
+-    <ProjectConfiguration Include="Release|Win32">
+-      <Configuration>Release</Configuration>
+-      <Platform>Win32</Platform>
+-    </ProjectConfiguration>
+-    <ProjectConfiguration Include="Debug|x64">
+-      <Configuration>Debug</Configuration>
+-      <Platform>x64</Platform>
+-    </ProjectConfiguration>
+-    <ProjectConfiguration Include="Release|x64">
+-      <Configuration>Release</Configuration>
+-      <Platform>x64</Platform>
+-    </ProjectConfiguration>
+-  </ItemGroup>
+-  <PropertyGroup Label="Globals">
+-    <ProjectGuid>{A8092C4E-0A21-4B1D-AC82-16764E418D1F}</ProjectGuid>
+-    <RootNamespace>gtk3introspect</RootNamespace>
+-  </PropertyGroup>
+-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+-    <ConfigurationType>Makefile</ConfigurationType>
+-    <UseDebugLibraries>true</UseDebugLibraries>
+-    <CharacterSet>MultiByte</CharacterSet>
+-    <PlatformToolset>v100</PlatformToolset>
+-  </PropertyGroup>
+-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+-    <ConfigurationType>Makefile</ConfigurationType>
+-    <UseDebugLibraries>false</UseDebugLibraries>
+-    <WholeProgramOptimization>true</WholeProgramOptimization>
+-    <CharacterSet>MultiByte</CharacterSet>
+-    <PlatformToolset>v100</PlatformToolset>
+-  </PropertyGroup>
+-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+-    <ConfigurationType>Makefile</ConfigurationType>
+-    <CharacterSet>MultiByte</CharacterSet>
+-    <PlatformToolset>v100</PlatformToolset>
+-  </PropertyGroup>
+-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+-    <ConfigurationType>Makefile</ConfigurationType>
+-    <CharacterSet>MultiByte</CharacterSet>
+-    <WholeProgramOptimization>true</WholeProgramOptimization>
+-    <PlatformToolset>v100</PlatformToolset>
+-  </PropertyGroup>
+-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+-  <ImportGroup Label="ExtensionSettings">
+-  </ImportGroup>
+-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+-    <Import Project="gtk3-build-defines.props" />
+-  </ImportGroup>
+-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+-    <Import Project="gtk3-build-defines.props" />
+-  </ImportGroup>
+-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+-    <Import Project="gtk3-build-defines.props" />
+-  </ImportGroup>
+-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+-    <Import Project="gtk3-build-defines.props" />
+-  </ImportGroup>
+-  <PropertyGroup Label="UserMacros" />
+-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+-    <NMakeBuildCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam)</NMakeBuildCommandLine>
+-    <NMakeReBuildCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean all</NMakeReBuildCommandLine>
+-    <NMakeCleanCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean</NMakeCleanCommandLine>
+-    <NMakeOutput>$(GtkIntrospectBuiltFiles)</NMakeOutput>
+-  </PropertyGroup>
+-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+-    <NMakeBuildCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam)</NMakeBuildCommandLine>
+-    <NMakeReBuildCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean all</NMakeReBuildCommandLine>
+-    <NMakeCleanCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean</NMakeCleanCommandLine>
+-    <NMakeOutput>$(GtkIntrospectBuiltFiles)</NMakeOutput>
+-  </PropertyGroup>
+-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+-    <NMakeBuildCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam)</NMakeBuildCommandLine>
+-    <NMakeReBuildCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean all</NMakeReBuildCommandLine>
+-    <NMakeCleanCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean</NMakeCleanCommandLine>
+-    <NMakeOutput>$(GtkIntrospectBuiltFiles)</NMakeOutput>
+-  </PropertyGroup>
+-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+-    <NMakeBuildCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam)</NMakeBuildCommandLine>
+-    <NMakeReBuildCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean all</NMakeReBuildCommandLine>
+-    <NMakeCleanCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean</NMakeCleanCommandLine>
+-    <NMakeOutput>$(GtkIntrospectBuiltFiles)</NMakeOutput>
+-  </PropertyGroup>
+-  <ItemGroup>
+-    <ProjectReference Include="gdk-3.vcxproj">
+-      <Project>{5ae8f5ce-9103-4951-aede-ea2f3b573be8}</Project>
+-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+-    </ProjectReference>
+-    <ProjectReference Include="gtk-3.vcxproj">
+-      <Project>{95a4b53d-2773-4406-a2c1-8fd2840bbad8}</Project>
+-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+-    </ProjectReference>
+-  </ItemGroup>
+-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+-  <ImportGroup Label="ExtensionTargets">
+-  </ImportGroup>
++<?xml version="1.0" encoding="utf-8"?>
++<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <ItemGroup Label="ProjectConfigurations">
++    <ProjectConfiguration Include="Debug|Win32">
++      <Configuration>Debug</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release|Win32">
++      <Configuration>Release</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Debug|x64">
++      <Configuration>Debug</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release|x64">
++      <Configuration>Release</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++  </ItemGroup>
++  <PropertyGroup Label="Globals">
++    <ProjectGuid>{A8092C4E-0A21-4B1D-AC82-16764E418D1F}</ProjectGuid>
++    <RootNamespace>gtk3introspect</RootNamespace>
++  </PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
++    <ConfigurationType>Makefile</ConfigurationType>
++    <UseDebugLibraries>true</UseDebugLibraries>
++    <CharacterSet>MultiByte</CharacterSet>
++    <PlatformToolset>v100</PlatformToolset>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
++    <ConfigurationType>Makefile</ConfigurationType>
++    <UseDebugLibraries>false</UseDebugLibraries>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++    <CharacterSet>MultiByte</CharacterSet>
++    <PlatformToolset>v100</PlatformToolset>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
++    <ConfigurationType>Makefile</ConfigurationType>
++    <CharacterSet>MultiByte</CharacterSet>
++    <PlatformToolset>v100</PlatformToolset>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
++    <ConfigurationType>Makefile</ConfigurationType>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++    <PlatformToolset>v100</PlatformToolset>
++  </PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
++  <ImportGroup Label="ExtensionSettings">
++  </ImportGroup>
++  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="gtk3-build-defines.props" />
++  </ImportGroup>
++  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="gtk3-build-defines.props" />
++  </ImportGroup>
++  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="gtk3-build-defines.props" />
++  </ImportGroup>
++  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="gtk3-build-defines.props" />
++  </ImportGroup>
++  <PropertyGroup Label="UserMacros" />
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
++    <NMakeBuildCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam)</NMakeBuildCommandLine>
++    <NMakeReBuildCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean all</NMakeReBuildCommandLine>
++    <NMakeCleanCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean</NMakeCleanCommandLine>
++    <NMakeOutput>$(GtkIntrospectBuiltFiles)</NMakeOutput>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
++    <NMakeBuildCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam)</NMakeBuildCommandLine>
++    <NMakeReBuildCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean all</NMakeReBuildCommandLine>
++    <NMakeCleanCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean</NMakeCleanCommandLine>
++    <NMakeOutput>$(GtkIntrospectBuiltFiles)</NMakeOutput>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
++    <NMakeBuildCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam)</NMakeBuildCommandLine>
++    <NMakeReBuildCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean all</NMakeReBuildCommandLine>
++    <NMakeCleanCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean</NMakeCleanCommandLine>
++    <NMakeOutput>$(GtkIntrospectBuiltFiles)</NMakeOutput>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
++    <NMakeBuildCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam)</NMakeBuildCommandLine>
++    <NMakeReBuildCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean all</NMakeReBuildCommandLine>
++    <NMakeCleanCommandLine>$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean</NMakeCleanCommandLine>
++    <NMakeOutput>$(GtkIntrospectBuiltFiles)</NMakeOutput>
++  </PropertyGroup>
++  <ItemGroup>
++    <ProjectReference Include="gdk-3.vcxproj">
++      <Project>{5ae8f5ce-9103-4951-aede-ea2f3b573be8}</Project>
++      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
++    </ProjectReference>
++    <ProjectReference Include="gtk-3.vcxproj">
++      <Project>{95a4b53d-2773-4406-a2c1-8fd2840bbad8}</Project>
++      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
++    </ProjectReference>
++  </ItemGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
++  <ImportGroup Label="ExtensionTargets">
++  </ImportGroup>
+ </Project>
+\ No newline at end of file
+diff --git a/build/win32/vs9/gtk3-introspect.vcproj b/build/win32/vs9/gtk3-introspect.vcproj
+index df7c32d8a0..d69697fa41 100644
+--- a/build/win32/vs9/gtk3-introspect.vcproj
++++ b/build/win32/vs9/gtk3-introspect.vcproj
+@@ -1,76 +1,76 @@
+-<?xml version="1.0" encoding="Windows-1252"?>
+-<VisualStudioProject
+-	ProjectType="Visual C++"
+-	Version="9.00"
+-	Name="gtk3-introspect"
+-	ProjectGUID="{A8092C4E-0A21-4B1D-AC82-16764E418D1F}"
+-	Keyword="MakeFileProj"
+-	TargetFrameworkVersion="196613"
+-	>
+-	<Platforms>
+-		<Platform
+-			Name="Win32"
+-		/>
+-		<Platform
+-			Name="x64"
+-		/>
+-	</Platforms>
+-	<ToolFiles>
+-	</ToolFiles>
+-	<Configurations>
+-		<Configuration
+-			Name="Debug|Win32"
+-			ConfigurationType="0"
+-			InheritedPropertySheets=".\gtk3-build-defines.vsprops"
+-			>
+-			<Tool
+-				Name="VCNMakeTool"
+-				BuildCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam)"
+-				ReBuildCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean all"
+-				CleanCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean"
+-				Output="$(GtkIntrospectBuiltFiles)"
+-			/>
+-		</Configuration>
+-		<Configuration
+-			Name="Debug|x64"
+-			ConfigurationType="0"
+-			InheritedPropertySheets=".\gtk3-build-defines.vsprops"
+-			>
+-			<Tool
+-				Name="VCNMakeTool"
+-				BuildCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParamX64)"
+-				ReBuildCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParamX64) clean all"
+-				CleanCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParamX64) clean"
+-				Output="$(GtkIntrospectBuiltFiles)"
+-			/>
+-		</Configuration>
+-		<Configuration
+-			Name="Release|Win32"
+-			ConfigurationType="0"
+-			InheritedPropertySheets=".\gtk3-build-defines.vsprops"
+-			CharacterSet="2"
+-			DeleteExtensionsOnClean=""
+-			>
+-			<Tool
+-				Name="VCNMakeTool"
+-				BuildCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam)"
+-				ReBuildCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean all"
+-				CleanCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean"
+-				Output="$(GtkIntrospectBuiltFiles)"
+-			/>
+-		</Configuration>
+-		<Configuration
+-			Name="Release|x64"
+-			ConfigurationType="0"
+-			InheritedPropertySheets=".\gtk3-build-defines.vsprops"
+-			>
+-			<Tool
+-				Name="VCNMakeTool"
+-				BuildCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParamX64)"
+-				ReBuildCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParamX64) clean all"
+-				CleanCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParamX64) clean"
+-				Output="$(GtkIntrospectBuiltFiles)"
+-			/>
+-		</Configuration>
+-	</Configurations>
+-</VisualStudioProject>
++<?xml version="1.0" encoding="Windows-1252"?>
++<VisualStudioProject
++	ProjectType="Visual C++"
++	Version="9.00"
++	Name="gtk3-introspect"
++	ProjectGUID="{A8092C4E-0A21-4B1D-AC82-16764E418D1F}"
++	Keyword="MakeFileProj"
++	TargetFrameworkVersion="196613"
++	>
++	<Platforms>
++		<Platform
++			Name="Win32"
++		/>
++		<Platform
++			Name="x64"
++		/>
++	</Platforms>
++	<ToolFiles>
++	</ToolFiles>
++	<Configurations>
++		<Configuration
++			Name="Debug|Win32"
++			ConfigurationType="0"
++			InheritedPropertySheets=".\gtk3-build-defines.vsprops"
++			>
++			<Tool
++				Name="VCNMakeTool"
++				BuildCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam)"
++				ReBuildCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean all"
++				CleanCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean"
++				Output="$(GtkIntrospectBuiltFiles)"
++			/>
++		</Configuration>
++		<Configuration
++			Name="Debug|x64"
++			ConfigurationType="0"
++			InheritedPropertySheets=".\gtk3-build-defines.vsprops"
++			>
++			<Tool
++				Name="VCNMakeTool"
++				BuildCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParamX64)"
++				ReBuildCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParamX64) clean all"
++				CleanCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParamX64) clean"
++				Output="$(GtkIntrospectBuiltFiles)"
++			/>
++		</Configuration>
++		<Configuration
++			Name="Release|Win32"
++			ConfigurationType="0"
++			InheritedPropertySheets=".\gtk3-build-defines.vsprops"
++			CharacterSet="2"
++			DeleteExtensionsOnClean=""
++			>
++			<Tool
++				Name="VCNMakeTool"
++				BuildCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam)"
++				ReBuildCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean all"
++				CleanCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParam) clean"
++				Output="$(GtkIntrospectBuiltFiles)"
++			/>
++		</Configuration>
++		<Configuration
++			Name="Release|x64"
++			ConfigurationType="0"
++			InheritedPropertySheets=".\gtk3-build-defines.vsprops"
++			>
++			<Tool
++				Name="VCNMakeTool"
++				BuildCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParamX64)"
++				ReBuildCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParamX64) clean all"
++				CleanCommandLine="$(GtkIntrospectNMakeCmd) $(IntrospectPythonParamX64) clean"
++				Output="$(GtkIntrospectBuiltFiles)"
++			/>
++		</Configuration>
++	</Configurations>
++</VisualStudioProject>
+-- 
+2.17.0
+
