@@ -8,7 +8,7 @@ inherit flag-o-matic gnome2 vala
 DESCRIPTION="Utilities for creating and parsing messages using MIME"
 HOMEPAGE="http://spruce.sourceforge.net/gmime/ https://developer.gnome.org/gmime/stable/"
 
-LICENSE="LGPL-2.1"
+LICENSE="LGPL-2.1+"
 SLOT="3.0"
 KEYWORDS="*"
 
@@ -18,7 +18,7 @@ RDEPEND="
 	>=dev-libs/glib-2.32.0:2
 	sys-libs/zlib
 	crypt? ( >=app-crypt/gpgme-1.8.0:1= )
-	idn? ( net-dns/libidn:= )
+	idn? ( net-dns/libidn2:= )
 	vala? (
 		$(vala_depend)
 		>=dev-libs/gobject-introspection-1.30.0:= )

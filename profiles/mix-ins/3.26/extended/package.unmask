@@ -123,6 +123,7 @@
 ~gnome-extra/yelp-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/zenity-3.24.0::dantrell-gnome
 ~mail-client/evolution-3.26.6::dantrell-gnome-3-26
+~media-fonts/cantarell-0.0.25::dantrell-gnome
 ~media-gfx/eog-3.26.2::dantrell-gnome-3-26
 ~media-gfx/gnome-font-viewer-3.26.0::dantrell-gnome-3-26
 ~media-gfx/gnome-photos-3.26.4::dantrell-gnome-3-26

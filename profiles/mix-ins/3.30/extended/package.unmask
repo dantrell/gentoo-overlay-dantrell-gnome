@@ -28,7 +28,7 @@
 ~dev-libs/atk-2.30.0::dantrell-gnome-3-30
 ~dev-libs/folks-0.11.4::dantrell-gnome
 ~dev-libs/gjs-1.54.3::dantrell-gnome-3-30
-~dev-libs/glib-2.58.2::dantrell-gnome
+~dev-libs/glib-2.58.3::dantrell-gnome
 ~dev-libs/gmime-3.2.3::dantrell-gnome
 ~dev-libs/gobject-introspection-1.58.3::dantrell-gnome-3-30
 ~dev-libs/gobject-introspection-common-1.58.3::dantrell-gnome-3-30
@@ -49,7 +49,7 @@
 ~dev-python/pyatspi-2.30.0::dantrell-gnome-3-30
 ~dev-python/pygobject-3.30.4::dantrell-gnome-3-30
 ~dev-util/devhelp-3.30.1::dantrell-gnome-3-30
-~dev-util/gdbus-codegen-2.58.2::dantrell-gnome
+~dev-util/gdbus-codegen-2.58.3::dantrell-gnome
 ~dev-util/gnome-builder-3.30.3::dantrell-gnome-3-30
 ~dev-util/gnome-devel-docs-3.30.2::dantrell-gnome-3-30
 ~dev-util/sysprof-3.30.2::dantrell-gnome-3-30
@@ -89,7 +89,7 @@
 ~gnome-base/gvfs-1.38.1::dantrell-gnome-3-30
 ~gnome-base/libgnomekbd-3.26.0::dantrell-gnome
 ~gnome-base/libgtop-2.38.0::dantrell-gnome
-~gnome-base/librsvg-2.44.11::dantrell-gnome
+~gnome-base/librsvg-2.44.12::dantrell-gnome
 ~gnome-base/nautilus-3.30.5::dantrell-gnome-3-30
 ~gnome-extra/evolution-data-server-3.30.4::dantrell-gnome-3-30
 ~gnome-extra/evolution-ews-3.30.3::dantrell-gnome-3-30
@@ -123,6 +123,7 @@
 ~gnome-extra/yelp-xsl-3.30.1::dantrell-gnome-3-30
 ~gnome-extra/zenity-3.30.0::dantrell-gnome-3-30
 ~mail-client/evolution-3.30.4::dantrell-gnome-3-30
+~media-fonts/cantarell-0.111::dantrell-gnome
 ~media-gfx/eog-3.28.4::dantrell-gnome
 ~media-gfx/gnome-font-viewer-3.30.0::dantrell-gnome-3-30
 ~media-gfx/gnome-photos-3.30.1::dantrell-gnome-3-30

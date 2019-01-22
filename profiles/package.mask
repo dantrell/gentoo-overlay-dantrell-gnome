@@ -309,6 +309,8 @@ gnome-extra/zenity::gentoo
 gnome-extra/zenity::gnome-kit
 mail-client/geary::gentoo
 mail-client/geary::gnome-kit
+media-fonts/cantarell::gentoo
+media-fonts/cantarell::media-kit
 media-fonts/croscorefonts::gentoo
 media-fonts/croscorefonts::xorg-kit
 media-fonts/noto::gentoo
