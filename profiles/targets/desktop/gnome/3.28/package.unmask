@@ -23,7 +23,7 @@
 ~app-text/yelp-tools-3.28.0::dantrell-gnome
 ~dev-cpp/cairomm-1.12.2::dantrell-gnome
 ~dev-cpp/mm-common-0.9.12::dantrell-gnome
-~dev-lang/vala-0.40.12::dantrell-gnome
+~dev-lang/vala-0.40.13::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.14::dantrell-gnome
 ~dev-libs/atk-2.28.1::dantrell-gnome-3-28
 ~dev-libs/folks-0.11.4::dantrell-gnome
@@ -45,7 +45,7 @@
 ~dev-libs/libpeas-1.22.0::dantrell-gnome
 ~dev-libs/template-glib-3.28.0::dantrell-gnome-3-28
 ~dev-libs/totem-pl-parser-3.26.2::dantrell-gnome
-~dev-libs/vala-common-0.40.12::dantrell-gnome
+~dev-libs/vala-common-0.40.13::dantrell-gnome
 ~dev-python/pyatspi-2.26.0::dantrell-gnome
 ~dev-python/pygobject-3.28.3::dantrell-gnome-3-28
 ~dev-util/devhelp-3.28.1::dantrell-gnome-3-28
