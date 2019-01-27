@@ -203,6 +203,8 @@ dev-util/gtk-update-icon-cache::gentoo
 dev-util/gtk-update-icon-cache::gnome-kit
 dev-util/meld::dev-kit
 dev-util/meld::gentoo
+dev-util/meson::core-kit
+dev-util/meson::gentoo
 dev-util/nemiver::gentoo
 dev-util/nemiver::gnome-kit
 dev-util/valadoc::gentoo

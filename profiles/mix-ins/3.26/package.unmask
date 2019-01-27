@@ -94,6 +94,7 @@
 ~gnome-extra/evolution-data-server-3.26.6::dantrell-gnome-3-26
 ~gnome-extra/evolution-ews-3.26.6::dantrell-gnome-3-26
 ~gnome-extra/gnome-boxes-3.26.3::dantrell-gnome-3-26
+~gnome-extra/gnome-boxes-3.26.4::dantrell-gnome-3-26
 ~gnome-extra/gnome-calculator-3.26.0::dantrell-gnome-3-26
 ~gnome-extra/gnome-calendar-3.26.4::dantrell-gnome-3-26
 ~gnome-extra/gnome-characters-3.26.2::dantrell-gnome-3-26
@@ -147,7 +148,7 @@
 ~net-irc/polari-3.26.2::dantrell-gnome-3-26
 ~net-libs/glib-networking-2.54.1::dantrell-gnome-3-26
 ~net-libs/gnome-online-accounts-3.26.2::dantrell-gnome-3-26
-~net-libs/gssdp-1.0.2::dantrell-gnome
+~net-libs/gssdp-1.0.3::dantrell-gnome
 ~net-libs/gtk-vnc-0.7.2::dantrell-gnome
 ~net-libs/gupnp-1.0.3::dantrell-gnome
 ~net-libs/gupnp-igd-0.2.5::dantrell-gnome
