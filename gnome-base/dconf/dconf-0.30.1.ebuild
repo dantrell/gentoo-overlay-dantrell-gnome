@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit bash-completion-r1 gnome2 meson vala
+inherit gnome2 bash-completion-r1 meson vala
 
 DESCRIPTION="Simple low-level configuration system"
 HOMEPAGE="https://wiki.gnome.org/action/show/Projects/dconf"
@@ -18,14 +18,14 @@ RDEPEND="
 	sys-apps/dbus
 "
 DEPEND="${RDEPEND}
-	$(vala_depend)
-	>=app-shells/bash-completion-2
 	app-text/docbook-xml-dtd:4.2
 	app-text/docbook-xsl-stylesheets
 	dev-libs/libxslt
 	>=dev-util/gtk-doc-am-1.15
 	sys-devel/gettext
+	>=app-shells/bash-completion-2
 	virtual/pkgconfig
+	$(vala_depend)
 "
 
 src_prepare() {
