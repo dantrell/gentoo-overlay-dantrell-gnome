@@ -57,7 +57,7 @@
 ~games-arcade/gnome-nibbles-3.24.1::dantrell-gnome
 ~games-arcade/gnome-robots-3.22.3::dantrell-gnome
 ~games-board/four-in-a-row-3.28.0::dantrell-gnome
-~games-board/gnome-chess-3.30.0::dantrell-gnome-3-30
+~games-board/gnome-chess-3.30.1::dantrell-gnome-3-30
 ~games-board/gnome-mahjongg-3.22.0::dantrell-gnome
 ~games-board/gnome-mines-3.30.1.1::dantrell-gnome-3-30
 ~games-board/iagno-3.30.0::dantrell-gnome-3-30
@@ -78,6 +78,7 @@
 ~gnome-base/gnome-control-center-3.30.2::dantrell-gnome-3-30
 ~gnome-base/gnome-core-apps-3.30.0::dantrell-gnome-3-30
 ~gnome-base/gnome-core-libs-3.30.0::dantrell-gnome-3-30
+~gnome-base/gnome-desktop-3.30.2.1::dantrell-gnome-3-30
 ~gnome-base/gnome-desktop-3.30.2::dantrell-gnome-3-30
 ~gnome-base/gnome-extra-apps-3.30.0::dantrell-gnome-3-30
 ~gnome-base/gnome-flashback-3.30.0::dantrell-gnome-3-30
@@ -87,12 +88,12 @@
 ~gnome-base/gnome-shell-3.30.2::dantrell-gnome-3-30
 ~gnome-base/gsettings-desktop-schemas-3.28.1::dantrell-gnome
 ~gnome-base/gvfs-1.38.1::dantrell-gnome-3-30
-~gnome-base/libgnomekbd-3.26.0::dantrell-gnome
+~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
 ~gnome-base/libgtop-2.38.0::dantrell-gnome
 ~gnome-base/librsvg-2.44.12::dantrell-gnome
 ~gnome-base/nautilus-3.30.5::dantrell-gnome-3-30
-~gnome-extra/evolution-data-server-3.30.4::dantrell-gnome-3-30
-~gnome-extra/evolution-ews-3.30.3::dantrell-gnome-3-30
+~gnome-extra/evolution-data-server-3.30.5::dantrell-gnome-3-30
+~gnome-extra/evolution-ews-3.30.5::dantrell-gnome-3-30
 ~gnome-extra/gnome-boxes-3.30.3::dantrell-gnome-3-30
 ~gnome-extra/gnome-calculator-3.30.1::dantrell-gnome-3-30
 ~gnome-extra/gnome-calendar-3.30.1::dantrell-gnome-3-30
@@ -122,7 +123,7 @@
 ~gnome-extra/yelp-3.30.0::dantrell-gnome-3-30
 ~gnome-extra/yelp-xsl-3.30.1::dantrell-gnome-3-30
 ~gnome-extra/zenity-3.30.0::dantrell-gnome-3-30
-~mail-client/evolution-3.30.4::dantrell-gnome-3-30
+~mail-client/evolution-3.30.5::dantrell-gnome-3-30
 ~media-fonts/cantarell-0.111::dantrell-gnome
 ~media-gfx/eog-3.28.4::dantrell-gnome
 ~media-gfx/gnome-font-viewer-3.30.0::dantrell-gnome-3-30
@@ -130,7 +131,7 @@
 ~media-gfx/gnome-screenshot-3.30.0::dantrell-gnome-3-30
 ~media-gfx/simple-scan-3.30.2::dantrell-gnome-3-30
 ~media-libs/clutter-1.26.2::dantrell-gnome
-~media-libs/clutter-gst-3.0.26::dantrell-gnome
+~media-libs/clutter-gst-3.0.27::dantrell-gnome
 ~media-libs/clutter-gtk-1.8.4::dantrell-gnome
 ~media-libs/cogl-1.22.2::dantrell-gnome
 ~media-libs/grilo-0.3.6::dantrell-gnome
@@ -165,7 +166,7 @@
 ~sci-geosciences/gnome-maps-3.30.3::dantrell-gnome-3-30
 ~sys-apps/baobab-3.30.0::dantrell-gnome-3-30
 ~sys-apps/gnome-disk-utility-3.30.2::dantrell-gnome-3-30
-~www-client/epiphany-3.30.2::dantrell-gnome-3-30
+~www-client/epiphany-3.30.3::dantrell-gnome-3-30
 ~x11-libs/gdk-pixbuf-2.38.0::dantrell-gnome
 ~x11-libs/gtksourceview-4.0.3::dantrell-gnome
 ~x11-libs/libnotify-0.7.7::dantrell-gnome

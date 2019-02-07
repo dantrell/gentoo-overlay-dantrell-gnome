@@ -87,7 +87,7 @@
 ~gnome-base/gnome-shell-3.28.3::dantrell-gnome-3-28
 ~gnome-base/gsettings-desktop-schemas-3.28.1::dantrell-gnome
 ~gnome-base/gvfs-1.36.2::dantrell-gnome-3-28
-~gnome-base/libgnomekbd-3.26.0::dantrell-gnome
+~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
 ~gnome-base/libgtop-2.38.0::dantrell-gnome
 ~gnome-base/librsvg-2.42.7::dantrell-gnome
 ~gnome-base/nautilus-3.28.1::dantrell-gnome-3-28
@@ -129,7 +129,7 @@
 ~media-gfx/gnome-screenshot-3.26.0::dantrell-gnome
 ~media-gfx/simple-scan-3.28.1::dantrell-gnome-3-28
 ~media-libs/clutter-1.26.2::dantrell-gnome
-~media-libs/clutter-gst-3.0.26::dantrell-gnome
+~media-libs/clutter-gst-3.0.27::dantrell-gnome
 ~media-libs/clutter-gtk-1.8.4::dantrell-gnome
 ~media-libs/cogl-1.22.2::dantrell-gnome
 ~media-libs/grilo-0.3.6::dantrell-gnome

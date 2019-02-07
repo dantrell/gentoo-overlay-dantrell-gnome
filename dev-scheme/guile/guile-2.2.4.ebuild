@@ -30,6 +30,7 @@ DEPEND="
 	virtual/pkgconfig
 	doc? ( sys-apps/texinfo )
 	emacs? ( virtual/emacs )
+	sys-devel/libtool
 	sys-devel/gettext
 "
 
