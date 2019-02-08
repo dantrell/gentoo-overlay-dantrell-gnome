@@ -1,0 +1,29 @@
+From 908ed464503379cf50967045576443770dd38d81 Mon Sep 17 00:00:00 2001
+From: Mickael Istria <mistria@redhat.com>
+Date: Fri, 1 Feb 2019 10:08:43 +0000
+Subject: [PATCH 3/9] Issue #1633 - Ensure focus on click
+
+This is necessary to give back focus to the Broadway elements when
+content is embedded in an IFrame.
+
+Signed-off-by: Mickael Istria <mistria@redhat.com>
+(cherry picked from commit 9b394d875307ab86778a66a678ee9497648946e8)
+---
+ gdk/broadway/client.html | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gdk/broadway/client.html b/gdk/broadway/client.html
+index 42b5c45f01..a2954c1f31 100644
+--- a/gdk/broadway/client.html
++++ b/gdk/broadway/client.html
+@@ -10,6 +10,6 @@ body { overflow: hidden; }
+ <script type="text/javascript" src="broadway.js"></script>
+ </head>
+ 
+-<body onload="connect()">
++<body onload="connect()" onclick="if (!document.hasFocus() && window.topElement !== window.self) { window.focus(); }">
+ </body>
+ </html>
+-- 
+2.17.0
+

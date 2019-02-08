@@ -1,0 +1,48 @@
+From 957036ff80e0a6101ef3ce475c6c83a827f51434 Mon Sep 17 00:00:00 2001
+From: Emmanuele Bassi <ebassi@gnome.org>
+Date: Tue, 5 Feb 2019 15:35:27 +0100
+Subject: [PATCH 9/9] sw: Do not cast clear function in g_clear_pointer()
+
+We don't need to do it, since g_clear_pointer() will do it for us, and
+will also check if the function conforms to a GDestroyNotify. Using an
+explicit cast will generate a compiler warning.
+
+(cherry picked from commit 43980583e3092401c607814189ac4515d54b144c)
+---
+ gtk/gtkscrolledwindow.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/gtk/gtkscrolledwindow.c b/gtk/gtkscrolledwindow.c
+index cc7c439938..d52ccf646c 100644
+--- a/gtk/gtkscrolledwindow.c
++++ b/gtk/gtkscrolledwindow.c
+@@ -2854,7 +2854,7 @@ gtk_scrolled_window_finalize (GObject *object)
+   g_clear_object (&priv->long_press_gesture);
+   g_clear_object (&priv->pan_gesture);
+   g_clear_object (&priv->gadget);
+-  g_clear_pointer (&priv->scroll_history, (GDestroyNotify) g_array_unref);
++  g_clear_pointer (&priv->scroll_history, g_array_unref);
+ 
+   G_OBJECT_CLASS (gtk_scrolled_window_parent_class)->finalize (object);
+ }
+@@ -3690,7 +3690,7 @@ scrolled_window_deceleration_cb (GtkWidget         *widget,
+       gtk_adjustment_set_value (hadjustment, position);
+     }
+   else if (data->hscrolling)
+-    g_clear_pointer (&data->hscrolling, (GDestroyNotify) gtk_kinetic_scrolling_free);
++    g_clear_pointer (&data->hscrolling, gtk_kinetic_scrolling_free);
+ 
+   if (data->vscrolling &&
+       gtk_kinetic_scrolling_tick (data->vscrolling, elapsed, &position))
+@@ -3699,7 +3699,7 @@ scrolled_window_deceleration_cb (GtkWidget         *widget,
+       gtk_adjustment_set_value (vadjustment, position);
+     }
+   else if (data->vscrolling)
+-    g_clear_pointer (&data->vscrolling, (GDestroyNotify) gtk_kinetic_scrolling_free);
++    g_clear_pointer (&data->vscrolling, gtk_kinetic_scrolling_free);
+ 
+   if (!data->hscrolling && !data->vscrolling)
+     {
+-- 
+2.17.0
+

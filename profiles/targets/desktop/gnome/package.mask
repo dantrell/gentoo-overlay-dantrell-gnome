@@ -4,6 +4,7 @@
 # Regression in meson_options.txt default values
 #
 # Ref. https://bugs.freedesktop.org/show_bug.cgi?id=103162
+=dev-util/meson-0.43.0
 =dev-util/meson-0.48.0
 =dev-util/meson-0.48.1
 =dev-util/meson-0.48.2
@@ -34,23 +35,21 @@
 =sys-apps/openrc-0.34.9
 =sys-apps/openrc-0.34.10
 
-# Regression in meson_options.txt default values
-#
-# Ref. https://bugs.freedesktop.org/show_bug.cgi?id=103162
-=dev-util/meson-0.43.0
-
 # Masked to prefer stable releases
 #
 # Ref. https://forums.gentoo.org/viewtopic-t-1022050.html
-=media-libs/mesa-17.4.0_rc*
-=media-libs/mesa-17.5.0_rc*
-=media-libs/mesa-17.6.0_rc*
-=media-libs/mesa-17.7.0_rc*
 =media-libs/mesa-18.0.0_rc*
 =media-libs/mesa-18.1.0_rc*
 =media-libs/mesa-18.2.0_rc*
 =media-libs/mesa-18.3.0_rc*
+=media-libs/mesa-18.4.0_rc*
 =media-libs/mesa-19.0.0_rc*
 =media-libs/mesa-19.1.0_rc*
 =media-libs/mesa-19.2.0_rc*
 =media-libs/mesa-19.3.0_rc*
+=media-libs/mesa-19.4.0_rc*
+=media-libs/mesa-20.0.0_rc*
+=media-libs/mesa-20.1.0_rc*
+=media-libs/mesa-20.2.0_rc*
+=media-libs/mesa-20.3.0_rc*
+=media-libs/mesa-20.4.0_rc*

@@ -1,0 +1,54 @@
+From ab2f72620a60c8cb55472dee66cfd542decfa82d Mon Sep 17 00:00:00 2001
+From: Emmanuele Bassi <ebassi@gnome.org>
+Date: Tue, 10 Apr 2018 14:51:27 +0100
+Subject: [PATCH 8/9] Terminate strncpy() buffers correctly
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+When using strncpy() with a buffer we need to account for the
+terminating NUL character. GCC 8 started warning when using PPD_MAX_NAME
+as the buffer length for strncpy() because the buffer we're copying into
+has the same length — which means that the terminating NUL may be
+skipped if the source string has a length of PPD_MAX_NAME.
+
+The appropriate way to handle the case where we're copying a source with
+a length bigger than of PPD_MAX_NAME is, as reported in the strncpy()
+documentation, to copy `PPD_MAX_NAME - 1` bytes, and explicitly NUL
+terminate the destination buffer. This has the additional benefit of
+avoiding the compiler warning.
+
+(cherry picked from commit 8f8b68f847eb59d99b82d848f428fea231f9ef96)
+---
+ modules/printbackends/cups/gtkprintbackendcups.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/modules/printbackends/cups/gtkprintbackendcups.c b/modules/printbackends/cups/gtkprintbackendcups.c
+index 97c74d6bf4..f12b5eb60d 100644
+--- a/modules/printbackends/cups/gtkprintbackendcups.c
++++ b/modules/printbackends/cups/gtkprintbackendcups.c
+@@ -5645,7 +5645,10 @@ cups_printer_get_options (GtkPrinter           *printer,
+ 	  ppd_name = gtk_paper_size_get_ppd_name (paper_size);
+ 
+ 	  if (ppd_name)
+-	    strncpy (ppd_option->defchoice, ppd_name, PPD_MAX_NAME);
++            {
++              strncpy (ppd_option->defchoice, ppd_name, PPD_MAX_NAME - 1);
++              ppd_option->defchoice[PPD_MAX_NAME - 1] = '\0';
++            }
+ 	  else
+ 	    {
+ 	      gchar *custom_name;
+@@ -5664,7 +5667,8 @@ cups_printer_get_options (GtkPrinter           *printer,
+ 	       * 230.4x142.9"
+                */
+ 	      custom_name = g_strdup_printf (_("Custom %s×%s"), width, height);
+-	      strncpy (ppd_option->defchoice, custom_name, PPD_MAX_NAME);
++              strncpy (ppd_option->defchoice, custom_name, PPD_MAX_NAME - 1);
++              ppd_option->defchoice[PPD_MAX_NAME - 1] = '\0';
+ 	      g_free (custom_name);
+ 	    }
+ 	}
+-- 
+2.17.0
+

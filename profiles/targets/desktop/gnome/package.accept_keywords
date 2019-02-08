@@ -1,6 +1,6 @@
 dev-libs/fribidi::gentoo ~*
 dev-libs/libgudev::gentoo ~*
-dev-util/meson::gentoo ~*
+dev-util/meson::dantrell-gnome ~*
 games-board/crafty::gentoo ~*
 games-board/sjeng::gentoo ~*
 media-fonts/crosextrafonts-caladea::gentoo ~*

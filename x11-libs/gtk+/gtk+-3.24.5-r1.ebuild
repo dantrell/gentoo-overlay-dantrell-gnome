@@ -26,6 +26,7 @@ RESTRICT="test"
 # bug #????
 COMMON_DEPEND="
 	>=dev-libs/atk-2.15[introspection?,${MULTILIB_USEDEP}]
+	>=dev-libs/fribidi-0.19.7[${MULTILIB_USEDEP}]
 	>=dev-libs/glib-2.53.4:2[${MULTILIB_USEDEP}]
 	media-libs/fontconfig[${MULTILIB_USEDEP}]
 	>=media-libs/libepoxy-1.4[X(+)?,${MULTILIB_USEDEP}]
@@ -122,6 +123,9 @@ src_prepare() {
 		strip_builddir SRC_SUBDIRS examples Makefile.{am,in}
 	fi
 
+	# gtk-3-24 branch at morning of 2019-02-07 - fribidi explicit linking, compiler warning fixes, small bugfixes
+	eapply "${FILESDIR}"/patches/3.24.5
+
 	# gtk-update-icon-cache is installed by dev-util/gtk-update-icon-cache
 	eapply "${FILESDIR}"/${PN}-3.22.2-update-icon-cache.patch
 
@@ -183,6 +187,7 @@ multilib_src_install() {
 multilib_src_install_all() {
 	insinto /etc/gtk-3.0
 	doins "${FILESDIR}"/settings.ini
+	# Skip README.{in,commits,win32} and useless ChangeLog that would get installed by default
 	einstalldocs
 }
 

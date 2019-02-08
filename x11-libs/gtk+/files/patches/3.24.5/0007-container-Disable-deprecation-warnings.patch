@@ -1,0 +1,28 @@
+From 779defbea37446c3ffbba73c31145f0feb766787 Mon Sep 17 00:00:00 2001
+From: Emmanuele Bassi <ebassi@gnome.org>
+Date: Tue, 5 Feb 2019 15:23:09 +0100
+Subject: [PATCH 7/9] container: Disable deprecation warnings
+
+We know we're using deprecated GtkContainer API, because we're
+implementing it.
+
+(cherry picked from commit eb732b3f68b4d0a96e9856696df9312161e450b8)
+---
+ gtk/gtkcontainer.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/gtk/gtkcontainer.c b/gtk/gtkcontainer.c
+index 33578ab65a..4b12104c8c 100644
+--- a/gtk/gtkcontainer.c
++++ b/gtk/gtkcontainer.c
+@@ -24,6 +24,7 @@
+ 
+ #include "config.h"
+ 
++#define GDK_DISABLE_DEPRECATION_WARNINGS
+ #include "gtkcontainer.h"
+ #include "gtkcontainerprivate.h"
+ 
+-- 
+2.17.0
+
