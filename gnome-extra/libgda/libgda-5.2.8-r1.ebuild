@@ -53,7 +53,7 @@ RDEPEND="
 	json? ( dev-libs/json-glib )
 	ldap? ( net-nds/openldap:= )
 	mdb? ( >app-office/mdbtools-0.5:= )
-	mysql? ( virtual/mysql:= )
+	mysql? ( dev-db/mysql-connector-c:0= )
 	postgres? ( dev-db/postgresql:= )
 	reports? (
 		${PYTHON_DEPS}

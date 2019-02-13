@@ -11,27 +11,24 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="+spell +archive +sound"
+IUSE="+archive +sound +spell"
 
-DEPEND="
-	>=dev-util/meson-0.36
-	>=sys-devel/gettext-0.19.7
-	spell? ( app-text/gspell )
+RDEPEND="
+	>=dev-libs/glib-2.42
+	media-libs/libcanberra
+	net-libs/libsoup:2.4
+	>=x11-libs/gtk+-3.22:3
+	>=dev-libs/json-glib-1
+	>=net-libs/rest-0.7
+	>=net-libs/gnome-online-accounts-1
 	archive? ( app-arch/gnome-autoar )
 	sound? ( media-libs/libcanberra )
-	>=dev-libs/glib-2.42
-	>=x11-libs/gtk+-3.22
+	spell? ( app-text/gspell )
 "
-
-src_prepare() {
-	cd "${S}"/subprojects
-	rm -rf libgd
-	git clone https://gitlab.gnome.org/GNOME/libgd
-	cd "${S}"
-	rm -rf build
-
-	gnome2_src_prepare
-}
+DEPEND="${RDEPEND}
+	>=sys-devel/gettext-0.19.7
+	virtual/pkgconfig
+"
 
 src_configure() {
 	local emesonargs=(

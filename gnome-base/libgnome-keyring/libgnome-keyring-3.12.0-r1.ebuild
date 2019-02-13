@@ -4,6 +4,7 @@ EAPI="5"
 GCONF_DEBUG="yes"
 GNOME2_LA_PUNT="yes"
 VALA_USE_DEPEND="vapigen"
+VALA_MAX_API_VERSION="0.40"
 PYTHON_COMPAT=( python2_7 )
 
 inherit gnome2 python-any-r1 vala multilib-minimal

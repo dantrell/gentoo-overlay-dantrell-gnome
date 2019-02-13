@@ -30,7 +30,7 @@ DEPEND="${RDEPEND}
 "
 
 src_configure() {
-	# bug 483134
+	# https://bugs.gentoo.org/483134
 	export GIT_CEILING_DIRECTORIES="${WORKDIR}"
 
 	# weasyprint enables generation of PDF from HTML

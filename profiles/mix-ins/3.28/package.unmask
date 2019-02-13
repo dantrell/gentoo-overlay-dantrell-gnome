@@ -117,7 +117,7 @@
 ~gnome-extra/libgsf-1.14.45::dantrell-gnome
 ~gnome-extra/mousetweaks-3.12.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
-~gnome-extra/nm-applet-1.8.18::dantrell-gnome
+~gnome-extra/nm-applet-1.8.20::dantrell-gnome
 ~gnome-extra/sushi-3.28.3::dantrell-gnome-3-28
 ~gnome-extra/yelp-3.28.1::dantrell-gnome-3-28
 ~gnome-extra/yelp-xsl-3.28.0::dantrell-gnome-3-28
@@ -145,7 +145,7 @@
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
 ~net-irc/polari-3.28.1::dantrell-gnome-3-28
 ~net-libs/glib-networking-2.56.1::dantrell-gnome-3-28
-~net-libs/gnome-online-accounts-3.28.1::dantrell-gnome-3-28
+~net-libs/gnome-online-accounts-3.28.2::dantrell-gnome-3-28
 ~net-libs/gssdp-1.0.3::dantrell-gnome
 ~net-libs/gtk-vnc-0.7.2::dantrell-gnome
 ~net-libs/gupnp-1.0.3::dantrell-gnome
