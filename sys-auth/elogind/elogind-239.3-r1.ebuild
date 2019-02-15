@@ -41,6 +41,7 @@ PDEPEND="
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-238.1-docs.patch
+	"${FILESDIR}"/${PN}-239.3-broken-test.patch # bug 669862
 )
 
 pkg_setup() {
