@@ -14,7 +14,7 @@ SRC_URI="https://inkscape.global.ssl.fastly.net/media/resources/file/${P}.tar.bz
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="cdr dia dbus deprecated exif gnome imagemagick openmp postscript inkjar jpeg latex"
 IUSE+=" lcms nls spell static-libs visio wpg"
@@ -24,7 +24,7 @@ RESTRICT="test"
 
 COMMON_DEPEND="${PYTHON_DEPS}
 	>=app-text/poppler-0.26.0:=[cairo]
-	<app-text/poppler-0.73.0:=
+	<app-text/poppler-0.75.0:=
 	>=dev-cpp/glibmm-2.28
 	>=dev-cpp/gtkmm-2.18.0:2.4
 	>=dev-cpp/cairomm-1.9.8

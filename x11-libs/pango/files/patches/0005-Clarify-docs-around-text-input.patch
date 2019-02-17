@@ -1,0 +1,123 @@
+From 7ec3ec455bb1bfb6e765061c7cb2a972a7ad1935 Mon Sep 17 00:00:00 2001
+From: Matthias Clasen <mclasen@redhat.com>
+Date: Wed, 12 Dec 2018 15:43:50 -0500
+Subject: [PATCH 5/6] Clarify docs around text input
+
+Make it clear that all text input must be valid UTF-8,
+except in the case pango_layout_set_text, which we now
+officially document as accepting and handling invalid
+input.
+
+(cherry picked from commit 8d39b9ac1d6462a224d37a4cbc0d81b052c0e313)
+---
+ pango/break.c         |  6 +++---
+ pango/pango-context.c |  2 +-
+ pango/pango-layout.c  | 20 +++++++++++---------
+ pango/pango-utils.c   |  2 +-
+ 4 files changed, 16 insertions(+), 14 deletions(-)
+
+diff --git a/pango/break.c b/pango/break.c
+index 2e66972e..0cfb1d28 100644
+--- a/pango/break.c
++++ b/pango/break.c
+@@ -138,7 +138,7 @@ typedef enum
+ 
+ /**
+  * pango_default_break:
+- * @text: text to break
++ * @text: text to break. Must be valid UTF-8
+  * @length: length of text in bytes (may be -1 if @text is nul-terminated)
+  * @analysis: (nullable): a #PangoAnalysis for the @text
+  * @attrs: logical attributes to fill in
+@@ -1699,7 +1699,7 @@ tailor_break (const gchar   *text,
+ 
+ /**
+  * pango_break:
+- * @text:      the text to process
++ * @text:      the text to process. Must be valid UTF-8
+  * @length:    length of @text in bytes (may be -1 if @text is nul-terminated)
+  * @analysis:  #PangoAnalysis structure from pango_itemize()
+  * @attrs:     (array length=attrs_len): an array to store character
+@@ -1859,7 +1859,7 @@ tailor_segment (const char      *range_start,
+ 
+ /**
+  * pango_get_log_attrs:
+- * @text: text to process
++ * @text: text to process. Must be valid UTF-8
+  * @length: length in bytes of @text
+  * @level: embedding level, or -1 if unknown
+  * @language: language tag
+diff --git a/pango/pango-context.c b/pango/pango-context.c
+index b48b0eaa..626f46e3 100644
+--- a/pango/pango-context.c
++++ b/pango/pango-context.c
+@@ -1616,7 +1616,7 @@ itemize_with_font (PangoContext               *context,
+  * pango_itemize:
+  * @context:   a structure holding information that affects
+ 	       the itemization process.
+- * @text:      the text to itemize.
++ * @text:      the text to itemize. Must be valid UTF-8
+  * @start_index: first byte in @text to process
+  * @length:    the number of bytes (not characters) to process
+  *             after @start_index.
+diff --git a/pango/pango-layout.c b/pango/pango-layout.c
+index 4e12abf2..a0efcb8d 100644
+--- a/pango/pango-layout.c
++++ b/pango/pango-layout.c
+@@ -1006,7 +1006,7 @@ pango_layout_is_ellipsized (PangoLayout *layout)
+ /**
+  * pango_layout_set_text:
+  * @layout: a #PangoLayout
+- * @text: a valid UTF-8 string
++ * @text: the text
+  * @length: maximum length of @text, in bytes. -1 indicates that
+  *          the string is nul-terminated and the length should be
+  *          calculated.  The text will also be truncated on
+@@ -1014,12 +1014,15 @@ pango_layout_is_ellipsized (PangoLayout *layout)
+  *          positive.
+  *
+  * Sets the text of the layout.
+- *
+- * Note that if you have used
+- * pango_layout_set_markup() or pango_layout_set_markup_with_accel() on
+- * @layout before, you may want to call pango_layout_set_attributes() to clear
+- * the attributes set on the layout from the markup as this function does not
+- * clear attributes.
++ * 
++ * This function validates @text and renders invalid UTF-8
++ * with a placeholder glyph.
++ *
++ * Note that if you have used pango_layout_set_markup() or
++ * pango_layout_set_markup_with_accel() on @layout before, you may
++ * want to call pango_layout_set_attributes() to clear the attributes
++ * set on the layout from the markup as this function does not clear
++ * attributes.
+  **/
+ void
+ pango_layout_set_text (PangoLayout *layout,
+@@ -1044,8 +1047,7 @@ pango_layout_set_text (PangoLayout *layout,
+ 
+   layout->length = strlen (layout->text);
+ 
+-  /* validate it, and replace invalid bytes with '?'
+-   */
++  /* validate it, and replace invalid bytes with -1 */
+   start = layout->text;
+   for (;;) {
+     gboolean valid;
+diff --git a/pango/pango-utils.c b/pango/pango-utils.c
+index 313471fe..02f5c9f5 100644
+--- a/pango/pango-utils.c
++++ b/pango/pango-utils.c
+@@ -795,7 +795,7 @@ pango_lookup_aliases (const char   *fontname,
+ 
+ /**
+  * pango_find_base_dir:
+- * @text:   the text to process
++ * @text:   the text to process. Must be valid UTF-8
+  * @length: length of @text in bytes (may be -1 if @text is nul-terminated)
+  *
+  * Searches a string the first character that has a strong
+-- 
+2.17.0
+

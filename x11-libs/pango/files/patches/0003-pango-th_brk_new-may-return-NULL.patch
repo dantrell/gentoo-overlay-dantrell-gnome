@@ -1,0 +1,42 @@
+From 6a846c054c05e58982da253c1eaed8e17709e0d4 Mon Sep 17 00:00:00 2001
+From: Jehan <jehan@girinstud.io>
+Date: Tue, 13 Nov 2018 14:51:35 +0100
+Subject: [PATCH 3/6] pango: th_brk_new() may return NULL.
+
+The call to th_brk_new() may return NULL, in case of allocation failure
+of course, but also if the default dictionnary fails to load, which may
+be an unlikely event, yet far from impossible (packaging may have
+forgotten the file hence it may be absent, have been corrupted, or
+whatever else).
+In any case, although unlikely, it is not impossible, and should not
+crash the whole program so we should check the return value and output a
+warning if NULL.
+
+Note that the call to th_brk_find_breaks() can still run even if brk is
+NULL so we only check before freeing the data.
+
+(cherry picked from commit 6a6afb9415922cec4b4c66691a24f23a5c2ea77d)
+---
+ pango/break-thai.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/pango/break-thai.c b/pango/break-thai.c
+index 4a6c4278..2ab24bd0 100644
+--- a/pango/break-thai.c
++++ b/pango/break-thai.c
+@@ -85,7 +85,11 @@ break_thai (const char          *text,
+ #ifdef HAVE_TH_BRK_FIND_BREAKS
+   brk = th_brk_new(NULL);
+   len = th_brk_find_breaks(brk, tis_text, brk_pnts, cnt);
+-  th_brk_delete(brk);
++  if (brk)
++    th_brk_delete(brk);
++  else
++    g_warning ("%s: failed to load the default Thai word-breaker.",
++               G_STRLOC);
+ #else
+   G_LOCK (th_brk);
+   len = th_brk (tis_text, brk_pnts, cnt);
+-- 
+2.17.0
+

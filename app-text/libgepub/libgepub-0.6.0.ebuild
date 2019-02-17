@@ -7,7 +7,7 @@ inherit gnome.org meson
 DESCRIPTION="GObject based library for handling and rendering epub documents"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/libgepub"
 
-LICENSE="LGPL-2"
+LICENSE="LGPL-2+"
 SLOT="0"
 KEYWORDS="~*"
 

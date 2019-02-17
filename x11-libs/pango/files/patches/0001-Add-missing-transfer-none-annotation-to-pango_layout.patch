@@ -1,0 +1,30 @@
+From bdb6c19e27b21fe517768e7136808b8a08bf0933 Mon Sep 17 00:00:00 2001
+From: Kouhei Sutou <kou@clear-code.com>
+Date: Sun, 29 Jul 2018 16:00:07 +0900
+Subject: [PATCH 1/6] Add missing "(transfer none)" annotation to
+ pango_layout_iter_get_line()
+
+It should have been included in
+feff5a6e2682048a07a6ba09af83254e290bf394 .
+
+(cherry picked from commit 821c58ee8e66017745413f6c2dbef0fce91cc206)
+---
+ pango/pango-layout.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/pango/pango-layout.c b/pango/pango-layout.c
+index 7129a9d0..4e12abf2 100644
+--- a/pango/pango-layout.c
++++ b/pango/pango-layout.c
+@@ -5853,7 +5853,7 @@ _pango_layout_iter_get_line (PangoLayoutIter *iter)
+  * Use the faster pango_layout_iter_get_line_readonly() if you do not plan
+  * to modify the contents of the line (glyphs, glyph widths, etc.).
+  *
+- * Return value: the current line.
++ * Return value: (transfer none): the current line.
+  **/
+ PangoLayoutLine*
+ pango_layout_iter_get_line (PangoLayoutIter *iter)
+-- 
+2.17.0
+
