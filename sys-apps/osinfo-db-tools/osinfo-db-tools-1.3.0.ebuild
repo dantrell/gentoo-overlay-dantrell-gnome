@@ -10,13 +10,14 @@ SRC_URI="https://releases.pagure.org/libosinfo/${P}.tar.gz"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 # Blocker on old libosinfo as osinfo-db-validate was part of it before
 RDEPEND="
 	>=dev-libs/glib-2.36:2
 	>=dev-libs/libxml2-2.6.0
 	>=app-arch/libarchive-3.0.0:=
+	dev-libs/json-glib
 	!<sys-libs/libosinfo-1.0.0
 "
 # perl dep is for pod2man (and syntax check but only in git, but configure check exists in release)

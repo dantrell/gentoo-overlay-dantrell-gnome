@@ -9,32 +9,36 @@ DESCRIPTION="GObject library for managing information about real and virtual OSe
 HOMEPAGE="https://libosinfo.org/"
 SRC_URI="https://releases.pagure.org/libosinfo/${P}.tar.gz"
 
-LICENSE="GPL-2 LGPL-2.1"
+LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="+introspection +vala test"
 REQUIRED_USE="vala? ( introspection )"
 
 # Unsure about osinfo-db-tools rdep, but at least fedora does it too
 RDEPEND="
-	>=dev-libs/glib-2.36.0:2
-	>=net-libs/libsoup-2.42:2.4
+	>=dev-libs/glib-2.38.0:2
 	>=dev-libs/libxml2-2.6.0
 	>=dev-libs/libxslt-1.0.0
 	sys-apps/hwids[pci,usb]
-	>=sys-apps/osinfo-db-tools-1.1.0
+	sys-apps/osinfo-db-tools
 	sys-apps/osinfo-db
 	introspection? ( >=dev-libs/gobject-introspection-0.9.7:= )
 "
-# perl dep is for pod2man
+# perl dep is for pod2man, and configure.ac checks for it too now
+# Tests can use net-misc/curl, but they are automatically skipped if curl is not found, and
+# if it is found, then those tests are skipped at runtime if LIBOSINFO_NETWORK_TESTS is unset.
+# Due to potential network-sandbox we aren't enabling them (and one of them fails at 1.2.0).
 DEPEND="${RDEPEND}
 	dev-lang/perl
 	dev-libs/gobject-introspection-common
 	>=dev-util/gtk-doc-am-1.10
 	>=dev-util/intltool-0.40.0
 	virtual/pkgconfig
-	test? ( dev-libs/check )
+	test? (
+		>=sys-apps/osinfo-db-20180612
+	)
 	vala? ( $(vala_depend) )
 "
 

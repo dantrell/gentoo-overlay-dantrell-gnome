@@ -7,7 +7,7 @@ VALA_USE_DEPEND="vapigen"
 inherit autotools gnome2 vala virtualx
 
 DESCRIPTION="Manages, extracts and handles media art caches"
-HOMEPAGE="https://github.com/GNOME/libmediaart"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/libmediaart"
 
 LICENSE="LGPL-2.1+"
 SLOT="1.0"
