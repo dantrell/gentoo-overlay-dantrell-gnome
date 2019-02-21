@@ -205,6 +205,7 @@
 >=media-gfx/gnome-font-viewer-3.16.0
 >=media-gfx/gnome-photos-3.16.0
 >=media-gfx/gnome-screenshot-3.16.0
+>=media-gfx/gthumb-3.5.2
 >=media-gfx/simple-scan-3.16.0
 >=media-libs/clutter-1.22.0
 >=media-libs/clutter-gst-3.1.0

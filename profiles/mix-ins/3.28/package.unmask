@@ -134,7 +134,7 @@
 ~media-libs/cogl-1.22.2::dantrell-gnome
 ~media-libs/grilo-0.3.6::dantrell-gnome
 ~media-libs/gsound-1.0.2::dantrell-gnome
-~media-libs/libchamplain-0.12.16::dantrell-gnome
+~media-libs/libchamplain-0.12.18::dantrell-gnome
 ~media-libs/libmediaart-1.9.4::dantrell-gnome
 ~media-plugins/grilo-plugins-0.3.8::dantrell-gnome
 ~media-sound/gnome-music-3.28.2.1::dantrell-gnome-3-28

@@ -10,13 +10,13 @@ HOMEPAGE="https://wiki.gnome.org/Apps/gthumb"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
-IUSE="cdr debug exif gnome-keyring gstreamer http jpeg json lcms raw slideshow svg tiff test webkit webp"
+IUSE="cdr colord debug exif gnome-keyring gstreamer http jpeg json lcms raw slideshow svg tiff test webkit webp"
 
 RDEPEND="
 	>=dev-libs/glib-2.36.0:2[dbus]
-	>=x11-libs/gtk+-3.10.0:3
+	>=x11-libs/gtk+-3.16.0:3
 	exif? ( >=media-gfx/exiv2-0.21:= )
 	slideshow? (
 		>=media-libs/clutter-1.12.0:1.0
@@ -33,17 +33,18 @@ RDEPEND="
 	json? ( >=dev-libs/json-glib-0.15.0 )
 	webkit? ( >=net-libs/webkit-gtk-1.10.0:4 )
 	lcms? ( >=media-libs/lcms-2.6:2 )
+	colord? ( >=x11-misc/colord-1.3
+		>=media-libs/lcms-2.6:2 )
 
 	media-libs/libpng:0=
 	sys-libs/zlib
 	>=gnome-base/gsettings-desktop-schemas-0.1.4
 	jpeg? ( virtual/jpeg:0= )
 	tiff? ( media-libs/tiff:= )
-	!raw? ( media-gfx/dcraw )
 "
 DEPEND="${RDEPEND}
-	app-text/yelp-tools
-	>=dev-util/intltool-0.35
+	>=dev-util/intltool-0.50.1
+	dev-util/itstool
 	sys-devel/bison
 	sys-devel/flex
 	virtual/pkgconfig
@@ -51,6 +52,8 @@ DEPEND="${RDEPEND}
 "
 # eautoreconf needs:
 #	gnome-base/gnome-common
+
+PATCHES=( "${FILESDIR}/${PN}-3.6.2-exiv2-0.27.patch" ) # bug 674092
 
 src_prepare() {
 	# Remove unwanted CFLAGS added with USE=debug
@@ -63,23 +66,31 @@ src_prepare() {
 src_configure() {
 	# Upstream says in configure help that libchamplain support
 	# crashes frequently
-	gnome2_src_configure \
-		--disable-static \
-		--disable-libchamplain \
-		$(use_enable cdr libbrasero) \
-		$(use_enable debug) \
-		$(use_enable exif exiv2) \
-		$(use_enable gnome-keyring libsecret) \
-		$(use_enable gstreamer) \
-		$(use_enable http libsoup) \
-		$(use_enable jpeg) \
-		$(use_enable json libjson-glib) \
-		$(use_enable lcms lcms2) \
-		$(use_enable raw libraw) \
-		$(use_enable slideshow clutter) \
-		$(use_enable svg librsvg) \
-		$(use_enable test test-suite) \
-		$(use_enable tiff) \
-		$(use_enable webkit webkit2) \
+	local myeconfargs=(
+		--disable-static
+		--disable-libchamplain
+		$(use_enable cdr libbrasero)
+		$(use_enable colord)
+		$(use_enable debug)
+		$(use_enable exif exiv2)
+		$(use_enable gnome-keyring libsecret)
+		$(use_enable gstreamer)
+		$(use_enable http libsoup)
+		$(use_enable jpeg)
+		$(use_enable json libjson-glib)
+		$(use_enable raw libraw)
+		$(use_enable slideshow clutter)
+		$(use_enable svg librsvg)
+		$(use_enable test test-suite)
+		$(use_enable tiff)
+		$(use_enable webkit webkit2)
 		$(use_enable webp libwebp)
+	)
+	# colord pulls in lcms2 anyway, so enable lcms with USE="colord -lcms"; some of upstream HAVE_COLORD code depends on HAVE_LCMS2
+	if use lcms || use colord; then
+		myeconfargs+=( --enable-lcms2 )
+	else
+		myeconfargs+=( --disable-lcms2 )
+	fi
+	gnome2_src_configure "${myeconfargs[@]}"
 }
