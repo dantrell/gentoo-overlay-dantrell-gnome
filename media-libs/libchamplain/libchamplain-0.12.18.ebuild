@@ -3,7 +3,7 @@
 EAPI="6"
 VALA_USE_DEPEND="vapigen"
 
-inherit gnome2 vala
+inherit gnome2 meson vala
 
 DESCRIPTION="Clutter based world map renderer"
 HOMEPAGE="https://wiki.gnome.org/Projects/libchamplain"
@@ -12,7 +12,7 @@ LICENSE="LGPL-2"
 SLOT="0.12"
 KEYWORDS="~*"
 
-IUSE="debug +gtk +introspection vala"
+IUSE="doc +gtk +introspection vala"
 REQUIRED_USE="vala? ( introspection )"
 
 RDEPEND="
@@ -29,7 +29,7 @@ RDEPEND="
 	introspection? ( dev-libs/gobject-introspection:= )
 "
 DEPEND="${RDEPEND}
-	dev-util/gtk-doc-am
+	doc? ( dev-util/gtk-doc-am )
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
 "
@@ -38,25 +38,27 @@ src_prepare() {
 	# Fix documentation slotability
 	sed \
 		-e "s/^DOC_MODULE.*/DOC_MODULE = ${PN}-${SLOT}/" \
-		-i docs/reference/Makefile.{am,in} || die "sed (1) failed"
-	sed \
-		-e "s/^DOC_MODULE.*/DOC_MODULE = ${PN}-gtk-${SLOT}/" \
-		-i docs/reference-gtk/Makefile.{am,in} || die "sed (2) failed"
-	mv "${S}"/docs/reference/${PN}{,-${SLOT}}-docs.sgml || die "mv (1) failed"
-	mv "${S}"/docs/reference-gtk/${PN}-gtk{,-${SLOT}}-docs.sgml || die "mv (2) failed"
+		-i docs/reference/Makefile.am || die "sed (1) failed"
+	mv "${S}"/docs/reference/${PN/lib//}{,-${SLOT}}-docs.xml || die "mv (1) failed"
+
+	eapply_user
 
 	use vala && vala_src_prepare
 	gnome2_src_prepare
 }
 
 src_configure() {
-	# Vala demos are only built, so just disable them
-	gnome2_src_configure \
-		--disable-memphis \
-		--disable-static \
-		--disable-vala-demos \
-		$(use_enable debug) \
-		$(use_enable gtk) \
-		$(use_enable introspection) \
-		$(use_enable vala)
+	local emesonargs=(
+		-D memphis=false
+		-D introspection=$(usex introspection true false)
+		-D vapi=$(usex vala true false)
+		-D widgetry=$(usex gtk true false)
+		-D gtk_doc=$(usex doc true false)
+		-D demos=false
+	)
+	meson_src_configure
+}
+
+src_install() {
+	meson_src_install
 }
