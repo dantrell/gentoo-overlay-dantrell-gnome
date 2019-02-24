@@ -7,7 +7,7 @@ GNOME2_LA_PUNT="yes"
 inherit gnome2
 
 DESCRIPTION="Nautilus extension for encrypting and decrypting files with GnuPG"
-HOMEPAGE="https://wiki.gnome.org/action/show/Apps/Seahorse"
+HOMEPAGE="https://wiki.gnome.org/Apps/Seahorse"
 
 LICENSE="GPL-2"
 SLOT="0"

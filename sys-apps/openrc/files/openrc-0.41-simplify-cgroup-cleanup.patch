@@ -1,0 +1,35 @@
+diff '--exclude=.git' -urN a/etc/rc.conf b/etc/rc.conf
+--- a/etc/rc.conf	2019-02-22 19:03:41.000000000 -0600
++++ b/etc/rc.conf	2019-02-23 22:36:12.654862840 -0600
+@@ -292,17 +292,12 @@
+ # The process followed in this cleanup is the following:
+ # 1. send stopsig (sigterm if it isn't set) to all processes left in the
+ # cgroup immediately followed by sigcont.
+-# 2. Send sighup to all processes in the cgroup if rc_send_sighup is
+-# yes.
++# 2. Send sighup to all processes in the cgroup
+ # 3. delay for rc_timeout_stopsec seconds.
+ # 4. send sigkill to all processes in the cgroup unless disabled by
+ # setting rc_send_sigkill to no.
+ # rc_cgroup_cleanup="NO"
+ 
+-# If this is yes, we will send sighup to the processes in the cgroup
+-# immediately after stopsig and sigcont.
+-#rc_send_sighup="NO"
+-
+ # This is the amount of time in seconds that we delay after sending sigcont
+ # and optionally sighup, before we optionally send sigkill to all
+ # processes in the # cgroup.
+diff '--exclude=.git' -urN a/sh/rc-cgroup.sh b/sh/rc-cgroup.sh
+--- a/sh/rc-cgroup.sh	2019-02-22 19:03:41.000000000 -0600
++++ b/sh/rc-cgroup.sh	2019-02-23 22:36:12.654862840 -0600
+@@ -206,8 +206,7 @@
+ 	if [ -n "${pids}" ]; then
+ 		kill -s CONT ${pids} 2> /dev/null
+ 		kill -s "${stopsig:-TERM}" ${pids} 2> /dev/null
+-		yesno "${rc_send_sighup:-no}" &&
+-			kill -s HUP ${pids} 2> /dev/null
++		kill -s HUP ${pids} 2> /dev/null
+ 		kill -s "${stopsig:-TERM}" ${pids} 2> /dev/null
+ 		while [ -n "$(cgroup_get_pids)" ] &&
+ 			[ "${loops}" -lt "${rc_timeout_stopsec:-90}" ]; do

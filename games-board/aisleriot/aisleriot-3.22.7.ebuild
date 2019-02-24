@@ -5,7 +5,7 @@ EAPI="6"
 inherit autotools gnome2
 
 DESCRIPTION="A collection of solitaire card games for GNOME"
-HOMEPAGE="https://wiki.gnome.org/action/show/Apps/Aisleriot"
+HOMEPAGE="https://wiki.gnome.org/Apps/Aisleriot"
 
 LICENSE="GPL-3 LGPL-3 FDL-1.1"
 SLOT="0"

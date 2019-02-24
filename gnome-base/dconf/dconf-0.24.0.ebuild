@@ -5,7 +5,7 @@ EAPI="6"
 inherit bash-completion-r1 gnome2 vala virtualx
 
 DESCRIPTION="Simple low-level configuration system"
-HOMEPAGE="https://wiki.gnome.org/action/show/Projects/dconf"
+HOMEPAGE="https://wiki.gnome.org/Projects/dconf"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"

@@ -191,6 +191,7 @@
 >=media-libs/clutter-gtk-1.6.6
 >=media-libs/cogl-1.22.0
 >=media-libs/grilo-0.3.0
+>=media-libs/libchamplain-0.12.17
 >=media-plugins/grilo-plugins-0.2.16
 >=media-sound/gnome-music-3.18.0
 >=media-sound/gnome-sound-recorder-3.18.0

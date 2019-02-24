@@ -17,8 +17,8 @@ REQUIRED_USE="vala? ( introspection )"
 
 RDEPEND="
 	dev-db/sqlite:3
-	>=dev-libs/glib-2.16:2
-	>=media-libs/clutter-1.12:1.0[introspection?]
+	>=dev-libs/glib-2.38:2
+	>=media-libs/clutter-1.24:1.0[introspection?]
 	media-libs/cogl:=
 	>=net-libs/libsoup-2.42:2.4
 	>=x11-libs/cairo-1.4

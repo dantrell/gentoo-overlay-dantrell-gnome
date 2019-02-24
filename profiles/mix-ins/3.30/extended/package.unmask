@@ -40,7 +40,7 @@
 ~dev-libs/libgdata-0.17.9::dantrell-gnome
 ~dev-libs/libgee-0.20.1::dantrell-gnome
 ~dev-libs/libgnome-games-support-1.4.3::dantrell-gnome
-~dev-libs/libgweather-3.28.2::dantrell-gnome
+~dev-libs/libgweather-3.28.3::dantrell-gnome
 ~dev-libs/libical-3.0.4::dantrell-gnome
 ~dev-libs/libpeas-1.22.0::dantrell-gnome
 ~dev-libs/template-glib-3.30.0::dantrell-gnome-3-30
@@ -158,7 +158,7 @@
 ~net-libs/rest-0.8.1::dantrell-gnome
 ~net-libs/webkit-gtk-2.22.6::dantrell-gnome
 ~net-misc/gnome-online-miners-3.30.0::dantrell-gnome-3-30
-~net-misc/networkmanager-1.14.4::dantrell-gnome
+~net-misc/networkmanager-1.14.6::dantrell-gnome
 ~net-misc/rygel-0.36.2::dantrell-gnome
 ~net-misc/vino-3.22.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.28.2::dantrell-gnome

@@ -6,7 +6,7 @@ GCONF_DEBUG="no"
 inherit eutils gnome2
 
 DESCRIPTION="Library providing a virtual terminal emulator widget"
-HOMEPAGE="https://wiki.gnome.org/action/show/Apps/Terminal/VTE"
+HOMEPAGE="https://wiki.gnome.org/Apps/Terminal/VTE"
 
 LICENSE="LGPL-2+"
 SLOT="2.90"

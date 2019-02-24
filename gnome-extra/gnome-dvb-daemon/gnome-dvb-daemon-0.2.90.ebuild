@@ -8,7 +8,7 @@ VALA_MIN_API_VERSION="0.26"
 inherit eutils gnome2 multilib python-any-r1 vala
 
 DESCRIPTION="Setup your DVB devices, record and watch TV shows and browse EPG using GStreamer"
-HOMEPAGE="https://wiki.gnome.org/action/show/Projects/DVBDaemon"
+HOMEPAGE="https://wiki.gnome.org/Projects/DVBDaemon"
 
 LICENSE="GPL-3"
 SLOT="0"
