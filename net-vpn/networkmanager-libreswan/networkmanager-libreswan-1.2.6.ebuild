@@ -24,7 +24,7 @@ RDEPEND="
 		>=gnome-extra/nm-applet-1.2.0
 		>=x11-libs/gtk+-3.4:3
 	)
-	!net-misc/networkmanager-openswan
+	!net-vpn/networkmanager-openswan
 "
 DEPEND="${RDEPEND}
 	sys-devel/gettext
