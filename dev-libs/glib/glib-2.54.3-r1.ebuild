@@ -19,7 +19,7 @@ SRC_URI="${SRC_URI}
 	https://pkgconfig.freedesktop.org/releases/pkg-config-0.28.tar.gz" # pkg.m4 for eautoreconf
 
 LICENSE="LGPL-2.1+"
-SLOT="2/56"
+SLOT="2/54"
 KEYWORDS="*"
 
 IUSE="dbus debug fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
@@ -79,6 +79,7 @@ pkg_setup() {
 		fi
 		linux-info_pkg_setup
 	fi
+	python_setup
 }
 
 src_prepare() {
@@ -112,6 +113,11 @@ src_prepare() {
 		sed -i -e 's/ tests//' {.,gio,glib}/Makefile.am || die
 	fi
 
+	# Leave python shebang alone - handled by python_replicate_script
+	# We could call python_setup and give configure a valid --with-python
+	# arg, but that would mean a build dep on python when USE=utils.
+	sed -e 's:@PYTHON@:python:' \
+		-i gobject/glib-{genmarshal.in,mkenums.in} || die
 	# Also needed to prevent cross-compile failures, see bug #267603
 	eautoreconf
 
@@ -182,7 +188,6 @@ multilib_src_test() {
 	export XDG_DATA_DIRS=/usr/local/share:/usr/share
 	export G_DBUS_COOKIE_SHA1_KEYRING_DIR="${T}/temp"
 	export LC_TIME=C # bug #411967
-	python_setup
 
 	# Related test is a bit nitpicking
 	mkdir "$G_DBUS_COOKIE_SHA1_KEYRING_DIR"
@@ -206,7 +211,9 @@ multilib_src_install() {
 multilib_src_install_all() {
 	einstalldocs
 
-	python_replicate_script "${ED}"/usr/bin/gtester-report
+	python_fix_shebang "${ED}"/usr/bin/glib-mkenums
+	python_fix_shebang "${ED}"/usr/bin/glib-genmarshal
+	python_fix_shebang "${ED}"/usr/bin/gtester-report
 
 	# Do not install charset.alias even if generated, leave it to libiconv
 	rm -f "${ED}/usr/lib/charset.alias"
