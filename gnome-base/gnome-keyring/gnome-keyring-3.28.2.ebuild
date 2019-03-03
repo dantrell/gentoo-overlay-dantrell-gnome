@@ -4,7 +4,7 @@ EAPI="6"
 GNOME2_LA_PUNT="yes"
 PYTHON_COMPAT=( python2_7 )
 
-inherit fcaps gnome2 pam python-any-r1 versionator virtualx
+inherit fcaps gnome2 pam python-any-r1 virtualx
 
 DESCRIPTION="Password and keyring managing daemon"
 HOMEPAGE="https://wiki.gnome.org/Projects/GnomeKeyring"
@@ -17,21 +17,21 @@ IUSE="+caps pam selinux +ssh-agent test"
 
 # Replace gkd gpg-agent with pinentry[gnome-keyring] one, bug #547456
 RDEPEND="
-	>=app-crypt/gcr-3.5.3:=[gtk]
-	>=dev-libs/glib-2.38:2
+	>=app-crypt/gcr-3.27.90:=[gtk]
+	>=dev-libs/glib-2.44:2
 	app-misc/ca-certificates
 	>=dev-libs/libgcrypt-1.2.2:0=
 	caps? ( sys-libs/libcap-ng )
 	pam? ( virtual/pam )
 	selinux? ( sec-policy/selinux-gnome )
 	>=app-crypt/gnupg-2.0.28:=
+	ssh-agent? ( net-misc/openssh )
 "
 DEPEND="${RDEPEND}
 	>=app-eselect/eselect-pinentry-0.5
 	app-text/docbook-xml-dtd:4.3
 	dev-libs/libxslt
-	>=dev-util/intltool-0.35
-	sys-devel/gettext
+	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	test? ( ${PYTHON_DEPS} )
 "

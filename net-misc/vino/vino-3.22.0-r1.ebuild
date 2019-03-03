@@ -11,7 +11,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="crypt debug gnome-keyring ipv6 jpeg ssl +telepathy zeroconf +zlib"
+IUSE="crypt debug gnome-keyring ipv6 jpeg ssl systemd +telepathy zeroconf +zlib"
 # bug #394611; tight encoding requires zlib encoding
 REQUIRED_USE="jpeg? ( zlib )"
 
@@ -38,6 +38,7 @@ RDEPEND="
 	gnome-keyring? ( app-crypt/libsecret )
 	jpeg? ( virtual/jpeg:0= )
 	ssl? ( >=net-libs/gnutls-2.2.0:= )
+	systemd? ( sys-apps/dbus[user-session] )
 	telepathy? (
 		dev-libs/dbus-glib
 		>=net-libs/telepathy-glib-0.18 )
@@ -50,6 +51,11 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 "
 # libsecret is always required at build time per bug 322763
+
+PATCHES=(
+	"${FILESDIR}"/${PN}-segfaults-on-wayland.patch
+	"${FILESDIR}"/${PN}-return-error-if-X11-is-no-detected.patch
+)
 
 src_configure() {
 	gnome2_src_configure \

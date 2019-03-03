@@ -6,7 +6,7 @@
 ~app-arch/gcab-1.1::dantrell-gnome
 ~app-arch/gnome-autoar-0.2.3::dantrell-gnome
 ~app-crypt/gcr-3.28.1::dantrell-gnome
-~app-crypt/libsecret-0.18.7::dantrell-gnome
+~app-crypt/libsecret-0.18.8::dantrell-gnome
 ~app-crypt/seahorse-3.30.1.1::dantrell-gnome-3-30
 ~app-dicts/gnome-dictionary-3.26.1::dantrell-gnome
 ~app-editors/gedit-3.30.2::dantrell-gnome-3-30
@@ -157,7 +157,7 @@
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/phodav-2.2::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome
-~net-libs/webkit-gtk-2.22.6::dantrell-gnome
+~net-libs/webkit-gtk-2.22.7::dantrell-gnome
 ~net-misc/gnome-online-miners-3.30.0::dantrell-gnome-3-30
 ~net-misc/networkmanager-1.14.6::dantrell-gnome
 ~net-misc/rygel-0.36.2::dantrell-gnome
@@ -168,7 +168,7 @@
 ~sys-apps/baobab-3.30.0::dantrell-gnome-3-30
 ~sys-apps/gnome-disk-utility-3.30.2::dantrell-gnome-3-30
 ~www-client/epiphany-3.30.3::dantrell-gnome-3-30
-~x11-libs/gdk-pixbuf-2.38.0::dantrell-gnome
+~x11-libs/gdk-pixbuf-2.38.1::dantrell-gnome
 ~x11-libs/gtksourceview-4.0.3::dantrell-gnome
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.30.0::dantrell-gnome-3-30
