@@ -37,8 +37,8 @@ RDEPEND="${COMMON_DEPEND}
 	media-plugins/gst-plugins-meta:1.0
 "
 DEPEND="${COMMON_DEPEND}
-	app-text/yelp-tools
 	dev-libs/appstream-glib
+	dev-util/itstool
 	>=sys-devel/gettext-0.19.6
 	virtual/pkgconfig
 	test? ( ~app-text/docbook-xml-dtd-4.3 )

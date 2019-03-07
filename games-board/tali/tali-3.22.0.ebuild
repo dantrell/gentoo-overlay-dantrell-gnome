@@ -19,9 +19,9 @@ RDEPEND="
 	>=x11-libs/gtk+-3.15:3
 "
 DEPEND="${RDEPEND}
-	app-text/yelp-tools
 	dev-libs/appstream-glib
 	>=dev-util/intltool-0.50
+	dev-util/itstool
 	sys-devel/gettext
 	virtual/pkgconfig
 "

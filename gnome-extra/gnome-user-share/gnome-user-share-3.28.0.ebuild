@@ -19,7 +19,7 @@ IUSE=""
 RDEPEND="
 	>=dev-libs/glib-2.28:2
 	>=x11-libs/gtk+-3:3
-	>=gnome-base/nautilus-2.91.7
+	>=gnome-base/nautilus-3.27.90
 	media-libs/libcanberra[gtk3]
 	>=www-apache/mod_dnssd-0.6
 	>=www-servers/apache-2.2[apache2_modules_dav,apache2_modules_dav_fs,apache2_modules_authn_file,apache2_modules_auth_digest,apache2_modules_authz_groupfile]

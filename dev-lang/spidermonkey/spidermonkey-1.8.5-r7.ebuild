@@ -1,11 +1,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 WANT_AUTOCONF="2.1"
 PYTHON_COMPAT=( python2_7 )
 PYTHON_REQ_USE="threads"
 
-inherit autotools eutils toolchain-funcs multilib python-any-r1 versionator pax-utils
+inherit autotools toolchain-funcs multilib python-any-r1 versionator pax-utils
 
 MY_PN="js"
 TARBALL_PV="$(replace_all_version_separators '' $(get_version_component_range 1-3))"
@@ -14,7 +14,7 @@ TARBALL_P="${MY_PN}${TARBALL_PV}-1.0.0"
 DESCRIPTION="Stand-alone JavaScript C library"
 HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"
 SRC_URI="https://archive.mozilla.org/pub/js/${TARBALL_P}.tar.gz
-	https://dev.gentoo.org/~axs/distfiles/${PN}-slot0-patches-01.tar.xz
+	https://dev.gentoo.org/~axs/distfiles/${PN}-slot0-patches-02.tar.xz
 	"
 
 LICENSE="NPL-1.1"
@@ -34,6 +34,37 @@ DEPEND="${RDEPEND}
 	app-arch/zip
 	virtual/pkgconfig"
 
+PATCHES=(
+	# https://bugzilla.mozilla.org/show_bug.cgi?id=628723#c43
+	"${WORKDIR}"/sm0/${P}-fix-install-symlinks.patch
+	# https://bugzilla.mozilla.org/show_bug.cgi?id=638056#c9
+	"${WORKDIR}"/sm0/${P}-fix-ppc64.patch
+	# https://bugs.gentoo.org/show_bug.cgi?id=400727
+	# https://bugs.gentoo.org/show_bug.cgi?id=420471
+	"${WORKDIR}"/sm0/${P}-arm_respect_cflags-3.patch
+	# https://bugs.gentoo.org/show_bug.cgi?id=438746
+	"${WORKDIR}"/sm0/${PN}-1.8.7-freebsd-pthreads.patch
+	# https://bugs.gentoo.org/show_bug.cgi?id=441928
+	"${WORKDIR}"/sm0/${PN}-1.8.5-perf_event-check.patch
+	# https://bugs.gentoo.org/show_bug.cgi?id=439260
+	"${WORKDIR}"/sm0/${P}-symbol-versions.patch
+	# https://bugs.gentoo.org/show_bug.cgi?id=441934
+	"${WORKDIR}"/sm0/${PN}-1.8.5-ia64-fix.patch
+	"${WORKDIR}"/sm0/${PN}-1.8.5-ia64-static-strings.patch
+	# https://bugs.gentoo.org/show_bug.cgi?id=431560
+	"${WORKDIR}"/sm0/${PN}-1.8.5-isfinite.patch
+	# https://bugs.gentoo.org/show_bug.cgi?id=552786
+	"${FILESDIR}"/${PN}-perl-defined-array-check.patch
+	# https://bugs.gentoo.org/show_bug.cgi?id=439558
+	"${WORKDIR}"/sm0/${PN}-1.8.7-x32.patch
+	# https://bugs.gentoo.org/show_bug.cgi?id=582478
+	"${WORKDIR}"/sm0/${PN}-1.8.5-gcc6.patch
+	# https://bugs.gentoo.org/679330
+	"${WORKDIR}"/sm0/${PN}-1.8.5-drop-asm-volatile-toplevel.patch
+)
+
+HTML_DOCS=( ${BUILDDIR}/README.html )
+
 pkg_setup(){
 	if [[ ${MERGE_TYPE} != "binary" ]]; then
 		export LC_ALL="C"
@@ -41,32 +72,9 @@ pkg_setup(){
 }
 
 src_prepare() {
-	# https://bugzilla.mozilla.org/show_bug.cgi?id=628723#c43
-	epatch "${WORKDIR}"/sm0/${P}-fix-install-symlinks.patch
-	# https://bugzilla.mozilla.org/show_bug.cgi?id=638056#c9
-	epatch "${WORKDIR}"/sm0/${P}-fix-ppc64.patch
-	# https://bugs.gentoo.org/show_bug.cgi?id=400727
-	# https://bugs.gentoo.org/show_bug.cgi?id=420471
-	epatch "${WORKDIR}"/sm0/${P}-arm_respect_cflags-3.patch
-	# https://bugs.gentoo.org/show_bug.cgi?id=438746
-	epatch "${WORKDIR}"/sm0/${PN}-1.8.7-freebsd-pthreads.patch
-	# https://bugs.gentoo.org/show_bug.cgi?id=441928
-	epatch "${WORKDIR}"/sm0/${PN}-1.8.5-perf_event-check.patch
-	# https://bugs.gentoo.org/show_bug.cgi?id=439260
-	epatch "${WORKDIR}"/sm0/${P}-symbol-versions.patch
-	# https://bugs.gentoo.org/show_bug.cgi?id=441934
-	epatch "${WORKDIR}"/sm0/${PN}-1.8.5-ia64-fix.patch
-	epatch "${WORKDIR}"/sm0/${PN}-1.8.5-ia64-static-strings.patch
-	# https://bugs.gentoo.org/show_bug.cgi?id=431560
-	epatch "${WORKDIR}"/sm0/${PN}-1.8.5-isfinite.patch
-	# https://bugs.gentoo.org/show_bug.cgi?id=552786
-	epatch "${FILESDIR}"/${PN}-perl-defined-array-check.patch
-	# https://bugs.gentoo.org/show_bug.cgi?id=439558
-	epatch "${WORKDIR}"/sm0/${PN}-1.8.7-x32.patch
-	# https://bugs.gentoo.org/show_bug.cgi?id=582478
-	epatch "${WORKDIR}"/sm0/${PN}-1.8.5-gcc6.patch
+	pwd
 
-	epatch_user
+	default
 
 	cd "${BUILDDIR}" || die
 	eautoconf
@@ -142,8 +150,7 @@ src_install() {
 		dobin shell/js
 		pax-mark m "${ED}/usr/bin/js"
 	fi
-	dodoc ../../README
-	dohtml README.html
+	einstalldocs
 
 	if ! use static-libs; then
 		# We can't actually disable building of static libraries

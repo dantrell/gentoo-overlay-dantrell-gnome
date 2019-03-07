@@ -19,9 +19,9 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	$(vala_depend)
-	app-text/yelp-tools
 	dev-libs/appstream-glib
 	>=dev-util/intltool-0.50
+	dev-util/itstool
 	sys-devel/gettext
 	virtual/pkgconfig
 "
