@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit bash-completion-r1 linux-info systemd udev xdg-utils
 
@@ -36,15 +36,17 @@ RDEPEND="${COMMON_DEPEND}
 	selinux? ( sec-policy/selinux-devicekit )
 "
 DEPEND="${COMMON_DEPEND}
+	>=sys-kernel/linux-headers-3.1
+"
+BDEPEND="
 	app-text/docbook-xsl-stylesheets
-	dev-libs/libxslt
 	>=dev-util/gdbus-codegen-2.32
 	>=dev-util/gtk-doc-am-1.3
-	>=sys-kernel/linux-headers-3.1
 	virtual/pkgconfig
-	nls? ( dev-util/intltool )
+	nls? ( sys-devel/gettext )
 "
 # If adding a eautoreconf, then these might be needed at buildtime:
+# dev-libs/gobject-introspection-common
 # gnome-base/gnome-common:3
 # sys-devel/autoconf-archive
 
@@ -61,7 +63,6 @@ pkg_setup() {
 
 src_prepare() {
 	xdg_environment_reset
-
 	default
 
 	if ! use systemd ; then
@@ -95,7 +96,7 @@ src_install() {
 	find "${ED}" -name "*.la" -delete || die
 	keepdir /var/lib/udisks2 #383091
 
-	rm -rf "${ED%/}"/usr/share/bash-completion
+	rm -rf "${ED}"/usr/share/bash-completion
 	dobashcomp data/completions/udisksctl
 }
 
