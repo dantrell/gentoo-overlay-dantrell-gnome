@@ -1,0 +1,4 @@
+>=app-misc/tracker-2.1.0 -*
+>=app-misc/tracker-miners-2.1.0 -*
+>=games-board/aisleriot-3.32.0 -*
+>=x11-wm/metacity-3.32.0 -*

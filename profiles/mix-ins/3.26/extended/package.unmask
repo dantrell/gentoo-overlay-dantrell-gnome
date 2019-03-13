@@ -55,7 +55,7 @@
 ~dev-vcs/gitg-3.26.0::dantrell-gnome
 ~games-arcade/gnome-nibbles-3.24.1::dantrell-gnome
 ~games-arcade/gnome-robots-3.22.3::dantrell-gnome
-~games-board/aisleriot-3.22.7::dantrell-gnome
+~games-board/aisleriot-3.22.8::dantrell-gnome
 ~games-board/four-in-a-row-3.22.2::dantrell-gnome
 ~games-board/gnome-chess-3.26.0::dantrell-gnome-3-26
 ~games-board/gnome-mahjongg-3.22.0::dantrell-gnome

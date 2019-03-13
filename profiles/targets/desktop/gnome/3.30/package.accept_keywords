@@ -1,6 +1,7 @@
 app-arch/gnome-autoar::dantrell-gnome ~*
 app-text/gspell::dantrell-gnome ~*
 app-text/libgepub::dantrell-gnome ~*
+app-text/poppler::dantrell-gnome ~*
 dev-lang/spidermonkey:52::gentoo ~*
 dev-lang/spidermonkey:60::gentoo ~*
 dev-libs/json-glib::dantrell-gnome ~*
@@ -10,7 +11,7 @@ gnome-base/libgtop::dantrell-gnome **
 mail-client/geary::dantrell-gnome **
 media-libs/babl::dantrell-gnome ~*
 media-libs/gegl:0.3::dantrell-gnome ~*
-media-libs/gegl::dantrell-gnome ~*
+media-libs/gegl:0.4::dantrell-gnome ~*
 media-libs/mesa::gentoo ~*
 net-misc/networkmanager::dantrell-gnome ~*
 sys-apps/osinfo-db-tools::dantrell-gnome ~*

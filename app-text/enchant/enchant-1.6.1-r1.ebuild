@@ -37,6 +37,7 @@ PATCHES=(
 src_prepare() {
 	default
 	sed -e "/SUBDIRS/ s/unittests//" -i "${S}"/Makefile.{am,in} || die
+	sed -e "s/build_zemberek=yes//" -i "${S}"/configure{.ac,} || die # bug 662484, shouldn't be an issue in 2.2
 }
 
 src_configure() {
@@ -48,6 +49,7 @@ src_configure() {
 		--disable-ispell \
 		--disable-uspell \
 		--disable-voikko \
+		--disable-zemberek \
 		--with-myspell-dir="${EPREFIX}"/usr/share/myspell/
 }
 
