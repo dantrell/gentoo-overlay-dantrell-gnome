@@ -164,7 +164,7 @@
 ~net-misc/rygel-0.36.2::dantrell-gnome
 ~net-misc/vino-3.22.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.28.2::dantrell-gnome
-~sci-geosciences/geocode-glib-3.26.0::dantrell-gnome
+~sci-geosciences/geocode-glib-3.26.1::dantrell-gnome
 ~sci-geosciences/gnome-maps-3.30.3::dantrell-gnome-3-30
 ~sys-apps/baobab-3.30.0::dantrell-gnome-3-30
 ~sys-apps/gnome-disk-utility-3.30.2::dantrell-gnome-3-30

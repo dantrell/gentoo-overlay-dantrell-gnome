@@ -10,7 +10,7 @@ SRC_URI="https://dev.gentoo.org/~leio/distfiles/${PN}/${P}.tar.xz"
 
 LICENSE="LGPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 

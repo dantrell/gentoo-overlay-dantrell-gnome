@@ -12,7 +12,6 @@ mail-client/geary::dantrell-gnome **
 media-libs/babl::dantrell-gnome ~*
 media-libs/gegl:0.3::dantrell-gnome ~*
 media-libs/gegl:0.4::dantrell-gnome ~*
-media-libs/mesa::gentoo ~*
 net-misc/networkmanager::dantrell-gnome ~*
 sys-apps/osinfo-db-tools::dantrell-gnome ~*
 sys-apps/osinfo-db::dantrell-gnome ~*
@@ -23,3 +22,4 @@ sys-power/upower::dantrell-gnome ~*
 x11-libs/cairo::dantrell-gnome ~*
 x11-libs/libdrm::gentoo ~*
 x11-libs/tepl::dantrell-gnome ~*
+<media-libs/mesa-19::gentoo ~*

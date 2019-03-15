@@ -14,9 +14,9 @@ SRC_URI="https://www.webkitgtk.org/releases/${MY_P}.tar.xz"
 
 LICENSE="LGPL-2+ BSD"
 SLOT="4/37" # soname version of libwebkit2gtk-4.0
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="aqua coverage doc +egl +geolocation gles2 gnome-keyring +gstreamer +introspection +jit libnotify nsplugin +opengl spell wayland +webgl +X"
+IUSE="aqua coverage doc +egl +geolocation gles2 gnome-keyring +gstreamer +introspection +jit jpeg2k +jumbo-build libnotify nsplugin +opengl spell wayland +webgl +X"
 # webgl needs gstreamer, bug #560612
 REQUIRED_USE="
 	geolocation? ( introspection )
@@ -37,13 +37,13 @@ RESTRICT="test"
 # Dependencies found at Source/cmake/OptionsGTK.cmake
 # Missing OpenWebRTC checks and conditionals, but ENABLE_MEDIA_STREAM/ENABLE_WEB_RTC is experimental upstream (PRIVATE OFF)
 RDEPEND="
-	>=x11-libs/cairo-1.10.2:=[X?]
-	>=media-libs/fontconfig-2.8.0:1.0
-	>=media-libs/freetype-2.4.2:2
+	>=x11-libs/cairo-1.16.0:=[X?]
+	>=media-libs/fontconfig-2.13.0:1.0
+	>=media-libs/freetype-2.9.0:2
 	>=dev-libs/libgcrypt-1.6.0:0=
 	x11-libs/gtk+:3=
 	>=x11-libs/gtk+-3.14:3[aqua?,introspection?,wayland?,X?]
-	>=media-libs/harfbuzz-1.3.3:=[icu(+)]
+	>=media-libs/harfbuzz-1.4.2:=[icu(+)]
 	>=dev-libs/icu-3.8.1-r1:=
 	virtual/jpeg:0=
 	>=net-libs/libsoup-2.48:2.4[introspection?]
@@ -65,9 +65,9 @@ RDEPEND="
 	nsplugin? ( >=x11-libs/gtk+-2.24.10:2 )
 	spell? ( >=app-text/enchant-0.22:0= )
 	gstreamer? (
-		>=media-libs/gstreamer-1.2.3:1.0
-		>=media-libs/gst-plugins-base-1.2.3:1.0
-		>=media-libs/gst-plugins-bad-1.10:1.0[egl?,gles2?,opengl?] )
+		>=media-libs/gstreamer-1.14:1.0
+		>=media-libs/gst-plugins-base-1.14:1.0[egl?,gles2?,opengl?]
+		>=media-libs/gst-plugins-bad-1.14:1.0 )
 
 	X? (
 		x11-libs/libX11
@@ -78,6 +78,7 @@ RDEPEND="
 
 	libnotify? ( x11-libs/libnotify )
 	dev-libs/hyphen
+	jpeg2k? ( >=media-libs/openjpeg-2.2.0:2= )
 
 	egl? ( media-libs/mesa[egl] )
 	gles2? ( media-libs/mesa[gles2] )
@@ -133,6 +134,16 @@ pkg_pretend() {
 		if tc-is-gcc && [[ $(gcc-version) < 4.9 ]] ; then
 			die 'The active compiler needs to be gcc 4.9 (or newer)'
 		fi
+	fi
+
+	if ! use opengl && ! use gles2; then
+		ewarn
+		ewarn "You are disabling OpenGL usage (USE=opengl or USE=gles) completely."
+		ewarn "This is an unsupported configuration meant for very specific embedded"
+		ewarn "use cases, where there truly is no GL possible (and even that use case"
+		ewarn "is very unlikely to come by). If you have GL (even software-only), you"
+		ewarn "really really should be enabling OpenGL!"
+		ewarn
 	fi
 }
 
@@ -210,6 +221,7 @@ src_configure() {
 	fi
 
 	local mycmakeargs=(
+		-DENABLE_UNIFIED_BUILDS=$(usex jumbo-build)
 		-DENABLE_QUARTZ_TARGET=$(usex aqua)
 		-DENABLE_API_TESTS=$(usex test)
 		-DENABLE_GTKDOC=$(usex doc)
@@ -222,6 +234,7 @@ src_configure() {
 		-DENABLE_JIT=$(usex jit)
 		-DUSE_LIBNOTIFY=$(usex libnotify)
 		-DUSE_LIBSECRET=$(usex gnome-keyring)
+		-DUSE_OPENJPEG=$(usex jpeg2k)
 		-DUSE_WOFF2=ON
 		-DENABLE_PLUGIN_PROCESS_GTK2=$(usex nsplugin)
 		-DENABLE_SPELLCHECK=$(usex spell)
