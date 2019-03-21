@@ -7,6 +7,7 @@ gnome-base/gnome-extra-apps flashback
 media-libs/gegl:0 ffmpeg
 media-libs/gegl:0.3 ffmpeg
 net-libs/liboauth curl
+net-libs/webkit-gtk jumbo-build
 net-misc/curl curl_ssl_axtls
 net-misc/curl curl_ssl_gnutls
 net-misc/curl curl_ssl_libressl

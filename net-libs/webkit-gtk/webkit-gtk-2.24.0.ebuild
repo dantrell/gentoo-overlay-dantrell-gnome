@@ -3,7 +3,7 @@
 EAPI="6"
 CMAKE_MAKEFILE_GENERATOR="ninja"
 PYTHON_COMPAT=( python2_7 )
-USE_RUBY="ruby23 ruby24 ruby25"
+USE_RUBY="ruby23 ruby24 ruby25 ruby26"
 
 inherit check-reqs cmake-utils flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs virtualx
 
@@ -40,7 +40,7 @@ RDEPEND="
 	>=x11-libs/cairo-1.16.0:=[X?]
 	>=media-libs/fontconfig-2.13.0:1.0
 	>=media-libs/freetype-2.9.0:2
-	>=dev-libs/libgcrypt-1.6.0:0=
+	>=dev-libs/libgcrypt-1.7.0:0=
 	x11-libs/gtk+:3=
 	>=x11-libs/gtk+-3.14:3[aqua?,introspection?,wayland?,X?]
 	>=media-libs/harfbuzz-1.4.2:=[icu(+)]
@@ -61,7 +61,6 @@ RDEPEND="
 	geolocation? ( >=app-misc/geoclue-2.4.0:2.0 )
 	introspection? ( >=dev-libs/gobject-introspection-1.32.0:= )
 	dev-libs/libtasn1:=
-	>=dev-libs/libgcrypt-1.7.0:0=
 	nsplugin? ( >=x11-libs/gtk+-2.24.10:2 )
 	spell? ( >=app-text/enchant-0.22:0= )
 	gstreamer? (
@@ -94,7 +93,6 @@ DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
 	${RUBY_DEPS}
 	>=app-accessibility/at-spi2-core-2.5.3
-	>=dev-lang/perl-5.10
 	>=dev-util/gtk-doc-am-1.10
 	>=dev-util/gperf-3.0.1
 	>=sys-devel/bison-2.4.3
@@ -102,7 +100,7 @@ DEPEND="${RDEPEND}
 	sys-devel/gettext
 	virtual/pkgconfig
 
-	dev-lang/perl
+	>=dev-lang/perl-5.10
 	virtual/perl-Data-Dumper
 	virtual/perl-Carp
 	virtual/perl-JSON-PP

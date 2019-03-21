@@ -8,7 +8,7 @@ inherit gnome2 vala versionator
 DESCRIPTION="Unicode character map viewer and library"
 HOMEPAGE="https://wiki.gnome.org/Apps/Gucharmap"
 
-LICENSE="GPL-3"
+LICENSE="GPL-3+"
 SLOT="2.90"
 KEYWORDS="~*"
 
@@ -20,6 +20,7 @@ COMMON_DEPEND="
 	>=dev-libs/glib-2.32:2
 	>=x11-libs/pango-1.2.1[introspection?]
 	>=x11-libs/gtk+-3.4.0:3[introspection?]
+	media-libs/freetype:2
 	introspection? ( >=dev-libs/gobject-introspection-0.9.0:= )
 "
 RDEPEND="${COMMON_DEPEND}

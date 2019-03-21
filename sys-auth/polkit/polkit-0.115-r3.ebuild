@@ -25,7 +25,7 @@ CDEPEND="
 		sys-auth/pambase
 		virtual/pam
 	)
-	systemd? ( sys-apps/systemd:0= )
+	systemd? ( sys-apps/systemd:0=[policykit] )
 "
 DEPEND="${CDEPEND}
 	app-text/docbook-xml-dtd:4.1.2

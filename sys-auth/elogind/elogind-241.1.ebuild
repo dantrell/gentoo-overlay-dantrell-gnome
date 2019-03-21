@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit linux-info meson pam udev xdg-utils
 
@@ -10,7 +10,7 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="CC0-1.0 LGPL-2.1+ public-domain"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="+acl debug doc +pam +policykit selinux"
 
@@ -40,8 +40,7 @@ PDEPEND="
 "
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-238.1-docs.patch
-	"${FILESDIR}"/${PN}-239.3-broken-test.patch # bug 669862
+	"${FILESDIR}"/${PN}-241.1-docs.patch
 )
 
 pkg_setup() {

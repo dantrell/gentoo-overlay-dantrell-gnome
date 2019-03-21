@@ -31,7 +31,6 @@ RDEPEND="
 	foomatic? ( !net-print/foomatic-filters )
 	jpeg? ( virtual/jpeg:0 )
 	ldap? ( net-nds/openldap )
-	pclm? ( >=app-text/qpdf-8.1.0:= )
 	pdf? ( app-text/mupdf )
 	perl? ( dev-lang/perl:= )
 	png? ( media-libs/libpng:0= )
@@ -53,7 +52,6 @@ src_prepare() {
 
 src_configure() {
 	local myeconfargs=(
-		--docdir="${EPREFIX}/usr/share/doc/${PF}"
 		--enable-imagefilters
 		--localstatedir="${EPREFIX}"/var
 		--with-browseremoteprotocols=DNSSD,CUPS
