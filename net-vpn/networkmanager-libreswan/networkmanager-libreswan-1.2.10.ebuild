@@ -37,6 +37,7 @@ src_configure() {
 		--disable-more-warnings
 		--disable-static
 		--with-dist-version=Gentoo
+		--without-libnm-glib
 		$(use_with gtk gnome)
 	)
 	gnome2_src_configure "${myconf[@]}"

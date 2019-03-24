@@ -1,1 +1,2 @@
 USE="${USE} ck"
+USE="${USE} -elogind"

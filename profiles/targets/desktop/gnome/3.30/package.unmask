@@ -151,6 +151,7 @@
 ~net-libs/glib-networking-2.58.0::dantrell-gnome-3-30
 ~net-libs/gnome-online-accounts-3.30.2::dantrell-gnome-3-30
 ~net-libs/gssdp-1.0.3::dantrell-gnome
+~net-libs/gtk-vnc-0.9.0::dantrell-gnome
 ~net-libs/gupnp-1.0.3::dantrell-gnome
 ~net-libs/gupnp-igd-0.2.5::dantrell-gnome
 ~net-libs/libsoup-2.64.2::dantrell-gnome-3-30
@@ -159,7 +160,7 @@
 ~net-libs/phodav-2.2::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome
 ~net-libs/webkit-gtk-2.22.7::dantrell-gnome
-~net-misc/gnome-online-miners-3.30.0::dantrell-gnome-3-30
+~net-misc/gnome-online-miners-3.30.0::dantrell-gnome
 ~net-misc/networkmanager-1.14.6::dantrell-gnome
 ~net-misc/rygel-0.36.2::dantrell-gnome
 ~net-misc/vino-3.22.0::dantrell-gnome

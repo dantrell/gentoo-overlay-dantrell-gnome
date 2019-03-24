@@ -60,7 +60,7 @@
 >=dev-util/glib-utils-2.58.0
 >=dev-util/gnome-builder-3.30.0
 >=dev-util/gnome-devel-docs-3.30.0
->=dev-util/gtk-update-icon-cache-3.30.0
+>=dev-util/gtk-update-icon-cache-4.0
 >=dev-util/sysprof-3.30.0
 >=dev-vcs/gitg-3.30.0
 >=games-arcade/gnome-nibbles-3.30.0

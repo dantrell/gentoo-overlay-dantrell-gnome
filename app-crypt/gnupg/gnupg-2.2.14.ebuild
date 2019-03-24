@@ -27,7 +27,7 @@ DEPEND="!app-crypt/dirmngr
 	bzip2? ( app-arch/bzip2 )
 	ldap? ( net-nds/openldap )
 	readline? ( sys-libs/readline:0= )
-	smartcard? ( usb? ( virtual/libusb:0 ) )
+	smartcard? ( usb? ( virtual/libusb:1 ) )
 	ssl? ( >=net-libs/gnutls-3.0:0= )
 	sys-libs/zlib
 	tofu? ( >=dev-db/sqlite-3.7 )

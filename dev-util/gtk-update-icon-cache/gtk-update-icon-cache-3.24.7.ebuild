@@ -16,7 +16,7 @@ IUSE=""
 
 # man page was previously installed by gtk+:3 ebuild
 RDEPEND="
-	>=dev-libs/glib-2.49.4:2
+	>=dev-libs/glib-2.53.4:2
 	>=x11-libs/gdk-pixbuf-2.30:2
 	!<x11-libs/gtk+-2.24.28-r1:2
 	!<x11-libs/gtk+-3.22.2:3
