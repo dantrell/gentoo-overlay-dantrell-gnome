@@ -1,5 +1,5 @@
-# Masked to test on GNOME 3.32 first
->=net-libs/webkit-gtk-2.24.0
+# Masked to test on GNOME 3.34 first
+>=net-libs/webkit-gtk-2.26.0
 
 # Requires GLib 2.56 (or greater)
 >=media-sound/pulseeffects-4.3.5

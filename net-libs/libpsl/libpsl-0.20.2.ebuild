@@ -1,8 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
+PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6,3_7} )
 
-inherit multilib-minimal
+inherit multilib-minimal python-any-r1
 
 DESCRIPTION="C library for the Public Suffix List"
 HOMEPAGE="https://github.com/rockdaboot/libpsl"
@@ -26,6 +27,7 @@ DEPEND="
 	${RDEPEND}
 "
 BDEPEND="
+	${PYTHON_DEPS}
 	dev-util/gtk-doc-am
 	sys-devel/gettext
 	virtual/pkgconfig

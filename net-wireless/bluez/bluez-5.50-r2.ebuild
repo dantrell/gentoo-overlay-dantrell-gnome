@@ -1,9 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
+
 PYTHON_COMPAT=( python2_7 )
 
-inherit autotools multilib python-single-r1 readme.gentoo-r1 systemd udev user multilib-minimal
+inherit autotools python-single-r1 readme.gentoo-r1 systemd udev user multilib-minimal
 
 DESCRIPTION="Bluetooth Tools and System Daemons for Linux"
 HOMEPAGE="http://www.bluez.org"
@@ -11,7 +12,7 @@ SRC_URI="mirror://kernel/linux/bluetooth/${P}.tar.xz"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0/3"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="alsa btpclient cups doc debug deprecated extra-tools experimental +mesh +obex +readline selinux systemd test test-programs +udev user-session"
 # Since this release all remaining extra-tools need readline support, but this could
@@ -21,12 +22,18 @@ REQUIRED_USE="
 	extra-tools? ( deprecated readline )
 	test? ( ${PYTHON_REQUIRED_USE} )
 	test-programs? ( ${PYTHON_REQUIRED_USE} )
-	user-session? ( systemd )
 "
 
-CDEPEND="
+TEST_DEPS="${PYTHON_DEPS}
+	>=dev-python/dbus-python-1[${PYTHON_USEDEP}]
+	dev-python/pygobject:3[${PYTHON_USEDEP}]
+"
+BDEPEND="
+	virtual/pkgconfig
+	test? ( ${TEST_DEPS} )
+"
+DEPEND="
 	>=dev-libs/glib-2.28:2[${MULTILIB_USEDEP}]
-	>=sys-apps/dbus-1.6:=[user-session=]
 	>=sys-apps/hwids-20121202.2
 	alsa? ( media-libs/alsa-lib )
 	btpclient? ( >=dev-libs/ell-0.3 )
@@ -34,22 +41,18 @@ CDEPEND="
 	mesh? (
 		>=dev-libs/ell-0.3
 		dev-libs/json-c:=
-		sys-libs/readline:0= )
+		sys-libs/readline:0=
+	)
 	obex? ( dev-libs/libical:= )
 	readline? ( sys-libs/readline:0= )
-	systemd? ( sys-apps/systemd )
+	systemd? (
+		>=sys-apps/dbus-1.6:=[user-session=]
+		sys-apps/systemd
+	)
+	!systemd? ( >=sys-apps/dbus-1.6:= )
 	udev? ( >=virtual/udev-172 )
 "
-TEST_DEPS="${PYTHON_DEPS}
-	>=dev-python/dbus-python-1[${PYTHON_USEDEP}]
-	dev-python/pygobject:3[${PYTHON_USEDEP}]
-"
-
-DEPEND="${CDEPEND}
-	virtual/pkgconfig
-	test? (	${TEST_DEPS} )
-"
-RDEPEND="${CDEPEND}
+RDEPEND="${DEPEND}
 	selinux? ( sec-policy/selinux-bluetooth )
 	test-programs? ( ${TEST_DEPS} )
 "
@@ -102,7 +105,9 @@ src_prepare() {
 	default
 
 	# http://www.spinics.net/lists/linux-bluetooth/msg38490.html
-	! use user-session && eapply "${FILESDIR}"/${PN}-0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch
+	if ! use user-session || ! use systemd; then
+		eapply "${FILESDIR}"/${PN}-0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch
+	fi
 
 	if use cups; then
 		sed -i \
@@ -232,7 +237,9 @@ multilib_src_install_all() {
 	# https://bugs.archlinux.org/task/45816
 	# https://bugzilla.redhat.com/show_bug.cgi?id=1318441
 	# https://bugzilla.redhat.com/show_bug.cgi?id=1389347
-	use user-session && ln -s "${ED}"/usr/lib/systemd/user/obex.service "${ED}"/usr/lib/systemd/user/dbus-org.bluez.obex.service
+	if use user-session && use systemd; then
+		ln -s "${ED}"/usr/lib/systemd/user/obex.service "${ED}"/usr/lib/systemd/user/dbus-org.bluez.obex.service
+	fi
 
 	find "${D}" -name '*.la' -delete || die
 

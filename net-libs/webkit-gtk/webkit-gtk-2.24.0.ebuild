@@ -38,7 +38,7 @@ RESTRICT="test"
 # Missing OpenWebRTC checks and conditionals, but ENABLE_MEDIA_STREAM/ENABLE_WEB_RTC is experimental upstream (PRIVATE OFF)
 RDEPEND="
 	>=x11-libs/cairo-1.16.0:=[X?]
-	>=media-libs/fontconfig-2.13.0:1.0
+	>=media-libs/fontconfig-2.8.0:1.0
 	>=media-libs/freetype-2.9.0:2
 	>=dev-libs/libgcrypt-1.7.0:0=
 	x11-libs/gtk+:3=
