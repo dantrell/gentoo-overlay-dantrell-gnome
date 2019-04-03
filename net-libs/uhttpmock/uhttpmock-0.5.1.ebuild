@@ -10,7 +10,7 @@ DESCRIPTION="HTTP web service mocking library"
 HOMEPAGE="https://gitlab.com/uhttpmock/uhttpmock"
 SRC_URI="http://tecnocode.co.uk/downloads/${PN}/${P}.tar.xz"
 
-LICENSE="LGPL-2"
+LICENSE="LGPL-2+"
 SLOT="0"
 KEYWORDS="*"
 

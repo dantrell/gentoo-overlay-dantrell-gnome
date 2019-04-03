@@ -11,7 +11,7 @@ SRC_URI="https://releases.pagure.org/libosinfo/${P}.tar.gz"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="+introspection +vala test"
 REQUIRED_USE="vala? ( introspection )"
@@ -34,13 +34,13 @@ DEPEND="${RDEPEND}
 	dev-lang/perl
 	dev-libs/gobject-introspection-common
 	>=dev-util/gtk-doc-am-1.10
-	>=dev-util/intltool-0.40.0
+	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	test? (
-		>=sys-apps/osinfo-db-20180612
+		<=sys-apps/osinfo-db-20190304
 	)
 	vala? ( $(vala_depend) )
-"
+" # osinfo-db-20190319 and newer make tests fail; next libosinfo will remove the failing tests (moved to a future osinfo-db itself)
 
 src_prepare() {
 	gnome2_src_prepare

@@ -10,20 +10,21 @@ SRC_URI="https://releases.pagure.org/libosinfo/${P}.tar.gz"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 # Blocker on old libosinfo as osinfo-db-validate was part of it before
 RDEPEND="
 	>=dev-libs/glib-2.36:2
 	>=dev-libs/libxml2-2.6.0
 	>=app-arch/libarchive-3.0.0:=
+	dev-libs/json-glib
 	!<sys-libs/libosinfo-1.0.0
 "
-# perl dep is for pod2man
+# perl dep is for pod2man (and syntax check but only in git, but configure check exists in release)
 # libxslt is checked for in configure.ac, but never used in 1.1.0
 DEPEND="${RDEPEND}
 	>=dev-libs/libxslt-1.0.0
 	virtual/pkgconfig
-	>=dev-util/intltool-0.40.0
+	>=sys-devel/gettext-0.19.8
 	dev-lang/perl
 "
