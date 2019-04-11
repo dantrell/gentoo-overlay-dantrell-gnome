@@ -1,0 +1,115 @@
+diff '--exclude=.git' -urN a/configure.ac b/configure.ac
+--- a/configure.ac	2019-04-10 16:12:25.000000000 -0500
++++ b/configure.ac	2019-04-10 20:54:11.341398698 -0500
+@@ -1003,6 +1003,8 @@
+ 
+ AM_CONDITIONAL(CROSS_COMPILING, test $cross_compiling = yes)
+ 
++AC_PATH_PROG(GTK_UPDATE_ICON_CACHE, [gtk-update-icon-cache], [no])
++
+ ########################################
+ # Windowing system checks
+ ########################################
+diff '--exclude=.git' -urN a/demos/gtk-demo/Makefile.am b/demos/gtk-demo/Makefile.am
+--- a/demos/gtk-demo/Makefile.am	2019-04-10 14:30:43.000000000 -0500
++++ b/demos/gtk-demo/Makefile.am	2019-04-10 20:54:11.341398698 -0500
+@@ -171,7 +171,7 @@
+ dist_appsicon48_DATA = data/48x48/gtk3-demo.png data/48x48/gtk3-demo-symbolic.symbolic.png
+ dist_appsicon256_DATA = data/256x256/gtk3-demo.png data/256x256/gtk3-demo-symbolic.symbolic.png
+ 
+-update_icon_cache = $(top_builddir)/gtk/gtk-update-icon-cache$(EXEEXT) --ignore-theme-index --force
++update_icon_cache = $(GTK_UPDATE_ICON_CACHE) --ignore-theme-index --force
+ 
+ install-data-hook: install-update-icon-cache
+ uninstall-hook: uninstall-update-icon-cache
+diff '--exclude=.git' -urN a/demos/widget-factory/Makefile.am b/demos/widget-factory/Makefile.am
+--- a/demos/widget-factory/Makefile.am	2019-04-10 14:30:43.000000000 -0500
++++ b/demos/widget-factory/Makefile.am	2019-04-10 20:54:11.342398693 -0500
+@@ -47,7 +47,7 @@
+ dist_appsicon48_DATA = data/48x48/gtk3-widget-factory.png data/48x48/gtk3-widget-factory-symbolic.symbolic.png
+ dist_appsicon256_DATA = data/256x256/gtk3-widget-factory.png data/256x256/gtk3-widget-factory-symbolic.symbolic.png
+ 
+-update_icon_cache = $(top_builddir)/gtk/gtk-update-icon-cache$(EXEEXT) --ignore-theme-index --force
++update_icon_cache = $(GTK_UPDATE_ICON_CACHE) --ignore-theme-index --force
+ 
+ install-data-hook: install-update-icon-cache
+ uninstall-hook: uninstall-update-icon-cache
+diff '--exclude=.git' -urN a/docs/reference/gtk/Makefile.am b/docs/reference/gtk/Makefile.am
+--- a/docs/reference/gtk/Makefile.am	2019-04-10 14:30:43.000000000 -0500
++++ b/docs/reference/gtk/Makefile.am	2019-04-10 20:54:11.342398693 -0500
+@@ -502,7 +502,6 @@
+ 
+ man_MANS = 				\
+ 	gtk-query-immodules-3.0.1	\
+-	gtk-update-icon-cache.1		\
+ 	gtk-encode-symbolic-svg.1	\
+ 	gtk-launch.1			\
+ 	gtk3-demo.1			\
+diff '--exclude=.git' -urN a/gtk/Makefile.am b/gtk/Makefile.am
+--- a/gtk/Makefile.am	2019-04-10 14:30:43.000000000 -0500
++++ b/gtk/Makefile.am	2019-04-10 20:55:28.616031211 -0500
+@@ -1653,7 +1653,6 @@
+ #
+ bin_PROGRAMS = \
+ 	gtk-query-immodules-3.0	\
+-	gtk-update-icon-cache \
+ 	gtk-encode-symbolic-svg \
+ 	gtk-builder-tool \
+ 	gtk-query-settings \
+@@ -1666,9 +1665,6 @@
+ 	$(GMODULE_LIBS)				\
+ 	$(GTK_DEP_LIBS)
+ 
+-gtk_update_icon_cache_SOURCES = updateiconcache.c
+-gtk_update_icon_cache_LDADD = $(GDK_PIXBUF_LIBS)
+-
+ gtk_encode_symbolic_svg_SOURCES = encodesymbolic.c
+ gtk_encode_symbolic_svg_LDADD =			\
+ 	$(GDK_PIXBUF_LIBS)			\
+@@ -1693,46 +1689,6 @@
+ 	$(top_builddir)/gdk/libgdk-3.la		\
+ 	$(GTK_DEP_LIBS)
+ 
+-if OS_WIN32
+-
+-# Workaround for UAC silliness: programs with "update" in their name
+-# are believed to be installers and require elevated privileges to be
+-# used... Embed a manifest file into executable to tell Windows that
+-# gtk-update-icon-cache.exe doesn't require any special privileges.
+-
+-GTK_UPDATE_ICON_CACHE_MANIFEST = gtk-update-icon-cache.exe.manifest
+-GTK_UPDATE_ICON_CACHE_RC = gtk-update-icon-cache.rc
+-GTK_UPDATE_ICON_CACHE_MANIFEST_OBJECT = gtk-update-icon-cache_manifest.o
+-
+-$(GTK_UPDATE_ICON_CACHE_MANIFEST):
+-	(echo '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' ; \
+-	 echo '<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">' ; \
+-	 echo '  <assemblyIdentity version="1.0.0.0"' ; \
+-	 echo '     processorArchitecture="'$(EXE_MANIFEST_ARCHITECTURE)'"' ; \
+-	 echo '     name="gtk-update-icon-cache.exe"' ; \
+-	 echo '     type="win32"/>' ; \
+-	 echo '  <!-- Identify the application security requirements. -->' ; \
+-	 echo '  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">' ; \
+-	 echo '    <security>' ; \
+-	 echo '      <requestedPrivileges>' ; \
+-	 echo '        <requestedExecutionLevel' ; \
+-	 echo '          level="asInvoker"' ; \
+-	 echo '          uiAccess="false"/>' ; \
+-	 echo '        </requestedPrivileges>' ; \
+-	 echo '       </security>' ; \
+-	 echo '  </trustInfo>' ; \
+-	 echo '</assembly>' ) >$@
+-
+-$(GTK_UPDATE_ICON_CACHE_RC):
+-	(echo -e '#include <winuser.h>\nCREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST '$(GTK_UPDATE_ICON_CACHE_MANIFEST)) >$@
+-
+-$(GTK_UPDATE_ICON_CACHE_MANIFEST_OBJECT): $(GTK_UPDATE_ICON_CACHE_RC) $(GTK_UPDATE_ICON_CACHE_MANIFEST)
+-	$(WINDRES) --input $< --output $@ --output-format=coff
+-
+-gtk_update_icon_cache_LDADD += $(GTK_UPDATE_ICON_CACHE_MANIFEST_OBJECT)
+-
+-endif
+-
+ .PHONY: files
+ 
+ files:

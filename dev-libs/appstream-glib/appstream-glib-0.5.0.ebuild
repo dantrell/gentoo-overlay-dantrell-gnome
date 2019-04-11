@@ -9,14 +9,14 @@ DESCRIPTION="Provides GObjects and helper methods to read and write AppStream me
 HOMEPAGE="https://people.freedesktop.org/~hughsient/appstream-glib/"
 SRC_URI="https://people.freedesktop.org/~hughsient/${PN}/releases/${P}.tar.xz"
 
-LICENSE="LGPL-2.1"
+LICENSE="LGPL-2.1+"
 SLOT="0/8" # soname version
 KEYWORDS="*"
 
 IUSE="+introspection nls"
 
 RDEPEND="
-	app-arch/gcab
+	<app-arch/gcab-1.0
 	app-arch/libarchive
 	dev-db/sqlite:3
 	>=dev-libs/glib-2.16.1:2

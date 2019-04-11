@@ -24,7 +24,7 @@
 >=app-text/yelp-tools-3.32.0
 >=dev-cpp/atkmm-2.26.0
 >=dev-cpp/cairomm-1.13.0
->=dev-cpp/glibmm-2.58.0
+>=dev-cpp/glibmm-2.60.0
 >=dev-cpp/gtkmm-3.32.0
 >=dev-cpp/gtksourceviewmm-3.32.0
 >=dev-cpp/libxmlpp-3.1.0
@@ -127,7 +127,6 @@
 >=gnome-extra/gnome-system-monitor-3.32.0
 >=gnome-extra/gnome-todo-3.32.0
 >=gnome-extra/gnome-tweaks-3.32.0
->=gnome-extra/gnome-tweak-tool-3.32.0
 >=gnome-extra/gnome-usage-3.32.0
 >=gnome-extra/gnome-user-docs-3.32.0
 >=gnome-extra/gnome-user-share-3.32.0
@@ -180,7 +179,7 @@
 >=x11-libs/gnome-pty-helper-0.56.0
 >=x11-libs/gtksourceview-3.32.0
 >=x11-libs/gtk+-3.26.0
->=x11-libs/libwnck-3.32.0
+>=x11-libs/libwnck-3.31.0
 >=x11-libs/tepl-5.0
 >=x11-libs/vte-0.56.0
 >=x11-misc/gpaste-3.32.0

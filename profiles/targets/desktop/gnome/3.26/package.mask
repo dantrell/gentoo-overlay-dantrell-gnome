@@ -2,6 +2,7 @@
 >=net-libs/webkit-gtk-2.26.0
 
 # Requires GLib 2.56 (or greater)
+>=media-gfx/gimp-2.10.0
 >=media-sound/pulseeffects-4.3.5
 >=x11-misc/xpad-5.1.0
 
@@ -29,7 +30,7 @@
 >=dev-cpp/atkmm-2.26.0
 >=dev-cpp/cairomm-1.13.0
 >=dev-cpp/glibmm-2.56.0
->=dev-cpp/gtkmm-3.28.0
+>=dev-cpp/gtkmm-3.24.0
 >=dev-cpp/gtksourceviewmm-3.28.0
 >=dev-cpp/libxmlpp-3.1.0
 >=dev-cpp/pangomm-2.42.0
@@ -54,7 +55,7 @@
 >=dev-libs/libpeas-1.24.0
 >=dev-libs/libsigc++-2.99.0
 >=dev-libs/libunistring-0.10.0
->=dev-libs/totem-pl-parser-3.26.0
+>=dev-libs/totem-pl-parser-3.28.0
 >=dev-python/pyatspi-2.26.0
 >=dev-python/pygobject-3.28.0
 >=dev-util/anjuta-3.28.0
@@ -131,7 +132,6 @@
 >=gnome-extra/gnome-system-monitor-3.28.0
 >=gnome-extra/gnome-todo-3.28.0
 >=gnome-extra/gnome-tweaks-3.28.0
->=gnome-extra/gnome-tweak-tool-3.28.0
 >=gnome-extra/gnome-usage-3.28.0
 >=gnome-extra/gnome-user-docs-3.28.0
 >=gnome-extra/gnome-user-share-3.28.0

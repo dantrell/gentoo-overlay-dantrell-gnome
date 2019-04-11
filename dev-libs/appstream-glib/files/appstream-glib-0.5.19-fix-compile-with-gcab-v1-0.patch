@@ -1,0 +1,27 @@
+diff '--exclude=.git' -urN a/configure.ac b/configure.ac
+--- a/configure.ac	2016-09-13 04:34:25.000000000 -0500
++++ b/configure.ac	2019-04-09 20:58:28.678049008 -0500
+@@ -148,6 +148,11 @@
+ AM_CONDITIONAL(HAVE_GCAB, test x$enable_firmware = xyes)
+ AC_SUBST([GCAB_DEPENDENCY])
+ 
++PKG_CHECK_MODULES(GCAB, libgcab-1.0 >= 1.0, HAVE_GCAB_1_0="yes", HAVE_GCAB_1_0="no")
++if test "x$HAVE_GCAB_1_0" = "xyes"; then
++	AC_DEFINE(HAVE_GCAB_1_0, 1, [define if GCab 1.0 is installed])
++fi
++
+ # font support (default enabled)
+ AC_ARG_ENABLE(firmware, AS_HELP_STRING([--disable-fonts],[Disable font support]), enable_fonts=$enableval)
+ if test x$enable_fonts != xno; then
+diff '--exclude=.git' -urN a/libappstream-glib/as-store-cab.c b/libappstream-glib/as-store-cab.c
+--- a/libappstream-glib/as-store-cab.c	2016-09-13 04:28:50.000000000 -0500
++++ b/libappstream-glib/as-store-cab.c	2019-04-09 20:38:26.000084645 -0500
+@@ -28,7 +28,7 @@
+ #include "as-store-cab.h"
+ #include "as-utils.h"
+ 
+-#ifndef GCabCabinet_autoptr
++#ifndef HAVE_GCAB_1_0
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GCabCabinet, g_object_unref)
+ #endif
+ 

@@ -12,23 +12,23 @@ SRC_URI="https://www.freedesktop.org/software/ModemManager/ModemManager-${PV}.ta
 
 LICENSE="GPL-2+"
 SLOT="0/1" # subslot = dbus interface version, i.e. N in org.freedesktop.ModemManager${N}
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="ck +introspection mbim policykit +qmi systemd +udev vala"
 REQUIRED_USE="
-	vala? ( introspection )
 	?? ( ck systemd )
+	vala? ( introspection )
 "
 
 RDEPEND="
 	>=dev-libs/glib-2.36.0:2
 	ck? ( >=sys-power/upower-0.99:=[ck] )
+	udev? ( >=virtual/libgudev-230:= )
 	introspection? ( >=dev-libs/gobject-introspection-0.9.6:= )
 	mbim? ( >=net-libs/libmbim-1.16.0 )
 	policykit? ( >=sys-auth/polkit-0.106[introspection] )
 	qmi? ( >=net-libs/libqmi-1.20.0:= )
 	systemd? ( >=sys-apps/systemd-209 )
-	udev? ( >=virtual/libgudev-230:= )
 "
 DEPEND="${RDEPEND}
 	dev-util/gdbus-codegen
@@ -63,19 +63,21 @@ src_prepare() {
 }
 
 src_configure() {
-	gnome2_src_configure \
-		--disable-more-warnings \
-		--disable-static \
-		--with-dist-version=${PVR} \
-		--with-udev-base-dir="$(get_udevdir)" \
-		$(use_with udev) \
-		$(use_enable introspection) \
-		$(use_with mbim) \
-		$(use_with policykit polkit) \
-		$(usex systemd --with-suspend-resume=systemd $(usex ck --with-suspend-resume=upower --with-suspend-resume=no)) \
-		$(use_with systemd systemd-journal) \
-		$(use_with qmi) \
+	local myconf=(
+		--disable-more-warnings
+		--disable-static
+		--with-dist-version=${PVR}
+		--with-udev-base-dir="$(get_udevdir)"
+		$(use_with udev)
+		$(use_enable introspection)
+		$(use_with mbim)
+		$(use_with policykit polkit)
+		$(usex systemd --with-suspend-resume=systemd $(usex ck --with-suspend-resume=upower --with-suspend-resume=no))
+		$(use_with systemd systemd-journal)
+		$(use_with qmi)
 		$(use_enable vala)
+	)
+	gnome2_src_configure "${myconf[@]}"
 }
 
 src_install() {

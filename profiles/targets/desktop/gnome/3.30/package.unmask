@@ -3,7 +3,6 @@
 ~app-accessibility/at-spi2-core-2.30.1::dantrell-gnome-3-30
 ~app-accessibility/orca-3.30.2::dantrell-gnome-3-30
 ~app-arch/file-roller-3.30.1::dantrell-gnome-3-30
-~app-arch/gcab-1.1::dantrell-gnome
 ~app-arch/gnome-autoar-0.2.3::dantrell-gnome
 ~app-crypt/gcr-3.28.1::dantrell-gnome
 ~app-crypt/libsecret-0.18.8::dantrell-gnome
@@ -35,7 +34,7 @@
 ~dev-libs/gom-0.3.3::dantrell-gnome
 ~dev-libs/jsonrpc-glib-3.30.1::dantrell-gnome-3-30
 ~dev-libs/json-glib-1.4.4::dantrell-gnome
-~dev-libs/libcroco-0.6.12::dantrell-gnome
+~dev-libs/libcroco-0.6.13::dantrell-gnome
 ~dev-libs/libdazzle-3.30.2::dantrell-gnome-3-30
 ~dev-libs/libgdata-0.17.9::dantrell-gnome
 ~dev-libs/libgee-0.20.1::dantrell-gnome
@@ -53,7 +52,7 @@
 ~dev-util/gnome-builder-3.30.3::dantrell-gnome-3-30
 ~dev-util/gnome-devel-docs-3.30.2::dantrell-gnome-3-30
 ~dev-util/sysprof-3.30.2::dantrell-gnome-3-30
-~dev-vcs/gitg-3.30.1::dantrell-gnome-3-30
+~dev-vcs/gitg-3.30.1::dantrell-gnome
 ~games-arcade/gnome-nibbles-3.24.1::dantrell-gnome
 ~games-arcade/gnome-robots-3.22.3::dantrell-gnome
 ~games-board/four-in-a-row-3.28.0::dantrell-gnome
@@ -82,7 +81,6 @@
 ~gnome-base/gnome-desktop-3.30.2.1::dantrell-gnome-3-30
 ~gnome-base/gnome-desktop-3.30.2::dantrell-gnome-3-30
 ~gnome-base/gnome-extra-apps-3.30.0::dantrell-gnome-3-30
-~gnome-base/gnome-flashback-3.30.0::dantrell-gnome-3-30
 ~gnome-base/gnome-light-3.30.0::dantrell-gnome-3-30
 ~gnome-base/gnome-session-3.30.1::dantrell-gnome-3-30
 ~gnome-base/gnome-settings-daemon-3.30.2::dantrell-gnome-3-30
@@ -113,6 +111,7 @@
 ~gnome-extra/gnome-software-3.30.6::dantrell-gnome-3-30
 ~gnome-extra/gnome-system-monitor-3.30.0::dantrell-gnome-3-30
 ~gnome-extra/gnome-tweaks-3.30.2::dantrell-gnome-3-30
+~gnome-extra/gnome-usage-3.30.0::dantrell-gnome-3-30
 ~gnome-extra/gnome-user-docs-3.30.2::dantrell-gnome-3-30
 ~gnome-extra/gnome-user-share-3.28.0::dantrell-gnome
 ~gnome-extra/gnome-weather-3.26.0::dantrell-gnome
@@ -175,11 +174,11 @@
 ~x11-libs/libnotify-0.7.7::dantrell-gnome
 ~x11-libs/libwnck-3.30.0::dantrell-gnome-3-30
 ~x11-libs/pango-1.42.4::dantrell-gnome
-~x11-libs/vte-0.54.3::dantrell-gnome-3-30
-~x11-misc/gpaste-3.30.1::dantrell-gnome-3-30
-~x11-terms/gnome-terminal-3.30.2::dantrell-gnome-3-30
+~x11-libs/vte-0.54.4::dantrell-gnome-3-30
+~x11-misc/gpaste-3.30.2::dantrell-gnome-3-30
+~x11-terms/gnome-terminal-3.30.3::dantrell-gnome-3-30
 ~x11-themes/adwaita-icon-theme-3.30.1::dantrell-gnome-3-30
 ~x11-themes/gnome-backgrounds-3.30.0::dantrell-gnome-3-30
 ~x11-themes/gnome-themes-extra-3.28::dantrell-gnome
-~x11-wm/metacity-3.30.1::dantrell-gnome-3-30
+~x11-wm/metacity-3.30.1::dantrell-gnome
 ~x11-wm/mutter-3.30.2::dantrell-gnome-3-30

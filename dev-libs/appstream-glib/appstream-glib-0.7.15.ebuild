@@ -16,7 +16,7 @@ KEYWORDS="~*"
 IUSE="doc +introspection stemmer"
 
 RDEPEND="
-	app-arch/gcab
+	>=app-arch/gcab-1.0
 	app-arch/libarchive
 	dev-db/sqlite:3
 	>=dev-libs/glib-2.45.8:2

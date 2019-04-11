@@ -124,6 +124,7 @@ games-puzzle/quadrapassel::gentoo
 gnome-base/dconf::gentoo
 gnome-base/gnome-common::gentoo
 gnome-base/gnome-desktop::gentoo
+gnome-base/gnome-flashback::gentoo
 gnome-base/gnome-keyring::gentoo
 gnome-base/gnome-menus::gentoo
 gnome-base/gnome-shell-common::gentoo
@@ -141,7 +142,6 @@ gnome-extra/gnome-dvb-daemon::gentoo
 gnome-extra/gnome-power-manager::gentoo
 gnome-extra/gnome-recipes::gentoo
 gnome-extra/gnome-todo::gentoo
-gnome-extra/gnome-usage::gentoo
 gnome-extra/gnome-user-share::gentoo
 gnome-extra/gnome-weather::gentoo
 gnome-extra/gtkhtml::gentoo
@@ -173,6 +173,7 @@ media-libs/clutter-gtk::gentoo
 media-libs/clutter::gentoo
 media-libs/cogl::gentoo
 media-libs/gegl::gentoo
+media-libs/gexiv2::gentoo
 media-libs/grilo::gentoo
 media-libs/gsound::gentoo
 media-libs/gst-rtsp-server::gentoo
@@ -187,6 +188,7 @@ media-sound/rhythmbox::gentoo
 media-sound/sound-juicer::gentoo
 media-video/gnome-mplayer::gentoo
 media-video/gnome-video-effects::gentoo
+media-video/pipewire::gentoo
 media-video/totem::gentoo
 net-analyzer/gnome-nettool::gentoo
 net-im/empathy::gentoo
@@ -267,3 +269,4 @@ x11-themes/gnome-icon-theme::gentoo
 x11-themes/gnome-themes-extra::gentoo
 x11-themes/gnome-themes-standard::gentoo
 x11-themes/gtk-engines-adwaita::gentoo
+x11-wm/metacity::gentoo

@@ -1,4 +1,4 @@
 app-arch/gnome-autoar::dantrell-gnome ~*
-dev-lang/spidermonkey:38::gentoo ~*
+dev-lang/spidermonkey:38::dantrell-gnome ~*
 dev-libs/json-glib::dantrell-gnome ~*
 sys-auth/elogind::dantrell-gnome ~*

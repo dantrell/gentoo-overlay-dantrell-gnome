@@ -10,7 +10,7 @@ HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2+"
 SLOT="3/24" # From WebKit: http://trac.webkit.org/changeset/195811
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="aqua broadway cloudprint colord cups doc examples +introspection test vim-syntax wayland X xinerama"
 REQUIRED_USE="
@@ -82,12 +82,12 @@ RDEPEND="${COMMON_DEPEND}
 	>=dev-util/gtk-update-icon-cache-3
 	!<gnome-base/gail-1000
 	!<x11-libs/vte-0.31.0:2.90
-	>=x11-themes/adwaita-icon-theme-3.14
 "
 # librsvg for svg icons (PDEPEND to avoid circular dep), bug #547710
 PDEPEND="
 	gnome-base/librsvg[${MULTILIB_USEDEP}]
 	vim-syntax? ( app-vim/gtk-syntax )
+	>=x11-themes/adwaita-icon-theme-3.14
 "
 
 MULTILIB_CHOST_TOOLS=(

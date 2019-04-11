@@ -3,7 +3,7 @@
 EAPI="6"
 GNOME2_LA_PUNT="yes"
 
-inherit bash-completion-r1 gnome2
+inherit autotools bash-completion-r1 gnome2
 
 DESCRIPTION="Provides GObjects and helper methods to read and write AppStream metadata"
 HOMEPAGE="https://people.freedesktop.org/~hughsient/appstream-glib/"
@@ -16,7 +16,7 @@ KEYWORDS="*"
 IUSE="+introspection nls stemmer"
 
 RDEPEND="
-	app-arch/gcab
+	>=app-arch/gcab-1.0
 	app-arch/libarchive
 	dev-db/sqlite:3
 	>=dev-libs/glib-2.45.8:2
@@ -44,6 +44,15 @@ DEPEND="${RDEPEND}
 RDEPEND="${RDEPEND}
 	!<dev-util/appdata-tools-0.1.8-r1
 "
+
+src_prepare() {
+	# From AppStream-Glib:
+	# 	https://github.com/hughsie/appstream-glib/commit/f7a064e4509d7f24d57d39a71ecde90292de9a3b
+	eapply "${FILESDIR}"/${PN}-0.5.19-fix-compile-with-gcab-v1-0.patch
+
+	eautoreconf
+	gnome2_src_prepare
+}
 
 src_configure() {
 	gnome2_src_configure \

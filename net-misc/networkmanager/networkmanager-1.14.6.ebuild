@@ -4,7 +4,7 @@ EAPI="6"
 GNOME_ORG_MODULE="NetworkManager"
 GNOME2_LA_PUNT="yes"
 VALA_USE_DEPEND="vapigen"
-PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6,3_7} )
+PYTHON_COMPAT=( python{3_4,3_5,3_6,3_7} )
 
 inherit bash-completion-r1 gnome2 linux-info multilib python-any-r1 systemd \
 	user readme.gentoo-r1 toolchain-funcs vala versionator virtualx udev multilib-minimal
@@ -14,7 +14,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
 
 LICENSE="GPL-2+"
 SLOT="0" # add subslot if libnm-util.so.2 or libnm-glib.so.4 bumps soname version
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="audit bluetooth ck connection-sharing consolekit +dhclient dhcpcd doc elogind gnutls +introspection iwd json kernel_linux +nss +modemmanager ncurses ofono ovs policykit +ppp resolvconf selinux systemd teamd test vala +vanilla +wext +wifi"
 REQUIRED_USE="
@@ -35,7 +35,6 @@ COMMON_DEPEND="
 	>=dev-libs/dbus-glib-0.100[${MULTILIB_USEDEP}]
 	dev-libs/glib:2=[${MULTILIB_USEDEP}]
 	>=dev-libs/glib-2.40:2[${MULTILIB_USEDEP}]
-	>=dev-libs/libnl-3.2.8:3=[${MULTILIB_USEDEP}]
 	policykit? ( >=sys-auth/polkit-0.106 )
 	net-libs/libndp[${MULTILIB_USEDEP}]
 	>=net-misc/curl-7.24

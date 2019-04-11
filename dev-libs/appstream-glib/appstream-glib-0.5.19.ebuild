@@ -3,20 +3,20 @@
 EAPI="6"
 GNOME2_LA_PUNT="yes"
 
-inherit bash-completion-r1 flag-o-matic gnome2
+inherit autotools bash-completion-r1 flag-o-matic gnome2
 
 DESCRIPTION="Provides GObjects and helper methods to read and write AppStream metadata"
 HOMEPAGE="https://people.freedesktop.org/~hughsient/appstream-glib/"
 SRC_URI="https://people.freedesktop.org/~hughsient/${PN}/releases/${P}.tar.xz"
 
-LICENSE="LGPL-2.1"
+LICENSE="LGPL-2.1+"
 SLOT="0/8" # soname version
 KEYWORDS="*"
 
 IUSE="+introspection nls"
 
 RDEPEND="
-	app-arch/gcab
+	>=app-arch/gcab-1.0
 	app-arch/libarchive
 	dev-db/sqlite:3
 	>=dev-libs/glib-2.45.8:2
@@ -43,6 +43,15 @@ DEPEND="${RDEPEND}
 RDEPEND="${RDEPEND}
 	!<dev-util/appdata-tools-0.1.8-r1
 "
+
+src_prepare() {
+	# From AppStream-Glib:
+	# 	https://github.com/hughsie/appstream-glib/commit/f7a064e4509d7f24d57d39a71ecde90292de9a3b
+	eapply "${FILESDIR}"/${PN}-0.5.19-fix-compile-with-gcab-v1-0.patch
+
+	eautoreconf
+	gnome2_src_prepare
+}
 
 src_configure() {
 	# ‘for’ loop initial declarations are only allowed in C99 or C11 mode
