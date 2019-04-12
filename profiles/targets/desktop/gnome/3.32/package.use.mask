@@ -1,4 +1,5 @@
 dev-libs/folks tracker
 gnome-base/gnome-shell deprecated-background
+gnome-base/gnome-shell vanilla-gc
 gnome-extra/gnome-contacts doc
 x11-wm/mutter deprecated-background

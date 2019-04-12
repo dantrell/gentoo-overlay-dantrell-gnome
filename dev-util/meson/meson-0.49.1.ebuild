@@ -20,7 +20,7 @@ RDEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	test? (
 		dev-libs/glib:2
-		dev-libs/gobject-introspection
+		dev-libs/gobject-introspection:=
 		dev-util/ninja
 		dev-vcs/git
 		virtual/pkgconfig
