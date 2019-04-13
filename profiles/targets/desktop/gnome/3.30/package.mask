@@ -2,7 +2,7 @@
 >=net-libs/webkit-gtk-2.26.0
 
 # Masked to freeze the state of GNOME
->=app-accessibility/accerciser-3.32.0
+>=app-accessibility/accerciser-3.31.0
 >=app-accessibility/at-spi2-atk-2.32.0
 >=app-accessibility/at-spi2-core-2.32.0
 >=app-accessibility/orca-3.32.0

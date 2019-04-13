@@ -164,7 +164,7 @@ src_configure() {
 	tc-export CC
 
 	# Arches without JIT support also need this to really disable it in all places
-	use jit || append-cppflags -DENABLE_JIT=0 -DENABLE_YARR_JIT=0 -DENABLE_ASSEMBLER=0
+	use jit || append-cppflags -DENABLE_JIT=0 -DENABLE_YARR_JIT=0 -DENABLE_ASSEMBLER=0 -DENABLE_C_LOOP=1
 
 	# It does not compile on alpha without this in LDFLAGS
 	# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=648761
@@ -219,6 +219,13 @@ src_configure() {
 		opengl_enabled=OFF
 	fi
 
+	local c_loop_enabled
+	if use jit; then
+		loop_c_enabled=OFF
+	else
+		loop_c_enabled=ON
+	fi
+
 	local mycmakeargs=(
 		-DENABLE_UNIFIED_BUILDS=$(usex jumbo-build)
 		-DENABLE_QUARTZ_TARGET=$(usex aqua)
@@ -231,6 +238,7 @@ src_configure() {
 		-DENABLE_WEB_AUDIO=$(usex gstreamer)
 		-DENABLE_INTROSPECTION=$(usex introspection)
 		-DENABLE_JIT=$(usex jit)
+		-DENABLE_SAMPLING_PROFILER=$(usex jit)
 		-DUSE_LIBNOTIFY=$(usex libnotify)
 		-DUSE_LIBSECRET=$(usex gnome-keyring)
 		-DUSE_OPENJPEG=$(usex jpeg2k)
@@ -243,6 +251,7 @@ src_configure() {
 		$(cmake-utils_use_find_package opengl OpenGL)
 		-DENABLE_X11_TARGET=$(usex X)
 		-DENABLE_OPENGL=${opengl_enabled}
+		-DENABLE_C_LOOP=${loop_c_enabled}
 		-DCMAKE_BUILD_TYPE=Release
 		-DPORT=GTK
 		${ruby_interpreter}

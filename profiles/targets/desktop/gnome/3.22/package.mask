@@ -14,7 +14,7 @@
 >=net-libs/phodav-2.2
 
 # Masked to freeze the state of GNOME
->=app-accessibility/accerciser-3.24.0
+>=app-accessibility/accerciser-3.31.0
 >=app-accessibility/at-spi2-atk-2.24.0
 >=app-accessibility/at-spi2-core-2.24.0
 >=app-accessibility/orca-3.24.0

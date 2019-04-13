@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome2 udev user meson
+inherit gnome.org gnome2-utils meson udev user xdg
 
 DESCRIPTION="Bluetooth graphical utilities integrated with GNOME"
 HOMEPAGE="https://wiki.gnome.org/Projects/GnomeBluetooth"
@@ -11,29 +11,26 @@ LICENSE="GPL-2+ LGPL-2.1+ FDL-1.1+"
 SLOT="2/13" # subslot = libgnome-bluetooth soname version
 KEYWORDS="*"
 
-IUSE="debug +introspection"
+IUSE="gtk-doc +introspection"
 
 COMMON_DEPEND="
-	>=dev-libs/glib-2.38:2
-	media-libs/libcanberra[gtk3]
 	>=x11-libs/gtk+-3.12:3[introspection?]
-	x11-libs/libnotify
-	virtual/udev
+	media-libs/libcanberra[gtk3]
+	>=x11-libs/libnotify-0.7.0
+	virtual/libudev
+	>=dev-libs/glib-2.38:2
 	introspection? ( >=dev-libs/gobject-introspection-0.9.5:= )
 "
 RDEPEND="${COMMON_DEPEND}
+	virtual/udev
 	>=net-wireless/bluez-5
 "
 DEPEND="${COMMON_DEPEND}
 	!net-wireless/bluez-gnome
-	app-text/docbook-xml-dtd:4.1.2
 	dev-libs/libxml2:2
 	dev-util/gdbus-codegen
-	>=dev-util/gtk-doc-am-1.9
-	>=dev-util/intltool-0.40.0
-	virtual/libudev
+	gtk-doc? ( >=dev-util/gtk-doc-1.9 )
 	virtual/pkgconfig
-	x11-base/xorg-proto
 "
 
 pkg_setup() {
@@ -42,9 +39,9 @@ pkg_setup() {
 
 src_configure() {
 	local emesonargs=(
-		-Denable-introspection=$(usex introspection true false)
-		-Denable-gtk-doc=true
-		-Denable-icon-update=false
+		-Dicon_update=false
+		$(meson_use gtk-doc gtk_doc)
+		$(meson_use introspection)
 	)
 	meson_src_configure
 }
@@ -55,7 +52,7 @@ src_install() {
 }
 
 pkg_postinst() {
-	gnome2_pkg_postinst
+	xdg_pkg_postinst
 	if ! has_version sys-auth/consolekit[acl] && ! has_version sys-auth/elogind[acl] && ! has_version sys-apps/systemd[acl] ; then
 		elog "Don't forget to add yourself to the plugdev group "
 		elog "if you want to be able to control bluetooth transmitter."

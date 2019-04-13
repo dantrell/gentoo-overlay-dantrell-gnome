@@ -14,6 +14,7 @@ mail-client/geary::dantrell-gnome **
 media-libs/babl::dantrell-gnome ~*
 media-libs/gegl:0.3::dantrell-gnome ~*
 media-libs/gegl:0.4::dantrell-gnome ~*
+net-libs/gssdp::dantrell-gnome ~*
 net-misc/networkmanager::dantrell-gnome ~*
 sys-apps/bubblewrap::dantrell-gnome ~*
 sys-apps/osinfo-db-tools::dantrell-gnome ~*

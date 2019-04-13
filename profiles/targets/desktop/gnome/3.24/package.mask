@@ -11,7 +11,7 @@
 >=net-misc/networkmanager-wireguard-9999
 
 # Masked to freeze the state of GNOME
->=app-accessibility/accerciser-3.26.0
+>=app-accessibility/accerciser-3.31.0
 >=app-accessibility/at-spi2-atk-2.26.0
 >=app-accessibility/at-spi2-core-2.26.0
 >=app-accessibility/orca-3.26.0
