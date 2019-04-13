@@ -1,4 +1,5 @@
 app-arch/gnome-autoar::dantrell-gnome ~*
+app-emulation/libvirt-glib::dantrell-gnome **
 app-text/gspell::dantrell-gnome ~*
 app-text/libgepub::dantrell-gnome ~*
 app-text/poppler::dantrell-gnome ~*
@@ -8,6 +9,7 @@ dev-libs/json-glib::dantrell-gnome ~*
 dev-libs/libical::dantrell-gnome ~*
 dev-libs/wayland-protocols::gentoo ~*
 gnome-base/libgtop::dantrell-gnome **
+mail-client/geary::dantrell-gnome ~*
 mail-client/geary::dantrell-gnome **
 media-libs/babl::dantrell-gnome ~*
 media-libs/gegl:0.3::dantrell-gnome ~*

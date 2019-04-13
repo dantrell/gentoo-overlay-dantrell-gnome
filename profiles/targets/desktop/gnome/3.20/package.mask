@@ -7,6 +7,7 @@
 >=x11-misc/xpad-5.1.0
 
 # Requires GLib 2.54 (or greater)
+>=mail-client/geary-0.13.0
 >=net-misc/networkmanager-wireguard-9999
 
 # Requires GLib 2.52 (or greater)
@@ -176,6 +177,7 @@
 >=media-sound/sound-juicer-3.22.0
 >=media-video/cheese-3.22.0
 >=media-video/totem-3.22.0
+>=net-im/dino-0.0
 >=net-irc/polari-3.22.0
 >=net-libs/dleyna-connector-dbus-0.3.0
 >=net-libs/dleyna-core-0.6.0

@@ -1,0 +1,2 @@
+move x11-libs/amtk gui-libs/amtk
+move x11-libs/tepl gui-libs/tepl

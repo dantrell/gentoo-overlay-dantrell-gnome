@@ -77,6 +77,7 @@ dev-libs/libgweather::gentoo
 dev-libs/libical::gentoo
 dev-libs/libintl::gentoo
 dev-libs/liblouis::gentoo
+dev-libs/libmanette::gentoo
 dev-libs/libpcre2::gentoo
 dev-libs/libpeas::gentoo
 dev-libs/libsigc++::gentoo
@@ -156,6 +157,8 @@ gnome-extra/sushi::gentoo
 gnome-extra/yelp-xsl::gentoo
 gnome-extra/yelp::gentoo
 gnome-extra/zenity::gentoo
+gui-libs/amtk::gentoo
+gui-libs/tepl::gentoo
 mail-client/geary::gentoo
 media-fonts/cantarell::gentoo
 media-fonts/croscorefonts::gentoo
@@ -191,6 +194,7 @@ media-video/gnome-video-effects::gentoo
 media-video/pipewire::gentoo
 media-video/totem::gentoo
 net-analyzer/gnome-nettool::gentoo
+net-im/dino::gentoo
 net-im/empathy::gentoo
 net-im/telepathy-mission-control::gentoo
 net-libs/dleyna-connector-dbus::gentoo
@@ -245,7 +249,6 @@ sys-fs/udisks::gentoo
 sys-libs/libosinfo::gentoo
 sys-power/acpid::gentoo
 sys-power/upower::gentoo
-x11-libs/amtk::gentoo
 x11-libs/cairo::gentoo
 x11-libs/colord-gtk::gentoo
 x11-libs/gdk-pixbuf::gentoo
@@ -258,7 +261,6 @@ x11-libs/libnotify::gentoo
 x11-libs/libwnck::gentoo
 x11-libs/libxklavier::gentoo
 x11-libs/pango::gentoo
-x11-libs/tepl::gentoo
 x11-libs/vte::gentoo
 x11-libs/xpyb::gentoo
 x11-misc/colord::gentoo

@@ -1,31 +1,30 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-VALA_USE_DEPEND="vapigen"
 
-inherit gnome2 vala virtualx
+inherit gnome2 virtualx
 
 DESCRIPTION="GtkSourceView-based text editors and IDE helper library"
 HOMEPAGE="https://wiki.gnome.org/Projects/Tepl"
 
 LICENSE="LGPL-2.1+"
-SLOT="3"
-KEYWORDS="*"
+SLOT="4"
+KEYWORDS="~*"
 
-IUSE="+introspection test vala"
-REQUIRED_USE="vala? ( introspection )"
+IUSE="+introspection"
+
+RESTRICT="!test? ( test )"
 
 RDEPEND="
 	>=dev-libs/glib-2.52:2
-	>=x11-libs/gtk+-3.20
-	>=x11-libs/gtksourceview-3.22:3.0
-	>=dev-libs/libxml2-2.5
+	>=x11-libs/gtk+-3.22:3[introspection?]
+	>=x11-libs/gtksourceview-4.0:4[introspection?]
+	>=gui-libs/amtk-5.0:5[introspection?]
+	>=dev-libs/libxml2-2.5:2
 	app-i18n/uchardet
 	introspection? ( >=dev-libs/gobject-introspection-1.42:= )
 "
 DEPEND="${RDEPEND}
-	test? ( dev-util/valgrind )
-	vala? ( $(vala_depend) )
 	>=sys-devel/gettext-0.19.4
 	>=dev-util/gtk-doc-am-1.25
 	virtual/pkgconfig
@@ -38,16 +37,15 @@ src_prepare() {
 		-e 's:\(g_test_add_func.*/file/set_without_load.*\):/*\1*/:' \
 		-i testsuite/test-file-metadata.c || die
 
-	use vala && vala_src_prepare
 	gnome2_src_prepare
 }
 
 src_configure() {
+	# valgrind checks not ran by default and require suppression files not in locations where they'd be installed by other packages
 	gnome2_src_configure \
 		--enable-gvfs-metadata \
-		$(use_enable introspection) \
-		$(use_enable vala) \
-		$(use_enable test valgrind)
+		--disable-valgrind \
+		$(use_enable introspection)
 }
 
 src_test() {

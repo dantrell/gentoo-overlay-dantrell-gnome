@@ -9,17 +9,16 @@ DESCRIPTION="GtkSourceView-based text editors and IDE helper library"
 HOMEPAGE="https://wiki.gnome.org/Projects/Tepl"
 
 LICENSE="LGPL-2.1+"
-SLOT="3"
+SLOT="4"
 KEYWORDS="*"
 
 IUSE="+introspection test vala"
 REQUIRED_USE="vala? ( introspection )"
 
 RDEPEND="
-	>=x11-libs/amtk-4.0
 	>=dev-libs/glib-2.52:2
 	>=x11-libs/gtk+-3.20
-	>=x11-libs/gtksourceview-4.0:4.0
+	>=x11-libs/gtksourceview-3.22:3.0
 	>=dev-libs/libxml2-2.5
 	app-i18n/uchardet
 	introspection? ( >=dev-libs/gobject-introspection-1.42:= )

@@ -14,7 +14,7 @@ SRC_URI="http://ftp.mozilla.org/pub/spidermonkey/prereleases/60/pre3/mozjs-60.1.
 	https://dev.gentoo.org/~axs/distfiles/${PN}-60.0-patches-02.tar.xz"
 
 LICENSE="NPL-1.1"
-SLOT="60"
+SLOT="60/1.1"
 KEYWORDS="~*"
 
 IUSE="debug minimal +system-icu test"

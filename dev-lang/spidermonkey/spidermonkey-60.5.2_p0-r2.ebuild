@@ -16,7 +16,7 @@ SRC_URI="https://dev.gentoo.org/~axs/distfiles/${MY_P}.tar.bz2
 	https://dev.gentoo.org/~axs/distfiles/${PN}-60.0-patches-03.tar.xz"
 
 LICENSE="NPL-1.1"
-SLOT="60"
+SLOT="60/5.2"
 KEYWORDS="~*"
 
 IUSE="debug +jit minimal +system-icu test"

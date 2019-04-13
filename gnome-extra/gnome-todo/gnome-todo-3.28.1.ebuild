@@ -31,6 +31,12 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 "
 
+PATCHES=(
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/gnome-todo/commit/6cdabc4dd0c6c804a093b94c269461ce376fed4f
+	"${FILESDIR}"/${PN}-9999-drop-the-autoptr-definition-for-esource.patch
+)
+
 src_configure() {
 	local emesonargs=(
 		-D enable-background-plugin=true

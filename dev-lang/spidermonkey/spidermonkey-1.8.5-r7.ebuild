@@ -14,8 +14,7 @@ TARBALL_P="${MY_PN}${TARBALL_PV}-1.0.0"
 DESCRIPTION="Stand-alone JavaScript C library"
 HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"
 SRC_URI="https://archive.mozilla.org/pub/js/${TARBALL_P}.tar.gz
-	https://dev.gentoo.org/~axs/distfiles/${PN}-slot0-patches-02.tar.xz
-	"
+	https://dev.gentoo.org/~axs/distfiles/${PN}-slot0-patches-02.tar.xz"
 
 LICENSE="NPL-1.1"
 SLOT="0/mozjs185"

@@ -14,7 +14,7 @@ SRC_URI="http://ftp.gnome.org/pub/gnome/teams/releng/tarballs-needing-help/mozjs
 	https://dev.gentoo.org/~axs/distfiles/${PN}-60.0-patches-02.tar.xz"
 
 LICENSE="NPL-1.1"
-SLOT="60"
+SLOT="60/1.0"
 KEYWORDS="*"
 
 IUSE="debug minimal +system-icu test"
