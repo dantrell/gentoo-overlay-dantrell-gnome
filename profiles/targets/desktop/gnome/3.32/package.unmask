@@ -14,7 +14,7 @@
 ~app-editors/gnome-latex-3.32.0::dantrell-gnome-3-32
 ~app-misc/bijiben-3.32.1::dantrell-gnome-3-32
 ~app-misc/geoclue-2.4.8::dantrell-gnome
-~app-misc/gnote-3.32.0::dantrell-gnome-3-32
+~app-misc/gnote-3.32.1::dantrell-gnome-3-32
 ~app-misc/tracker-2.2.1::dantrell-gnome-3-32
 ~app-misc/tracker-miners-2.2.1::dantrell-gnome-3-32
 ~app-text/enchant-2.2.3::dantrell-gnome
