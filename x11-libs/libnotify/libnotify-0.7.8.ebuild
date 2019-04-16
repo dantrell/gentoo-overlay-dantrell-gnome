@@ -1,15 +1,15 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-inherit gnome.org multilib-minimal xdg-utils
+inherit gnome.org meson multilib-minimal xdg-utils
 
 DESCRIPTION="A library for sending desktop notifications"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/libnotify"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="+introspection test"
 
@@ -19,9 +19,9 @@ RDEPEND="
 	x11-libs/gdk-pixbuf:2[${MULTILIB_USEDEP}]
 	introspection? ( >=dev-libs/gobject-introspection-1.32:= )
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	>=dev-libs/gobject-introspection-common-1.32
-	>=dev-util/gtk-doc-am-1.14
 	virtual/pkgconfig
 	test? ( x11-libs/gtk+:3[${MULTILIB_USEDEP}] )
 "
@@ -33,21 +33,17 @@ src_prepare() {
 }
 
 multilib_src_configure() {
-	ECONF_SOURCE=${S} econf \
-		--disable-gtk-doc \
-		--disable-static \
-		$(multilib_native_use_enable introspection) \
-		$(use_enable test tests)
-
-	# work-around gtk-doc out-of-source brokedness
-	if multilib_is_native_abi; then
-		ln -s "${S}"/docs/reference/html docs/reference/html || die
-	fi
+	local emesonargs=(
+		-Dtests="$(usex test true false)"
+		-Dintrospection="$(multilib_native_usex introspection enabled disabled)"
+		-Dgtk_doc=false
+		-Ddocbook_docs=disabled
+	)
+	meson_src_configure
 }
 
 multilib_src_install() {
-	default
-	find "${ED}" -name '*.la' -delete || die
+	meson_src_install
 
 	mv "${ED}"/usr/bin/{,libnotify-}notify-send || die #379941
 }

@@ -40,7 +40,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-0.4.0-fix-build-with-evolution-data-server-3.13.90.patch
 
 	# From Fedora:
-	# 	https://src.fedoraproject.org/cgit/rpms/california.git/tree/?h=f28
+	# 	https://src.fedoraproject.org/rpms/california/tree/f28
 	eapply "${FILESDIR}"/${PN}-0.4.0-fix-build-with-libical-3.0.patch
 
 	vala_src_prepare

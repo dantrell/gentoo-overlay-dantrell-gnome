@@ -22,7 +22,7 @@
 ~app-text/yelp-tools-3.28.0::dantrell-gnome
 ~dev-cpp/cairomm-1.12.2::dantrell-gnome
 ~dev-cpp/mm-common-0.9.12::dantrell-gnome
-~dev-lang/vala-0.42.6::dantrell-gnome
+~dev-lang/vala-0.42.7::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.15::dantrell-gnome
 ~dev-libs/atk-2.30.0::dantrell-gnome-3-30
 ~dev-libs/folks-0.11.4::dantrell-gnome
@@ -44,7 +44,7 @@
 ~dev-libs/libpeas-1.22.0::dantrell-gnome
 ~dev-libs/template-glib-3.30.0::dantrell-gnome-3-30
 ~dev-libs/totem-pl-parser-3.26.3::dantrell-gnome
-~dev-libs/vala-common-0.42.6::dantrell-gnome
+~dev-libs/vala-common-0.42.7::dantrell-gnome
 ~dev-python/pyatspi-2.30.0::dantrell-gnome-3-30
 ~dev-python/pygobject-3.30.4::dantrell-gnome-3-30
 ~dev-util/devhelp-3.30.1::dantrell-gnome-3-30
@@ -171,7 +171,7 @@
 ~www-client/epiphany-3.30.3::dantrell-gnome-3-30
 ~x11-libs/gdk-pixbuf-2.38.1::dantrell-gnome
 ~x11-libs/gtksourceview-4.0.3::dantrell-gnome
-~x11-libs/libnotify-0.7.7::dantrell-gnome
+~x11-libs/libnotify-0.7.8::dantrell-gnome
 ~x11-libs/libwnck-3.30.0::dantrell-gnome-3-30
 ~x11-libs/pango-1.42.4::dantrell-gnome
 ~x11-libs/vte-0.54.4::dantrell-gnome-3-30

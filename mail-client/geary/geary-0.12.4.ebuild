@@ -44,7 +44,7 @@ DEPEND="${DEPEND}
 
 src_prepare() {
 	# From Fedora:
-	# 	https://src.fedoraproject.org/cgit/rpms/geary.git/tree/?h=f29
+	# 	https://src.fedoraproject.org/rpms/geary/tree/f29
 	eapply "${FILESDIR}"/${PN}-0.12-use-upstream-jsc.patch
 
 	# From GNOME:

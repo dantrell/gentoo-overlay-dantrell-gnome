@@ -27,7 +27,7 @@ DEPEND="
 	>=net-libs/libsoup-2.48:2.4[introspection]
 	net-libs/gnome-online-accounts:=
 
-	>=dev-libs/libgee-0.8.5:0.8=[introspection]
+	>=dev-libs/libgee-0.20:0.8=[introspection]
 	>=x11-libs/libnotify-0.7.5[introspection]
 	>=media-libs/libcanberra-0.28
 	>=dev-libs/gmime-2.6.17:2.6
