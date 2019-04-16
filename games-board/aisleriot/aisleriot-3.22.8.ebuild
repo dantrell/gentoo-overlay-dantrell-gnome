@@ -9,7 +9,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Aisleriot"
 
 LICENSE="GPL-3 LGPL-3 FDL-1.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="debug extra gnome +sound"
 

@@ -9,7 +9,7 @@ HOMEPAGE="https://gitlab.gnome.org/GNOME/geocode-glib"
 
 LICENSE="LGPL-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+introspection test"
 
