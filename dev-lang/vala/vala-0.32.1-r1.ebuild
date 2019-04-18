@@ -29,6 +29,14 @@ DEPEND="${RDEPEND}
 		dev-libs/gobject-introspection:= )
 "
 
+src_prepare() {
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/vala/commit/06f4b599554773b5fbfe7cbab99eff8d94d2cb94
+	eapply "${FILESDIR}"/${PN}-0.26.2-girparser-skip-source-position-elements.patch
+
+	gnome2_src_prepare
+}
+
 src_configure() {
 	# https://bugs.gentoo.org/483134
 	export GIT_CEILING_DIRECTORIES="${WORKDIR}"

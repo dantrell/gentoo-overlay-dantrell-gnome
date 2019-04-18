@@ -40,6 +40,7 @@ PDEPEND="
 "
 
 PATCHES=(
+	"${FILESDIR}"/${PN}-241.2-unbreak-musl.patch
 	"${FILESDIR}"/${PN}-241.1-docs.patch
 )
 

@@ -1,0 +1,33 @@
+diff -Nuar a/vala/valagirparser.c b/vala/valagirparser.c
+--- a/vala/valagirparser.c	2016-06-20 20:26:53.000000000 +0200
++++ b/vala/valagirparser.c	2019-04-18 13:07:10.582783799 +0200
+@@ -7235,7 +7235,13 @@
+ 			if (_tmp12_) {
+ 				vala_gir_parser_skip_element (self);
+ 			} else {
+-				break;
++				const gchar* _tmp17_;
++				_tmp17_ = reader_name;
++				if (g_strcmp0 (_tmp17_, "source-position") == 0) {
++					vala_gir_parser_skip_element (self);
++				} else {
++					break;
++				}
+ 			}
+ 		}
+ 	}
+@@ -7310,7 +7316,13 @@
+ 			if (_tmp12_) {
+ 				vala_gir_parser_skip_element (self);
+ 			} else {
+-				break;
++				const gchar* _tmp17_;
++				_tmp17_ = reader_name;
++				if (g_strcmp0 (_tmp17_, "source-position") == 0) {
++					vala_gir_parser_skip_element (self);
++				} else {
++					break;
++				}
+ 			}
+ 		}
+ 	}

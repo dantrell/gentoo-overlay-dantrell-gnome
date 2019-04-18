@@ -23,6 +23,7 @@ RESTRICT="mirror"
 
 RDEPEND="
 	media-libs/alsa-lib
+	media-libs/libv4l
 	media-libs/sbc
 	media-video/ffmpeg:=
 	sys-apps/dbus
