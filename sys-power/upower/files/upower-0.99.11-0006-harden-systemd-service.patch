@@ -1,0 +1,47 @@
+From 1c6a6bfbbb01aa92b4550c1e3a087b1c0f7ef310 Mon Sep 17 00:00:00 2001
+From: Topi Miettinen <toiwoton@gmail.com>
+Date: Thu, 4 Apr 2019 13:47:57 +0300
+Subject: [PATCH 6/6] Harden systemd service
+
+Signed-off-by: Topi Miettinen <toiwoton@gmail.com>
+---
+ src/upower.service.in | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/src/upower.service.in b/src/upower.service.in
+index 16dcee5..f4c6b88 100644
+--- a/src/upower.service.in
++++ b/src/upower.service.in
+@@ -20,6 +20,7 @@ PrivateTmp=true
+ 
+ # Network
+ # PrivateNetwork=true would block udev's netlink socket
++IPAddressDeny=any
+ RestrictAddressFamilies=AF_UNIX AF_NETLINK
+ 
+ # Execute Mappings
+@@ -34,5 +35,21 @@ RestrictRealtime=true
+ # Privilege escalation
+ NoNewPrivileges=true
+ 
++# Capabilities
++CapabilityBoundingSet=
++
++# System call interfaces
++LockPersonality=yes
++SystemCallArchitectures=native
++SystemCallFilter=@system-service
++SystemCallFilter=ioprio_get
++
++# Namespaces
++PrivateUsers=yes
++RestrictNamespaces=yes
++
++# Locked memory
++LimitMEMLOCK=0
++
+ [Install]
+ WantedBy=graphical.target
+-- 
+2.21.0
+

@@ -1,0 +1,35 @@
+From a953401420e816d3660c90e1cfbac73866756499 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jo=C3=A3o=20Paulo=20Rechi=20Vita?= <jprvita@endlessm.com>
+Date: Mon, 26 Nov 2018 13:12:18 -0800
+Subject: [PATCH 06/14] linux: Map pending-charge to fully-charged when charge
+ is 100%
+
+Some devices report "Not charging" when the battery is full and AC power
+is connected. In this situation we should report fully-charged instead
+of pending-charge.
+
+Closes: #86.
+---
+ src/linux/up-device-supply.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index 1644665..4936247 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -732,6 +732,12 @@ up_device_supply_refresh_battery (UpDeviceSupply *supply,
+ 		percentage = CLAMP(percentage, 0.0f, 100.0f);
+ 	}
+ 
++	/* Some devices report "Not charging" when the battery is full and AC
++	 * power is connected. In this situation we should report fully-charged
++	 * instead of pending-charge. */
++	if (state == UP_DEVICE_STATE_PENDING_CHARGE && percentage == 100.0)
++		state = UP_DEVICE_STATE_FULLY_CHARGED;
++
+ 	/* the battery isn't charging or discharging, it's just
+ 	 * sitting there half full doing nothing: try to guess a state */
+ 	if (state == UP_DEVICE_STATE_UNKNOWN && supply->priv->is_power_supply) {
+-- 
+2.21.0
+

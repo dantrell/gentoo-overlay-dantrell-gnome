@@ -1,0 +1,38 @@
+From 888c9121f090a1128562edb9c06dcd6b564578c7 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jo=C3=A3o=20Paulo=20Rechi=20Vita?= <jprvita@endlessm.com>
+Date: Fri, 2 Nov 2018 16:05:21 -0700
+Subject: [PATCH 05/14] linux: Don't set out_state before state is final
+
+Currently up_device_supply_refresh_battery sets out_state before the
+state value is definitive, so the wrong state value is returned to the
+caller. Luckily the only caller does not make use of this value at the
+moment, so there are no user-visible consequences. Nonetheless this is a
+bug, so this commit fixes it.
+---
+ src/linux/up-device-supply.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index 000a00f..1644665 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -669,7 +669,6 @@ up_device_supply_refresh_battery (UpDeviceSupply *supply,
+ 	}
+ 
+ 	state = up_device_supply_get_state (native_path);
+-	*out_state = state;
+ 
+ 	/* this is the new value in uW */
+ 	energy_rate = fabs (sysfs_get_double (native_path, "power_now") / 1000000.0);
+@@ -833,6 +832,8 @@ up_device_supply_refresh_battery (UpDeviceSupply *supply,
+ 		supply->priv->energy_old_first = 0;
+ 	}
+ 
++	*out_state = state;
++
+ 	g_object_set (device,
+ 		      "energy", energy,
+ 		      "energy-full", energy_full,
+-- 
+2.21.0
+

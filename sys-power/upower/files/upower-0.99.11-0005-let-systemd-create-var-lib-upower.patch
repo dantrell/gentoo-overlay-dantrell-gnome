@@ -1,0 +1,30 @@
+From e06bfc6a120750ed629291ddcec02f62f178fab4 Mon Sep 17 00:00:00 2001
+From: Martin Pitt <martin@piware.de>
+Date: Sun, 24 Feb 2019 08:56:10 +0100
+Subject: [PATCH 5/6] Let systemd create /var/lib/upower
+
+This directory may not exist when cleaning out /var (e. g. on stateless
+systems). As upowerd cannot mkdir it by itself due to `ProtectSystem`,
+let systemd create it via `StateDirectory`.
+
+Keep `ReadWritePaths` and the `mkdir` in the Makefile to continue to
+support a non-default `--historydir`.
+---
+ src/upower.service.in | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/upower.service.in b/src/upower.service.in
+index 4566ad3..16dcee5 100644
+--- a/src/upower.service.in
++++ b/src/upower.service.in
+@@ -14,6 +14,7 @@ ProtectSystem=strict
+ ProtectKernelTunables=false
+ ProtectControlGroups=true
+ ReadWritePaths=@historydir@
++StateDirectory=upower
+ ProtectHome=true
+ PrivateTmp=true
+ 
+-- 
+2.21.0
+

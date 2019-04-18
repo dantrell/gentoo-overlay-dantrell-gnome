@@ -1,0 +1,599 @@
+From 8da188b30351a252de2405b09698dd61d53eb606 Mon Sep 17 00:00:00 2001
+From: Christian Kellner <christian@kellner.me>
+Date: Wed, 20 Feb 2019 17:47:45 +0100
+Subject: [PATCH 2/6] Replace use of deprecated g_type_class_add_private
+
+Use G_DEFINE_TYPE_WITH_CODE (..., G_PRIVATE_ADD (...)) instead of
+the (deprecated since glib 2.58) function g_type_class_add_private
+to add a private structure for a type.
+Bump the minimal required version of glib to 2.38.0, the version
+where G_PRIVATE_ADD was added.
+---
+ configure.ac                     | 2 +-
+ libupower-glib/up-client.c       | 3 +--
+ libupower-glib/up-device.c       | 4 +---
+ libupower-glib/up-history-item.c | 4 +---
+ libupower-glib/up-stats-item.c   | 4 +---
+ libupower-glib/up-wakeup-item.c  | 4 +---
+ libupower-glib/up-wakeups.c      | 4 +---
+ src/dummy/up-backend.c           | 4 +---
+ src/freebsd/up-backend.c         | 4 +---
+ src/linux/hidpp-device.c         | 3 +--
+ src/linux/up-backend.c           | 4 +---
+ src/linux/up-device-csr.c        | 4 +---
+ src/linux/up-device-hid.c        | 4 +---
+ src/linux/up-device-idevice.c    | 4 +---
+ src/linux/up-device-supply.c     | 4 +---
+ src/linux/up-device-unifying.c   | 4 +---
+ src/linux/up-device-wup.c        | 4 +---
+ src/linux/up-input.c             | 3 +--
+ src/openbsd/up-backend.c         | 4 +---
+ src/up-config.c                  | 3 +--
+ src/up-daemon.c                  | 4 +---
+ src/up-device-list.c             | 3 +--
+ src/up-device.c                  | 4 +---
+ src/up-history.c                 | 3 +--
+ src/up-kbd-backlight.c           | 4 +---
+ src/up-wakeups.c                 | 4 +---
+ 26 files changed, 26 insertions(+), 70 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index fcbad1b..c3a0e9a 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -152,7 +152,7 @@ AX_CHECK_LINK_FLAG([-Wl,-z,relro,-z,now],
+ 		   [RELRO_LDFLAGS="-Wl,-z,relro,-z,now"])
+ AC_SUBST([RELRO_LDFLAGS])
+ 
+-PKG_CHECK_MODULES(GLIB, [glib-2.0 >= 2.34.0 gobject-2.0])
++PKG_CHECK_MODULES(GLIB, [glib-2.0 >= 2.38.0 gobject-2.0])
+ PKG_CHECK_MODULES(GIO, [gio-2.0 >= 2.16.1])
+ PKG_CHECK_MODULES(GIO_UNIX, [gio-unix-2.0])
+ 
+diff --git a/libupower-glib/up-client.c b/libupower-glib/up-client.c
+index 1491a98..2309bd3 100644
+--- a/libupower-glib/up-client.c
++++ b/libupower-glib/up-client.c
+@@ -73,6 +73,7 @@ enum {
+ static guint signals [UP_CLIENT_LAST_SIGNAL] = { 0 };
+ 
+ G_DEFINE_TYPE_WITH_CODE (UpClient, up_client, G_TYPE_OBJECT,
++			 G_ADD_PRIVATE(UpClient)
+                          G_IMPLEMENT_INTERFACE(G_TYPE_INITABLE, up_client_initable_iface_init))
+ 
+ /**
+@@ -451,8 +452,6 @@ up_client_class_init (UpClientClass *klass)
+ 			      G_STRUCT_OFFSET (UpClientClass, device_removed),
+ 			      NULL, NULL, g_cclosure_marshal_VOID__STRING,
+ 			      G_TYPE_NONE, 1, G_TYPE_STRING);
+-
+-	g_type_class_add_private (klass, sizeof (UpClientPrivate));
+ }
+ 
+ /*
+diff --git a/libupower-glib/up-device.c b/libupower-glib/up-device.c
+index 2f2c4cf..6a4a4ad 100644
+--- a/libupower-glib/up-device.c
++++ b/libupower-glib/up-device.c
+@@ -94,7 +94,7 @@ enum {
+ 	PROP_LAST
+ };
+ 
+-G_DEFINE_TYPE (UpDevice, up_device, G_TYPE_OBJECT)
++G_DEFINE_TYPE_WITH_PRIVATE (UpDevice, up_device, G_TYPE_OBJECT)
+ 
+ /*
+  * up_device_changed_cb:
+@@ -1202,8 +1202,6 @@ up_device_class_init (UpDeviceClass *klass)
+ 					 g_param_spec_string ("icon-name",
+ 							      NULL, NULL, NULL,
+ 							      G_PARAM_READWRITE));
+-
+-	g_type_class_add_private (klass, sizeof (UpDevicePrivate));
+ }
+ 
+ static void
+diff --git a/libupower-glib/up-history-item.c b/libupower-glib/up-history-item.c
+index 19f4c5d..0fbefa6 100644
+--- a/libupower-glib/up-history-item.c
++++ b/libupower-glib/up-history-item.c
+@@ -56,7 +56,7 @@ enum {
+ 	PROP_LAST
+ };
+ 
+-G_DEFINE_TYPE (UpHistoryItem, up_history_item, G_TYPE_OBJECT)
++G_DEFINE_TYPE_WITH_PRIVATE (UpHistoryItem, up_history_item, G_TYPE_OBJECT)
+ 
+ /**
+  * up_history_item_set_value:
+@@ -321,8 +321,6 @@ up_history_item_class_init (UpHistoryItemClass *klass)
+ 							    0, G_MAXUINT,
+ 							    UP_DEVICE_STATE_UNKNOWN,
+ 							    G_PARAM_READWRITE));
+-
+-	g_type_class_add_private (klass, sizeof (UpHistoryItemPrivate));
+ }
+ 
+ /**
+diff --git a/libupower-glib/up-stats-item.c b/libupower-glib/up-stats-item.c
+index 555aa3a..c0204bf 100644
+--- a/libupower-glib/up-stats-item.c
++++ b/libupower-glib/up-stats-item.c
+@@ -53,7 +53,7 @@ enum {
+ 	PROP_LAST
+ };
+ 
+-G_DEFINE_TYPE (UpStatsItem, up_stats_item, G_TYPE_OBJECT)
++G_DEFINE_TYPE_WITH_PRIVATE (UpStatsItem, up_stats_item, G_TYPE_OBJECT)
+ 
+ /**
+  * up_stats_item_set_value:
+@@ -193,8 +193,6 @@ up_stats_item_class_init (UpStatsItemClass *klass)
+ 					 g_param_spec_double ("accuracy", NULL, NULL,
+ 							      0.0, G_MAXDOUBLE, 0.0,
+ 							      G_PARAM_READWRITE));
+-
+-	g_type_class_add_private (klass, sizeof (UpStatsItemPrivate));
+ }
+ 
+ /**
+diff --git a/libupower-glib/up-wakeup-item.c b/libupower-glib/up-wakeup-item.c
+index cefbe62..948e4a1 100644
+--- a/libupower-glib/up-wakeup-item.c
++++ b/libupower-glib/up-wakeup-item.c
+@@ -61,7 +61,7 @@ enum {
+ 	PROP_LAST
+ };
+ 
+-G_DEFINE_TYPE (UpWakeupItem, up_wakeup_item, G_TYPE_OBJECT)
++G_DEFINE_TYPE_WITH_PRIVATE (UpWakeupItem, up_wakeup_item, G_TYPE_OBJECT)
+ 
+ /**
+  * up_wakeup_item_get_is_userspace:
+@@ -409,8 +409,6 @@ up_wakeup_item_class_init (UpWakeupItemClass *klass)
+ 					 g_param_spec_string ("details", NULL, NULL,
+ 							      NULL,
+ 							      G_PARAM_READWRITE));
+-
+-	g_type_class_add_private (klass, sizeof (UpWakeupItemPrivate));
+ }
+ 
+ /**
+diff --git a/libupower-glib/up-wakeups.c b/libupower-glib/up-wakeups.c
+index 400aedc..630df82 100644
+--- a/libupower-glib/up-wakeups.c
++++ b/libupower-glib/up-wakeups.c
+@@ -47,7 +47,7 @@ enum {
+ 
+ static guint signals [UP_WAKEUPS_LAST_SIGNAL] = { 0 };
+ 
+-G_DEFINE_TYPE (UpWakeups, up_wakeups, G_TYPE_OBJECT)
++G_DEFINE_TYPE_WITH_PRIVATE (UpWakeups, up_wakeups, G_TYPE_OBJECT)
+ 
+ /**
+  * up_wakeups_get_total_sync:
+@@ -233,8 +233,6 @@ up_wakeups_class_init (UpWakeupsClass *klass)
+ 			      G_STRUCT_OFFSET (UpWakeupsClass, data_changed),
+ 			      NULL, NULL, g_cclosure_marshal_VOID__UINT,
+ 			      G_TYPE_NONE, 1, G_TYPE_UINT);
+-
+-	g_type_class_add_private (klass, sizeof (UpWakeupsPrivate));
+ }
+ 
+ /**
+diff --git a/src/dummy/up-backend.c b/src/dummy/up-backend.c
+index 8b8013b..ea36fce 100644
+--- a/src/dummy/up-backend.c
++++ b/src/dummy/up-backend.c
+@@ -57,7 +57,7 @@ enum {
+ 
+ static guint signals [SIGNAL_LAST] = { 0 };
+ 
+-G_DEFINE_TYPE (UpBackend, up_backend, G_TYPE_OBJECT)
++G_DEFINE_TYPE_WITH_PRIVATE (UpBackend, up_backend, G_TYPE_OBJECT)
+ 
+ #ifdef EGG_TEST
+ /**
+@@ -194,8 +194,6 @@ up_backend_class_init (UpBackendClass *klass)
+ 			      G_STRUCT_OFFSET (UpBackendClass, device_removed),
+ 			      NULL, NULL, NULL,
+ 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
+-
+-	g_type_class_add_private (klass, sizeof (UpBackendPrivate));
+ }
+ 
+ /**
+diff --git a/src/freebsd/up-backend.c b/src/freebsd/up-backend.c
+index 2944e03..90f578a 100644
+--- a/src/freebsd/up-backend.c
++++ b/src/freebsd/up-backend.c
+@@ -74,7 +74,7 @@ enum {
+ 
+ static guint signals [SIGNAL_LAST] = { 0 };
+ 
+-G_DEFINE_TYPE (UpBackend, up_backend, G_TYPE_OBJECT)
++G_DEFINE_TYPE_WITH_PRIVATE (UpBackend, up_backend, G_TYPE_OBJECT)
+ 
+ static const gchar *handlers[] = {
+ 	"battery",
+@@ -404,8 +404,6 @@ up_backend_class_init (UpBackendClass *klass)
+ 			      G_STRUCT_OFFSET (UpBackendClass, device_removed),
+ 			      NULL, NULL, NULL,
+ 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
+-
+-	g_type_class_add_private (klass, sizeof (UpBackendPrivate));
+ }
+ 
+ /**
+diff --git a/src/linux/hidpp-device.c b/src/linux/hidpp-device.c
+index 9a651d8..c386858 100644
+--- a/src/linux/hidpp-device.c
++++ b/src/linux/hidpp-device.c
+@@ -163,7 +163,7 @@ typedef struct {
+ 	gchar			*name;
+ } HidppDeviceMap;
+ 
+-G_DEFINE_TYPE (HidppDevice, hidpp_device, G_TYPE_OBJECT)
++G_DEFINE_TYPE_WITH_PRIVATE (HidppDevice, hidpp_device, G_TYPE_OBJECT)
+ #define HIDPP_DEVICE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), HIDPP_TYPE_DEVICE, HidppDevicePrivate))
+ 
+ /**
+@@ -1089,7 +1089,6 @@ hidpp_device_class_init (HidppDeviceClass *klass)
+ {
+ 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+ 	object_class->finalize = hidpp_device_finalize;
+-	g_type_class_add_private (klass, sizeof (HidppDevicePrivate));
+ }
+ 
+ /**
+diff --git a/src/linux/up-backend.c b/src/linux/up-backend.c
+index bffc8fa..cf5407e 100644
+--- a/src/linux/up-backend.c
++++ b/src/linux/up-backend.c
+@@ -83,7 +83,7 @@ enum {
+ 
+ static guint signals [SIGNAL_LAST] = { 0 };
+ 
+-G_DEFINE_TYPE (UpBackend, up_backend, G_TYPE_OBJECT)
++G_DEFINE_TYPE_WITH_PRIVATE (UpBackend, up_backend, G_TYPE_OBJECT)
+ 
+ static gboolean up_backend_device_add (UpBackend *backend, GUdevDevice *native);
+ static void up_backend_device_remove (UpBackend *backend, GUdevDevice *native);
+@@ -805,8 +805,6 @@ up_backend_class_init (UpBackendClass *klass)
+ 			      G_STRUCT_OFFSET (UpBackendClass, device_removed),
+ 			      NULL, NULL, NULL,
+ 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
+-
+-	g_type_class_add_private (klass, sizeof (UpBackendPrivate));
+ }
+ 
+ static void
+diff --git a/src/linux/up-device-csr.c b/src/linux/up-device-csr.c
+index 914fa77..15eb728 100644
+--- a/src/linux/up-device-csr.c
++++ b/src/linux/up-device-csr.c
+@@ -60,7 +60,7 @@ struct UpDeviceCsrPrivate
+ 	libusb_device		*device;
+ };
+ 
+-G_DEFINE_TYPE (UpDeviceCsr, up_device_csr, UP_TYPE_DEVICE)
++G_DEFINE_TYPE_WITH_PRIVATE (UpDeviceCsr, up_device_csr, UP_TYPE_DEVICE)
+ #define UP_DEVICE_CSR_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), UP_TYPE_DEVICE_CSR, UpDeviceCsrPrivate))
+ 
+ static gboolean		 up_device_csr_refresh	 	(UpDevice *device);
+@@ -332,8 +332,6 @@ up_device_csr_class_init (UpDeviceCsrClass *klass)
+ 	object_class->finalize = up_device_csr_finalize;
+ 	device_class->coldplug = up_device_csr_coldplug;
+ 	device_class->refresh = up_device_csr_refresh;
+-
+-	g_type_class_add_private (klass, sizeof (UpDeviceCsrPrivate));
+ }
+ 
+ /**
+diff --git a/src/linux/up-device-hid.c b/src/linux/up-device-hid.c
+index 095d55a..8f45f97 100644
+--- a/src/linux/up-device-hid.c
++++ b/src/linux/up-device-hid.c
+@@ -90,7 +90,7 @@ struct UpDeviceHidPrivate
+ 	int			 fd;
+ };
+ 
+-G_DEFINE_TYPE (UpDeviceHid, up_device_hid, UP_TYPE_DEVICE)
++G_DEFINE_TYPE_WITH_PRIVATE (UpDeviceHid, up_device_hid, UP_TYPE_DEVICE)
+ #define UP_DEVICE_HID_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), UP_TYPE_DEVICE_HID, UpDeviceHidPrivate))
+ 
+ static gboolean		 up_device_hid_refresh	 	(UpDevice *device);
+@@ -512,8 +512,6 @@ up_device_hid_class_init (UpDeviceHidClass *klass)
+ 	device_class->coldplug = up_device_hid_coldplug;
+ 	device_class->get_on_battery = up_device_hid_get_on_battery;
+ 	device_class->refresh = up_device_hid_refresh;
+-
+-	g_type_class_add_private (klass, sizeof (UpDeviceHidPrivate));
+ }
+ 
+ /**
+diff --git a/src/linux/up-device-idevice.c b/src/linux/up-device-idevice.c
+index 0c404cc..0a00253 100644
+--- a/src/linux/up-device-idevice.c
++++ b/src/linux/up-device-idevice.c
+@@ -48,7 +48,7 @@ struct UpDeviceIdevicePrivate
+ 	lockdownd_client_t	 client;
+ };
+ 
+-G_DEFINE_TYPE (UpDeviceIdevice, up_device_idevice, UP_TYPE_DEVICE)
++G_DEFINE_TYPE_WITH_PRIVATE (UpDeviceIdevice, up_device_idevice, UP_TYPE_DEVICE)
+ #define UP_DEVICE_IDEVICE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), UP_TYPE_DEVICE_IDEVICE, UpDeviceIdevicePrivate))
+ 
+ static gboolean		 up_device_idevice_refresh		(UpDevice *device);
+@@ -390,8 +390,6 @@ up_device_idevice_class_init (UpDeviceIdeviceClass *klass)
+ 	object_class->finalize = up_device_idevice_finalize;
+ 	device_class->coldplug = up_device_idevice_coldplug;
+ 	device_class->refresh = up_device_idevice_refresh;
+-
+-	g_type_class_add_private (klass, sizeof (UpDeviceIdevicePrivate));
+ }
+ 
+ /**
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index 4936247..1c76a25 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -70,7 +70,7 @@ struct UpDeviceSupplyPrivate
+ 	gboolean		 shown_invalid_voltage_warning;
+ };
+ 
+-G_DEFINE_TYPE (UpDeviceSupply, up_device_supply, UP_TYPE_DEVICE)
++G_DEFINE_TYPE_WITH_PRIVATE (UpDeviceSupply, up_device_supply, UP_TYPE_DEVICE)
+ #define UP_DEVICE_SUPPLY_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), UP_TYPE_DEVICE_SUPPLY, UpDeviceSupplyPrivate))
+ 
+ static gboolean		 up_device_supply_refresh	 	(UpDevice *device);
+@@ -1276,8 +1276,6 @@ up_device_supply_class_init (UpDeviceSupplyClass *klass)
+ 	device_class->get_online = up_device_supply_get_online;
+ 	device_class->coldplug = up_device_supply_coldplug;
+ 	device_class->refresh = up_device_supply_refresh;
+-
+-	g_type_class_add_private (klass, sizeof (UpDeviceSupplyPrivate));
+ }
+ 
+ /**
+diff --git a/src/linux/up-device-unifying.c b/src/linux/up-device-unifying.c
+index bf1a111..5d03e6b 100644
+--- a/src/linux/up-device-unifying.c
++++ b/src/linux/up-device-unifying.c
+@@ -35,7 +35,7 @@ struct UpDeviceUnifyingPrivate
+ 	HidppDevice		*hidpp_device;
+ };
+ 
+-G_DEFINE_TYPE (UpDeviceUnifying, up_device_unifying, UP_TYPE_DEVICE)
++G_DEFINE_TYPE_WITH_PRIVATE (UpDeviceUnifying, up_device_unifying, UP_TYPE_DEVICE)
+ #define UP_DEVICE_UNIFYING_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), UP_TYPE_DEVICE_UNIFYING, UpDeviceUnifyingPrivate))
+ 
+ /**
+@@ -335,8 +335,6 @@ up_device_unifying_class_init (UpDeviceUnifyingClass *klass)
+ 	object_class->finalize = up_device_unifying_finalize;
+ 	device_class->coldplug = up_device_unifying_coldplug;
+ 	device_class->refresh = up_device_unifying_refresh;
+-
+-	g_type_class_add_private (klass, sizeof (UpDeviceUnifyingPrivate));
+ }
+ 
+ /**
+diff --git a/src/linux/up-device-wup.c b/src/linux/up-device-wup.c
+index 4639af7..57a9c4a 100644
+--- a/src/linux/up-device-wup.c
++++ b/src/linux/up-device-wup.c
+@@ -72,7 +72,7 @@ struct UpDeviceWupPrivate
+ 	int			 fd;
+ };
+ 
+-G_DEFINE_TYPE (UpDeviceWup, up_device_wup, UP_TYPE_DEVICE)
++G_DEFINE_TYPE_WITH_PRIVATE (UpDeviceWup, up_device_wup, UP_TYPE_DEVICE)
+ #define UP_DEVICE_WUP_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), UP_TYPE_DEVICE_WUP, UpDeviceWupPrivate))
+ 
+ static gboolean		 up_device_wup_refresh	 	(UpDevice *device);
+@@ -461,8 +461,6 @@ up_device_wup_class_init (UpDeviceWupClass *klass)
+ 	object_class->finalize = up_device_wup_finalize;
+ 	device_class->coldplug = up_device_wup_coldplug;
+ 	device_class->refresh = up_device_wup_refresh;
+-
+-	g_type_class_add_private (klass, sizeof (UpDeviceWupPrivate));
+ }
+ 
+ /**
+diff --git a/src/linux/up-input.c b/src/linux/up-input.c
+index c5df937..1bed6e4 100644
+--- a/src/linux/up-input.c
++++ b/src/linux/up-input.c
+@@ -54,7 +54,7 @@ struct UpInputPrivate
+ 	UpDaemon		*daemon;
+ };
+ 
+-G_DEFINE_TYPE (UpInput, up_input, G_TYPE_OBJECT)
++G_DEFINE_TYPE_WITH_PRIVATE (UpInput, up_input, G_TYPE_OBJECT)
+ #define UP_INPUT_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), UP_TYPE_INPUT, UpInputPrivate))
+ 
+ /* we must use this kernel-compatible implementation */
+@@ -304,7 +304,6 @@ up_input_class_init (UpInputClass *klass)
+ {
+ 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+ 	object_class->finalize = up_input_finalize;
+-	g_type_class_add_private (klass, sizeof (UpInputPrivate));
+ }
+ 
+ /**
+diff --git a/src/openbsd/up-backend.c b/src/openbsd/up-backend.c
+index b59d1a7..7fb4271 100644
+--- a/src/openbsd/up-backend.c
++++ b/src/openbsd/up-backend.c
+@@ -60,7 +60,7 @@ enum {
+ 
+ static guint signals [SIGNAL_LAST] = { 0 };
+ 
+-G_DEFINE_TYPE (UpBackend, up_backend, G_TYPE_OBJECT)
++G_DEFINE_TYPE_WITH_PRIVATE (UpBackend, up_backend, G_TYPE_OBJECT)
+ 
+ /**
+  * functions called by upower daemon
+@@ -585,8 +585,6 @@ up_backend_class_init (UpBackendClass *klass)
+ 			      G_STRUCT_OFFSET (UpBackendClass, device_removed),
+ 			      NULL, NULL, NULL,
+ 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
+-
+-	g_type_class_add_private (klass, sizeof (UpBackendPrivate));
+ }
+ 
+ /**
+diff --git a/src/up-config.c b/src/up-config.c
+index 2a17f30..5e663ac 100644
+--- a/src/up-config.c
++++ b/src/up-config.c
+@@ -40,7 +40,7 @@ struct _UpConfigPrivate
+ 	GKeyFile			*keyfile;
+ };
+ 
+-G_DEFINE_TYPE (UpConfig, up_config, G_TYPE_OBJECT)
++G_DEFINE_TYPE_WITH_PRIVATE (UpConfig, up_config, G_TYPE_OBJECT)
+ 
+ static gpointer up_config_object = NULL;
+ 
+@@ -88,7 +88,6 @@ up_config_class_init (UpConfigClass *klass)
+ {
+ 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+ 	object_class->finalize = up_config_finalize;
+-	g_type_class_add_private (klass, sizeof (UpConfigPrivate));
+ }
+ 
+ /**
+diff --git a/src/up-daemon.c b/src/up-daemon.c
+index 690f379..5c6401f 100644
+--- a/src/up-daemon.c
++++ b/src/up-daemon.c
+@@ -76,7 +76,7 @@ static gboolean	up_daemon_get_on_battery_local	(UpDaemon	*daemon);
+ static gboolean	up_daemon_get_warning_level_local(UpDaemon	*daemon);
+ static gboolean	up_daemon_get_on_ac_local 	(UpDaemon	*daemon);
+ 
+-G_DEFINE_TYPE (UpDaemon, up_daemon, UP_TYPE_EXPORTED_DAEMON_SKELETON)
++G_DEFINE_TYPE_WITH_PRIVATE (UpDaemon, up_daemon, UP_TYPE_EXPORTED_DAEMON_SKELETON)
+ 
+ #define UP_DAEMON_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), UP_TYPE_DAEMON, UpDaemonPrivate))
+ 
+@@ -1141,8 +1141,6 @@ up_daemon_class_init (UpDaemonClass *klass)
+ {
+ 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+ 	object_class->finalize = up_daemon_finalize;
+-
+-	g_type_class_add_private (klass, sizeof (UpDaemonPrivate));
+ }
+ 
+ /**
+diff --git a/src/up-device-list.c b/src/up-device-list.c
+index b95925a..ece6d9c 100644
+--- a/src/up-device-list.c
++++ b/src/up-device-list.c
+@@ -38,7 +38,7 @@ struct UpDeviceListPrivate
+ 	GHashTable		*map_native_path_to_device;
+ };
+ 
+-G_DEFINE_TYPE (UpDeviceList, up_device_list, G_TYPE_OBJECT)
++G_DEFINE_TYPE_WITH_PRIVATE (UpDeviceList, up_device_list, G_TYPE_OBJECT)
+ 
+ /**
+  * up_device_list_lookup:
+@@ -183,7 +183,6 @@ up_device_list_class_init (UpDeviceListClass *klass)
+ {
+ 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+ 	object_class->finalize = up_device_list_finalize;
+-	g_type_class_add_private (klass, sizeof (UpDeviceListPrivate));
+ }
+ 
+ /**
+diff --git a/src/up-device.c b/src/up-device.c
+index cab93f9..2cfc555 100644
+--- a/src/up-device.c
++++ b/src/up-device.c
+@@ -44,7 +44,7 @@ struct UpDevicePrivate
+ 	gboolean		 has_ever_refresh;
+ };
+ 
+-G_DEFINE_TYPE (UpDevice, up_device, UP_TYPE_EXPORTED_DEVICE_SKELETON)
++G_DEFINE_TYPE_WITH_PRIVATE (UpDevice, up_device, UP_TYPE_EXPORTED_DEVICE_SKELETON)
+ #define UP_DEVICE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), UP_TYPE_DEVICE, UpDevicePrivate))
+ 
+ #define UP_DEVICES_DBUS_PATH "/org/freedesktop/UPower/devices"
+@@ -754,8 +754,6 @@ up_device_class_init (UpDeviceClass *klass)
+ 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+ 	object_class->notify = up_device_notify;
+ 	object_class->finalize = up_device_finalize;
+-
+-	g_type_class_add_private (klass, sizeof (UpDevicePrivate));
+ }
+ 
+ /**
+diff --git a/src/up-history.c b/src/up-history.c
+index 1d41c2c..a6768e4 100644
+--- a/src/up-history.c
++++ b/src/up-history.c
+@@ -61,7 +61,7 @@ enum {
+ 	UP_HISTORY_LAST_SIGNAL
+ };
+ 
+-G_DEFINE_TYPE (UpHistory, up_history, G_TYPE_OBJECT)
++G_DEFINE_TYPE_WITH_PRIVATE (UpHistory, up_history, G_TYPE_OBJECT)
+ 
+ /**
+  * up_history_set_max_data_age:
+@@ -874,7 +874,6 @@ up_history_class_init (UpHistoryClass *klass)
+ {
+ 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+ 	object_class->finalize = up_history_finalize;
+-	g_type_class_add_private (klass, sizeof (UpHistoryPrivate));
+ }
+ 
+ /**
+diff --git a/src/up-kbd-backlight.c b/src/up-kbd-backlight.c
+index feb1e86..822572e 100644
+--- a/src/up-kbd-backlight.c
++++ b/src/up-kbd-backlight.c
+@@ -48,7 +48,7 @@ struct UpKbdBacklightPrivate
+ 	gint			 max_brightness;
+ };
+ 
+-G_DEFINE_TYPE (UpKbdBacklight, up_kbd_backlight, UP_TYPE_EXPORTED_KBD_BACKLIGHT_SKELETON)
++G_DEFINE_TYPE_WITH_PRIVATE (UpKbdBacklight, up_kbd_backlight, UP_TYPE_EXPORTED_KBD_BACKLIGHT_SKELETON)
+ 
+ /**
+  * up_kbd_backlight_emit_change:
+@@ -207,8 +207,6 @@ up_kbd_backlight_class_init (UpKbdBacklightClass *klass)
+ {
+ 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+ 	object_class->finalize = up_kbd_backlight_finalize;
+-
+-	g_type_class_add_private (klass, sizeof (UpKbdBacklightPrivate));
+ }
+ 
+ /**
+diff --git a/src/up-wakeups.c b/src/up-wakeups.c
+index 99433dd..6f6328a 100644
+--- a/src/up-wakeups.c
++++ b/src/up-wakeups.c
+@@ -54,7 +54,7 @@ struct UpWakeupsPrivate
+ 	gboolean		 polling_enabled;
+ };
+ 
+-G_DEFINE_TYPE (UpWakeups, up_wakeups, UP_TYPE_EXPORTED_WAKEUPS_SKELETON)
++G_DEFINE_TYPE_WITH_PRIVATE (UpWakeups, up_wakeups, UP_TYPE_EXPORTED_WAKEUPS_SKELETON)
+ 
+ /**
+  * up_wakeups_get_cmdline:
+@@ -656,8 +656,6 @@ up_wakeups_class_init (UpWakeupsClass *klass)
+ {
+ 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+ 	object_class->finalize = up_wakeups_finalize;
+-
+-	g_type_class_add_private (klass, sizeof (UpWakeupsPrivate));
+ }
+ 
+ /**
+-- 
+2.21.0
+

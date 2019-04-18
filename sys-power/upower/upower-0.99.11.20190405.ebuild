@@ -11,7 +11,7 @@ SRC_URI="https://${PN}.freedesktop.org/releases/${PN}-0.99.3.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0/3" # based on SONAME of libupower-glib.so
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="ck doc integration-test +introspection ios kernel_FreeBSD kernel_linux selinux"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
@@ -335,6 +335,24 @@ src_prepare() {
 
 	eapply "${FILESDIR}"/${PN}-0.99.9-0016-ci-run-distcheck-as-a-test.patch
 	eapply "${FILESDIR}"/${PN}-0.99.9-0017-0-99-9.patch
+	eapply "${FILESDIR}"/${PN}-0.99.10-0001-daemon-make-comment-more-succinct.patch
+	eapply "${FILESDIR}"/${PN}-0.99.10-0002-daemon-consider-pending-charge-when-calculating-the.patch
+	eapply "${FILESDIR}"/${PN}-0.99.10-0003-integration-test-define-pending-charge-and-pending-d.patch
+	eapply "${FILESDIR}"/${PN}-0.99.10-0004-integration-test-test-displaydevice-pending-charge.patch
+	eapply "${FILESDIR}"/${PN}-0.99.10-0005-linux-don-t-set-out-state-before-state-is-final.patch
+	eapply "${FILESDIR}"/${PN}-0.99.10-0006-linux-map-pending-charge-to-fully-charged-when-charg.patch
+	eapply "${FILESDIR}"/${PN}-0.99.10-0007-integration-test-test-mapping-pending-charge-to-full.patch
+	eapply "${FILESDIR}"/${PN}-0.99.10-0008-released-upower-0-99-10.patch
+	eapply "${FILESDIR}"/${PN}-0.99.11-0001-trivial-post-release-version-bump.patch
+
+	if ! use ck; then
+		eapply "${FILESDIR}"/${PN}-0.99.11-0002-replace-use-of-deprecated-g-type-class-add-private.patch
+		eapply "${FILESDIR}"/${PN}-0.99.11-0003-replace-use-of-g-type-instance-get-private.patch
+	fi
+
+	eapply "${FILESDIR}"/${PN}-0.99.11-0004-move-d-bus-policy-file-to-usr-share-dbus-1-system-d.patch
+	eapply "${FILESDIR}"/${PN}-0.99.11-0005-let-systemd-create-var-lib-upower.patch
+	eapply "${FILESDIR}"/${PN}-0.99.11-0006-harden-systemd-service.patch
 
 	if use ck; then
 		# From Funtoo:

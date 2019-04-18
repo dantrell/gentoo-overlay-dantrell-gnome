@@ -1,0 +1,49 @@
+From c4e561f54d37924d3e3e5c5f95a4be8bae21a046 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jo=C3=A3o=20Paulo=20Rechi=20Vita?= <jprvita@endlessm.com>
+Date: Mon, 26 Nov 2018 13:13:00 -0800
+Subject: [PATCH 07/14] integration-test: Test mapping pending-charge to
+ fully-charged
+
+---
+ src/linux/integration-test | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index a81528f..8866485 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -597,6 +597,31 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_display_property('State'), UP_DEVICE_STATE_CHARGING)
+         self.stop_daemon()
+ 
++    def test_map_pending_charge_to_fully_charged(self):
++        '''Map pending-charge to fully-charged'''
++
++        bat0 = self.testbed.add_device('power_supply', 'BAT0', None,
++                                       ['type', 'Battery',
++                                        'present', '1',
++                                        'status', 'Not charging',
++                                        'charge_full', '10500000',
++                                        'charge_full_design', '11000000',
++                                        'capacity', '100',
++                                        'voltage_now', '12000000'], [])
++
++        self.start_daemon()
++        devs = self.proxy.EnumerateDevices()
++        self.assertEqual(len(devs), 1)
++        bat0_up = devs[0]
++        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'State'), UP_DEVICE_STATE_FULLY_CHARGED)
++        self.stop_daemon()
++
++        # and make sure we still return pending-charge below 100%
++        self.testbed.set_attribute(bat0, 'capacity', '99')
++        self.start_daemon()
++        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'State'), UP_DEVICE_STATE_PENDING_CHARGE)
++        self.stop_daemon()
++
+     def test_battery_charge(self):
+         '''battery which reports charge instead of energy
+ 
+-- 
+2.21.0
+

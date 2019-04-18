@@ -1,4 +1,3 @@
 gnome-base/gnome-shell vanilla-gc
-gnome-base/nautilus vanilla-search
 net-libs/glib-networking smartcard
 net-libs/gnutls pkcs11

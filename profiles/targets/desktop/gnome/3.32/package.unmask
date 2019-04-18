@@ -90,7 +90,7 @@
 ~gnome-base/gnome-menus-3.32.0::dantrell-gnome-3-32
 ~gnome-base/gnome-session-3.32.0::dantrell-gnome-3-32
 ~gnome-base/gnome-settings-daemon-3.32.0::dantrell-gnome-3-32
-~gnome-base/gnome-shell-3.32.0::dantrell-gnome-3-32
+~gnome-base/gnome-shell-3.32.1::dantrell-gnome-3-32
 ~gnome-base/gsettings-desktop-schemas-3.32.0::dantrell-gnome-3-32
 ~gnome-base/gvfs-1.40.1::dantrell-gnome-3-32
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
@@ -110,7 +110,7 @@
 ~gnome-extra/gnome-multi-writer-3.32.0::dantrell-gnome-3-32
 ~gnome-extra/gnome-packagekit-3.32.0::dantrell-gnome-3-32
 ~gnome-extra/gnome-recipes-2.0.2::dantrell-gnome
-~gnome-extra/gnome-shell-extensions-3.32.0::dantrell-gnome-3-32
+~gnome-extra/gnome-shell-extensions-3.32.1::dantrell-gnome-3-32
 ~gnome-extra/gnome-shell-frippery-3.32.1::dantrell-gnome-3-32
 ~gnome-extra/gnome-software-3.32.1::dantrell-gnome-3-32
 ~gnome-extra/gnome-system-monitor-3.32.1::dantrell-gnome-3-32
@@ -151,7 +151,7 @@
 ~media-video/gnome-video-effects-0.4.3::dantrell-gnome
 ~media-video/totem-3.32.0::dantrell-gnome-3-32
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
-~net-irc/polari-3.32.0::dantrell-gnome-3-32
+~net-irc/polari-3.32.1::dantrell-gnome-3-32
 ~net-libs/glib-networking-2.60.1::dantrell-gnome-3-32
 ~net-libs/gnome-online-accounts-3.32.0::dantrell-gnome-3-32
 ~net-libs/gtk-vnc-0.9.0::dantrell-gnome
@@ -181,4 +181,4 @@
 ~x11-themes/gnome-backgrounds-3.32.0::dantrell-gnome-3-32
 ~x11-themes/gnome-themes-extra-3.28::dantrell-gnome
 ~x11-wm/metacity-3.30.1::dantrell-gnome
-~x11-wm/mutter-3.32.0::dantrell-gnome-3-32
+~x11-wm/mutter-3.32.1::dantrell-gnome-3-32

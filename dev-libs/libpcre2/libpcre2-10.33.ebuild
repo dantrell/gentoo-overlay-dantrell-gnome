@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit flag-o-matic libtool ltprune multilib-minimal toolchain-funcs
+inherit flag-o-matic libtool multilib-minimal toolchain-funcs
 
 DESCRIPTION="Perl-compatible regular expression library"
 HOMEPAGE="http://www.pcre.org/"
@@ -17,7 +17,7 @@ fi
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="bzip2 +jit libedit pcre16 pcre32 +readline +recursion-limit static-libs unicode zlib"
 REQUIRED_USE="?? ( libedit readline )"
@@ -29,10 +29,6 @@ RDEPEND="bzip2? ( app-arch/bzip2 )
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	userland_GNU? ( >=sys-apps/findutils-4.4.0 )"
-
-PATCHES=(
-	"${FILESDIR}"/${P}-cygwin.patch #633612
-)
 
 S="${WORKDIR}/${MY_P}"
 
@@ -79,5 +75,5 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
-	prune_libtool_files
+	find "${ED}" -name "*.la" -delete || die
 }
