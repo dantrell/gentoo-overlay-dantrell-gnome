@@ -6,7 +6,7 @@ GNOME2_LA_PUNT="yes"
 inherit gnome2 multilib-minimal toolchain-funcs
 
 DESCRIPTION="Internationalized text layout and rendering library"
-HOMEPAGE="http://www.pango.org/"
+HOMEPAGE="https://www.pango.org/"
 
 LICENSE="LGPL-2+ FTL"
 SLOT="0"

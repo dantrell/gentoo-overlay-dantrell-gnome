@@ -8,7 +8,7 @@ DESCRIPTION="Compiler for the GObject type system"
 HOMEPAGE="https://wiki.gnome.org/Projects/Vala"
 
 LICENSE="LGPL-2.1"
-SLOT="0.28"
+SLOT="0.30"
 KEYWORDS="*"
 
 IUSE="test"
@@ -28,6 +28,14 @@ DEPEND="${RDEPEND}
 		>=dev-libs/glib-2.26:2
 		dev-libs/gobject-introspection:= )
 "
+
+src_prepare() {
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/vala/commit/06f4b599554773b5fbfe7cbab99eff8d94d2cb94
+	eapply "${FILESDIR}"/${PN}-0.26.2-girparser-skip-source-position-elements.patch
+
+	gnome2_src_prepare
+}
 
 src_configure() {
 	# https://bugs.gentoo.org/483134
