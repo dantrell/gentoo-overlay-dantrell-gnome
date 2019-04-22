@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 DESCRIPTION="Unicode data from unicode.org"
 HOMEPAGE="http://www.unicode.org/ucd/"

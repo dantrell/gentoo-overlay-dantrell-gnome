@@ -8,7 +8,7 @@ inherit gnome2 meson vala
 DESCRIPTION="Clutter based world map renderer"
 HOMEPAGE="https://wiki.gnome.org/Projects/libchamplain"
 
-LICENSE="LGPL-2"
+LICENSE="LGPL-2.1+"
 SLOT="0.12"
 KEYWORDS="~*"
 
