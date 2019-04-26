@@ -1,0 +1,18 @@
+diff '--exclude=.git' -urN a/glib/gunicode.h b/glib/gunicode.h
+--- a/glib/gunicode.h	2018-01-08 14:00:42.000000000 -0600
++++ b/glib/gunicode.h	2019-04-26 01:32:35.602934703 -0500
+@@ -411,10 +411,10 @@
+  * @G_UNICODE_SCRIPT_NEWA:                 Newa. Since: 2.50
+  * @G_UNICODE_SCRIPT_OSAGE:                Osage. Since: 2.50
+  * @G_UNICODE_SCRIPT_TANGUT:               Tangut. Since: 2.50
+- * @G_UNICODE_SCRIPT_MASARAM_GONDI,        Masaram Gondi. Since: 2.54
+- * @G_UNICODE_SCRIPT_NUSHU,                Nushu. Since: 2.54
+- * @G_UNICODE_SCRIPT_SOYOMBO,              Soyombo. Since: 2.54
+- * @G_UNICODE_SCRIPT_ZANABAZAR_SQUARE      Zanabazar Square. Since: 2.54
++ * @G_UNICODE_SCRIPT_MASARAM_GONDI:        Masaram Gondi. Since: 2.54
++ * @G_UNICODE_SCRIPT_NUSHU:                Nushu. Since: 2.54
++ * @G_UNICODE_SCRIPT_SOYOMBO:              Soyombo. Since: 2.54
++ * @G_UNICODE_SCRIPT_ZANABAZAR_SQUARE:     Zanabazar Square. Since: 2.54
+  *
+  * The #GUnicodeScript enumeration identifies different writing
+  * systems. The values correspond to the names as defined in the

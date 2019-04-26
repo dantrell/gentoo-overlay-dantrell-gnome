@@ -19,7 +19,7 @@ SRC_URI="${SRC_URI}
 	https://pkgconfig.freedesktop.org/releases/pkg-config-0.28.tar.gz" # pkg.m4 for eautoreconf
 
 LICENSE="LGPL-2.1+"
-SLOT="2/56"
+SLOT="2/54"
 KEYWORDS="*"
 
 IUSE="dbus debug fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
@@ -112,6 +112,19 @@ src_prepare() {
 		# Don't build tests, also prevents extra deps, bug #512022
 		sed -i -e 's/ tests//' {.,gio,glib}/Makefile.am || die
 	fi
+
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/8e8f4e6486c1578ae15d63835acd06f237324a6d
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/c79c234c352ff748056a30da6d4a49de0d2f878d
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/359b27d441a4dd701260d041e633e7241c314627
+	eapply "${FILESDIR}"/${PN}-2.55.0-docs-fix-various-minor-syntax-errors-in-gtk-doc-comments.patch
+	eapply "${FILESDIR}"/${PN}-2.57.2-unicode-update-to-unicode-11-0-0.patch
+	eapply "${FILESDIR}"/${PN}-2.57.2-unicode-update-test-data-files-for-unicode-11-0-0.patch
+
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/glib/merge_requests/411
+	# 	https://www.openwall.com/lists/oss-security/2018/10/23/5
+	eapply "${FILESDIR}"/${PN}-2.52.3-various-gvariant-gmarkup-and-gdbus-fuzzing-fixes.patch
 
 	# Leave python shebang alone - handled by python_replicate_script
 	# We could call python_setup and give configure a valid --with-python

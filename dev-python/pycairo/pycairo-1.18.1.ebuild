@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6,3_7} )
+PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6,3_7} pypy{,3} )
 PYTHON_REQ_USE="threads(+)"
 
 inherit distutils-r1
@@ -13,7 +13,7 @@ SRC_URI="https://github.com/pygobject/${PN}/releases/download/v${PV}/${P}.tar.gz
 
 LICENSE="|| ( LGPL-2.1 MPL-1.1 )"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="doc examples test"
 
@@ -29,16 +29,23 @@ DEPEND="${RDEPEND}
 "
 
 python_compile_all() {
-	use doc && emake -C docs
+	if use doc; then
+		sphinx-build docs -b html _build/html || die
+	fi
 }
 
 python_test() {
 	esetup.py test
 }
 
-python_install_all() {
+python_install() {
+	distutils-r1_python_install \
+		install_pkgconfig --pkgconfigdir="${EPREFIX}/usr/$(get_libdir)/pkgconfig"
+}
 
-	use doc && local HTML_DOCS=( docs/_build/. )
+python_install_all() {
+	use doc && local HTML_DOCS=( _build/html/. )
+
 	if use examples; then
 		dodoc -r examples
 	fi

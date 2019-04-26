@@ -13,7 +13,7 @@ SRC_URI="https://github.com/pygobject/${PN}/releases/download/v${PV}/${P}.tar.gz
 
 LICENSE="|| ( LGPL-2.1 MPL-1.1 )"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="doc examples test"
 
@@ -46,8 +46,8 @@ python_install() {
 }
 
 python_install_all() {
-
 	use doc && local HTML_DOCS=( docs/_build/. )
+
 	if use examples; then
 		dodoc -r examples
 	fi
