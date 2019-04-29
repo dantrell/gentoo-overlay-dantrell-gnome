@@ -129,7 +129,7 @@
 ~gnome-extra/yelp-xsl-3.32.1::dantrell-gnome-3-32
 ~gnome-extra/zenity-3.32.0::dantrell-gnome-3-32
 ~mail-client/evolution-3.32.1::dantrell-gnome-3-32
-~mail-client/geary-3.32.0::dantrell-gnome
+~mail-client/geary-3.32.1::dantrell-gnome
 ~media-fonts/cantarell-0.111::dantrell-gnome
 ~media-gfx/eog-3.32.1::dantrell-gnome-3-32
 ~media-gfx/gnome-font-viewer-3.32.0::dantrell-gnome-3-32
