@@ -20,7 +20,7 @@
 >=app-misc/tracker-2.1.0
 >=app-misc/tracker-miners-2.1.0
 >=app-text/evince-3.30.0
->=app-text/gspell-1.6.0
+>=app-text/gspell-1.10.0
 >=app-text/yelp-tools-3.30.0
 >=dev-cpp/atkmm-2.26.0
 >=dev-cpp/cairomm-1.13.0
@@ -136,6 +136,7 @@
 >=gnome-extra/yelp-3.30.0
 >=gnome-extra/yelp-xsl-3.30.0
 >=gnome-extra/zenity-3.30.0
+>=gui-libs/tepl-5.0
 >=mail-client/evolution-3.30.0
 >=media-gfx/eog-3.30.0
 >=media-gfx/eog-plugins-3.30.0
@@ -177,10 +178,9 @@
 >=www-client/epiphany-3.30.0
 >=x11-libs/gdk-pixbuf-2.38.0
 >=x11-libs/gnome-pty-helper-0.54.0
->=x11-libs/gtksourceview-3.30.0
+>=x11-libs/gtksourceview-5.0
 >=x11-libs/gtk+-3.24.0
 >=x11-libs/libwnck-3.30.0
->=x11-libs/tepl-4.0
 >=x11-libs/vte-0.54.0
 >=x11-misc/gpaste-3.30.0
 >=x11-misc/notification-daemon-3.30.0

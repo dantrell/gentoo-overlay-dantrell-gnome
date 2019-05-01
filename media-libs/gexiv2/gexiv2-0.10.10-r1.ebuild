@@ -4,7 +4,7 @@ EAPI="7"
 
 PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6,3_7} )
 
-inherit meson python-r1 vala xdg-utils
+inherit autotools python-r1 vala xdg-utils
 
 DESCRIPTION="GObject-based wrapper around the Exiv2 library"
 HOMEPAGE="https://wiki.gnome.org/Projects/gexiv2"
@@ -14,7 +14,7 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="gtk-doc +introspection python static-libs test +vala"
+IUSE="gtk-doc +introspection python test +vala"
 
 REQUIRED_USE="
 	python? ( introspection ${PYTHON_REQUIRED_USE} )
@@ -23,7 +23,7 @@ REQUIRED_USE="
 "
 
 RDEPEND="${PYTHON_DEPS}
-	>=dev-libs/glib-2.46.0:2
+	>=dev-libs/glib-2.26.1:2
 	>=media-gfx/exiv2-0.21:=
 	introspection? ( dev-libs/gobject-introspection:= )
 "
@@ -38,34 +38,26 @@ BDEPEND="
 	vala? ( $(vala_depend) )
 "
 
-PATCHES=(
-	# renames meson options to current git HEAD's names, current naming scheme
-	# is rather awkward
-	"${FILESDIR}"/${PN}-0.10.10-meson-fixup.patch
-	"${FILESDIR}"/${PN}-0.10.10-vala-fixup.patch
-)
-
 src_prepare() {
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/gexiv2/commit/abf4c28107327ce7fd18872ea045b259cda9436d
+	eapply -R "${FILESDIR}"/${PN}-0.10.9-use-g-add-private.patch
+
 	xdg_environment_reset
+	tc-export CXX
 	use vala && vala_src_prepare
 	default
+	eautoreconf
 }
 
 src_configure() {
-	local emesonargs=(
-		$(meson_use introspection)
-		$(meson_use vala vapi)
-		$(meson_use gtk-doc gtk_doc)
-		# prevents installation of python modules (uses install_data from meson
-		# which does not optimize the modules
-		-Dpython2-girdir=no
-		-Dpython3-girdir=no
-	)
-	meson_src_configure
+	econf \
+		$(use_enable introspection) \
+		$(use_enable vala)
 }
 
 src_install() {
-	meson_src_install
+	emake DESTDIR="${D}" LIB="$(get_libdir)" install
 
 	if use python ; then
 		python_moduleinto gi/overrides/

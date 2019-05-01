@@ -1,0 +1,142 @@
+From abf4c28107327ce7fd18872ea045b259cda9436d Mon Sep 17 00:00:00 2001
+From: Jens Georg <mail@jensge.org>
+Date: Fri, 29 Jun 2018 15:38:36 +0200
+Subject: [PATCH] Use G_ADD_PRIVATE
+
+g_type_class_add_private is deprecated now, and the replacement is there
+since ages.
+
+Bump glib requirement to >= 2.38
+---
+ configure.ac                         | 2 +-
+ gexiv2/gexiv2-metadata.cpp           | 9 ++-------
+ gexiv2/gexiv2-preview-image.cpp      | 8 ++------
+ gexiv2/gexiv2-preview-properties.cpp | 8 ++------
+ meson.build                          | 2 +-
+ 5 files changed, 8 insertions(+), 21 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 82c815f..1abc5d1 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -46,7 +46,7 @@ AC_SUBST(GIR_VERSION)
+ GIR_VERSION_U=gexiv2_gir_version_u
+ AC_SUBST(GIR_VERSION_U)
+ 
+-m4_define([glib_required_version], [2.26.1])
++m4_define([glib_required_version], [2.38.0])
+ m4_define([exiv2_required_version], [0.21])
+ 
+ # This number must be edited whenever a change has been made that may affect libgexiv2's
+diff --git a/gexiv2/gexiv2-metadata.cpp b/gexiv2/gexiv2-metadata.cpp
+index 3a78084..b6600a7 100644
+--- a/gexiv2/gexiv2-metadata.cpp
++++ b/gexiv2/gexiv2-metadata.cpp
+@@ -33,10 +33,7 @@
+ 
+ G_BEGIN_DECLS
+ 
+-#define GEXIV2_METADATA_GET_PRIVATE(obj) \
+-	(G_TYPE_INSTANCE_GET_PRIVATE ((obj), GEXIV2_TYPE_METADATA, GExiv2MetadataPrivate))
+-
+-G_DEFINE_TYPE (GExiv2Metadata, gexiv2_metadata, G_TYPE_OBJECT);
++G_DEFINE_TYPE_WITH_CODE (GExiv2Metadata, gexiv2_metadata, G_TYPE_OBJECT, G_ADD_PRIVATE (GExiv2Metadata));
+ 
+ static void gexiv2_metadata_finalize (GObject *object);
+ static void gexiv2_metadata_set_comment_internal (GExiv2Metadata *self, const gchar *new_comment);
+@@ -46,7 +43,7 @@ static gboolean gexiv2_metadata_save_internal (GExiv2Metadata *self, Exiv2::Imag
+ 
+ static void gexiv2_metadata_init (GExiv2Metadata *self) {
+     GExiv2MetadataPrivate *priv;
+-    self->priv = priv = GEXIV2_METADATA_GET_PRIVATE (self);
++    self->priv = priv = (GExiv2MetadataPrivate *) gexiv2_metadata_get_instance_private(self);
+     
+     /* Initialize members */
+     self->priv->comment = NULL;
+@@ -71,8 +68,6 @@ static void gexiv2_metadata_init (GExiv2Metadata *self) {
+ static void gexiv2_metadata_class_init (GExiv2MetadataClass *klass) {
+     GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+     
+-    g_type_class_add_private (klass, sizeof (GExiv2MetadataPrivate));
+-    
+     gobject_class->finalize = gexiv2_metadata_finalize;
+ }
+ 
+diff --git a/gexiv2/gexiv2-preview-image.cpp b/gexiv2/gexiv2-preview-image.cpp
+index 98b3209..769cc8b 100644
+--- a/gexiv2/gexiv2-preview-image.cpp
++++ b/gexiv2/gexiv2-preview-image.cpp
+@@ -13,15 +13,13 @@
+ #include <gio/gio.h>
+ 
+ G_BEGIN_DECLS
+-#define GEXIV2_PREVIEW_IMAGE_GET_PRIVATE(obj) \
+-	(G_TYPE_INSTANCE_GET_PRIVATE ((obj), GEXIV2_TYPE_PREVIEW_IMAGE, GExiv2PreviewImagePrivate))
+ 
+-G_DEFINE_TYPE (GExiv2PreviewImage, gexiv2_preview_image, G_TYPE_OBJECT);
++G_DEFINE_TYPE_WITH_CODE (GExiv2PreviewImage, gexiv2_preview_image, G_TYPE_OBJECT, G_ADD_PRIVATE(GExiv2PreviewImage));
+ 
+ static void gexiv2_preview_image_finalize (GObject *object);
+ 
+ static void gexiv2_preview_image_init (GExiv2PreviewImage *self) {
+-    self->priv = GEXIV2_PREVIEW_IMAGE_GET_PRIVATE (self);
++    self->priv = (GExiv2PreviewImagePrivate *) gexiv2_preview_image_get_instance_private(self);
+     
+     self->priv->image = NULL;
+     self->priv->mime_type = NULL;
+@@ -31,8 +29,6 @@ static void gexiv2_preview_image_init (GExiv2PreviewImage *self) {
+ static void gexiv2_preview_image_class_init (GExiv2PreviewImageClass *klass) {
+     GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+     
+-    g_type_class_add_private (klass, sizeof (GExiv2PreviewImagePrivate));
+-    
+     gobject_class->finalize = gexiv2_preview_image_finalize;
+ }
+ 
+diff --git a/gexiv2/gexiv2-preview-properties.cpp b/gexiv2/gexiv2-preview-properties.cpp
+index 6aaf485..d7813c0 100644
+--- a/gexiv2/gexiv2-preview-properties.cpp
++++ b/gexiv2/gexiv2-preview-properties.cpp
+@@ -13,15 +13,13 @@
+ #include <gio/gio.h>
+ 
+ G_BEGIN_DECLS
+-#define GEXIV2_PREVIEW_PROPERTIES_GET_PRIVATE(obj) \
+-	(G_TYPE_INSTANCE_GET_PRIVATE ((obj), GEXIV2_TYPE_PREVIEW_PROPERTIES, GExiv2PreviewPropertiesPrivate))
+ 
+-G_DEFINE_TYPE (GExiv2PreviewProperties, gexiv2_preview_properties, G_TYPE_OBJECT);
++G_DEFINE_TYPE_WITH_CODE (GExiv2PreviewProperties, gexiv2_preview_properties, G_TYPE_OBJECT, G_ADD_PRIVATE (GExiv2PreviewProperties));
+ 
+ static void gexiv2_preview_properties_finalize (GObject *object);
+ 
+ static void gexiv2_preview_properties_init (GExiv2PreviewProperties *self) {
+-    self->priv = GEXIV2_PREVIEW_PROPERTIES_GET_PRIVATE (self);
++    self->priv = (GExiv2PreviewPropertiesPrivate *) gexiv2_preview_properties_get_instance_private(self);
+     
+     self->priv->props = NULL;
+ }
+@@ -29,8 +27,6 @@ static void gexiv2_preview_properties_init (GExiv2PreviewProperties *self) {
+ static void gexiv2_preview_properties_class_init (GExiv2PreviewPropertiesClass *klass) {
+     GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+     
+-    g_type_class_add_private(klass, sizeof (GExiv2PreviewPropertiesPrivate));
+-    
+     gobject_class->finalize = gexiv2_preview_properties_finalize;
+ }
+ 
+diff --git a/meson.build b/meson.build
+index 8b32edf..17bd96e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3,7 +3,7 @@ gnome = import('gnome')
+ pkg = import('pkgconfig')
+ 
+ exiv2 = dependency('exiv2', version : '>= 0.21')
+-gobject = dependency('gobject-2.0', version : '>= 2.26.1')
++gobject = dependency('gobject-2.0', version : '>= 2.38.0')
+ 
+ gir = find_program('g-ir-scanner', required: false)
+ vapigen = find_program('vapigen', required: false)
+-- 
+2.18.1
+

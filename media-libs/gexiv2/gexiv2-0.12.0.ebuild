@@ -12,9 +12,9 @@ SRC_URI="mirror://gnome/sources/${PN}/$(ver_cut 1-2)/${P}.tar.xz"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
-IUSE="gtk-doc +introspection python static-libs test +vala"
+IUSE="gtk-doc +introspection python test +vala"
 
 REQUIRED_USE="
 	python? ( introspection ${PYTHON_REQUIRED_USE} )

@@ -36,6 +36,7 @@
 >=app-admin/packagekit-gtk-1.1.0
 >=app-office/gnucash-3.3
 >=media-gfx/gimp-2.9.0
+>=media-libs/gexiv2-0.12.0
 >=net-misc/spice-gtk-0.35
 >=sys-apps/accountsservice-0.6.46
 >=x11-misc/colord-1.3.0

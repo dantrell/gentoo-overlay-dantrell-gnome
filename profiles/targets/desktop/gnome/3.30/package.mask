@@ -136,6 +136,7 @@
 >=gnome-extra/yelp-3.32.0
 >=gnome-extra/yelp-xsl-3.32.0
 >=gnome-extra/zenity-3.32.0
+>=gui-libs/tepl-5.0
 >=mail-client/evolution-3.32.0
 >=media-gfx/eog-3.32.0
 >=media-gfx/eog-plugins-3.32.0
@@ -177,10 +178,9 @@
 >=www-client/epiphany-3.32.0
 >=x11-libs/gdk-pixbuf-2.40.0
 >=x11-libs/gnome-pty-helper-0.56.0
->=x11-libs/gtksourceview-3.32.0
+>=x11-libs/gtksourceview-5.0
 >=x11-libs/gtk+-3.26.0
 >=x11-libs/libwnck-3.31.0
->=x11-libs/tepl-5.0
 >=x11-libs/vte-0.56.0
 >=x11-misc/gpaste-3.32.0
 >=x11-misc/notification-daemon-3.32.0
