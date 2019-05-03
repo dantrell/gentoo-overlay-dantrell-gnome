@@ -42,6 +42,7 @@ pkg_pretend() {
 pkg_setup(){
 	[[ ${MERGE_TYPE} == "binary" ]] || \
 		moz_pkgsetup
+	export SHELL="${EPREFIX}/bin/bash"
 }
 
 src_prepare() {

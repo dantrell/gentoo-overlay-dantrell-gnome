@@ -15,8 +15,8 @@
 ~app-misc/bijiben-3.32.1::dantrell-gnome-3-32
 ~app-misc/geoclue-2.4.8::dantrell-gnome
 ~app-misc/gnote-3.32.1::dantrell-gnome-3-32
-~app-misc/tracker-2.2.1::dantrell-gnome-3-32
-~app-misc/tracker-miners-2.2.1::dantrell-gnome-3-32
+~app-misc/tracker-2.2.2::dantrell-gnome-3-32
+~app-misc/tracker-miners-2.2.2::dantrell-gnome-3-32
 ~app-text/enchant-2.2.3::dantrell-gnome
 ~app-text/evince-3.32.0::dantrell-gnome-3-32
 ~app-text/gspell-1.8.1::dantrell-gnome
@@ -152,7 +152,7 @@
 ~media-video/totem-3.32.0::dantrell-gnome-3-32
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
 ~net-irc/polari-3.32.1::dantrell-gnome-3-32
-~net-libs/glib-networking-2.60.1::dantrell-gnome-3-32
+~net-libs/glib-networking-2.60.2::dantrell-gnome-3-32
 ~net-libs/gnome-online-accounts-3.32.0::dantrell-gnome-3-32
 ~net-libs/gtk-vnc-0.9.0::dantrell-gnome
 ~net-libs/libsoup-2.66.1::dantrell-gnome-3-32
@@ -168,7 +168,7 @@
 ~sci-geosciences/gnome-maps-3.32.1::dantrell-gnome-3-32
 ~sys-apps/baobab-3.32.0::dantrell-gnome-3-32
 ~sys-apps/gnome-disk-utility-3.32.1::dantrell-gnome-3-32
-~www-client/epiphany-3.32.1.2::dantrell-gnome-3-32
+~www-client/epiphany-3.32.2::dantrell-gnome-3-32
 ~x11-libs/gdk-pixbuf-2.38.1::dantrell-gnome
 ~x11-libs/gtksourceview-4.2.0::dantrell-gnome
 ~x11-libs/libnotify-0.7.8::dantrell-gnome
