@@ -56,14 +56,16 @@ src_prepare() {
 	sed -i 's:0444:0644:' mk/sys.mk || die
 
 	# From OpenRC:
-	# 	https://gitweb.gentoo.org/proj/openrc.git/commit/?id=b1c3422f453921e838d419640fe39144dbf8d13d
-	# 	https://gitweb.gentoo.org/proj/openrc.git/commit/?id=db4a578273dbfa15b8b96686391bcc9ecc04b646
-	# 	https://gitweb.gentoo.org/proj/openrc.git/commit/?id=a7c99506d9de81b9a2a7547bd11715073de1ce95
-	# 	https://gitweb.gentoo.org/proj/openrc.git/commit/?id=cee3919908c2d715fd75a796873e3308209a4c2e
+	# 	https://github.com/OpenRC/openrc/commit/b1c3422f453921e838d419640fe39144dbf8d13d
+	# 	https://github.com/OpenRC/openrc/commit/db4a578273dbfa15b8b96686391bcc9ecc04b646
+	# 	https://github.com/OpenRC/openrc/commit/a7c99506d9de81b9a2a7547bd11715073de1ce95
+	# 	https://github.com/OpenRC/openrc/commit/cee3919908c2d715fd75a796873e3308209a4c2e
+	# 	https://github.com/OpenRC/openrc/commit/7cb8d943236fe651ac54c64f8167f7c4369f649c
 	eapply "${FILESDIR}"/${PN}-0.31.2-selinux-use-openrc-contexts-path-to-get-contexts.patch
 	eapply "${FILESDIR}"/${PN}-0.31.2-selinux-fix-const-qualifier-warning.patch
 	eapply "${FILESDIR}"/${PN}-0.35-fix-repeated-dependency-cache-rebuild-if-clock-skewed.patch
 	eapply "${FILESDIR}"/${PN}-0.35-clean-up-the-calls-to-group-add-service.patch
+	eapply "${FILESDIR}"/${PN}-0.39.1-stop-mounting-efivarfs-read-only.patch
 
 	if ! use vanilla-warnings; then
 		# We shouldn't have to deal with deprecation warnings for runscript

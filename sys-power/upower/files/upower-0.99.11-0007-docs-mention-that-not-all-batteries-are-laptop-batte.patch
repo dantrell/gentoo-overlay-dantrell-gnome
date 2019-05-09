@@ -1,0 +1,32 @@
+From c7104a19b3fe4fe8cf3735f1a0e1e8d06908e0ae Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 7 May 2019 12:54:57 +0200
+Subject: [PATCH 07/11] docs: Mention that not all batteries are laptop
+ batteries
+
+They might be device batteries where the device type is not known or
+catalogued.
+---
+ dbus/org.freedesktop.UPower.Device.xml | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/dbus/org.freedesktop.UPower.Device.xml b/dbus/org.freedesktop.UPower.Device.xml
+index d20f13e..4f042c1 100644
+--- a/dbus/org.freedesktop.UPower.Device.xml
++++ b/dbus/org.freedesktop.UPower.Device.xml
+@@ -336,6 +336,12 @@ method return sender=:1.386 -> dest=:1.477 reply_serial=2
+               <doc:term>8</doc:term><doc:definition>Phone</doc:definition>
+             </doc:item>
+           </doc:list>
++          <doc:para>
++            If the value is set to "Battery", you will need to verify that the
++            property <doc:ref type="property" to="Source:PowerSupply">power-supply</doc:ref>
++            has the value "true" before considering it as a laptop battery. Otherwise it
++            will likely be the battery for a device of an unknown type.
++          </doc:para>
+         </doc:description>
+       </doc:doc>
+     </property>
+-- 
+2.21.0
+

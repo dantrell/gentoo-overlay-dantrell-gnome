@@ -1,0 +1,30 @@
+From 71efbf00cac9a4aca8278a62ffe4140f63ed763b Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 7 May 2019 13:09:22 +0200
+Subject: [PATCH 10/11] linux: Start polling for unknown device batteries too
+
+This check is supposed to start a poll for 1) batteries embedded in
+external devices 2) batteries when battery polling is not disabled.
+
+Make sure to start the poll for all batteries embedded in devices even
+the ones that are just detected as "battery".
+---
+ src/linux/up-device-supply.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index 181a61c..d7e4423 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -1143,7 +1143,7 @@ up_device_supply_coldplug (UpDevice *device)
+ 	    type != UP_DEVICE_KIND_BATTERY)
+ 		up_daemon_start_poll (G_OBJECT (device), (GSourceFunc) up_device_supply_refresh);
+ 	else if (type == UP_DEVICE_KIND_BATTERY &&
+-		 !supply->priv->disable_battery_poll)
++		 (!supply->priv->disable_battery_poll || !supply->priv->is_power_supply))
+ 		up_daemon_start_poll (G_OBJECT (device), (GSourceFunc) up_device_supply_refresh);
+ 
+ 	/* coldplug values */
+-- 
+2.21.0
+

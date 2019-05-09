@@ -1,0 +1,55 @@
+From 057238a04dd407f24bc78724ed18a68a8d36e57b Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 7 May 2019 12:58:44 +0200
+Subject: [PATCH 08/11] linux: Don't treat device batteries like laptop
+ batteries
+
+Use the correct refresh function for device batteries which aren't of a
+known type. This fixes battery information not getting updated on many
+Logitech wireless devices.
+
+Reproducer:
+- Unplug Logitech receiver
+- Replug Logitech receiver
+- Press button on Logitech keyboard
+- Move mouse/touchpad
+
+The touchpad battery would be stuck in "unknown" and with a "type" of
+battery. This commit forces the correct refresh function to be used, one
+that reads the capacity_level on those devices, and will update the
+overall battery level.
+
+Closes: #72
+---
+ src/linux/up-device-supply.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index 0d836e3..d7358f5 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -1192,17 +1192,14 @@ up_device_supply_refresh (UpDevice *device)
+ 	UpDeviceState state;
+ 
+ 	g_object_get (device, "type", &type, NULL);
+-	switch (type) {
+-	case UP_DEVICE_KIND_LINE_POWER:
++	if (type == UP_DEVICE_KIND_LINE_POWER) {
+ 		ret = up_device_supply_refresh_line_power (supply);
+-		break;
+-	case UP_DEVICE_KIND_BATTERY:
++	} else if (type == UP_DEVICE_KIND_BATTERY &&
++		   supply->priv->is_power_supply) {
+ 		up_device_supply_disable_unknown_poll (device);
+ 		ret = up_device_supply_refresh_battery (supply, &state);
+-		break;
+-	default:
++	} else {
+ 		ret = up_device_supply_refresh_device (supply, &state);
+-		break;
+ 	}
+ 
+ 	/* reset time if we got new data */
+-- 
+2.21.0
+

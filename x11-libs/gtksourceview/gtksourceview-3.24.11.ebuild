@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/GtkSourceView"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="3.0/3"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="glade +introspection +vala"
 REQUIRED_USE="vala? ( introspection )"

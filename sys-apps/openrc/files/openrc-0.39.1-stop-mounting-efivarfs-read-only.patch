@@ -1,0 +1,27 @@
+From 7cb8d943236fe651ac54c64f8167f7c4369f649c Mon Sep 17 00:00:00 2001
+From: William Hubbs <w.d.hubbs@gmail.com>
+Date: Tue, 14 Aug 2018 10:21:27 -0500
+Subject: [PATCH] Stop mounting efivarfs read-only
+
+We do not need to do this any longer since all supported linux kernels
+make efivarfs immutable and the tools that manipulate it are aware of
+this feature.
+
+This fixes https://github.com/openrc/openrc/issues/238.
+---
+  init.d/sysfs.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/init.d/sysfs.in b/init.d/sysfs.in
+index f0d02e5c..89707120 100644
+--- a/init.d/sysfs.in
++++ b/init.d/sysfs.in
+@@ -101,7 +101,7 @@ mount_misc()
+ 	if [ -d /sys/firmware/efi/efivars ] &&
+ 		! mountinfo -q /sys/firmware/efi/efivars; then
+ 		ebegin "Mounting efivarfs filesystem"
+-		mount -n -t efivarfs -o ro \
++		mount -n -t efivarfs -o ${sysfs_opts} \
+ 			efivarfs /sys/firmware/efi/efivars 2> /dev/null
+ 		eend 0
+ 	fi

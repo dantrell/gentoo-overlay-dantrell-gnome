@@ -1,0 +1,52 @@
+From 61028d84d80775f69c78de359f66e11cdd2e768d Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 7 May 2019 13:05:53 +0200
+Subject: [PATCH 09/11] linux: Retry to get a battery type if it's unknown
+
+On some devices the power_supply node will show up before a related node
+such as "input", making it impossible to know which type of device we're
+attached to without waiting. Try to detect the device type again if the
+device type is still "battery".
+
+This fixes some Logitech devices appearing as "Battery" instead of their
+respective device type, such as "mouse".
+---
+ src/linux/up-device-supply.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index d7358f5..181a61c 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -75,6 +75,8 @@ G_DEFINE_TYPE_WITH_PRIVATE (UpDeviceSupply, up_device_supply, UP_TYPE_DEVICE)
+ static gboolean		 up_device_supply_refresh	 	(UpDevice *device);
+ static void		 up_device_supply_setup_unknown_poll	(UpDevice      *device,
+ 								 UpDeviceState  state);
++static UpDeviceKind	 up_device_supply_guess_type		(GUdevDevice *native,
++								 const char *native_path);
+ 
+ static RefreshResult
+ up_device_supply_refresh_line_power (UpDeviceSupply *supply)
+@@ -918,10 +920,19 @@ up_device_supply_refresh_device (UpDeviceSupply *supply,
+ 	GUdevDevice *native;
+ 	gdouble percentage = 0.0f;
+ 	UpDeviceLevel level = UP_DEVICE_LEVEL_NONE;
++	UpDeviceKind type;
+ 
+ 	native = G_UDEV_DEVICE (up_device_get_native (device));
+ 	native_path = g_udev_device_get_sysfs_path (native);
+ 
++	/* Try getting a more precise type again */
++	g_object_get (device, "type", &type, NULL);
++	if (type == UP_DEVICE_KIND_BATTERY) {
++		type = up_device_supply_guess_type (native, native_path);
++		if (type != UP_DEVICE_KIND_BATTERY)
++			g_object_set (device, "type", type, NULL);
++	}
++
+ 	/* initial values */
+ 	if (!supply->priv->has_coldplug_values) {
+ 		gchar *model_name;
+-- 
+2.21.0
+
