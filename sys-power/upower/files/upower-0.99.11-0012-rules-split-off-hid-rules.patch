@@ -1,0 +1,72 @@
+From fb10b80d44a81ba9421a38ba087b50d202fe896b Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 7 May 2019 16:36:20 +0200
+Subject: [PATCH 12/15] rules: Split off HID++ rules
+
+They should probably have been split off from the start.
+---
+ rules/95-upower-csr.rules   | 14 --------------
+ rules/95-upower-hidpp.rules | 14 ++++++++++++++
+ rules/Makefile.am           |  3 ++-
+ 3 files changed, 16 insertions(+), 15 deletions(-)
+ create mode 100644 rules/95-upower-hidpp.rules
+
+diff --git a/rules/95-upower-csr.rules b/rules/95-upower-csr.rules
+index d7d0c3a..7c5f560 100644
+--- a/rules/95-upower-csr.rules
++++ b/rules/95-upower-csr.rules
+@@ -19,17 +19,3 @@ ATTR{idVendor}=="046d", ATTR{idProduct}=="c512", ENV{UPOWER_PRODUCT}="Keyboard+M
+ ATTR{idVendor}=="046d", ATTR{idProduct}=="c702", ENV{UPOWER_PRODUCT}="Presenter", ENV{UPOWER_BATTERY_TYPE}="mouse"
+ 
+ LABEL="up_csr_end"
+-
+-# Unifying HID++ devices
+-SUBSYSTEM!="hid", GOTO="up_unifying_end"
+-# Kernel provides the battery information already
+-ATTRS{idVendor}=="046d", TEST=="builtin_power_supply", GOTO="up_unifying_end"
+-ATTRS{idVendor}=="046d", ENV{UPOWER_VENDOR}="Logitech, Inc."
+-ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c52b", DRIVER=="logitech-djdevice", ENV{UPOWER_BATTERY_TYPE}="unifying"
+-ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c532", DRIVER=="logitech-djdevice", ENV{UPOWER_BATTERY_TYPE}="unifying"
+-# These devices bind to the hid-logitech-hidpp module since Linux 3.19
+-ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c52b", DRIVER=="logitech-hidpp-device", ENV{UPOWER_BATTERY_TYPE}="unifying"
+-ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c532", DRIVER=="logitech-hidpp-device", ENV{UPOWER_BATTERY_TYPE}="unifying"
+-ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c52f", ENV{UPOWER_BATTERY_TYPE}="lg-wireless"
+-ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c531", ENV{UPOWER_BATTERY_TYPE}="lg-wireless"
+-LABEL="up_unifying_end"
+diff --git a/rules/95-upower-hidpp.rules b/rules/95-upower-hidpp.rules
+new file mode 100644
+index 0000000..d7114b8
+--- /dev/null
++++ b/rules/95-upower-hidpp.rules
+@@ -0,0 +1,14 @@
++##############################################################################################################
++# Unifying HID++ devices
++SUBSYSTEM!="hid", GOTO="up_unifying_end"
++# Kernel provides the battery information already
++ATTRS{idVendor}=="046d", TEST=="builtin_power_supply", GOTO="up_unifying_end"
++ATTRS{idVendor}=="046d", ENV{UPOWER_VENDOR}="Logitech, Inc."
++ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c52b", DRIVER=="logitech-djdevice", ENV{UPOWER_BATTERY_TYPE}="unifying"
++ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c532", DRIVER=="logitech-djdevice", ENV{UPOWER_BATTERY_TYPE}="unifying"
++# These devices bind to the hid-logitech-hidpp module since Linux 3.19
++ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c52b", DRIVER=="logitech-hidpp-device", ENV{UPOWER_BATTERY_TYPE}="unifying"
++ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c532", DRIVER=="logitech-hidpp-device", ENV{UPOWER_BATTERY_TYPE}="unifying"
++ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c52f", ENV{UPOWER_BATTERY_TYPE}="lg-wireless"
++ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c531", ENV{UPOWER_BATTERY_TYPE}="lg-wireless"
++LABEL="up_unifying_end"
+diff --git a/rules/Makefile.am b/rules/Makefile.am
+index 754cd59..5262d9e 100644
+--- a/rules/Makefile.am
++++ b/rules/Makefile.am
+@@ -3,7 +3,8 @@
+ udevrules_DATA =						\
+ 	95-upower-wup.rules					\
+ 	95-upower-hid.rules					\
+-	95-upower-csr.rules
++	95-upower-csr.rules					\
++	95-upower-hidpp.rules
+ 
+ EXTRA_DIST =							\
+ 	$(udevrules_DATA)
+-- 
+2.21.0
+

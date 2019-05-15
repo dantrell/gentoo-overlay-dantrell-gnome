@@ -1,0 +1,33 @@
+From 56ff72fdf42eea378c6b545cc243e4f889e0fdc8 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 7 May 2019 16:38:48 +0200
+Subject: [PATCH 13/15] rules: Reduce our list of HID++ devices
+
+Those devices have been supported in the Linux kernel since at least
+3.19, so there's no need to try and support those with our user-space
+handling.
+
+Closes: #3
+---
+ rules/95-upower-hidpp.rules | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/rules/95-upower-hidpp.rules b/rules/95-upower-hidpp.rules
+index d7114b8..c24c0e9 100644
+--- a/rules/95-upower-hidpp.rules
++++ b/rules/95-upower-hidpp.rules
+@@ -4,11 +4,6 @@ SUBSYSTEM!="hid", GOTO="up_unifying_end"
+ # Kernel provides the battery information already
+ ATTRS{idVendor}=="046d", TEST=="builtin_power_supply", GOTO="up_unifying_end"
+ ATTRS{idVendor}=="046d", ENV{UPOWER_VENDOR}="Logitech, Inc."
+-ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c52b", DRIVER=="logitech-djdevice", ENV{UPOWER_BATTERY_TYPE}="unifying"
+-ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c532", DRIVER=="logitech-djdevice", ENV{UPOWER_BATTERY_TYPE}="unifying"
+-# These devices bind to the hid-logitech-hidpp module since Linux 3.19
+-ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c52b", DRIVER=="logitech-hidpp-device", ENV{UPOWER_BATTERY_TYPE}="unifying"
+-ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c532", DRIVER=="logitech-hidpp-device", ENV{UPOWER_BATTERY_TYPE}="unifying"
+ ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c52f", ENV{UPOWER_BATTERY_TYPE}="lg-wireless"
+ ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c531", ENV{UPOWER_BATTERY_TYPE}="lg-wireless"
+ LABEL="up_unifying_end"
+-- 
+2.21.0
+

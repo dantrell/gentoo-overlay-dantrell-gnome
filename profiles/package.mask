@@ -123,7 +123,6 @@ games-puzzle/quadrapassel::gentoo
 gnome-base/dconf::gentoo
 gnome-base/gnome-common::gentoo
 gnome-base/gnome-desktop::gentoo
-gnome-base/gnome-flashback::gentoo
 gnome-base/gnome-keyring::gentoo
 gnome-base/gnome-menus::gentoo
 gnome-base/gnome-shell-common::gentoo
@@ -269,4 +268,3 @@ x11-themes/gnome-icon-theme::gentoo
 x11-themes/gnome-themes-extra::gentoo
 x11-themes/gnome-themes-standard::gentoo
 x11-themes/gtk-engines-adwaita::gentoo
-x11-wm/metacity::gentoo

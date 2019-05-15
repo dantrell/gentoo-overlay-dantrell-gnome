@@ -1,0 +1,102 @@
+From fccc47114a6e9586afd639c0d225ea305a85eda0 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 9 May 2019 11:15:00 +0200
+Subject: [PATCH 15/15] linux: Use symbolic names for device types in test
+ suite
+
+---
+ src/linux/integration-test | 22 +++++++++-------------
+ 1 file changed, 9 insertions(+), 13 deletions(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 8d511d0..788d848 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -332,7 +332,7 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_property('OnBattery'), False)
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+         self.assertEqual(self.get_dbus_dev_property(ac_up, 'PowerSupply'), True)
+-        self.assertEqual(self.get_dbus_dev_property(ac_up, 'Type'), 1)
++        self.assertEqual(self.get_dbus_dev_property(ac_up, 'Type'), UP_DEVICE_KIND_LINE_POWER)
+         self.assertEqual(self.get_dbus_dev_property(ac_up, 'Online'), True)
+         self.assertEqual(self.get_dbus_dev_property(ac_up, 'NativePath'), 'AC')
+         self.stop_daemon()
+@@ -430,7 +430,7 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_dev_property(bat0_up, 'State'), UP_DEVICE_STATE_DISCHARGING)
+         self.assertEqual(self.get_dbus_dev_property(bat0_up, 'Percentage'), 2.5)
+         self.assertEqual(self.get_dbus_dev_property(bat0_up, 'PowerSupply'), True)
+-        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'Type'), 2)
++        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'Type'), UP_DEVICE_KIND_BATTERY)
+         self.stop_daemon()
+ 
+         # now connect AC again
+@@ -708,7 +708,7 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_dev_property(bat0_up, 'EnergyFullDesign'), 132.0)
+         self.assertEqual(self.get_dbus_dev_property(bat0_up, 'Voltage'), 12.0)
+         self.assertEqual(self.get_dbus_dev_property(bat0_up, 'PowerSupply'), True)
+-        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'Type'), 2)
++        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'Type'), UP_DEVICE_KIND_BATTERY)
+ 
+         self.assertEqual(self.get_dbus_property('OnBattery'), True)
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+@@ -745,7 +745,7 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_dev_property(bat0_up, 'EnergyFullDesign'), 132.0)
+         self.assertEqual(self.get_dbus_dev_property(bat0_up, 'Voltage'), 12.0)
+         self.assertEqual(self.get_dbus_dev_property(bat0_up, 'PowerSupply'), True)
+-        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'Type'), 2)
++        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'Type'), UP_DEVICE_KIND_BATTERY)
+         # capacity_level is unused because a 'capacity' attribute is present and used instead
+         self.assertEqual(self.get_dbus_dev_property(bat0_up, 'BatteryLevel'), UP_DEVICE_LEVEL_NONE)
+         self.stop_daemon()
+@@ -812,7 +812,7 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_dev_property(ups0_up, 'Percentage'), 70.0)
+         self.assertEqual(self.get_dbus_dev_property(ups0_up, 'State'), UP_DEVICE_STATE_CHARGING)
+         self.assertEqual(self.get_dbus_dev_property(ups0_up, 'PowerSupply'), True)
+-        self.assertEqual(self.get_dbus_dev_property(ups0_up, 'Type'), 3)
++        self.assertEqual(self.get_dbus_dev_property(ups0_up, 'Type'), UP_DEVICE_KIND_UPS)
+ 
+         self.assertEqual(self.get_dbus_property('OnBattery'), False)
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+@@ -1223,8 +1223,7 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_dev_property(joypadbat0_up, 'Model'), 'Sony Interactive Entertainment Wireless Controller')
+         self.assertEqual(self.get_dbus_dev_property(joypadbat0_up, 'Serial'), 'ff:ff:ff:ff:ff:ff')
+         self.assertEqual(self.get_dbus_dev_property(joypadbat0_up, 'PowerSupply'), False)
+-        # 12 == gaming input
+-        self.assertEqual(self.get_dbus_dev_property(joypadbat0_up, 'Type'), 12)
++        self.assertEqual(self.get_dbus_dev_property(joypadbat0_up, 'Type'), UP_DEVICE_KIND_GAMING_INPUT)
+         self.assertEqual(self.get_dbus_property('OnBattery'), False)
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+ 
+@@ -1258,8 +1257,7 @@ class Tests(dbusmock.DBusTestCase):
+ 
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Model'), 'Logitech T650')
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'PowerSupply'), False)
+-        # 2 == battery
+-        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Type'), 2)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Type'), UP_DEVICE_KIND_BATTERY)
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Serial'), '123456')
+         self.assertEqual(self.get_dbus_property('OnBattery'), False)
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+@@ -1276,8 +1274,7 @@ class Tests(dbusmock.DBusTestCase):
+         self.testbed.uevent(batt_dev, 'change')
+ 
+         time.sleep(0.5)
+-        # 5 == mouse
+-        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Type'), 5)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Type'), UP_DEVICE_KIND_MOUSE)
+ 
+     def test_hidpp_touchpad(self):
+         '''HID++ touchpad battery with 5 capacity levels'''
+@@ -1315,8 +1312,7 @@ class Tests(dbusmock.DBusTestCase):
+ 
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Model'), 'Logitech T650')
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'PowerSupply'), False)
+-        # 5 == mouse
+-        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Type'), 5)
++        self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Type'), UP_DEVICE_KIND_MOUSE)
+         self.assertEqual(self.get_dbus_dev_property(mousebat0_up, 'Serial'), '123456')
+         self.assertEqual(self.get_dbus_property('OnBattery'), False)
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+-- 
+2.21.0
+

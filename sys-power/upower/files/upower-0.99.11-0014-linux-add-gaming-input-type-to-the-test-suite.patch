@@ -1,0 +1,27 @@
+From f16a8feea007bb23b2bfbe5987ef75dd0594c072 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 9 May 2019 11:14:07 +0200
+Subject: [PATCH 14/15] linux: Add gaming input type to the test suite
+
+The enum member was missing.
+---
+ src/linux/integration-test | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index a172fc5..8d511d0 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -85,7 +85,8 @@ BATTERY_IFACE = 'org.bluez.Battery1'
+  UP_DEVICE_KIND_PHONE,
+  UP_DEVICE_KIND_MEDIA_PLAYER,
+  UP_DEVICE_KIND_TABLET,
+- UP_DEVICE_KIND_COMPUTER) = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
++ UP_DEVICE_KIND_COMPUTER,
++ UP_DEVICE_KIND_GAMING_INPUT) = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
+ 
+ class Tests(dbusmock.DBusTestCase):
+     @classmethod
+-- 
+2.21.0
+
