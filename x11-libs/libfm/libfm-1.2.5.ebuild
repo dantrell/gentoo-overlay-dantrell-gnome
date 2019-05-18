@@ -7,7 +7,7 @@ inherit autotools multilib vala xdg-utils
 MY_PV=${PV/_/}
 MY_P="${PN}-${MY_PV}"
 DESCRIPTION="A library for file management"
-HOMEPAGE="http://pcmanfm.sourceforge.net/"
+HOMEPAGE="https://wiki.lxde.org/en/PCManFM"
 SRC_URI="https://github.com/lxde/libfm/archive/${PV}.tar.gz -> ${MY_P}.tar.gz"
 
 LICENSE="GPL-2"

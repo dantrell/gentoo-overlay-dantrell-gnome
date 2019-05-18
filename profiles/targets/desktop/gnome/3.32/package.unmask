@@ -1,4 +1,4 @@
-~app-accessibility/accerciser-3.32.1::dantrell-gnome-3-32
+~app-accessibility/accerciser-3.32.2::dantrell-gnome-3-32
 ~app-accessibility/at-spi2-atk-2.32.0::dantrell-gnome-3-32
 ~app-accessibility/at-spi2-core-2.32.1::dantrell-gnome-3-32
 ~app-accessibility/orca-3.32.0::dantrell-gnome-3-32
@@ -7,7 +7,7 @@
 ~app-arch/gnome-autoar-0.2.3::dantrell-gnome
 ~app-crypt/gcr-3.28.1::dantrell-gnome
 ~app-crypt/libsecret-0.18.8::dantrell-gnome
-~app-crypt/seahorse-3.32.1::dantrell-gnome-3-32
+~app-crypt/seahorse-3.32.2::dantrell-gnome-3-32
 ~app-dicts/gnome-dictionary-3.26.1::dantrell-gnome
 ~app-editors/gedit-3.32.2::dantrell-gnome-3-32
 ~app-editors/ghex-3.18.3::dantrell-gnome
@@ -156,11 +156,11 @@
 ~net-libs/glib-networking-2.60.2::dantrell-gnome-3-32
 ~net-libs/gnome-online-accounts-3.32.0::dantrell-gnome-3-32
 ~net-libs/gtk-vnc-0.9.0::dantrell-gnome
-~net-libs/libsoup-2.66.1::dantrell-gnome-3-32
+~net-libs/libsoup-2.66.2::dantrell-gnome-3-32
 ~net-libs/libsoup-gnome-2.66.0::dantrell-gnome-3-32
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome
-~net-libs/webkit-gtk-2.24.1::dantrell-gnome
+~net-libs/webkit-gtk-2.24.2::dantrell-gnome
 ~net-misc/gnome-online-miners-3.30.0::dantrell-gnome
 ~net-misc/rygel-0.38.0::dantrell-gnome-3-32
 ~net-misc/vino-3.22.0::dantrell-gnome
@@ -173,7 +173,6 @@
 ~x11-libs/gdk-pixbuf-2.38.1::dantrell-gnome
 ~x11-libs/gtksourceview-4.2.0::dantrell-gnome
 ~x11-libs/libnotify-0.7.8::dantrell-gnome
-~x11-libs/libwnck-3.31.4::dantrell-gnome-3-32
 ~x11-libs/libwnck-3.32.0::dantrell-gnome-3-32
 ~x11-libs/pango-1.42.4::dantrell-gnome
 ~x11-libs/vte-0.56.3::dantrell-gnome-3-32

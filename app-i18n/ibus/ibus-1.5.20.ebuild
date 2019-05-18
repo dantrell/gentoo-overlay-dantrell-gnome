@@ -61,7 +61,6 @@ RDEPEND="${CDEPEND}
 	)"
 DEPEND="${CDEPEND}
 	$(vala_depend)
-	dev-util/intltool
 	virtual/pkgconfig
 	emoji? (
 		app-i18n/unicode-cldr
@@ -84,6 +83,7 @@ src_prepare() {
 	if ! use kde; then
 		touch ui/gtk3/panel.vala
 	fi
+
 	# for multiple Python implementations
 	sed -i "s/^\(PYGOBJECT_DIR =\).*/\1/" bindings/Makefile.am
 	# fix for parallel install
