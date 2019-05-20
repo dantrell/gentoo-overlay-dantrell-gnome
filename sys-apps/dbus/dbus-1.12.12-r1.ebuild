@@ -11,7 +11,7 @@ SRC_URI="https://dbus.freedesktop.org/releases/dbus/${P}.tar.gz"
 
 LICENSE="|| ( AFL-2.1 GPL-2 )"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="debug doc elogind selinux static-libs systemd test user-session X"
 REQUIRED_USE="

@@ -3,7 +3,7 @@
 EAPI="7"
 PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6,3_7} )
 
-inherit autotools linux-info flag-o-matic python-any-r1 readme.gentoo-r1 systemd virtualx user multilib-minimal
+inherit autotools flag-o-matic linux-info python-any-r1 readme.gentoo-r1 systemd virtualx user multilib-minimal
 
 DESCRIPTION="A message bus system, a simple way for applications to talk to each other"
 HOMEPAGE="https://dbus.freedesktop.org/"
@@ -11,45 +11,39 @@ SRC_URI="https://dbus.freedesktop.org/releases/dbus/${P}.tar.gz"
 
 LICENSE="|| ( AFL-2.1 GPL-2 )"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="debug doc elogind selinux static-libs systemd test user-session X"
+IUSE="debug doc elogind kernel_linux selinux static-libs systemd test user-session X"
 REQUIRED_USE="
 	?? ( elogind systemd )
 "
 
-#RESTRICT="test"
-
-CDEPEND="
+BDEPEND="
+	app-text/xmlto
+	app-text/docbook-xml-dtd:4.4
+	sys-devel/autoconf-archive
+	virtual/pkgconfig
+	doc? ( app-doc/doxygen )
+"
+COMMON_DEPEND="
 	>=dev-libs/expat-2.1.0
-	selinux? ( sys-libs/libselinux )
 	elogind? ( sys-auth/elogind )
+	selinux? ( sys-libs/libselinux )
 	systemd? ( sys-apps/systemd:0= )
 	X? (
 		x11-libs/libX11
 		x11-libs/libXt
-		)
-"
-# autoconf-archive-2019.01.06 blocker added for bug #674830
-# Please check on bumps if the blocker is still necessary.
-DEPEND="${CDEPEND}
-	<sys-devel/autoconf-archive-2019.01.06
-	app-text/xmlto
-	app-text/docbook-xml-dtd:4.4
-	dev-libs/expat
-	sys-devel/autoconf-archive
-	doc? ( app-doc/doxygen )
-	test? (
-		>=dev-libs/glib-2.40:2
-		${PYTHON_DEPS}
 	)
 "
-RDEPEND="${CDEPEND}
-	selinux? ( sec-policy/selinux-dbus )
+DEPEND="${COMMON_DEPEND}
+	dev-libs/expat
+	test? (
+		${PYTHON_DEPS}
+		>=dev-libs/glib-2.40:2
+	)
 "
-
-BDEPEND="
-	virtual/pkgconfig
+RDEPEND="${COMMON_DEPEND}
+	selinux? ( sec-policy/selinux-dbus )
 "
 
 DOC_CONTENTS="
@@ -62,6 +56,7 @@ TBD="${WORKDIR}/${P}-tests-build"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-enable-elogind.patch
+	"${FILESDIR}"/${PN}-daemon-optional.patch # bug #653136
 )
 
 pkg_setup() {
@@ -89,11 +84,18 @@ src_prepare() {
 		# fix standards conflict, due to gcc being c99 by default nowadays
 		sed -i \
 			-e 's/_XOPEN_SOURCE=500/_XOPEN_SOURCE=600/' \
-			configure.ac configure || die
+			configure.ac || die
 	fi
 
 	# required for bug 263909, cross-compile so don't remove eautoreconf
 	eautoreconf
+}
+
+src_configure() {
+	local rundir=$(usex kernel_linux /run /var/run)
+	sed -e "s;@rundir@;${EPREFIX}${rundir};g" "${FILESDIR}"/dbus.initd.in \
+		> "${T}"/dbus.initd || die
+	multilib-minimal_src_configure
 }
 
 multilib_src_configure() {
@@ -131,8 +133,8 @@ multilib_src_configure() {
 		--disable-modular-tests
 		$(use_enable debug stats)
 		--with-session-socket-dir="${EPREFIX}"/tmp
-		--with-system-pid-file="${EPREFIX}"/var/run/dbus.pid
-		--with-system-socket="${EPREFIX}"/var/run/dbus/system_bus_socket
+		--with-system-pid-file="${EPREFIX}${rundir}"/dbus.pid
+		--with-system-socket="${EPREFIX}${rundir}"/dbus/system_bus_socket
 		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
 		--with-dbus-user=messagebus
 		$(use_with X x)
@@ -156,15 +158,12 @@ multilib_src_configure() {
 			--disable-doxygen-docs
 		)
 		myconf+=(
+			--disable-daemon
 			--disable-selinux
 			--disable-libaudit
 			--disable-elogind
 			--disable-systemd
 			--without-x
-
-			# expat is used for the daemon only
-			# fake the check for multilib library build
-			ac_cv_lib_expat_XML_ParserCreate_MM=yes
 		)
 	fi
 
@@ -220,7 +219,7 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
-	newinitd "${FILESDIR}"/dbus.initd-r1 dbus
+	newinitd "${T}"/dbus.initd dbus
 
 	if use X; then
 		# dbus X session script (#77504)
