@@ -10,6 +10,7 @@
 ~app-crypt/seahorse-3.32.2::dantrell-gnome-3-32
 ~app-dicts/gnome-dictionary-3.26.1::dantrell-gnome
 ~app-editors/gedit-3.32.2::dantrell-gnome-3-32
+~app-editors/gedit-plugins-3.32.2::dantrell-gnome-3-32
 ~app-editors/ghex-3.18.3::dantrell-gnome
 ~app-editors/gnome-latex-3.32.0::dantrell-gnome-3-32
 ~app-misc/bijiben-3.32.1::dantrell-gnome-3-32
