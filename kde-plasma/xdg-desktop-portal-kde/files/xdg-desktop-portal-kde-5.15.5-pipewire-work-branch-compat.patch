@@ -1,0 +1,24 @@
+diff '--exclude=.git' -urN a/src/screencaststream.cpp b/src/screencaststream.cpp
+--- a/src/screencaststream.cpp	2019-05-07 05:23:11.000000000 -0500
++++ b/src/screencaststream.cpp	2019-05-28 16:59:31.736369720 -0500
+@@ -246,8 +246,6 @@
+ static const struct pw_remote_events pwRemoteEvents = {
+     .version = PW_VERSION_REMOTE_EVENTS,
+     .destroy = nullptr,
+-    .info_changed = nullptr,
+-    .sync_reply = nullptr,
+     .state_changed = onStateChanged,
+ };
+ 
+@@ -301,8 +299,10 @@
+     socketNotifier.reset(new QSocketNotifier(pw_loop_get_fd(pwLoop), QSocketNotifier::Read));
+     connect(socketNotifier.data(), &QSocketNotifier::activated, this, &ScreenCastStream::processPipewireEvents);
+ 
++#if PW_CHECK_VERSION(0, 2, 9)
++    pwCore = pw_core_new(pwLoop, nullptr, 0);
++#else
+     pwCore = pw_core_new(pwLoop, nullptr);
+-#if !PW_CHECK_VERSION(0, 2, 9)
+     pwCoreType = pw_core_get_type(pwCore);
+ #endif
+     pwRemote = pw_remote_new(pwCore, nullptr, 0);
