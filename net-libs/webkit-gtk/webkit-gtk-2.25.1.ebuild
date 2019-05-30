@@ -227,6 +227,7 @@ src_configure() {
 	fi
 
 	local mycmakeargs=(
+		-DENABLE_BUBBLEWRAP_SANDBOX=OFF
 		-DENABLE_UNIFIED_BUILDS=$(usex jumbo-build)
 		-DENABLE_QUARTZ_TARGET=$(usex aqua)
 		-DENABLE_API_TESTS=$(usex test)
