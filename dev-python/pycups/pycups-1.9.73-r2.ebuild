@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6,3_7} pypy )
 
@@ -47,7 +47,6 @@ python_compile_all() {
 	if use doc; then
 		# we can't use Makefile since it relies on hardcoded paths
 		epydoc -o html --html cups || die "doc build failed"
-
 		HTML_DOCS=( html/. )
 	fi
 }

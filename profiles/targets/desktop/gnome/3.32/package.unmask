@@ -149,7 +149,7 @@
 ~media-libs/libmediaart-1.9.4::dantrell-gnome
 ~media-plugins/grilo-plugins-0.3.8::dantrell-gnome
 ~media-sound/gnome-music-3.32.2::dantrell-gnome-3-32
-~media-sound/gnome-sound-recorder-3.32.0::dantrell-gnome-3-32
+~media-sound/gnome-sound-recorder-3.32.1::dantrell-gnome-3-32
 ~media-video/cheese-3.32.1::dantrell-gnome-3-32
 ~media-video/gnome-video-effects-0.4.3::dantrell-gnome
 ~media-video/totem-3.32.0::dantrell-gnome-3-32
