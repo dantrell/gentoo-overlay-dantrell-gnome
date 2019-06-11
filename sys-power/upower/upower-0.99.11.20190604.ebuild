@@ -362,6 +362,15 @@ src_prepare() {
 
 	eapply "${FILESDIR}"/${PN}-0.99.11-0010-linux-start-polling-for-unknown-device-batteries-too.patch
 	eapply "${FILESDIR}"/${PN}-0.99.11-0011-linux-add-test-for-logitech-unknown-device-races.patch
+	eapply "${FILESDIR}"/${PN}-0.99.11-0012-rules-split-off-hid-rules.patch
+	eapply "${FILESDIR}"/${PN}-0.99.11-0013-rules-reduce-our-list-of-hid-devices.patch
+	eapply "${FILESDIR}"/${PN}-0.99.11-0014-linux-add-gaming-input-type-to-the-test-suite.patch
+
+	if ! use ck; then
+		eapply "${FILESDIR}"/${PN}-0.99.11-0015-linux-use-symbolic-names-for-device-types-in-test-su.patch
+		#~eapply "${FILESDIR}"/${PN}-0.99.11-0016-build-migrate-from-intltool-to-gettext.patch
+		eapply "${FILESDIR}"/${PN}-0.99.11-0017-upkbdbacklight-fix-endless-loop-burning-100-cpu-on-k.patch
+	fi
 
 	if use ck; then
 		# From Funtoo:

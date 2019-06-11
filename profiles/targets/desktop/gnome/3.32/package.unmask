@@ -28,11 +28,11 @@
 ~dev-cpp/cairomm-1.12.2::dantrell-gnome
 ~dev-cpp/glibmm-2.60.0::dantrell-gnome
 ~dev-cpp/mm-common-0.9.12::dantrell-gnome
-~dev-lang/vala-0.44.3::dantrell-gnome
+~dev-lang/vala-0.44.4::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.15::dantrell-gnome
 ~dev-libs/atk-2.32.0::dantrell-gnome-3-32
 ~dev-libs/gjs-1.56.2::dantrell-gnome-3-32
-~dev-libs/glib-2.60.3::dantrell-gnome
+~dev-libs/glib-2.60.4::dantrell-gnome
 ~dev-libs/gmime-3.2.3::dantrell-gnome
 ~dev-libs/gobject-introspection-1.60.1::dantrell-gnome-3-32
 ~dev-libs/gobject-introspection-common-1.60.1::dantrell-gnome-3-32
@@ -48,11 +48,11 @@
 ~dev-libs/libpeas-1.22.0::dantrell-gnome
 ~dev-libs/template-glib-3.32.0::dantrell-gnome-3-32
 ~dev-libs/totem-pl-parser-3.26.3::dantrell-gnome
-~dev-libs/vala-common-0.44.3::dantrell-gnome
+~dev-libs/vala-common-0.44.4::dantrell-gnome
 ~dev-python/pyatspi-2.32.1::dantrell-gnome-3-32
 ~dev-python/pygobject-3.32.1::dantrell-gnome-3-32
 ~dev-util/devhelp-3.32.0::dantrell-gnome-3-32
-~dev-util/gdbus-codegen-2.60.3::dantrell-gnome
+~dev-util/gdbus-codegen-2.60.4::dantrell-gnome
 ~dev-util/gnome-builder-3.32.2::dantrell-gnome-3-32
 ~dev-util/gnome-devel-docs-3.32.1::dantrell-gnome-3-32
 ~dev-util/sysprof-3.32.0::dantrell-gnome-3-32
@@ -126,7 +126,7 @@
 ~gnome-extra/libgsf-1.14.46::dantrell-gnome
 ~gnome-extra/mousetweaks-3.32.0::dantrell-gnome-3-32
 ~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
-~gnome-extra/nm-applet-1.8.20::dantrell-gnome
+~gnome-extra/nm-applet-1.8.22::dantrell-gnome
 ~gnome-extra/sushi-3.32.0::dantrell-gnome-3-32
 ~gnome-extra/yelp-3.32.2::dantrell-gnome-3-32
 ~gnome-extra/yelp-xsl-3.32.1::dantrell-gnome-3-32
@@ -155,7 +155,7 @@
 ~media-video/totem-3.32.0::dantrell-gnome-3-32
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
 ~net-irc/polari-3.32.2::dantrell-gnome-3-32
-~net-libs/glib-networking-2.60.2::dantrell-gnome-3-32
+~net-libs/glib-networking-2.60.3::dantrell-gnome-3-32
 ~net-libs/gnome-online-accounts-3.32.0::dantrell-gnome-3-32
 ~net-libs/gtk-vnc-0.9.0::dantrell-gnome
 ~net-libs/libsoup-2.66.2::dantrell-gnome-3-32

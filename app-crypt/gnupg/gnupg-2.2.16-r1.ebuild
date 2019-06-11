@@ -93,7 +93,7 @@ src_configure() {
 		$(use_enable smartcard scdaemon) \
 		$(use_enable ssl gnutls) \
 		$(use_enable tofu) \
-		$(use_enable usb ccid-driver) \
+		$(use smartcard && use_enable usb ccid-driver || echo '--disable-ccid-driver') \
 		$(use_enable wks-server wks-tools) \
 		$(use_with ldap) \
 		$(use_with readline) \

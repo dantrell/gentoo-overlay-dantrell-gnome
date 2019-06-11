@@ -4,17 +4,20 @@ EAPI="7"
 
 PYTHON_COMPAT=( python2_7 )
 
-inherit autotools python-single-r1 readme.gentoo-r1 systemd udev user multilib-minimal
+inherit autotools python-single-r1 systemd udev user multilib-minimal
 
 DESCRIPTION="Bluetooth Tools and System Daemons for Linux"
 HOMEPAGE="http://www.bluez.org"
-SRC_URI="mirror://kernel/linux/bluetooth/${P}.tar.xz"
+SRC_URI="
+	mirror://kernel/linux/bluetooth/${P}.tar.xz
+	https://dev.gentoo.org/~pacho/${PN}/${P}-fedora-backports.tar.xz
+"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0/3"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="alsa btpclient cups doc debug deprecated extra-tools experimental +mesh +obex +readline selinux systemd test test-programs +udev user-session"
+IUSE="btpclient cups doc debug deprecated extra-tools experimental +mesh midi +obex +readline selinux systemd test test-programs +udev user-session"
 # Since this release all remaining extra-tools need readline support, but this could
 # change in the future, hence, this REQUIRED_USE constraint could be dropped
 # again in the future.
@@ -35,7 +38,6 @@ BDEPEND="
 DEPEND="
 	>=dev-libs/glib-2.28:2[${MULTILIB_USEDEP}]
 	>=sys-apps/hwids-20121202.2
-	alsa? ( media-libs/alsa-lib )
 	btpclient? ( >=dev-libs/ell-0.3 )
 	cups? ( net-print/cups:= )
 	mesh? (
@@ -43,6 +45,7 @@ DEPEND="
 		dev-libs/json-c:=
 		sys-libs/readline:0=
 	)
+	midi? ( media-libs/alsa-lib )
 	obex? ( dev-libs/libical:= )
 	readline? ( sys-libs/readline:0= )
 	systemd? (
@@ -56,22 +59,17 @@ RDEPEND="${DEPEND}
 	selinux? ( sec-policy/selinux-bluetooth )
 	test-programs? ( ${TEST_DEPS} )
 "
-DOC_CONTENTS="
-	If you want to control your bluetooth devices as a non-root user,
-	please remember to add you to plugdev group.
-"
 
 PATCHES=(
 	# Fix missing header (fixed in 'master')
-	"${FILESDIR}"/${P}-btpclient-header.patch
+	"${FILESDIR}"/${PN}-5.50-btpclient-header.patch
 
-	# Use static group "plugdev" to not force people to become root for
-	# controlling the devices.
-	"${FILESDIR}"/${PN}-plugdev.patch
+	# Fix switch to A2DP sink profile
+	"${FILESDIR}"/${PN}-5.50-sink-connect.patch
 
 	# Try both udevadm paths to cover udev/systemd vs. eudev locations (#539844)
 	# http://www.spinics.net/lists/linux-bluetooth/msg58739.html
-	"${FILESDIR}"/${PN}-udevadm-path.patch
+	"${FILESDIR}"/${PN}-udevadm-path-r1.patch
 
 	# build: Quote systemd variable names, bug #527432
 	# http://article.gmane.org/gmane.linux.bluez.kernel/67230
@@ -86,8 +84,6 @@ PATCHES=(
 )
 
 pkg_setup() {
-	enewgroup plugdev
-
 	if use test || use test-programs; then
 		python-single-r1_pkg_setup
 	fi
@@ -103,6 +99,9 @@ pkg_setup() {
 
 src_prepare() {
 	default
+
+	# Apply Fedora backports
+	eapply "${WORKDIR}"/${PN}-5.50-fedora-backports/*.patch
 
 	# http://www.spinics.net/lists/linux-bluetooth/msg38490.html
 	if ! use user-session || ! use systemd; then
@@ -153,12 +152,12 @@ multilib_src_configure() {
 		--enable-monitor \
 		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)" \
 		--with-systemduserunitdir="$(systemd_get_userunitdir)" \
-		$(multilib_native_use_enable alsa midi) \
 		$(multilib_native_use_enable btpclient) \
 		$(multilib_native_use_enable cups) \
 		$(multilib_native_use_enable deprecated) \
 		$(multilib_native_use_enable experimental) \
 		$(multilib_native_use_enable mesh) \
+		$(multilib_native_use_enable midi) \
 		$(multilib_native_use_enable obex) \
 		$(multilib_native_use_enable readline client) \
 		$(multilib_native_use_enable systemd) \
@@ -258,12 +257,9 @@ multilib_src_install_all() {
 
 	einstalldocs
 	use doc && dodoc doc/*.txt
-	! use systemd && readme.gentoo_create_doc
 }
 
 pkg_postinst() {
-	! use systemd && readme.gentoo_print_elog
-
 	use udev && udev_reload
 	systemd_reenable bluetooth.service
 

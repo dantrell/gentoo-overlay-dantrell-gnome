@@ -2,7 +2,7 @@
 
 EAPI="7"
 
-inherit autotools libtool multilib-minimal toolchain-funcs
+inherit autotools libtool multilib-minimal toolchain-funcs prefix
 
 DESCRIPTION="Contains error handling functions used by GnuPG software"
 HOMEPAGE="http://www.gnupg.org/related_software/libgpg-error"
@@ -10,7 +10,7 @@ SRC_URI="mirror://gnupg/${PN}/${P}.tar.bz2"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="common-lisp nls static-libs"
 
@@ -30,6 +30,10 @@ PATCHES=( "${FILESDIR}"/${PN}-1.36-gawk5-support.patch )
 
 src_prepare() {
 	default
+	# only necessary for as long as we run eautoreconf, configure.ac
+	# uses ./autogen.sh to generate PACKAGE_VERSION, but autogen.sh is
+	# not a pure /bin/sh script, so it fails on some hosts
+	hprefixify -w 1 autogen.sh
 	eautoreconf
 }
 

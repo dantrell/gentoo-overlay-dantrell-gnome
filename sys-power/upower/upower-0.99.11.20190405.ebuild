@@ -11,7 +11,7 @@ SRC_URI="https://${PN}.freedesktop.org/releases/${PN}-0.99.3.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0/3" # based on SONAME of libupower-glib.so
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="ck doc integration-test +introspection ios kernel_FreeBSD kernel_linux selinux"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
