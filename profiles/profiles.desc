@@ -2,6 +2,7 @@
 
 amd64       default/linux/amd64/13.0/desktop/gnome+plasma       stable
 amd64       default/linux/amd64/17.0/desktop/gnome+plasma       stable
+amd64       default/linux/amd64/17.1/desktop/gnome+plasma       stable
 
 x86         default/linux/x86/13.0/desktop/gnome+plasma         stable
 x86         default/linux/x86/17.0/desktop/gnome+plasma         stable
