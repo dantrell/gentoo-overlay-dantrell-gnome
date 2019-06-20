@@ -14,7 +14,8 @@ TARBALL_P="${MY_PN}${TARBALL_PV}-1.0.0"
 DESCRIPTION="Stand-alone JavaScript C library"
 HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"
 SRC_URI="https://archive.mozilla.org/pub/js/${TARBALL_P}.tar.gz
-	https://dev.gentoo.org/~axs/distfiles/${PN}-slot0-patches-02.tar.xz"
+	https://dev.gentoo.org/~axs/distfiles/${PN}-slot0-patches-02.tar.xz
+	"
 
 LICENSE="NPL-1.1"
 SLOT="0/mozjs185"
@@ -60,6 +61,8 @@ PATCHES=(
 	"${WORKDIR}"/sm0/${PN}-1.8.5-gcc6.patch
 	# https://bugs.gentoo.org/679330
 	"${WORKDIR}"/sm0/${PN}-1.8.5-drop-asm-volatile-toplevel.patch
+
+	"${FILESDIR}"/${PN}-1.8.5-LTO.patch
 )
 
 HTML_DOCS=( ${BUILDDIR}/README.html )

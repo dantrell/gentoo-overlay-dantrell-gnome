@@ -78,6 +78,7 @@ src_configure() {
 		--with-html-dir="${EPREFIX%/}"/usr/share/gtk-doc/html
 		--with-modprobedir="${EPREFIX%/}"/lib/modprobe.d
 		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
+		--with-tmpfilesdir="/usr/lib/tmpfiles.d"
 		--with-udevdir="$(get_udevdir)"
 		$(use_enable acl)
 		$(use_enable debug)
@@ -92,7 +93,7 @@ src_configure() {
 
 src_install() {
 	default
-	find "${ED}" -name "*.la" -delete || die
+	find "${ED}" -type f -name "*.la" -delete || die
 	keepdir /var/lib/udisks2 #383091
 
 	rm -rf "${ED}"/usr/share/bash-completion

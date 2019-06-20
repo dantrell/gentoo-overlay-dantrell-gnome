@@ -52,6 +52,8 @@ src_prepare() {
 	fi
 
 	eapply "${FILESDIR}"/${PN}-0.17.8-disable-demos.patch
+	# don't overwrite m4/ax_* with newer breaking versions
+	eapply "${FILESDIR}"/${PN}-0.17.9-ax2019-compat.patch
 
 	eautoreconf
 	use vala && vala_src_prepare
