@@ -1,6 +1,9 @@
 # Masked to test on GNOME 3.34 first
 >=net-libs/webkit-gtk-2.26.0
 
+# Requires GLib 2.58 (or greater)
+>=dev-java/icedtea-bin-3.12.0
+
 # Requires GLib 2.56 (or greater)
 >=media-sound/pulseeffects-4.3.5
 >=x11-misc/xpad-5.1.0
@@ -36,6 +39,7 @@
 >=app-admin/packagekit-base-1.1.0
 >=app-admin/packagekit-gtk-1.1.0
 >=app-office/gnucash-3.3
+>=dev-libs/appstream-0.11.0
 >=media-gfx/gimp-2.9.0
 >=media-libs/gexiv2-0.12.0
 >=net-misc/spice-gtk-0.35
@@ -47,6 +51,7 @@
 >=sys-apps/fwupd-0.8.0
 
 # Requires GLib 2.44 (or greater)
+>=app-office/grisbi-1.2.1
 >=dev-libs/libIDL-0.8.14-r2
 >=gnome-base/orbit-2.14.19-r5
 >=gnome-extra/gnome-commander-1.6.1
@@ -152,6 +157,7 @@
 >=gnome-base/dconf-editor-3.16.0
 >=gnome-base/gdm-3.16.0
 >=gnome-base/gnome-3.16.0
+>=gnome-base/gnome-applets-3.16.0
 >=gnome-base/gnome-common-3.16.0
 >=gnome-base/gnome-control-center-3.16.0
 >=gnome-base/gnome-core-apps-3.16.0
@@ -162,6 +168,7 @@
 >=gnome-base/gnome-keyring-3.16.0
 >=gnome-base/gnome-light-3.16.0
 >=gnome-base/gnome-menus-3.16.0
+>=gnome-base/gnome-panel-3.16.0
 >=gnome-base/gnome-session-3.16.0
 >=gnome-base/gnome-settings-daemon-3.16.0
 >=gnome-base/gnome-shell-3.16.0

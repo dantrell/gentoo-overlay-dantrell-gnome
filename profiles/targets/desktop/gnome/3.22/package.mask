@@ -1,12 +1,16 @@
 # Masked to test on GNOME 3.34 first
 >=net-libs/webkit-gtk-2.26.0
 
+# Requires GLib 2.58 (or greater)
+>=dev-java/icedtea-bin-3.12.0
+
 # Requires GLib 2.56 (or greater)
 >=media-gfx/gimp-2.10.0
 >=media-sound/pulseeffects-4.3.5
 >=x11-misc/xpad-5.1.0
 
 # Requires GLib 2.54 (or greater)
+>=dev-libs/appstream-0.12.0
 >=mail-client/geary-0.13.0
 >=net-misc/networkmanager-wireguard-9999
 
@@ -99,6 +103,7 @@
 >=gnome-base/dconf-editor-3.23.0
 >=gnome-base/gdm-3.24.0
 >=gnome-base/gnome-3.24.0
+>=gnome-base/gnome-applets-3.24.0
 >=gnome-base/gnome-common-3.24.0
 >=gnome-base/gnome-control-center-3.24.0
 >=gnome-base/gnome-core-apps-3.24.0
@@ -109,6 +114,7 @@
 >=gnome-base/gnome-keyring-3.24.0
 >=gnome-base/gnome-light-3.24.0
 >=gnome-base/gnome-menus-3.24.0
+>=gnome-base/gnome-panel-3.24.0
 >=gnome-base/gnome-session-3.24.0
 >=gnome-base/gnome-settings-daemon-3.24.0
 >=gnome-base/gnome-shell-3.24.0

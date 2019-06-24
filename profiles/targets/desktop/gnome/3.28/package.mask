@@ -1,6 +1,9 @@
 # Masked to test on GNOME 3.34 first
 >=net-libs/webkit-gtk-2.26.0
 
+# Requires GLib 2.58 (or greater)
+>=dev-java/icedtea-bin-3.12.0
+
 # Masked to freeze the state of GNOME
 >=app-accessibility/accerciser-3.31.0
 >=app-accessibility/at-spi2-atk-2.30.0
@@ -87,6 +90,7 @@
 >=gnome-base/dconf-editor-3.30.0
 >=gnome-base/gdm-3.30.0
 >=gnome-base/gnome-3.30.0
+>=gnome-base/gnome-applets-3.30.0
 >=gnome-base/gnome-common-3.30.0
 >=gnome-base/gnome-control-center-3.30.0
 >=gnome-base/gnome-core-apps-3.30.0
@@ -97,6 +101,7 @@
 >=gnome-base/gnome-keyring-3.30.0
 >=gnome-base/gnome-light-3.30.0
 >=gnome-base/gnome-menus-3.30.0
+>=gnome-base/gnome-panel-3.30.0
 >=gnome-base/gnome-session-3.30.0
 >=gnome-base/gnome-settings-daemon-3.30.0
 >=gnome-base/gnome-shell-3.30.0
