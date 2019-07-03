@@ -23,7 +23,7 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 RESTRICT="test"
 
 COMMON_DEPEND="${PYTHON_DEPS}
-	<app-text/poppler-0.78.0:=
+	<app-text/poppler-0.79.0:=
 	>=app-text/poppler-0.26.0:=[cairo]
 	>=dev-cpp/glibmm-2.28
 	>=dev-cpp/gtkmm-2.18.0:2.4
