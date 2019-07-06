@@ -10,9 +10,9 @@ HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2+"
 SLOT="3/24" # From WebKit: http://trac.webkit.org/changeset/195811
-KEYWORDS="*"
+KEYWORDS=""
 
-IUSE="aqua broadway cloudprint colord cups doc examples +introspection test vim-syntax wayland X xinerama"
+IUSE="aqua broadway cloudprint colord cups examples gtk-doc +introspection test vim-syntax wayland X xinerama"
 REQUIRED_USE="
 	|| ( aqua wayland X )
 	xinerama? ( X )
@@ -40,7 +40,7 @@ COMMON_DEPEND="
 		>=net-libs/rest-0.7[${MULTILIB_USEDEP}]
 		>=dev-libs/json-glib-1.0[${MULTILIB_USEDEP}] )
 	colord? ( >=x11-misc/colord-0.1.9:0=[${MULTILIB_USEDEP}] )
-	cups? ( >=net-print/cups-1.2[${MULTILIB_USEDEP}] )
+	cups? ( >=net-print/cups-2.0[${MULTILIB_USEDEP}] )
 	introspection? ( >=dev-libs/gobject-introspection-1.39:= )
 	wayland? (
 		>=dev-libs/wayland-1.9.91[${MULTILIB_USEDEP}]
@@ -68,7 +68,7 @@ DEPEND="${COMMON_DEPEND}
 	dev-libs/gobject-introspection-common
 	>=dev-util/gdbus-codegen-2.48
 	>=dev-util/gtk-doc-am-1.20
-	doc? ( >=dev-util/gtk-doc-1.20 )
+	gtk-doc? ( >=dev-util/gtk-doc-1.20 )
 	>=sys-devel/gettext-0.19.7[${MULTILIB_USEDEP}]
 	virtual/pkgconfig[${MULTILIB_USEDEP}]
 	X? ( x11-base/xorg-proto )
@@ -86,8 +86,8 @@ RDEPEND="${COMMON_DEPEND}
 # librsvg for svg icons (PDEPEND to avoid circular dep), bug #547710
 PDEPEND="
 	gnome-base/librsvg[${MULTILIB_USEDEP}]
-	vim-syntax? ( app-vim/gtk-syntax )
 	>=x11-themes/adwaita-icon-theme-3.14
+	vim-syntax? ( app-vim/gtk-syntax )
 "
 
 MULTILIB_CHOST_TOOLS=(
@@ -135,33 +135,48 @@ src_prepare() {
 }
 
 multilib_src_configure() {
-	# need libdir here to avoid a double slash in a path that libtool doesn't
-	# grok so well during install (// between $EPREFIX and usr ...)
-	# cloudprovider is not packaged in Gentoo
-	ECONF_SOURCE=${S} \
-	gnome2_src_configure \
-		$(use_enable aqua quartz-backend) \
-		$(use_enable broadway broadway-backend) \
-		$(use_enable cloudprint) \
-		$(use_enable colord) \
-		$(use_enable cups cups auto) \
-		$(multilib_native_use_enable doc gtk-doc) \
-		$(multilib_native_use_enable introspection) \
-		$(use_enable wayland wayland-backend) \
-		$(use_enable X x11-backend) \
-		$(use_enable X xcomposite) \
-		$(use_enable X xdamage) \
-		$(use_enable X xfixes) \
-		$(use_enable X xkb) \
-		$(use_enable X xrandr) \
-		$(use_enable xinerama) \
-		--disable-cloudproviders \
-		--disable-mir-backend \
-		--disable-papi \
-		--enable-man \
-		--with-xml-catalog="${EPREFIX}"/etc/xml/catalog \
-		--libdir="${EPREFIX}"/usr/$(get_libdir) \
+	local myconf=(
+		$(use_enable aqua quartz-backend)
+		$(use_enable broadway broadway-backend)
+		$(use_enable cloudprint)
+		$(use_enable colord)
+		$(use_enable cups cups auto)
+		$(multilib_native_use_enable gtk-doc)
+		$(multilib_native_use_enable introspection)
+		$(use_enable wayland wayland-backend)
+		$(use_enable X x11-backend)
+		$(use_enable X xcomposite)
+		$(use_enable X xdamage)
+		$(use_enable X xfixes)
+		$(use_enable X xkb)
+		$(use_enable X xrandr)
+		$(use_enable xinerama)
+		# cloudprovider is not packaged in Gentoo yet
+		--disable-cloudproviders
+		--disable-mir-backend
+		--disable-papi
+		# sysprof integration needs >=sysprof-3.33.2 and passing --disable-profiler
+		# would force enable it - https://gitlab.gnome.org/GNOME/gtk/issues/1965
+		# --disable-profiler
+		--enable-man
+		--with-xml-catalog="${EPREFIX}"/etc/xml/catalog
+		# need libdir here to avoid a double slash in a path that libtool doesn't
+		# grok so well during install (// between $EPREFIX and usr ...)
+		# TODO: Is this still the case?
+		--libdir="${EPREFIX}"/usr/$(get_libdir)
 		CUPS_CONFIG="${EPREFIX}/usr/bin/${CHOST}-cups-config"
+	)
+
+	if use wayland; then
+		myconf+=(
+			# Include wayland immodule into gtk itself, to avoid problems like
+			# https://gitlab.gnome.org/GNOME/gnome-shell/issues/109 from a
+			# user overridden GTK_IM_MODULE envvar
+			--with-included-immodules=wayland
+		)
+	fi;
+
+	ECONF_SOURCE=${S} gnome2_src_configure "${myconf[@]}"
 
 	# work-around gtk-doc out-of-source brokedness
 	if multilib_is_native_abi; then
