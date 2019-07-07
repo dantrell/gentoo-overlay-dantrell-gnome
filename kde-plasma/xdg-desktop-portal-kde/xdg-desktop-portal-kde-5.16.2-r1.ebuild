@@ -3,19 +3,15 @@
 EAPI="7"
 VIRTUALX_REQUIRED="test"
 
-inherit cmake-utils kde5
+inherit kde5
 
 DESCRIPTION="Backend implementation for xdg-desktop-portal that is using Qt/KDE Frameworks"
 
 LICENSE="LGPL-2+"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="pipewire"
+IUSE="screencast"
 
-# TODO: Needed for screencast portal
-# 	dev-libs/glib:2
-# 	media-libs/libepoxy
-# 	media-libs/mesa[gbm]
 COMMON_DEPEND="
 	$(add_frameworks_dep kcoreaddons)
 	$(add_frameworks_dep ki18n)
@@ -26,29 +22,34 @@ COMMON_DEPEND="
 	$(add_qt_dep qtgui)
 	$(add_qt_dep qtprintsupport 'cups')
 	$(add_qt_dep qtwidgets)
+	screencast? (
+		dev-libs/glib:2
+		media-libs/libepoxy
+		media-libs/mesa[gbm]
+		media-video/pipewire
+	)
 "
 DEPEND="${COMMON_DEPEND}
 	$(add_frameworks_dep kwayland)
 	$(add_qt_dep qtconcurrent)
 "
 RDEPEND="${COMMON_DEPEND}
-	sys-apps/xdg-desktop-portal
-	pipewire? ( media-video/pipewire )
+	screencast? ( sys-apps/xdg-desktop-portal[screencast] )
+	!screencast? ( sys-apps/xdg-desktop-portal )
 "
 
 PATCHES=(
 	# From Gentoo:
 	# 	https://bugs.gentoo.org/667014
 	"${FILESDIR}"/${PN}-5.15.5-pipewire-work-branch-compat.patch
-	# From Gentoo:
-	# 	https://forums.gentoo.org/viewtopic-p-8339276.html#8339276
-	"${FILESDIR}"/${PN}-5.15.5-optional-pipewire.patch
 )
 
 src_configure() {
 	local mycmakeargs=(
-		-DUSE_PIPEWIRE=$(usex pipewire)
+		$(cmake-utils_use_find_package screencast GLIB2)
+		$(cmake-utils_use_find_package screencast PipeWire)
+		$(cmake-utils_use_find_package screencast GBM)
+		$(cmake-utils_use_find_package screencast Epoxy)
 	)
-
-	cmake-utils_src_configure
+	kde5_src_configure
 }
