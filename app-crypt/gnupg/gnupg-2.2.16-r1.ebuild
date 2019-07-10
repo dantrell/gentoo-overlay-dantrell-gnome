@@ -12,7 +12,7 @@ SRC_URI="mirror://gnupg/gnupg/${MY_P}.tar.bz2"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="bzip2 doc ldap nls readline selinux +smartcard ssl tofu tools usb user-socket wks-server"
 

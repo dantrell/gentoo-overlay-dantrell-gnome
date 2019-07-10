@@ -12,7 +12,7 @@ SRC_URI="mirror://gnupg/gnupg/${MY_P}.tar.bz2"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="bzip2 doc ldap nls readline selinux +smartcard ssl tofu tools usb user-socket wks-server"
 
@@ -93,7 +93,7 @@ src_configure() {
 		$(use_enable smartcard scdaemon) \
 		$(use_enable ssl gnutls) \
 		$(use_enable tofu) \
-		$(use_enable usb ccid-driver) \
+		$(use smartcard && use_enable usb ccid-driver || echo '--disable-ccid-driver') \
 		$(use_enable wks-server wks-tools) \
 		$(use_with ldap) \
 		$(use_with readline) \
