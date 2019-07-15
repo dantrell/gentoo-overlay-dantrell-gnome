@@ -4,6 +4,7 @@ dev-python/pycurl curl_ssl_gnutls
 dev-python/pycurl curl_ssl_libressl
 dev-python/pycurl curl_ssl_nss
 gnome-base/gnome-extra-apps flashback
+media-gfx/gnome-photos jpeg2k
 media-libs/gegl:0 ffmpeg
 media-libs/gegl:0.3 ffmpeg
 net-libs/liboauth curl

@@ -11,7 +11,7 @@
 ~app-dicts/gnome-dictionary-3.26.1::dantrell-gnome
 ~app-editors/gedit-3.32.2::dantrell-gnome-3-32
 ~app-editors/gedit-plugins-3.32.2::dantrell-gnome-3-32
-~app-editors/ghex-3.18.3::dantrell-gnome
+~app-editors/ghex-3.18.4::dantrell-gnome
 ~app-editors/gnome-latex-3.32.0::dantrell-gnome-3-32
 ~app-misc/bijiben-3.32.1::dantrell-gnome-3-32
 ~app-misc/geoclue-2.4.8::dantrell-gnome
@@ -115,7 +115,7 @@
 ~gnome-extra/gnome-recipes-2.0.2::dantrell-gnome
 ~gnome-extra/gnome-shell-extensions-3.32.1::dantrell-gnome-3-32
 ~gnome-extra/gnome-shell-frippery-3.32.1::dantrell-gnome-3-32
-~gnome-extra/gnome-software-3.32.3::dantrell-gnome-3-32
+~gnome-extra/gnome-software-3.32.4::dantrell-gnome-3-32
 ~gnome-extra/gnome-system-monitor-3.32.1::dantrell-gnome-3-32
 ~gnome-extra/gnome-tweaks-3.32.0::dantrell-gnome-3-32
 ~gnome-extra/gnome-usage-3.32.0::dantrell-gnome-3-32
@@ -152,7 +152,7 @@
 ~media-sound/gnome-sound-recorder-3.32.1::dantrell-gnome-3-32
 ~media-video/cheese-3.32.1::dantrell-gnome-3-32
 ~media-video/gnome-video-effects-0.4.3::dantrell-gnome
-~media-video/totem-3.32.0::dantrell-gnome-3-32
+~media-video/totem-3.32.1::dantrell-gnome-3-32
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
 ~net-irc/polari-3.32.2::dantrell-gnome-3-32
 ~net-libs/glib-networking-2.60.3::dantrell-gnome-3-32
