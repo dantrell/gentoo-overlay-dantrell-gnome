@@ -53,6 +53,7 @@ dev-cpp/pangomm::gentoo
 dev-lang/spidermonkey::gentoo
 dev-lang/vala::gentoo
 dev-libs/appstream-glib::gentoo
+dev-libs/appstream::gentoo
 dev-libs/eekboard::gentoo
 dev-libs/folks::gentoo
 dev-libs/gdl::gentoo

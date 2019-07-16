@@ -54,6 +54,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-0.78.0-respect-cflags.patch
 	"${FILESDIR}"/${PN}-0.61.0-respect-cflags.patch
 	"${FILESDIR}"/${PN}-0.57.0-disable-internal-jpx.patch
+	"${FILESDIR}"/${PN}-0.78.0-fix-text-selection.patch # bug 689660
 )
 
 src_prepare() {

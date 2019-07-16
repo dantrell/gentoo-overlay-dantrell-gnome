@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome2
+inherit gnome.org gnome2-utils meson xdg
 
 DESCRIPTION="GNOME hexadecimal editor"
 HOMEPAGE="https://wiki.gnome.org/Apps/Ghex"
@@ -19,8 +19,17 @@ RDEPEND="
 	>=x11-libs/gtk+-3.3.8:3
 "
 DEPEND="${RDEPEND}
-	>=dev-util/intltool-0.41.1
 	>=sys-devel/gettext-0.17
 	app-text/yelp-tools
 	virtual/pkgconfig
 "
+
+pkg_postinst() {
+	xdg_pkg_postinst
+	gnome2_schemas_update
+}
+
+pkg_postrm() {
+	xdg_pkg_postrm
+	gnome2_schemas_update
+}

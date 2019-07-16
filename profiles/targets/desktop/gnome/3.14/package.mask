@@ -39,7 +39,7 @@
 >=app-admin/packagekit-base-1.1.0
 >=app-admin/packagekit-gtk-1.1.0
 >=app-office/gnucash-3.3
->=dev-libs/appstream-0.11.0
+>=dev-libs/appstream-0.8.6
 >=media-gfx/gimp-2.9.0
 >=media-libs/gexiv2-0.12.0
 >=net-misc/spice-gtk-0.35

@@ -54,7 +54,7 @@
 ~dev-python/pygobject-3.32.2::dantrell-gnome-3-32
 ~dev-util/devhelp-3.32.0::dantrell-gnome-3-32
 ~dev-util/gdbus-codegen-2.60.5::dantrell-gnome
-~dev-util/gnome-builder-3.32.3::dantrell-gnome-3-32
+~dev-util/gnome-builder-3.32.4::dantrell-gnome-3-32
 ~dev-util/gnome-devel-docs-3.32.1::dantrell-gnome-3-32
 ~dev-util/sysprof-3.32.0::dantrell-gnome-3-32
 ~dev-vcs/gitg-3.30.1::dantrell-gnome
@@ -99,7 +99,7 @@
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
 ~gnome-base/libgtop-2.40.0::dantrell-gnome
 ~gnome-base/nautilus-3.32.1::dantrell-gnome-3-32
-~gnome-extra/evolution-data-server-3.32.3::dantrell-gnome-3-32
+~gnome-extra/evolution-data-server-3.32.4::dantrell-gnome-3-32
 ~gnome-extra/evolution-ews-3.32.2::dantrell-gnome-3-32
 ~gnome-extra/gnome-boxes-3.32.1::dantrell-gnome-3-32
 ~gnome-extra/gnome-calculator-3.32.2::dantrell-gnome-3-32
@@ -131,7 +131,7 @@
 ~gnome-extra/yelp-3.32.2::dantrell-gnome-3-32
 ~gnome-extra/yelp-xsl-3.32.1::dantrell-gnome-3-32
 ~gnome-extra/zenity-3.32.0::dantrell-gnome-3-32
-~mail-client/evolution-3.32.3::dantrell-gnome-3-32
+~mail-client/evolution-3.32.4::dantrell-gnome-3-32
 ~mail-client/geary-3.32.1::dantrell-gnome
 ~media-fonts/cantarell-0.111::dantrell-gnome
 ~media-gfx/eog-3.32.2::dantrell-gnome-3-32
@@ -143,11 +143,11 @@
 ~media-libs/clutter-gst-3.0.27::dantrell-gnome
 ~media-libs/clutter-gtk-1.8.4::dantrell-gnome
 ~media-libs/cogl-1.22.4::dantrell-gnome
-~media-libs/grilo-0.3.6::dantrell-gnome
+~media-libs/grilo-0.3.8::dantrell-gnome
 ~media-libs/gsound-1.0.2::dantrell-gnome
 ~media-libs/libchamplain-0.12.19::dantrell-gnome
 ~media-libs/libmediaart-1.9.4::dantrell-gnome
-~media-plugins/grilo-plugins-0.3.8::dantrell-gnome
+~media-plugins/grilo-plugins-0.3.9::dantrell-gnome
 ~media-sound/gnome-music-3.32.2::dantrell-gnome-3-32
 ~media-sound/gnome-sound-recorder-3.32.1::dantrell-gnome-3-32
 ~media-video/cheese-3.32.1::dantrell-gnome-3-32
