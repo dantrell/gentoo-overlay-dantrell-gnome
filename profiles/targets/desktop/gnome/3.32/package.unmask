@@ -28,7 +28,7 @@
 ~dev-cpp/cairomm-1.12.2::dantrell-gnome
 ~dev-cpp/glibmm-2.60.0::dantrell-gnome
 ~dev-cpp/mm-common-0.9.12::dantrell-gnome
-~dev-lang/vala-0.44.5::dantrell-gnome
+~dev-lang/vala-0.44.6::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.15::dantrell-gnome
 ~dev-libs/atk-2.32.0::dantrell-gnome-3-32
 ~dev-libs/gjs-1.56.2::dantrell-gnome-3-32
@@ -49,7 +49,7 @@
 ~dev-libs/libpeas-1.22.0::dantrell-gnome
 ~dev-libs/template-glib-3.32.0::dantrell-gnome-3-32
 ~dev-libs/totem-pl-parser-3.26.3::dantrell-gnome
-~dev-libs/vala-common-0.44.5::dantrell-gnome
+~dev-libs/vala-common-0.44.6::dantrell-gnome
 ~dev-python/pyatspi-2.32.1::dantrell-gnome-3-32
 ~dev-python/pygobject-3.32.2::dantrell-gnome-3-32
 ~dev-util/devhelp-3.32.0::dantrell-gnome-3-32
@@ -95,7 +95,7 @@
 ~gnome-base/gnome-settings-daemon-3.32.1::dantrell-gnome-3-32
 ~gnome-base/gnome-shell-3.32.2::dantrell-gnome-3-32
 ~gnome-base/gsettings-desktop-schemas-3.32.0::dantrell-gnome-3-32
-~gnome-base/gvfs-1.40.1::dantrell-gnome-3-32
+~gnome-base/gvfs-1.40.2::dantrell-gnome-3-32
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
 ~gnome-base/libgtop-2.40.0::dantrell-gnome
 ~gnome-base/nautilus-3.32.1::dantrell-gnome-3-32
@@ -109,7 +109,7 @@
 ~gnome-extra/gnome-color-manager-3.32.0::dantrell-gnome-3-32
 ~gnome-extra/gnome-contacts-3.32.1::dantrell-gnome-3-32
 ~gnome-extra/gnome-documents-3.32.0::dantrell-gnome-3-32
-~gnome-extra/gnome-getting-started-docs-3.32.1::dantrell-gnome-3-32
+~gnome-extra/gnome-getting-started-docs-3.32.2::dantrell-gnome-3-32
 ~gnome-extra/gnome-multi-writer-3.32.1::dantrell-gnome-3-32
 ~gnome-extra/gnome-packagekit-3.32.0::dantrell-gnome-3-32
 ~gnome-extra/gnome-recipes-2.0.2::dantrell-gnome
@@ -119,7 +119,7 @@
 ~gnome-extra/gnome-system-monitor-3.32.1::dantrell-gnome-3-32
 ~gnome-extra/gnome-tweaks-3.32.0::dantrell-gnome-3-32
 ~gnome-extra/gnome-usage-3.32.0::dantrell-gnome-3-32
-~gnome-extra/gnome-user-docs-3.32.2::dantrell-gnome-3-32
+~gnome-extra/gnome-user-docs-3.32.3::dantrell-gnome-3-32
 ~gnome-extra/gnome-user-share-3.32.0.1::dantrell-gnome-3-32
 ~gnome-extra/gnome-weather-3.32.2::dantrell-gnome-3-32
 ~gnome-extra/gucharmap-12.0.1::dantrell-gnome
@@ -143,7 +143,7 @@
 ~media-libs/clutter-gst-3.0.27::dantrell-gnome
 ~media-libs/clutter-gtk-1.8.4::dantrell-gnome
 ~media-libs/cogl-1.22.4::dantrell-gnome
-~media-libs/grilo-0.3.8::dantrell-gnome
+~media-libs/grilo-0.3.9::dantrell-gnome
 ~media-libs/gsound-1.0.2::dantrell-gnome
 ~media-libs/libchamplain-0.12.19::dantrell-gnome
 ~media-libs/libmediaart-1.9.4::dantrell-gnome
