@@ -32,6 +32,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.25
 	>=dev-util/intltool-0.40
+	sys-devel/autoconf-archive
 	virtual/pkgconfig
 	test? (
 		>=net-libs/libsoup-2.55.90:2.4[introspection?]
@@ -39,6 +40,7 @@ DEPEND="${RDEPEND}
 	)
 	vala? ( $(vala_depend) )
 "
+# eautoreconf needs autoconf-archive
 
 src_prepare() {
 	if has_version "<net-libs/libsoup-2.55.90:2.4"; then
@@ -50,6 +52,8 @@ src_prepare() {
 	fi
 
 	eapply "${FILESDIR}"/${PN}-0.17.8-disable-demos.patch
+	# don't overwrite m4/ax_* with newer breaking versions
+	eapply "${FILESDIR}"/${PN}-0.17.9-ax2019-compat.patch
 
 	eautoreconf
 	use vala && vala_src_prepare

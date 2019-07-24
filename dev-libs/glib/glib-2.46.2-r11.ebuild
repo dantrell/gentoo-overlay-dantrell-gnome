@@ -23,7 +23,7 @@ SRC_URI="${SRC_URI}
 	https://pkgconfig.freedesktop.org/releases/pkg-config-0.28.tar.gz" # pkg.m4 for eautoreconf
 
 LICENSE="LGPL-2.1+"
-SLOT="2/42"
+SLOT="2/46"
 KEYWORDS="*"
 
 IUSE="dbus fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
@@ -67,6 +67,10 @@ PDEPEND="!<gnome-base/gvfs-1.6.4-r990
 # dconf is needed to be able to save settings, bug #498436
 # Earlier versions of gvfs do not work with glib
 
+MULTILIB_CHOST_TOOLS=(
+	/usr/bin/gio-querymodules$(get_exeext)
+)
+
 pkg_setup() {
 	if use kernel_linux ; then
 		CONFIG_CHECK="~INOTIFY_USER"
@@ -88,9 +92,7 @@ src_prepare() {
 			ewarn "Some tests will be skipped due dev-util/desktop-file-utils not being present on your system,"
 			ewarn "think on installing it to get these tests run."
 			sed -i -e "/appinfo\/associations/d" gio/tests/appinfo.c || die
-			sed -i -e "/desktop-app-info\/default/d" gio/tests/desktop-app-info.c || die
-			sed -i -e "/desktop-app-info\/fallback/d" gio/tests/desktop-app-info.c || die
-			sed -i -e "/desktop-app-info\/lastused/d" gio/tests/desktop-app-info.c || die
+			sed -i -e "/g_test_add_func/d" gio/tests/desktop-app-info.c || die
 		fi
 
 		# gdesktopappinfo requires existing terminal (gnome-terminal or any
@@ -125,82 +127,14 @@ src_prepare() {
 
 		# This test is prone to fail, bug #504024, upstream bug #723719
 		sed -i -e '/gdbus-close-pending/d' gio/tests/Makefile.am || die
+
+		# https://bugzilla.gnome.org/show_bug.cgi?id=722604
+		sed -i -e "/timer\/stop/d" glib/tests/timer.c || die
+		sed -i -e "/timer\/basic/d" glib/tests/timer.c || die
 	else
 		# Don't build tests, also prevents extra deps, bug #512022
 		sed -i -e 's/ tests//' {.,gio,glib}/Makefile.am || die
 	fi
-
-	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/682bca095068d2823a129bebae42bb4f27f3e118
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/3b4cb28e17c6a5dac64eb8afda2b1143757ad7a4
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/f3c604d2735fd63c5d45ecbeff9cb0e90d3356ac
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/d95bb1f08b07c3ae701076cd9d3cf6894a122e9c
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/6d55189d8c7eaf95b7d94d62b6e88caccaa4034a
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/b69beff42691ef300b6829beb261ca4cdfff02be
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/93982d4a16d8623137177da2f994abaf8075b4b0
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/9d0389b3b574e6e0fc181ac161bf7c9ccd231e15
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/b5e1ea6fee6ac5b97585ffc1e30eb4f1ec137e1f
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/2596919c58a364243196e65a9adda693448139f7
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/663834671dd34e95f7dbb6b96bebf1daac468c93
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/3d5de34def8b3120190ffb2561b5093abb6a3abb
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/8ea414c8c6c40e208ebe4a9fdd41c7abdb05c392
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/e2f8afdd85c18c6eea4ce42b0c9dad2cdbfc9b3e
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/407adc6ea12e08950b36722b95fa54ef925de53a
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/08f7f976961ca1174d187a917ec2a3d235f09448
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/57a49f6891a0d69c0b3b686040bf81e303831b77
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/ccf696a6e1da37ed414f08edb745a99aba935211
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/696db7561560d9311dca93f0c849f96770f41d01
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/6161b285da3d00fb4e02d4774d741799b6e18584
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/3f3eac474b26d5e01fbfdb50f3e45b7f7826bad9
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/26af7c152f602896cabf9ab6cb6ba42a47a5b992
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/2b536d3cbb718e9cf731bf07df96738341540701
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/c1b0f178ca4739e7ab2e4e47c4585d41db8637e5
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/caf9db2dfbea4fd0306d4edf12b11ee91d235c7c
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/d4791bd383189f4ea056e4f2aa0c90171bf7a6be
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/3d39b8eb01aa5590865691a303ee9153b2a35cf5
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/b5538416c065bafe760220e92754f891abd254b2
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/d0105f1c0845c1244c8419d0bb24c6f64ac9015f
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/1b348a876f84342bb3a197fadd249f8ce95abfeb
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/0550708ca7b615ab9e0df96ded43d18653f33ac2
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/3ffed912c19c5c24b7302d2ff12f82a6167f1c30
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/9348af3651afbd554fec35e556cda8add48bd9f8
-	epatch "${FILESDIR}"/${PN}-2.43.0-add-version-macros-for-2-44.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gtype-add-type-declaration-macros-for-headers.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-g-declare-derived-type-allow-forward-declarations.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gsettings-add-g-settings-schema-key-get-name.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gsettings-add-g-settings-schema-list-children.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-add-glistmodel.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-giotypefuncs-test-tweak-get-type-regexp.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-g-declare-final-type-trivial-fix-in-docs-comment.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-declare-type-ignore-deprecations-in-inlines.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-macros-add-support-for-gnuc-cleanup-attribute.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-glib-add-support-for-g-auto-and-g-autoptr.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gobject-add-support-for-g-auto-and-g-autoptr.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-g-declare-type-add-auto-cleanup-support.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gio-add-support-for-g-auto-and-g-autoptr.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gobject-gtype-h-make-up-for-missing.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-docs-link-the-glistmodel-docs-from-the-index.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-fix-g-define-auto-cleanup-free-func-on-non-gcc.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-glistmodel-h-fix-glistmodelinterface-define.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gmacros-h-add-private-macro-glib-define-autoptr-chainup.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gtype-h-fix-build-on-non-gcc.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gliststore-add-sorted-insert-function.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-tests-add-test-for-gliststore-inserted-sort.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-docs-fix-typos-in-g-declare-type.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gliststore-fix-preconditions-in-insert-sorted.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-doc-fix-glistmodel-gliststore.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-doc-fix-g-auto-and-g-autoptr-typo.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-add-g-declare-interface.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-glistmodel-use-g-declare-interface.patch
-	epatch "${FILESDIR}"/${PN}-2.43.91-add-g-autofree.patch
-	epatch "${FILESDIR}"/${PN}-2.43.91-autocleanups-remove-g-autoptrgchar.patch
-	epatch "${FILESDIR}"/${PN}-2.43.91-tests-add-many-autoptr-tests.patch
-	epatch "${FILESDIR}"/${PN}-2.46.0-doc-small-clarification-in-g-autoptr.patch
-	epatch "${FILESDIR}"/${PN}-2.46.1-doc-g-autoptrgchar-has-been-replaced-by-g-autofree.patch
-
-	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/ed4a742946374f7ee3c46b93eb943c95f04ec4c4
-	epatch "${FILESDIR}"/${PN}-2.43.92-http-proxy-support.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/d0219f25970c740ac1a8965754868d54bcd90eeb
@@ -209,22 +143,22 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-2.47.2-tests-test-bounds-checked-int-arithmetic.patch
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/1a2a689deacaac32b351ae97b00d8c35a6499cf6
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/15c5e643c64b5f428fdbb515625dd6e939dcd40b
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/b36b4941a634af096d21f906caae25ef35161166
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/0bfbb0d257593b2fcfaaf9bf09c586057ecfac25
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/9834f79279574e2cddc4dcb6149da9bd782dd40d
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/db2367e8782d7a39fc3e93d13f6a16f10cad04c2
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/ba12fbf8f8861e634def9fc0fb5e9ea603269803
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/f2fb877ef796c543f8ca166c7e05a434f163faf7
-	epatch "${FILESDIR}"/${PN}-2.43.2-doc-glib-fix-all-undocumented-unused-undeclared-symbols.patch
-	epatch "${FILESDIR}"/${PN}-2.45.1-gversionmacros-add-2-46-version-macros.patch
 	epatch "${FILESDIR}"/${PN}-2.47.1-glib-add-2-48-availibity-macros.patch
 	epatch "${FILESDIR}"/${PN}-2.47.2-gtrashstack-uninline-and-deprecate.patch
 	epatch "${FILESDIR}"/${PN}-2.47.2-gutils-clean-up-bit-funcs-inlining-mess.patch
 	epatch "${FILESDIR}"/${PN}-2.47.2-glib-clean-up-the-inline-mess-once-and-for-all.patch
 	epatch "${FILESDIR}"/${PN}-2.47.3-gutils-g-bit-inlines-add-visibility-macros.patch
 	epatch "${FILESDIR}"/${PN}-2.47.4-glibconfig-h-win32-in-remove-g-can-inline.patch
+
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/db641e32920ee8b553ab6f2d318aafa156e4390c
+	epatch "${FILESDIR}"/${PN}-2.47.4-gdbusproxy-fix-a-memory-leak-during-initialization.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/ec6971b864a3faffadd0bf4a87c7c1b47697fc83
@@ -264,7 +198,14 @@ src_prepare() {
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/merge_requests/411
 	# 	https://www.openwall.com/lists/oss-security/2018/10/23/5
-	epatch "${FILESDIR}"/${PN}-2.42.2-various-gvariant-gmarkup-and-gdbus-fuzzing-fixes.patch
+	epatch "${FILESDIR}"/${PN}-2.46.2-various-gvariant-gmarkup-and-gdbus-fuzzing-fixes.patch
+
+	# crash in Firefox when choosing default application, fixed in 2.48.1; bug #577686
+	epatch "${FILESDIR}"/${PN}-2.48.0-GContextSpecificGroup.patch
+
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174 (CVE-2019-12450)
+	epatch "${FILESDIR}"/${PN}-2.61.1-gfile-limit-access-to-files-when-copying.patch
 
 	# gdbus-codegen is a separate package
 	epatch "${FILESDIR}"/${PN}-2.40.0-external-gdbus-codegen.patch
@@ -274,10 +215,6 @@ src_prepare() {
 	# arg, but that would mean a build dep on python when USE=utils.
 	sed -e '/${PYTHON}/d' \
 		-i glib/Makefile.{am,in} || die
-
-	# Gentoo handles completions in a different directory
-	sed -i "s|^completiondir =.*|completiondir = $(get_bashcompdir)|" \
-		gio/Makefile.am || die
 
 	# Prevent m4_copy error when running aclocal
 	# m4_copy: won't overwrite defined macro: glib_DEFUN
@@ -305,6 +242,19 @@ multilib_src_configure() {
 		fi
 		export LIBFFI_CFLAGS="-I$(echo /usr/$(get_libdir)/libffi-*/include)"
 		export LIBFFI_LIBS="-lffi"
+	fi
+
+	# These configure tests don't work when cross-compiling.
+	if tc-is-cross-compiler ; then
+		# https://bugzilla.gnome.org/show_bug.cgi?id=756473
+		case ${CHOST} in
+		hppa*|metag*) export glib_cv_stack_grows=yes ;;
+		*)            export glib_cv_stack_grows=no ;;
+		esac
+		# https://bugzilla.gnome.org/show_bug.cgi?id=756474
+		export glib_cv_uscore=no
+		# https://bugzilla.gnome.org/show_bug.cgi?id=756475
+		export ac_cv_func_posix_get{pwuid,grgid}_r=yes
 	fi
 
 	local myconf
@@ -360,7 +310,8 @@ multilib_src_test() {
 }
 
 multilib_src_install() {
-	gnome2_src_install
+	gnome2_src_install completiondir="$(get_bashcompdir)"
+	keepdir /usr/$(get_libdir)/gio/modules
 }
 
 multilib_src_install_all() {
@@ -381,13 +332,64 @@ multilib_src_install_all() {
 	rm -rf "${ED}/usr/share/gdb/" "${ED}/usr/share/glib-2.0/gdb/"
 }
 
+pkg_preinst() {
+	gnome2_pkg_preinst
+
+	# Make gschemas.compiled belong to glib alone
+	local cache="usr/share/glib-2.0/schemas/gschemas.compiled"
+
+	if [[ -e ${EROOT}${cache} ]]; then
+		cp "${EROOT}"${cache} "${ED}"/${cache} || die
+	else
+		touch "${ED}"/${cache} || die
+	fi
+
+	multilib_pkg_preinst() {
+		# Make giomodule.cache belong to glib alone
+		local cache="usr/$(get_libdir)/gio/modules/giomodule.cache"
+
+		if [[ -e ${EROOT}${cache} ]]; then
+			cp "${EROOT}"${cache} "${ED}"/${cache} || die
+		else
+			touch "${ED}"/${cache} || die
+		fi
+	}
+
+	# Don't run the cache ownership when cross-compiling, as it would end up with an empty cache
+	# file due to inability to create it and GIO might not look at any of the modules there
+	if ! tc-is-cross-compiler ; then
+		multilib_foreach_abi multilib_pkg_preinst
+	fi
+}
+
 pkg_postinst() {
+	# force (re)generation of gschemas.compiled
+	GNOME2_ECLASS_GLIB_SCHEMAS="force"
+
 	gnome2_pkg_postinst
-	if has_version '<x11-libs/gtk+-3.0.12:3'; then
-		# To have a clear upgrade path for gtk+-3.0.x users, have to resort to
-		# a warning instead of a blocker
-		ewarn
-		ewarn "Using <gtk+-3.0.12:3 with ${P} results in frequent crashes."
-		ewarn "You should upgrade to a newer version of gtk+:3 immediately."
+
+	multilib_pkg_postinst() {
+		gnome2_giomodule_cache_update \
+			|| die "Update GIO modules cache failed (for ${ABI})"
+	}
+	if ! tc-is-cross-compiler ; then
+		multilib_foreach_abi multilib_pkg_postinst
+	else
+		ewarn "Updating of GIO modules cache skipped due to cross-compilation."
+		ewarn "You might want to run gio-querymodules manually on the target for"
+		ewarn "your final image for performance reasons and re-run it when packages"
+		ewarn "installing GIO modules get upgraded or added to the image."
+	fi
+}
+
+pkg_postrm() {
+	gnome2_pkg_postrm
+
+	if [[ -z ${REPLACED_BY_VERSION} ]]; then
+		multilib_pkg_postrm() {
+			rm -f "${EROOT}"usr/$(get_libdir)/gio/modules/giomodule.cache
+		}
+		multilib_foreach_abi multilib_pkg_postrm
+		rm -f "${EROOT}"usr/share/glib-2.0/schemas/gschemas.compiled
 	fi
 }

@@ -5,7 +5,7 @@
 # then to be think very closely.
 
 EAPI="6"
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6,3_7} )
 # Completely useless with or without USE static-libs, people need to use
 # pkg-config
 GNOME2_LA_PUNT="yes"
@@ -19,30 +19,32 @@ SRC_URI="${SRC_URI}
 	https://pkgconfig.freedesktop.org/releases/pkg-config-0.28.tar.gz" # pkg.m4 for eautoreconf
 
 LICENSE="LGPL-2.1+"
-SLOT="2/48"
+SLOT="2/56"
 KEYWORDS="*"
 
 IUSE="dbus debug fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
 REQUIRED_USE="
-	utils? ( ${PYTHON_REQUIRED_USE} )
+	${PYTHON_REQUIRED_USE}
 	test? ( ${PYTHON_REQUIRED_USE} )
 "
 
+# Added util-linux multilib dependency to have libmount support (which
+# is always turned on on linux systems, unless explicitly disabled, but
+# this ebuild does not do that anyway) (bug #599586)
+
 RDEPEND="
-	!<dev-util/gdbus-codegen-${PV}
 	>=dev-libs/libpcre-8.13:3[${MULTILIB_USEDEP},static-libs?]
 	>=virtual/libiconv-0-r1[${MULTILIB_USEDEP}]
 	>=virtual/libffi-3.0.13-r1:=[${MULTILIB_USEDEP}]
 	>=virtual/libintl-0-r2[${MULTILIB_USEDEP}]
 	>=sys-libs/zlib-1.2.8-r1[${MULTILIB_USEDEP}]
+	kernel_linux? ( sys-apps/util-linux[${MULTILIB_USEDEP}] )
 	selinux? ( >=sys-libs/libselinux-2.2.2-r5[${MULTILIB_USEDEP}] )
 	xattr? ( >=sys-apps/attr-2.4.47-r1[${MULTILIB_USEDEP}] )
 	fam? ( >=virtual/fam-0-r1[${MULTILIB_USEDEP}] )
-	utils? (
-		${PYTHON_DEPS}
-		>=dev-util/gdbus-codegen-${PV}[${PYTHON_USEDEP}]
-		virtual/libelf:0=
-	)
+	${PYTHON_DEPS}
+	virtual/libelf:0=
+	=dev-util/gdbus-codegen-${PV}
 "
 DEPEND="${RDEPEND}
 	app-text/docbook-xml-dtd:4.1.2
@@ -53,7 +55,6 @@ DEPEND="${RDEPEND}
 	test? (
 		sys-devel/gdb
 		${PYTHON_DEPS}
-		>=dev-util/gdbus-codegen-${PV}[${PYTHON_USEDEP}]
 		>=sys-apps/dbus-1.2.14 )
 	!<dev-util/gtk-doc-1.15-r2
 "
@@ -78,6 +79,7 @@ pkg_setup() {
 		fi
 		linux-info_pkg_setup
 	fi
+	python_setup
 }
 
 src_prepare() {
@@ -112,42 +114,20 @@ src_prepare() {
 	fi
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/c7f46997351805e436803ac74a49a88aa1602579
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/ba18667bb467ef4734f5d8a9bbeabcad39be4ecc
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/1ff79690fbd57a1029918ff37b7890b1096854b6
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/0d1eecddd4a87f4fcf6273e0ca95f11019582778
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/4e1567a079c13036320802f49ee8f78f78d0273a
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/8e23a514b02c67104f03545dec58116f00087229
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/8e8f4e6486c1578ae15d63835acd06f237324a6d
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/c79c234c352ff748056a30da6d4a49de0d2f878d
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/359b27d441a4dd701260d041e633e7241c314627
-	eapply "${FILESDIR}"/${PN}-2.50.1-unicode-update-break-mappings.patch
-	eapply "${FILESDIR}"/${PN}-2.50.1-unicode-update-to-unicode-9-0-0.patch
-	eapply "${FILESDIR}"/${PN}-2.50.1-unicode-update-test-data-files-for-unicode-9-0-0.patch
-	eapply "${FILESDIR}"/${PN}-2.50.1-unicode-fix-ordering-in-iso15924-tags-to-match-gunicodescript-enum.patch
-	eapply "${FILESDIR}"/${PN}-2.53.4-unicode-update-to-unicode-10-0-0.patch
-	eapply "${FILESDIR}"/${PN}-2.53.4-unicode-update-test-data-files-for-unicode-10-0-0.patch
-	eapply "${FILESDIR}"/${PN}-2.55.0-docs-fix-various-minor-syntax-errors-in-gtk-doc-comments.patch
 	eapply "${FILESDIR}"/${PN}-2.57.2-unicode-update-to-unicode-11-0-0.patch
 	eapply "${FILESDIR}"/${PN}-2.57.2-unicode-update-test-data-files-for-unicode-11-0-0.patch
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/merge_requests/411
-	# 	https://www.openwall.com/lists/oss-security/2018/10/23/5
-	eapply "${FILESDIR}"/${PN}-2.46.2-various-gvariant-gmarkup-and-gdbus-fuzzing-fixes.patch
-
-	# Fix tests with timezone-data-2017a and newer
-	eapply "${FILESDIR}"/${PN}-2.50.3-fix-gdatetime-tests.patch
-
-	# gdbus-codegen is a separate package
-	eapply "${FILESDIR}"/${PN}-2.40.0-external-gdbus-codegen.patch
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174 (CVE-2019-12450)
+	eapply "${FILESDIR}"/${PN}-2.61.1-gfile-limit-access-to-files-when-copying.patch
 
 	# Leave python shebang alone - handled by python_replicate_script
 	# We could call python_setup and give configure a valid --with-python
 	# arg, but that would mean a build dep on python when USE=utils.
-	sed -e '/${PYTHON}/d' \
-		-i glib/Makefile.{am,in} || die
-
+	sed -e 's:@PYTHON@:python:' \
+		-i gobject/glib-{genmarshal.in,mkenums.in} || die
 	# Also needed to prevent cross-compile failures, see bug #267603
 	eautoreconf
 
@@ -167,8 +147,6 @@ multilib_src_configure() {
 		fi
 		export LIBFFI_CFLAGS="-I$(echo /usr/$(get_libdir)/libffi-*/include)"
 		export LIBFFI_LIBS="-lffi"
-		export PCRE_CFLAGS=" " # test -n "$PCRE_CFLAGS" needs to pass
-		export PCRE_LIBS="-lpcre"
 	fi
 
 	# These configure tests don't work when cross-compiling.
@@ -196,6 +174,7 @@ multilib_src_configure() {
 		$(usex debug --enable-debug=yes ' ') \
 		$(use_enable xattr) \
 		$(use_enable fam) \
+		$(use_enable kernel_linux libmount) \
 		$(use_enable selinux) \
 		$(use_enable static-libs static) \
 		$(use_enable systemtap dtrace) \
@@ -219,8 +198,6 @@ multilib_src_test() {
 	export XDG_DATA_DIRS=/usr/local/share:/usr/share
 	export G_DBUS_COOKIE_SHA1_KEYRING_DIR="${T}/temp"
 	export LC_TIME=C # bug #411967
-	unset GSETTINGS_BACKEND # bug #596380
-	python_setup
 
 	# Related test is a bit nitpicking
 	mkdir "$G_DBUS_COOKIE_SHA1_KEYRING_DIR"
@@ -244,12 +221,9 @@ multilib_src_install() {
 multilib_src_install_all() {
 	einstalldocs
 
-	if use utils ; then
-		python_replicate_script "${ED}"/usr/bin/gtester-report
-	else
-		rm "${ED}usr/bin/gtester-report"
-		rm "${ED}usr/share/man/man1/gtester-report.1"
-	fi
+	python_fix_shebang "${ED}"/usr/bin/glib-mkenums
+	python_fix_shebang "${ED}"/usr/bin/glib-genmarshal
+	python_fix_shebang "${ED}"/usr/bin/gtester-report
 
 	# Do not install charset.alias even if generated, leave it to libiconv
 	rm -f "${ED}/usr/lib/charset.alias"
@@ -272,7 +246,7 @@ pkg_preinst() {
 
 	multilib_pkg_preinst() {
 		# Make giomodule.cache belong to glib alone
-		local cache="usr/$(get_libdir)/gio/modules/giomodule.cache"
+		local cache="usr/$(get_libdir)/gio/giomodule.cache"
 
 		if [[ -e ${EROOT}${cache} ]]; then
 			cp "${EROOT}"${cache} "${ED}"/${cache} || die
@@ -281,11 +255,7 @@ pkg_preinst() {
 		fi
 	}
 
-	# Don't run the cache ownership when cross-compiling, as it would end up with an empty cache
-	# file due to inability to create it and GIO might not look at any of the modules there
-	if ! tc-is-cross-compiler ; then
-		multilib_foreach_abi multilib_pkg_preinst
-	fi
+	multilib_foreach_abi multilib_pkg_preinst
 }
 
 pkg_postinst() {
@@ -298,14 +268,7 @@ pkg_postinst() {
 		gnome2_giomodule_cache_update \
 			|| die "Update GIO modules cache failed (for ${ABI})"
 	}
-	if ! tc-is-cross-compiler ; then
-		multilib_foreach_abi multilib_pkg_postinst
-	else
-		ewarn "Updating of GIO modules cache skipped due to cross-compilation."
-		ewarn "You might want to run gio-querymodules manually on the target for"
-		ewarn "your final image for performance reasons and re-run it when packages"
-		ewarn "installing GIO modules get upgraded or added to the image."
-	fi
+	multilib_foreach_abi multilib_pkg_postinst
 }
 
 pkg_postrm() {
@@ -313,7 +276,7 @@ pkg_postrm() {
 
 	if [[ -z ${REPLACED_BY_VERSION} ]]; then
 		multilib_pkg_postrm() {
-			rm -f "${EROOT}"usr/$(get_libdir)/gio/modules/giomodule.cache
+			rm -f "${EROOT}"usr/$(get_libdir)/gio/giomodule.cache
 		}
 		multilib_foreach_abi multilib_pkg_postrm
 		rm -f "${EROOT}"usr/share/glib-2.0/schemas/gschemas.compiled

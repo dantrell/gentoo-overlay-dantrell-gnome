@@ -38,7 +38,6 @@ media-libs/gd jpeg
 media-libs/gd png
 media-libs/gd truetype
 media-libs/gegl cairo
-media-libs/gegl jpeg2k
 media-libs/gegl raw
 media-libs/grilo playlist
 media-libs/gst-plugins-bad X

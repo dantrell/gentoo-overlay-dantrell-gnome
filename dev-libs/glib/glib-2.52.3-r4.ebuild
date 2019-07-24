@@ -133,6 +133,10 @@ src_prepare() {
 	# 	https://www.openwall.com/lists/oss-security/2018/10/23/5
 	eapply "${FILESDIR}"/${PN}-2.52.3-various-gvariant-gmarkup-and-gdbus-fuzzing-fixes.patch
 
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174 (CVE-2019-12450)
+	eapply "${FILESDIR}"/${PN}-2.61.1-gfile-limit-access-to-files-when-copying.patch
+
 	# gdbus-codegen is a separate package
 	eapply "${FILESDIR}"/${PN}-2.50.0-external-gdbus-codegen.patch
 

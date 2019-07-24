@@ -23,7 +23,7 @@ SRC_URI="${SRC_URI}
 	https://pkgconfig.freedesktop.org/releases/pkg-config-0.28.tar.gz" # pkg.m4 for eautoreconf
 
 LICENSE="LGPL-2.1+"
-SLOT="2/46"
+SLOT="2/44"
 KEYWORDS="*"
 
 IUSE="dbus fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
@@ -67,10 +67,6 @@ PDEPEND="!<gnome-base/gvfs-1.6.4-r990
 # dconf is needed to be able to save settings, bug #498436
 # Earlier versions of gvfs do not work with glib
 
-MULTILIB_CHOST_TOOLS=(
-	/usr/bin/gio-querymodules$(get_exeext)
-)
-
 pkg_setup() {
 	if use kernel_linux ; then
 		CONFIG_CHECK="~INOTIFY_USER"
@@ -92,7 +88,9 @@ src_prepare() {
 			ewarn "Some tests will be skipped due dev-util/desktop-file-utils not being present on your system,"
 			ewarn "think on installing it to get these tests run."
 			sed -i -e "/appinfo\/associations/d" gio/tests/appinfo.c || die
-			sed -i -e "/g_test_add_func/d" gio/tests/desktop-app-info.c || die
+			sed -i -e "/desktop-app-info\/default/d" gio/tests/desktop-app-info.c || die
+			sed -i -e "/desktop-app-info\/fallback/d" gio/tests/desktop-app-info.c || die
+			sed -i -e "/desktop-app-info\/lastused/d" gio/tests/desktop-app-info.c || die
 		fi
 
 		# gdesktopappinfo requires existing terminal (gnome-terminal or any
@@ -127,10 +125,6 @@ src_prepare() {
 
 		# This test is prone to fail, bug #504024, upstream bug #723719
 		sed -i -e '/gdbus-close-pending/d' gio/tests/Makefile.am || die
-
-		# https://bugzilla.gnome.org/show_bug.cgi?id=722604
-		sed -i -e "/timer\/stop/d" glib/tests/timer.c || die
-		sed -i -e "/timer\/basic/d" glib/tests/timer.c || die
 	else
 		# Don't build tests, also prevents extra deps, bug #512022
 		sed -i -e 's/ tests//' {.,gio,glib}/Makefile.am || die
@@ -143,22 +137,20 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-2.47.2-tests-test-bounds-checked-int-arithmetic.patch
 
 	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/15c5e643c64b5f428fdbb515625dd6e939dcd40b
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/b36b4941a634af096d21f906caae25ef35161166
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/0bfbb0d257593b2fcfaaf9bf09c586057ecfac25
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/9834f79279574e2cddc4dcb6149da9bd782dd40d
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/db2367e8782d7a39fc3e93d13f6a16f10cad04c2
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/ba12fbf8f8861e634def9fc0fb5e9ea603269803
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/f2fb877ef796c543f8ca166c7e05a434f163faf7
+	epatch "${FILESDIR}"/${PN}-2.45.1-gversionmacros-add-2-46-version-macros.patch
 	epatch "${FILESDIR}"/${PN}-2.47.1-glib-add-2-48-availibity-macros.patch
 	epatch "${FILESDIR}"/${PN}-2.47.2-gtrashstack-uninline-and-deprecate.patch
 	epatch "${FILESDIR}"/${PN}-2.47.2-gutils-clean-up-bit-funcs-inlining-mess.patch
 	epatch "${FILESDIR}"/${PN}-2.47.2-glib-clean-up-the-inline-mess-once-and-for-all.patch
 	epatch "${FILESDIR}"/${PN}-2.47.3-gutils-g-bit-inlines-add-visibility-macros.patch
 	epatch "${FILESDIR}"/${PN}-2.47.4-glibconfig-h-win32-in-remove-g-can-inline.patch
-
-	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/db641e32920ee8b553ab6f2d318aafa156e4390c
-	epatch "${FILESDIR}"/${PN}-2.47.4-gdbusproxy-fix-a-memory-leak-during-initialization.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/ec6971b864a3faffadd0bf4a87c7c1b47697fc83
@@ -198,19 +190,27 @@ src_prepare() {
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/merge_requests/411
 	# 	https://www.openwall.com/lists/oss-security/2018/10/23/5
-	epatch "${FILESDIR}"/${PN}-2.46.2-various-gvariant-gmarkup-and-gdbus-fuzzing-fixes.patch
+	epatch "${FILESDIR}"/${PN}-2.42.2-various-gvariant-gmarkup-and-gdbus-fuzzing-fixes.patch
+
+	# gio/gthreadedresolver.c has outdated copy of bionic headers (for android)
+	epatch "${FILESDIR}"/${PN}-2.44.1-bionic-nameser.patch
+
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174 (CVE-2019-12450)
+	epatch "${FILESDIR}"/${PN}-2.61.1-gfile-limit-access-to-files-when-copying.patch
 
 	# gdbus-codegen is a separate package
 	epatch "${FILESDIR}"/${PN}-2.40.0-external-gdbus-codegen.patch
-
-	# crash in Firefox when choosing default application, fixed in 2.48.1; bug #577686
-	epatch "${FILESDIR}"/${PN}-2.48.0-GContextSpecificGroup.patch
 
 	# Leave python shebang alone - handled by python_replicate_script
 	# We could call python_setup and give configure a valid --with-python
 	# arg, but that would mean a build dep on python when USE=utils.
 	sed -e '/${PYTHON}/d' \
 		-i glib/Makefile.{am,in} || die
+
+	# Gentoo handles completions in a different directory
+	sed -i "s|^completiondir =.*|completiondir = $(get_bashcompdir)|" \
+		gio/Makefile.am || die
 
 	# Prevent m4_copy error when running aclocal
 	# m4_copy: won't overwrite defined macro: glib_DEFUN
@@ -306,8 +306,7 @@ multilib_src_test() {
 }
 
 multilib_src_install() {
-	gnome2_src_install completiondir="$(get_bashcompdir)"
-	keepdir /usr/$(get_libdir)/gio/modules
+	gnome2_src_install
 }
 
 multilib_src_install_all() {
@@ -328,64 +327,13 @@ multilib_src_install_all() {
 	rm -rf "${ED}/usr/share/gdb/" "${ED}/usr/share/glib-2.0/gdb/"
 }
 
-pkg_preinst() {
-	gnome2_pkg_preinst
-
-	# Make gschemas.compiled belong to glib alone
-	local cache="usr/share/glib-2.0/schemas/gschemas.compiled"
-
-	if [[ -e ${EROOT}${cache} ]]; then
-		cp "${EROOT}"${cache} "${ED}"/${cache} || die
-	else
-		touch "${ED}"/${cache} || die
-	fi
-
-	multilib_pkg_preinst() {
-		# Make giomodule.cache belong to glib alone
-		local cache="usr/$(get_libdir)/gio/modules/giomodule.cache"
-
-		if [[ -e ${EROOT}${cache} ]]; then
-			cp "${EROOT}"${cache} "${ED}"/${cache} || die
-		else
-			touch "${ED}"/${cache} || die
-		fi
-	}
-
-	# Don't run the cache ownership when cross-compiling, as it would end up with an empty cache
-	# file due to inability to create it and GIO might not look at any of the modules there
-	if ! tc-is-cross-compiler ; then
-		multilib_foreach_abi multilib_pkg_preinst
-	fi
-}
-
 pkg_postinst() {
-	# force (re)generation of gschemas.compiled
-	GNOME2_ECLASS_GLIB_SCHEMAS="force"
-
 	gnome2_pkg_postinst
-
-	multilib_pkg_postinst() {
-		gnome2_giomodule_cache_update \
-			|| die "Update GIO modules cache failed (for ${ABI})"
-	}
-	if ! tc-is-cross-compiler ; then
-		multilib_foreach_abi multilib_pkg_postinst
-	else
-		ewarn "Updating of GIO modules cache skipped due to cross-compilation."
-		ewarn "You might want to run gio-querymodules manually on the target for"
-		ewarn "your final image for performance reasons and re-run it when packages"
-		ewarn "installing GIO modules get upgraded or added to the image."
-	fi
-}
-
-pkg_postrm() {
-	gnome2_pkg_postrm
-
-	if [[ -z ${REPLACED_BY_VERSION} ]]; then
-		multilib_pkg_postrm() {
-			rm -f "${EROOT}"usr/$(get_libdir)/gio/modules/giomodule.cache
-		}
-		multilib_foreach_abi multilib_pkg_postrm
-		rm -f "${EROOT}"usr/share/glib-2.0/schemas/gschemas.compiled
+	if has_version '<x11-libs/gtk+-3.0.12:3'; then
+		# To have a clear upgrade path for gtk+-3.0.x users, have to resort to
+		# a warning instead of a blocker
+		ewarn
+		ewarn "Using <gtk+-3.0.12:3 with ${P} results in frequent crashes."
+		ewarn "You should upgrade to a newer version of gtk+:3 immediately."
 	fi
 }
