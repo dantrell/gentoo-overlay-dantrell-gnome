@@ -159,6 +159,7 @@ src_configure() {
 }
 
 src_compile() {
+	emake -C src helper/sp-marshal.h #686304
 	emake AR="$(tc-getAR)"
 }
 

@@ -40,7 +40,7 @@
 ~dev-libs/jsonrpc-glib-3.32.0::dantrell-gnome-3-32
 ~dev-libs/json-glib-1.4.4::dantrell-gnome
 ~dev-libs/libcroco-0.6.13::dantrell-gnome
-~dev-libs/libdazzle-3.32.2::dantrell-gnome-3-32
+~dev-libs/libdazzle-3.32.3::dantrell-gnome-3-32
 ~dev-libs/libgdata-0.17.9::dantrell-gnome
 ~dev-libs/libgee-0.20.1::dantrell-gnome
 ~dev-libs/libgnome-games-support-1.4.3::dantrell-gnome
