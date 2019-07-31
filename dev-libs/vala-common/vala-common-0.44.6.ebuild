@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 GNOME_ORG_MODULE="vala"
 
 inherit gnome.org
@@ -8,7 +8,7 @@ inherit gnome.org
 DESCRIPTION="Build infrastructure for packages that use Vala"
 HOMEPAGE="https://wiki.gnome.org/Projects/Vala"
 
-LICENSE="LGPL-2.1"
+LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
 
@@ -23,6 +23,7 @@ RDEPEND="
 	!<dev-lang/vala-0.17.5:0.18
 "
 DEPEND=""
+BDEPEND=""
 
 src_configure() { :; }
 

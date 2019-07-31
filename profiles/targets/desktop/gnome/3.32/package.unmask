@@ -171,7 +171,7 @@
 ~sci-geosciences/gnome-maps-3.32.2.1::dantrell-gnome-3-32
 ~sys-apps/baobab-3.32.0::dantrell-gnome-3-32
 ~sys-apps/gnome-disk-utility-3.32.1::dantrell-gnome-3-32
-~www-client/epiphany-3.32.3::dantrell-gnome-3-32
+~www-client/epiphany-3.32.4::dantrell-gnome-3-32
 ~x11-libs/gdk-pixbuf-2.38.1::dantrell-gnome
 ~x11-libs/gtksourceview-4.2.0::dantrell-gnome
 ~x11-libs/libnotify-0.7.8::dantrell-gnome
