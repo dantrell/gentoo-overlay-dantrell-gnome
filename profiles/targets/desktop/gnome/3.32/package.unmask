@@ -118,7 +118,6 @@
 ~gnome-extra/gnome-software-3.32.4::dantrell-gnome-3-32
 ~gnome-extra/gnome-system-monitor-3.32.1::dantrell-gnome-3-32
 ~gnome-extra/gnome-tweaks-3.32.0::dantrell-gnome-3-32
-~gnome-extra/gnome-usage-3.32.0::dantrell-gnome-3-32
 ~gnome-extra/gnome-user-docs-3.32.3::dantrell-gnome-3-32
 ~gnome-extra/gnome-user-share-3.32.0.1::dantrell-gnome-3-32
 ~gnome-extra/gnome-weather-3.32.2::dantrell-gnome-3-32
@@ -132,7 +131,7 @@
 ~gnome-extra/yelp-xsl-3.32.1::dantrell-gnome-3-32
 ~gnome-extra/zenity-3.32.0::dantrell-gnome-3-32
 ~mail-client/evolution-3.32.4::dantrell-gnome-3-32
-~mail-client/geary-3.32.1::dantrell-gnome
+~mail-client/geary-3.32.2::dantrell-gnome
 ~media-fonts/cantarell-0.111::dantrell-gnome
 ~media-gfx/eog-3.32.2::dantrell-gnome-3-32
 ~media-gfx/gnome-font-viewer-3.32.0::dantrell-gnome-3-32
@@ -171,6 +170,7 @@
 ~sci-geosciences/gnome-maps-3.32.2.1::dantrell-gnome-3-32
 ~sys-apps/baobab-3.32.0::dantrell-gnome-3-32
 ~sys-apps/gnome-disk-utility-3.32.1::dantrell-gnome-3-32
+~sys-process/gnome-usage-3.32.0::dantrell-gnome-3-32
 ~www-client/epiphany-3.32.4::dantrell-gnome-3-32
 ~x11-libs/gdk-pixbuf-2.38.1::dantrell-gnome
 ~x11-libs/gtksourceview-4.2.0::dantrell-gnome

@@ -73,6 +73,7 @@ dev-libs/libgnome-games-support::gentoo
 dev-libs/libgpg-error::gentoo
 dev-libs/libgusb::gentoo
 dev-libs/libgweather::gentoo
+dev-libs/libhandy::gentoo
 dev-libs/libical::gentoo
 dev-libs/libintl::gentoo
 dev-libs/liblouis::gentoo

@@ -3,13 +3,13 @@
 EAPI="7"
 
 DESCRIPTION="Unicode data from unicode.org"
-HOMEPAGE="http://www.unicode.org/ucd/"
-SRC_URI="http://www.unicode.org/Public/zipped/${PV}/UCD.zip -> ${P}-UCD.zip
-	http://www.unicode.org/Public/zipped/${PV}/Unihan.zip -> ${P}-Unihan.zip"
+HOMEPAGE="https://www.unicode.org/ucd/"
+SRC_URI="https://www.unicode.org/Public/zipped/${PV}/UCD.zip -> ${P}-UCD.zip
+	https://www.unicode.org/Public/zipped/${PV}/Unihan.zip -> ${P}-Unihan.zip"
 
 LICENSE="unicode"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 

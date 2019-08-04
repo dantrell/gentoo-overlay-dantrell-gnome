@@ -110,7 +110,6 @@
 ~gnome-extra/gnome-software-3.30.6::dantrell-gnome-3-30
 ~gnome-extra/gnome-system-monitor-3.30.0::dantrell-gnome-3-30
 ~gnome-extra/gnome-tweaks-3.30.2::dantrell-gnome-3-30
-~gnome-extra/gnome-usage-3.30.0::dantrell-gnome-3-30
 ~gnome-extra/gnome-user-docs-3.30.2::dantrell-gnome-3-30
 ~gnome-extra/gnome-user-share-3.28.0::dantrell-gnome
 ~gnome-extra/gnome-weather-3.26.0::dantrell-gnome
@@ -167,6 +166,7 @@
 ~sci-geosciences/gnome-maps-3.30.3.1::dantrell-gnome-3-30
 ~sys-apps/baobab-3.30.0::dantrell-gnome-3-30
 ~sys-apps/gnome-disk-utility-3.30.2::dantrell-gnome-3-30
+~sys-process/gnome-usage-3.30.0::dantrell-gnome-3-30
 ~www-client/epiphany-3.30.4::dantrell-gnome-3-30
 ~x11-libs/gdk-pixbuf-2.38.1::dantrell-gnome
 ~x11-libs/gtksourceview-4.0.3::dantrell-gnome

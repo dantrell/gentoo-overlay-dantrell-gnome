@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 DESCRIPTION="UTS #51 Unicode Emoji"
 HOMEPAGE="https://unicode.org/emoji/"
@@ -13,7 +13,7 @@ SRC_URI="${BASE_URI}/${PN#*-}-data.txt -> ${PN}-data-${PV}.txt
 
 LICENSE="unicode"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 

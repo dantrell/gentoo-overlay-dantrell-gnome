@@ -145,7 +145,6 @@
 >=gnome-extra/gnome-system-monitor-3.24.0
 >=gnome-extra/gnome-todo-3.24.0
 >=gnome-extra/gnome-tweaks-3.24.0
->=gnome-extra/gnome-usage-3.28.0
 >=gnome-extra/gnome-user-docs-3.24.0
 >=gnome-extra/gnome-user-share-3.24.0
 >=gnome-extra/gnome-weather-3.24.0
@@ -192,6 +191,7 @@
 >=sci-geosciences/gnome-maps-3.24.0
 >=sys-apps/baobab-3.24.0
 >=sys-apps/gnome-disk-utility-3.24.0
+>=sys-process/gnome-usage-3.28.0
 >=www-client/epiphany-3.24.0
 >=x11-libs/gdk-pixbuf-2.38.0
 >=x11-libs/gnome-pty-helper-0.48.0
