@@ -68,7 +68,7 @@ src_configure() {
 		-Ddocdir="${EPREFIX}/usr/share/doc/${PF}"
 		-Dhtmldir="${EPREFIX}/usr/share/doc/${PF}/html"
 		-Dpamlibdir=$(getpam_mod_dir)
-		-Dudevrulesdir="$(get_udevdir)"/rules.d
+		-Dudevrulesdir="${EPREFIX}$(get_udevdir)"/rules.d
 		--libdir="${EPREFIX}"/usr/$(get_libdir)
 		-Drootlibdir="${EPREFIX}"/$(get_libdir)
 		-Drootlibexecdir="${EPREFIX}"/$(get_libdir)/elogind

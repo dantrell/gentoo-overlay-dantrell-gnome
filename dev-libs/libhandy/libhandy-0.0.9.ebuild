@@ -45,7 +45,7 @@ multilib_src_configure() {
 		$(meson_feature introspection)
 		$(meson_use vala vapi)
 		$(meson_use gtk-doc gtk_doc)
-		$(meson_use test test)
+		$(meson_use test tests)
 		-D examples=false
 		$(meson_feature glade glade_catalog)
 	)
