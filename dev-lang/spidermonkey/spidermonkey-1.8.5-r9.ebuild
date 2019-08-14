@@ -80,6 +80,9 @@ src_prepare() {
 
 	cd "${BUILDDIR}" || die
 	eautoconf
+
+	# remove options that are not correct from js-config
+	sed '/lib-filenames/d' -i "${BUILDDIR}"/js-config.in || die "failed to remove invalid option from js-config"
 }
 
 src_configure() {
