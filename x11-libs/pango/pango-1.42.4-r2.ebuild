@@ -38,6 +38,7 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/patches/ # bug fix cherry-picks from master by 20190216; each patch has commit id of origin/master included and will be part of 1.43.1/1.44
+	"${FILESDIR}"/${PN}-1.42.4-CVE-2019-1010238.patch
 )
 
 src_prepare() {
