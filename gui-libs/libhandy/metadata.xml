@@ -6,8 +6,8 @@
 		<name>Gentoo GNOME Desktop</name>
 	</maintainer>
 	<use>
-		<flag name="http">Enable webservice integration through <pkg>net-libs/libsoup</pkg></flag>
-		<flag name="json">Compile code that uses the libjson-glib library</flag>
-		<flag name="slideshow">Enable slideshow plugin</flag>
+		<flag name="glade">Install module and catalog for <pkg>dev-util/glade</pkg></flag>
 	</use>
+	<longdescription>libhandy is a collection of GTK+ widgets for applications
+		targeting mobile phones.</longdescription>
 </pkgmetadata>

@@ -57,7 +57,7 @@
 ~dev-util/gnome-builder-3.32.4::dantrell-gnome-3-32
 ~dev-util/gnome-devel-docs-3.32.1::dantrell-gnome-3-32
 ~dev-util/sysprof-3.32.0::dantrell-gnome-3-32
-~dev-vcs/gitg-3.30.1::dantrell-gnome
+~dev-vcs/gitg-3.32.1::dantrell-gnome-3-32
 ~games-arcade/gnome-nibbles-3.31.3::dantrell-gnome-3-32
 ~games-arcade/gnome-nibbles-3.32.0::dantrell-gnome-3-32
 ~games-arcade/gnome-robots-3.32.0::dantrell-gnome-3-32

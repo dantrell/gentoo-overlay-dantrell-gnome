@@ -14,7 +14,7 @@ LICENSE="|| ( MPL-2.0 LGPL-2.1 )"
 SLOT="0/3"
 KEYWORDS="~*"
 
-IUSE="berkdb doc examples static-libs test"
+IUSE="berkdb doc examples glib static-libs test"
 
 BDEPEND="
 	dev-lang/perl
@@ -25,6 +25,10 @@ BDEPEND="
 DEPEND="
 	dev-libs/icu:=
 	berkdb? ( sys-libs/db:= )
+	glib? (
+		dev-libs/glib:2
+		dev-libs/libxml2:2
+	)
 "
 RDEPEND="${DEPEND}
 	sys-libs/timezone-data
@@ -47,7 +51,7 @@ src_prepare() {
 
 src_configure() {
 	local mycmakeargs=(
-		-DICAL_GLIB=OFF
+		-DICAL_GLIB=$(usex glib)
 		-DICAL_GLIB_VAPI=OFF
 		-DGOBJECT_INTROSPECTION=OFF
 		$(cmake-utils_use_find_package berkdb BDB)

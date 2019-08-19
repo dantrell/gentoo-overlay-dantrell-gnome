@@ -8,7 +8,7 @@ inherit kde5
 DESCRIPTION="Backend implementation for xdg-desktop-portal that is using Qt/KDE Frameworks"
 
 LICENSE="LGPL-2+"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="screencast"
 
@@ -26,7 +26,7 @@ COMMON_DEPEND="
 		dev-libs/glib:2
 		media-libs/libepoxy
 		media-libs/mesa[gbm]
-		media-video/pipewire
+		media-video/pipewire:=
 	)
 "
 DEPEND="${COMMON_DEPEND}

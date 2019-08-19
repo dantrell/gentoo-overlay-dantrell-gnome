@@ -53,7 +53,7 @@
 ~dev-util/gnome-builder-3.30.3::dantrell-gnome-3-30
 ~dev-util/gnome-devel-docs-3.30.2::dantrell-gnome-3-30
 ~dev-util/sysprof-3.30.2::dantrell-gnome-3-30
-~dev-vcs/gitg-3.30.1::dantrell-gnome
+~dev-vcs/gitg-3.30.1::dantrell-gnome-3-30
 ~games-arcade/gnome-nibbles-3.24.1::dantrell-gnome
 ~games-arcade/gnome-robots-3.22.3::dantrell-gnome
 ~games-board/four-in-a-row-3.28.0::dantrell-gnome

@@ -12,10 +12,6 @@ KEYWORDS="*"
 
 IUSE="pipewire"
 
-# TODO: Needed for screencast portal
-# 	dev-libs/glib:2
-# 	media-libs/libepoxy
-# 	media-libs/mesa[gbm]
 COMMON_DEPEND="
 	$(add_frameworks_dep kcoreaddons)
 	$(add_frameworks_dep ki18n)
@@ -26,6 +22,12 @@ COMMON_DEPEND="
 	$(add_qt_dep qtgui)
 	$(add_qt_dep qtprintsupport 'cups')
 	$(add_qt_dep qtwidgets)
+	pipewire? (
+		dev-libs/glib:2
+		media-libs/libepoxy
+		media-libs/mesa[gbm]
+		media-video/pipewire:=
+	)
 "
 DEPEND="${COMMON_DEPEND}
 	$(add_frameworks_dep kwayland)
@@ -33,7 +35,6 @@ DEPEND="${COMMON_DEPEND}
 "
 RDEPEND="${COMMON_DEPEND}
 	sys-apps/xdg-desktop-portal
-	pipewire? ( media-video/pipewire )
 "
 
 PATCHES=(

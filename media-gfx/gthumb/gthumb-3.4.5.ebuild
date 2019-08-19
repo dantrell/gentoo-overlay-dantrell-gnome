@@ -52,7 +52,7 @@ DEPEND="${RDEPEND}
 # eautoreconf needs:
 #	gnome-base/gnome-common
 
-PATCHES=( "${FILESDIR}/${PN}-3.6.2-exiv2-0.27.patch" ) # bug 674092
+PATCHES=( "${FILESDIR}"/${PN}-3.6.2-exiv2-0.27.patch ) # bug 674092
 
 src_prepare() {
 	# Remove unwanted CFLAGS added with USE=debug
