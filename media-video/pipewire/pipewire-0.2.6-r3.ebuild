@@ -42,10 +42,13 @@ DEPEND="
 RDEPEND="${DEPEND}"
 
 PATCHES=(
-	"${FILESDIR}"/${P}-alsa-lib-1.1.9.patch
-	"${FILESDIR}"/${P}-reuse-fd-in-pipewiresrc.patch
-	"${FILESDIR}"/${P}-fix-probing-without-starting.patch
-	"${FILESDIR}"/${P}-revert-combine-all-perms.patch
+	# From PipeWire:
+	# 	https://github.com/PipeWire/pipewire/commit/37613b67ba52b5ad4e81d7ea38adc04027d9f9e5
+	"${FILESDIR}"/${PN}-0.2.6-alsa-handle-alsa-lib-1-1-9.patch
+
+	"${FILESDIR}"/${PN}-0.2.6-reuse-fd-in-pipewiresrc.patch
+	"${FILESDIR}"/${PN}-0.2.6-fix-probing-without-starting.patch
+	"${FILESDIR}"/${PN}-0.2.6-revert-combine-all-perms.patch
 )
 
 src_prepare() {

@@ -12,7 +12,7 @@ LICENSE="BSD-2"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="audit bash debug ncurses pam newnet prefix +netifrc selinux static-libs unicode +vanilla-loopback vanilla-shutdown +vanilla-warnings kernel_linux kernel_FreeBSD"
+IUSE="audit bash debug ncurses pam newnet prefix +netifrc selinux static-libs sysv-utils unicode +vanilla-loopback vanilla-shutdown +vanilla-warnings kernel_linux kernel_FreeBSD"
 
 COMMON_DEPEND="kernel_FreeBSD? ( || ( >=sys-freebsd/freebsd-ubin-9.0_rc sys-process/fuser-bsd ) )
 	ncurses? ( sys-libs/ncurses:0= )
@@ -38,7 +38,8 @@ RDEPEND="${COMMON_DEPEND}
 	bash? ( app-shells/bash )
 	!prefix? (
 		kernel_linux? (
-			>=sys-apps/sysvinit-2.86-r6[selinux?]
+		sysv-utils? ( !sys-apps/sysvinit )
+		!sysv-utils? ( >=sys-apps/sysvinit-2.86-r6[selinux?] )
 			virtual/tmpfiles
 		)
 		kernel_FreeBSD? ( sys-freebsd/freebsd-sbin )
@@ -81,6 +82,7 @@ src_compile() {
 		MKBASHCOMP=yes
 		MKNET=$(usex newnet)
 		MKSELINUX=$(usex selinux)
+		MKSYSVINIT=$(usex sysv-utils)
 		MKAUDIT=$(usex audit)
 		MKPAM=$(usev pam)
 		MKSTATICLIBS=$(usex static-libs)

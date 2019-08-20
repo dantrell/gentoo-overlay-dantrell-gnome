@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/CantarellFonts"
 
 LICENSE="OFL-1.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 
