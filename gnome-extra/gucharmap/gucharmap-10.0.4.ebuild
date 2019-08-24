@@ -16,7 +16,7 @@ IUSE="debug +introspection test vala"
 REQUIRED_USE="vala? ( introspection )"
 
 COMMON_DEPEND="
-	>=app-i18n/unicode-data-$(get_version_component_range 1-2)
+	=app-i18n/unicode-data-$(get_version_component_range 1-2)*
 	>=dev-libs/glib-2.32:2
 	>=x11-libs/pango-1.2.1[introspection?]
 	>=x11-libs/gtk+-3.4.0:3[introspection?]

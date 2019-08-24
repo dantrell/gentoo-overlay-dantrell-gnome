@@ -23,6 +23,7 @@ DEPEND="${RDEPEND}
 		dev-libs/gobject-introspection:=
 		dev-util/ninja
 		dev-vcs/git
+		sys-libs/zlib[static-libs(+)]
 		virtual/pkgconfig
 	)
 "
