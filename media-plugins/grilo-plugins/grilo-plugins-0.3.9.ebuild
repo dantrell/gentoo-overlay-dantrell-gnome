@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6,3_7} )
 
 inherit gnome.org meson xdg
@@ -19,7 +19,7 @@ IUSE="daap chromaprint flickr freebox gnome-online-accounts lua test thetvdb tra
 # TODO: validate upnp-av dleyna deps
 RDEPEND="
 	>=dev-libs/glib-2.44:2
-	>=media-libs/grilo-0.3.6:${SLOT}=[network,playlist]
+	>=media-libs/grilo-0.3.8:${SLOT}=[network,playlist]
 	freebox? (
 		net-dns/avahi )
 	>=dev-libs/gom-0.3.2-r1
@@ -53,7 +53,8 @@ RDEPEND="
 
 	gnome-online-accounts? ( >=net-libs/gnome-online-accounts-3.17.91:= )
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	app-text/docbook-xml-dtd:4.5
 	dev-util/itstool
 	>=sys-devel/gettext-0.19.8

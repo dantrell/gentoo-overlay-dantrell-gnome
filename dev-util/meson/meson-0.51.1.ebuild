@@ -33,6 +33,10 @@ python_prepare_all() {
 	# https://bugs.gentoo.org/673016
 	sed -i -e 's/test_generate_gir_with_address_sanitizer/_&/' run_unittests.py || die
 
+	# ASAN is unsupported on some targets
+	# https://bugs.gentoo.org/692822
+	sed -i -e 's/test_pch_with_address_sanitizer/_&/' run_unittests.py || die
+
 	distutils-r1_python_prepare_all
 }
 
@@ -41,6 +45,8 @@ src_test() {
 	if ${PKG_CONFIG} --exists Qt5Core && ! ${PKG_CONFIG} --exists Qt5Gui; then
 		ewarn "Found Qt5Core but not Qt5Gui; skipping tests"
 	else
+		# https://bugs.gentoo.org/687792
+		unset PKG_CONFIG
 		distutils-r1_src_test
 	fi
 }

@@ -42,7 +42,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.0
-	>=dev-util/intltool-0.50.1
+	>=sys-devel/gettext-0.18
 	virtual/pkgconfig
 "
 

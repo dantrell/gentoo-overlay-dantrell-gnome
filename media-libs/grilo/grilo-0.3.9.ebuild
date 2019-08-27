@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6,3_7} )
 VALA_MIN_API_VERSION="0.28"
 VALA_USE_DEPEND="vapigen"
@@ -14,8 +14,10 @@ LICENSE="LGPL-2.1+"
 SLOT="0.3/0" # subslot is libgrilo-0.3 soname suffix
 KEYWORDS="~*"
 
-IUSE="gtk gtk-doc +introspection +network +playlist vala"
+IUSE="gtk gtk-doc +introspection +network +playlist test vala"
 REQUIRED_USE="vala? ( introspection )"
+
+RESTRICT="!test? ( test )"
 
 # oauth could be optional if meson is patched - used for flickr oauth in grilo-test-ui tool
 RDEPEND="
@@ -29,13 +31,15 @@ RDEPEND="
 		net-libs/liboauth
 		>=x11-libs/gtk+-3.14:3 )
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	gtk-doc? (
 		>=dev-util/gtk-doc-1.10
 		app-text/docbook-xml-dtd:4.3 )
 	${PYTHON_DEPS}
+	test? ( sys-apps/dbus )
 	vala? ( $(vala_depend) )
 "
 
@@ -64,4 +68,8 @@ src_configure() {
 		$(meson_use vala enable-vala)
 	)
 	meson_src_configure
+}
+
+src_test() {
+	dbus-run-session meson test -C "${BUILD_DIR}" || die
 }
