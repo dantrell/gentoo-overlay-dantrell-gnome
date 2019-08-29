@@ -65,4 +65,24 @@ multilib_src_test() {
 
 multilib_src_install() {
 	meson_src_install
+
+	# Ensure files are owned by libhandy
+	if [[ -f /usr/$(get_libdir)/libhandy-0.0.so.0 ]]; then
+		addwrite /usr/include/libhandy-0.0
+		addwrite /usr/lib
+		addwrite /usr/$(get_libdir)
+		addwrite /usr/$(get_libdir)/girepository-1.0
+		addwrite /usr/share/gir-1.0
+		addwrite /usr/share/vala/vapi
+
+		rm -f /usr/include/libhandy-*/handy.h
+		rm -f /usr/include/libhandy-*/hdy-*.h
+		rm -f /usr/lib*/girepository-1.0/Handy-*typelib
+		rm -f /usr/lib*/libhandy-*.so
+		rm -f /usr/lib*/libhandy-*.so.0
+		rm -f /usr/lib*/pkgconfig/libhandy-*.pc
+		rm -f /usr/share/gir-1.0/Handy-0.0.gir
+		rm -f /usr/share/vala/vapi/libhandy-*.deps
+		rm -f /usr/share/vala/vapi/libhandy-*.vapi
+	fi
 }

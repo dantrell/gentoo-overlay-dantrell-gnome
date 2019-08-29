@@ -26,8 +26,8 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.12
-	>=dev-util/intltool-0.35.0
 	dev-libs/gobject-introspection-common
+	>=sys-devel/gettext-0.19.4
 	virtual/pkgconfig
 "
 

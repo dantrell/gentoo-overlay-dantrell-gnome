@@ -12,14 +12,13 @@ LICENSE="LGPL-2+"
 SLOT="2"
 KEYWORDS="*"
 
-IUSE="X debug +introspection jpeg jpeg2k tiff test"
+IUSE="X debug +introspection jpeg tiff test"
 
 COMMON_DEPEND="
 	>=dev-libs/glib-2.48.0:2[${MULTILIB_USEDEP}]
 	>=media-libs/libpng-1.4:0=[${MULTILIB_USEDEP}]
 	introspection? ( >=dev-libs/gobject-introspection-0.9.3:= )
 	jpeg? ( virtual/jpeg:0=[${MULTILIB_USEDEP}] )
-	jpeg2k? ( media-libs/jasper:=[${MULTILIB_USEDEP}] )
 	tiff? ( >=media-libs/tiff-3.9.2:0=[${MULTILIB_USEDEP}] )
 	X? ( x11-libs/libX11[${MULTILIB_USEDEP}] )
 "
@@ -64,7 +63,7 @@ multilib_src_configure() {
 	gnome2_src_configure \
 		$(usex debug --enable-debug=yes "") \
 		$(use_with jpeg libjpeg) \
-		$(use_with jpeg2k libjasper) \
+		--without-libjasper \
 		$(use_with tiff libtiff) \
 		$(multilib_native_use_enable introspection) \
 		$(use_with X x11) \

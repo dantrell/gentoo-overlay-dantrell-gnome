@@ -11,7 +11,7 @@ LICENSE="LGPL-2+"
 SLOT="2"
 KEYWORDS="~*"
 
-IUSE="X debug +introspection jpeg jpeg2k tiff test"
+IUSE="X debug +introspection jpeg tiff test"
 
 RESTRICT="mirror"
 
@@ -20,7 +20,6 @@ COMMON_DEPEND="
 	>=media-libs/libpng-1.4:0=[${MULTILIB_USEDEP}]
 	introspection? ( >=dev-libs/gobject-introspection-0.9.3:= )
 	jpeg? ( virtual/jpeg:0=[${MULTILIB_USEDEP}] )
-	jpeg2k? ( media-libs/jasper:=[${MULTILIB_USEDEP}] )
 	tiff? ( >=media-libs/tiff-3.9.2:0=[${MULTILIB_USEDEP}] )
 	X? ( x11-libs/libX11[${MULTILIB_USEDEP}] )
 "
@@ -61,7 +60,7 @@ multilib_src_configure() {
 		-Dinstalled_tests=false
 		$(meson_use_multilib_native_enable introspection gir)
 		$(meson_use jpeg)
-		$(meson_use jpeg2k jasper)
+		-Djasper=false
 		$(meson_use tiff)
 		$(meson_use X x11)
 	)

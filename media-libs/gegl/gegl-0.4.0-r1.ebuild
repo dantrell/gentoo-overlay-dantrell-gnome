@@ -16,7 +16,7 @@ LICENSE="|| ( GPL-3 LGPL-3 )"
 SLOT="0.4"
 KEYWORDS="~*"
 
-IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection jpeg2k lcms lensfun openexr raw sdl svg test tiff umfpack vala v4l webp"
+IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection lcms lensfun openexr raw sdl svg test tiff umfpack vala v4l webp"
 REQUIRED_USE="
 	svg? ( cairo )
 	vala? ( introspection )
@@ -39,7 +39,6 @@ RDEPEND="
 	)
 	introspection? ( >=dev-libs/gobject-introspection-1.32:= )
 	virtual/jpeg:0=
-	jpeg2k? ( >=media-libs/jasper-1.900.1:= )
 	lcms? ( >=media-libs/lcms-2.8:2 )
 	lensfun? ( >=media-libs/lensfun-0.2.5 )
 	openexr? ( >=media-libs/openexr-1.6.1:= )
@@ -153,7 +152,7 @@ src_configure() {
 		$(use_with ffmpeg libavformat) \
 		$(_use_with_both ffmpeg test gexiv2) \
 		--without-graphviz \
-		$(use_with jpeg2k jasper) \
+		--without-jasper \
 		$(use_with lcms) \
 		$(use_with lensfun) \
 		--without-lua \
