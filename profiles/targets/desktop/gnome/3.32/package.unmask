@@ -162,7 +162,7 @@
 ~net-libs/libsoup-gnome-2.66.0::dantrell-gnome-3-32
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome
-~net-libs/webkit-gtk-2.24.3::dantrell-gnome
+~net-libs/webkit-gtk-2.24.4::dantrell-gnome
 ~net-misc/gnome-online-miners-3.30.0::dantrell-gnome
 ~net-misc/rygel-0.38.1::dantrell-gnome-3-32
 ~net-misc/vino-3.22.0::dantrell-gnome
