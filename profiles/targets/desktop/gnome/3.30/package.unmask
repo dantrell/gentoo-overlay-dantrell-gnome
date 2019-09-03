@@ -39,7 +39,7 @@
 ~dev-libs/libdazzle-3.30.2::dantrell-gnome-3-30
 ~dev-libs/libgdata-0.17.9::dantrell-gnome
 ~dev-libs/libgee-0.20.2::dantrell-gnome
-~dev-libs/libgnome-games-support-1.4.3::dantrell-gnome
+~dev-libs/libgnome-games-support-1.4.4::dantrell-gnome
 ~dev-libs/libgweather-3.28.3::dantrell-gnome
 ~dev-libs/libical-3.0.5::dantrell-gnome
 ~dev-libs/libpeas-1.22.0::dantrell-gnome
@@ -89,7 +89,7 @@
 ~gnome-base/gvfs-1.38.3::dantrell-gnome-3-30
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
 ~gnome-base/libgtop-2.38.0::dantrell-gnome
-~gnome-base/librsvg-2.44.14::dantrell-gnome
+~gnome-base/librsvg-2.44.15::dantrell-gnome
 ~gnome-base/nautilus-3.30.5::dantrell-gnome-3-30
 ~gnome-extra/evolution-data-server-3.30.5::dantrell-gnome-3-30
 ~gnome-extra/evolution-ews-3.30.5::dantrell-gnome-3-30

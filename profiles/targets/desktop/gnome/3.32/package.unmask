@@ -32,7 +32,7 @@
 ~dev-libs/appstream-glib-0.7.15::dantrell-gnome
 ~dev-libs/atk-2.32.0::dantrell-gnome-3-32
 ~dev-libs/gjs-1.56.2::dantrell-gnome-3-32
-~dev-libs/glib-2.60.6::dantrell-gnome
+~dev-libs/glib-2.60.7::dantrell-gnome
 ~dev-libs/gmime-3.2.3::dantrell-gnome
 ~dev-libs/gobject-introspection-1.60.2::dantrell-gnome-3-32
 ~dev-libs/gobject-introspection-common-1.60.2::dantrell-gnome-3-32
@@ -43,7 +43,7 @@
 ~dev-libs/libdazzle-3.32.3::dantrell-gnome-3-32
 ~dev-libs/libgdata-0.17.9::dantrell-gnome
 ~dev-libs/libgee-0.20.2::dantrell-gnome
-~dev-libs/libgnome-games-support-1.4.3::dantrell-gnome
+~dev-libs/libgnome-games-support-1.4.4::dantrell-gnome
 ~dev-libs/libgweather-3.32.2::dantrell-gnome-3-32
 ~dev-libs/libical-3.0.5::dantrell-gnome
 ~dev-libs/libpeas-1.22.0::dantrell-gnome
@@ -53,7 +53,7 @@
 ~dev-python/pyatspi-2.32.1::dantrell-gnome-3-32
 ~dev-python/pygobject-3.32.2::dantrell-gnome-3-32
 ~dev-util/devhelp-3.32.0::dantrell-gnome-3-32
-~dev-util/gdbus-codegen-2.60.6::dantrell-gnome
+~dev-util/gdbus-codegen-2.60.7::dantrell-gnome
 ~dev-util/gnome-builder-3.32.4::dantrell-gnome-3-32
 ~dev-util/gnome-devel-docs-3.32.1::dantrell-gnome-3-32
 ~dev-util/sysprof-3.32.0::dantrell-gnome-3-32
