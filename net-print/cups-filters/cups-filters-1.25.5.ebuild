@@ -43,10 +43,6 @@ DEPEND="${RDEPEND}
 	test? ( media-fonts/dejavu )
 "
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-1.25.4-missing_cstring.patch #693498
-)
-
 src_prepare() {
 	default
 
