@@ -20,7 +20,7 @@
 ~app-misc/tracker-miners-2.2.2::dantrell-gnome-3-32
 ~app-text/enchant-2.2.3::dantrell-gnome
 ~app-text/evince-3.32.0::dantrell-gnome-3-32
-~app-text/gspell-1.8.1::dantrell-gnome
+~app-text/gspell-1.8.2::dantrell-gnome
 ~app-text/libgepub-0.6.0::dantrell-gnome
 ~app-text/libgxps-0.3.1::dantrell-gnome
 ~app-text/yelp-tools-3.32.2::dantrell-gnome-3-32
