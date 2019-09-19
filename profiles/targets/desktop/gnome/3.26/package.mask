@@ -1,5 +1,5 @@
-# Masked to test on GNOME 3.34 first
->=net-libs/webkit-gtk-2.26.0
+# Masked to test on GNOME 3.36 first
+>=net-libs/webkit-gtk-2.28.0
 
 # Requires GLib 2.58 (or greater)
 >=dev-java/icedtea-bin-3.12.0

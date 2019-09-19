@@ -20,6 +20,7 @@ app-dicts/gnome-dictionary::gentoo
 app-editors/gedit-plugins::gentoo
 app-editors/gedit::gentoo
 app-editors/ghex::gentoo
+app-editors/gnome-latex::gentoo
 app-emulation/libvirt-glib::gentoo
 app-emulation/spice-protocol::gentoo
 app-emulation/spice::gentoo
@@ -34,6 +35,7 @@ app-misc/iio-sensor-proxy::gentoo
 app-misc/tracker-miners::gentoo
 app-misc/tracker::gentoo
 app-text/enchant::gentoo
+app-text/evince::gentoo
 app-text/gnome-doc-utils::gentoo
 app-text/gspell::gentoo
 app-text/gtkspell::gentoo
@@ -136,10 +138,16 @@ gnome-base/libgtop::gentoo
 gnome-base/librsvg::gentoo
 gnome-extra/california::gentoo
 gnome-extra/docky::gentoo
+gnome-extra/gnome-characters::gentoo
+gnome-extra/gnome-color-manager::gentoo
 gnome-extra/gnome-contacts::gentoo
 gnome-extra/gnome-dvb-daemon::gentoo
+gnome-extra/gnome-multi-writer::gentoo
+gnome-extra/gnome-packagekit::gentoo
 gnome-extra/gnome-power-manager::gentoo
 gnome-extra/gnome-recipes::gentoo
+gnome-extra/gnome-shell-frippery::gentoo
+gnome-extra/gnome-system-monitor::gentoo
 gnome-extra/gnome-todo::gentoo
 gnome-extra/gnome-user-share::gentoo
 gnome-extra/gnome-weather::gentoo

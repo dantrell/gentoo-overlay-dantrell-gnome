@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome.org gnome2-utils meson udev user xdg
+inherit gnome.org gnome2-utils meson udev xdg
 
 DESCRIPTION="Bluetooth graphical utilities integrated with GNOME"
 HOMEPAGE="https://wiki.gnome.org/Projects/GnomeBluetooth"
@@ -22,6 +22,7 @@ COMMON_DEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-0.9.5:= )
 "
 RDEPEND="${COMMON_DEPEND}
+	acct-group/plugdev
 	virtual/udev
 	>=net-wireless/bluez-5
 "
@@ -32,10 +33,6 @@ DEPEND="${COMMON_DEPEND}
 	gtk-doc? ( >=dev-util/gtk-doc-1.9 )
 	virtual/pkgconfig
 "
-
-pkg_setup() {
-	enewgroup plugdev
-}
 
 src_configure() {
 	local emesonargs=(

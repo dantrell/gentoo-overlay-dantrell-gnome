@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome2 udev user
+inherit gnome2 udev
 
 DESCRIPTION="Bluetooth graphical utilities integrated with GNOME"
 HOMEPAGE="https://wiki.gnome.org/Projects/GnomeBluetooth"
@@ -22,6 +22,7 @@ COMMON_DEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-0.9.5:= )
 "
 RDEPEND="${COMMON_DEPEND}
+	acct-group/plugdev
 	>=net-wireless/bluez-5
 "
 DEPEND="${COMMON_DEPEND}
@@ -37,10 +38,6 @@ DEPEND="${COMMON_DEPEND}
 "
 # eautoreconf needs:
 #	gnome-base/gnome-common
-
-pkg_setup() {
-	enewgroup plugdev
-}
 
 src_prepare() {
 	# Regenerate gdbus-codegen files to allow using any glib version; bug #436236

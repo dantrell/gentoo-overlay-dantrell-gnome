@@ -20,7 +20,7 @@ IUSE="doc qt5 test"
 
 RDEPEND="
 	>=dev-libs/glib-2.36:2
-	dev-libs/gobject-introspection
+	dev-libs/gobject-introspection:=
 	dev-libs/libxml2:2
 	dev-libs/libyaml
 	dev-libs/xapian

@@ -1,0 +1,184 @@
+diff '--exclude=.git' -urN a/nautilus/nautilus-fileroller.c b/nautilus/nautilus-fileroller.c
+--- a/nautilus/nautilus-fileroller.c	2019-04-08 13:38:48.000000000 -0500
++++ b/nautilus/nautilus-fileroller.c	2019-04-12 02:52:05.300271000 -0500
+@@ -25,8 +25,9 @@
+ #include <string.h>
+ #include <glib/gi18n.h>
+ #include <gio/gio.h>
+-#include <nautilus-extension.h>
+-#include <locale.h>
++#include <libnautilus-extension/nautilus-extension-types.h>
++#include <libnautilus-extension/nautilus-file-info.h>
++#include <libnautilus-extension/nautilus-menu-provider.h>
+ #include "nautilus-fileroller.h"
+ 
+ 
+@@ -103,29 +104,79 @@
+ 	g_string_free (cmd, TRUE);
+ }
+ 
+-/** mime-types which aren't supported by nautilus itself */
++
++static void
++add_callback (NautilusMenuItem *item,
++	      gpointer          user_data)
++{
++	GList            *files, *scan;
++	NautilusFileInfo *file;
++	char             *uri, *dir;
++	GString          *cmd;
++
++	files = g_object_get_data (G_OBJECT (item), "files");
++	file = files->data;
++
++	uri = nautilus_file_info_get_uri (file);
++	dir = g_path_get_dirname (uri);
++
++	cmd = g_string_new ("file-roller");
++	g_string_append (cmd, " --notify");
++	g_string_append_printf (cmd," --default-dir=%s", g_shell_quote (dir));
++	g_string_append (cmd," --add");
++
++	g_free (dir);
++	g_free (uri);
++
++	for (scan = files; scan; scan = scan->next) {
++		NautilusFileInfo *file = scan->data;
++
++		uri = nautilus_file_info_get_uri (file);
++		g_string_append_printf (cmd, " %s", g_shell_quote (uri));
++		g_free (uri);
++	}
++
++	g_spawn_command_line_async (cmd->str, NULL);
++
++	g_string_free (cmd, TRUE);
++}
++
++
+ static struct {
+ 	char     *mime_type;
+ 	gboolean  is_compressed;
+ } archive_mime_types[] = {
++		{ "application/x-7z-compressed", TRUE },
++		{ "application/x-7z-compressed-tar", TRUE },
+ 		{ "application/x-ace", TRUE },
+ 		{ "application/x-alz", TRUE },
+ 		{ "application/x-ar", TRUE },
+ 		{ "application/x-arj", TRUE },
+-		{ "application/x-brotli", TRUE },
+-		{ "application/x-brotli-compressed-tar", TRUE },
++		{ "application/x-bzip", TRUE },
++		{ "application/x-bzip-compressed-tar", TRUE },
++		{ "application/x-bzip1", TRUE },
++		{ "application/x-bzip1-compressed-tar", TRUE },
+ 		{ "application/vnd.ms-cab-compressed", TRUE },
+ 		{ "application/x-cbr", TRUE },
+ 		{ "application/x-cbz", TRUE },
+ 		{ "application/x-cd-image", FALSE },
++		{ "application/x-compress", TRUE },
++		{ "application/x-compressed-tar", TRUE },
++		{ "application/x-cpio", TRUE },
+ 		{ "application/x-deb", TRUE },
+ 		{ "application/vnd.debian.binary-package", TRUE },
+ 		{ "application/x-ear", TRUE },
+ 		{ "application/x-ms-dos-executable", FALSE },
+ 		{ "application/x-gtar", FALSE },
++		{ "application/x-gzip", TRUE },
+ 		{ "application/x-gzpostscript", TRUE },
+ 		{ "application/x-java-archive", TRUE },
++		{ "application/x-lha", TRUE },
+ 		{ "application/x-lhz", TRUE },
++		{ "application/x-lzip", TRUE },
++		{ "application/x-lzip-compressed-tar", TRUE },
++		{ "application/x-lzma", TRUE },
++		{ "application/x-lzma-compressed-tar", TRUE },
+ 		{ "application/x-lzop", TRUE },
+ 		{ "application/x-lzop-compressed-tar", TRUE },
+ 		{ "application/x-ms-wim", TRUE },
+@@ -133,9 +184,16 @@
+ 		{ "application/x-rar-compressed", TRUE },
+ 		{ "application/x-rpm", TRUE },
+ 		{ "application/x-rzip", TRUE },
++		{ "application/x-tar", FALSE },
++		{ "application/x-tarz", TRUE },
+ 		{ "application/x-stuffit", TRUE },
+ 		{ "application/x-war", TRUE },
++		{ "application/x-xz", TRUE },
++		{ "application/x-xz-compressed-tar", TRUE },
++		{ "application/x-zip", TRUE },
++		{ "application/x-zip-compressed", TRUE },
+ 		{ "application/x-zoo", TRUE },
++		{ "application/zip", TRUE },
+ 		{ "multipart/x-zip", TRUE },
+ 		{ NULL, FALSE }
+ };
+@@ -219,6 +277,10 @@
+ 	GList    *items = NULL;
+ 	GList    *scan;
+ 	gboolean  can_write = TRUE;
++	gboolean  one_item;
++	gboolean  one_archive = FALSE;
++	gboolean  one_derived_archive = FALSE;
++	gboolean  one_compressed_archive = FALSE;
+ 	gboolean  all_archives = TRUE;
+ 	gboolean  all_archives_derived = TRUE;
+ 	gboolean  all_archives_compressed = TRUE;
+@@ -255,13 +317,18 @@
+ 
+ 	/**/
+ 
++	one_item = (files != NULL) && (files->next == NULL);
++	one_archive = one_item && all_archives;
++	one_derived_archive = one_archive && all_archives_derived;
++	one_compressed_archive = one_archive && all_archives_compressed;
++
+ 	if (all_archives && can_write) {
+ 		NautilusMenuItem *item;
+ 
+ 		item = nautilus_menu_item_new ("NautilusFr::extract_here",
+-					       g_dcgettext ("file-roller", "Extract Here", LC_MESSAGES),
++					       g_dgettext ("file-roller", "Extract Here"),
+ 					       /* Translators: the current position is the current folder */
+-					       g_dcgettext ("file-roller", "Extract the selected archive to the current position", LC_MESSAGES),
++					       g_dgettext ("file-roller", "Extract the selected archive to the current position"),
+ 					       "drive-harddisk");
+ 		g_signal_connect (item,
+ 				  "activate",
+@@ -278,8 +345,8 @@
+ 		NautilusMenuItem *item;
+ 
+ 		item = nautilus_menu_item_new ("NautilusFr::extract_to",
+-					       g_dcgettext ("file-roller", "Extract To…", LC_MESSAGES),
+-					       g_dcgettext ("file-roller", "Extract the selected archive", LC_MESSAGES),
++					       g_dgettext ("file-roller", "Extract To..."),
++					       g_dgettext ("file-roller", "Extract the selected archive"),
+ 					       "drive-harddisk");
+ 		g_signal_connect (item,
+ 				  "activate",
+@@ -294,6 +361,25 @@
+ 
+ 	}
+ 
++	if (! one_compressed_archive || one_derived_archive) {
++		NautilusMenuItem *item;
++
++		item = nautilus_menu_item_new ("NautilusFr::add",
++					       g_dgettext ("file-roller", "Compress..."),
++					       g_dgettext ("file-roller", "Create a compressed archive with the selected objects"),
++					       "gnome-mime-application-x-archive");
++		g_signal_connect (item,
++				  "activate",
++				  G_CALLBACK (add_callback),
++				  provider);
++		g_object_set_data_full (G_OBJECT (item),
++					"files",
++					nautilus_file_info_list_copy (files),
++					(GDestroyNotify) nautilus_file_info_list_free);
++
++		items = g_list_append (items, item);
++	}
++
+ 	return items;
+ }
+ 

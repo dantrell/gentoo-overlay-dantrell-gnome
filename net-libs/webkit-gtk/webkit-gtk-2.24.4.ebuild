@@ -2,8 +2,8 @@
 
 EAPI="6"
 CMAKE_MAKEFILE_GENERATOR="ninja"
-PYTHON_COMPAT=( python{3_4,3_5,3_6,3_7} )
-USE_RUBY="ruby23 ruby24 ruby25 ruby26"
+PYTHON_COMPAT=( python{3_5,3_6,3_7} )
+USE_RUBY="ruby24 ruby25 ruby26"
 
 inherit check-reqs cmake-utils flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs virtualx
 

@@ -2,7 +2,7 @@
 
 EAPI="7"
 
-PYTHON_COMPAT=( python{3_4,3_5,3_6,3_7} )
+PYTHON_COMPAT=( python{3_5,3_6,3_7} )
 
 inherit cmake-utils python-any-r1
 

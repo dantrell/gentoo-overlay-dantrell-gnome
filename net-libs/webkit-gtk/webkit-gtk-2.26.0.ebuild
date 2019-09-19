@@ -2,8 +2,8 @@
 
 EAPI="6"
 CMAKE_MAKEFILE_GENERATOR="ninja"
-PYTHON_COMPAT=( python{3_4,3_5,3_6,3_7} )
-USE_RUBY="ruby23 ruby24 ruby25 ruby26"
+PYTHON_COMPAT=( python{3_5,3_6,3_7} )
+USE_RUBY="ruby24 ruby25 ruby26"
 
 inherit check-reqs cmake-utils flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs virtualx
 
@@ -14,7 +14,7 @@ SRC_URI="https://www.webkitgtk.org/releases/${MY_P}.tar.xz"
 
 LICENSE="LGPL-2+ BSD"
 SLOT="4/37" # soname version of libwebkit2gtk-4.0
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="aqua coverage doc +egl +geolocation gles2 gnome-keyring +gstreamer +introspection +jit jpeg2k +jumbo-build libnotify nsplugin +opengl spell wayland +webgl +X"
 # webgl needs gstreamer, bug #560612
@@ -255,6 +255,7 @@ src_configure() {
 		-DENABLE_C_LOOP=${loop_c_enabled}
 		-DCMAKE_BUILD_TYPE=Release
 		-DPORT=GTK
+		-DENABLE_MEDIA_SOURCE=OFF
 		${ruby_interpreter}
 	)
 

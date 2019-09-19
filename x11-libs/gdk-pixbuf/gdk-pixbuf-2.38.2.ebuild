@@ -9,7 +9,7 @@ HOMEPAGE="https://gitlab.gnome.org/GNOME/gdk-pixbuf"
 
 LICENSE="LGPL-2+"
 SLOT="2"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="X debug +introspection jpeg tiff test"
 
