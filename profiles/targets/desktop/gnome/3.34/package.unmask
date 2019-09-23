@@ -24,9 +24,12 @@
 ~app-text/yelp-tools-3.32.2::dantrell-gnome
 ~dev-cpp/cairomm-1.12.2::dantrell-gnome
 ~dev-cpp/mm-common-0.9.12::dantrell-gnome
+~dev-lang/vala-0.46.1::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.15::dantrell-gnome
 ~dev-libs/atk-2.34.1::dantrell-gnome-3-34
+~dev-libs/folks-0.13.1::dantrell-gnome
 ~dev-libs/gjs-1.58.0::dantrell-gnome-3-34
+~dev-libs/glib-2.62.0::dantrell-gnome
 ~dev-libs/gmime-3.2.3::dantrell-gnome
 ~dev-libs/gobject-introspection-1.62.0::dantrell-gnome-3-34
 ~dev-libs/gobject-introspection-common-1.62.0::dantrell-gnome-3-34
@@ -39,12 +42,14 @@
 ~dev-libs/libgee-0.20.2::dantrell-gnome
 ~dev-libs/libgnome-games-support-1.4.4::dantrell-gnome
 ~dev-libs/libgweather-3.33.92::dantrell-gnome-3-34
-~dev-libs/libical-3.0.5::dantrell-gnome
+~dev-libs/libical-3.0.6::dantrell-gnome
 ~dev-libs/template-glib-3.34.0::dantrell-gnome-3-34
 ~dev-libs/totem-pl-parser-3.26.3::dantrell-gnome
+~dev-libs/vala-common-0.46.1::dantrell-gnome
 ~dev-python/pyatspi-2.34.0::dantrell-gnome-3-34
 ~dev-python/pygobject-3.34.0::dantrell-gnome-3-34
 ~dev-util/devhelp-3.34.0::dantrell-gnome-3-34
+~dev-util/gdbus-codegen-2.62.0::dantrell-gnome
 ~dev-util/gnome-builder-3.34.0::dantrell-gnome-3-34
 ~dev-util/gnome-devel-docs-3.32.1::dantrell-gnome
 ~dev-util/sysprof-3.34.0::dantrell-gnome-3-34
@@ -68,6 +73,7 @@
 ~games-puzzle/lightsoff-3.34.0::dantrell-gnome-3-34
 ~games-puzzle/quadrapassel-3.33.91::dantrell-gnome-3-34
 ~games-puzzle/swell-foop-3.34.0::dantrell-gnome-3-34
+~gnome-base/dconf-0.34.0::dantrell-gnome
 ~gnome-base/dconf-editor-3.34.1::dantrell-gnome-3-34
 ~gnome-base/gdm-3.34.0::dantrell-gnome-3-34
 ~gnome-base/gnome-3.34.0::dantrell-gnome-3-34
@@ -100,6 +106,7 @@
 ~gnome-extra/gnome-getting-started-docs-3.34.0::dantrell-gnome-3-34
 ~gnome-extra/gnome-multi-writer-3.32.1::dantrell-gnome
 ~gnome-extra/gnome-packagekit-3.32.0::dantrell-gnome
+~gnome-extra/gnome-power-manager-3.32.0::dantrell-gnome
 ~gnome-extra/gnome-recipes-2.0.2::dantrell-gnome
 ~gnome-extra/gnome-shell-extensions-3.34.0::dantrell-gnome-3-34
 ~gnome-extra/gnome-shell-frippery-3.32.1::dantrell-gnome

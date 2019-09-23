@@ -9,17 +9,17 @@ inherit cmake-utils git-r3 gnome2-utils vala xdg-utils
 DESCRIPTION="Modern Jabber/XMPP Client using GTK+/Vala"
 HOMEPAGE="https://dino.im"
 EGIT_REPO_URI="https://github.com/dino/dino"
-EGIT_COMMIT="34f9677c4e5384c9b823ce76c3dbeb143a3ff625"
+EGIT_COMMIT="f746ce74ce6e905483d86b603df01b81acbca7b4"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="+gpg +http +omemo"
 
 RDEPEND="
 	dev-db/sqlite:3
-	dev-libs/glib:2
+	>=dev-libs/glib-2.38:2
 	dev-libs/icu
 	dev-libs/libgee:0.8
 	net-libs/glib-networking

@@ -49,7 +49,7 @@ src_prepare() {
 	sed -i -e "s:'grilo':'grilo-${SLOT%/*}':" doc/grilo/meson.build || die
 
 	# Drop explicit unversioned vapigen check
-	sed -i -e "/vapigen.*=.*find_program/d" meson.build || die
+	sed -i -e "/.*find_program..vapigen/d" meson.build || die
 
 	# Don't build examples; they get embedded in gtk-doc, thus we don't install the sources with USE=examples either
 	sed -i -e "/subdir('examples')/d" meson.build || die

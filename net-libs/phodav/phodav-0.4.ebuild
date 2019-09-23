@@ -14,13 +14,13 @@ LICENSE="LGPL-2.1+"
 SLOT="1.0"
 KEYWORDS="*"
 
-IUSE="avahi spice systemd"
+IUSE="spice systemd zeroconf"
 
 RDEPEND="
 	dev-libs/glib:2
 	net-libs/libsoup:2.4
 	dev-libs/libxml2
-	avahi? ( net-dns/avahi )"
+	zeroconf? ( net-dns/avahi[dbus] )"
 DEPEND="${RDEPEND}
 	>=dev-util/intltool-0.40.0
 	>=dev-util/gtk-doc-am-1.10
@@ -30,11 +30,11 @@ DEPEND="${RDEPEND}
 src_configure() {
 	gnome2_src_configure \
 		--disable-static \
-		$(use_with avahi) \
+		$(use_with zeroconf avahi) \
 		--with-udevdir=$(get_udevdir) \
 		--with-systemdsystemunitdir=$(systemd_get_unitdir)
 
-	if ! use avahi ; then
+	if ! use zeroconf ; then
 		sed -i -e 's|avahi-daemon.service||' data/spice-webdavd.service || die
 	fi
 }

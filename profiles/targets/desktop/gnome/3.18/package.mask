@@ -1,6 +1,9 @@
 # Masked to test on GNOME 3.34 first
 >=net-libs/webkit-gtk-2.26.0
 
+# Requires GLib 2.59 (or greater)
+>=x11-libs/pango-1.44.0
+
 # Requires GLib 2.58 (or greater)
 >=dev-java/icedtea-bin-3.12.0
 
@@ -22,12 +25,16 @@
 >=dev-libs/granite-5.2.5
 >=dev-util/lxqt-build-tools-0.4.0
 >=dev-util/meld-3.18.0
+>=sys-apps/bolt-0.4
 >=sys-apps/dbus-broker-4
 >=sys-fs/udisks-2.7.6
 >=x11-wm/page-1.9.9
 >=xfce-extra/xfce4-screensaver-0.1.0
 
 # Requires GLib 2.48 (or greater)
+>=dev-lang/vala-0.46.0
+>=dev-libs/vala-common-0.46.0
+>=dev-util/valadoc-0.46.0
 >=games-mud/gnome-mud-9999
 >=gnome-base/librsvg-2.42.0
 >=media-plugins/gst-plugins-libnice-0.1.15

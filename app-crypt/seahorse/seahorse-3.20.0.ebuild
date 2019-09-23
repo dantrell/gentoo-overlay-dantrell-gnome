@@ -26,7 +26,7 @@ COMMON_DEPEND="
 	x11-misc/shared-mime-info
 
 	ldap? ( net-nds/openldap:= )
-	zeroconf? ( >=net-dns/avahi-0.6:= )
+	zeroconf? ( >=net-dns/avahi-0.6:=[dbus] )
 "
 DEPEND="${COMMON_DEPEND}
 	app-text/yelp-tools

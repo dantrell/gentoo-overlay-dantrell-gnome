@@ -11,11 +11,11 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Shotwell"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="opencv udev"
 
-COMMON_DEPEND="
+DEPEND="
 	>=x11-libs/gtk+-3.22.0:3
 	>=dev-libs/glib-2.40.0:2
 	>=dev-libs/libgee-0.8.5:0.8
@@ -31,16 +31,16 @@ COMMON_DEPEND="
 	>=media-libs/gexiv2-0.10.4
 	>=media-libs/libraw-0.13.2:=
 	>=media-libs/libexif-0.6.16:=
-	dev-libs/libgdata:=
+	dev-libs/libgdata
 	>=app-crypt/gcr-3:=[gtk]
 	x11-libs/cairo
 	opencv? ( >=media-libs/opencv-2.3.0:= )
 "
-RDEPEND="${COMMON_DEPEND}
+RDEPEND="${DEPEND}
 	media-plugins/gst-plugins-gdkpixbuf:1.0
 	media-plugins/gst-plugins-meta:1.0
 "
-DEPEND="${COMMON_DEPEND}
+BDEPEND="
 	$(vala_depend)
 	dev-libs/appstream-glib
 	dev-util/itstool

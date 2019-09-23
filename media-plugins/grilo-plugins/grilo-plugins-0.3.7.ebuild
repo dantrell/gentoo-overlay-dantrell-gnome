@@ -31,7 +31,7 @@ RDEPEND="
 	daap? ( >=net-libs/libdmapsharing-2.9.12:3.0 )
 	dvd? ( >=dev-libs/totem-pl-parser-3.4.1 )
 	flickr? ( net-libs/liboauth )
-	freebox? ( net-dns/avahi )
+	freebox? ( net-dns/avahi[dbus] )
 	gnome-online-accounts? ( >=net-libs/gnome-online-accounts-3.17.91:= )
 	lua? (
 		>=dev-lang/lua-5.3

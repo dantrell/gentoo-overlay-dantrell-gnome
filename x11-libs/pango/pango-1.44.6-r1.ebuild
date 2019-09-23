@@ -16,7 +16,7 @@ IUSE="X gtk-doc +introspection test"
 
 RDEPEND="
 	>=media-libs/harfbuzz-1.4.2:=[glib(+),truetype(+),${MULTILIB_USEDEP}]
-	>=dev-libs/glib-2.59.2:2[${MULTILIB_USEDEP}]
+	>=dev-libs/glib-2.34.3:2[${MULTILIB_USEDEP}]
 	>=media-libs/fontconfig-2.11.91:1.0=[${MULTILIB_USEDEP}]
 	>=media-libs/freetype-2.5.0.1:2=[${MULTILIB_USEDEP}]
 	>=x11-libs/cairo-1.12.14-r4:=[X?,${MULTILIB_USEDEP}]
@@ -35,6 +35,13 @@ DEPEND="${RDEPEND}
 	X? ( x11-base/xorg-proto )
 	!<=sys-devel/autoconf-2.63:2.5
 "
+
+src_prepare() {
+	sed -i -e "s@2\.59\.2@2\.38\.0@" meson.build || die
+
+	gnome2_src_prepare
+}
+
 multilib_src_configure() {
 	tc-export CXX
 

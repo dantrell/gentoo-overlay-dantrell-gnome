@@ -83,9 +83,6 @@ pkg_setup() {
 }
 
 src_prepare() {
-	# Fix compilation with -Werror=format-security (from 'master')
-	eapply "${FILESDIR}"/${PN}-5.2.4-format-security.patch
-
 	use berkdb && append-cppflags "-I$(db_includedir)"
 
 	use reports ||

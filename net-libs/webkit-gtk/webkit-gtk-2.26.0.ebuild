@@ -256,6 +256,7 @@ src_configure() {
 		-DCMAKE_BUILD_TYPE=Release
 		-DPORT=GTK
 		-DENABLE_MEDIA_SOURCE=OFF
+		-DUSE_WPE_RENDERER=OFF
 		${ruby_interpreter}
 	)
 

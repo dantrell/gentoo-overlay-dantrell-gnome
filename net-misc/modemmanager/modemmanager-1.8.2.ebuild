@@ -53,13 +53,16 @@ src_prepare() {
 			add your user account to the 'plugdev' group."
 	fi
 
-	# From ModemManager:
-	# 	https://cgit.freedesktop.org/ModemManager/ModemManager/commit/?id=1f13909d9b59176afd9cec32cfbd623b44ec8d80
-	# 	https://cgit.freedesktop.org/ModemManager/ModemManager/commit/?id=ae2988da933f39d8983c94aaeef3c1b6f98f3e4e
-	# 	https://cgit.freedesktop.org/ModemManager/ModemManager/commit/?id=6197a06931ffd197b4f66b92c4d729b5911e0e36
-	eapply "${FILESDIR}"/${PN}-1.8.2-restore-deprecated-code.patch
+	if ! use systemd; then
+		# From ModemManager:
+		# 	https://cgit.freedesktop.org/ModemManager/ModemManager/commit/?id=1f13909d9b59176afd9cec32cfbd623b44ec8d80
+		# 	https://cgit.freedesktop.org/ModemManager/ModemManager/commit/?id=ae2988da933f39d8983c94aaeef3c1b6f98f3e4e
+		# 	https://cgit.freedesktop.org/ModemManager/ModemManager/commit/?id=6197a06931ffd197b4f66b92c4d729b5911e0e36
+		eapply "${FILESDIR}"/${PN}-1.8.2-restore-deprecated-code.patch
 
-	eautoreconf
+		eautoreconf
+	fi
+
 	use vala && vala_src_prepare
 	gnome2_src_prepare
 }

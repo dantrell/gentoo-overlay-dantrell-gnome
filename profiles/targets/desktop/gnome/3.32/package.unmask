@@ -26,11 +26,12 @@
 ~app-text/yelp-tools-3.32.2::dantrell-gnome
 ~dev-cpp/atkmm-2.28.0::dantrell-gnome
 ~dev-cpp/cairomm-1.12.2::dantrell-gnome
-~dev-cpp/glibmm-2.60.0::dantrell-gnome
+~dev-cpp/glibmm-2.60.1::dantrell-gnome
 ~dev-cpp/mm-common-0.9.12::dantrell-gnome
-~dev-lang/vala-0.44.7::dantrell-gnome
+~dev-lang/vala-0.44.8::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.15::dantrell-gnome
 ~dev-libs/atk-2.32.0::dantrell-gnome-3-32
+~dev-libs/folks-0.12.1::dantrell-gnome
 ~dev-libs/gjs-1.56.2::dantrell-gnome-3-32
 ~dev-libs/glib-2.60.7::dantrell-gnome
 ~dev-libs/gmime-3.2.3::dantrell-gnome
@@ -45,11 +46,11 @@
 ~dev-libs/libgee-0.20.2::dantrell-gnome
 ~dev-libs/libgnome-games-support-1.4.4::dantrell-gnome
 ~dev-libs/libgweather-3.32.2::dantrell-gnome-3-32
-~dev-libs/libical-3.0.5::dantrell-gnome
+~dev-libs/libical-3.0.6::dantrell-gnome
 ~dev-libs/libpeas-1.22.0::dantrell-gnome
 ~dev-libs/template-glib-3.32.0::dantrell-gnome-3-32
 ~dev-libs/totem-pl-parser-3.26.3::dantrell-gnome
-~dev-libs/vala-common-0.44.7::dantrell-gnome
+~dev-libs/vala-common-0.44.8::dantrell-gnome
 ~dev-python/pyatspi-2.32.1::dantrell-gnome-3-32
 ~dev-python/pygobject-3.32.2::dantrell-gnome-3-32
 ~dev-util/devhelp-3.32.0::dantrell-gnome-3-32
@@ -111,6 +112,7 @@
 ~gnome-extra/gnome-getting-started-docs-3.32.2::dantrell-gnome-3-32
 ~gnome-extra/gnome-multi-writer-3.32.1::dantrell-gnome
 ~gnome-extra/gnome-packagekit-3.32.0::dantrell-gnome
+~gnome-extra/gnome-power-manager-3.32.0::dantrell-gnome
 ~gnome-extra/gnome-recipes-2.0.2::dantrell-gnome
 ~gnome-extra/gnome-shell-extensions-3.32.1::dantrell-gnome-3-32
 ~gnome-extra/gnome-shell-frippery-3.32.1::dantrell-gnome

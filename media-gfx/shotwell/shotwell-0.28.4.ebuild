@@ -13,7 +13,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Shotwell"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 

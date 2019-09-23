@@ -20,10 +20,11 @@ RDEPEND="
 	>=x11-libs/gtk+-3.22.0:3
 	>=app-crypt/gnupg-2.0.12
 	>=app-crypt/libsecret-0.16
+	dev-libs/libpwquality
 	net-misc/openssh
 	ldap? ( net-nds/openldap:= )
 	>=net-libs/libsoup-2.33.92:2.4
-	zeroconf? ( >=net-dns/avahi-0.6:= )
+	zeroconf? ( >=net-dns/avahi-0.6:=[dbus] )
 "
 DEPEND="${RDEPEND}
 	$(vala_depend)
@@ -46,7 +47,7 @@ src_configure() {
 	local emesonargs=(
 		-Dhelp=true
 		-Dpgp-support=true
-		#-Dcheck-compatible-gpg=false # TODO: https://gitlab.gnome.org/GNOME/seahorse/issues/217 # assuming gpg 2.3 and newer will be fine for us too; keep lowest version listed as compatible as min dep for gnupg RDEPEND
+		-Dcheck-compatible-gpg=false # keep lowest version listed as compatible as min dep for gnupg RDEPEND
 		-Dpkcs11-support=true
 		-Dkeyservers-support=true
 		-Dhkp-support=true

@@ -1,6 +1,9 @@
 # Masked to test on GNOME 3.36 first
 >=net-libs/webkit-gtk-2.28.0
 
+# Masked to test on GNOME 3.34 first
+>=x11-libs/pango-1.44.0
+
 # Masked to freeze the state of GNOME
 >=app-accessibility/accerciser-3.31.0
 >=app-accessibility/at-spi2-atk-2.32.0
@@ -150,7 +153,7 @@
 >=media-libs/clutter-gtk-1.8.5
 >=media-libs/cogl-1.24.0
 >=media-libs/grilo-0.4.0
->=media-plugins/grilo-plugins-0.4.0
+>=media-plugins/grilo-plugins-0.3.10
 >=media-sound/gnome-music-3.32.0
 >=media-sound/gnome-sound-recorder-3.32.0
 >=media-sound/rhythmbox-3.6

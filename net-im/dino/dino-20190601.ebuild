@@ -13,7 +13,7 @@ EGIT_COMMIT="8120203d62f52315f04364e70b3ac6beefe043de"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+gpg +http +omemo"
 

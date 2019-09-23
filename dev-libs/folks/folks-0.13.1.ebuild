@@ -49,11 +49,6 @@ DEPEND="${COMMON_DEPEND}
 		bluetooth? ( dev-python/dbusmock ) )
 "
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-0.12.1-conditional-tests.patch # Allow not building lots of test executables when tests are disabled
-	"${FILESDIR}"/${PN}-0.12.1-no-tracker-tests.patch # TODO: Tracker tests fail; this removed them for now
-)
-
 src_prepare() {
 	vala_src_prepare
 	xdg_src_prepare

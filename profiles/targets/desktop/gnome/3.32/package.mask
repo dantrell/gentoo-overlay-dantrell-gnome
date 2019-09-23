@@ -1,6 +1,10 @@
+# Masked to test on GNOME 3.36 first
+>=net-libs/webkit-gtk-2.28.0
+
+# Masked to test on GNOME 3.34 first
+>=x11-libs/pango-1.44.0
 
 # Masked to freeze the state of GNOME
-# Masked to test on GNOME 3.36 first
 >=app-accessibility/accerciser-3.34.0
 >=app-accessibility/at-spi2-atk-2.34.0
 >=app-accessibility/at-spi2-core-2.34.0
@@ -29,10 +33,10 @@
 >=dev-cpp/libxmlpp-3.1.0
 >=dev-cpp/pangomm-2.44.0
 >=dev-libs/appstream-glib-0.8.0
->=dev-libs/atk-2.36.0
->=dev-libs/folks-0.14.0
+>=dev-libs/atk-2.34.0
+>=dev-libs/folks-0.12.0
 >=dev-libs/gdl-3.34.0
->=dev-libs/gjs-1.60.0
+>=dev-libs/gjs-1.58.0
 >=dev-libs/glib-2.62.0
 >=dev-libs/gobject-introspection-1.62.0
 >=dev-libs/gobject-introspection-common-1.62.0
@@ -102,7 +106,7 @@
 >=gnome-base/gnome-settings-daemon-3.34.0
 >=gnome-base/gnome-shell-3.34.0
 >=gnome-base/gsettings-desktop-schemas-3.34.0
->=gnome-base/gvfs-1.44.0
+>=gnome-base/gvfs-1.42.0
 >=gnome-base/libgtop-2.42.0
 >=gnome-base/nautilus-3.34.0
 >=gnome-extra/california-0.5.0
@@ -150,7 +154,7 @@
 >=media-libs/clutter-gtk-1.8.5
 >=media-libs/cogl-1.24.0
 >=media-libs/grilo-0.4.0
->=media-plugins/grilo-plugins-0.4.0
+>=media-plugins/grilo-plugins-0.3.10
 >=media-sound/gnome-music-3.34.0
 >=media-sound/gnome-sound-recorder-3.34.0
 >=media-sound/rhythmbox-3.6
@@ -165,7 +169,6 @@
 >=net-libs/gnome-online-accounts-3.33.0
 >=net-libs/libsoup-2.68.0
 >=net-libs/libsoup-gnome-2.68.0
->=net-libs/webkit-gtk-2.28.0
 >=net-misc/dleyna-server-0.7.0
 >=net-misc/gnome-online-miners-3.33.0
 >=net-misc/rygel-0.40.0
