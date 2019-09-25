@@ -14,9 +14,9 @@ SRC_URI="https://www.webkitgtk.org/releases/${MY_P}.tar.xz"
 
 LICENSE="LGPL-2+ BSD"
 SLOT="4/37" # soname version of libwebkit2gtk-4.0
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="aqua coverage doc +egl +geolocation gles2 gnome-keyring +gstreamer +introspection +jit jpeg2k +jumbo-build libnotify nsplugin +opengl spell wayland +webgl +X"
+IUSE="aqua coverage doc +egl embedded +geolocation gles2 gnome-keyring +gstreamer +introspection +jit jpeg2k +jumbo-build libnotify nsplugin +opengl spell wayland +webgl +X"
 # webgl needs gstreamer, bug #560612
 # gstreamer with opengl/gles2 needs egl
 REQUIRED_USE="
@@ -256,7 +256,7 @@ src_configure() {
 		-DCMAKE_BUILD_TYPE=Release
 		-DPORT=GTK
 		-DENABLE_MEDIA_SOURCE=OFF
-		-DUSE_WPE_RENDERER=OFF
+		-DUSE_WPE_RENDERER=$(usex embedded)
 		${ruby_interpreter}
 	)
 

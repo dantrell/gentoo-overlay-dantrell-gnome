@@ -154,7 +154,7 @@
 ~net-libs/libsoup-gnome-2.68.0::dantrell-gnome-3-34
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome
-~net-libs/webkit-gtk-2.26.0::dantrell-gnome
+~net-libs/webkit-gtk-2.26.1::dantrell-gnome
 ~net-misc/rygel-0.38.1::dantrell-gnome
 ~net-misc/vino-3.22.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.34.0::dantrell-gnome-3-34

@@ -12,3 +12,4 @@ net-misc/curl curl_ssl_gnutls
 net-misc/curl curl_ssl_libressl
 net-misc/curl curl_ssl_mbedtls
 net-misc/curl curl_ssl_nss
+>=net-libs/webkit-gtk-2.26.0 embedded
