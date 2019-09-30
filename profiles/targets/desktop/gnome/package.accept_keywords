@@ -7,4 +7,6 @@ media-fonts/crosextrafonts-caladea::gentoo ~*
 media-fonts/crosextrafonts-carlito::gentoo ~*
 media-gfx/scour::gentoo ~*
 media-libs/libopenraw::gentoo ~*
+sys-fs/fuse:3::gentoo -*
 virtual/libgudev::gentoo ~*
+>=net-fs/sshfs-3::gentoo -*

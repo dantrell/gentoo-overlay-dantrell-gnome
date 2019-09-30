@@ -1,0 +1,40 @@
+diff '--exclude=.git' -urN a/Makefile.am b/Makefile.am
+--- a/Makefile.am	2019-09-29 11:10:27.000000000 -0500
++++ b/Makefile.am	2019-09-30 05:03:31.597179344 -0500
+@@ -7,12 +7,6 @@
+ 	vala \
+ 	ccode \
+ 	codegen \
+-	compiler \
+-	vapi \
+-	tests \
+-	doc \
+-	gobject-introspection \
+-	vapigen \
+ 	$(NULL)
+ 
+ if ENABLE_VALADOC
+diff '--exclude=.git' -urN a/configure.ac b/configure.ac
+--- a/configure.ac	2019-09-30 02:04:06.000000000 -0500
++++ b/configure.ac	2019-09-30 05:04:49.537844345 -0500
+@@ -221,20 +221,6 @@
+            ccode/Makefile
+            vala/Makefile
+            codegen/Makefile
+-           compiler/Makefile
+-           vapi/Makefile
+-           tests/Makefile
+-           tests/fastvapi/Makefile
+-           tests/girwriter/Makefile
+-           tests/gtktemplate/Makefile
+-           doc/Makefile
+-           doc/manual/Makefile
+-           doc/manual/version.xml
+-           gobject-introspection/Makefile
+-           vapigen/vapigen.pc
+-           vapigen/Makefile
+-           vapigen/vala-gen-introspect/Makefile
+-           vapigen/vala-gen-introspect/vala-gen-introspect
+            libvaladoc/valadoc.pc
+            libvaladoc/valadoc.deps
+            libvaladoc/Makefile

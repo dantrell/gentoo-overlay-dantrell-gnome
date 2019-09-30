@@ -22,8 +22,10 @@ sys-apps/osinfo-db-tools::dantrell-gnome ~*
 sys-apps/osinfo-db::dantrell-gnome ~*
 sys-auth/elogind::dantrell-gnome ~*
 sys-auth/polkit::dantrell-gnome ~*
+sys-fs/fuse:3::gentoo ~*
 sys-libs/libosinfo::dantrell-gnome ~*
 sys-power/upower::dantrell-gnome ~*
 x11-libs/cairo::dantrell-gnome ~*
 x11-libs/libdrm::gentoo ~*
 <media-libs/mesa-19::gentoo ~*
+>=net-fs/sshfs-3::gentoo ~*
