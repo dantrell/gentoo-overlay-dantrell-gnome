@@ -32,11 +32,11 @@ S="${WORKDIR}/${PN}-fonts-${COMMIT}"
 
 FONT_SUFFIX="ttf"
 FONT_CONF=(
-	# From Gentoo
+	# From Gentoo:
 	"${FILESDIR}"/62-croscore-arimo.conf
 	"${FILESDIR}"/62-croscore-cousine.conf
 	"${FILESDIR}"/62-croscore-tinos.conf
-	# From ArchLinux
+	# From Arch:
 	"${FILESDIR}"/66-noto-serif.conf
 	"${FILESDIR}"/66-noto-mono.conf
 	"${FILESDIR}"/66-noto-sans.conf

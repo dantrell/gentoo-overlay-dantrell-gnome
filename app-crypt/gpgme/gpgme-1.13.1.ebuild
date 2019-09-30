@@ -19,7 +19,7 @@ IUSE="common-lisp static-libs cxx python qt5"
 REQUIRED_USE="qt5? ( cxx ) python? ( ${PYTHON_REQUIRED_USE} )"
 
 COMMON_DEPEND=">=app-crypt/gnupg-2
-	>=dev-libs/libassuan-2.0.2:=
+	>=dev-libs/libassuan-2.5.3:=
 	>=dev-libs/libgpg-error-1.29:=
 	python? ( ${PYTHON_DEPS} )
 	qt5? ( dev-qt/qtcore:5 )"

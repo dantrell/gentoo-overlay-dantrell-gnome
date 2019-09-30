@@ -19,7 +19,7 @@
 ~app-misc/tracker-2.2.2::dantrell-gnome-3-32
 ~app-misc/tracker-miners-2.2.2::dantrell-gnome-3-32
 ~app-text/enchant-2.2.3::dantrell-gnome
-~app-text/evince-3.32.0::dantrell-gnome
+~app-text/evince-3.32.1::dantrell-gnome-3-32
 ~app-text/gspell-1.8.2::dantrell-gnome
 ~app-text/libgepub-0.6.0::dantrell-gnome
 ~app-text/libgxps-0.3.1::dantrell-gnome
@@ -115,7 +115,7 @@
 ~gnome-extra/gnome-power-manager-3.32.0::dantrell-gnome
 ~gnome-extra/gnome-recipes-2.0.2::dantrell-gnome
 ~gnome-extra/gnome-shell-extensions-3.32.1::dantrell-gnome-3-32
-~gnome-extra/gnome-shell-frippery-3.32.1::dantrell-gnome
+~gnome-extra/gnome-shell-frippery-3.32.1::dantrell-gnome-3-32
 ~gnome-extra/gnome-software-3.32.4::dantrell-gnome-3-32
 ~gnome-extra/gnome-system-monitor-3.32.1::dantrell-gnome
 ~gnome-extra/gnome-tweaks-3.32.0::dantrell-gnome-3-32

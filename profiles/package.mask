@@ -35,7 +35,6 @@ app-misc/iio-sensor-proxy::gentoo
 app-misc/tracker-miners::gentoo
 app-misc/tracker::gentoo
 app-text/enchant::gentoo
-app-text/evince::gentoo
 app-text/gnome-doc-utils::gentoo
 app-text/gspell::gentoo
 app-text/gtkspell::gentoo
@@ -146,7 +145,6 @@ gnome-extra/gnome-multi-writer::gentoo
 gnome-extra/gnome-packagekit::gentoo
 gnome-extra/gnome-power-manager::gentoo
 gnome-extra/gnome-recipes::gentoo
-gnome-extra/gnome-shell-frippery::gentoo
 gnome-extra/gnome-system-monitor::gentoo
 gnome-extra/gnome-todo::gentoo
 gnome-extra/gnome-user-share::gentoo

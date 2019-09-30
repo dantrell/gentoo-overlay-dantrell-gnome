@@ -1,4 +1,6 @@
 dev-libs/folks tracker
+gnome-base/gnome-extra-apps california
+gnome-base/gnome-extra-apps todo
 gnome-base/gnome-shell deprecated-background
 gnome-extra/gnome-contacts doc
 x11-wm/mutter deprecated-background

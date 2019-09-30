@@ -38,6 +38,7 @@ DEPEND="
 	>=dev-libs/folks-0.11:0
 	dev-libs/json-glib
 	unwind? ( >=sys-libs/libunwind-1.1:7 )
+	net-mail/ytnef
 "
 RDEPEND="${DEPEND}
 	gnome-base/dconf

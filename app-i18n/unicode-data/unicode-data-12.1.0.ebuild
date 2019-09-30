@@ -9,7 +9,7 @@ SRC_URI="https://www.unicode.org/Public/zipped/${PV}/UCD.zip -> ${P}-UCD.zip
 
 LICENSE="unicode"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS=""
 
 IUSE=""
 

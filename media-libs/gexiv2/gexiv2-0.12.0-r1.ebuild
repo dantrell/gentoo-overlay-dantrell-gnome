@@ -4,15 +4,15 @@ EAPI="7"
 
 PYTHON_COMPAT=( python{2_7,3_5,3_6,3_7} )
 
-inherit meson python-r1 vala xdg-utils
+inherit meson python-r1 vala
 
 DESCRIPTION="GObject-based wrapper around the Exiv2 library"
 HOMEPAGE="https://wiki.gnome.org/Projects/gexiv2"
 SRC_URI="mirror://gnome/sources/${PN}/$(ver_cut 1-2)/${P}.tar.xz"
 
-LICENSE="LGPL-2.1"
+LICENSE="LGPL-2.1+ GPL-2"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="gtk-doc +introspection python test +vala"
 
@@ -22,12 +22,6 @@ REQUIRED_USE="
 	vala? ( introspection )
 "
 
-RDEPEND="${PYTHON_DEPS}
-	>=dev-libs/glib-2.46.0:2
-	>=media-gfx/exiv2-0.21:=
-	introspection? ( dev-libs/gobject-introspection:= )
-"
-DEPEND="${RDEPEND}"
 BDEPEND="
 	virtual/pkgconfig
 	gtk-doc? ( dev-util/gtk-doc )
@@ -37,11 +31,16 @@ BDEPEND="
 	)
 	vala? ( $(vala_depend) )
 "
+RDEPEND="${PYTHON_DEPS}
+	>=dev-libs/glib-2.46.0:2
+	>=media-gfx/exiv2-0.21:=
+	introspection? ( dev-libs/gobject-introspection:= )
+"
+DEPEND="${RDEPEND}"
 
 src_prepare() {
-	xdg_environment_reset
-	use vala && vala_src_prepare
 	default
+	use vala && vala_src_prepare
 }
 
 src_configure() {
