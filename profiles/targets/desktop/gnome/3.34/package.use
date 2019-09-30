@@ -2,6 +2,7 @@ app-crypt/gcr vala
 dev-lang/python sqlite
 dev-libs/libgusb vala
 dev-libs/libgweather vala
+dev-libs/libical vala
 gnome-base/librsvg vala
 media-libs/clutter-gst X
 media-libs/gegl jpeg
