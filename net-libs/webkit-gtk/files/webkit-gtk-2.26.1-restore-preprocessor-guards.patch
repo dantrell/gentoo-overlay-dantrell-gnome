@@ -1,0 +1,3993 @@
+diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/AXObjectCacheAtk.cpp b/Source/WebCore/accessibility/atk/AXObjectCacheAtk.cpp
+--- a/Source/WebCore/accessibility/atk/AXObjectCacheAtk.cpp	2019-08-28 06:46:30.000000000 -0500
++++ b/Source/WebCore/accessibility/atk/AXObjectCacheAtk.cpp	2019-09-30 22:47:34.991338292 -0500
+@@ -240,10 +240,13 @@
+             propertyValues.property_name = "accessible-value";
+ 
+             memset(&propertyValues.new_value,  0, sizeof(GValue));
+-
++#if ATK_CHECK_VERSION(2,11,92)
+             double value;
+             atk_value_get_value_and_text(ATK_VALUE(axObject), &value, nullptr);
+             g_value_set_double(g_value_init(&propertyValues.new_value, G_TYPE_DOUBLE), value);
++#else
++            atk_value_get_current_value(ATK_VALUE(axObject), &propertyValues.new_value);
++#endif
+ 
+             g_signal_emit_by_name(axObject, "property-change::accessible-value", &propertyValues, NULL);
+         }
+@@ -285,7 +288,9 @@
+         break;
+ 
+     case AXReadOnlyStatusChanged:
++#if ATK_CHECK_VERSION(2,15,3)
+         atk_object_notify_state_change(axObject, ATK_STATE_READ_ONLY, !coreObject->canSetValueAttribute());
++#endif
+         break;
+ 
+     case AXRequiredStatusChanged:
+diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessible.cpp b/Source/WebCore/accessibility/atk/WebKitAccessible.cpp
+--- a/Source/WebCore/accessibility/atk/WebKitAccessible.cpp	2019-08-28 06:46:30.000000000 -0500
++++ b/Source/WebCore/accessibility/atk/WebKitAccessible.cpp	2019-10-01 00:36:07.034538063 -0500
+@@ -589,9 +589,14 @@
+     case AccessibilityRole::Unknown:
+         return ATK_ROLE_UNKNOWN;
+     case AccessibilityRole::Audio:
++#if ATK_CHECK_VERSION(2, 11, 3)
+         return ATK_ROLE_AUDIO;
++#endif
+     case AccessibilityRole::Video:
++#if ATK_CHECK_VERSION(2, 11, 3)
+         return ATK_ROLE_VIDEO;
++#endif
++        return ATK_ROLE_EMBEDDED;
+     case AccessibilityRole::Button:
+         return ATK_ROLE_PUSH_BUTTON;
+     case AccessibilityRole::Switch:
+@@ -611,7 +616,11 @@
+     case AccessibilityRole::SearchField:
+         return ATK_ROLE_ENTRY;
+     case AccessibilityRole::StaticText:
++#if ATK_CHECK_VERSION(2, 15, 2)
+         return ATK_ROLE_STATIC;
++#else
++        return ATK_ROLE_TEXT;
++#endif
+     case AccessibilityRole::Outline:
+     case AccessibilityRole::Tree:
+         return ATK_ROLE_TREE;
+@@ -652,8 +661,8 @@
+         return ATK_ROLE_SPLIT_PANE;
+     case AccessibilityRole::Splitter:
+         return ATK_ROLE_SEPARATOR;
+-#if PLATFORM(GTK)
+     case AccessibilityRole::ColorWell:
++#if PLATFORM(GTK)
+         // ATK_ROLE_COLOR_CHOOSER is defined as a dialog (i.e. it's what appears when you push the button).
+         return ATK_ROLE_PUSH_BUTTON;
+ #endif
+@@ -700,7 +709,9 @@
+     case AccessibilityRole::ListMarker:
+         return ATK_ROLE_TEXT;
+     case AccessibilityRole::DocumentArticle:
++#if ATK_CHECK_VERSION(2, 11, 3)
+         return ATK_ROLE_ARTICLE;
++#endif
+     case AccessibilityRole::Document:
+     case AccessibilityRole::GraphicsDocument:
+         return ATK_ROLE_DOCUMENT_FRAME;
+@@ -721,9 +732,11 @@
+     case AccessibilityRole::Legend:
+         return ATK_ROLE_LABEL;
+     case AccessibilityRole::Blockquote:
++#if ATK_CHECK_VERSION(2, 11, 3)
+         return ATK_ROLE_BLOCK_QUOTE;
+-#if ATK_CHECK_VERSION(2, 25, 2)
++#endif
+     case AccessibilityRole::Footnote:
++#if ATK_CHECK_VERSION(2, 25, 2)
+         return ATK_ROLE_FOOTNOTE;
+ #endif
+     case AccessibilityRole::ApplicationTextGroup:
+@@ -735,8 +748,10 @@
+     case AccessibilityRole::Footer:
+         return ATK_ROLE_FOOTER;
+     case AccessibilityRole::Form:
++#if ATK_CHECK_VERSION(2, 11, 3)
+         if (coreObject->ariaRoleAttribute() != AccessibilityRole::Unknown)
+             return ATK_ROLE_LANDMARK;
++#endif
+         return ATK_ROLE_FORM;
+     case AccessibilityRole::Canvas:
+         return ATK_ROLE_CANVAS;
+@@ -752,6 +767,7 @@
+         return ATK_ROLE_DOCUMENT_WEB;
+     case AccessibilityRole::WebApplication:
+         return ATK_ROLE_EMBEDDED;
++#if ATK_CHECK_VERSION(2, 11, 3)
+     case AccessibilityRole::ApplicationLog:
+         return ATK_ROLE_LOG;
+     case AccessibilityRole::ApplicationMarquee:
+@@ -773,6 +789,7 @@
+             return ATK_ROLE_TABLE_CELL;
+         if (coreObject->isMathSubscriptSuperscript() || coreObject->isMathMultiscript())
+             return ATK_ROLE_SECTION;
++#if ATK_CHECK_VERSION(2, 15, 4)
+         if (coreObject->isMathFraction())
+             return ATK_ROLE_MATH_FRACTION;
+         if (coreObject->isMathSquareRoot() || coreObject->isMathRoot())
+@@ -783,8 +800,11 @@
+         if (coreObject->isMathScriptObject(AccessibilityMathScriptObjectType::Superscript)
+             || coreObject->isMathMultiscriptObject(AccessibilityMathMultiscriptObjectType::PreSuperscript) || coreObject->isMathMultiscriptObject(AccessibilityMathMultiscriptObjectType::PostSuperscript))
+             return ATK_ROLE_SUPERSCRIPT;
++#endif
++#if ATK_CHECK_VERSION(2, 15, 2)
+         if (coreObject->isMathToken())
+             return ATK_ROLE_STATIC;
++#endif
+         return ATK_ROLE_UNKNOWN;
+     case AccessibilityRole::LandmarkBanner:
+     case AccessibilityRole::LandmarkComplementary:
+@@ -795,6 +815,8 @@
+     case AccessibilityRole::LandmarkRegion:
+     case AccessibilityRole::LandmarkSearch:
+         return ATK_ROLE_LANDMARK;
++#endif
++#if ATK_CHECK_VERSION(2, 11, 4)
+     case AccessibilityRole::DescriptionList:
+         return ATK_ROLE_DESCRIPTION_LIST;
+     case AccessibilityRole::Term:
+@@ -802,27 +824,36 @@
+         return ATK_ROLE_DESCRIPTION_TERM;
+     case AccessibilityRole::DescriptionListDetail:
+         return ATK_ROLE_DESCRIPTION_VALUE;
++#endif
+     case AccessibilityRole::Deletion:
+ #if ATK_CHECK_VERSION(2, 33, 3)
+         return ATK_ROLE_CONTENT_DELETION;
+-#else
++#elif ATK_CHECK_VERSION(2, 15, 2)
+         return ATK_ROLE_STATIC;
++#else
++        return ATK_ROLE_UNKNOWN;
+ #endif
+     case AccessibilityRole::Insertion:
+ #if ATK_CHECK_VERSION(2, 33, 3)
+         return ATK_ROLE_CONTENT_INSERTION;
+-#else
++#elif ATK_CHECK_VERSION(2, 15, 2)
+         return ATK_ROLE_STATIC;
++#else
++        return ATK_ROLE_UNKNOWN;
+ #endif
++#if ATK_CHECK_VERSION(2, 15, 4)
+     case AccessibilityRole::Subscript:
+         return ATK_ROLE_SUBSCRIPT;
+     case AccessibilityRole::Superscript:
+         return ATK_ROLE_SUPERSCRIPT;
++#endif
++#if ATK_CHECK_VERSION(2, 15, 2)
+     case AccessibilityRole::Inline:
+     case AccessibilityRole::SVGTextPath:
+     case AccessibilityRole::SVGTSpan:
+     case AccessibilityRole::Time:
+         return ATK_ROLE_STATIC;
++#endif
+     default:
+         return ATK_ROLE_UNKNOWN;
+     }
+@@ -885,8 +916,10 @@
+     if (coreObject->isBusy())
+         atk_state_set_add_state(stateSet, ATK_STATE_BUSY);
+ 
++#if ATK_CHECK_VERSION(2,11,2)
+     if (coreObject->supportsChecked() && coreObject->canSetValueAttribute())
+         atk_state_set_add_state(stateSet, ATK_STATE_CHECKABLE);
++#endif
+ 
+     if (coreObject->isChecked())
+         atk_state_set_add_state(stateSet, ATK_STATE_CHECKED);
+@@ -948,8 +981,10 @@
+     if (coreObject->isPressed())
+         atk_state_set_add_state(stateSet, ATK_STATE_PRESSED);
+ 
++#if ATK_CHECK_VERSION(2,15,3)
+     if (!coreObject->canSetValueAttribute() && (coreObject->supportsReadOnly()))
+         atk_state_set_add_state(stateSet, ATK_STATE_READ_ONLY);
++#endif
+ 
+     if (coreObject->isRequired())
+         atk_state_set_add_state(stateSet, ATK_STATE_REQUIRED);
+@@ -1095,7 +1130,9 @@
+     {reinterpret_cast<GInterfaceInitFunc>(reinterpret_cast<GCallback>(webkitAccessibleComponentInterfaceInit)), nullptr, nullptr},
+     {reinterpret_cast<GInterfaceInitFunc>(reinterpret_cast<GCallback>(webkitAccessibleImageInterfaceInit)), nullptr, nullptr},
+     {reinterpret_cast<GInterfaceInitFunc>(reinterpret_cast<GCallback>(webkitAccessibleTableInterfaceInit)), nullptr, nullptr},
++#if ATK_CHECK_VERSION(2,11,90)
+     {reinterpret_cast<GInterfaceInitFunc>(reinterpret_cast<GCallback>(webkitAccessibleTableCellInterfaceInit)), nullptr, nullptr},
++#endif
+     {reinterpret_cast<GInterfaceInitFunc>(reinterpret_cast<GCallback>(webkitAccessibleHypertextInterfaceInit)), nullptr, nullptr},
+     {reinterpret_cast<GInterfaceInitFunc>(reinterpret_cast<GCallback>(webkitAccessibleHyperlinkImplInterfaceInit)), nullptr, nullptr},
+     {reinterpret_cast<GInterfaceInitFunc>(reinterpret_cast<GCallback>(webkitAccessibleDocumentInterfaceInit)), nullptr, nullptr},
+@@ -1110,7 +1147,9 @@
+     WAIComponent,
+     WAIImage,
+     WAITable,
++#if ATK_CHECK_VERSION(2,11,90)
+     WAITableCell,
++#endif
+     WAIHypertext,
+     WAIHyperlink,
+     WAIDocument,
+@@ -1134,8 +1173,10 @@
+         return ATK_TYPE_IMAGE;
+     case WAITable:
+         return ATK_TYPE_TABLE;
++#if ATK_CHECK_VERSION(2,11,90)
+     case WAITableCell:
+         return ATK_TYPE_TABLE_CELL;
++#endif
+     case WAIHypertext:
+         return ATK_TYPE_HYPERTEXT;
+     case WAIHyperlink:
+@@ -1226,8 +1267,10 @@
+     if (coreObject->isTable())
+         interfaceMask |= 1 << WAITable;
+ 
++#if ATK_CHECK_VERSION(2,11,90)
+     if (role == AccessibilityRole::Cell || role == AccessibilityRole::GridCell || role == AccessibilityRole::ColumnHeader || role == AccessibilityRole::RowHeader)
+         interfaceMask |= 1 << WAITableCell;
++#endif
+ 
+     // Document
+     if (role == AccessibilityRole::WebArea)
+diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceTableCell.cpp b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceTableCell.cpp
+--- a/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceTableCell.cpp	2019-08-28 06:46:30.000000000 -0500
++++ b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceTableCell.cpp	2019-09-30 22:55:39.697145583 -0500
+@@ -21,7 +21,7 @@
+ #include "WebKitAccessibleInterfaceTableCell.h"
+ 
+ #if ENABLE(ACCESSIBILITY)
+-
++#if ATK_CHECK_VERSION(2,11,90)
+ #include "AccessibilityObject.h"
+ #include "AccessibilityTable.h"
+ #include "AccessibilityTableCell.h"
+@@ -166,4 +166,5 @@
+     iface->get_table = webkitAccessibleTableCellGetTable;
+ }
+ 
++#endif // ATK_CHECK_VERSION(2,11,90)
+ #endif // ENABLE(ACCESSIBILITY)
+diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceTableCell.h b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceTableCell.h
+--- a/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceTableCell.h	2019-08-28 06:46:30.000000000 -0500
++++ b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceTableCell.h	2019-09-30 22:47:34.991338292 -0500
+@@ -25,6 +25,8 @@
+ 
+ #include <atk/atk.h>
+ 
++#if ATK_CHECK_VERSION(2,11,90)
+ void webkitAccessibleTableCellInterfaceInit(AtkTableCellIface*);
++#endif
+ 
+ #endif // ENABLE(ACCESSIBILITY)
+diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceText.cpp b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceText.cpp
+--- a/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceText.cpp	2019-08-28 06:46:30.000000000 -0500
++++ b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceText.cpp	2019-09-30 22:47:34.991338292 -0500
+@@ -1207,6 +1207,7 @@
+     return webkitAccessibleTextSetSelection(text, 0, offset, offset);
+ }
+ 
++#if ATK_CHECK_VERSION(2, 10, 0)
+ static gchar* webkitAccessibleTextGetStringAtOffset(AtkText* text, gint offset, AtkTextGranularity granularity, gint* startOffset, gint* endOffset)
+ {
+     // This new API has been designed to simplify the AtkText interface and it has been
+@@ -1249,6 +1250,7 @@
+ 
+     return webkitAccessibleTextGetTextForOffset(text, offset, boundaryType, GetTextPositionAt, startOffset, endOffset);
+ }
++#endif
+ 
+ void webkitAccessibleTextInterfaceInit(AtkTextIface* iface)
+ {
+@@ -1270,7 +1272,10 @@
+     iface->remove_selection = webkitAccessibleTextRemoveSelection;
+     iface->set_selection = webkitAccessibleTextSetSelection;
+     iface->set_caret_offset = webkitAccessibleTextSetCaretOffset;
++
++#if ATK_CHECK_VERSION(2, 10, 0)
+     iface->get_string_at_offset = webkitAccessibleTextGetStringAtOffset;
++#endif
+ }
+ 
+ #endif
+diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceValue.cpp b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceValue.cpp
+--- a/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceValue.cpp	2019-08-28 06:46:30.000000000 -0500
++++ b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceValue.cpp	2019-09-30 22:47:34.991338292 -0500
+@@ -64,6 +64,7 @@
+     return step < 1 ? 1 : step;
+ }
+ 
++#if ATK_CHECK_VERSION(2,11,92)
+ static void webkitAccessibleGetValueAndText(AtkValue* value, gdouble* currentValue, gchar** alternativeText)
+ {
+     g_return_if_fail(ATK_VALUE(value));
+@@ -113,7 +114,7 @@
+     gchar* valueDescription = g_strdup_printf("%s", coreObject->valueDescription().utf8().data());
+     return atk_range_new(minValue, maxValue, valueDescription);
+ }
+-
++#endif
+ static void webkitAccessibleValueGetCurrentValue(AtkValue* value, GValue* gValue)
+ {
+     g_return_if_fail(ATK_VALUE(value));
+@@ -186,10 +187,12 @@
+ 
+ void webkitAccessibleValueInterfaceInit(AtkValueIface* iface)
+ {
++#if ATK_CHECK_VERSION(2,11,92)
+     iface->get_value_and_text = webkitAccessibleGetValueAndText;
+     iface->get_increment = webkitAccessibleGetIncrement;
+     iface->set_value = webkitAccessibleSetValue;
+     iface->get_range = webkitAccessibleGetRange;
++#endif
+     iface->get_current_value = webkitAccessibleValueGetCurrentValue;
+     iface->get_maximum_value = webkitAccessibleValueGetMaximumValue;
+     iface->get_minimum_value = webkitAccessibleValueGetMinimumValue;
+diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.cpp b/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.cpp
+--- a/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.cpp	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.cpp	2019-09-30 22:47:34.991338292 -0500
+@@ -43,6 +43,7 @@
+     notifyTrackOfActiveChanged();
+ }
+ 
++#if GST_CHECK_VERSION(1, 10, 0)
+ AudioTrackPrivateGStreamer::AudioTrackPrivateGStreamer(WeakPtr<MediaPlayerPrivateGStreamer> player, gint index, GRefPtr<GstStream> stream)
+     : TrackPrivateBaseGStreamer(this, index, stream)
+     , m_player(player)
+@@ -69,6 +70,7 @@
+ 
+     return AudioTrackPrivate::kind();
+ }
++#endif
+ 
+ void AudioTrackPrivateGStreamer::disconnect()
+ {
+diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.h b/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.h
+--- a/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.h	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.h	2019-09-30 22:47:34.991338292 -0500
+@@ -43,12 +43,14 @@
+         return adoptRef(*new AudioTrackPrivateGStreamer(player, index, pad));
+     }
+ 
++#if GST_CHECK_VERSION(1, 10, 0)
+     static RefPtr<AudioTrackPrivateGStreamer> create(WeakPtr<MediaPlayerPrivateGStreamer> player, gint index, GRefPtr<GstStream> stream)
+     {
+         return adoptRef(*new AudioTrackPrivateGStreamer(player, index, stream));
+     }
+ 
+     Kind kind() const final;
++#endif
+ 
+     void disconnect() override;
+ 
+@@ -64,7 +66,9 @@
+ 
+ private:
+     AudioTrackPrivateGStreamer(WeakPtr<MediaPlayerPrivateGStreamer>, gint index, GRefPtr<GstPad>);
++#if GST_CHECK_VERSION(1, 10, 0)
+     AudioTrackPrivateGStreamer(WeakPtr<MediaPlayerPrivateGStreamer>, gint index, GRefPtr<GstStream>);
++#endif
+ 
+     AtomString m_id;
+     WeakPtr<MediaPlayerPrivateGStreamer> m_player;
+diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.cpp b/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.cpp
+--- a/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.cpp	2019-09-23 03:23:57.000000000 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.cpp	2019-09-30 22:47:34.992338288 -0500
+@@ -353,6 +353,7 @@
+         gst_query_unref(ptr);
+ }
+ 
++#if GST_CHECK_VERSION(1, 10, 0)
+ template <> GRefPtr<GstStream> adoptGRef(GstStream* ptr)
+ {
+     return GRefPtr<GstStream>(ptr, GRefPtrAdopt);
+@@ -390,6 +391,7 @@
+     if (ptr)
+         gst_object_unref(ptr);
+ }
++#endif
+ 
+ template <> GRefPtr<WebKitVideoSink> adoptGRef(WebKitVideoSink* ptr)
+ {
+diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.h b/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.h
+--- a/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.h	2019-09-23 03:23:57.000000000 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.h	2019-09-30 22:47:34.992338288 -0500
+@@ -111,6 +111,7 @@
+ template<> WebKitWebSrc* refGPtr<WebKitWebSrc>(WebKitWebSrc* ptr);
+ template<> void derefGPtr<WebKitWebSrc>(WebKitWebSrc* ptr);
+ 
++#if GST_CHECK_VERSION(1, 10, 0)
+ template<> GRefPtr<GstStream> adoptGRef(GstStream*);
+ template<> GstStream* refGPtr<GstStream>(GstStream*);
+ template<> void derefGPtr<GstStream>(GstStream*);
+@@ -118,6 +119,7 @@
+ template<> GRefPtr<GstStreamCollection> adoptGRef(GstStreamCollection*);
+ template<> GstStreamCollection* refGPtr<GstStreamCollection>(GstStreamCollection*);
+ template<> void derefGPtr<GstStreamCollection>(GstStreamCollection*);
++#endif
+ 
+ #if USE(GSTREAMER_GL)
+ template<> GRefPtr<GstGLDisplay> adoptGRef(GstGLDisplay* ptr);
+diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/GStreamerCommon.cpp b/Source/WebCore/platform/graphics/gstreamer/GStreamerCommon.cpp
+--- a/Source/WebCore/platform/graphics/gstreamer/GStreamerCommon.cpp	2019-09-23 03:43:37.000000000 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/GStreamerCommon.cpp	2019-09-30 22:47:34.992338288 -0500
+@@ -43,7 +43,7 @@
+ #include "WebKitMediaSourceGStreamer.h"
+ #endif
+ 
+-#if ENABLE(MEDIA_STREAM)
++#if ENABLE(MEDIA_STREAM) && GST_CHECK_VERSION(1, 10, 0)
+ #include "GStreamerMediaStreamSource.h"
+ #endif
+ 
+@@ -286,8 +286,9 @@
+         gst_element_register(nullptr, "webkitclearkey", GST_RANK_PRIMARY + 100, WEBKIT_TYPE_MEDIA_CK_DECRYPT);
+ #endif
+ 
+-#if ENABLE(MEDIA_STREAM)
+-        gst_element_register(nullptr, "mediastreamsrc", GST_RANK_PRIMARY, WEBKIT_TYPE_MEDIA_STREAM_SRC);
++#if ENABLE(MEDIA_STREAM) && GST_CHECK_VERSION(1, 10, 0)
++        if (webkitGstCheckVersion(1, 10, 0))
++            gst_element_register(nullptr, "mediastreamsrc", GST_RANK_PRIMARY, WEBKIT_TYPE_MEDIA_STREAM_SRC);
+ #endif
+ 
+ #if ENABLE(MEDIA_SOURCE)
+diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.cpp b/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.cpp
+--- a/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.cpp	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.cpp	2019-09-30 22:47:34.992338288 -0500
+@@ -58,6 +58,7 @@
+     notifyTrackOfStreamChanged();
+ }
+ 
++#if GST_CHECK_VERSION(1, 10, 0)
+ InbandTextTrackPrivateGStreamer::InbandTextTrackPrivateGStreamer(gint index, GRefPtr<GstStream> stream)
+     : InbandTextTrackPrivate(WebVTT)
+     , TrackPrivateBaseGStreamer(this, index, stream)
+@@ -65,6 +66,7 @@
+     m_streamId = gst_stream_get_stream_id(stream.get());
+     GST_INFO("Track %d got stream start for stream %s.", m_index, m_streamId.utf8().data());
+ }
++#endif
+ 
+ void InbandTextTrackPrivateGStreamer::disconnect()
+ {
+diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.h b/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.h
+--- a/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.h	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.h	2019-09-30 22:47:34.992338288 -0500
+@@ -44,10 +44,12 @@
+         return adoptRef(*new InbandTextTrackPrivateGStreamer(index, pad));
+     }
+ 
++#if GST_CHECK_VERSION(1, 10, 0)
+     static Ref<InbandTextTrackPrivateGStreamer> create(gint index, GRefPtr<GstStream> stream)
+     {
+         return adoptRef(*new InbandTextTrackPrivateGStreamer(index, stream));
+     }
++#endif
+ 
+     void disconnect() override;
+ 
+@@ -61,7 +63,9 @@
+ 
+ private:
+     InbandTextTrackPrivateGStreamer(gint index, GRefPtr<GstPad>);
++#if GST_CHECK_VERSION(1, 10, 0)
+     InbandTextTrackPrivateGStreamer(gint index, GRefPtr<GstStream>);
++#endif
+ 
+     void streamChanged();
+ 
+diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp
+--- a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp	2019-09-23 03:23:57.000000000 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp	2019-09-30 22:47:34.992338288 -0500
+@@ -53,7 +53,7 @@
+ #include <wtf/text/CString.h>
+ #include <wtf/text/StringConcatenateNumbers.h>
+ 
+-#if ENABLE(MEDIA_STREAM)
++#if ENABLE(MEDIA_STREAM) && GST_CHECK_VERSION(1, 10, 0)
+ #include "GStreamerMediaStreamSource.h"
+ #endif
+ 
+@@ -326,6 +326,7 @@
+ #if ENABLE(MEDIA_STREAM)
+ void MediaPlayerPrivateGStreamer::load(MediaStreamPrivate& stream)
+ {
++#if GST_CHECK_VERSION(1, 10, 0)
+     m_streamPrivate = &stream;
+     static Atomic<uint32_t> pipelineId;
+     auto pipelineName = makeString("mediastream-",
+@@ -339,6 +340,12 @@
+     ensureGLVideoSinkContext();
+ #endif
+     m_player->play();
++#else
++    // Properly fail so the global MediaPlayer tries to fallback to the next MediaPlayerPrivate.
++    m_networkState = MediaPlayer::FormatError;
++    m_player->networkStateChanged();
++    notImplemented();
++#endif
+ }
+ #endif
+ 
+@@ -673,6 +680,7 @@
+     return m_seeking;
+ }
+ 
++#if GST_CHECK_VERSION(1, 10, 0)
+ #define CLEAR_TRACKS(tracks, method) \
+     for (auto& track : tracks.values())\
+         method(*track);\
+@@ -764,6 +772,7 @@
+ 
+     m_player->client().mediaPlayerEngineUpdated(m_player);
+ }
++#endif // GST_CHECK_VERSION(1, 10, 0)
+ 
+ #undef CREATE_TRACK
+ 
+@@ -780,6 +789,7 @@
+     Vector<String> selectedStreams;
+     String selectedStreamId;
+ 
++#if GST_CHECK_VERSION(1, 10, 0)
+     GstStream* stream = nullptr;
+ 
+     if (!m_isLegacyPlaybin) {
+@@ -791,6 +801,7 @@
+         selectedStreamId = String::fromUTF8(gst_stream_get_stream_id(stream));
+         selectedStreams.append(selectedStreamId);
+     }
++#endif // GST_CHECK_VERSION(1,0,0)
+ 
+     switch (trackType) {
+     case TrackPrivateBaseGStreamer::TrackType::Audio:
+@@ -840,6 +851,7 @@
+     GST_INFO_OBJECT(pipeline(), "Enabling %s track with index: %u", trackTypeAsString, index);
+     if (m_isLegacyPlaybin)
+         g_object_set(m_pipeline.get(), propertyName, index, nullptr);
++#if GST_CHECK_VERSION(1, 10, 0)
+     else {
+         GList* selectedStreamsList = nullptr;
+ 
+@@ -850,6 +862,7 @@
+         gst_element_send_event(m_pipeline.get(), gst_event_new_select_streams(selectedStreamsList));
+         g_list_free_full(selectedStreamsList, reinterpret_cast<GDestroyNotify>(g_free));
+     }
++#endif
+ }
+ 
+ void MediaPlayerPrivateGStreamer::videoChangedCallback(MediaPlayerPrivateGStreamer* player)
+@@ -1420,6 +1433,7 @@
+         gst_tag_list_unref(tags);
+         break;
+     }
++#if GST_CHECK_VERSION(1, 10, 0)
+     case GST_MESSAGE_STREAMS_SELECTED: {
+         GRefPtr<GstStreamCollection> collection;
+         gst_message_parse_streams_selected(message, &collection.outPtr());
+@@ -1462,6 +1476,7 @@
+         }
+         break;
+     }
++#endif
+     default:
+         GST_DEBUG_OBJECT(pipeline(), "Unhandled GStreamer message type: %s", GST_MESSAGE_TYPE_NAME(message));
+         break;
+@@ -1858,7 +1873,7 @@
+     if (WEBKIT_IS_WEB_SRC(m_source.get())) {
+         webKitWebSrcSetMediaPlayer(WEBKIT_WEB_SRC(m_source.get()), m_player);
+         g_signal_connect(GST_ELEMENT_PARENT(m_source.get()), "element-added", G_CALLBACK(uriDecodeBinElementAddedCallback), this);
+-#if ENABLE(MEDIA_STREAM)
++#if ENABLE(MEDIA_STREAM) && GST_CHECK_VERSION(1, 10, 0)
+     } else if (WEBKIT_IS_MEDIA_STREAM_SRC(sourceElement)) {
+         auto stream = m_streamPrivate.get();
+         ASSERT(stream);
+@@ -2097,6 +2112,7 @@
+ 
+ bool MediaPlayerPrivateGStreamer::handleSyncMessage(GstMessage* message)
+ {
++#if GST_CHECK_VERSION(1, 10, 0)
+     if (GST_MESSAGE_TYPE(message) == GST_MESSAGE_STREAM_COLLECTION && !m_isLegacyPlaybin) {
+         GRefPtr<GstStreamCollection> collection;
+         gst_message_parse_stream_collection(message, &collection.outPtr());
+@@ -2108,6 +2124,7 @@
+             });
+         }
+     }
++#endif
+ 
+     return MediaPlayerPrivateGStreamerBase::handleSyncMessage(message);
+ }
+@@ -2280,7 +2297,7 @@
+         return result;
+ #endif
+ 
+-#if !ENABLE(MEDIA_STREAM)
++#if !ENABLE(MEDIA_STREAM) || !GST_CHECK_VERSION(1, 10, 0)
+     if (parameters.isMediaStream)
+         return result;
+ #endif
+@@ -2393,8 +2410,10 @@
+     // MSE doesn't support playbin3. Mediastream requires playbin3. Regular
+     // playback can use playbin3 on-demand with the WEBKIT_GST_USE_PLAYBIN3
+     // environment variable.
++#if GST_CHECK_VERSION(1, 10, 0)
+     if ((!isMediaSource() && g_getenv("WEBKIT_GST_USE_PLAYBIN3")) || url.protocolIs("mediastream"))
+         playbinName = "playbin3";
++#endif
+ 
+     if (m_pipeline) {
+         if (!g_strcmp0(GST_OBJECT_NAME(gst_element_get_factory(m_pipeline.get())), playbinName)) {
+diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.h b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.h
+--- a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.h	2019-09-23 03:23:57.000000000 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.h	2019-09-30 22:47:34.992338288 -0500
+@@ -185,8 +185,10 @@
+     void setPlaybinURL(const URL& urlString);
+     void loadFull(const String& url, const String& pipelineName);
+ 
++#if GST_CHECK_VERSION(1, 10, 0)
+     void updateTracks();
+     void clearTracks();
++#endif
+ 
+ protected:
+     bool m_buffering;
+@@ -261,11 +263,13 @@
+     bool m_preservesPitch;
+     mutable Optional<Seconds> m_lastQueryTime;
+     bool m_isLegacyPlaybin;
++#if GST_CHECK_VERSION(1, 10, 0)
+     GRefPtr<GstStreamCollection> m_streamCollection;
+     FloatSize naturalSize() const final;
+ #if ENABLE(MEDIA_STREAM)
+     RefPtr<MediaStreamPrivate> m_streamPrivate;
+-#endif
++#endif // ENABLE(MEDIA_STREAM)
++#endif // GST_CHECK_VERSION(1, 10, 0)
+     String m_currentAudioStreamId;
+     String m_currentVideoStreamId;
+     String m_currentTextStreamId;
+@@ -283,7 +287,7 @@
+ #if USE(GSTREAMER_MPEGTS)
+     HashMap<AtomString, RefPtr<InbandMetadataTextTrackPrivateGStreamer>> m_metadataTracks;
+ #endif
+-#endif // ENABLE(VIDEO_TRACK)
++#endif
+     virtual bool isMediaSource() const { return false; }
+ 
+     uint64_t m_httpResponseTotalSize { 0 };
+diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp
+--- a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp	2019-09-23 03:23:57.000000000 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp	2019-09-30 22:47:34.992338288 -0500
+@@ -382,7 +382,7 @@
+     if (!g_strcmp0(contextType, "gst.gl.app_context")) {
+         GstContext* appContext = gst_context_new("gst.gl.app_context", TRUE);
+         GstStructure* structure = gst_context_writable_structure(appContext);
+-#if GST_CHECK_VERSION(1, 12, 0)
++#if GST_CHECK_VERSION(1, 11, 0)
+         gst_structure_set(structure, "context", GST_TYPE_GL_CONTEXT, gstGLContext(), nullptr);
+ #else
+         gst_structure_set(structure, "context", GST_GL_TYPE_CONTEXT, gstGLContext(), nullptr);
+@@ -1016,6 +1016,9 @@
+ #if USE(GSTREAMER_GL)
+ GstElement* MediaPlayerPrivateGStreamerBase::createGLAppSink()
+ {
++    if (!webkitGstCheckVersion(1, 8, 0))
++        return nullptr;
++
+     GstElement* appsink = gst_element_factory_make("appsink", "webkit-gl-video-sink");
+     if (!appsink)
+         return nullptr;
+@@ -1052,6 +1055,9 @@
+ 
+ GstElement* MediaPlayerPrivateGStreamerBase::createVideoSinkGL()
+ {
++    if (!webkitGstCheckVersion(1, 8, 0))
++        return nullptr;
++
+     gboolean result = TRUE;
+     GstElement* videoSink = gst_bin_new(nullptr);
+     GstElement* upload = gst_element_factory_make("glupload", nullptr);
+diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.h b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.h
+--- a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.h	2019-09-23 03:23:57.000000000 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.h	2019-09-30 22:47:34.992338288 -0500
+@@ -259,7 +259,9 @@
+         TextChanged = 1 << 5,
+ #endif
+         SizeChanged = 1 << 6,
++#if GST_CHECK_VERSION(1, 10, 0)
+         StreamCollectionChanged = 1 << 7
++#endif
+     };
+ 
+     Ref<MainThreadNotifier<MainThreadNotification>> m_notifier;
+diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.cpp b/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.cpp
+--- a/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.cpp	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.cpp	2019-09-30 22:47:34.992338288 -0500
+@@ -58,6 +58,7 @@
+     tagsChanged();
+ }
+ 
++#if GST_CHECK_VERSION(1, 10, 0)
+ TrackPrivateBaseGStreamer::TrackPrivateBaseGStreamer(TrackPrivateBase* owner, gint index, GRefPtr<GstStream> stream)
+     : m_notifier(MainThreadNotifier<MainThreadNotification>::create())
+     , m_index(index)
+@@ -69,6 +70,7 @@
+     // We can't call notifyTrackOfTagsChanged() directly, because we need tagsChanged() to setup m_tags.
+     tagsChanged();
+ }
++#endif
+ 
+ TrackPrivateBaseGStreamer::~TrackPrivateBaseGStreamer()
+ {
+@@ -80,8 +82,10 @@
+ {
+     m_tags.clear();
+ 
++#if GST_CHECK_VERSION(1, 10, 0)
+     if (m_stream)
+         m_stream.clear();
++#endif
+ 
+     m_notifier->cancelPendingNotifications();
+ 
+@@ -111,8 +115,10 @@
+         else
+             tags = adoptGRef(gst_tag_list_new_empty());
+     }
++#if GST_CHECK_VERSION(1, 10, 0)
+     else if (m_stream)
+         tags = adoptGRef(gst_stream_get_tags(m_stream.get()));
++#endif
+     else
+         tags = adoptGRef(gst_tag_list_new_empty());
+ 
+diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.h b/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.h
+--- a/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.h	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.h	2019-09-30 22:47:34.992338288 -0500
+@@ -56,15 +56,18 @@
+ 
+     void setIndex(int index) { m_index =  index; }
+ 
++#if GST_CHECK_VERSION(1, 10, 0)
+     GstStream* stream()
+     {
+         return m_stream.get();
+     }
++#endif
+ 
+ protected:
+     TrackPrivateBaseGStreamer(TrackPrivateBase* owner, gint index, GRefPtr<GstPad>);
++#if GST_CHECK_VERSION(1, 10, 0)
+     TrackPrivateBaseGStreamer(TrackPrivateBase* owner, gint index, GRefPtr<GstStream>);
+-
++#endif
+     void notifyTrackOfActiveChanged();
+     void notifyTrackOfTagsChanged();
+ 
+@@ -80,7 +83,9 @@
+     AtomString m_label;
+     AtomString m_language;
+     GRefPtr<GstPad> m_pad;
++#if GST_CHECK_VERSION(1, 10, 0)
+     GRefPtr<GstStream> m_stream;
++#endif
+ 
+ private:
+     bool getLanguageCode(GstTagList* tags, AtomString& value);
+diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.cpp b/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.cpp
+--- a/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.cpp	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.cpp	2019-09-30 22:47:34.993338283 -0500
+@@ -43,6 +43,7 @@
+     notifyTrackOfActiveChanged();
+ }
+ 
++#if GST_CHECK_VERSION(1, 10, 0)
+ VideoTrackPrivateGStreamer::VideoTrackPrivateGStreamer(WeakPtr<MediaPlayerPrivateGStreamer> player, gint index, GRefPtr<GstStream> stream)
+     : TrackPrivateBaseGStreamer(this, index, stream)
+     , m_player(player)
+@@ -68,6 +69,7 @@
+ 
+     return VideoTrackPrivate::kind();
+ }
++#endif
+ 
+ void VideoTrackPrivateGStreamer::disconnect()
+ {
+diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.h b/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.h
+--- a/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.h	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.h	2019-09-30 22:47:34.993338283 -0500
+@@ -43,13 +43,13 @@
+     {
+         return adoptRef(*new VideoTrackPrivateGStreamer(player, index, pad));
+     }
+-
++#if GST_CHECK_VERSION(1, 10, 0)
+     static Ref<VideoTrackPrivateGStreamer> create(WeakPtr<MediaPlayerPrivateGStreamer> player, gint index, GRefPtr<GstStream> stream)
+     {
+         return adoptRef(*new VideoTrackPrivateGStreamer(player, index, stream));
+     }
+-
+     Kind kind() const final;
++#endif
+ 
+     void disconnect() override;
+ 
+@@ -65,8 +65,9 @@
+ 
+ private:
+     VideoTrackPrivateGStreamer(WeakPtr<MediaPlayerPrivateGStreamer>, gint index, GRefPtr<GstPad>);
++#if GST_CHECK_VERSION(1, 10, 0)
+     VideoTrackPrivateGStreamer(WeakPtr<MediaPlayerPrivateGStreamer>, gint index, GRefPtr<GstStream>);
+-
++#endif
+     AtomString m_id;
+     WeakPtr<MediaPlayerPrivateGStreamer> m_player;
+ };
+diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/PlatformKeyboardEventGtk.cpp b/Source/WebCore/platform/gtk/PlatformKeyboardEventGtk.cpp
+--- a/Source/WebCore/platform/gtk/PlatformKeyboardEventGtk.cpp	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/gtk/PlatformKeyboardEventGtk.cpp	2019-09-30 22:47:34.993338283 -0500
+@@ -1323,7 +1323,11 @@
+ 
+ static PlatformEvent::Type eventTypeForGdkKeyEvent(GdkEventKey* event)
+ {
++#if GTK_CHECK_VERSION(3, 10, 0)
+     return gdk_event_get_event_type(reinterpret_cast<GdkEvent*>(event)) == GDK_KEY_RELEASE ? PlatformEvent::KeyUp : PlatformEvent::KeyDown;
++#else
++    return event->type == GDK_KEY_RELEASE ? PlatformEvent::KeyUp : PlatformEvent::KeyDown;
++#endif
+ }
+ 
+ static OptionSet<PlatformEvent::Modifier> modifiersForGdkKeyEvent(GdkEventKey* event)
+diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/PlatformMouseEventGtk.cpp b/Source/WebCore/platform/gtk/PlatformMouseEventGtk.cpp
+--- a/Source/WebCore/platform/gtk/PlatformMouseEventGtk.cpp	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/gtk/PlatformMouseEventGtk.cpp	2019-09-30 22:47:34.993338283 -0500
+@@ -66,7 +66,12 @@
+     if (PlatformKeyboardEvent::modifiersContainCapsLock(state))
+         m_modifiers.add(PlatformEvent::Modifier::CapsLockKey);
+ 
++#if GTK_CHECK_VERSION(3, 10, 0)
+     GdkEventType type = gdk_event_get_event_type(reinterpret_cast<GdkEvent*>(event));
++#else
++    GdkEventType type = event->type;
++#endif
++
+     switch (type) {
+     case GDK_BUTTON_PRESS:
+     case GDK_2BUTTON_PRESS:
+@@ -121,7 +126,12 @@
+     if (PlatformKeyboardEvent::modifiersContainCapsLock(state))
+         m_modifiers.add(PlatformEvent::Modifier::CapsLockKey);
+ 
++#if GTK_CHECK_VERSION(3, 10, 0)
+     GdkEventType type = gdk_event_get_event_type(reinterpret_cast<GdkEvent*>(motion));
++#else
++    GdkEventType type = motion->type;
++#endif
++
+     switch (type) {
+     case GDK_MOTION_NOTIFY:
+         m_type = PlatformEvent::MouseMoved;
+diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/PlatformScreenGtk.cpp b/Source/WebCore/platform/gtk/PlatformScreenGtk.cpp
+--- a/Source/WebCore/platform/gtk/PlatformScreenGtk.cpp	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/gtk/PlatformScreenGtk.cpp	2019-09-30 22:47:34.993338283 -0500
+@@ -140,6 +140,7 @@
+ FloatRect screenRect(Widget*)
+ {
+     GdkRectangle geometry;
++#if GTK_CHECK_VERSION(3, 22, 0)
+     GdkDisplay* display = gdk_display_get_default();
+     if (!display)
+         return { };
+@@ -149,6 +150,13 @@
+         return { };
+ 
+     gdk_monitor_get_geometry(monitor, &geometry);
++#else
++    GdkScreen* screen = gdk_screen_get_default();
++    if (!screen)
++        return { };
++
++    gdk_screen_get_monitor_geometry(screen, 0, &geometry);
++#endif // !GTK_CHECK_VERSION(3, 22, 0)
+ 
+     return FloatRect(geometry.x, geometry.y, geometry.width, geometry.height);
+ }
+@@ -156,6 +164,7 @@
+ FloatRect screenAvailableRect(Widget*)
+ {
+     GdkRectangle workArea;
++#if GTK_CHECK_VERSION(3, 22, 0)
+     GdkDisplay* display = gdk_display_get_default();
+     if (!display)
+         return { };
+@@ -165,6 +174,13 @@
+         return { };
+ 
+     gdk_monitor_get_workarea(monitor, &workArea);
++#else
++    GdkScreen* screen = gdk_screen_get_default();
++    if (!screen)
++        return FloatRect();
++
++    gdk_screen_get_monitor_workarea(screen, 0, &workArea);
++#endif // !GTK_CHECK_VERSION(3, 22, 0)
+ 
+     return FloatRect(workArea.x, workArea.y, workArea.width, workArea.height);
+ }
+@@ -175,14 +191,75 @@
+ }
+ 
+ #if ENABLE(TOUCH_EVENTS)
++#if !GTK_CHECK_VERSION(3, 20, 0)
++static void deviceAddedCallback(GdkDeviceManager*, GdkDevice*);
++static void deviceRemovedCallback(GdkDeviceManager*, GdkDevice*);
++
++static HashSet<GdkDevice*>& touchDevices()
++{
++    static LazyNeverDestroyed<HashSet<GdkDevice*>> touchDeviceSet;
++    static std::once_flag onceKey;
++    std::call_once(onceKey, [] {
++        touchDeviceSet.construct();
++
++        auto* display = gdk_display_get_default();
++        if (!display)
++            return;
++
++        auto* deviceManager = gdk_display_get_device_manager(display);
++        if (!deviceManager)
++            return;
++
++        GUniquePtr<GList> devices(gdk_device_manager_list_devices(deviceManager, GDK_DEVICE_TYPE_SLAVE));
++        for (GList* it = devices.get(); it; it = g_list_next(it)) {
++            auto* device = GDK_DEVICE(it->data);
++            if (gdk_device_get_source(device) == GDK_SOURCE_TOUCHSCREEN)
++                touchDeviceSet->add(device);
++        }
++
++        g_signal_connect(deviceManager, "device-added", G_CALLBACK(deviceAddedCallback), nullptr);
++        g_signal_connect(deviceManager, "device-removed", G_CALLBACK(deviceRemovedCallback), nullptr);
++    });
++
++    return touchDeviceSet;
++}
++
++static inline bool isTouchDevice(GdkDevice* device)
++{
++    return gdk_device_get_device_type(device) == GDK_DEVICE_TYPE_SLAVE && gdk_device_get_source(device) == GDK_SOURCE_TOUCHSCREEN;
++}
++
++static void deviceAddedCallback(GdkDeviceManager*, GdkDevice* device)
++{
++    if (!isTouchDevice(device))
++        return;
++
++    ASSERT(!touchDevices().contains(device));
++    touchDevices().add(device);
++}
++
++static void deviceRemovedCallback(GdkDeviceManager*, GdkDevice* device)
++{
++    if (!isTouchDevice(device))
++        return;
++
++    ASSERT(touchDevices().contains(device));
++    touchDevices().remove(device);
++}
++#endif // !GTK_CHECK_VERSION(3, 20, 0)
++
+ bool screenHasTouchDevice()
+ {
++#if GTK_CHECK_VERSION(3, 20, 0)
+     auto* display = gdk_display_get_default();
+     if (!display)
+         return true;
+ 
+     auto* seat = gdk_display_get_default_seat(display);
+     return seat ? gdk_seat_get_capabilities(seat) & GDK_SEAT_CAPABILITY_TOUCH : true;
++#else
++    return !touchDevices().isEmpty();
++#endif
+ }
+ 
+ bool screenIsTouchPrimaryInputDevice()
+@@ -191,11 +268,20 @@
+     if (!display)
+         return true;
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+     auto* seat = gdk_display_get_default_seat(display);
+     if (!seat)
+         return true;
+ 
+     auto* device = gdk_seat_get_pointer(seat);
++#else
++    auto* deviceManager = gdk_display_get_device_manager(display);
++    if (!deviceManager)
++        return true;
++
++    auto* device = gdk_device_manager_get_client_pointer(deviceManager);
++#endif
++
+     return device ? gdk_device_get_source(device) == GDK_SOURCE_TOUCHSCREEN : true;
+ }
+ #endif // ENABLE(TOUCH_EVENTS)
+diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/PlatformWheelEventGtk.cpp b/Source/WebCore/platform/gtk/PlatformWheelEventGtk.cpp
+--- a/Source/WebCore/platform/gtk/PlatformWheelEventGtk.cpp	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/gtk/PlatformWheelEventGtk.cpp	2019-09-30 22:52:49.583915720 -0500
+@@ -96,9 +96,15 @@
+     m_wheelTicksY = m_deltaY;
+ 
+ #if ENABLE(KINETIC_SCROLLING)
++#if GTK_CHECK_VERSION(3, 20, 0)
+     m_phase = gdk_event_is_scroll_stop_event(reinterpret_cast<GdkEvent*>(event)) ?
+         PlatformWheelEventPhaseEnded :
+         PlatformWheelEventPhaseChanged;
++#else
++    m_phase = direction == GDK_SCROLL_SMOOTH && !m_deltaX && !m_deltaY ?
++        PlatformWheelEventPhaseEnded :
++        PlatformWheelEventPhaseChanged;
++#endif
+ #endif // ENABLE(KINETIC_SCROLLING)
+ 
+     gdouble x, y, rootX, rootY;
+diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/RenderThemeGadget.cpp b/Source/WebCore/platform/gtk/RenderThemeGadget.cpp
+--- a/Source/WebCore/platform/gtk/RenderThemeGadget.cpp	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/gtk/RenderThemeGadget.cpp	2019-09-30 22:47:34.993338283 -0500
+@@ -26,6 +26,8 @@
+ #include "config.h"
+ #include "RenderThemeGadget.h"
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
++
+ #include "FloatRect.h"
+ #include "GRefPtrGtk.h"
+ 
+@@ -398,3 +400,5 @@
+ }
+ 
+ } // namespace WebCore
++
++#endif // GTK_CHECK_VERSION(3, 20, 0)
+diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/RenderThemeGadget.h b/Source/WebCore/platform/gtk/RenderThemeGadget.h
+--- a/Source/WebCore/platform/gtk/RenderThemeGadget.h	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/gtk/RenderThemeGadget.h	2019-09-30 22:47:34.993338283 -0500
+@@ -25,9 +25,12 @@
+ 
+ #pragma once
+ 
++#include <gtk/gtk.h>
++
++#if GTK_CHECK_VERSION(3, 20, 0)
++
+ #include "Color.h"
+ #include "IntSize.h"
+-#include <gtk/gtk.h>
+ #include <wtf/OptionSet.h>
+ #include <wtf/Vector.h>
+ #include <wtf/glib/GRefPtr.h>
+@@ -175,3 +178,5 @@
+ };
+ 
+ } // namespace WebCore
++
++#endif // GTK_CHECK_VERSION(3, 20, 0)
+diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/RenderThemeWidget.cpp b/Source/WebCore/platform/gtk/RenderThemeWidget.cpp
+--- a/Source/WebCore/platform/gtk/RenderThemeWidget.cpp	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/gtk/RenderThemeWidget.cpp	2019-09-30 22:47:34.993338283 -0500
+@@ -26,6 +26,8 @@
+ #include "config.h"
+ #include "RenderThemeWidget.h"
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
++
+ #include <wtf/HashMap.h>
+ #include <wtf/NeverDestroyed.h>
+ 
+@@ -299,3 +301,5 @@
+ }
+ 
+ } // namepsace WebCore
++
++#endif // GTK_CHECK_VERSION(3, 20, 0)
+diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/RenderThemeWidget.h b/Source/WebCore/platform/gtk/RenderThemeWidget.h
+--- a/Source/WebCore/platform/gtk/RenderThemeWidget.h	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/gtk/RenderThemeWidget.h	2019-09-30 22:47:34.993338283 -0500
+@@ -27,6 +27,8 @@
+ 
+ #include <gtk/gtk.h>
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
++
+ #include "RenderThemeGadget.h"
+ 
+ namespace WebCore {
+@@ -245,3 +247,5 @@
+ };
+ 
+ } // namespace WebCore
++
++#endif // GTK_CHECK_VERSION(3, 20, 0)
+diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/ScrollbarThemeGtk.cpp b/Source/WebCore/platform/gtk/ScrollbarThemeGtk.cpp
+--- a/Source/WebCore/platform/gtk/ScrollbarThemeGtk.cpp	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/gtk/ScrollbarThemeGtk.cpp	2019-09-30 22:47:34.993338283 -0500
+@@ -53,8 +53,9 @@
+ 
+ ScrollbarThemeGtk::ScrollbarThemeGtk()
+ {
++#if GTK_CHECK_VERSION(3, 20, 0)
+     m_usesOverlayScrollbars = g_strcmp0(g_getenv("GTK_OVERLAY_SCROLLING"), "0");
+-
++#endif
+     static bool themeMonitorInitialized = false;
+     if (!themeMonitorInitialized) {
+         g_signal_connect(gtk_settings_get_default(), "notify::gtk-theme-name", G_CALLBACK(themeChangedCallback), nullptr);
+@@ -63,12 +64,42 @@
+     }
+ }
+ 
++#if !GTK_CHECK_VERSION(3, 20, 0)
++static GRefPtr<GtkStyleContext> createStyleContext(Scrollbar* scrollbar = nullptr)
++{
++    GRefPtr<GtkStyleContext> styleContext = adoptGRef(gtk_style_context_new());
++    GRefPtr<GtkWidgetPath> path = adoptGRef(gtk_widget_path_new());
++    gtk_widget_path_append_type(path.get(), GTK_TYPE_SCROLLBAR);
++    gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_SCROLLBAR);
++    gtk_widget_path_iter_add_class(path.get(), -1, scrollbar && scrollbar->orientation() == HorizontalScrollbar ? "horizontal" : "vertical");
++    gtk_style_context_set_path(styleContext.get(), path.get());
++    return styleContext;
++}
++
++static GRefPtr<GtkStyleContext> createChildStyleContext(GtkStyleContext* parent, const char* className)
++{
++    ASSERT(parent);
++    GRefPtr<GtkWidgetPath> path = adoptGRef(gtk_widget_path_copy(gtk_style_context_get_path(parent)));
++    gtk_widget_path_append_type(path.get(), GTK_TYPE_SCROLLBAR);
++    gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_SCROLLBAR);
++    gtk_widget_path_iter_add_class(path.get(), -1, className);
++
++    GRefPtr<GtkStyleContext> styleContext = adoptGRef(gtk_style_context_new());
++    gtk_style_context_set_path(styleContext.get(), path.get());
++    gtk_style_context_set_parent(styleContext.get(), parent);
++    return styleContext;
++}
++#endif // GTK_CHECK_VERSION(3, 20, 0)
++
+ void ScrollbarThemeGtk::themeChanged()
+ {
++#if GTK_CHECK_VERSION(3, 20, 0)
+     RenderThemeWidget::clearCache();
++#endif
+     updateThemeProperties();
+ }
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+ void ScrollbarThemeGtk::updateThemeProperties()
+ {
+     auto& scrollbar = static_cast<RenderThemeScrollbar&>(RenderThemeWidget::getOrCreate(RenderThemeWidget::Type::VerticalScrollbarRight));
+@@ -77,12 +108,29 @@
+     m_hasBackButtonEndPart = scrollbar.stepper(RenderThemeScrollbarGadget::Steppers::SecondaryBackward);
+     m_hasForwardButtonStartPart = scrollbar.stepper(RenderThemeScrollbarGadget::Steppers::SecondaryForward);
+ }
++#else
++void ScrollbarThemeGtk::updateThemeProperties()
++{
++    gboolean hasBackButtonStartPart, hasForwardButtonEndPart, hasBackButtonEndPart, hasForwardButtonStartPart;
++    gtk_style_context_get_style(createStyleContext().get(),
++        "has-backward-stepper", &hasBackButtonStartPart,
++        "has-forward-stepper", &hasForwardButtonEndPart,
++        "has-secondary-backward-stepper", &hasBackButtonEndPart,
++        "has-secondary-forward-stepper", &hasForwardButtonStartPart,
++        nullptr);
++    m_hasBackButtonStartPart = hasBackButtonStartPart;
++    m_hasForwardButtonEndPart = hasForwardButtonEndPart;
++    m_hasBackButtonEndPart = hasBackButtonEndPart;
++    m_hasForwardButtonStartPart = hasForwardButtonStartPart;
++}
++#endif // GTK_CHECK_VERSION(3, 20, 0)
+ 
+ bool ScrollbarThemeGtk::hasButtons(Scrollbar& scrollbar)
+ {
+     return scrollbar.enabled() && (m_hasBackButtonStartPart || m_hasForwardButtonEndPart || m_hasBackButtonEndPart || m_hasForwardButtonStartPart);
+ }
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+ static GtkStateFlags scrollbarPartStateFlags(Scrollbar& scrollbar, ScrollbarPart part, bool painting = false)
+ {
+     unsigned stateFlags = 0;
+@@ -194,6 +242,49 @@
+ 
+     return scrollbar.width() < rect.width() ? IntRect() : rect;
+ }
++#else
++IntRect ScrollbarThemeGtk::trackRect(Scrollbar& scrollbar, bool /*painting*/)
++{
++    GRefPtr<GtkStyleContext> styleContext = createStyleContext(&scrollbar);
++    // The padding along the thumb movement axis includes the trough border
++    // plus the size of stepper spacing (the space between the stepper and
++    // the place where the thumb stops). There is often no stepper spacing.
++    int stepperSpacing, stepperSize, troughBorderWidth, thumbFat;
++    gtk_style_context_get_style(styleContext.get(), "stepper-spacing", &stepperSpacing, "stepper-size", &stepperSize, "trough-border",
++        &troughBorderWidth, "slider-width", &thumbFat, nullptr);
++
++    // The fatness of the scrollbar on the non-movement axis.
++    int thickness = thumbFat + 2 * troughBorderWidth;
++
++    int startButtonsOffset = 0;
++    int buttonsWidth = 0;
++    if (m_hasForwardButtonStartPart) {
++        startButtonsOffset += stepperSize;
++        buttonsWidth += stepperSize;
++    }
++    if (m_hasBackButtonStartPart) {
++        startButtonsOffset += stepperSize;
++        buttonsWidth += stepperSize;
++    }
++    if (m_hasBackButtonEndPart)
++        buttonsWidth += stepperSize;
++    if (m_hasForwardButtonEndPart)
++        buttonsWidth += stepperSize;
++
++    if (scrollbar.orientation() == HorizontalScrollbar) {
++        // Once the scrollbar becomes smaller than the natural size of the two buttons and the thumb, the track disappears.
++        if (scrollbar.width() < buttonsWidth + minimumThumbLength(scrollbar))
++            return IntRect();
++        return IntRect(scrollbar.x() + troughBorderWidth + stepperSpacing + startButtonsOffset, scrollbar.y(),
++            scrollbar.width() - (2 * troughBorderWidth) - (2 * stepperSpacing) - buttonsWidth, thickness);
++    }
++
++    if (scrollbar.height() < buttonsWidth + minimumThumbLength(scrollbar))
++        return IntRect();
++    return IntRect(scrollbar.x(), scrollbar.y() + troughBorderWidth + stepperSpacing + startButtonsOffset,
++        thickness, scrollbar.height() - (2 * troughBorderWidth) - (2 * stepperSpacing) - buttonsWidth);
++}
++#endif
+ 
+ bool ScrollbarThemeGtk::hasThumb(Scrollbar& scrollbar)
+ {
+@@ -202,6 +293,7 @@
+     return thumbLength(scrollbar) > 0;
+ }
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+ IntRect ScrollbarThemeGtk::backButtonRect(Scrollbar& scrollbar, ScrollbarPart part, bool /*painting*/)
+ {
+     ASSERT(part == BackButtonStartPart || part == BackButtonEndPart);
+@@ -301,7 +393,59 @@
+ 
+     return IntRect(rect.location(), preferredSize);
+ }
++#else
++IntRect ScrollbarThemeGtk::backButtonRect(Scrollbar& scrollbar, ScrollbarPart part, bool /*painting*/)
++{
++    if ((part == BackButtonEndPart && !m_hasBackButtonEndPart) || (part == BackButtonStartPart && !m_hasBackButtonStartPart))
++        return IntRect();
++
++    GRefPtr<GtkStyleContext> styleContext = createStyleContext(&scrollbar);
++    int troughBorderWidth, stepperSize, thumbFat;
++    gtk_style_context_get_style(styleContext.get(), "trough-border", &troughBorderWidth, "stepper-size", &stepperSize, "slider-width", &thumbFat, nullptr);
++    int x = scrollbar.x() + troughBorderWidth;
++    int y = scrollbar.y() + troughBorderWidth;
++    if (part == BackButtonStartPart) {
++        if (scrollbar.orientation() == HorizontalScrollbar)
++            return IntRect(x, y, stepperSize, thumbFat);
++        return IntRect(x, y, thumbFat, stepperSize);
++    }
++
++    // BackButtonEndPart (alternate button)
++    if (scrollbar.orientation() == HorizontalScrollbar)
++        return IntRect(scrollbar.x() + scrollbar.width() - troughBorderWidth - (2 * stepperSize), y, stepperSize, thumbFat);
++
++    // VerticalScrollbar alternate button
++    return IntRect(x, scrollbar.y() + scrollbar.height() - troughBorderWidth - (2 * stepperSize), thumbFat, stepperSize);
++}
++
++IntRect ScrollbarThemeGtk::forwardButtonRect(Scrollbar& scrollbar, ScrollbarPart part, bool /*painting*/)
++{
++    if ((part == ForwardButtonStartPart && !m_hasForwardButtonStartPart) || (part == ForwardButtonEndPart && !m_hasForwardButtonEndPart))
++        return IntRect();
++
++    GRefPtr<GtkStyleContext> styleContext = createStyleContext(&scrollbar);
++    int troughBorderWidth, stepperSize, thumbFat;
++    gtk_style_context_get_style(styleContext.get(), "trough-border", &troughBorderWidth, "stepper-size", &stepperSize, "slider-width", &thumbFat, nullptr);
++    if (scrollbar.orientation() == HorizontalScrollbar) {
++        int y = scrollbar.y() + troughBorderWidth;
++        if (part == ForwardButtonEndPart)
++            return IntRect(scrollbar.x() + scrollbar.width() - stepperSize - troughBorderWidth, y, stepperSize, thumbFat);
++
++        // ForwardButtonStartPart (alternate button)
++        return IntRect(scrollbar.x() + troughBorderWidth + stepperSize, y, stepperSize, thumbFat);
++    }
++
++    // VerticalScrollbar
++    int x = scrollbar.x() + troughBorderWidth;
++    if (part == ForwardButtonEndPart)
++        return IntRect(x, scrollbar.y() + scrollbar.height() - stepperSize - troughBorderWidth, thumbFat, stepperSize);
++
++    // ForwardButtonStartPart (alternate button)
++    return IntRect(x, scrollbar.y() + troughBorderWidth + stepperSize, thumbFat, stepperSize);
++}
++#endif // GTK_CHECK_VERSION(3, 20, 0)
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+ bool ScrollbarThemeGtk::paint(Scrollbar& scrollbar, GraphicsContext& graphicsContext, const IntRect& damageRect)
+ {
+     if (graphicsContext.paintingDisabled())
+@@ -464,6 +608,166 @@
+ 
+     return true;
+ }
++#else
++static void paintStepper(GtkStyleContext* parentContext, GraphicsContext& context, Scrollbar& scrollbar, const IntRect& rect, ScrollbarPart part)
++{
++    ScrollbarOrientation orientation = scrollbar.orientation();
++    GRefPtr<GtkStyleContext> styleContext = createChildStyleContext(parentContext, "button");
++
++    unsigned flags = 0;
++    if ((BackButtonStartPart == part && scrollbar.currentPos())
++        || (BackButtonEndPart == part && scrollbar.currentPos())
++        || (ForwardButtonEndPart == part && scrollbar.currentPos() != scrollbar.maximum())
++        || (ForwardButtonStartPart == part && scrollbar.currentPos() != scrollbar.maximum())) {
++        if (part == scrollbar.pressedPart())
++            flags |= GTK_STATE_FLAG_ACTIVE;
++        if (part == scrollbar.hoveredPart())
++            flags |= GTK_STATE_FLAG_PRELIGHT;
++    } else
++        flags |= GTK_STATE_FLAG_INSENSITIVE;
++    gtk_style_context_set_state(styleContext.get(), static_cast<GtkStateFlags>(flags));
++
++    gtk_render_background(styleContext.get(), context.platformContext()->cr(), rect.x(), rect.y(), rect.width(), rect.height());
++    gtk_render_frame(styleContext.get(), context.platformContext()->cr(), rect.x(), rect.y(), rect.width(), rect.height());
++
++    gfloat arrowScaling;
++    gtk_style_context_get_style(styleContext.get(), "arrow-scaling", &arrowScaling, nullptr);
++
++    double arrowSize = std::min(rect.width(), rect.height()) * arrowScaling;
++    FloatPoint arrowPoint(rect.x() + (rect.width() - arrowSize) / 2, rect.y() + (rect.height() - arrowSize) / 2);
++
++    if (flags & GTK_STATE_FLAG_ACTIVE) {
++        gint arrowDisplacementX, arrowDisplacementY;
++        gtk_style_context_get_style(styleContext.get(), "arrow-displacement-x", &arrowDisplacementX, "arrow-displacement-y", &arrowDisplacementY, nullptr);
++        arrowPoint.move(arrowDisplacementX, arrowDisplacementY);
++    }
++
++    gdouble angle;
++    if (orientation == VerticalScrollbar)
++        angle = (part == ForwardButtonEndPart || part == ForwardButtonStartPart) ? G_PI : 0;
++    else
++        angle = (part == ForwardButtonEndPart || part == ForwardButtonStartPart) ? G_PI / 2 : 3 * (G_PI / 2);
++
++    gtk_render_arrow(styleContext.get(), context.platformContext()->cr(), angle, arrowPoint.x(), arrowPoint.y(), arrowSize);
++}
++
++static void adjustRectAccordingToMargin(GtkStyleContext* context, IntRect& rect)
++{
++    GtkBorder margin;
++    gtk_style_context_get_margin(context, gtk_style_context_get_state(context), &margin);
++    rect.move(margin.left, margin.top);
++    rect.contract(margin.left + margin.right, margin.top + margin.bottom);
++}
++
++bool ScrollbarThemeGtk::paint(Scrollbar& scrollbar, GraphicsContext& graphicsContext, const IntRect& damageRect)
++{
++    if (graphicsContext.paintingDisabled())
++        return false;
++
++    GRefPtr<GtkStyleContext> styleContext = createStyleContext(&scrollbar);
++
++    // Create the ScrollbarControlPartMask based on the damageRect
++    ScrollbarControlPartMask scrollMask = NoPart;
++
++    IntRect backButtonStartPaintRect;
++    IntRect backButtonEndPaintRect;
++    IntRect forwardButtonStartPaintRect;
++    IntRect forwardButtonEndPaintRect;
++    if (hasButtons(scrollbar)) {
++        backButtonStartPaintRect = backButtonRect(scrollbar, BackButtonStartPart, true);
++        if (damageRect.intersects(backButtonStartPaintRect))
++            scrollMask |= BackButtonStartPart;
++        backButtonEndPaintRect = backButtonRect(scrollbar, BackButtonEndPart, true);
++        if (damageRect.intersects(backButtonEndPaintRect))
++            scrollMask |= BackButtonEndPart;
++        forwardButtonStartPaintRect = forwardButtonRect(scrollbar, ForwardButtonStartPart, true);
++        if (damageRect.intersects(forwardButtonStartPaintRect))
++            scrollMask |= ForwardButtonStartPart;
++        forwardButtonEndPaintRect = forwardButtonRect(scrollbar, ForwardButtonEndPart, true);
++        if (damageRect.intersects(forwardButtonEndPaintRect))
++            scrollMask |= ForwardButtonEndPart;
++    }
++
++    IntRect trackPaintRect = trackRect(scrollbar, true);
++    if (damageRect.intersects(trackPaintRect))
++        scrollMask |= TrackBGPart;
++
++    gboolean troughUnderSteppers;
++    gtk_style_context_get_style(styleContext.get(), "trough-under-steppers", &troughUnderSteppers, nullptr);
++    if (troughUnderSteppers && (scrollMask & BackButtonStartPart
++            || scrollMask & BackButtonEndPart
++            || scrollMask & ForwardButtonStartPart
++            || scrollMask & ForwardButtonEndPart))
++        scrollMask |= TrackBGPart;
++
++    IntRect currentThumbRect;
++    if (hasThumb(scrollbar)) {
++        IntRect track = trackRect(scrollbar, false);
++        IntRect trackRect = constrainTrackRectToTrackPieces(scrollbar, track);
++        int thumbFat;
++        gtk_style_context_get_style(styleContext.get(), "slider-width", &thumbFat, nullptr);
++        if (scrollbar.orientation() == HorizontalScrollbar)
++            currentThumbRect = IntRect(trackRect.x() + thumbPosition(scrollbar), trackRect.y() + (trackRect.height() - thumbFat) / 2, thumbLength(scrollbar), thumbFat);
++        else
++            currentThumbRect = IntRect(trackRect.x() + (trackRect.width() - thumbFat) / 2, trackRect.y() + thumbPosition(scrollbar), thumbFat, thumbLength(scrollbar));
++        if (damageRect.intersects(currentThumbRect))
++            scrollMask |= ThumbPart;
++    }
++
++    if (scrollMask == NoPart)
++        return true;
++
++    ScrollbarControlPartMask allButtons = BackButtonStartPart | BackButtonEndPart | ForwardButtonStartPart | ForwardButtonEndPart;
++
++    // Paint the track background. If the trough-under-steppers property is true, this
++    // should be the full size of the scrollbar, but if is false, it should only be the
++    // track rect.
++    GRefPtr<GtkStyleContext> troughStyleContext = createChildStyleContext(styleContext.get(), "trough");
++    if (scrollMask & TrackBGPart || scrollMask & ThumbPart || scrollMask & allButtons) {
++        IntRect fullScrollbarRect = trackPaintRect;
++        if (troughUnderSteppers)
++            fullScrollbarRect = scrollbar.frameRect();
++
++        IntRect adjustedRect = fullScrollbarRect;
++        adjustRectAccordingToMargin(styleContext.get(), adjustedRect);
++        gtk_render_background(styleContext.get(), graphicsContext.platformContext()->cr(), adjustedRect.x(), adjustedRect.y(), adjustedRect.width(), adjustedRect.height());
++        gtk_render_frame(styleContext.get(), graphicsContext.platformContext()->cr(), adjustedRect.x(), adjustedRect.y(), adjustedRect.width(), adjustedRect.height());
++
++        adjustedRect = fullScrollbarRect;
++        adjustRectAccordingToMargin(troughStyleContext.get(), adjustedRect);
++        gtk_render_background(troughStyleContext.get(), graphicsContext.platformContext()->cr(), adjustedRect.x(), adjustedRect.y(), adjustedRect.width(), adjustedRect.height());
++        gtk_render_frame(troughStyleContext.get(), graphicsContext.platformContext()->cr(), adjustedRect.x(), adjustedRect.y(), adjustedRect.width(), adjustedRect.height());
++    }
++
++    // Paint the back and forward buttons.
++    if (scrollMask & BackButtonStartPart)
++        paintStepper(styleContext.get(), graphicsContext, scrollbar, backButtonStartPaintRect, BackButtonStartPart);
++    if (scrollMask & BackButtonEndPart)
++        paintStepper(styleContext.get(), graphicsContext, scrollbar, backButtonEndPaintRect, BackButtonEndPart);
++    if (scrollMask & ForwardButtonStartPart)
++        paintStepper(styleContext.get(), graphicsContext, scrollbar, forwardButtonStartPaintRect, ForwardButtonStartPart);
++    if (scrollMask & ForwardButtonEndPart)
++        paintStepper(styleContext.get(), graphicsContext, scrollbar, forwardButtonEndPaintRect, ForwardButtonEndPart);
++
++    // Paint the thumb.
++    if (scrollMask & ThumbPart) {
++        GRefPtr<GtkStyleContext> thumbStyleContext = createChildStyleContext(troughStyleContext.get(), "slider");
++        unsigned flags = 0;
++        if (scrollbar.pressedPart() == ThumbPart)
++            flags |= GTK_STATE_FLAG_ACTIVE;
++        if (scrollbar.hoveredPart() == ThumbPart)
++            flags |= GTK_STATE_FLAG_PRELIGHT;
++        gtk_style_context_set_state(thumbStyleContext.get(), static_cast<GtkStateFlags>(flags));
++
++        IntRect thumbRect(currentThumbRect);
++        adjustRectAccordingToMargin(thumbStyleContext.get(), thumbRect);
++        gtk_render_slider(thumbStyleContext.get(), graphicsContext.platformContext()->cr(), thumbRect.x(), thumbRect.y(), thumbRect.width(), thumbRect.height(),
++            scrollbar.orientation() == VerticalScrollbar ? GTK_ORIENTATION_VERTICAL : GTK_ORIENTATION_HORIZONTAL);
++    }
++
++    return true;
++}
++#endif // GTK_CHECK_VERSION(3, 20, 0)
+ 
+ ScrollbarButtonPressAction ScrollbarThemeGtk::handleMousePressEvent(Scrollbar&, const PlatformMouseEvent& event, ScrollbarPart pressedPart)
+ {
+@@ -496,6 +800,7 @@
+     return ScrollbarButtonPressAction::None;
+ }
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+ int ScrollbarThemeGtk::scrollbarThickness(ScrollbarControlSize, ScrollbarExpansionState)
+ {
+     auto& scrollbarWidget = static_cast<RenderThemeScrollbar&>(RenderThemeWidget::getOrCreate(RenderThemeWidget::Type::VerticalScrollbarRight));
+@@ -505,7 +810,16 @@
+     IntSize preferredSize = contentsPreferredSize + scrollbarWidget.scrollbar().preferredSize() - scrollbarWidget.scrollbar().minimumSize();
+     return preferredSize.width();
+ }
++#else
++int ScrollbarThemeGtk::scrollbarThickness(ScrollbarControlSize, ScrollbarExpansionState)
++{
++    int thumbFat, troughBorderWidth;
++    gtk_style_context_get_style(createStyleContext().get(), "slider-width", &thumbFat, "trough-border", &troughBorderWidth, nullptr);
++    return thumbFat + 2 * troughBorderWidth;
++}
++#endif // GTK_CHECK_VERSION(3, 20, 0)
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+ int ScrollbarThemeGtk::minimumThumbLength(Scrollbar& scrollbar)
+ {
+     auto& scrollbarWidget = static_cast<RenderThemeScrollbar&>(RenderThemeWidget::getOrCreate(RenderThemeWidget::Type::VerticalScrollbarRight));
+@@ -513,5 +827,12 @@
+     IntSize minSize = scrollbarWidget.slider().minimumSize();
+     return scrollbar.orientation() == VerticalScrollbar ? minSize.height() : minSize.width();
+ }
+-
+-} // namespace WebCore
++#else
++int ScrollbarThemeGtk::minimumThumbLength(Scrollbar& scrollbar)
++{
++    int minThumbLength = 0;
++    gtk_style_context_get_style(createStyleContext(&scrollbar).get(), "min-slider-length", &minThumbLength, nullptr);
++    return minThumbLength;
++}
++#endif
++}
+diff '--exclude=.git' -urN a/Source/WebCore/platform/mediastream/gstreamer/GStreamerCapturer.cpp b/Source/WebCore/platform/mediastream/gstreamer/GStreamerCapturer.cpp
+--- a/Source/WebCore/platform/mediastream/gstreamer/GStreamerCapturer.cpp	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/mediastream/gstreamer/GStreamerCapturer.cpp	2019-09-30 22:47:34.993338283 -0500
+@@ -29,6 +29,8 @@
+ #include <mutex>
+ #include <webrtc/api/mediastreaminterface.h>
+ 
++#if GST_CHECK_VERSION(1, 10, 0)
++
+ GST_DEBUG_CATEGORY(webkit_capturer_debug);
+ #define GST_CAT_DEFAULT webkit_capturer_debug
+ 
+@@ -184,4 +186,5 @@
+ 
+ } // namespace WebCore
+ 
++#endif // GST_CHECK_VERSION(1, 10, 0)
+ #endif // ENABLE(VIDEO) && ENABLE(MEDIA_STREAM) && USE(LIBWEBRTC) && USE(GSTREAMER)
+diff '--exclude=.git' -urN a/Source/WebCore/platform/mediastream/gstreamer/GStreamerMediaStreamSource.cpp b/Source/WebCore/platform/mediastream/gstreamer/GStreamerMediaStreamSource.cpp
+--- a/Source/WebCore/platform/mediastream/gstreamer/GStreamerMediaStreamSource.cpp	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/mediastream/gstreamer/GStreamerMediaStreamSource.cpp	2019-09-30 22:47:34.993338283 -0500
+@@ -34,6 +34,8 @@
+ #include <gst/app/gstappsrc.h>
+ #include <gst/base/gstflowcombiner.h>
+ 
++#if GST_CHECK_VERSION(1, 10, 0)
++
+ namespace WebCore {
+ 
+ static void webkitMediaStreamSrcPushVideoSample(WebKitMediaStreamSrc* self, GstSample* gstsample);
+@@ -678,5 +680,5 @@
+ }
+ 
+ } // WebCore
+-
++#endif // GST_CHECK_VERSION(1, 10, 0)
+ #endif // ENABLE(VIDEO) && ENABLE(MEDIA_STREAM) && USE(LIBWEBRTC)
+diff '--exclude=.git' -urN a/Source/WebCore/platform/network/soup/ResourceRequest.h b/Source/WebCore/platform/network/soup/ResourceRequest.h
+--- a/Source/WebCore/platform/network/soup/ResourceRequest.h	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/platform/network/soup/ResourceRequest.h	2019-09-30 22:47:34.994338279 -0500
+@@ -168,6 +168,8 @@
+     return true;
+ }
+ 
++
++#if SOUP_CHECK_VERSION(2, 43, 1)
+ inline SoupMessagePriority toSoupMessagePriority(ResourceLoadPriority priority)
+ {
+     switch (priority) {
+@@ -186,6 +188,7 @@
+     ASSERT_NOT_REACHED();
+     return SOUP_MESSAGE_PRIORITY_VERY_LOW;
+ }
++#endif
+ 
+ } // namespace WebCore
+ 
+diff '--exclude=.git' -urN a/Source/WebCore/platform/network/soup/SoupNetworkSession.cpp b/Source/WebCore/platform/network/soup/SoupNetworkSession.cpp
+--- a/Source/WebCore/platform/network/soup/SoupNetworkSession.cpp	2019-08-28 06:54:06.000000000 -0500
++++ b/Source/WebCore/platform/network/soup/SoupNetworkSession.cpp	2019-09-30 22:51:07.930375646 -0500
+@@ -139,11 +139,15 @@
+     if (!initialAcceptLanguages().isNull())
+         setAcceptLanguages(initialAcceptLanguages());
+ 
++#if SOUP_CHECK_VERSION(2, 53, 92)
+     if (soup_auth_negotiate_supported() && !m_sessionID.isEphemeral()) {
+         g_object_set(m_soupSession.get(),
+             SOUP_SESSION_ADD_FEATURE_BY_TYPE, SOUP_TYPE_AUTH_NEGOTIATE,
+             nullptr);
+     }
++#else
++    UNUSED_PARAM(sessionID);
++#endif
+ 
+     if (proxySettings().mode != SoupNetworkProxySettings::Mode::Default)
+         setupProxy();
+diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Source/WebCore/rendering/RenderThemeGtk.cpp
+--- a/Source/WebCore/rendering/RenderThemeGtk.cpp	2019-08-28 06:46:31.000000000 -0500
++++ b/Source/WebCore/rendering/RenderThemeGtk.cpp	2019-09-30 22:47:34.994338279 -0500
+@@ -164,9 +164,137 @@
+ #if ENABLE(VIDEO)
+     MediaButton,
+ #endif
++#if GTK_CHECK_VERSION(3, 20, 0)
+     Window,
++#endif
+ };
+ 
++#if !GTK_CHECK_VERSION(3, 20, 0)
++// This is the default value defined by GTK+, where it was defined as MIN_ARROW_SIZE in gtkarrow.c.
++static const int minArrowSize = 15;
++// This is the default value defined by GTK+, where it was defined as MIN_ARROW_WIDTH in gtkspinbutton.c.
++static const int minSpinButtonArrowSize = 6;
++
++static GRefPtr<GtkStyleContext> createStyleContext(RenderThemePart themePart, GtkStyleContext* parent = nullptr)
++{
++    GRefPtr<GtkWidgetPath> path = adoptGRef(parent ? gtk_widget_path_copy(gtk_style_context_get_path(parent)) : gtk_widget_path_new());
++
++    switch (themePart) {
++    case Entry:
++    case EntrySelection:
++        gtk_widget_path_append_type(path.get(), GTK_TYPE_ENTRY);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_ENTRY);
++        break;
++    case EntryIconLeft:
++    case EntryIconRight:
++        gtk_widget_path_append_type(path.get(), GTK_TYPE_ENTRY);
++        break;
++    case Button:
++        gtk_widget_path_append_type(path.get(), GTK_TYPE_BUTTON);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_BUTTON);
++        gtk_widget_path_iter_add_class(path.get(), -1, "text-button");
++        break;
++    case CheckButton:
++        gtk_widget_path_append_type(path.get(), GTK_TYPE_CHECK_BUTTON);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_CHECK);
++        break;
++    case RadioButton:
++        gtk_widget_path_append_type(path.get(), GTK_TYPE_RADIO_BUTTON);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_RADIO);
++        break;
++    case ComboBox:
++        gtk_widget_path_append_type(path.get(), GTK_TYPE_COMBO_BOX);
++        break;
++    case ComboBoxButton:
++        gtk_widget_path_append_type(path.get(), GTK_TYPE_BUTTON);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_BUTTON);
++        gtk_widget_path_iter_add_class(path.get(), -1, "text-button");
++        gtk_widget_path_iter_add_class(path.get(), -1, "combo");
++        break;
++    case ComboBoxArrow:
++        gtk_widget_path_append_type(path.get(), GTK_TYPE_ARROW);
++        gtk_widget_path_iter_add_class(path.get(), -1, "arrow");
++        break;
++    case Scale:
++        gtk_widget_path_append_type(path.get(), GTK_TYPE_SCALE);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_SCALE);
++        break;
++    case ScaleTrough:
++        gtk_widget_path_append_type(path.get(), GTK_TYPE_SCALE);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_SCALE);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_TROUGH);
++        break;
++    case ScaleSlider:
++        gtk_widget_path_append_type(path.get(), GTK_TYPE_SCALE);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_SCALE);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_SLIDER);
++        break;
++    case ProgressBar:
++        gtk_widget_path_append_type(path.get(), GTK_TYPE_PROGRESS_BAR);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_PROGRESSBAR);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_HORIZONTAL);
++        break;
++    case ProgressBarTrough:
++        gtk_widget_path_append_type(path.get(), GTK_TYPE_PROGRESS_BAR);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_TROUGH);
++        break;
++    case ProgressBarProgress:
++        gtk_widget_path_append_type(path.get(), GTK_TYPE_PROGRESS_BAR);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_PROGRESSBAR);
++        break;
++    case ListBox:
++        gtk_widget_path_append_type(path.get(), GTK_TYPE_TREE_VIEW);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_VIEW);
++        break;
++    case SpinButton:
++        gtk_widget_path_append_type(path.get(), GTK_TYPE_SPIN_BUTTON);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_SPINBUTTON);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_HORIZONTAL);
++        break;
++    case SpinButtonUpButton:
++    case SpinButtonDownButton:
++        gtk_widget_path_append_type(path.get(), GTK_TYPE_SPIN_BUTTON);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_SPINBUTTON);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_BUTTON);
++        break;
++#if ENABLE(VIDEO)
++    case MediaButton:
++        gtk_widget_path_append_type(path.get(), GTK_TYPE_IMAGE);
++        gtk_widget_path_iter_add_class(path.get(), -1, GTK_STYLE_CLASS_IMAGE);
++        break;
++#endif // ENABLE(VIDEO)
++    default:
++        ASSERT_NOT_REACHED();
++        break;
++    }
++
++    GRefPtr<GtkStyleContext> context = adoptGRef(gtk_style_context_new());
++    gtk_style_context_set_path(context.get(), path.get());
++    gtk_style_context_set_parent(context.get(), parent);
++    return context;
++}
++
++static GRefPtr<GdkPixbuf> loadThemedIcon(GtkStyleContext* context, const char* iconName, GtkIconSize iconSize)
++{
++    GRefPtr<GIcon> icon = adoptGRef(g_themed_icon_new(iconName));
++    unsigned lookupFlags = GTK_ICON_LOOKUP_USE_BUILTIN | GTK_ICON_LOOKUP_FORCE_SIZE | GTK_ICON_LOOKUP_FORCE_SVG;
++#if GTK_CHECK_VERSION(3, 14, 0)
++    GtkTextDirection direction = gtk_style_context_get_direction(context);
++    if (direction & GTK_TEXT_DIR_LTR)
++        lookupFlags |= GTK_ICON_LOOKUP_DIR_LTR;
++    else if (direction & GTK_TEXT_DIR_RTL)
++        lookupFlags |= GTK_ICON_LOOKUP_DIR_RTL;
++#endif
++    int width, height;
++    gtk_icon_size_lookup(iconSize, &width, &height);
++    GRefPtr<GtkIconInfo> iconInfo = adoptGRef(gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon.get(), std::min(width, height), static_cast<GtkIconLookupFlags>(lookupFlags)));
++    if (!iconInfo)
++        return nullptr;
++
++    return adoptGRef(gtk_icon_info_load_symbolic_for_context(iconInfo.get(), context, nullptr, nullptr));
++}
++#endif // !GTK_CHECK_VERSION(3, 20, 0)
++
+ #if ENABLE(VIDEO)
+ static bool nodeHasPseudo(Node& node, const char* pseudo)
+ {
+@@ -226,6 +354,7 @@
+     return RenderTheme::baselinePosition(box);
+ }
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+ void RenderThemeGtk::adjustRepaintRect(const RenderObject&, FloatRect&)
+ {
+ }
+@@ -289,6 +418,82 @@
+ 
+     return static_cast<GtkStateFlags>(stateFlags);
+ }
++#else
++static GtkTextDirection gtkTextDirection(TextDirection direction)
++{
++    switch (direction) {
++    case TextDirection::RTL:
++        return GTK_TEXT_DIR_RTL;
++    case TextDirection::LTR:
++        return GTK_TEXT_DIR_LTR;
++    default:
++        return GTK_TEXT_DIR_NONE;
++    }
++}
++
++static GtkStateFlags gtkIconStateFlags(RenderTheme* theme, const RenderObject& renderObject)
++{
++    if (!theme->isEnabled(renderObject))
++        return GTK_STATE_FLAG_INSENSITIVE;
++    if (theme->isPressed(renderObject))
++        return GTK_STATE_FLAG_ACTIVE;
++    if (theme->isHovered(renderObject))
++        return GTK_STATE_FLAG_PRELIGHT;
++
++    return GTK_STATE_FLAG_NORMAL;
++}
++
++static void adjustRectForFocus(GtkStyleContext* context, FloatRect& rect)
++{
++    gint focusWidth, focusPad;
++    gtk_style_context_get_style(context, "focus-line-width", &focusWidth, "focus-padding", &focusPad, nullptr);
++    rect.inflate(focusWidth + focusPad);
++}
++
++void RenderThemeGtk::adjustRepaintRect(const RenderObject& renderObject, FloatRect& rect)
++{
++    GRefPtr<GtkStyleContext> context;
++    bool checkInteriorFocus = false;
++    ControlPart part = renderObject.style().appearance();
++    switch (part) {
++    case CheckboxPart:
++    case RadioPart:
++        context = createStyleContext(part == CheckboxPart ? CheckButton : RadioButton);
++
++        gint indicatorSpacing;
++        gtk_style_context_get_style(context.get(), "indicator-spacing", &indicatorSpacing, nullptr);
++        rect.inflate(indicatorSpacing);
++
++        return;
++    case SliderVerticalPart:
++    case SliderHorizontalPart:
++        context = createStyleContext(ScaleSlider);
++        break;
++    case ButtonPart:
++    case MenulistButtonPart:
++    case MenulistPart:
++        context = createStyleContext(Button);
++        checkInteriorFocus = true;
++        break;
++    case TextFieldPart:
++    case TextAreaPart:
++        context = createStyleContext(Entry);
++        checkInteriorFocus = true;
++        break;
++    default:
++        return;
++    }
++
++    ASSERT(context);
++    if (checkInteriorFocus) {
++        gboolean interiorFocus;
++        gtk_style_context_get_style(context.get(), "interior-focus", &interiorFocus, nullptr);
++        if (interiorFocus)
++            return;
++    }
++    adjustRectForFocus(context.get(), rect);
++}
++#endif // GTK_CHECK_VERSION(3, 20, 0)
+ 
+ void RenderThemeGtk::adjustButtonStyle(StyleResolver&, RenderStyle& style, const Element*) const
+ {
+@@ -310,6 +515,7 @@
+     }
+ }
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+ static void setToggleSize(RenderThemePart themePart, RenderStyle& style)
+ {
+     ASSERT(themePart == CheckButton || themePart == RadioButton);
+@@ -354,6 +560,75 @@
+     if (theme->isFocused(renderObject))
+         toggleWidget.button().renderFocus(paintInfo.context().platformContext()->cr(), rect);
+ }
++#else
++static void setToggleSize(RenderThemePart themePart, RenderStyle& style)
++{
++    // The width and height are both specified, so we shouldn't change them.
++    if (!style.width().isIntrinsicOrAuto() && !style.height().isAuto())
++        return;
++
++    GRefPtr<GtkStyleContext> context = createStyleContext(themePart);
++    // Other ports hard-code this to 13. GTK+ users tend to demand the native look.
++    gint indicatorSize;
++    gtk_style_context_get_style(context.get(), "indicator-size", &indicatorSize, nullptr);
++
++    if (style.width().isIntrinsicOrAuto())
++        style.setWidth(Length(indicatorSize, Fixed));
++
++    if (style.height().isAuto())
++        style.setHeight(Length(indicatorSize, Fixed));
++}
++
++static void paintToggle(const RenderThemeGtk* theme, RenderThemePart themePart, const RenderObject& renderObject, const PaintInfo& paintInfo, const IntRect& fullRect)
++{
++    GRefPtr<GtkStyleContext> context = createStyleContext(themePart);
++    gtk_style_context_set_direction(context.get(), static_cast<GtkTextDirection>(gtkTextDirection(renderObject.style().direction())));
++
++    unsigned flags = 0;
++    if (!theme->isEnabled(renderObject))
++        flags |= GTK_STATE_FLAG_INSENSITIVE;
++    else if (theme->isHovered(renderObject))
++        flags |= GTK_STATE_FLAG_PRELIGHT;
++    if (theme->isIndeterminate(renderObject))
++        flags |= GTK_STATE_FLAG_INCONSISTENT;
++    else if (theme->isChecked(renderObject))
++#if GTK_CHECK_VERSION(3, 13, 7)
++        flags |= GTK_STATE_FLAG_CHECKED;
++#else
++        flags |= GTK_STATE_FLAG_ACTIVE;
++#endif
++    if (theme->isPressed(renderObject))
++        flags |= GTK_STATE_FLAG_SELECTED;
++    gtk_style_context_set_state(context.get(), static_cast<GtkStateFlags>(flags));
++
++    // Some themes do not render large toggle buttons properly, so we simply
++    // shrink the rectangle back down to the default size and then center it
++    // in the full toggle button region. The reason for not simply forcing toggle
++    // buttons to be a smaller size is that we don't want to break site layouts.
++    FloatRect rect(fullRect);
++    gint indicatorSize;
++    gtk_style_context_get_style(context.get(), "indicator-size", &indicatorSize, nullptr);
++    IntSize minSize(indicatorSize, indicatorSize);
++    shrinkToMinimumSizeAndCenterRectangle(rect, minSize);
++
++    gtk_render_background(context.get(), paintInfo.context().platformContext()->cr(), rect.x(), rect.y(), rect.width(), rect.height());
++    gtk_render_frame(context.get(), paintInfo.context().platformContext()->cr(), rect.x(), rect.y(), rect.width(), rect.height());
++
++    if (themePart == CheckButton)
++        gtk_render_check(context.get(), paintInfo.context().platformContext()->cr(), rect.x(), rect.y(), rect.width(), rect.height());
++    else
++        gtk_render_option(context.get(), paintInfo.context().platformContext()->cr(), rect.x(), rect.y(), rect.width(), rect.height());
++
++    if (theme->isFocused(renderObject)) {
++        IntRect indicatorRect(rect);
++        gint indicatorSpacing;
++        gtk_style_context_get_style(context.get(), "indicator-spacing", &indicatorSpacing, nullptr);
++        indicatorRect.inflate(indicatorSpacing);
++        gtk_render_focus(context.get(), paintInfo.context().platformContext()->cr(), indicatorRect.x(), indicatorRect.y(),
++            indicatorRect.width(), indicatorRect.height());
++    }
++}
++#endif // GTK_CHECK_VERSION(3, 20, 0)
+ 
+ void RenderThemeGtk::setCheckboxSize(RenderStyle& style) const
+ {
+@@ -377,6 +652,7 @@
+     return false;
+ }
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+ bool RenderThemeGtk::paintButton(const RenderObject& renderObject, const PaintInfo& paintInfo, const IntRect& rect)
+ {
+     auto& buttonWidget = static_cast<RenderThemeButton&>(RenderThemeWidget::getOrCreate(isDefault(renderObject) ? RenderThemeWidget::Type::ButtonDefault : RenderThemeWidget::Type::Button));
+@@ -386,14 +662,99 @@
+         buttonWidget.button().renderFocus(paintInfo.context().platformContext()->cr(), rect);
+     return false;
+ }
++#else
++static void renderButton(RenderTheme* theme, GtkStyleContext* context, const RenderObject& renderObject, const PaintInfo& paintInfo, const IntRect& rect)
++{
++    IntRect buttonRect(rect);
++
++    guint flags = 0;
++    if (!theme->isEnabled(renderObject))
++        flags |= GTK_STATE_FLAG_INSENSITIVE;
++    else if (theme->isHovered(renderObject))
++        flags |= GTK_STATE_FLAG_PRELIGHT;
++    if (theme->isPressed(renderObject))
++        flags |= GTK_STATE_FLAG_ACTIVE;
++    gtk_style_context_set_state(context, static_cast<GtkStateFlags>(flags));
++
++    if (theme->isDefault(renderObject)) {
++        GtkBorder* borderPtr = 0;
++        GtkBorder border = { 1, 1, 1, 1 };
++
++        gtk_style_context_get_style(context, "default-border", &borderPtr, nullptr);
++        if (borderPtr) {
++            border = *borderPtr;
++            gtk_border_free(borderPtr);
++        }
++
++        buttonRect.move(border.left, border.top);
++        buttonRect.setWidth(buttonRect.width() - (border.left + border.right));
++        buttonRect.setHeight(buttonRect.height() - (border.top + border.bottom));
++
++        gtk_style_context_add_class(context, GTK_STYLE_CLASS_DEFAULT);
++    }
++
++    gtk_render_background(context, paintInfo.context().platformContext()->cr(), buttonRect.x(), buttonRect.y(), buttonRect.width(), buttonRect.height());
++    gtk_render_frame(context, paintInfo.context().platformContext()->cr(), buttonRect.x(), buttonRect.y(), buttonRect.width(), buttonRect.height());
++
++    if (theme->isFocused(renderObject)) {
++        gint focusWidth, focusPad;
++        gboolean displaceFocus, interiorFocus;
++        gtk_style_context_get_style(
++            context,
++            "focus-line-width", &focusWidth,
++            "focus-padding", &focusPad,
++            "interior-focus", &interiorFocus,
++            "displace-focus", &displaceFocus,
++            nullptr);
++
++        if (interiorFocus) {
++            GtkBorder borderWidth;
++            gtk_style_context_get_border(context, gtk_style_context_get_state(context), &borderWidth);
++
++            buttonRect = IntRect(
++                buttonRect.x() + borderWidth.left + focusPad,
++                buttonRect.y() + borderWidth.top + focusPad,
++                buttonRect.width() - (2 * focusPad + borderWidth.left + borderWidth.right),
++                buttonRect.height() - (2 * focusPad + borderWidth.top + borderWidth.bottom));
++        } else
++            buttonRect.inflate(focusWidth + focusPad);
++
++        if (displaceFocus && theme->isPressed(renderObject)) {
++            gint childDisplacementX;
++            gint childDisplacementY;
++            gtk_style_context_get_style(context, "child-displacement-x", &childDisplacementX, "child-displacement-y", &childDisplacementY, nullptr);
++            buttonRect.move(childDisplacementX, childDisplacementY);
++        }
++
++        gtk_render_focus(context, paintInfo.context().platformContext()->cr(), buttonRect.x(), buttonRect.y(), buttonRect.width(), buttonRect.height());
++    }
++}
++bool RenderThemeGtk::paintButton(const RenderObject& renderObject, const PaintInfo& paintInfo, const IntRect& rect)
++{
++    GRefPtr<GtkStyleContext> context = createStyleContext(Button);
++    gtk_style_context_set_direction(context.get(), static_cast<GtkTextDirection>(gtkTextDirection(renderObject.style().direction())));
++    renderButton(this, context.get(), renderObject, paintInfo, rect);
++    return false;
++}
++#endif // GTK_CHECK_VERSION(3, 20, 0)
+ 
+ static Color menuListColor(const Element* element)
+ {
++#if GTK_CHECK_VERSION(3, 20, 0)
+     auto& comboWidget = static_cast<RenderThemeComboBox&>(RenderThemeWidget::getOrCreate(RenderThemeWidget::Type::ComboBox));
+     GtkStateFlags state = element->isDisabledFormControl() ? GTK_STATE_FLAG_INSENSITIVE : GTK_STATE_FLAG_NORMAL;
+     comboWidget.comboBox().setState(state);
+     comboWidget.button().setState(state);
+     return comboWidget.button().color();
++#else
++    GRefPtr<GtkStyleContext> parentStyleContext = createStyleContext(ComboBox);
++    GRefPtr<GtkStyleContext> buttonStyleContext = createStyleContext(ComboBoxButton, parentStyleContext.get());
++    gtk_style_context_set_state(buttonStyleContext.get(), element->isDisabledFormControl() ? GTK_STATE_FLAG_INSENSITIVE : GTK_STATE_FLAG_NORMAL);
++
++    GdkRGBA gdkRGBAColor;
++    gtk_style_context_get_color(buttonStyleContext.get(), gtk_style_context_get_state(buttonStyleContext.get()), &gdkRGBAColor);
++    return gdkRGBAColor;
++#endif // GTK_CHECK_VERSION(3, 20, 0)
+ }
+ 
+ void RenderThemeGtk::adjustMenuListStyle(StyleResolver&, RenderStyle& style, const Element* element) const
+@@ -413,6 +774,7 @@
+     adjustMenuListStyle(styleResolver, style, e);
+ }
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+ /*
+  * GtkComboBox gadgets tree
+  *
+@@ -468,12 +830,104 @@
+ 
+     return false;
+ }
++#else
++LengthBox RenderThemeGtk::popupInternalPaddingBox(const RenderStyle& style) const
++{
++    if (style.appearance() == NoControlPart)
++        return { 0, 0, 0, 0 };
++
++    GRefPtr<GtkStyleContext> parentContext = createStyleContext(ComboBox);
++    GRefPtr<GtkStyleContext> context = createStyleContext(ComboBoxButton, parentContext.get());
++    gtk_style_context_set_direction(context.get(), static_cast<GtkTextDirection>(gtkTextDirection(style.direction())));
++    gtk_style_context_set_state(context.get(), static_cast<GtkStateFlags>(0));
++    GtkBorder borderWidth = { 0, 0, 0, 0 };
++    gtk_style_context_get_border(context.get(), gtk_style_context_get_state(context.get()), &borderWidth);
++
++    gboolean interiorFocus;
++    gint focusWidth, focusPad;
++    gtk_style_context_get_style(context.get(), "interior-focus", &interiorFocus, "focus-line-width", &focusWidth, "focus-padding", &focusPad, nullptr);
++    focusWidth = interiorFocus ? focusWidth + focusPad : 0;
++
++    return { borderWidth.top + focusWidth, borderWidth.right + focusWidth + (style.direction() == TextDirection::LTR ? minArrowSize : 0),
++        borderWidth.bottom + focusWidth, borderWidth.left + focusWidth + (style.direction() == TextDirection::RTL ? minArrowSize : 0) };
++}
++
++bool RenderThemeGtk::paintMenuList(const RenderObject& renderObject, const PaintInfo& paintInfo, const FloatRect& r)
++{
++    // FIXME: adopt subpixel themes.
++    IntRect rect = IntRect(r);
++
++    cairo_t* cairoContext = paintInfo.context().platformContext()->cr();
++    GtkTextDirection direction = static_cast<GtkTextDirection>(gtkTextDirection(renderObject.style().direction()));
++
++    GRefPtr<GtkStyleContext> parentStyleContext = createStyleContext(ComboBox);
++
++    // Paint the button.
++    GRefPtr<GtkStyleContext> buttonStyleContext = createStyleContext(ComboBoxButton, parentStyleContext.get());
++    gtk_style_context_set_direction(buttonStyleContext.get(), direction);
++    renderButton(this, buttonStyleContext.get(), renderObject, paintInfo, rect);
++
++    // Get the inner rectangle.
++    gint focusWidth, focusPad;
++    GtkBorder* innerBorderPtr = 0;
++    GtkBorder innerBorder = { 1, 1, 1, 1 };
++    gtk_style_context_get_style(buttonStyleContext.get(), "inner-border", &innerBorderPtr, "focus-line-width", &focusWidth, "focus-padding", &focusPad, nullptr);
++    if (innerBorderPtr) {
++        innerBorder = *innerBorderPtr;
++        gtk_border_free(innerBorderPtr);
++    }
++
++    GtkBorder borderWidth;
++    GtkStateFlags state = gtk_style_context_get_state(buttonStyleContext.get());
++    gtk_style_context_get_border(buttonStyleContext.get(), state, &borderWidth);
++
++    focusWidth += focusPad;
++    IntRect innerRect(
++        rect.x() + innerBorder.left + borderWidth.left + focusWidth,
++        rect.y() + innerBorder.top + borderWidth.top + focusWidth,
++        rect.width() - borderWidth.left - borderWidth.right - innerBorder.left - innerBorder.right - (2 * focusWidth),
++        rect.height() - borderWidth.top - borderWidth.bottom - innerBorder.top - innerBorder.bottom - (2 * focusWidth));
++
++    if (isPressed(renderObject)) {
++        gint childDisplacementX;
++        gint childDisplacementY;
++        gtk_style_context_get_style(buttonStyleContext.get(), "child-displacement-x", &childDisplacementX, "child-displacement-y", &childDisplacementY, nullptr);
++        innerRect.move(childDisplacementX, childDisplacementY);
++    }
++    innerRect.setWidth(std::max(1, innerRect.width()));
++    innerRect.setHeight(std::max(1, innerRect.height()));
++
++    // Paint the arrow.
++    GRefPtr<GtkStyleContext> arrowStyleContext = createStyleContext(ComboBoxArrow, buttonStyleContext.get());
++    gtk_style_context_set_direction(arrowStyleContext.get(), direction);
++
++    gfloat arrowScaling;
++    gtk_style_context_get_style(parentStyleContext.get(), "arrow-scaling", &arrowScaling, nullptr);
++
++    IntSize arrowSize(minArrowSize, innerRect.height());
++    FloatPoint arrowPosition(innerRect.location());
++    if (direction == GTK_TEXT_DIR_LTR)
++        arrowPosition.move(innerRect.width() - arrowSize.width(), 0);
++
++    // GTK+ actually fetches the xalign and valign values from the widget, but since we
++    // don't have a widget here, we are just using the default xalign and valign values of 0.5.
++    gint extent = std::min(arrowSize.width(), arrowSize.height()) * arrowScaling;
++    arrowPosition.move((arrowSize.width() - extent) / 2, (arrowSize.height() - extent) / 2);
++
++    gtk_style_context_set_state(arrowStyleContext.get(), state);
++    gtk_render_arrow(arrowStyleContext.get(), cairoContext, G_PI, arrowPosition.x(), arrowPosition.y(), extent);
++
++    return false;
++}
++#endif // GTK_CHECK_VERSION(3, 20, 0)
+ 
+ bool RenderThemeGtk::paintMenuListButtonDecorations(const RenderBox& object, const PaintInfo& info, const FloatRect& rect)
+ {
+     return paintMenuList(object, info, rect);
+ }
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
++
+ static IntSize spinButtonSize()
+ {
+     auto& spinButtonWidget = static_cast<RenderThemeSpinButton&>(RenderThemeWidget::getOrCreate(RenderThemeWidget::Type::SpinButton));
+@@ -531,7 +985,42 @@
+     }
+     return false;
+ }
++#else
++void RenderThemeGtk::adjustTextFieldStyle(StyleResolver&, RenderStyle&, const Element*) const
++{
++}
++
++bool RenderThemeGtk::paintTextField(const RenderObject& renderObject, const PaintInfo& paintInfo, const FloatRect& rect)
++{
++    GRefPtr<GtkStyleContext> context = createStyleContext(Entry);
++    gtk_style_context_set_direction(context.get(), static_cast<GtkTextDirection>(gtkTextDirection(renderObject.style().direction())));
++
++    guint flags = 0;
++    if (!isEnabled(renderObject) || isReadOnlyControl(renderObject))
++        flags |= GTK_STATE_FLAG_INSENSITIVE;
++    else if (isFocused(renderObject))
++        flags |= GTK_STATE_FLAG_FOCUSED;
++    gtk_style_context_set_state(context.get(), static_cast<GtkStateFlags>(flags));
++
++    gtk_render_background(context.get(), paintInfo.context().platformContext()->cr(), rect.x(), rect.y(), rect.width(), rect.height());
++    gtk_render_frame(context.get(), paintInfo.context().platformContext()->cr(), rect.x(), rect.y(), rect.width(), rect.height());
++
++    if (isFocused(renderObject) && isEnabled(renderObject)) {
++        gboolean interiorFocus;
++        gint focusWidth, focusPad;
++        gtk_style_context_get_style(context.get(), "interior-focus", &interiorFocus, "focus-line-width", &focusWidth, "focus-padding", &focusPad, nullptr);
++        if (!interiorFocus) {
++            IntRect focusRect(rect);
++            focusRect.inflate(focusWidth + focusPad);
++            gtk_render_focus(context.get(), paintInfo.context().platformContext()->cr(), focusRect.x(), focusRect.y(), focusRect.width(), focusRect.height());
++        }
++    }
++
++    return false;
++}
++#endif
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+ static void adjustSearchFieldIconStyle(RenderThemePart themePart, RenderStyle& style)
+ {
+     ASSERT(themePart == EntryIconLeft || themePart == EntryIconRight);
+@@ -552,6 +1041,55 @@
+     style.setWidth(Length(preferredSize.width(), Fixed));
+     style.setHeight(Length(preferredSize.height(), Fixed));
+ }
++#else
++// Defined in GTK+ (gtk/gtkiconfactory.c)
++static const gint gtkIconSizeMenu = 16;
++static const gint gtkIconSizeSmallToolbar = 18;
++static const gint gtkIconSizeButton = 20;
++static const gint gtkIconSizeLargeToolbar = 24;
++static const gint gtkIconSizeDnd = 32;
++static const gint gtkIconSizeDialog = 48;
++
++static GtkIconSize getIconSizeForPixelSize(gint pixelSize)
++{
++    if (pixelSize < gtkIconSizeSmallToolbar)
++        return GTK_ICON_SIZE_MENU;
++    if (pixelSize >= gtkIconSizeSmallToolbar && pixelSize < gtkIconSizeButton)
++        return GTK_ICON_SIZE_SMALL_TOOLBAR;
++    if (pixelSize >= gtkIconSizeButton && pixelSize < gtkIconSizeLargeToolbar)
++        return GTK_ICON_SIZE_BUTTON;
++    if (pixelSize >= gtkIconSizeLargeToolbar && pixelSize < gtkIconSizeDnd)
++        return GTK_ICON_SIZE_LARGE_TOOLBAR;
++    if (pixelSize >= gtkIconSizeDnd && pixelSize < gtkIconSizeDialog)
++        return GTK_ICON_SIZE_DND;
++
++    return GTK_ICON_SIZE_DIALOG;
++}
++
++static void adjustSearchFieldIconStyle(RenderThemePart themePart, RenderStyle& style)
++{
++    style.resetBorder();
++    style.resetPadding();
++
++    GRefPtr<GtkStyleContext> parentContext = createStyleContext(Entry);
++    GRefPtr<GtkStyleContext> context = createStyleContext(themePart, parentContext.get());
++
++    GtkBorder padding;
++    gtk_style_context_get_padding(context.get(), gtk_style_context_get_state(context.get()), &padding);
++
++    // Get the icon size based on the font size.
++    int fontSize = style.computedFontPixelSize();
++    if (fontSize < gtkIconSizeMenu) {
++        style.setWidth(Length(fontSize + (padding.left + padding.right), Fixed));
++        style.setHeight(Length(fontSize + (padding.top + padding.bottom), Fixed));
++        return;
++    }
++    gint width = 0, height = 0;
++    gtk_icon_size_lookup(getIconSizeForPixelSize(fontSize), &width, &height);
++    style.setWidth(Length(width + (padding.left + padding.right), Fixed));
++    style.setHeight(Length(height + (padding.top + padding.bottom), Fixed));
++}
++#endif
+ 
+ bool RenderThemeGtk::paintTextArea(const RenderObject& o, const PaintInfo& i, const FloatRect& r)
+ {
+@@ -578,6 +1116,7 @@
+     adjustSearchFieldIconStyle(EntryIconRight, style);
+ }
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+ static bool paintSearchFieldIcon(RenderThemeGtk* theme, RenderThemePart themePart, const RenderBox& renderObject, const PaintInfo& paintInfo, const IntRect& rect)
+ {
+     ASSERT(themePart == EntryIconLeft || themePart == EntryIconRight);
+@@ -604,6 +1143,72 @@
+ {
+     return paintSearchFieldIcon(this, EntryIconRight, renderObject, paintInfo, rect);
+ }
++#else
++static bool paintIcon(GtkStyleContext* context, GraphicsContext& graphicsContext, const IntRect& rect, const char* iconName)
++{
++    GRefPtr<GdkPixbuf> icon = loadThemedIcon(context, iconName, getIconSizeForPixelSize(rect.height()));
++    if (!icon)
++        return false;
++
++    if (gdk_pixbuf_get_width(icon.get()) > rect.width() || gdk_pixbuf_get_height(icon.get()) > rect.height())
++        icon = adoptGRef(gdk_pixbuf_scale_simple(icon.get(), rect.width(), rect.height(), GDK_INTERP_BILINEAR));
++
++    gtk_render_icon(context, graphicsContext.platformContext()->cr(), icon.get(), rect.x(), rect.y());
++    return true;
++}
++
++static bool paintEntryIcon(RenderThemePart themePart, const char* iconName, GraphicsContext& graphicsContext, const IntRect& rect, GtkTextDirection direction, GtkStateFlags state)
++{
++    GRefPtr<GtkStyleContext> parentContext = createStyleContext(Entry);
++    GRefPtr<GtkStyleContext> context = createStyleContext(themePart, parentContext.get());
++    gtk_style_context_set_direction(context.get(), direction);
++    gtk_style_context_set_state(context.get(), state);
++    return paintIcon(context.get(), graphicsContext, rect, iconName);
++}
++
++static IntRect centerRectVerticallyInParentInputElement(const RenderObject& renderObject, const IntRect& rect)
++{
++    if (!renderObject.node())
++        return IntRect();
++
++    // Get the renderer of <input> element.
++    Node* input = renderObject.node()->shadowHost();
++    if (!input)
++        input = renderObject.node();
++    if (!is<RenderBox>(*input->renderer()))
++        return IntRect();
++
++    // If possible center the y-coordinate of the rect vertically in the parent input element.
++    // We also add one pixel here to ensure that the y coordinate is rounded up for box heights
++    // that are even, which looks in relation to the box text.
++    IntRect inputContentBox = downcast<RenderBox>(*input->renderer()).absoluteContentBox();
++
++    // Make sure the scaled decoration stays square and will fit in its parent's box.
++    int iconSize = std::min(inputContentBox.width(), std::min(inputContentBox.height(), rect.height()));
++    IntRect scaledRect(rect.x(), inputContentBox.y() + (inputContentBox.height() - iconSize + 1) / 2, iconSize, iconSize);
++    return scaledRect;
++}
++
++bool RenderThemeGtk::paintSearchFieldResultsDecorationPart(const RenderBox& renderObject, const PaintInfo& paintInfo, const IntRect& rect)
++{
++    IntRect iconRect = centerRectVerticallyInParentInputElement(renderObject, rect);
++    if (iconRect.isEmpty())
++        return true;
++
++    return !paintEntryIcon(EntryIconLeft, "edit-find-symbolic", paintInfo.context(), iconRect, gtkTextDirection(renderObject.style().direction()),
++        gtkIconStateFlags(this, renderObject));
++}
++
++bool RenderThemeGtk::paintSearchFieldCancelButton(const RenderBox& renderObject, const PaintInfo& paintInfo, const IntRect& rect)
++{
++    IntRect iconRect = centerRectVerticallyInParentInputElement(renderObject, rect);
++    if (iconRect.isEmpty())
++        return true;
++
++    return !paintEntryIcon(EntryIconRight, "edit-clear-symbolic", paintInfo.context(), iconRect, gtkTextDirection(renderObject.style().direction()),
++        gtkIconStateFlags(this, renderObject));
++}
++#endif // GTK_CHECK_VERSION(3, 20, 0)
+ 
+ #if ENABLE(DATALIST_ELEMENT)
+ void RenderThemeGtk::adjustListButtonStyle(StyleResolver&, RenderStyle& style, const Element*) const
+@@ -661,6 +1266,7 @@
+     style.setBoxShadow(nullptr);
+ }
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+ /*
+  * GtkScale
+  *
+@@ -788,7 +1394,98 @@
+     slider.render(paintInfo.context().platformContext()->cr(), sliderRect);
+     return false;
+ }
++#else
++bool RenderThemeGtk::paintSliderTrack(const RenderObject& renderObject, const PaintInfo& paintInfo, const IntRect& rect)
++{
++    ControlPart part = renderObject.style().appearance();
++    ASSERT(part == SliderHorizontalPart || part == SliderVerticalPart);
++
++    GRefPtr<GtkStyleContext> parentContext = createStyleContext(Scale);
++    gtk_style_context_add_class(parentContext.get(), part == SliderHorizontalPart ? GTK_STYLE_CLASS_HORIZONTAL : GTK_STYLE_CLASS_VERTICAL);
++    GRefPtr<GtkStyleContext> context = createStyleContext(ScaleTrough, parentContext.get());
++    gtk_style_context_set_direction(context.get(), gtkTextDirection(renderObject.style().direction()));
++
++    if (!isEnabled(renderObject))
++        gtk_style_context_set_state(context.get(), GTK_STATE_FLAG_INSENSITIVE);
++
++    IntRect sliderRect = rect;
++    // GTK+ uses the slider thumb size and margins to calculate the trough size, but in WebKit we render the thumb and
++    // the slider track separately and the track rectangle we receive here can't be used to apply the GTK+ CSS sizes
++    // and margins. So we use a maximum fixed size for the trough to match at least Adwaita, but that should look
++    // good in other themes as well.
++    static const int sliderSize = 4;
++
++    if (part == SliderHorizontalPart) {
++        sliderRect.setHeight(std::min(rect.height(), sliderSize));
++        sliderRect.move(0, (rect.height() - sliderRect.height()) / 2);
++    } else {
++        sliderRect.setWidth(std::min(rect.width(), sliderSize));
++        sliderRect.move((rect.width() - sliderRect.width()) / 2, 0);
++    }
++
++    gtk_render_background(context.get(), paintInfo.context().platformContext()->cr(), sliderRect.x(), sliderRect.y(), sliderRect.width(), sliderRect.height());
++    gtk_render_frame(context.get(), paintInfo.context().platformContext()->cr(), sliderRect.x(), sliderRect.y(), sliderRect.width(), sliderRect.height());
++
++    if (isFocused(renderObject)) {
++        gint focusWidth, focusPad;
++        gtk_style_context_get_style(context.get(), "focus-line-width", &focusWidth, "focus-padding", &focusPad, nullptr);
++        IntRect focusRect(sliderRect);
++        focusRect.inflate(focusWidth + focusPad);
++        gtk_render_focus(context.get(), paintInfo.context().platformContext()->cr(), focusRect.x(), focusRect.y(), focusRect.width(), focusRect.height());
++    }
++
++    return false;
++}
++
++void RenderThemeGtk::adjustSliderThumbSize(RenderStyle& style, const Element*) const
++{
++    ControlPart part = style.appearance();
++    if (part != SliderThumbHorizontalPart && part != SliderThumbVerticalPart)
++        return;
+ 
++    GRefPtr<GtkStyleContext> context = createStyleContext(Scale);
++    gint sliderWidth, sliderLength;
++    gtk_style_context_get_style(context.get(), "slider-width", &sliderWidth, "slider-length", &sliderLength, nullptr);
++
++    if (part == SliderThumbHorizontalPart) {
++        style.setWidth(Length(sliderLength, Fixed));
++        style.setHeight(Length(sliderWidth, Fixed));
++        return;
++    }
++    ASSERT(part == SliderThumbVerticalPart);
++    style.setWidth(Length(sliderWidth, Fixed));
++    style.setHeight(Length(sliderLength, Fixed));
++}
++
++bool RenderThemeGtk::paintSliderThumb(const RenderObject& renderObject, const PaintInfo& paintInfo, const IntRect& rect)
++{
++    ControlPart part = renderObject.style().appearance();
++    ASSERT(part == SliderThumbHorizontalPart || part == SliderThumbVerticalPart);
++
++    // FIXME: The entire slider is too wide, stretching the thumb into an oval rather than a circle.
++    GRefPtr<GtkStyleContext> parentContext = createStyleContext(Scale);
++    gtk_style_context_add_class(parentContext.get(), part == SliderThumbHorizontalPart ? GTK_STYLE_CLASS_HORIZONTAL : GTK_STYLE_CLASS_VERTICAL);
++    GRefPtr<GtkStyleContext> troughContext = createStyleContext(ScaleTrough, parentContext.get());
++    GRefPtr<GtkStyleContext> context = createStyleContext(ScaleSlider, troughContext.get());
++    gtk_style_context_set_direction(context.get(), gtkTextDirection(renderObject.style().direction()));
++
++    guint flags = 0;
++    if (!isEnabled(renderObject))
++        flags |= GTK_STATE_FLAG_INSENSITIVE;
++    else if (isHovered(renderObject))
++        flags |= GTK_STATE_FLAG_PRELIGHT;
++    if (isPressed(renderObject))
++        flags |= GTK_STATE_FLAG_ACTIVE;
++    gtk_style_context_set_state(context.get(), static_cast<GtkStateFlags>(flags));
++
++    gtk_render_slider(context.get(), paintInfo.context().platformContext()->cr(), rect.x(), rect.y(), rect.width(), rect.height(),
++        part == SliderThumbHorizontalPart ? GTK_ORIENTATION_HORIZONTAL : GTK_ORIENTATION_VERTICAL);
++
++    return false;
++}
++#endif
++
++#if GTK_CHECK_VERSION(3, 20, 0)
+ IntRect RenderThemeGtk::progressBarRectForBounds(const RenderObject& renderObject, const IntRect& bounds) const
+ {
+     const auto& renderProgress = downcast<RenderProgress>(renderObject);
+@@ -811,7 +1508,49 @@
+     progressBarWidget.progress().render(paintInfo.context().platformContext()->cr(), calculateProgressRect(renderObject, rect));
+     return false;
+ }
++#else
++IntRect RenderThemeGtk::progressBarRectForBounds(const RenderObject&, const IntRect& bounds) const
++{
++    return bounds;
++}
++
++bool RenderThemeGtk::paintProgressBar(const RenderObject& renderObject, const PaintInfo& paintInfo, const IntRect& rect)
++{
++    if (!renderObject.isProgress())
++        return true;
++
++    GRefPtr<GtkStyleContext> parentContext = createStyleContext(ProgressBar);
++    GRefPtr<GtkStyleContext> troughContext = createStyleContext(ProgressBarTrough, parentContext.get());
++    GRefPtr<GtkStyleContext> context = createStyleContext(ProgressBarProgress, troughContext.get());
++
++    gtk_render_background(troughContext.get(), paintInfo.context().platformContext()->cr(), rect.x(), rect.y(), rect.width(), rect.height());
++    gtk_render_frame(troughContext.get(), paintInfo.context().platformContext()->cr(), rect.x(), rect.y(), rect.width(), rect.height());
++
++    gtk_style_context_set_state(context.get(), static_cast<GtkStateFlags>(0));
++
++    GtkBorder padding;
++    gtk_style_context_get_padding(context.get(), gtk_style_context_get_state(context.get()), &padding);
++    IntRect progressRect(
++        rect.x() + padding.left,
++        rect.y() + padding.top,
++        rect.width() - (padding.left + padding.right),
++        rect.height() - (padding.top + padding.bottom));
++    progressRect = RenderThemeGtk::calculateProgressRect(renderObject, progressRect);
++
++    if (!progressRect.isEmpty()) {
++#if GTK_CHECK_VERSION(3, 13, 7)
++        gtk_render_background(context.get(), paintInfo.context().platformContext()->cr(), progressRect.x(), progressRect.y(), progressRect.width(), progressRect.height());
++        gtk_render_frame(context.get(), paintInfo.context().platformContext()->cr(), progressRect.x(), progressRect.y(), progressRect.width(), progressRect.height());
++#else
++        gtk_render_activity(context.get(), paintInfo.context().platformContext()->cr(), progressRect.x(), progressRect.y(), progressRect.width(), progressRect.height());
++#endif
++    }
++
++    return false;
++}
++#endif // GTK_CHECK_VERSION(3, 20, 0)
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+ RenderTheme::InnerSpinButtonLayout RenderThemeGtk::innerSpinButtonLayout(const RenderObject& renderObject) const
+ {
+     return renderObject.style().direction() == TextDirection::RTL ? InnerSpinButtonLayout::HorizontalUpLeft : InnerSpinButtonLayout::HorizontalUpRight;
+@@ -848,6 +1587,114 @@
+ 
+     return false;
+ }
++#else
++RenderTheme::InnerSpinButtonLayout RenderThemeGtk::innerSpinButtonLayout(const RenderObject&) const
++{
++    return InnerSpinButtonLayout::Vertical;
++}
++static gint spinButtonArrowSize(GtkStyleContext* context)
++{
++    PangoFontDescription* fontDescription;
++    gtk_style_context_get(context, gtk_style_context_get_state(context), "font", &fontDescription, nullptr);
++    gint fontSize = pango_font_description_get_size(fontDescription);
++    gint arrowSize = std::max(PANGO_PIXELS(fontSize), minSpinButtonArrowSize);
++    pango_font_description_free(fontDescription);
++
++    return arrowSize - arrowSize % 2; // Force even.
++}
++
++void RenderThemeGtk::adjustInnerSpinButtonStyle(StyleResolver&, RenderStyle& style, const Element*) const
++{
++    GRefPtr<GtkStyleContext> context = createStyleContext(SpinButton);
++
++    GtkBorder padding;
++    gtk_style_context_get_padding(context.get(), gtk_style_context_get_state(context.get()), &padding);
++
++    int width = spinButtonArrowSize(context.get()) + padding.left + padding.right;
++    style.setWidth(Length(width, Fixed));
++    style.setMinWidth(Length(width, Fixed));
++}
++
++static void paintSpinArrowButton(RenderTheme* theme, GtkStyleContext* parentContext, const RenderObject& renderObject, const PaintInfo& paintInfo, const IntRect& rect, GtkArrowType arrowType)
++{
++    ASSERT(arrowType == GTK_ARROW_UP || arrowType == GTK_ARROW_DOWN);
++
++    GRefPtr<GtkStyleContext> context = createStyleContext(arrowType == GTK_ARROW_UP ? SpinButtonUpButton : SpinButtonDownButton, parentContext);
++    GtkTextDirection direction = gtk_style_context_get_direction(context.get());
++    guint state = static_cast<guint>(gtk_style_context_get_state(context.get()));
++    if (!(state & GTK_STATE_FLAG_INSENSITIVE)) {
++        if (theme->isPressed(renderObject)) {
++            if ((arrowType == GTK_ARROW_UP && theme->isSpinUpButtonPartPressed(renderObject))
++                || (arrowType == GTK_ARROW_DOWN && !theme->isSpinUpButtonPartPressed(renderObject)))
++                state |= GTK_STATE_FLAG_ACTIVE;
++        } else if (theme->isHovered(renderObject)) {
++            if ((arrowType == GTK_ARROW_UP && theme->isSpinUpButtonPartHovered(renderObject))
++                || (arrowType == GTK_ARROW_DOWN && !theme->isSpinUpButtonPartHovered(renderObject)))
++                state |= GTK_STATE_FLAG_PRELIGHT;
++        }
++    }
++    gtk_style_context_set_state(context.get(), static_cast<GtkStateFlags>(state));
++
++    // Paint button.
++    IntRect buttonRect(rect);
++    guint junction = gtk_style_context_get_junction_sides(context.get());
++    if (arrowType == GTK_ARROW_UP)
++        junction |= GTK_JUNCTION_BOTTOM;
++    else {
++        junction |= GTK_JUNCTION_TOP;
++        buttonRect.move(0, rect.height() / 2);
++    }
++    buttonRect.setHeight(rect.height() / 2);
++    gtk_style_context_set_junction_sides(context.get(), static_cast<GtkJunctionSides>(junction));
++
++    gtk_render_background(context.get(), paintInfo.context().platformContext()->cr(), buttonRect.x(), buttonRect.y(), buttonRect.width(), buttonRect.height());
++    gtk_render_frame(context.get(), paintInfo.context().platformContext()->cr(), buttonRect.x(), buttonRect.y(), buttonRect.width(), buttonRect.height());
++
++    // Paint arrow centered inside button.
++    // This code is based on gtkspinbutton.c code.
++    IntRect arrowRect;
++    gdouble angle;
++    if (arrowType == GTK_ARROW_UP) {
++        angle = 0;
++        arrowRect.setY(rect.y());
++        arrowRect.setHeight(rect.height() / 2 - 2);
++    } else {
++        angle = G_PI;
++        arrowRect.setY(rect.y() + buttonRect.y());
++        arrowRect.setHeight(rect.height() - arrowRect.y() - 2);
++    }
++    arrowRect.setWidth(rect.width() - 3);
++    if (direction == GTK_TEXT_DIR_LTR)
++        arrowRect.setX(rect.x() + 1);
++    else
++        arrowRect.setX(rect.x() + 2);
++
++    gint width = arrowRect.width() / 2;
++    width -= width % 2 - 1; // Force odd.
++    gint height = (width + 1) / 2;
++
++    arrowRect.move((arrowRect.width() - width) / 2, (arrowRect.height() - height) / 2);
++    gtk_render_arrow(context.get(), paintInfo.context().platformContext()->cr(), angle, arrowRect.x(), arrowRect.y(), width);
++}
++
++bool RenderThemeGtk::paintInnerSpinButton(const RenderObject& renderObject, const PaintInfo& paintInfo, const IntRect& rect)
++{
++    GRefPtr<GtkStyleContext> context = createStyleContext(SpinButton);
++    gtk_style_context_set_direction(context.get(), gtkTextDirection(renderObject.style().direction()));
++
++    guint flags = 0;
++    if (!isEnabled(renderObject) || isReadOnlyControl(renderObject))
++        flags |= GTK_STATE_FLAG_INSENSITIVE;
++    else if (isFocused(renderObject))
++        flags |= GTK_STATE_FLAG_FOCUSED;
++    gtk_style_context_set_state(context.get(), static_cast<GtkStateFlags>(flags));
++
++    paintSpinArrowButton(this, context.get(), renderObject, paintInfo, rect, GTK_ARROW_UP);
++    paintSpinArrowButton(this, context.get(), renderObject, paintInfo, rect, GTK_ARROW_DOWN);
++
++    return false;
++}
++#endif // GTK_CHECK_VERSION(3, 20, 0)
+ 
+ Seconds RenderThemeGtk::caretBlinkInterval() const
+ {
+@@ -866,6 +1713,7 @@
+ 
+ enum StyleColorType { StyleColorBackground, StyleColorForeground };
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+ static Color styleColor(RenderThemePart themePart, GtkStateFlags state, StyleColorType colorType)
+ {
+     RenderThemeGadget* gadget = nullptr;
+@@ -894,6 +1742,20 @@
+     gadget->setState(state);
+     return colorType == StyleColorBackground ? gadget->backgroundColor() : gadget->color();
+ }
++#else
++static Color styleColor(RenderThemePart themePart, GtkStateFlags state, StyleColorType colorType)
++{
++    GRefPtr<GtkStyleContext> context = createStyleContext(themePart);
++    gtk_style_context_set_state(context.get(), state);
++
++    GdkRGBA gdkRGBAColor;
++    if (colorType == StyleColorBackground)
++        gtk_style_context_get_background_color(context.get(), state, &gdkRGBAColor);
++    else
++        gtk_style_context_get_color(context.get(), state, &gdkRGBAColor);
++    return gdkRGBAColor;
++}
++#endif // GTK_CHECK_VERSION(3, 20, 0)
+ 
+ Color RenderThemeGtk::platformActiveSelectionBackgroundColor(OptionSet<StyleColor::Options>) const
+ {
+@@ -953,6 +1815,7 @@
+         return styleColor(Entry, GTK_STATE_FLAG_INSENSITIVE, StyleColorForeground);
+     case CSSValueWebkitControlBackground:
+         return styleColor(Entry, GTK_STATE_FLAG_ACTIVE, StyleColorBackground);
++#if GTK_CHECK_VERSION(3, 20, 0)
+     case CSSValueWindow: {
+         // Only get window color from the theme in dark mode.
+         gboolean preferDarkTheme = FALSE;
+@@ -962,6 +1825,7 @@
+             return styleColor(Window, GTK_STATE_FLAG_ACTIVE, StyleColorBackground);
+         break;
+     }
++#endif
+     default:
+         break;
+     }
+@@ -987,6 +1851,7 @@
+ }
+ #endif
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+ bool RenderThemeGtk::paintMediaButton(const RenderObject& renderObject, GraphicsContext& graphicsContext, const IntRect& rect, const char* iconName)
+ {
+     auto& iconWidget = static_cast<RenderThemeIcon&>(RenderThemeWidget::getOrCreate(RenderThemeWidget::Type::Icon));
+@@ -996,6 +1861,17 @@
+     icon.setIconName(iconName);
+     return !icon.render(graphicsContext.platformContext()->cr(), rect);
+ }
++#else
++bool RenderThemeGtk::paintMediaButton(const RenderObject& renderObject, GraphicsContext& graphicsContext, const IntRect& rect, const char* iconName)
++{
++    GRefPtr<GtkStyleContext> context = createStyleContext(MediaButton);
++    gtk_style_context_set_direction(context.get(), gtkTextDirection(renderObject.style().direction()));
++    gtk_style_context_set_state(context.get(), gtkIconStateFlags(this, renderObject));
++    static const unsigned mediaIconSize = 16;
++    IntRect iconRect(rect.x() + (rect.width() - mediaIconSize) / 2, rect.y() + (rect.height() - mediaIconSize) / 2, mediaIconSize, mediaIconSize);
++    return !paintIcon(context.get(), graphicsContext, iconRect, iconName);
++}
++#endif // GTK_CHECK_VERSION(3, 20, 0)
+ 
+ bool RenderThemeGtk::hasOwnDisabledStateHandlingFor(ControlPart part) const
+ {
+diff '--exclude=.git' -urN a/Source/WebKit/NetworkProcess/soup/NetworkDataTaskSoup.cpp b/Source/WebKit/NetworkProcess/soup/NetworkDataTaskSoup.cpp
+--- a/Source/WebKit/NetworkProcess/soup/NetworkDataTaskSoup.cpp	2019-08-28 06:46:32.000000000 -0500
++++ b/Source/WebKit/NetworkProcess/soup/NetworkDataTaskSoup.cpp	2019-09-30 22:47:34.994338279 -0500
+@@ -166,7 +166,10 @@
+         soup_message_headers_set_content_length(soupMessage->request_headers, 0);
+ 
+     soup_message_set_flags(soupMessage.get(), static_cast<SoupMessageFlags>(soup_message_get_flags(soupMessage.get()) | messageFlags));
++
++#if SOUP_CHECK_VERSION(2, 43, 1)
+     soup_message_set_priority(soupMessage.get(), toSoupMessagePriority(m_currentRequest.priority()));
++#endif
+ 
+     m_soupRequest = WTFMove(soupRequest);
+     m_soupMessage = WTFMove(soupMessage);
+@@ -176,7 +179,11 @@
+     g_signal_connect(static_cast<NetworkSessionSoup&>(*m_session).soupSession(), "authenticate",  G_CALLBACK(authenticateCallback), this);
+     g_signal_connect(m_soupMessage.get(), "network-event", G_CALLBACK(networkEventCallback), this);
+     g_signal_connect(m_soupMessage.get(), "restarted", G_CALLBACK(restartedCallback), this);
++#if SOUP_CHECK_VERSION(2, 49, 91)
+     g_signal_connect(m_soupMessage.get(), "starting", G_CALLBACK(startingCallback), this);
++#else
++    g_signal_connect(static_cast<NetworkSessionSoup&>(m_session.get()).soupSession(), "request-started", G_CALLBACK(requestStartedCallback), this);
++#endif
+ }
+ 
+ void NetworkDataTaskSoup::clearRequest()
+@@ -929,7 +936,13 @@
+ 
+     GUniqueOutPtr<GError> error;
+     gsize bytesWritten;
++#if GLIB_CHECK_VERSION(2, 44, 0)
+     g_output_stream_write_all_finish(outputStream, result, &bytesWritten, &error.outPtr());
++#else
++    gssize writeTaskResult = g_task_propagate_int(G_TASK(result), &error.outPtr());
++    if (writeTaskResult != -1)
++        bytesWritten = writeTaskResult;
++#endif
+     if (error)
+         task->didFailDownload(downloadDestinationError(task->m_response, error->message));
+     else
+@@ -939,8 +952,31 @@
+ void NetworkDataTaskSoup::writeDownload()
+ {
+     RefPtr<NetworkDataTaskSoup> protectedThis(this);
++#if GLIB_CHECK_VERSION(2, 44, 0)
+     g_output_stream_write_all_async(m_downloadOutputStream.get(), m_readBuffer.data(), m_readBuffer.size(), RunLoopSourcePriority::AsyncIONetwork, m_cancellable.get(),
+         reinterpret_cast<GAsyncReadyCallback>(writeDownloadCallback), protectedThis.leakRef());
++#else
++    GRefPtr<GTask> writeTask = adoptGRef(g_task_new(m_downloadOutputStream.get(), m_cancellable.get(),
++        reinterpret_cast<GAsyncReadyCallback>(writeDownloadCallback), protectedThis.leakRef()));
++    g_task_set_task_data(writeTask.get(), this, nullptr);
++    g_task_run_in_thread(writeTask.get(), [](GTask* writeTask, gpointer source, gpointer userData, GCancellable* cancellable) {
++        auto* task = static_cast<NetworkDataTaskSoup*>(userData);
++        GOutputStream* outputStream = G_OUTPUT_STREAM(source);
++        RELEASE_ASSERT(task->m_downloadOutputStream.get() == outputStream);
++        RELEASE_ASSERT(task->m_cancellable.get() == cancellable);
++        GError* error = nullptr;
++        if (g_cancellable_set_error_if_cancelled(cancellable, &error)) {
++            g_task_return_error(writeTask, error);
++            return;
++        }
++
++        gsize bytesWritten;
++        if (g_output_stream_write_all(outputStream, task->m_readBuffer.data(), task->m_readBuffer.size(), &bytesWritten, cancellable, &error))
++            g_task_return_int(writeTask, bytesWritten);
++        else
++            g_task_return_error(writeTask, error);
++    });
++#endif
+ }
+ 
+ void NetworkDataTaskSoup::didWriteDownload(gsize bytesWritten)
+@@ -1063,6 +1099,7 @@
+     }
+ }
+ 
++#if SOUP_CHECK_VERSION(2, 49, 91)
+ void NetworkDataTaskSoup::startingCallback(SoupMessage* soupMessage, NetworkDataTaskSoup* task)
+ {
+     if (task->state() == State::Canceling || task->state() == State::Completed || !task->m_client)
+@@ -1071,6 +1108,19 @@
+     ASSERT(task->m_soupMessage.get() == soupMessage);
+     task->didStartRequest();
+ }
++#else
++void NetworkDataTaskSoup::requestStartedCallback(SoupSession* session, SoupMessage* soupMessage, SoupSocket*, NetworkDataTaskSoup* task)
++{
++    ASSERT(session == static_cast<NetworkSessionSoup&>(task->m_session.get()).soupSession());
++    if (soupMessage != task->m_soupMessage.get())
++        return;
++
++    if (task->state() == State::Canceling || task->state() == State::Completed || !task->m_client)
++        return;
++
++    task->didStartRequest();
++}
++#endif
+ 
+ #if SOUP_CHECK_VERSION(2, 67, 1)
+ bool NetworkDataTaskSoup::shouldAllowHSTSPolicySetting() const
+diff '--exclude=.git' -urN a/Source/WebKit/Shared/gtk/WebEventFactory.cpp b/Source/WebKit/Shared/gtk/WebEventFactory.cpp
+--- a/Source/WebKit/Shared/gtk/WebEventFactory.cpp	2019-08-28 06:46:32.000000000 -0500
++++ b/Source/WebKit/Shared/gtk/WebEventFactory.cpp	2019-09-30 22:47:34.994338279 -0500
+@@ -72,7 +72,11 @@
+ static inline WebMouseEvent::Button buttonForEvent(const GdkEvent* event)
+ {
+     unsigned button = 0;
++#if GTK_CHECK_VERSION(3, 10, 0)
+     GdkEventType type = gdk_event_get_event_type(event);
++#else
++    GdkEventType type = event->type;
++#endif
+     switch (type) {
+     case GDK_ENTER_NOTIFY:
+     case GDK_LEAVE_NOTIFY:
+@@ -149,7 +153,11 @@
+ 
+     WebEvent::Type type = static_cast<WebEvent::Type>(0);
+ 
++#if GTK_CHECK_VERSION(3, 10, 0)
+     GdkEventType eventType = gdk_event_get_event_type(event);
++#else
++    GdkEventType eventType = event->type;
++#endif
+     switch (eventType) {
+     case GDK_MOTION_NOTIFY:
+     case GDK_ENTER_NOTIFY:
+@@ -189,9 +197,18 @@
+ 
+ WebWheelEvent WebEventFactory::createWebWheelEvent(const GdkEvent* event)
+ {
++#if GTK_CHECK_VERSION(3, 20, 0)
+     WebWheelEvent::Phase phase = gdk_event_is_scroll_stop_event(event) ?
+         WebWheelEvent::Phase::PhaseEnded :
+         WebWheelEvent::Phase::PhaseChanged;
++#else
++    double deltaX, deltaY;
++    gdk_event_get_scroll_deltas(event, &deltaX, &deltaY);
++    WebWheelEvent::Phase phase = event->scroll.direction == GDK_SCROLL_SMOOTH && !deltaX && !deltaY ?
++        WebWheelEvent::Phase::PhaseEnded :
++        WebWheelEvent::Phase::PhaseChanged;
++#endif
++
+     return createWebWheelEvent(event, phase, WebWheelEvent::Phase::PhaseNone);
+ }
+ 
+@@ -255,7 +272,12 @@
+     gdk_event_get_keyval(event, &keyval);
+     guint16 keycode;
+     gdk_event_get_keycode(event, &keycode);
++
++#if GTK_CHECK_VERSION(3, 10, 0)
+     GdkEventType type = gdk_event_get_event_type(event);
++#else
++    GdkEventType type = event->type;
++#endif
+ 
+     return WebKeyboardEvent(
+         type == GDK_KEY_RELEASE ? WebEvent::KeyUp : WebEvent::KeyDown,
+@@ -276,7 +298,11 @@
+ WebTouchEvent WebEventFactory::createWebTouchEvent(const GdkEvent* event, Vector<WebPlatformTouchPoint>&& touchPoints)
+ {
+     WebEvent::Type type = WebEvent::NoType;
++#if GTK_CHECK_VERSION(3, 10, 0)
+     GdkEventType eventType = gdk_event_get_event_type(event);
++#else
++    GdkEventType eventType = event->type;
++#endif
+     switch (eventType) {
+     case GDK_TOUCH_BEGIN:
+         type = WebEvent::TouchStart;
+diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/PageClientImpl.cpp b/Source/WebKit/UIProcess/API/gtk/PageClientImpl.cpp
+--- a/Source/WebKit/UIProcess/API/gtk/PageClientImpl.cpp	2019-08-28 06:46:32.000000000 -0500
++++ b/Source/WebKit/UIProcess/API/gtk/PageClientImpl.cpp	2019-09-30 22:47:34.995338274 -0500
+@@ -384,12 +384,14 @@
+ {
+     const GdkEvent* touchEvent = event.nativeEvent();
+ 
++#if HAVE(GTK_GESTURES)
+     GestureController& gestureController = webkitWebViewBaseGestureController(WEBKIT_WEB_VIEW_BASE(m_viewWidget));
+     if (wasEventHandled) {
+         gestureController.reset();
+         return;
+     }
+     wasEventHandled = gestureController.handleEvent(const_cast<GdkEvent*>(event.nativeEvent()));
++#endif
+ 
+     if (wasEventHandled)
+         return;
+diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.cpp b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.cpp
+--- a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.cpp	2019-09-23 03:17:18.000000000 -0500
++++ b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.cpp	2019-09-30 22:47:34.995338274 -0500
+@@ -79,6 +79,10 @@
+ #include <gdk/gdkx.h>
+ #endif
+ 
++// gtk_widget_get_scale_factor() appeared in GTK 3.10, but we also need
++// to make sure we have cairo new enough to support cairo_surface_set_device_scale
++#define HAVE_GTK_SCALE_FACTOR HAVE_CAIRO_SURFACE_SET_DEVICE_SCALE && GTK_CHECK_VERSION(3, 10, 0)
++
+ using namespace WebKit;
+ using namespace WebCore;
+ 
+@@ -118,8 +122,11 @@
+         double x, y;
+         gdk_event_get_coords(event, &x, &y);
+         gdk_event_get_button(event, &button);
++#if GTK_CHECK_VERSION(3, 10, 0)
+         type = gdk_event_get_event_type(event);
+-
++#else
++        type = event->type;
++#endif
+         if ((type == GDK_2BUTTON_PRESS || type == GDK_3BUTTON_PRESS)
+             || ((std::abs(x - previousClickPoint.x()) < doubleClickDistance)
+                 && (std::abs(y - previousClickPoint.y()) < doubleClickDistance)
+@@ -220,7 +227,9 @@
+     std::unique_ptr<DragAndDropHandler> dragAndDropHandler;
+ #endif
+ 
++#if HAVE(GTK_GESTURES)
+     std::unique_ptr<GestureController> gestureController;
++#endif
+     std::unique_ptr<ViewGestureController> viewGestureController;
+     bool isBackForwardNavigationGestureEnabled { false };
+ 
+@@ -413,7 +422,9 @@
+         | GDK_BUTTON2_MOTION_MASK
+         | GDK_BUTTON3_MOTION_MASK
+         | GDK_TOUCH_MASK;
++#if HAVE(GTK_GESTURES)
+     attributes.event_mask |= GDK_TOUCHPAD_GESTURE_MASK;
++#endif
+ 
+     gint attributesMask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL;
+ 
+@@ -817,7 +828,11 @@
+     ASSERT(!priv->dialog);
+ 
+     int clickCount = 0;
++#if GTK_CHECK_VERSION(3, 10, 0)
+     GdkEventType eventType = gdk_event_get_event_type(event);
++#else
++    GdkEventType eventType = event->type;
++#endif
+     switch (eventType) {
+     case GDK_BUTTON_PRESS:
+     case GDK_2BUTTON_PRESS:
+@@ -1048,7 +1063,11 @@
+ static void webkitWebViewBaseGetTouchPointsForEvent(WebKitWebViewBase* webViewBase, GdkEvent* event, Vector<WebPlatformTouchPoint>& touchPoints)
+ {
+     WebKitWebViewBasePrivate* priv = webViewBase->priv;
++#if GTK_CHECK_VERSION(3, 10, 0)
+     GdkEventType type = gdk_event_get_event_type(event);
++#else
++    GdkEventType type = event->type;
++#endif
+     bool touchEnd = (type == GDK_TOUCH_END) || (type == GDK_TOUCH_CANCEL);
+     touchPoints.reserveInitialCapacity(touchEnd ? priv->touchEvents.size() + 1 : priv->touchEvents.size());
+ 
+@@ -1071,7 +1090,11 @@
+     GdkEvent* touchEvent = reinterpret_cast<GdkEvent*>(event);
+     uint32_t sequence = GPOINTER_TO_UINT(gdk_event_get_event_sequence(touchEvent));
+ 
++#if GTK_CHECK_VERSION(3, 10, 0)
+     GdkEventType type = gdk_event_get_event_type(touchEvent);
++#else
++    GdkEventType type = touchEvent->type
++#endif
+     switch (type) {
+     case GDK_TOUCH_BEGIN: {
+         ASSERT(!priv->touchEvents.contains(sequence));
+@@ -1103,6 +1126,7 @@
+ }
+ #endif // ENABLE(TOUCH_EVENTS)
+ 
++#if HAVE(GTK_GESTURES)
+ class TouchGestureController final : public GestureControllerClient {
+     WTF_MAKE_FAST_ALLOCATED;
+ 
+@@ -1125,7 +1149,11 @@
+         scrollEvent->scroll.delta_x = delta.x();
+         scrollEvent->scroll.delta_y = delta.y();
+         scrollEvent->scroll.state = event->state;
++#if GTK_CHECK_VERSION(3, 20, 0)
+         scrollEvent->scroll.is_stop = isStop;
++#else
++        UNUSED_PARAM(isStop);
++#endif
+         scrollEvent->scroll.window = event->window ? GDK_WINDOW(g_object_ref(event->window)) : nullptr;
+         auto* touchEvent = reinterpret_cast<GdkEvent*>(event);
+         gdk_event_set_screen(scrollEvent.get(), gdk_event_get_screen(touchEvent));
+@@ -1229,6 +1257,7 @@
+         priv->gestureController = makeUnique<GestureController>(GTK_WIDGET(webViewBase), makeUnique<TouchGestureController>(webViewBase));
+     return *priv->gestureController;
+ }
++#endif
+ 
+ void webkitWebViewBaseSetEnableBackForwardNavigationGesture(WebKitWebViewBase* webViewBase, bool enabled)
+ {
+@@ -1309,8 +1338,15 @@
+ 
+ static gboolean webkitWebViewBaseEvent(GtkWidget* widget, GdkEvent* event)
+ {
++#if HAVE(GTK_GESTURES)
++#if GTK_CHECK_VERSION(3, 10, 0)
+     if (gdk_event_get_event_type(event) == GDK_TOUCHPAD_PINCH)
++#else
++    if (event->type == GDK_TOUCHPAD_PINCH)
++#endif // GTK_CHECK_VERSION(3, 10, 0)
+         webkitWebViewBaseGestureController(WEBKIT_WEB_VIEW_BASE(widget)).handleEvent(event);
++#endif // HAVE(GTK_GESTURES)
++
+     return GDK_EVENT_PROPAGATE;
+ }
+ 
+@@ -1463,10 +1499,12 @@
+     return webkitWebViewBase->priv->pageProxy.get();
+ }
+ 
++#if HAVE(GTK_SCALE_FACTOR)
+ static void deviceScaleFactorChanged(WebKitWebViewBase* webkitWebViewBase)
+ {
+     webkitWebViewBase->priv->pageProxy->setIntrinsicDeviceScaleFactor(gtk_widget_get_scale_factor(GTK_WIDGET(webkitWebViewBase)));
+ }
++#endif // HAVE(GTK_SCALE_FACTOR)
+ 
+ void webkitWebViewBaseCreateWebPage(WebKitWebViewBase* webkitWebViewBase, Ref<API::PageConfiguration>&& configuration)
+ {
+@@ -1478,9 +1516,11 @@
+ 
+     priv->inputMethodFilter.setPage(priv->pageProxy.get());
+ 
++#if HAVE(GTK_SCALE_FACTOR)
+     // We attach this here, because changes in scale factor are passed directly to the page proxy.
+     priv->pageProxy->setIntrinsicDeviceScaleFactor(gtk_widget_get_scale_factor(GTK_WIDGET(webkitWebViewBase)));
+     g_signal_connect(webkitWebViewBase, "notify::scale-factor", G_CALLBACK(deviceScaleFactorChanged), nullptr);
++#endif
+ }
+ 
+ void webkitWebViewBaseSetTooltipText(WebKitWebViewBase* webViewBase, const char* tooltip)
+@@ -1736,11 +1776,16 @@
+ 
+     IntSize size = page->viewSize();
+ 
++#if HAVE_GTK_SCALE_FACTOR
+     float deviceScale = page->deviceScaleFactor();
+     size.scale(deviceScale);
++#endif
+ 
+     RefPtr<cairo_surface_t> surface = adoptRef(cairo_image_surface_create(CAIRO_FORMAT_RGB24, size.width(), size.height()));
++
++#if HAVE_GTK_SCALE_FACTOR
+     cairoSurfaceSetDeviceScale(surface.get(), deviceScale, deviceScale);
++#endif
+ 
+     RefPtr<cairo_t> cr = adoptRef(cairo_create(surface.get()));
+     webkitWebViewBaseDraw(GTK_WIDGET(webkitWebViewBase), cr.get());
+diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBasePrivate.h b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBasePrivate.h
+--- a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBasePrivate.h	2019-08-28 06:46:32.000000000 -0500
++++ b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBasePrivate.h	2019-09-30 22:47:34.995338274 -0500
+@@ -80,7 +80,9 @@
+ WebKit::DragAndDropHandler& webkitWebViewBaseDragAndDropHandler(WebKitWebViewBase*);
+ #endif
+ 
++#if HAVE(GTK_GESTURES)
+ WebKit::GestureController& webkitWebViewBaseGestureController(WebKitWebViewBase*);
++#endif
+ 
+ RefPtr<WebKit::ViewSnapshot> webkitWebViewBaseTakeViewSnapshot(WebKitWebViewBase*);
+ 
+diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewDialog.cpp b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewDialog.cpp
+--- a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewDialog.cpp	2019-08-28 06:46:32.000000000 -0500
++++ b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewDialog.cpp	2019-09-30 22:47:34.995338274 -0500
+@@ -24,6 +24,9 @@
+ #include <wtf/glib/WTFGType.h>
+ 
+ struct _WebKitWebViewDialogPrivate {
++#if !GTK_CHECK_VERSION(3, 20, 0)
++    GRefPtr<GtkStyleContext> styleContext;
++#endif
+ };
+ 
+ WEBKIT_DEFINE_ABSTRACT_TYPE(WebKitWebViewDialog, webkit_web_view_dialog, GTK_TYPE_EVENT_BOX)
+@@ -38,7 +41,11 @@
+         GtkAllocation allocation;
+         gtk_widget_get_allocation(child, &allocation);
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+         GtkStyleContext* styleContext = gtk_widget_get_style_context(widget);
++#else
++        GtkStyleContext* styleContext = WEBKIT_WEB_VIEW_DIALOG(widget)->priv->styleContext.get();
++#endif
+         gtk_render_background(styleContext, cr, allocation.x, allocation.y, allocation.width, allocation.height);
+     }
+ 
+@@ -74,8 +81,20 @@
+ 
+     gtk_widget_set_app_paintable(GTK_WIDGET(object), TRUE);
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+     gtk_style_context_add_class(gtk_widget_get_style_context(GTK_WIDGET(object)), GTK_STYLE_CLASS_CSD);
+     gtk_style_context_add_class(gtk_widget_get_style_context(GTK_WIDGET(object)), GTK_STYLE_CLASS_BACKGROUND);
++#else
++    WebKitWebViewDialogPrivate* priv = WEBKIT_WEB_VIEW_DIALOG(object)->priv;
++    priv->styleContext = adoptGRef(gtk_style_context_new());
++    GtkWidgetPath* path = gtk_widget_path_new();
++    gtk_widget_path_append_type(path, GTK_TYPE_WINDOW);
++    gtk_style_context_add_class(priv->styleContext.get(), GTK_STYLE_CLASS_BACKGROUND);
++    gtk_style_context_add_class(priv->styleContext.get(), GTK_STYLE_CLASS_TITLEBAR);
++    gtk_style_context_add_class(priv->styleContext.get(), GTK_STYLE_CLASS_CSD);
++    gtk_style_context_set_path(priv->styleContext.get(), path);
++    gtk_widget_path_free(path);
++#endif
+ }
+ 
+ static void webkit_web_view_dialog_class_init(WebKitWebViewDialogClass* klass)
+@@ -87,5 +106,7 @@
+     widgetClass->draw = webkitWebViewDialogDraw;
+     widgetClass->size_allocate = webkitWebViewDialogSizeAllocate;
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+     gtk_widget_class_set_css_name(widgetClass, "messagedialog");
++#endif
+ }
+diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewGtk.cpp b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewGtk.cpp
+--- a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewGtk.cpp	2019-08-28 06:46:32.000000000 -0500
++++ b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewGtk.cpp	2019-09-30 22:47:34.995338274 -0500
+@@ -62,7 +62,11 @@
+     } else
+         webkit_file_chooser_request_cancel(adoptedRequest.get());
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+     g_object_unref(dialog);
++#else
++    gtk_widget_destroy(GTK_WIDGET(dialog));
++#endif
+ }
+ 
+ gboolean webkitWebViewRunFileChooser(WebKitWebView* webView, WebKitFileChooserRequest* request)
+@@ -73,10 +77,21 @@
+ 
+     gboolean allowsMultipleSelection = webkit_file_chooser_request_get_select_multiple(request);
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+     GtkFileChooserNative* dialog = gtk_file_chooser_native_new(allowsMultipleSelection ? _("Select Files") : _("Select File"),
+         toplevel ? GTK_WINDOW(toplevel) : nullptr, GTK_FILE_CHOOSER_ACTION_OPEN, nullptr, nullptr);
+     if (toplevel)
+         gtk_native_dialog_set_modal(GTK_NATIVE_DIALOG(dialog), TRUE);
++#else
++    GtkWidget* dialog = gtk_file_chooser_dialog_new(allowsMultipleSelection ? _("Select Files") : _("Select File"),
++        toplevel ? GTK_WINDOW(toplevel) : nullptr,
++        GTK_FILE_CHOOSER_ACTION_OPEN,
++        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
++        GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
++        nullptr);
++    if (toplevel)
++        gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
++#endif
+ 
+     if (GtkFileFilter* filter = webkit_file_chooser_request_get_mime_types_filter(request))
+         gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), filter);
+@@ -87,7 +102,11 @@
+ 
+     g_signal_connect(dialog, "response", G_CALLBACK(fileChooserDialogResponseCallback), g_object_ref(request));
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+     gtk_native_dialog_show(GTK_NATIVE_DIALOG(dialog));
++#else
++    gtk_widget_show(dialog);
++#endif
+ 
+     return TRUE;
+ }
+diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/Automation/gtk/WebAutomationSessionGtk.cpp b/Source/WebKit/UIProcess/Automation/gtk/WebAutomationSessionGtk.cpp
+--- a/Source/WebKit/UIProcess/Automation/gtk/WebAutomationSessionGtk.cpp	2019-08-28 06:46:32.000000000 -0500
++++ b/Source/WebKit/UIProcess/Automation/gtk/WebAutomationSessionGtk.cpp	2019-09-30 22:47:34.995338274 -0500
+@@ -75,7 +75,11 @@
+     event->button.axes = 0;
+     event->button.state = state;
+     event->button.button = button;
++#if GTK_CHECK_VERSION(3, 20, 0)
+     event->button.device = gdk_seat_get_pointer(gdk_display_get_default_seat(gtk_widget_get_display(widget)));
++#else
++    event->button.device = gdk_device_manager_get_client_pointer(gdk_display_get_device_manager(gtk_widget_get_display(widget)));
++#endif
+     int xRoot, yRoot;
+     gdk_window_get_root_coords(gtk_widget_get_window(widget), location.x(), location.y(), &xRoot, &yRoot);
+     event->button.x_root = xRoot;
+@@ -93,7 +97,11 @@
+     event->motion.y = location.y();
+     event->motion.axes = 0;
+     event->motion.state = state;
++#if GTK_CHECK_VERSION(3, 20, 0)
+     event->motion.device = gdk_seat_get_pointer(gdk_display_get_default_seat(gtk_widget_get_display(widget)));
++#else
++    event->motion.device = gdk_device_manager_get_client_pointer(gdk_display_get_device_manager(gtk_widget_get_display(widget)));
++#endif
+     int xRoot, yRoot;
+     gdk_window_get_root_coords(gtk_widget_get_window(widget), location.x(), location.y(), &xRoot, &yRoot);
+     event->motion.x_root = xRoot;
+@@ -143,7 +151,11 @@
+     event->key.window = gtk_widget_get_window(widget);
+     g_object_ref(event->key.window);
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+     gdk_event_set_device(event.get(), gdk_seat_get_pointer(gdk_display_get_default_seat(gtk_widget_get_display(widget))));
++#else
++    gdk_event_set_device(event.get(), gdk_device_manager_get_client_pointer(gdk_display_get_device_manager(gtk_widget_get_display(widget))));
++#endif
+     event->key.state = state;
+ 
+     // When synthesizing an event, an invalid hardware_keycode value can cause it to be badly processed by GTK+.
+diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/WebPageProxy.h b/Source/WebKit/UIProcess/WebPageProxy.h
+--- a/Source/WebKit/UIProcess/WebPageProxy.h	2019-09-23 03:32:47.000000000 -0500
++++ b/Source/WebKit/UIProcess/WebPageProxy.h	2019-09-30 22:47:34.995338274 -0500
+@@ -753,9 +753,13 @@
+     void setComposition(const String& text, Vector<WebCore::CompositionUnderline> underlines, uint64_t selectionStart, uint64_t selectionEnd, uint64_t replacementRangeStart, uint64_t replacementRangeEnd);
+     void confirmComposition(const String& compositionString, int64_t selectionStart, int64_t selectionLength);
+     void cancelComposition();
++#endif
+ 
++#if PLATFORM(GTK)
+     void setInputMethodState(bool enabled);
++#endif
+ 
++#if PLATFORM (GTK) && HAVE(GTK_GESTURES)
+     void getCenterForZoomGesture(const WebCore::IntPoint& centerInViewCoordinates, WebCore::IntPoint& center);
+ #endif
+ 
+diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/AcceleratedBackingStoreWayland.cpp b/Source/WebKit/UIProcess/gtk/AcceleratedBackingStoreWayland.cpp
+--- a/Source/WebKit/UIProcess/gtk/AcceleratedBackingStoreWayland.cpp	2019-09-23 03:17:18.000000000 -0500
++++ b/Source/WebKit/UIProcess/gtk/AcceleratedBackingStoreWayland.cpp	2019-09-30 22:47:34.995338274 -0500
+@@ -144,8 +144,10 @@
+     WaylandCompositor::singleton().unregisterWebPage(m_webPage);
+ #endif
+ 
++#if GTK_CHECK_VERSION(3, 16, 0)
+     if (m_gdkGLContext && m_gdkGLContext.get() == gdk_gl_context_get_current())
+         gdk_gl_context_clear_current();
++#endif
+ }
+ 
+ void AcceleratedBackingStoreWayland::realize()
+@@ -183,6 +185,7 @@
+ 
+     m_glContextInitialized = true;
+ 
++#if GTK_CHECK_VERSION(3, 16, 0)
+     GUniqueOutPtr<GError> error;
+     m_gdkGLContext = adoptGRef(gdk_window_create_gl_context(gtk_widget_get_window(m_webPage.viewWidget()), &error.outPtr()));
+     if (m_gdkGLContext) {
+@@ -193,6 +196,7 @@
+     }
+ 
+     g_warning("GDK is not able to create a GL context, falling back to glReadPixels (slow!): %s", error->message);
++#endif
+ 
+     m_glContext = GLContext::createOffscreenContext();
+ }
+@@ -201,10 +205,13 @@
+ {
+     tryEnsureGLContext();
+ 
++#if GTK_CHECK_VERSION(3, 16, 0)
+     if (m_gdkGLContext) {
+         gdk_gl_context_make_current(m_gdkGLContext.get());
+         return true;
+     }
++#endif
++
+     return m_glContext ? m_glContext->makeContextCurrent() : false;
+ }
+ 
+@@ -285,11 +292,13 @@
+ 
+     cairo_save(cr);
+ 
++#if GTK_CHECK_VERSION(3, 16, 0)
+     if (m_gdkGLContext) {
+         gdk_cairo_draw_from_gl(cr, gtk_widget_get_window(m_webPage.viewWidget()), texture, GL_TEXTURE, m_webPage.deviceScaleFactor(), 0, 0, textureSize.width(), textureSize.height());
+         cairo_restore(cr);
+         return true;
+     }
++#endif
+ 
+     ASSERT(m_glContext);
+ 
+diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/AcceleratedBackingStoreWayland.h b/Source/WebKit/UIProcess/gtk/AcceleratedBackingStoreWayland.h
+--- a/Source/WebKit/UIProcess/gtk/AcceleratedBackingStoreWayland.h	2019-09-23 03:17:18.000000000 -0500
++++ b/Source/WebKit/UIProcess/gtk/AcceleratedBackingStoreWayland.h	2019-09-30 22:47:34.995338274 -0500
+@@ -75,7 +75,9 @@
+ 
+     RefPtr<cairo_surface_t> m_surface;
+     bool m_glContextInitialized { false };
++#if GTK_CHECK_VERSION(3, 16, 0)
+     GRefPtr<GdkGLContext> m_gdkGLContext;
++#endif
+     std::unique_ptr<WebCore::GLContext> m_glContext;
+ 
+ #if USE(WPE_RENDERER)
+diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/DragAndDropHandler.cpp b/Source/WebKit/UIProcess/gtk/DragAndDropHandler.cpp
+--- a/Source/WebKit/UIProcess/gtk/DragAndDropHandler.cpp	2019-08-28 06:46:32.000000000 -0500
++++ b/Source/WebKit/UIProcess/gtk/DragAndDropHandler.cpp	2019-09-30 22:47:34.996338269 -0500
+@@ -106,6 +106,7 @@
+ 
+ void DragAndDropHandler::startDrag(Ref<SelectionData>&& selection, DragOperation dragOperation, RefPtr<ShareableBitmap>&& dragImage)
+ {
++#if GTK_CHECK_VERSION(3, 16, 0)
+     // WebCore::EventHandler does not support more than one DnD operation at the same time for
+     // a given page, so we should cancel any previous operation whose context we might have
+     // stored, should we receive a new startDrag event before finishing a previous DnD operation.
+@@ -116,12 +117,22 @@
+ 
+     m_draggingSelectionData = WTFMove(selection);
+     GRefPtr<GtkTargetList> targetList = PasteboardHelper::singleton().targetListForSelectionData(*m_draggingSelectionData);
++#else
++    RefPtr<SelectionData> selectionData = WTFMove(selection);
++    GRefPtr<GtkTargetList> targetList = PasteboardHelper::singleton().targetListForSelectionData(*selectionData);
++#endif
+ 
+     GUniquePtr<GdkEvent> currentEvent(gtk_get_current_event());
+     GdkDragContext* context = gtk_drag_begin(m_page.viewWidget(), targetList.get(), dragOperationToGdkDragActions(dragOperation),
+         GDK_BUTTON_PRIMARY, currentEvent.get());
+ 
++#if GTK_CHECK_VERSION(3, 16, 0)
+     m_dragContext = context;
++#else
++    // We don't have gtk_drag_cancel() in GTK+ < 3.16, so we use the old code.
++    // See https://bugs.webkit.org/show_bug.cgi?id=138468
++    m_draggingSelectionDataMap.set(context, WTFMove(selectionData));
++#endif
+ 
+     if (dragImage) {
+         RefPtr<cairo_surface_t> image(dragImage->createCairoSurface());
+@@ -134,6 +145,7 @@
+ 
+ void DragAndDropHandler::fillDragData(GdkDragContext* context, GtkSelectionData* selectionData, unsigned info)
+ {
++#if GTK_CHECK_VERSION(3, 16, 0)
+     // This can happen when attempting to call finish drag from webkitWebViewBaseDragDataGet()
+     // for a obsolete DnD operation that got previously cancelled in startDrag().
+     if (m_dragContext.get() != context)
+@@ -141,10 +153,15 @@
+ 
+     ASSERT(m_draggingSelectionData);
+     PasteboardHelper::singleton().fillSelectionData(*m_draggingSelectionData, info, selectionData);
++#else
++    if (auto* selection = m_draggingSelectionDataMap.get(context))
++        PasteboardHelper::singleton().fillSelectionData(*selection, info, selectionData);
++#endif
+ }
+ 
+ void DragAndDropHandler::finishDrag(GdkDragContext* context)
+ {
++#if GTK_CHECK_VERSION(3, 16, 0)
+     // This can happen when attempting to call finish drag from webkitWebViewBaseDragEnd()
+     // for a obsolete DnD operation that got previously cancelled in startDrag().
+     if (m_dragContext.get() != context)
+@@ -155,6 +172,10 @@
+ 
+     m_dragContext = nullptr;
+     m_draggingSelectionData = nullptr;
++#else
++    if (!m_draggingSelectionDataMap.remove(context))
++        return;
++#endif
+ 
+     GdkDevice* device = gdk_drag_context_get_device(context);
+     int x = 0, y = 0;
+diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/DragAndDropHandler.h b/Source/WebKit/UIProcess/gtk/DragAndDropHandler.h
+--- a/Source/WebKit/UIProcess/gtk/DragAndDropHandler.h	2019-08-28 06:46:32.000000000 -0500
++++ b/Source/WebKit/UIProcess/gtk/DragAndDropHandler.h	2019-09-30 22:47:34.996338269 -0500
+@@ -80,8 +80,15 @@
+ 
+     WebPageProxy& m_page;
+     HashMap<GdkDragContext*, std::unique_ptr<DroppingContext>> m_droppingContexts;
++
++#if GTK_CHECK_VERSION(3, 16, 0)
+     GRefPtr<GdkDragContext> m_dragContext;
+     RefPtr<WebCore::SelectionData> m_draggingSelectionData;
++#else
++    // We don't have gtk_drag_cancel() in GTK+ < 3.16, so we use the old code.
++    // See https://bugs.webkit.org/show_bug.cgi?id=138468
++    HashMap<GdkDragContext*, RefPtr<WebCore::SelectionData>> m_draggingSelectionDataMap;
++#endif
+ };
+ 
+ } // namespace WebKit
+diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/GestureController.cpp b/Source/WebKit/UIProcess/gtk/GestureController.cpp
+--- a/Source/WebKit/UIProcess/gtk/GestureController.cpp	2019-08-28 06:46:32.000000000 -0500
++++ b/Source/WebKit/UIProcess/gtk/GestureController.cpp	2019-09-30 22:47:34.996338269 -0500
+@@ -26,6 +26,8 @@
+ #include "config.h"
+ #include "GestureController.h"
+ 
++#if HAVE(GTK_GESTURES)
++
+ #include <WebCore/Scrollbar.h>
+ #include <gtk/gtk.h>
+ 
+@@ -51,7 +53,11 @@
+     m_swipeGesture.handleEvent(event);
+     m_zoomGesture.handleEvent(event);
+     m_longpressGesture.handleEvent(event);
++#if GTK_CHECK_VERSION(3, 10, 0)
+     touchEnd = (gdk_event_get_event_type(event) == GDK_TOUCH_END) || (gdk_event_get_event_type(event) == GDK_TOUCH_CANCEL);
++#else
++    touchEnd = (event->type == GDK_TOUCH_END) || (event->type == GDK_TOUCH_CANCEL);
++#endif
+     return touchEnd ? wasProcessingGestures : isProcessingGestures();
+ }
+ 
+@@ -270,3 +276,5 @@
+ }
+ 
+ } // namespace WebKit
++
++#endif // HAVE(GTK_GESTURES)
+diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/GestureController.h b/Source/WebKit/UIProcess/gtk/GestureController.h
+--- a/Source/WebKit/UIProcess/gtk/GestureController.h	2019-08-28 06:46:32.000000000 -0500
++++ b/Source/WebKit/UIProcess/gtk/GestureController.h	2019-09-30 22:47:34.996338269 -0500
+@@ -25,6 +25,8 @@
+ 
+ #pragma once
+ 
++#if HAVE(GTK_GESTURES)
++
+ #include <WebCore/FloatPoint.h>
+ #include <wtf/Noncopyable.h>
+ #include <wtf/RunLoop.h>
+@@ -158,3 +160,5 @@
+ };
+ 
+ } // namespace WebKit
++
++#endif // HAVE(GTK_GESTURES)
+diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/InputMethodFilter.cpp b/Source/WebKit/UIProcess/gtk/InputMethodFilter.cpp
+--- a/Source/WebKit/UIProcess/gtk/InputMethodFilter.cpp	2019-08-30 07:17:09.000000000 -0500
++++ b/Source/WebKit/UIProcess/gtk/InputMethodFilter.cpp	2019-09-30 22:47:34.996338269 -0500
+@@ -200,8 +200,11 @@
+     m_justSentFakeKeyUp = false;
+     guint keyval;
+     gdk_event_get_keyval(reinterpret_cast<GdkEvent*>(event), &keyval);
++#if GTK_CHECK_VERSION(3, 10, 0)
+     GdkEventType type = gdk_event_get_event_type(reinterpret_cast<GdkEvent*>(event));
+-
++#else
++    GdkEventType type = event->type;
++#endif
+     if (justSentFakeKeyUp && type == GDK_KEY_RELEASE)
+         return;
+ 
+@@ -449,7 +452,11 @@
+ {
+     guint keyval;
+     gdk_event_get_keyval(reinterpret_cast<GdkEvent*>(event), &keyval);
++#if GTK_CHECK_VERSION(3, 10, 0)
+     const char* eventType = gdk_event_get_event_type(reinterpret_cast<GdkEvent*>(event)) == GDK_KEY_RELEASE ? "release" : "press";
++#else
++    const char* eventType = event->type == GDK_KEY_RELEASE ? "release" : "press";
++#endif
+     const char* fakedString = faked == EventFaked ? " (faked)" : "";
+     if (!eventString.isNull())
+         m_events.append(makeString("sendSimpleKeyEvent type=", eventType, " keycode=", hex(keyval), " text='", eventString, '\'', fakedString));
+@@ -461,7 +468,11 @@
+ {
+     guint keyval;
+     gdk_event_get_keyval(reinterpret_cast<GdkEvent*>(event), &keyval);
++#if GTK_CHECK_VERSION(3, 10, 0)
+     const char* eventType = gdk_event_get_event_type(reinterpret_cast<GdkEvent*>(event)) == GDK_KEY_RELEASE ? "release" : "press";
++#else
++    const char* eventType = event->type == GDK_KEY_RELEASE ? "release" : "press";
++#endif
+     const char* fakedString = faked == EventFaked ? " (faked)" : "";
+     m_events.append(makeString("sendKeyEventWithCompositionResults type=", eventType, " keycode=", hex(keyval), fakedString));
+ 
+diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/ViewGestureControllerGtk.cpp b/Source/WebKit/UIProcess/gtk/ViewGestureControllerGtk.cpp
+--- a/Source/WebKit/UIProcess/gtk/ViewGestureControllerGtk.cpp	2019-08-28 06:46:32.000000000 -0500
++++ b/Source/WebKit/UIProcess/gtk/ViewGestureControllerGtk.cpp	2019-09-30 22:47:34.996338269 -0500
+@@ -54,7 +54,11 @@
+ 
+ static bool isEventStop(GdkEventScroll* event)
+ {
++#if GTK_CHECK_VERSION(3, 20, 0)
+     return gdk_event_is_scroll_stop_event(reinterpret_cast<GdkEvent*>(event));
++#else
++    return !event->delta_x && !event->delta_y;
++#endif
+ }
+ 
+ void ViewGestureController::platformTeardown()
+@@ -442,7 +446,9 @@
+     event->scroll.delta_x = xDelta;
+     event->scroll.delta_y = yDelta;
+     event->scroll.state = 0;
++#if GTK_CHECK_VERSION(3, 20, 0)
+     event->scroll.is_stop = !xDelta && !yDelta;
++#endif
+     event->scroll.window = GDK_WINDOW(g_object_ref(window));
+     gdk_event_set_screen(event.get(), gdk_window_get_screen(window));
+     gdk_event_set_device(event.get(), gdk_device_manager_get_client_pointer(gdk_display_get_device_manager(gdk_window_get_display(window))));
+diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/WebContextMenuProxyGtk.cpp b/Source/WebKit/UIProcess/gtk/WebContextMenuProxyGtk.cpp
+--- a/Source/WebKit/UIProcess/gtk/WebContextMenuProxyGtk.cpp	2019-08-28 06:46:32.000000000 -0500
++++ b/Source/WebKit/UIProcess/gtk/WebContextMenuProxyGtk.cpp	2019-09-30 22:47:34.996338269 -0500
+@@ -67,7 +67,11 @@
+     GRefPtr<GMenuItem> gMenuItem;
+     GAction* action = menuItem.gAction();
+     ASSERT(action);
++#if GTK_CHECK_VERSION(3, 16, 0)
+     g_action_map_add_action(G_ACTION_MAP(gtk_widget_get_action_group(GTK_WIDGET(m_menu), gContextMenuItemGroup)), action);
++#else
++    g_action_map_add_action(G_ACTION_MAP(g_object_get_data(G_OBJECT(m_menu), gContextMenuItemGroup)), action);
++#endif
+ 
+     switch (menuItem.type()) {
+     case ActionType:
+@@ -197,6 +201,9 @@
+ {
+     GRefPtr<GSimpleActionGroup> group = adoptGRef(g_simple_action_group_new());
+     gtk_widget_insert_action_group(GTK_WIDGET(m_menu), gContextMenuItemGroup, G_ACTION_GROUP(group.get()));
++#if !GTK_CHECK_VERSION(3, 16, 0)
++    g_object_set_data(G_OBJECT(m_menu), gContextMenuItemGroup, group.get());
++#endif
+     webkitWebViewBaseSetActiveContextMenuProxy(WEBKIT_WEB_VIEW_BASE(m_webView), this);
+ }
+ 
+@@ -209,6 +216,9 @@
+     m_signalHandlers.clear();
+ 
+     gtk_widget_insert_action_group(GTK_WIDGET(m_menu), gContextMenuItemGroup, nullptr);
++#if !GTK_CHECK_VERSION(3, 16, 0)
++    g_object_set_data(G_OBJECT(m_menu), gContextMenuItemGroup, nullptr);
++#endif
+     gtk_widget_destroy(GTK_WIDGET(m_menu));
+ }
+ 
+diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/WebKitInspectorWindow.cpp b/Source/WebKit/UIProcess/gtk/WebKitInspectorWindow.cpp
+--- a/Source/WebKit/UIProcess/gtk/WebKitInspectorWindow.cpp	2019-08-28 06:46:32.000000000 -0500
++++ b/Source/WebKit/UIProcess/gtk/WebKitInspectorWindow.cpp	2019-09-30 22:47:34.996338269 -0500
+@@ -35,7 +35,9 @@
+ struct _WebKitInspectorWindow {
+     GtkWindow parent;
+ 
++#if GTK_CHECK_VERSION(3, 10, 0)
+     GtkWidget* headerBar;
++#endif
+ };
+ 
+ struct _WebKitInspectorWindowClass {
+@@ -50,11 +52,15 @@
+ 
+ static void webkit_inspector_window_init(WebKitInspectorWindow* window)
+ {
++#if GTK_CHECK_VERSION(3, 10, 0)
+     window->headerBar = gtk_header_bar_new();
+     gtk_header_bar_set_title(GTK_HEADER_BAR(window->headerBar), _("Web Inspector"));
+     gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(window->headerBar), TRUE);
+     gtk_window_set_titlebar(GTK_WINDOW(window), window->headerBar);
+     gtk_widget_show(window->headerBar);
++#else
++    gtk_window_set_title(GTK_WINDOW(window), _("Web Inspector"));
++#endif
+ }
+ 
+ GtkWidget* webkitInspectorWindowNew(GtkWindow* parent)
+@@ -67,5 +73,14 @@
+ {
+     g_return_if_fail(WEBKIT_IS_INSPECTOR_WINDOW(window));
+ 
++#if GTK_CHECK_VERSION(3, 10, 0)
+     gtk_header_bar_set_subtitle(GTK_HEADER_BAR(window->headerBar), subtitle);
++#else
++    if (subtitle) {
++        GUniquePtr<gchar> title(g_strdup_printf("%s - %s", _("Web Inspector"), subtitle));
++        gtk_window_set_title(GTK_WINDOW(window), title.get());
++    } else
++        gtk_window_set_title(GTK_WINDOW(window), _("Web Inspector"));
++#endif
+ }
++
+diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/WebPageProxyGtk.cpp b/Source/WebKit/UIProcess/gtk/WebPageProxyGtk.cpp
+--- a/Source/WebKit/UIProcess/gtk/WebPageProxyGtk.cpp	2019-08-28 06:46:32.000000000 -0500
++++ b/Source/WebKit/UIProcess/gtk/WebPageProxyGtk.cpp	2019-09-30 22:47:34.996338269 -0500
+@@ -151,10 +151,12 @@
+     webkitWebViewBaseSetInputMethodState(WEBKIT_WEB_VIEW_BASE(viewWidget()), enabled);
+ }
+ 
++#if HAVE(GTK_GESTURES)
+ void WebPageProxy::getCenterForZoomGesture(const WebCore::IntPoint& centerInViewCoordinates, WebCore::IntPoint& center)
+ {
+     process().sendSync(Messages::WebPage::GetCenterForZoomGesture(centerInViewCoordinates), Messages::WebPage::GetCenterForZoomGesture::Reply(center), m_pageID);
+ }
++#endif
+ 
+ bool WebPageProxy::makeGLContextCurrent()
+ {
+diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/WebPopupMenuProxyGtk.cpp b/Source/WebKit/UIProcess/gtk/WebPopupMenuProxyGtk.cpp
+--- a/Source/WebKit/UIProcess/gtk/WebPopupMenuProxyGtk.cpp	2019-08-28 06:46:32.000000000 -0500
++++ b/Source/WebKit/UIProcess/gtk/WebPopupMenuProxyGtk.cpp	2019-09-30 22:47:34.996338269 -0500
+@@ -253,9 +253,16 @@
+         return;
+ 
+     auto* display = gtk_widget_get_display(m_webView);
++#if GTK_CHECK_VERSION(3, 22, 0)
+     auto* monitor = gdk_display_get_monitor_at_window(display, gtk_widget_get_window(m_webView));
+     GdkRectangle area;
+     gdk_monitor_get_workarea(monitor, &area);
++#else
++    auto* screen = gtk_widget_get_screen(m_webView);
++    gint monitor = gdk_screen_get_monitor_at_window(screen, gtk_widget_get_window(m_webView));
++    GdkRectangle area;
++    gdk_screen_get_monitor_workarea(screen, monitor, &area);
++#endif
+     int width = std::min(rect.width(), area.width);
+     size_t itemCount = std::min<size_t>(items.size(), (area.height / 3) / itemHeight);
+ 
+@@ -298,16 +305,28 @@
+         m_device = gtk_get_current_event_device();
+     if (m_device && gdk_device_get_display(m_device) != display)
+         m_device = nullptr;
++#if GTK_CHECK_VERSION(3, 20, 0)
+     if (!m_device)
+         m_device = gdk_seat_get_pointer(gdk_display_get_default_seat(display));
++#else
++    if (!m_device)
++        m_device = gdk_device_manager_get_client_pointer(gdk_display_get_device_manager(display));
++#endif
+     ASSERT(m_device);
+     if (gdk_device_get_source(m_device) == GDK_SOURCE_KEYBOARD)
+         m_device = gdk_device_get_associated_device(m_device);
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+     gtk_grab_add(m_popup);
+     auto grabResult = gdk_seat_grab(gdk_device_get_seat(m_device), gtk_widget_get_window(m_popup), GDK_SEAT_CAPABILITY_ALL, TRUE, nullptr, nullptr, [](GdkSeat*, GdkWindow*, gpointer userData) {
+         static_cast<WebPopupMenuProxyGtk*>(userData)->show();
+     }, this);
++#else
++    gtk_device_grab_add(m_popup, m_device, TRUE);
++    auto grabResult = gdk_device_grab(m_device, gtk_widget_get_window(m_popup), GDK_OWNERSHIP_WINDOW, TRUE,
++        static_cast<GdkEventMask>(GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK), nullptr, GDK_CURRENT_TIME);
++    show();
++#endif
+ 
+     // PopupMenu can fail to open when there is no mouse grab.
+     // Ensure WebCore does not go into some pesky state.
+@@ -323,8 +342,13 @@
+         return;
+ 
+     if (m_device) {
++#if GTK_CHECK_VERSION(3, 20, 0)
+         gdk_seat_ungrab(gdk_device_get_seat(m_device));
+         gtk_grab_remove(m_popup);
++#else
++        gdk_device_ungrab(m_device, GDK_CURRENT_TIME);
++        gtk_device_grab_remove(m_popup, m_device);
++#endif
+         gtk_window_set_transient_for(GTK_WINDOW(m_popup), nullptr);
+         gtk_window_set_attached_to(GTK_WINDOW(m_popup), nullptr);
+         m_device = nullptr;
+diff '--exclude=.git' -urN a/Source/WebKit/WebProcess/WebPage/WebPage.h b/Source/WebKit/WebProcess/WebPage/WebPage.h
+--- a/Source/WebKit/WebProcess/WebPage/WebPage.h	2019-08-28 06:46:33.000000000 -0500
++++ b/Source/WebKit/WebProcess/WebPage/WebPage.h	2019-09-30 22:47:34.996338269 -0500
+@@ -775,7 +775,9 @@
+ 
+     void collapseSelectionInFrame(WebCore::FrameIdentifier);
+     void showEmojiPicker(WebCore::Frame&);
++#endif
+ 
++#if PLATFORM (GTK) && HAVE(GTK_GESTURES)
+     void getCenterForZoomGesture(const WebCore::IntPoint& centerInViewCoordinates, CompletionHandler<void(WebCore::IntPoint&&)>&&);
+ #endif
+ 
+diff '--exclude=.git' -urN a/Source/WebKit/WebProcess/WebPage/WebPage.messages.in b/Source/WebKit/WebProcess/WebPage/WebPage.messages.in
+--- a/Source/WebKit/WebProcess/WebPage/WebPage.messages.in	2019-08-28 06:46:33.000000000 -0500
++++ b/Source/WebKit/WebProcess/WebPage/WebPage.messages.in	2019-09-30 22:49:58.336690371 -0500
+@@ -413,7 +413,9 @@
+     CancelComposition()
+ 
+     CollapseSelectionInFrame(WebCore::FrameIdentifier frameID)
+-
++#endif
++ 
++#if PLATFORM (GTK) && HAVE(GTK_GESTURES)
+     GetCenterForZoomGesture(WebCore::IntPoint centerInViewCoordinates) -> (WebCore::IntPoint center) Synchronous
+ #endif
+ 
+diff '--exclude=.git' -urN a/Source/WebKit/WebProcess/WebPage/gtk/WebPageGtk.cpp b/Source/WebKit/WebProcess/WebPage/gtk/WebPageGtk.cpp
+--- a/Source/WebKit/WebProcess/WebPage/gtk/WebPageGtk.cpp	2019-08-28 06:46:33.000000000 -0500
++++ b/Source/WebKit/WebProcess/WebPage/gtk/WebPageGtk.cpp	2019-09-30 22:47:34.997338265 -0500
+@@ -166,6 +166,7 @@
+     return WebCore::standardUserAgentForURL(url);
+ }
+ 
++#if HAVE(GTK_GESTURES)
+ void WebPage::getCenterForZoomGesture(const IntPoint& centerInViewCoordinates, CompletionHandler<void(WebCore::IntPoint&&)>&& completionHandler)
+ {
+     IntPoint result = mainFrameView()->rootViewToContents(centerInViewCoordinates);
+@@ -173,6 +174,7 @@
+     result.scale(1 / scale, 1 / scale);
+     completionHandler(WTFMove(result));
+ }
++#endif
+ 
+ void WebPage::setInputMethodState(bool enabled)
+ {
+diff '--exclude=.git' -urN a/Source/cmake/FindGTK3.cmake b/Source/cmake/FindGTK3.cmake
+--- a/Source/cmake/FindGTK3.cmake	2019-08-28 06:46:33.000000000 -0500
++++ b/Source/cmake/FindGTK3.cmake	2019-09-30 22:47:34.997338265 -0500
+@@ -4,6 +4,7 @@
+ #  GTK3_FOUND - system has GTK+ 3.
+ #  GTK3_INCLUDE_DIRS - the GTK+ 3. include directories
+ #  GTK3_LIBRARIES - link these to use GTK+ 3.
++#  GTK3_SUPPORTS_GESTURES - GTK+ supports gestures (GTK+ >= 3.14)
+ #  GTK3_SUPPORTS_QUARTZ - GTK+ supports Quartz backend
+ #  GTK3_SUPPORTS_X11 - GTK+ supports X11 backend
+ #  GTK3_SUPPORTS_WAYLAND - GTK+ supports Wayland backend
+@@ -69,6 +70,12 @@
+     else ()
+         set(GTK3_SUPPORTS_WAYLAND FALSE)
+     endif ()
++
++    if (NOT("${GTK3_VERSION}" VERSION_LESS "3.14.0"))
++        set(GTK3_SUPPORTS_GESTURES ON)
++    else ()
++        set(GTK3_SUPPORTS_GESTURES OFF)
++    endif ()
+ endif ()
+ 
+ include(FindPackageHandleStandardArgs)
+diff '--exclude=.git' -urN a/Source/cmake/GStreamerChecks.cmake b/Source/cmake/GStreamerChecks.cmake
+--- a/Source/cmake/GStreamerChecks.cmake	2019-09-23 03:23:57.000000000 -0500
++++ b/Source/cmake/GStreamerChecks.cmake	2019-09-30 22:47:34.997338265 -0500
+@@ -10,7 +10,7 @@
+         SET_AND_EXPOSE_TO_BUILD(USE_WEBAUDIO_GSTREAMER TRUE)
+     endif ()
+ 
+-    find_package(GStreamer 1.10.0 REQUIRED COMPONENTS ${GSTREAMER_COMPONENTS})
++    find_package(GStreamer 1.8.3 REQUIRED COMPONENTS ${GSTREAMER_COMPONENTS})
+ 
+     if (ENABLE_WEB_AUDIO)
+         if (NOT PC_GSTREAMER_AUDIO_FOUND OR NOT PC_GSTREAMER_FFT_FOUND)
+@@ -26,24 +26,39 @@
+         endif ()
+     endif ()
+ 
+-    if (USE_GSTREAMER_MPEGTS AND NOT PC_GSTREAMER_MPEGTS_FOUND)
+-        message(FATAL_ERROR "GStreamer MPEG-TS is needed for USE_GSTREAMER_MPEGTS.")
++    if (USE_GSTREAMER_MPEGTS)
++        if (NOT PC_GSTREAMER_MPEGTS_FOUND)
++            message(FATAL_ERROR "GStreamer MPEG-TS is needed for USE_GSTREAMER_MPEGTS.")
++        endif ()
+     endif ()
+ 
+-    if (USE_GSTREAMER_GL AND NOT PC_GSTREAMER_GL_FOUND)
+-        message(FATAL_ERROR "GStreamerGL is needed for USE_GSTREAMER_GL.")
++    if (USE_GSTREAMER_GL)
++        if (PC_GSTREAMER_VERSION VERSION_LESS "1.10")
++            message(FATAL_ERROR "GStreamer 1.10 is needed for USE_GSTREAMER_GL.")
++        else ()
++            if (NOT PC_GSTREAMER_GL_FOUND)
++                message(FATAL_ERROR "GStreamerGL is needed for USE_GSTREAMER_GL.")
++            endif ()
++        endif ()
+     endif ()
+ 
+     SET_AND_EXPOSE_TO_BUILD(USE_GSTREAMER TRUE)
+ endif ()
+ 
+-if (ENABLE_MEDIA_SOURCE AND PC_GSTREAMER_VERSION VERSION_LESS "1.14")
+-    message(FATAL_ERROR "GStreamer 1.14 is needed for ENABLE_MEDIA_SOURCE.")
++if (ENABLE_MEDIA_SOURCE)
++    if (PC_GSTREAMER_VERSION VERSION_LESS "1.14")
++        message(FATAL_ERROR "GStreamer 1.14 is needed for ENABLE_MEDIA_SOURCE.")
++    endif ()
+ endif ()
+ 
+ if (ENABLE_MEDIA_STREAM OR ENABLE_WEB_RTC)
+-    SET_AND_EXPOSE_TO_BUILD(USE_LIBWEBRTC TRUE)
+-    SET_AND_EXPOSE_TO_BUILD(WEBRTC_WEBKIT_BUILD TRUE)
++    if (PC_GSTREAMER_VERSION VERSION_LESS "1.10")
++        SET_AND_EXPOSE_TO_BUILD(USE_LIBWEBRTC FALSE)
++        SET_AND_EXPOSE_TO_BUILD(WEBRTC_WEBKIT_BUILD FALSE)
++    else ()
++        SET_AND_EXPOSE_TO_BUILD(USE_LIBWEBRTC TRUE)
++        SET_AND_EXPOSE_TO_BUILD(WEBRTC_WEBKIT_BUILD TRUE)
++    endif ()
+ else ()
+     SET_AND_EXPOSE_TO_BUILD(USE_LIBWEBRTC FALSE)
+     SET_AND_EXPOSE_TO_BUILD(WEBRTC_WEBKIT_BUILD FALSE)
+diff '--exclude=.git' -urN a/Source/cmake/OptionsGTK.cmake b/Source/cmake/OptionsGTK.cmake
+--- a/Source/cmake/OptionsGTK.cmake	2019-09-23 05:15:25.000000000 -0500
++++ b/Source/cmake/OptionsGTK.cmake	2019-09-30 22:47:34.997338265 -0500
+@@ -17,23 +17,22 @@
+ set(INTROSPECTION_INSTALL_GIRDIR "${CMAKE_INSTALL_FULL_DATADIR}/gir-1.0")
+ set(INTROSPECTION_INSTALL_TYPELIBDIR "${LIB_INSTALL_DIR}/girepository-1.0")
+ 
+-find_package(Cairo 1.14.0 REQUIRED)
++find_package(Cairo 1.10.2 REQUIRED)
+ find_package(Fontconfig 2.8.0 REQUIRED)
+ find_package(Freetype 2.4.2 REQUIRED)
+ find_package(LibGcrypt 1.6.0 REQUIRED)
+-find_package(GLIB 2.44.0 REQUIRED COMPONENTS gio gio-unix gobject gthread gmodule)
+-find_package(GTK3 3.22.0 REQUIRED)
+-find_package(GDK3 3.22.0 REQUIRED)
++find_package(GTK3 3.6.0 REQUIRED)
++find_package(GDK3 3.6.0 REQUIRED)
+ find_package(HarfBuzz 0.9.2 REQUIRED)
+ find_package(ICU REQUIRED COMPONENTS data i18n uc)
+ find_package(JPEG REQUIRED)
+-find_package(LibSoup 2.54.0 REQUIRED)
++find_package(LibSoup 2.42.0 REQUIRED)
+ find_package(LibXml2 2.8.0 REQUIRED)
+ find_package(PNG REQUIRED)
+ find_package(Sqlite REQUIRED)
+ find_package(Threads REQUIRED)
+ find_package(ZLIB REQUIRED)
+-find_package(ATK 2.16.0 REQUIRED)
++find_package(ATK REQUIRED)
+ find_package(WebP REQUIRED)
+ find_package(ATSPI 2.5.3)
+ find_package(EGL)
+@@ -71,7 +70,7 @@
+     set(ENABLE_GLES2_DEFAULT ON)
+ endif ()
+ 
+-# Public options specific to the GTK port. Do not add any options here unless
++# Public options specific to the GTK+ port. Do not add any options here unless
+ # there is a strong reason we should support changing the value of the option,
+ # and the option is not relevant to any other WebKit ports.
+ WEBKIT_OPTION_DEFINE(ENABLE_GLES2 "Whether to enable OpenGL ES 2.0." PUBLIC ${ENABLE_GLES2_DEFAULT})
+@@ -88,7 +87,7 @@
+ WEBKIT_OPTION_DEFINE(USE_WOFF2 "Whether to enable support for WOFF2 Web Fonts." PUBLIC ON)
+ WEBKIT_OPTION_DEFINE(USE_WPE_RENDERER "Whether to enable WPE rendering" PUBLIC ON)
+ 
+-# Private options specific to the GTK port. Changing these options is
++# Private options specific to the GTK+ port. Changing these options is
+ # completely unsupported. They are intended for use only by WebKit developers.
+ WEBKIT_OPTION_DEFINE(USE_OPENVR "Whether to use OpenVR as WebVR backend." PRIVATE OFF)
+ 
+@@ -135,7 +134,7 @@
+ endif ()
+ 
+ # Public options shared with other WebKit ports. Do not add any options here
+-# without approval from a GTK reviewer. There must be strong reason to support
++# without approval from a GTK+ reviewer. There must be strong reason to support
+ # changing the value of the option.
+ WEBKIT_OPTION_DEFAULT_PORT_VALUE(ENABLE_ACCELERATED_2D_CANVAS PUBLIC OFF)
+ WEBKIT_OPTION_DEFAULT_PORT_VALUE(ENABLE_ASYNC_SCROLLING PRIVATE OFF)
+@@ -194,9 +193,13 @@
+ set(GDK_LIBRARIES ${GDK3_LIBRARIES})
+ set(GDK_INCLUDE_DIRS ${GDK3_INCLUDE_DIRS})
+ 
++SET_AND_EXPOSE_TO_BUILD(HAVE_GTK_GESTURES ${GTK3_SUPPORTS_GESTURES})
+ SET_AND_EXPOSE_TO_BUILD(HAVE_GTK_UNIX_PRINTING ${GTKUnixPrint_FOUND})
+ SET_AND_EXPOSE_TO_BUILD(HAVE_OS_DARK_MODE_SUPPORT 1)
+ 
++set(glib_components gio gio-unix gobject gthread gmodule)
++find_package(GLIB 2.36 REQUIRED COMPONENTS ${glib_components})
++
+ if (USE_WPE_RENDERER)
+     find_package(WPE 1.3.0)
+     if (NOT WPE_FOUND)
+@@ -252,6 +255,14 @@
+ endif ()
+ 
+ if (ENABLE_WEBDRIVER)
++    # WebDriver requires newer versions of GLib and Soup.
++    if (PC_GLIB_VERSION VERSION_LESS "2.40")
++        message(FATAL_ERROR "GLib 2.40 is required to enable WebDriver support.")
++    endif ()
++    if (PC_LIBSOUP_VERSION VERSION_LESS "2.48")
++        message(FATAL_ERROR "libsoup 2.48 is required to enable WebDriver support.")
++    endif ()
++
+     SET_AND_EXPOSE_TO_BUILD(ENABLE_WEBDRIVER_KEYBOARD_INTERACTIONS ON)
+     SET_AND_EXPOSE_TO_BUILD(ENABLE_WEBDRIVER_MOUSE_INTERACTIONS ON)
+     SET_AND_EXPOSE_TO_BUILD(ENABLE_WEBDRIVER_TOUCH_INTERACTIONS OFF)
+@@ -303,13 +314,13 @@
+ 
+ if (ENABLE_QUARTZ_TARGET)
+     if (NOT GTK3_SUPPORTS_QUARTZ)
+-        message(FATAL_ERROR "Recompile GTK with Quartz backend to use ENABLE_QUARTZ_TARGET")
++        message(FATAL_ERROR "Recompile GTK+ with Quartz backend to use ENABLE_QUARTZ_TARGET")
+     endif ()
+ endif ()
+ 
+ if (ENABLE_X11_TARGET)
+     if (NOT GTK3_SUPPORTS_X11)
+-        message(FATAL_ERROR "Recompile GTK with X11 backend to use ENABLE_X11_TARGET")
++        message(FATAL_ERROR "Recompile GTK+ with X11 backend to use ENABLE_X11_TARGET")
+     endif ()
+ 
+     find_package(X11 REQUIRED)
+@@ -326,7 +337,11 @@
+ 
+ if (ENABLE_WAYLAND_TARGET)
+     if (NOT GTK3_SUPPORTS_WAYLAND)
+-        message(FATAL_ERROR "Recompile GTK with Wayland backend to use ENABLE_WAYLAND_TARGET")
++        message(FATAL_ERROR "Recompile GTK+ with Wayland backend to use ENABLE_WAYLAND_TARGET")
++    endif ()
++
++    if (GTK3_VERSION VERSION_LESS 3.12)
++        message(FATAL_ERROR "GTK+ 3.12 is required to use ENABLE_WAYLAND_TARGET")
+     endif ()
+ 
+     if (NOT EGL_FOUND)
+diff '--exclude=.git' -urN a/Tools/MiniBrowser/gtk/BrowserTab.c b/Tools/MiniBrowser/gtk/BrowserTab.c
+--- a/Tools/MiniBrowser/gtk/BrowserTab.c	2019-08-28 06:46:33.000000000 -0500
++++ b/Tools/MiniBrowser/gtk/BrowserTab.c	2019-09-30 22:47:34.997338265 -0500
+@@ -279,6 +279,7 @@
+     return TRUE;
+ }
+ 
++#if GTK_CHECK_VERSION(3, 12, 0)
+ static void colorChooserRGBAChanged(GtkColorChooser *colorChooser, GParamSpec *paramSpec, WebKitColorChooserRequest *request)
+ {
+     GdkRGBA rgba;
+@@ -321,6 +322,7 @@
+ 
+     return TRUE;
+ }
++#endif /* GTK_CHECK_VERSION(3, 12, 0) */
+ 
+ static gboolean inspectorOpenedInWindow(WebKitWebInspector *inspector, BrowserTab *tab)
+ {
+@@ -429,7 +431,9 @@
+     g_signal_connect(tab->webView, "load-changed", G_CALLBACK(loadChanged), tab);
+     g_signal_connect(tab->webView, "load-failed-with-tls-errors", G_CALLBACK(loadFailedWithTLSerrors), tab);
+     g_signal_connect(tab->webView, "permission-request", G_CALLBACK(decidePermissionRequest), tab);
++#if GTK_CHECK_VERSION(3, 12, 0)
+     g_signal_connect(tab->webView, "run-color-chooser", G_CALLBACK(runColorChooserCallback), tab);
++#endif
+ 
+     WebKitWebInspector *inspector = webkit_web_view_get_inspector(tab->webView);
+     g_signal_connect(inspector, "open-window", G_CALLBACK(inspectorOpenedInWindow), tab);
+diff '--exclude=.git' -urN a/Tools/TestWebKitAPI/Tests/WebKitGLib/TestResources.cpp b/Tools/TestWebKitAPI/Tests/WebKitGLib/TestResources.cpp
+--- a/Tools/TestWebKitAPI/Tests/WebKitGLib/TestResources.cpp	2019-08-28 06:46:33.000000000 -0500
++++ b/Tools/TestWebKitAPI/Tests/WebKitGLib/TestResources.cpp	2019-09-30 22:47:34.997338265 -0500
+@@ -751,6 +751,7 @@
+     unsigned m_resourcesToStartPending;
+ };
+ 
++#if SOUP_CHECK_VERSION(2, 49, 91)
+ static void testWebViewSyncRequestOnMaxConns(SyncRequestOnMaxConnsTest* test, gconstpointer)
+ {
+     WTF::GMutexLocker<GMutex> lock(s_serverMutex);
+@@ -785,6 +786,7 @@
+     if (context.unlockServerSourceID)
+         g_source_remove(context.unlockServerSourceID);
+ }
++#endif
+ 
+ static void addCacheHTTPHeadersToResponse(SoupMessage* message)
+ {
+@@ -921,7 +923,9 @@
+     Test::add("WebKitWebResource", "get-data-empty", testWebResourceGetDataEmpty);
+     SingleResourceLoadTest::add("WebKitWebView", "history-cache", testWebViewResourcesHistoryCache);
+     SendRequestTest::add("WebKitWebPage", "send-request", testWebResourceSendRequest);
++#if SOUP_CHECK_VERSION(2, 49, 91)
+     SyncRequestOnMaxConnsTest::add("WebKitWebView", "sync-request-on-max-conns", testWebViewSyncRequestOnMaxConns);
++#endif
+ }
+ 
+ void afterAll()
+diff '--exclude=.git' -urN a/Tools/TestWebKitAPI/Tests/WebKitGLib/TestSSL.cpp b/Tools/TestWebKitAPI/Tests/WebKitGLib/TestSSL.cpp
+--- a/Tools/TestWebKitAPI/Tests/WebKitGLib/TestSSL.cpp	2019-08-28 06:46:33.000000000 -0500
++++ b/Tools/TestWebKitAPI/Tests/WebKitGLib/TestSSL.cpp	2019-09-30 22:47:34.997338265 -0500
+@@ -339,6 +339,7 @@
+     assertIfSSLRequestProcessed = false;
+ }
+ 
++#if SOUP_CHECK_VERSION(2, 50, 0)
+ class WebSocketTest : public WebViewTest {
+ public:
+     MAKE_GLIB_TEST_FIXTURE(WebSocketTest);
+@@ -438,6 +439,7 @@
+ 
+     webkit_web_context_set_tls_errors_policy(context, originalPolicy);
+ }
++#endif
+ 
+ static void httpsServerCallback(SoupServer* server, SoupMessage* message, const char* path, GHashTable*, SoupClientContext*, gpointer)
+ {
+@@ -525,7 +527,9 @@
+     SSLTest::add("WebKitWebView", "tls-http-auth", testTLSErrorsHTTPAuth);
+     TLSSubresourceTest::add("WebKitWebView", "tls-subresource", testSubresourceLoadFailedWithTLSErrors);
+     TLSErrorsTest::add("WebKitWebView", "load-failed-with-tls-errors", testLoadFailedWithTLSErrors);
++#if SOUP_CHECK_VERSION(2, 50, 0)
+     WebSocketTest::add("WebKitWebView", "web-socket-tls-errors", testWebSocketTLSErrors);
++#endif
+ }
+ 
+ void afterAll()
+diff '--exclude=.git' -urN a/Tools/TestWebKitAPI/glib/WebKitGLib/WebKitTestServer.cpp b/Tools/TestWebKitAPI/glib/WebKitGLib/WebKitTestServer.cpp
+--- a/Tools/TestWebKitAPI/glib/WebKitGLib/WebKitTestServer.cpp	2019-08-28 06:46:33.000000000 -0500
++++ b/Tools/TestWebKitAPI/glib/WebKitGLib/WebKitTestServer.cpp	2019-09-30 22:47:34.997338265 -0500
+@@ -53,8 +53,10 @@
+ WebKitTestServer::~WebKitTestServer()
+ {
+     soup_uri_free(m_baseURI);
++#if SOUP_CHECK_VERSION(2, 50, 0)
+     if (m_baseWebSocketURI)
+         soup_uri_free(m_baseWebSocketURI);
++#endif
+ }
+ 
+ void WebKitTestServer::run(SoupServerCallback serverCallback)
+@@ -70,6 +72,7 @@
+     }
+ }
+ 
++#if SOUP_CHECK_VERSION(2, 50, 0)
+ void WebKitTestServer::addWebSocketHandler(SoupServerWebsocketCallback callback, gpointer userData)
+ {
+     m_baseWebSocketURI = soup_uri_new_with_base(m_baseURI, "/websocket/");
+@@ -105,6 +108,7 @@
+     soup_uri_free(uri);
+     return uriString.get();
+ }
++#endif // SOUP_CHECK_VERSION(2, 50, 0)
+ 
+ CString WebKitTestServer::getURIForPath(const char* path) const
+ {

@@ -1,0 +1,25 @@
+From c742d55725ea0ad88562094d187b0ecc0ac74b4f Mon Sep 17 00:00:00 2001
+From: Martin Pitt <martin@piware.de>
+Date: Tue, 3 Sep 2019 08:51:06 +0200
+Subject: [PATCH] trivial: post release version bump
+
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index b3505e8..a96b794 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
+ 
+ m4_define([up_major_version], [0])
+ m4_define([up_minor_version], [99])
+-m4_define([up_micro_version], [11])
++m4_define([up_micro_version], [12])
+ m4_define([up_version],
+           [up_major_version.up_minor_version.up_micro_version])
+ 
+-- 
+2.23.0
+

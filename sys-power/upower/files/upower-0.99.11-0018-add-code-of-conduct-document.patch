@@ -1,0 +1,22 @@
+From 4b3df4d2ad8cb55e3ffc5f849cdf8d939ac670bb Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 25 Jul 2019 12:08:15 +0200
+Subject: [PATCH 18/20] Add code of conduct document
+
+---
+ code-of-conduct.md | 3 +++
+ 1 file changed, 3 insertions(+)
+ create mode 100644 code-of-conduct.md
+
+diff --git a/code-of-conduct.md b/code-of-conduct.md
+new file mode 100644
+index 0000000..a429a42
+--- /dev/null
++++ b/code-of-conduct.md
+@@ -0,0 +1,3 @@
++This project and its community follow the [Freedesktop.org code of conduct]
++
++[Freedesktop.org code of conduct]: https://www.freedesktop.org/wiki/CodeOfConduct/
+-- 
+2.23.0
+

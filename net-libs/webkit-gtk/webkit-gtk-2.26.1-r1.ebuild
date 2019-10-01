@@ -14,9 +14,9 @@ SRC_URI="https://www.webkitgtk.org/releases/${MY_P}.tar.xz"
 
 LICENSE="LGPL-2+ BSD"
 SLOT="4/37" # soname version of libwebkit2gtk-4.0
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="aqua coverage doc +egl +geolocation gles2 gnome-keyring +gstreamer +introspection +jit jpeg2k +jumbo-build libnotify nsplugin +opengl spell wayland +webgl +X"
+IUSE="aqua coverage deprecated doc +egl embedded +geolocation gles2 gnome-keyring +gstreamer +introspection +jit jpeg2k +jumbo-build libnotify nsplugin +opengl spell wayland +webgl +X"
 # webgl needs gstreamer, bug #560612
 # gstreamer with opengl/gles2 needs egl
 REQUIRED_USE="
@@ -155,6 +155,12 @@ pkg_setup() {
 }
 
 src_prepare() {
+	if use deprecated; then
+		# From WebKit:
+		# 	https://bugs.webkit.org/show_bug.cgi?id=199094
+		eapply "${FILESDIR}"/${PN}-2.26.1-restore-preprocessor-guards.patch
+	fi
+
 	cmake-utils_src_prepare
 	gnome2_src_prepare
 }
@@ -226,6 +232,13 @@ src_configure() {
 		loop_c_enabled=ON
 	fi
 
+	local datalist_enabled
+	if ! use deprecated; then
+		datalist_enabled=ON
+	else
+		datalist_enabled=OFF
+	fi
+
 	local mycmakeargs=(
 		-DENABLE_BUBBLEWRAP_SANDBOX=OFF
 		-DENABLE_UNIFIED_BUILDS=$(usex jumbo-build)
@@ -256,7 +269,8 @@ src_configure() {
 		-DCMAKE_BUILD_TYPE=Release
 		-DPORT=GTK
 		-DENABLE_MEDIA_SOURCE=OFF
-		-DUSE_WPE_RENDERER=OFF
+		-DUSE_WPE_RENDERER=$(usex embedded)
+		-DENABLE_DATALIST_ELEMENT=${datalist_enabled}
 		${ruby_interpreter}
 	)
 
