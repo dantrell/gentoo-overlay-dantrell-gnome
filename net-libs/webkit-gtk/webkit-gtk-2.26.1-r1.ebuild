@@ -24,6 +24,7 @@ REQUIRED_USE="
 	gles2? ( egl !opengl )
 	gstreamer? ( opengl? ( egl ) )
 	nsplugin? ( X )
+	opengl? ( webgl )
 	webgl? ( gstreamer
 		|| ( gles2 opengl ) )
 	wayland? ( egl )
