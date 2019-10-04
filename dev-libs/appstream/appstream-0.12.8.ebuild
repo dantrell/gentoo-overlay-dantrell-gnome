@@ -13,7 +13,7 @@ SRC_URI="https://www.freedesktop.org/software/appstream/releases/${MY_PN}-${PV}.
 LICENSE="LGPL-2.1+ GPL-2+"
 # check as_api_level
 SLOT="0/4"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="apt +introspection qt5 test"
 

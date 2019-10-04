@@ -30,7 +30,7 @@
 ~dev-libs/folks-0.13.1::dantrell-gnome
 ~dev-libs/gjs-1.58.0::dantrell-gnome-3-34
 ~dev-libs/glib-2.62.0::dantrell-gnome
-~dev-libs/gmime-3.2.3::dantrell-gnome
+~dev-libs/gmime-3.2.4::dantrell-gnome
 ~dev-libs/gobject-introspection-1.62.0::dantrell-gnome-3-34
 ~dev-libs/gobject-introspection-common-1.62.0::dantrell-gnome-3-34
 ~dev-libs/gom-0.3.3::dantrell-gnome

@@ -4,25 +4,23 @@ EAPI="7"
 
 inherit meson xdg-utils
 
-MY_PN="AppStream"
-
 DESCRIPTION="Cross-distro effort for providing metadata for software in the Linux ecosystem"
 HOMEPAGE="https://www.freedesktop.org/wiki/Distributions/AppStream/"
-SRC_URI="https://www.freedesktop.org/software/appstream/releases/${MY_PN}-${PV}.tar.xz"
+SRC_URI="https://www.freedesktop.org/software/appstream/releases/AppStream-${PV}.tar.xz"
 
 LICENSE="LGPL-2.1+ GPL-2+"
 # check as_api_level
 SLOT="0/4"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="apt +introspection qt5 test"
+IUSE="apt doc +introspection qt5 test"
 
 BDEPEND="
-	app-text/docbook-xml-dtd:4.5
 	dev-libs/appstream-glib
+	dev-libs/libxslt
 	dev-util/itstool
-	>=dev-util/meson-0.42.0
 	>=sys-devel/gettext-0.19.8
+	doc? ( app-text/docbook-xml-dtd:4.5 )
 	test? (
 		dev-qt/linguist-tools:5
 		qt5? ( dev-qt/qttest:5 )
@@ -38,8 +36,6 @@ DEPEND="
 	qt5? ( dev-qt/qtcore:5 )
 "
 RDEPEND="${DEPEND}"
-
-S="${WORKDIR}/${MY_PN}-${PV}"
 
 src_prepare() {
 	default
@@ -59,6 +55,7 @@ src_configure() {
 		-Dstemming=true
 		-Dvapi=false
 		-Dapt-support=$(usex apt true false)
+		-Dinstall-docs=$(usex doc true false)
 		-Dgir=$(usex introspection true false)
 		-Dqt=$(usex qt5 true false)
 	)
