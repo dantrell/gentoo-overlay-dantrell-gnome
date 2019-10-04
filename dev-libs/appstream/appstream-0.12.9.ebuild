@@ -37,6 +37,8 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 
+S="${WORKDIR}/AppStream-${PV}"
+
 src_prepare() {
 	default
 	sed -e "/^as_doc_target_dir/s/appstream/${PF}/" -i docs/meson.build || die

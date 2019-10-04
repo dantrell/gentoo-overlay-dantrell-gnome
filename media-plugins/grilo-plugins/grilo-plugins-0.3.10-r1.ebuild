@@ -65,6 +65,12 @@ BDEPEND="
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.3.8-meson-goa.patch # Support controlling g-o-a dep via 'goa' meson_options
+
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/grilo-plugins/commit/46d7c0edfbf97ca15c08e5cd1c6d563363843e82
+	# 	https://gitlab.gnome.org/GNOME/grilo-plugins/commit/39e51d93175f8234dd3e9ab99209056f188dbc28
+	"${FILESDIR}"/${PN}-0.3.11-tracker-fix-crash-if-chromaprint-plugin-isnt-installed.patch
+	"${FILESDIR}"/${PN}-0.3.11-tracker-guard-against-invalid-key-mappings.patch
 )
 
 src_prepare() {
