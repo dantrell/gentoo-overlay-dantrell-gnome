@@ -27,6 +27,7 @@ DEPEND="
 
 	>=net-libs/libsoup-2.48:2.4[introspection]
 	net-libs/gnome-online-accounts:=
+	app-text/gspell:=[vala]
 
 	>=dev-libs/libgee-0.20:0.8=[introspection]
 	>=x11-libs/libnotify-0.7.5[introspection]

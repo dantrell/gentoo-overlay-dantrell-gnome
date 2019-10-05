@@ -1,4 +1,5 @@
 app-crypt/gcr vala
+app-text/gspell vala
 dev-lang/python sqlite
 dev-libs/libgusb vala
 dev-libs/libgweather vala
