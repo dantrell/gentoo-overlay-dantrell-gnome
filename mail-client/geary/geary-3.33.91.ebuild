@@ -21,6 +21,7 @@ DEPEND="
 	>=dev-libs/glib-2.54:2
 	>=x11-libs/gtk+-3.22.26:3[introspection]
 	>=net-libs/webkit-gtk-2.20:4=[introspection]
+	>=dev-libs/appstream-glib-0.7.10:0
 	app-text/iso-codes
 	>=dev-db/sqlite-3.12:3
 

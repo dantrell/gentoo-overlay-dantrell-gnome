@@ -5,6 +5,7 @@ app-text/libgepub::dantrell-gnome ~*
 app-text/poppler::dantrell-gnome ~*
 dev-lang/spidermonkey:52::dantrell-gnome ~*
 dev-lang/spidermonkey:60::dantrell-gnome ~*
+dev-libs/appstream-glib::dantrell-gnome ~*
 dev-libs/json-glib::dantrell-gnome ~*
 dev-libs/libgee::dantrell-gnome ~*
 dev-libs/libical::dantrell-gnome ~*

@@ -1,6 +1,5 @@
 dev-libs/folks tracker
 gnome-base/gnome-extra-apps california
-gnome-base/gnome-extra-apps todo
 gnome-base/gnome-shell deprecated-background
 gnome-extra/gnome-contacts doc
 gnome-extra/gnome-todo -libecal2

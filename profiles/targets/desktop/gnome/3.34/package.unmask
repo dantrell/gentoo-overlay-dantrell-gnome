@@ -29,7 +29,7 @@
 ~dev-libs/atk-2.34.1::dantrell-gnome-3-34
 ~dev-libs/folks-0.13.1::dantrell-gnome
 ~dev-libs/gjs-1.58.0::dantrell-gnome-3-34
-~dev-libs/glib-2.62.0::dantrell-gnome
+~dev-libs/glib-2.62.1::dantrell-gnome
 ~dev-libs/gmime-3.2.4::dantrell-gnome
 ~dev-libs/gobject-introspection-1.62.0::dantrell-gnome-3-34
 ~dev-libs/gobject-introspection-common-1.62.0::dantrell-gnome-3-34
@@ -37,7 +37,7 @@
 ~dev-libs/jsonrpc-glib-3.34.0::dantrell-gnome-3-34
 ~dev-libs/json-glib-1.4.4::dantrell-gnome
 ~dev-libs/libcroco-0.6.13::dantrell-gnome
-~dev-libs/libdazzle-3.34.0::dantrell-gnome-3-34
+~dev-libs/libdazzle-3.34.1::dantrell-gnome-3-34
 ~dev-libs/libgdata-0.17.9::dantrell-gnome
 ~dev-libs/libgee-0.20.2::dantrell-gnome
 ~dev-libs/libgnome-games-support-1.4.4::dantrell-gnome
@@ -49,7 +49,7 @@
 ~dev-python/pyatspi-2.34.0::dantrell-gnome-3-34
 ~dev-python/pygobject-3.34.0::dantrell-gnome-3-34
 ~dev-util/devhelp-3.34.0::dantrell-gnome-3-34
-~dev-util/gdbus-codegen-2.62.0::dantrell-gnome
+~dev-util/gdbus-codegen-2.62.1::dantrell-gnome
 ~dev-util/gnome-builder-3.34.0::dantrell-gnome-3-34
 ~dev-util/gnome-devel-docs-3.32.1::dantrell-gnome
 ~dev-util/sysprof-3.34.0::dantrell-gnome-3-34
@@ -112,7 +112,7 @@
 ~gnome-extra/gnome-shell-frippery-3.34.0::dantrell-gnome-3-34
 ~gnome-extra/gnome-software-3.34.0::dantrell-gnome-3-34
 ~gnome-extra/gnome-system-monitor-3.32.1::dantrell-gnome
-~gnome-extra/gnome-tweaks-3.33.90::dantrell-gnome-3-34
+~gnome-extra/gnome-tweaks-3.34.0::dantrell-gnome-3-34
 ~gnome-extra/gnome-user-docs-3.34.0::dantrell-gnome-3-34
 ~gnome-extra/gnome-user-share-3.34.0::dantrell-gnome-3-34
 ~gnome-extra/gnome-weather-3.33.90::dantrell-gnome-3-34
@@ -145,10 +145,10 @@
 ~media-sound/gnome-music-3.34.0::dantrell-gnome-3-34
 ~media-sound/gnome-sound-recorder-3.34.0::dantrell-gnome-3-34
 ~media-video/cheese-3.34.0::dantrell-gnome-3-34
-~media-video/totem-3.34.0::dantrell-gnome-3-34
+~media-video/totem-3.34.1::dantrell-gnome-3-34
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
 ~net-irc/polari-3.34.0::dantrell-gnome-3-34
-~net-libs/glib-networking-2.62.0::dantrell-gnome-3-34
+~net-libs/glib-networking-2.62.1::dantrell-gnome-3-34
 ~net-libs/gnome-online-accounts-3.34.0::dantrell-gnome-3-34
 ~net-libs/libsoup-2.68.1::dantrell-gnome-3-34
 ~net-libs/libsoup-gnome-2.68.0::dantrell-gnome-3-34
@@ -163,7 +163,7 @@
 ~sys-apps/baobab-3.34.0::dantrell-gnome-3-34
 ~sys-apps/gnome-disk-utility-3.34.0::dantrell-gnome-3-34
 ~sys-process/gnome-usage-3.33.2::dantrell-gnome-3-34
-~www-client/epiphany-3.34.0::dantrell-gnome-3-34
+~www-client/epiphany-3.34.1::dantrell-gnome-3-34
 ~x11-libs/gtk+-3.24.9::dantrell-gnome
 ~x11-libs/libnotify-0.7.8::dantrell-gnome
 ~x11-libs/libwnck-3.32.0::dantrell-gnome
