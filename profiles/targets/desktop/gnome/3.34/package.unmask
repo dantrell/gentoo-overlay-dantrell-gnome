@@ -50,7 +50,7 @@
 ~dev-python/pygobject-3.34.0::dantrell-gnome-3-34
 ~dev-util/devhelp-3.34.0::dantrell-gnome-3-34
 ~dev-util/gdbus-codegen-2.62.1::dantrell-gnome
-~dev-util/gnome-builder-3.34.0::dantrell-gnome-3-34
+~dev-util/gnome-builder-3.34.1::dantrell-gnome-3-34
 ~dev-util/gnome-devel-docs-3.32.1::dantrell-gnome
 ~dev-util/sysprof-3.34.0::dantrell-gnome-3-34
 ~dev-vcs/gitg-3.32.1::dantrell-gnome
@@ -77,7 +77,7 @@
 ~gnome-base/dconf-editor-3.34.1::dantrell-gnome-3-34
 ~gnome-base/gdm-3.34.0::dantrell-gnome-3-34
 ~gnome-base/gnome-3.34.0::dantrell-gnome-3-34
-~gnome-base/gnome-control-center-3.34.0.1::dantrell-gnome-3-34
+~gnome-base/gnome-control-center-3.34.1::dantrell-gnome-3-34
 ~gnome-base/gnome-core-apps-3.34.0::dantrell-gnome-3-34
 ~gnome-base/gnome-core-libs-3.34.0::dantrell-gnome-3-34
 ~gnome-base/gnome-desktop-3.34.0::dantrell-gnome-3-34
@@ -97,7 +97,7 @@
 ~gnome-extra/evolution-ews-3.34.0::dantrell-gnome-3-34
 ~gnome-extra/gnome-boxes-3.34.0::dantrell-gnome-3-34
 ~gnome-extra/gnome-calculator-3.34.0::dantrell-gnome-3-34
-~gnome-extra/gnome-calendar-3.34.0::dantrell-gnome-3-34
+~gnome-extra/gnome-calendar-3.34.1::dantrell-gnome-3-34
 ~gnome-extra/gnome-characters-3.32.1::dantrell-gnome
 ~gnome-extra/gnome-clocks-3.34.0::dantrell-gnome-3-34
 ~gnome-extra/gnome-color-manager-3.32.0::dantrell-gnome
