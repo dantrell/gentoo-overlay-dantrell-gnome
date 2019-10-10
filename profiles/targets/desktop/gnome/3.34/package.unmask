@@ -5,7 +5,7 @@
 ~app-arch/file-roller-3.32.2::dantrell-gnome
 ~app-arch/gcab-1.2::dantrell-gnome
 ~app-arch/gnome-autoar-0.2.3::dantrell-gnome
-~app-crypt/seahorse-3.32.2::dantrell-gnome
+~app-crypt/seahorse-3.34::dantrell-gnome-3-34
 ~app-dicts/gnome-dictionary-3.26.1::dantrell-gnome
 ~app-editors/gedit-3.34.0::dantrell-gnome-3-34
 ~app-editors/gedit-plugins-3.34.0::dantrell-gnome-3-34
@@ -83,6 +83,7 @@
 ~gnome-base/gnome-desktop-3.34.1::dantrell-gnome-3-34
 ~gnome-base/gnome-extra-apps-3.34.0::dantrell-gnome-3-34
 ~gnome-base/gnome-flashback-3.34.0::dantrell-gnome-3-34
+~gnome-base/gnome-keyring-3.34.0::dantrell-gnome-3-34
 ~gnome-base/gnome-light-3.34.0::dantrell-gnome-3-34
 ~gnome-base/gnome-panel-3.34.0::dantrell-gnome-3-34
 ~gnome-base/gnome-session-3.34.1::dantrell-gnome-3-34
@@ -97,7 +98,7 @@
 ~gnome-extra/evolution-ews-3.34.1::dantrell-gnome-3-34
 ~gnome-extra/gnome-boxes-3.34.1::dantrell-gnome-3-34
 ~gnome-extra/gnome-calculator-3.34.1::dantrell-gnome-3-34
-~gnome-extra/gnome-calendar-3.34.1::dantrell-gnome-3-34
+~gnome-extra/gnome-calendar-3.34.2::dantrell-gnome-3-34
 ~gnome-extra/gnome-characters-3.32.1::dantrell-gnome
 ~gnome-extra/gnome-clocks-3.34.0::dantrell-gnome-3-34
 ~gnome-extra/gnome-color-manager-3.32.0::dantrell-gnome
@@ -129,7 +130,7 @@
 ~mail-client/geary-3.33.91::dantrell-gnome
 ~media-fonts/cantarell-0.111::dantrell-gnome
 ~media-gfx/eog-3.34.1::dantrell-gnome-3-34
-~media-gfx/gnome-font-viewer-3.33.90::dantrell-gnome-3-34
+~media-gfx/gnome-font-viewer-3.34.0::dantrell-gnome-3-34
 ~media-gfx/gnome-photos-3.34.0::dantrell-gnome-3-34
 ~media-gfx/gnome-screenshot-3.33.90::dantrell-gnome-3-34
 ~media-gfx/simple-scan-3.34.1::dantrell-gnome-3-34
@@ -151,12 +152,12 @@
 ~net-libs/glib-networking-2.62.1::dantrell-gnome-3-34
 ~net-libs/gnome-online-accounts-3.34.0::dantrell-gnome-3-34
 ~net-libs/libsoup-2.68.2::dantrell-gnome-3-34
-~net-libs/libsoup-gnome-2.68.0::dantrell-gnome-3-34
+~net-libs/libsoup-gnome-2.68.2::dantrell-gnome-3-34
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome
 ~net-libs/webkit-gtk-2.26.1::dantrell-gnome
+~net-misc/gnome-online-miners-3.34.0::dantrell-gnome-3-34
 ~net-misc/rygel-0.38.1::dantrell-gnome
-~net-misc/vino-3.22.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.34.0::dantrell-gnome-3-34
 ~sci-geosciences/geocode-glib-3.26.1::dantrell-gnome
 ~sci-geosciences/gnome-maps-3.34.1::dantrell-gnome-3-34
@@ -164,6 +165,7 @@
 ~sys-apps/gnome-disk-utility-3.34.0::dantrell-gnome-3-34
 ~sys-process/gnome-usage-3.33.2::dantrell-gnome-3-34
 ~www-client/epiphany-3.34.1::dantrell-gnome-3-34
+~x11-libs/gdk-pixbuf-2.38.2::dantrell-gnome
 ~x11-libs/gtk+-3.24.9::dantrell-gnome
 ~x11-libs/libnotify-0.7.8::dantrell-gnome
 ~x11-libs/libwnck-3.32.0::dantrell-gnome

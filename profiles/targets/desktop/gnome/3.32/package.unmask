@@ -7,7 +7,7 @@
 ~app-arch/gnome-autoar-0.2.3::dantrell-gnome
 ~app-crypt/gcr-3.28.1::dantrell-gnome
 ~app-crypt/libsecret-0.18.8::dantrell-gnome
-~app-crypt/seahorse-3.32.2::dantrell-gnome
+~app-crypt/seahorse-3.32.2::dantrell-gnome-3-32
 ~app-dicts/gnome-dictionary-3.26.1::dantrell-gnome
 ~app-editors/gedit-3.32.2::dantrell-gnome-3-32
 ~app-editors/gedit-plugins-3.32.2::dantrell-gnome-3-32
@@ -88,6 +88,7 @@
 ~gnome-base/gnome-desktop-3.32.2::dantrell-gnome-3-32
 ~gnome-base/gnome-extra-apps-3.32.0::dantrell-gnome-3-32
 ~gnome-base/gnome-flashback-3.32.0::dantrell-gnome-3-32
+~gnome-base/gnome-keyring-3.31.91::dantrell-gnome-3-32
 ~gnome-base/gnome-light-3.32.0::dantrell-gnome-3-32
 ~gnome-base/gnome-panel-3.32.0::dantrell-gnome-3-32
 ~gnome-base/gnome-session-3.32.0::dantrell-gnome-3-32
