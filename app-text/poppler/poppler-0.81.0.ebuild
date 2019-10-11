@@ -2,7 +2,7 @@
 
 EAPI="7"
 
-inherit cmake-utils flag-o-matic toolchain-funcs xdg-utils
+inherit cmake-utils toolchain-funcs xdg-utils
 
 DESCRIPTION="PDF rendering library based on the xpdf-3.0 code base"
 HOMEPAGE="https://poppler.freedesktop.org/"
@@ -71,9 +71,6 @@ src_prepare() {
 	else
 		einfo "policy(SET CMP0002 OLD) - workaround can be removed"
 	fi
-
-	# we need to up the C++ version, bug #622526, #643278
-	append-cxxflags -std=c++11
 }
 
 src_configure() {

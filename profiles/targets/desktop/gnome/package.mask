@@ -1,5 +1,6 @@
 # Regression in linking process
->=sys-fs/udev-240
+=sys-fs/udev-240
+=sys-fs/udev-241
 
 # Regression in meson_options.txt default values
 #
