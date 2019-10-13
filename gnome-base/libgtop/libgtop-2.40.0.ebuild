@@ -31,3 +31,9 @@ src_configure() {
 		--disable-static \
 		$(use_enable introspection)
 }
+
+src_install() {
+	# Prevent sandbox violations when we need write access
+	addwrite "/usr/bin/libgtop_server2"
+	gnome2_src_install
+}

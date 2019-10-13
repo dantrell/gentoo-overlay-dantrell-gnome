@@ -52,6 +52,7 @@ src_configure() {
 	local myconf=(
 		--with-appindicator=$(usex ayatana ubuntu no)
 		--with-libnm-gtk
+		--without-libnma-gtk4
 		--disable-lto
 		--disable-ld-gc
 		--disable-more-warnings

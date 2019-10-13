@@ -127,7 +127,7 @@
 ~gnome-extra/libgsf-1.14.46::dantrell-gnome
 ~gnome-extra/mousetweaks-3.32.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
-~gnome-extra/nm-applet-1.8.22::dantrell-gnome
+~gnome-extra/nm-applet-1.8.24::dantrell-gnome
 ~gnome-extra/sushi-3.32.1::dantrell-gnome-3-32
 ~gnome-extra/yelp-3.32.2::dantrell-gnome-3-32
 ~gnome-extra/yelp-xsl-3.32.1::dantrell-gnome-3-32
@@ -182,7 +182,7 @@
 ~x11-libs/libnotify-0.7.8::dantrell-gnome
 ~x11-libs/libwnck-3.32.0::dantrell-gnome
 ~x11-libs/pango-1.42.4::dantrell-gnome
-~x11-libs/vte-0.56.3::dantrell-gnome-3-32
+~x11-libs/vte-0.56.4::dantrell-gnome-3-32
 ~x11-misc/gpaste-3.32.0::dantrell-gnome-3-32
 ~x11-terms/gnome-terminal-3.32.2::dantrell-gnome-3-32
 ~x11-themes/adwaita-icon-theme-3.32.0::dantrell-gnome-3-32

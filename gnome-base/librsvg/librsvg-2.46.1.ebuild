@@ -11,7 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/LibRsvg"
 
 LICENSE="LGPL-2+"
 SLOT="2"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="debug +introspection tools vala"
 REQUIRED_USE="vala? ( introspection )"
@@ -50,9 +50,6 @@ CHOST_arm64=aarch64-unknown-linux-gnu
 src_prepare() {
 	local build_dir
 
-	# https://bugzilla.gnome.org/show_bug.cgi?id=653323
-	eapply "${FILESDIR}"/${PN}-2.40.12-gtk-optional.patch
-
 	eautoreconf
 
 	use vala && vala_src_prepare
@@ -85,7 +82,6 @@ multilib_src_configure() {
 		--disable-tools \
 		$(use_enable debug) \
 		$(multilib_native_use_enable introspection) \
-		$(multilib_native_use_with tools gtk3) \
 		$(multilib_native_use_enable vala) \
 		--enable-pixbuf-loader \
 		"${myconf[@]}"

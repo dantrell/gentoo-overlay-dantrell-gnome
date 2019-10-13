@@ -23,6 +23,12 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 "
 
+PATCHES=(
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/libgtop/commit/f5939dc69eac2929df8ff37c7babf03759cb94d5
+	"${FILESDIR}"/${PN}-2.37.92-rework-code-to-get-rid-of-assigment.patch
+)
+
 src_configure() {
 	gnome2_src_configure \
 		--disable-static \
