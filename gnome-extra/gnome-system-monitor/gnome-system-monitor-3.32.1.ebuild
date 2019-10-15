@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit gnome.org gnome2-utils meson xdg
 
@@ -25,7 +25,8 @@ RDEPEND="
 	systemd? ( >=sys-apps/systemd-44:0= )
 "
 # eautoreconf requires gnome-base/gnome-common
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	dev-util/itstool
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig

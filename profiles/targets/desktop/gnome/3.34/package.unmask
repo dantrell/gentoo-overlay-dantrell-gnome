@@ -11,7 +11,7 @@
 ~app-editors/gedit-plugins-3.34.0::dantrell-gnome-3-34
 ~app-editors/ghex-3.18.4::dantrell-gnome
 ~app-editors/gnome-latex-3.32.0::dantrell-gnome
-~app-misc/bijiben-3.34.0::dantrell-gnome-3-34
+~app-misc/bijiben-3.34.1::dantrell-gnome-3-34
 ~app-misc/geoclue-2.4.8::dantrell-gnome
 ~app-misc/gnote-3.33.0::dantrell-gnome-3-34
 ~app-misc/tracker-2.3.1::dantrell-gnome-3-34
@@ -66,13 +66,13 @@
 ~games-puzzle/five-or-more-3.32.0::dantrell-gnome
 ~games-puzzle/gnome2048-3.34.0::dantrell-gnome-3-34
 ~games-puzzle/gnome-klotski-3.34.0::dantrell-gnome-3-34
-~games-puzzle/gnome-sudoku-3.34.0::dantrell-gnome-3-34
+~games-puzzle/gnome-sudoku-3.34.1::dantrell-gnome-3-34
 ~games-puzzle/gnome-taquin-3.34.1::dantrell-gnome-3-34
 ~games-puzzle/gnome-tetravex-3.34.1::dantrell-gnome-3-34
 ~games-puzzle/hitori-3.34.0::dantrell-gnome-3-34
 ~games-puzzle/lightsoff-3.34.0::dantrell-gnome-3-34
 ~games-puzzle/quadrapassel-3.33.91::dantrell-gnome-3-34
-~games-puzzle/swell-foop-3.34.0::dantrell-gnome-3-34
+~games-puzzle/swell-foop-3.34.1::dantrell-gnome-3-34
 ~gnome-base/dconf-0.34.0::dantrell-gnome
 ~gnome-base/dconf-editor-3.34.2::dantrell-gnome-3-34
 ~gnome-base/gdm-3.34.1::dantrell-gnome-3-34
@@ -93,7 +93,7 @@
 ~gnome-base/gvfs-1.42.1::dantrell-gnome-3-34
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
 ~gnome-base/libgtop-2.40.0::dantrell-gnome
-~gnome-base/librsvg-2.46.1::dantrell-gnome
+~gnome-base/librsvg-2.46.2::dantrell-gnome
 ~gnome-base/nautilus-3.34.1::dantrell-gnome-3-34
 ~gnome-extra/evolution-data-server-3.34.1::dantrell-gnome-3-34
 ~gnome-extra/evolution-ews-3.34.1::dantrell-gnome-3-34

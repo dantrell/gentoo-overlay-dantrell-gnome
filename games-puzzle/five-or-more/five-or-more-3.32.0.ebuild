@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit gnome.org gnome2-utils meson vala xdg
 
@@ -14,22 +14,25 @@ KEYWORDS="*"
 IUSE=""
 
 RDEPEND="
+	dev-libs/libgee:0.8=
 	>=dev-libs/glib-2.32:2
 	>=x11-libs/gtk+-3.20:3
 	dev-libs/libgnome-games-support:=
 	>=gnome-base/librsvg-2.32:2
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	$(vala_depend)
 	dev-libs/appstream-glib
+	dev-libs/libxml2:2
 	dev-util/itstool
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 "
 
 src_prepare() {
-	vala_src_prepare
 	xdg_src_prepare
+	vala_src_prepare
 }
 
 pkg_postinst() {
