@@ -12,7 +12,7 @@ LICENSE="GPL-2 FDL-1.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="debug doc emacs highlight vim"
+IUSE="debug doc emacs highlight test vim"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RDEPEND="
@@ -30,10 +30,11 @@ RDEPEND="
 		vim? ( || ( app-editors/vim app-editors/gvim ) )
 		!vim? ( dev-util/source-highlight )
 	)
+	test? ( sys-devel/bc )
 "
 DEPEND="${RDEPEND}
 	~dev-util/gtk-doc-am-${PV}
-	app-text/yelp-tools
+	dev-util/itstool
 	virtual/pkgconfig
 "
 
@@ -96,6 +97,10 @@ src_install() {
 		elisp-site-file-install "${FILESDIR}"/${SITEFILE}
 		readme.gentoo_create_doc
 	fi
+}
+
+src_test() {
+	emake -j1 check
 }
 
 pkg_postinst() {

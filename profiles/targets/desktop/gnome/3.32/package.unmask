@@ -18,7 +18,7 @@
 ~app-misc/gnote-3.32.1::dantrell-gnome-3-32
 ~app-misc/tracker-2.2.2::dantrell-gnome-3-32
 ~app-misc/tracker-miners-2.2.2::dantrell-gnome-3-32
-~app-text/enchant-2.2.3::dantrell-gnome
+~app-text/enchant-2.2.4::dantrell-gnome
 ~app-text/evince-3.32.1::dantrell-gnome-3-32
 ~app-text/gspell-1.8.2::dantrell-gnome
 ~app-text/libgepub-0.6.0::dantrell-gnome
@@ -167,7 +167,7 @@
 ~net-libs/rest-0.8.1::dantrell-gnome
 ~net-libs/webkit-gtk-2.24.4::dantrell-gnome
 ~net-misc/gnome-online-miners-3.30.0::dantrell-gnome
-~net-misc/rygel-0.38.1::dantrell-gnome
+~net-misc/rygel-0.38.2::dantrell-gnome
 ~net-misc/vino-3.22.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.32.1::dantrell-gnome-3-32
 ~sci-geosciences/geocode-glib-3.26.1::dantrell-gnome

@@ -7,7 +7,7 @@ inherit gnome2
 DESCRIPTION="Mouse accessibility enhancements for the GNOME desktop"
 HOMEPAGE="https://wiki.gnome.org/Projects/Mousetweaks"
 
-LICENSE="GPL-3"
+LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS="*"
 
@@ -24,6 +24,6 @@ RDEPEND="
 	x11-libs/libXcursor
 "
 DEPEND="${RDEPEND}
-	>=dev-util/intltool-0.40
+	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 "

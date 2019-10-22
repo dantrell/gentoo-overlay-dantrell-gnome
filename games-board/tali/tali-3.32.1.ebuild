@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-inherit gnome2 meson
+inherit gnome.org gnome2-utils meson xdg
 
 DESCRIPTION="Beat the odds in a poker-style dice game"
 HOMEPAGE="https://wiki.gnome.org/Apps/Tali"
@@ -13,15 +13,26 @@ KEYWORDS="*"
 
 IUSE=""
 
-RDEPEND="
+DEPEND="
 	dev-libs/glib:2
-	>=gnome-base/librsvg-2.32:2
-	>=x11-libs/gtk+-3.15:3
+	>=x11-libs/gtk+-3.16:3
 "
-DEPEND="${RDEPEND}
+RDEPEND="${DEPEND}
+	>=gnome-base/librsvg-2.32:2
+"
+DEPEND="
 	dev-libs/appstream-glib
-	>=dev-util/intltool-0.50
 	dev-util/itstool
-	sys-devel/gettext
+	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 "
+
+pkg_postinst() {
+	xdg_pkg_postinst
+	gnome2_schemas_update
+}
+
+pkg_postrm() {
+	xdg_pkg_postrm
+	gnome2_schemas_update
+}

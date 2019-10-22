@@ -16,7 +16,7 @@
 ~app-misc/gnote-3.33.0::dantrell-gnome-3-34
 ~app-misc/tracker-2.3.1::dantrell-gnome-3-34
 ~app-misc/tracker-miners-2.3.1::dantrell-gnome-3-34
-~app-text/enchant-2.2.3::dantrell-gnome
+~app-text/enchant-2.2.4::dantrell-gnome
 ~app-text/evince-3.34.1::dantrell-gnome-3-34
 ~app-text/gspell-1.8.2::dantrell-gnome
 ~app-text/libgepub-0.6.0::dantrell-gnome
@@ -29,7 +29,7 @@
 ~dev-libs/atk-2.34.1::dantrell-gnome-3-34
 ~dev-libs/folks-0.13.1::dantrell-gnome
 ~dev-libs/gjs-1.58.1::dantrell-gnome-3-34
-~dev-libs/glib-2.62.1::dantrell-gnome
+~dev-libs/glib-2.62.2::dantrell-gnome
 ~dev-libs/gmime-3.2.4::dantrell-gnome
 ~dev-libs/gobject-introspection-1.62.0::dantrell-gnome-3-34
 ~dev-libs/gobject-introspection-common-1.62.0::dantrell-gnome-3-34
@@ -49,7 +49,7 @@
 ~dev-python/pyatspi-2.34.0::dantrell-gnome-3-34
 ~dev-python/pygobject-3.34.0::dantrell-gnome-3-34
 ~dev-util/devhelp-3.34.0::dantrell-gnome-3-34
-~dev-util/gdbus-codegen-2.62.1::dantrell-gnome
+~dev-util/gdbus-codegen-2.62.2::dantrell-gnome
 ~dev-util/gnome-builder-3.34.1::dantrell-gnome-3-34
 ~dev-util/gnome-devel-docs-3.32.1::dantrell-gnome
 ~dev-util/sysprof-3.34.1::dantrell-gnome-3-34
@@ -151,14 +151,14 @@
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
 ~net-irc/polari-3.34.0::dantrell-gnome-3-34
 ~net-libs/glib-networking-2.62.1::dantrell-gnome-3-34
-~net-libs/gnome-online-accounts-3.34.0::dantrell-gnome-3-34
+~net-libs/gnome-online-accounts-3.34.1::dantrell-gnome-3-34
 ~net-libs/libsoup-2.68.2::dantrell-gnome-3-34
 ~net-libs/libsoup-gnome-2.68.2::dantrell-gnome-3-34
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome
 ~net-libs/webkit-gtk-2.26.1::dantrell-gnome
 ~net-misc/gnome-online-miners-3.34.0::dantrell-gnome-3-34
-~net-misc/rygel-0.38.1::dantrell-gnome
+~net-misc/rygel-0.38.2::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.34.0::dantrell-gnome-3-34
 ~sci-geosciences/geocode-glib-3.26.1::dantrell-gnome
 ~sci-geosciences/gnome-maps-3.34.1::dantrell-gnome-3-34

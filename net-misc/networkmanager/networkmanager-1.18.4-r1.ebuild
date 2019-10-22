@@ -112,6 +112,10 @@ DEPEND="${COMMON_DEPEND}
 	)
 "
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-1.21.2.data-fix-the-id-net-driver-udev-rule.patch
+)
+
 python_check_deps() {
 	if use introspection; then
 		has_version "dev-python/pygobject:3[${PYTHON_USEDEP}]" || return
@@ -150,7 +154,11 @@ pkg_pretend() {
 
 pkg_setup() {
 	if use connection-sharing; then
-		CONFIG_CHECK="~NF_NAT ~NF_NAT_MASQUERADE"
+		if kernel_is lt 5 1; then
+			CONFIG_CHECK="~NF_NAT_IPV4 ~NF_NAT_MASQUERADE_IPV4"
+		else
+			CONFIG_CHECK="~NF_NAT ~NF_NAT_MASQUERADE"
+		fi
 		linux-info_pkg_setup
 	fi
 	if use introspection || use test; then

@@ -4,12 +4,12 @@ EAPI="6"
 
 inherit gnome2 meson vala
 
-DESCRIPTION="small GObject library giving you simple access to game controllers"
+DESCRIPTION="Simple GObject game controller library"
 HOMEPAGE="https://gitlab.gnome.org/aplazas/libmanette"
 
-LICENSE="LGPL-2+"
+LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="udev"
 
