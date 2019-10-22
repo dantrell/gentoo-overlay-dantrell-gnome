@@ -15,6 +15,8 @@ KEYWORDS="*"
 IUSE="debug doc emacs highlight test vim"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	${PYTHON_DEPS}
 	>=dev-libs/glib-2.6:2
