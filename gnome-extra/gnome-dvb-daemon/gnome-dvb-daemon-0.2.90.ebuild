@@ -28,7 +28,7 @@ RDEPEND=">=dev-libs/glib-2.32.0:2
 	>=dev-python/pygobject-3.2.1:3
 	>=dev-libs/gobject-introspection-1.44.0:=
 	x11-libs/gtk+:3[introspection]
-	virtual/libgudev:0
+	dev-libs/libgudev:0
 	vala? ( $(vala_depend) )
 	totem? ( media-video/totem )"
 DEPEND="${RDEPEND}

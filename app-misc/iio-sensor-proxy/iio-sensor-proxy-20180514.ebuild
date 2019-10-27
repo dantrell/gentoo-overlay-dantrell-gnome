@@ -21,7 +21,7 @@ REQUIRED_USE="
 RDEPEND="
 	elogind? ( >=sys-auth/elogind-233 )
 	systemd? ( >=sys-apps/systemd-233 )
-	virtual/libgudev
+	dev-libs/libgudev
 	app-misc/geoclue:*
 "
 DEPEND="

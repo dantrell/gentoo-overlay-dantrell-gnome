@@ -19,7 +19,7 @@ COMMON_DEPEND="
 	>=dev-libs/glib-2.36:2
 	>=dev-libs/libatasmart-0.19
 	>=sys-auth/polkit-0.110
-	>=virtual/libgudev-165:=
+	>=dev-libs/libgudev-165:=
 	virtual/udev
 	acl? ( virtual/acl )
 	elogind? ( sys-auth/elogind )

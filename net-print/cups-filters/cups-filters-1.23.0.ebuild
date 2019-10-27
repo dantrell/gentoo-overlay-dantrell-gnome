@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 GENTOO_DEPEND_ON_PERL=no
 
@@ -12,7 +12,7 @@ SRC_URI="http://www.openprinting.org/download/${PN}/${P}.tar.xz"
 
 LICENSE="MIT GPL-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="dbus +foomatic ipp_autosetup jpeg ldap pclm pdf perl png +postscript static-libs test tiff zeroconf"
 

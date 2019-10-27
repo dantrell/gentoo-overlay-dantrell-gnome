@@ -35,6 +35,7 @@ app-misc/iio-sensor-proxy::gentoo
 app-misc/tracker-miners::gentoo
 app-misc/tracker::gentoo
 app-text/enchant::gentoo
+app-text/foliate::gentoo
 app-text/gnome-doc-utils::gentoo
 app-text/gspell::gentoo
 app-text/gtkspell::gentoo

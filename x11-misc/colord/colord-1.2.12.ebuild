@@ -39,7 +39,7 @@ COMMON_DEPEND="
 	systemd? ( >=sys-apps/systemd-44:0= )
 	udev? (
 		virtual/udev
-		virtual/libgudev:=[${MULTILIB_USEDEP}]
+		dev-libs/libgudev:=[${MULTILIB_USEDEP}]
 		virtual/libudev:=[${MULTILIB_USEDEP}]
 	)
 "

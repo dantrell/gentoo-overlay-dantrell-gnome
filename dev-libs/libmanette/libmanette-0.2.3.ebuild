@@ -15,7 +15,7 @@ IUSE="udev"
 
 RDEPEND="
 	>=dev-libs/glib-2.50:2
-	udev? ( virtual/libgudev:= )
+	udev? ( dev-libs/libgudev:= )
 	>=dev-libs/libevdev-1.4.5
 "
 DEPEND="${RDEPEND}

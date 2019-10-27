@@ -48,7 +48,7 @@ RDEPEND="
 		sys-apps/hwids
 		>=sys-apps/usbredir-0.4.2
 		virtual/libusb:1
-		virtual/libgudev:=
+		dev-libs/libgudev:=
 		policykit? (
 			sys-apps/acl
 			>=sys-auth/polkit-0.110-r1

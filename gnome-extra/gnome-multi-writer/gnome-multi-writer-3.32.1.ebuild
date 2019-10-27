@@ -18,7 +18,7 @@ RDEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-0.9.8:= )
 	>=dev-libs/libgusb-0.2.7:=
 	sys-fs/udisks:2
-	virtual/libgudev:=
+	dev-libs/libgudev:=
 	>=media-libs/libcanberra-0.10
 	>=sys-auth/polkit-0.115
 	>=dev-libs/glib-2.45.8

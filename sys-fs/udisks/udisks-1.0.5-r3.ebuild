@@ -25,7 +25,7 @@ COMMON_DEPEND=">=dev-libs/dbus-glib-0.100
 		>=sys-fs/lvm2-2.02.66
 		<sys-fs/lvm2-2.02.183
 	)
-	virtual/libgudev:=
+	dev-libs/libgudev:=
 	virtual/libudev:=
 	virtual/udev
 	selinux? ( sec-policy/selinux-devicekit )"

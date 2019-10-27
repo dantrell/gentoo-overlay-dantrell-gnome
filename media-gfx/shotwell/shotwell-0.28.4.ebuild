@@ -36,7 +36,7 @@ RDEPEND="
 	media-plugins/gst-plugins-gdkpixbuf:1.0
 	>=net-libs/libsoup-2.42.0:2.4
 	net-libs/webkit-gtk:4
-	virtual/libgudev:=[introspection]
+	dev-libs/libgudev:=[introspection]
 	>=x11-libs/gtk+-3.14.0:3[X]
 	dev-libs/libgdata:=
 

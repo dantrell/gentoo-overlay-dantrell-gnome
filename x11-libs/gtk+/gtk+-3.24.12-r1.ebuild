@@ -2,8 +2,9 @@
 
 EAPI="6"
 GNOME2_LA_PUNT="yes"
+GNOME2_EAUTORECONF="yes"
 
-inherit autotools flag-o-matic gnome2 multilib virtualx multilib-minimal
+inherit flag-o-matic gnome2 multilib virtualx multilib-minimal
 
 DESCRIPTION="Gimp ToolKit +"
 HOMEPAGE="https://www.gtk.org/"
@@ -130,10 +131,12 @@ src_prepare() {
 
 	# Fix broken autotools logic
 	eapply "${FILESDIR}"/${PN}-3.22.20-libcloudproviders-automagic.patch
+	
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/gtk/commit/e997ef60da5388e51e0d1afc2f72443a56c36037
+	eapply "${FILESDIR}"/${PN}-3.24.13-fix-invalid-reads-on-tablet-input.patch
 
-	# call eapply_user (implicitly) before eautoreconf
 	gnome2_src_prepare
-	eautoreconf
 }
 
 multilib_src_configure() {

@@ -34,7 +34,7 @@ COMMON_DEPS="
 	introspection? ( dev-libs/gobject-introspection:= )
 	kernel_linux? (
 		virtual/libusb:1
-		virtual/libgudev:=
+		dev-libs/libgudev:=
 		virtual/udev
 		ios? (
 			>=app-pda/libimobiledevice-1:=

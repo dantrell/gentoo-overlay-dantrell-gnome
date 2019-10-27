@@ -35,7 +35,7 @@ RDEPEND="
 	egl? (
 		>=dev-libs/libinput-0.19.0
 		media-libs/cogl[gles2,wayland]
-		>=virtual/libgudev-136
+		>=dev-libs/libgudev-136
 		x11-libs/libxkbcommon
 	)
 	gtk? ( >=x11-libs/gtk+-3.3.18:3[aqua?] )
