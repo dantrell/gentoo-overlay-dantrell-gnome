@@ -3,20 +3,20 @@
 EAPI="6"
 GNOME2_LA_PUNT="yes"
 
-inherit gnome2 multilib-minimal toolchain-funcs
+inherit gnome2 meson multilib-minimal toolchain-funcs
 
 DESCRIPTION="Internationalized text layout and rendering library"
-HOMEPAGE="http://www.pango.org/"
+HOMEPAGE="https://www.pango.org/"
 
 LICENSE="LGPL-2+ FTL"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="X +introspection test"
+IUSE="X gtk-doc +introspection test"
 
 RDEPEND="
 	>=media-libs/harfbuzz-1.4.2:=[glib(+),truetype(+),${MULTILIB_USEDEP}]
-	>=dev-libs/glib-2.34.3:2[${MULTILIB_USEDEP}]
+	>=dev-libs/glib-2.59.2:2[${MULTILIB_USEDEP}]
 	>=media-libs/fontconfig-2.11.91:1.0=[${MULTILIB_USEDEP}]
 	>=media-libs/freetype-2.5.0.1:2=[${MULTILIB_USEDEP}]
 	>=x11-libs/cairo-1.12.14-r4:=[X?,${MULTILIB_USEDEP}]
@@ -38,27 +38,20 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	gnome2_src_prepare
-	# This should be updated if next release fails to pre-generate the manpage as well, or src_prepare removed if is properly generated
-	# https://gitlab.gnome.org/GNOME/pango/issues/270
-	cp -v "${FILESDIR}"/1.42.4-pango-view.1.in "${S}/utils/pango-view.1.in" || die
 }
 
 multilib_src_configure() {
 	tc-export CXX
 
-	ECONF_SOURCE=${S} \
-	gnome2_src_configure \
-		--with-cairo \
-		$(multilib_native_use_enable introspection) \
-		$(use_with X xft) \
-		"$(usex X --x-includes="${EPREFIX}/usr/include" "")" \
-		"$(usex X --x-libraries="${EPREFIX}/usr/$(get_libdir)" "")"
-
-	if multilib_is_native_abi; then
-		ln -s "${S}"/docs/html docs/html || die
-	fi
+	local emesonargs=(
+		-Dgtk_doc="$(multilib_native_usex gtk-doc true false)"
+		-Dintrospection="$(multilib_native_usex introspection true false)"
+		-Dinstall-tests="$(multilib_native_usex test true false)"
+		-Duse_fontconfig="$(multilib_native_usex X true false)"
+	)
+	meson_src_configure
 }
 
 multilib_src_install() {
-	gnome2_src_install
+	meson_src_install
 }

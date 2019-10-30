@@ -155,6 +155,7 @@ pkg_setup() {
 }
 
 src_prepare() {
+	eapply "${FILESDIR}"/${PN}-2.24.4-icu-65.patch # bug 698596
 	cmake-utils_src_prepare
 	gnome2_src_prepare
 }
