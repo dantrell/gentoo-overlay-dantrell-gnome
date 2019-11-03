@@ -15,9 +15,6 @@ gnome-base/librsvg::dantrell-gnome ~*
 gui-libs/tepl::dantrell-gnome ~*
 mail-client/geary::dantrell-gnome ~*
 mail-client/geary::dantrell-gnome **
-media-libs/babl::dantrell-gnome ~*
-media-libs/gegl:0.3::dantrell-gnome ~*
-media-libs/gegl:0.4::dantrell-gnome ~*
 media-libs/grilo:0.3::dantrell-gnome **
 media-plugins/grilo-plugins:0.3::dantrell-gnome **
 net-misc/networkmanager::dantrell-gnome ~*

@@ -15,7 +15,7 @@ SRC_URI="https://download.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.bz2"
 
 LICENSE="|| ( GPL-3 LGPL-3 )"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="cairo debug ffmpeg jpeg lensfun libav cpu_flags_x86_mmx openexr png raw sdl cpu_flags_x86_sse svg umfpack" # +introspection vala
 

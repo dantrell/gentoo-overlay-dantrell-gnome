@@ -7,8 +7,6 @@ dev-libs/libical::dantrell-gnome ~*
 dev-libs/wayland-protocols::gentoo ~*
 gnome-base/libgtop::dantrell-gnome ~*
 gui-libs/tepl::dantrell-gnome ~*
-media-libs/babl::dantrell-gnome ~*
-media-libs/gegl:0.3::dantrell-gnome ~*
 sys-apps/osinfo-db-tools::dantrell-gnome ~*
 sys-apps/osinfo-db::dantrell-gnome ~*
 sys-auth/elogind::dantrell-gnome ~*

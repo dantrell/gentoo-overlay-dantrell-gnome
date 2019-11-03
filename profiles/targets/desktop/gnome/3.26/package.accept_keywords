@@ -5,8 +5,6 @@ dev-libs/json-glib::dantrell-gnome ~*
 dev-libs/libical::dantrell-gnome ~*
 dev-libs/wayland-protocols::gentoo ~*
 gnome-base/libgtop::dantrell-gnome ~*
-media-libs/babl::dantrell-gnome ~*
-media-libs/gegl:0.3::dantrell-gnome ~*
 sys-auth/elogind::dantrell-gnome ~*
 sys-auth/polkit::dantrell-gnome ~*
 x11-libs/cairo::dantrell-gnome ~*
