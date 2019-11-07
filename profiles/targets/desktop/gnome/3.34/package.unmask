@@ -174,7 +174,7 @@
 ~x11-libs/vte-0.58.2::dantrell-gnome-3-34
 ~x11-misc/gpaste-3.34.0::dantrell-gnome-3-34
 ~x11-terms/gnome-terminal-3.34.2::dantrell-gnome-3-34
-~x11-themes/adwaita-icon-theme-3.34.0::dantrell-gnome-3-34
+~x11-themes/adwaita-icon-theme-3.34.1::dantrell-gnome-3-34
 ~x11-themes/gnome-backgrounds-3.34.0::dantrell-gnome-3-34
 ~x11-themes/gnome-themes-extra-3.28::dantrell-gnome
 ~x11-wm/metacity-3.34.1::dantrell-gnome-3-34

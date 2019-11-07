@@ -12,19 +12,17 @@ LICENSE="BSD-2"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="audit bash debug ncurses pam newnet prefix +netifrc selinux static-libs sysv-utils unicode +vanilla-loopback vanilla-shutdown +vanilla-warnings kernel_linux kernel_FreeBSD"
+IUSE="audit bash debug ncurses pam newnet prefix +netifrc selinux static-libs sysv-utils unicode +vanilla-loopback vanilla-shutdown +vanilla-warnings"
 
-COMMON_DEPEND="kernel_FreeBSD? ( || ( >=sys-freebsd/freebsd-ubin-9.0_rc sys-process/fuser-bsd ) )
+COMMON_DEPEND="
 	ncurses? ( sys-libs/ncurses:0= )
 	pam? (
 		sys-auth/pambase
 		sys-libs/pam
 	)
 	audit? ( sys-process/audit )
-	kernel_linux? (
-		sys-process/psmisc
-		!<sys-process/procps-3.3.9-r2
-	)
+	sys-process/psmisc
+	!<sys-process/procps-3.3.9-r2
 	selinux? (
 		sys-apps/policycoreutils
 		>=sys-libs/libselinux-2.6
@@ -37,12 +35,9 @@ DEPEND="${COMMON_DEPEND}
 RDEPEND="${COMMON_DEPEND}
 	bash? ( app-shells/bash )
 	!prefix? (
-		kernel_linux? (
 		sysv-utils? ( !sys-apps/sysvinit )
 		!sysv-utils? ( >=sys-apps/sysvinit-2.86-r6[selinux?] )
-			virtual/tmpfiles
-		)
-		kernel_FreeBSD? ( sys-freebsd/freebsd-sbin )
+		virtual/tmpfiles
 	)
 	selinux? (
 		>=sec-policy/selinux-base-policy-2.20170204-r4
@@ -90,13 +85,8 @@ src_compile() {
 		SH=$(usex bash /bin/bash /bin/sh)"
 
 	local brand="Unknown"
-	if use kernel_linux ; then
-		MAKE_ARGS="${MAKE_ARGS} OS=Linux"
-		brand="Linux"
-	elif use kernel_FreeBSD ; then
-		MAKE_ARGS="${MAKE_ARGS} OS=FreeBSD"
-		brand="FreeBSD"
-	fi
+	MAKE_ARGS="${MAKE_ARGS} OS=Linux"
+	brand="Linux"
 	export BRANDING="Gentoo ${brand}"
 	use prefix && MAKE_ARGS="${MAKE_ARGS} MKPREFIX=yes PREFIX=${EPREFIX}"
 	export DEBUG=$(usev debug)
@@ -130,9 +120,6 @@ src_install() {
 	gen_usr_ldscript libeinfo.so
 	gen_usr_ldscript librc.so
 
-	if ! use kernel_linux; then
-		keepdir /lib/rc/init.d
-	fi
 	keepdir /lib/rc/tmp
 
 	# Setup unicode defaults for silly unicode users
@@ -185,11 +172,7 @@ pkg_postinst() {
 	fi
 
 	# Added for 0.35.
-	if use kernel_linux && [[ ! -h "${EROOT}"/lib ]]; then
-		if [[ -d "${EROOT}/$(get_libdir)"/rc ]]; then
-			cp -RPp "${EROOT}/$(get_libdir)/rc" "${EROOT}"/lib
-		fi
-	elif ! use kernel_linux; then
+	if [[ ! -h "${EROOT}"/lib ]]; then
 		if [[ -d "${EROOT}/$(get_libdir)"/rc ]]; then
 			cp -RPp "${EROOT}/$(get_libdir)/rc" "${EROOT}"/lib
 		fi
