@@ -1,7 +1,6 @@
 app-arch/gnome-autoar::dantrell-gnome ~*
 app-text/gspell::dantrell-gnome ~*
 app-text/libgepub::dantrell-gnome ~*
-app-text/poppler::dantrell-gnome ~*
 dev-lang/spidermonkey:52::dantrell-gnome ~*
 dev-lang/spidermonkey:60::dantrell-gnome ~*
 dev-libs/json-glib::dantrell-gnome ~*

@@ -9,8 +9,8 @@ HOMEPAGE="https://poppler.freedesktop.org/"
 SRC_URI="https://poppler.freedesktop.org/${P}.tar.xz"
 
 LICENSE="GPL-2"
-SLOT="0/91"   # CHECK THIS WHEN BUMPING!!! SUBSLOT IS libpoppler.so SOVERSION
-KEYWORDS="~*"
+SLOT="0/92"   # CHECK THIS WHEN BUMPING!!! SUBSLOT IS libpoppler.so SOVERSION
+KEYWORDS=""
 
 IUSE="cairo cjk curl cxx debug doc +introspection +jpeg +jpeg2k +lcms nss png qt5 tiff +utils"
 
@@ -51,7 +51,7 @@ DOCS=( AUTHORS NEWS README.md README-XPDF )
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.60.1-qt5-dependencies.patch
 	"${FILESDIR}"/${PN}-0.28.1-fix-multilib-configuration.patch
-	"${FILESDIR}"/${PN}-0.78.0-respect-cflags.patch
+	"${FILESDIR}"/${PN}-0.82.0-respect-cflags.patch
 	"${FILESDIR}"/${PN}-0.61.0-respect-cflags.patch
 	"${FILESDIR}"/${PN}-0.57.0-disable-internal-jpx.patch
 )
