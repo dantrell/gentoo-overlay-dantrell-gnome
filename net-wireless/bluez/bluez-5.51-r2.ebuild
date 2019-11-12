@@ -101,7 +101,7 @@ src_prepare() {
 
 	# http://www.spinics.net/lists/linux-bluetooth/msg38490.html
 	if ! use user-session || ! use systemd; then
-		eapply "${FILESDIR}"/${PN}-0001-Allow-using-obexd-without-systemd-in-the-user-session-r1.patch
+		eapply "${FILESDIR}"/${PN}-0001-Allow-using-obexd-without-systemd-in-the-user-session-r2.patch
 	fi
 
 	if use cups; then

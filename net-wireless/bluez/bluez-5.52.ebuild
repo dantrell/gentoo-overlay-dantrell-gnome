@@ -11,7 +11,7 @@ SRC_URI="https://www.kernel.org/pub/linux/bluetooth/${P}.tar.xz"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0/3"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="btpclient cups doc debug deprecated extra-tools experimental +mesh midi +obex +readline selinux systemd test test-programs +udev user-session"
 # Since this release all remaining extra-tools need readline support, but this could
@@ -36,10 +36,10 @@ BDEPEND="
 DEPEND="
 	>=dev-libs/glib-2.28:2[${MULTILIB_USEDEP}]
 	>=sys-apps/hwids-20121202.2
-	btpclient? ( >=dev-libs/ell-0.14 )
+	btpclient? ( >=dev-libs/ell-0.26 )
 	cups? ( net-print/cups:= )
 	mesh? (
-		>=dev-libs/ell-0.14
+		>=dev-libs/ell-0.26
 		dev-libs/json-c:=
 		sys-libs/readline:0=
 	)
@@ -63,19 +63,6 @@ PATCHES=(
 	# http://www.spinics.net/lists/linux-bluetooth/msg58739.html
 	# https://bugs.gentoo.org/539844
 	"${FILESDIR}"/${PN}-udevadm-path-r1.patch
-
-	# build: Quote systemd variable names, bug #527432
-	# http://article.gmane.org/gmane.linux.bluez.kernel/67230
-	"${FILESDIR}"/${PN}-5.39-systemd-quote.patch
-
-	# Include limits.h for PATH_MAX
-	# https://marc.info/?l=linux-bluetooth&m=157156119320950&w=2
-	# https://bugs.gentoo.org/695940
-	"${FILESDIR}"/${PN}-5.51-include-limits-h.patch
-
-	# audio: Fix cancelling disconnect timeout (from 'master')
-	# https://marc.info/?l=linux-bluetooth&m=157047663920714&w=2
-	"${FILESDIR}"/${P}-disconnect-timeout.patch
 
 	# Fedora patches
 	# http://www.spinics.net/lists/linux-bluetooth/msg40136.html
@@ -101,7 +88,7 @@ src_prepare() {
 
 	# http://www.spinics.net/lists/linux-bluetooth/msg38490.html
 	if ! use user-session || ! use systemd; then
-		eapply "${FILESDIR}"/${PN}-0001-Allow-using-obexd-without-systemd-in-the-user-session-r1.patch
+		eapply "${FILESDIR}"/${PN}-0001-Allow-using-obexd-without-systemd-in-the-user-session-r2.patch
 	fi
 
 	if use cups; then

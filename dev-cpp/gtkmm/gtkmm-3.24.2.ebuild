@@ -14,6 +14,8 @@ KEYWORDS="~*"
 IUSE="aqua doc test wayland X"
 REQUIRED_USE="|| ( aqua wayland X )"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=dev-cpp/glibmm-2.54.0:2[${MULTILIB_USEDEP}]
 	>=x11-libs/gtk+-3.24.0:3[aqua?,wayland?,X?,${MULTILIB_USEDEP}]
