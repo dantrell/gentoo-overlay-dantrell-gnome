@@ -40,7 +40,7 @@ RDEPEND="
 	sys-apps/util-linux
 	virtual/imagemagick-tools[png,jpeg?]
 
-	cue? ( media-libs/libcue )
+	cue? ( media-libs/libcue:= )
 	elibc_glibc? ( >=sys-libs/glibc-2.12 )
 	exif? ( >=media-libs/libexif-0.6 )
 	ffmpeg? (

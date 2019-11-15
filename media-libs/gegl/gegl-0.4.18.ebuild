@@ -70,7 +70,7 @@ DEPEND="${RDEPEND}
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.4.18-drop-failing-tests.patch
 	"${FILESDIR}"/${PN}-0.4.18-program-suffix.patch
-	"${FILESDIR}"/${PN}-0.4.18-arch.patch
+	"${FILESDIR}"/${PN}-0.4.18-meson_cpu_detection.patch
 )
 
 pkg_setup() {

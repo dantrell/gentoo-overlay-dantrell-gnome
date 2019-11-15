@@ -16,6 +16,8 @@ KEYWORDS="*"
 
 IUSE="dbus +foomatic ipp_autosetup jpeg ldap pclm pdf perl png +postscript static-libs test tiff zeroconf"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=app-text/poppler-0.32:=[cxx,jpeg?,lcms,tiff?,utils]
 	>=app-text/qpdf-8.3.0:=
@@ -45,6 +47,10 @@ BDEPEND="
 	virtual/pkgconfig
 	test? ( media-fonts/dejavu )
 "
+
+PATCHES=(
+	"${FILESDIR}"/${PN}-1.25.12-browsed_segfault.patch #700024
+)
 
 src_prepare() {
 	default
