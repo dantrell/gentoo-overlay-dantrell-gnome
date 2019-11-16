@@ -10,7 +10,7 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="CC0-1.0 LGPL-2.1+ public-domain"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS=""
 
 IUSE="+acl debug doc +pam +policykit selinux"
 
@@ -40,7 +40,7 @@ PDEPEND="
 "
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-241.1-docs.patch
+	"${FILESDIR}"/${PN}-241.4-nodocs.patch
 )
 
 pkg_setup() {

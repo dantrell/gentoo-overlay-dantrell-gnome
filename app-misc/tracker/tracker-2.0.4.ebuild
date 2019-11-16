@@ -2,7 +2,7 @@
 
 EAPI="6"
 GNOME2_LA_PUNT="yes"
-PYTHON_COMPAT=( python{3_5,3_6,3_7} )
+PYTHON_COMPAT=( python{3_5,3_6,3_7,3_8} )
 
 inherit autotools bash-completion-r1 gnome2 linux-info python-any-r1 vala versionator virtualx
 

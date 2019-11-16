@@ -34,8 +34,7 @@ DEPEND="${COMMON_DEPEND}
 	ncurses? ( virtual/pkgconfig )"
 RDEPEND="${COMMON_DEPEND}
 	!prefix? (
-		sysv-utils? ( !sys-apps/sysvinit )
-		!sysv-utils? ( >=sys-apps/sysvinit-2.86-r6[selinux?] )
+		>=sys-apps/sysvinit-2.86-r6[selinux?]
 		virtual/tmpfiles
 	)
 	selinux? (
