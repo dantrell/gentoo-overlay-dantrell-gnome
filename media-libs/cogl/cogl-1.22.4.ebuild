@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome2 multilib virtualx
+inherit gnome2 multilib
 
 DESCRIPTION="A library for using 3D graphics hardware to draw pretty pictures"
 HOMEPAGE="https://www.cogl3d.org/"
@@ -11,7 +11,7 @@ LICENSE="MIT BSD"
 SLOT="1.0/20" # subslot = .so version
 KEYWORDS="~*"
 
-IUSE="doc debug examples gles2 gstreamer +introspection +pango test wayland"
+IUSE="doc debug examples gles2 gstreamer +introspection +pango wayland"
 
 # Need classic mesa swrast for tests, llvmpipe causes a test failure
 # For some reason GL3 conformance test all fails again...
@@ -48,7 +48,6 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-util/gtk-doc-am-1.13
 	>=sys-devel/gettext-0.19
 	virtual/pkgconfig
-	test? ( media-libs/mesa[classic] )
 "
 
 src_prepare() {
@@ -56,14 +55,14 @@ src_prepare() {
 	sed -e "s/^\(SUBDIRS +=.*\)examples\(.*\)$/\1\2/" \
 		-i Makefile.am Makefile.in || die
 
-	if ! use test ; then
-		# For some reason the configure switch will not completely disable
-		# tests being built
-		sed -e "s/^\(SUBDIRS =.*\)test-fixtures\(.*\)$/\1\2/" \
-			-e "s/^\(SUBDIRS +=.*\)tests\(.*\)$/\1\2/" \
-			-e "s/^\(.*am__append.* \)tests\(.*\)$/\1\2/" \
-			-i Makefile.am Makefile.in || die
-	fi
+	#if ! use test ; then
+	# For some reason the configure switch will not completely disable
+	# tests being built
+	sed -e "s/^\(SUBDIRS =.*\)test-fixtures\(.*\)$/\1\2/" \
+		-e "s/^\(SUBDIRS +=.*\)tests\(.*\)$/\1\2/" \
+		-e "s/^\(.*am__append.* \)tests\(.*\)$/\1\2/" \
+		-i Makefile.am Makefile.in || die
+	#fi
 
 	gnome2_src_prepare
 }
@@ -91,22 +90,10 @@ src_configure() {
 		$(use_enable gstreamer cogl-gst)    \
 		$(use_enable introspection) \
 		$(use_enable pango cogl-pango) \
-		$(use_enable test unit-tests) \
+		--disable-unit-tests \
 		$(use_enable wayland kms-egl-platform) \
 		$(use_enable wayland wayland-egl-platform) \
 		$(use_enable wayland wayland-egl-server)
-}
-
-src_test() {
-	# Use swrast for tests, llvmpipe is incomplete and "test_sub_texture" fails
-	# NOTE: recheck if this is needed after every mesa bump
-	if [[ "$(eselect opengl show)" != "xorg-x11" ]]; then
-		ewarn "Skipping tests because a binary OpenGL library is enabled. To"
-		ewarn "run tests for ${PN}, you need to enable the Mesa library:"
-		ewarn "# eselect opengl set xorg-x11"
-		return
-	fi
-	virtx emake check LIBGL_DRIVERS_PATH="${EROOT}/usr/$(get_libdir)/mesa"
 }
 
 src_install() {

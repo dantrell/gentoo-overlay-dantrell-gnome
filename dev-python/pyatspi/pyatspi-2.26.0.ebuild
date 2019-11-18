@@ -5,7 +5,7 @@ PYTHON_COMPAT=( python{2_7,3_5,3_6,3_7,3_8} )
 
 inherit gnome2 python-r1
 
-DESCRIPTION="Python binding to at-spi library"
+DESCRIPTION="Python client bindings for D-Bus AT-SPI"
 HOMEPAGE="https://wiki.gnome.org/Accessibility"
 
 # Note: only some of the tests are GPL-licensed, everything else is LGPL

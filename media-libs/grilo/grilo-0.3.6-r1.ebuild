@@ -38,6 +38,12 @@ DEPEND="${RDEPEND}
 "
 # eautoreconf requires gnome-common
 
+PATCHES=(
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/grilo/commit/60d135ef64f16671bb0ab4079ecbc59bdc32cbc7
+	"${FILESDIR}"/${PN}-0.3.11-pls-support-totem-pl-parser-3-26-4.patch
+)
+
 pkg_setup() {
 	# Python tests are currently commented out, but this is done via in exit(0) in testrunner.py
 	# thus it still needs $PYTHON set up, which python-any-r1_pkg_setup will do for us

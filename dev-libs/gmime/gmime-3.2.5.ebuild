@@ -14,6 +14,8 @@ KEYWORDS="~*"
 
 IUSE="crypt doc idn static-libs test vala"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=dev-libs/glib-2.32.0:2
 	sys-libs/zlib

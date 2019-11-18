@@ -23,7 +23,7 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 RESTRICT="test"
 
 COMMON_DEPEND="${PYTHON_DEPS}
-	<app-text/poppler-0.82.0
+	<app-text/poppler-0.83.0
 	>=app-text/poppler-0.26.0:=[cairo]
 	>=dev-cpp/glibmm-2.28
 	>=dev-cpp/gtkmm-2.18.0:2.4
@@ -100,6 +100,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-0.91_pre3-sk-man.patch
 	"${FILESDIR}"/${PN}-0.48.4-epython.patch
 	"${FILESDIR}"/${PN}-0.92.4-poppler-0.76.0.patch #684246
+	"${FILESDIR}"/${PN}-0.92.4-poppler-0.82.0.patch
 )
 
 S="${WORKDIR}/${MY_P}"
