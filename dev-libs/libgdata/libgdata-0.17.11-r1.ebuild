@@ -22,7 +22,7 @@ RDEPEND="
 	>=dev-libs/json-glib-0.15[introspection?]
 	>=dev-libs/libxml2-2:2
 	>=net-libs/liboauth-0.9.4
-	>=net-libs/libsoup-2.42.0:2.4[introspection?,vala?(+)]
+	>=net-libs/libsoup-2.42.0:2.4[introspection?,vala(+)?]
 	crypt? ( app-crypt/gcr:= )
 	gnome-online-accounts? ( >=net-libs/gnome-online-accounts-3.8:=[introspection?,vala?] )
 	introspection? ( >=dev-libs/gobject-introspection-1.54:= )
@@ -35,7 +35,7 @@ BDEPEND="
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	test? (
-		>=net-libs/libsoup-2.55.90:2.4[introspection?,vala?(+)]
+		>=net-libs/libsoup-2.55.90:2.4[introspection?,vala(+)?]
 		>=net-libs/uhttpmock-0.5.0
 		>=x11-libs/gdk-pixbuf-2.14:2
 	)
