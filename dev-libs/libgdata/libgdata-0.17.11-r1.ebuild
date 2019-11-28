@@ -25,7 +25,7 @@ RDEPEND="
 	>=net-libs/libsoup-2.42.0:2.4[introspection?,vala(+)?]
 	crypt? ( app-crypt/gcr:= )
 	gnome-online-accounts? ( >=net-libs/gnome-online-accounts-3.8:=[introspection?,vala?] )
-	introspection? ( >=dev-libs/gobject-introspection-1.54:= )
+	introspection? ( >=dev-libs/gobject-introspection-0.9.7:= )
 "
 DEPEND="${RDEPEND}"
 BDEPEND="

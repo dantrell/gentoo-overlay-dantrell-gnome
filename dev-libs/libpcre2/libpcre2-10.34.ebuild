@@ -1,8 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit flag-o-matic libtool multilib-minimal toolchain-funcs usr-ldscript
+
+PATCH_SET="${P}-patchset-01.tar.xz"
 
 DESCRIPTION="Perl-compatible regular expression library"
 HOMEPAGE="http://www.pcre.org/"
@@ -15,20 +17,29 @@ else
 	SRC_URI="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/Testing/${MY_P}.tar.bz2"
 fi
 
+if [[ -n "${PATCH_SET}" ]] ; then
+	SRC_URI+=" https://dev.gentoo.org/~whissi/dist/${PN}/${PATCH_SET}
+		https://dev.gentoo.org/~polynomial-c/dist/${PATCH_SET}"
+fi
+
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="bzip2 +jit libedit pcre16 pcre32 +readline +recursion-limit static-libs unicode zlib"
 REQUIRED_USE="?? ( libedit readline )"
 
-RDEPEND="bzip2? ( app-arch/bzip2 )
-	zlib? ( sys-libs/zlib )
-	libedit? ( dev-libs/libedit )
-	readline? ( sys-libs/readline:0= )"
-DEPEND="${RDEPEND}
+BDEPEND="
 	virtual/pkgconfig
-	userland_GNU? ( >=sys-apps/findutils-4.4.0 )"
+	userland_GNU? ( >=sys-apps/findutils-4.4.0 )
+"
+RDEPEND="
+	bzip2? ( app-arch/bzip2 )
+	libedit? ( dev-libs/libedit )
+	readline? ( sys-libs/readline:0= )
+	zlib? ( sys-libs/zlib )
+"
+DEPEND="${RDEPEND}"
 
 S="${WORKDIR}/${MY_P}"
 
@@ -37,6 +48,8 @@ MULTILIB_CHOST_TOOLS=(
 )
 
 src_prepare() {
+	[[ -d "${WORKDIR}/patches" ]] && eapply "${WORKDIR}"/patches
+
 	default
 
 	elibtoolize
@@ -75,5 +88,5 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
-	find "${ED}" -name "*.la" -delete || die
+	find "${ED}" -type f -name "*.la" -delete || die
 }

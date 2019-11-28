@@ -2,7 +2,7 @@
 ~app-accessibility/at-spi2-atk-2.32.0::dantrell-gnome-3-32
 ~app-accessibility/at-spi2-core-2.32.1::dantrell-gnome-3-32
 ~app-accessibility/orca-3.32.0::dantrell-gnome-3-32
-~app-arch/file-roller-3.32.2::dantrell-gnome
+~app-arch/file-roller-3.32.3::dantrell-gnome
 ~app-arch/gcab-1.2::dantrell-gnome
 ~app-arch/gnome-autoar-0.2.3::dantrell-gnome
 ~app-crypt/gcr-3.28.1::dantrell-gnome
@@ -167,7 +167,7 @@
 ~net-libs/rest-0.8.1::dantrell-gnome
 ~net-libs/webkit-gtk-2.24.4::dantrell-gnome
 ~net-misc/gnome-online-miners-3.30.0::dantrell-gnome
-~net-misc/rygel-0.38.2::dantrell-gnome
+~net-misc/rygel-0.38.3::dantrell-gnome
 ~net-misc/vino-3.22.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.32.1::dantrell-gnome-3-32
 ~sci-geosciences/geocode-glib-3.26.1::dantrell-gnome

@@ -132,10 +132,6 @@ src_prepare() {
 	# Fix broken autotools logic
 	eapply "${FILESDIR}"/${PN}-3.22.20-libcloudproviders-automagic.patch
 
-	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/gtk/commit/e997ef60da5388e51e0d1afc2f72443a56c36037
-	eapply "${FILESDIR}"/${PN}-3.24.13-fix-invalid-reads-on-tablet-input.patch
-
 	gnome2_src_prepare
 }
 
