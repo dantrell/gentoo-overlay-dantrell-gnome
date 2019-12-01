@@ -41,6 +41,7 @@ PDEPEND="
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-241.4-nodocs.patch
+	"${FILESDIR}"/${PN}-241.4-broken-test.patch # bug 699116
 )
 
 pkg_setup() {

@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
+GNOME2_EAUTORECONF="yes"
 
 inherit gnome2 multilib
 
@@ -51,7 +52,7 @@ DEPEND="${COMMON_DEPEND}
 "
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-eglmesaext-include.patch
+	"${FILESDIR}"/${PN}-1.22.2-eglmesaext-include.patch
 )
 
 src_prepare() {

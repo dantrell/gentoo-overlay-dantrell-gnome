@@ -1,21 +1,7 @@
-From 9c4764224aded552fb855b1c2b85b26d2b894adf Mon Sep 17 00:00:00 2001
-From: Alexander Tsoy <alexander@tsoy.me>
-Date: Tue, 29 Oct 2019 18:17:51 +0300
-Subject: [PATCH] Fix building against libglvnd-provided EGL headers
-
-Add missing EGL/eglmesaext.h include. When building against mesa-provided
-headers, this header is included indirectly via EGL/eglext.h.
-
-Also fix typo COGL_EGL_INCLUDE -> COGL_EGL_INCLUDES
----
- configure.ac | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
-
-diff --git a/configure.ac b/configure.ac
-index da188edd..b0b0c94d 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -670,10 +670,15 @@ AS_IF([test "x$enable_gles1" = "xyes"],
+diff '--exclude=.git' -urN a/configure.ac b/configure.ac
+--- a/configure.ac	2016-08-26 12:33:29.000000000 -0500
++++ b/configure.ac	2019-12-01 02:28:42.001987218 -0600
+@@ -685,10 +685,15 @@
              AC_SUBST([COGL_EGL_INCLUDES])
  
              AC_CHECK_HEADERS([EGL/eglext.h],
@@ -32,7 +18,7 @@ index da188edd..b0b0c94d 100644
  
              # Check for a GLES 1.x Common Profile library with/without EGL.
              #
-@@ -1178,6 +1183,12 @@ AS_IF([test "x$NEED_EGL" = "xyes" && test "x$EGL_CHECKED" != "xyes"],
+@@ -1216,6 +1221,12 @@
                [],
                [AC_MSG_ERROR([Unable to locate required EGL headers])],
                [#include <EGL/egl.h>])
@@ -45,7 +31,7 @@ index da188edd..b0b0c94d 100644
  
              AC_CHECK_LIB(EGL, [eglInitialize],
                [COGL_EXTRA_LDFLAGS="$COGL_EXTRA_LDFLAGS -lEGL"],
-@@ -1188,7 +1199,8 @@ AS_IF([test "x$NEED_EGL" = "xyes" && test "x$EGL_CHECKED" != "xyes"],
+@@ -1226,7 +1237,8 @@
            )
  
          COGL_EGL_INCLUDES="#include <EGL/egl.h>
@@ -55,6 +41,3 @@ index da188edd..b0b0c94d 100644
          AC_SUBST([COGL_EGL_INCLUDES])
        ])
  
--- 
-2.22.0
-

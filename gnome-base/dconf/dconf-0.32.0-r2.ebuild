@@ -28,12 +28,12 @@ BDEPEND="
 	gtk-doc? ( >=dev-util/gtk-doc-1.15 )
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
-	<dev-util/meson-0.52
-" # problem with meson-0.52+ https://gitlab.gnome.org/GNOME/dconf/issues/59
+"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.30.1-bash-completion-dir.patch
 	"${FILESDIR}"/${PN}-0.32.0-drop-vapigen-dep.patch # .vapi/.deps are pregenerated, just install them without a vala dep
+	"${FILESDIR}"/${PN}-0.32.0-meson-0.52-compat.patch # https://gitlab.gnome.org/GNOME/dconf/issues/59
 )
 
 src_configure() {

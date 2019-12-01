@@ -86,7 +86,7 @@
 ~gnome-base/gnome-keyring-3.34.0::dantrell-gnome-3-34
 ~gnome-base/gnome-light-3.34.0::dantrell-gnome-3-34
 ~gnome-base/gnome-panel-3.34.0::dantrell-gnome-3-34
-~gnome-base/gnome-session-3.34.1::dantrell-gnome-3-34
+~gnome-base/gnome-session-3.34.2::dantrell-gnome-3-34
 ~gnome-base/gnome-settings-daemon-3.34.1::dantrell-gnome-3-34
 ~gnome-base/gnome-shell-3.34.1::dantrell-gnome-3-34
 ~gnome-base/gsettings-desktop-schemas-3.34.0::dantrell-gnome-3-34
