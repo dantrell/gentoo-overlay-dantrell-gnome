@@ -17,16 +17,19 @@ KEYWORDS="~*"
 
 IUSE="doc examples test"
 
+RESTRICT="!test? ( test )"
+
+BDEPEND="
+	doc? ( dev-python/sphinx )
+	test? (
+		dev-python/hypothesis[${PYTHON_USEDEP}]
+		dev-python/pytest[${PYTHON_USEDEP}]
+	)
+"
 RDEPEND="
 	>=x11-libs/cairo-1.13.1[svg]
 "
-DEPEND="${RDEPEND}
-	doc? ( dev-python/sphinx )
-	test? (
-		dev-python/pytest[${PYTHON_USEDEP}]
-		dev-python/hypothesis[${PYTHON_USEDEP}]
-	)
-"
+DEPEND="${RDEPEND}"
 
 python_compile_all() {
 	if use doc; then

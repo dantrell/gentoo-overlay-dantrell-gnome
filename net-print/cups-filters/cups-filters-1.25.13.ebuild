@@ -48,10 +48,6 @@ BDEPEND="
 	test? ( media-fonts/dejavu )
 "
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-1.25.12-browsed_segfault.patch #700024
-)
-
 src_prepare() {
 	default
 
