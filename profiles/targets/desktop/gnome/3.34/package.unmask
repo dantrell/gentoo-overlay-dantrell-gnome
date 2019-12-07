@@ -152,7 +152,7 @@
 ~net-irc/polari-3.34.0::dantrell-gnome-3-34
 ~net-libs/glib-networking-2.62.1::dantrell-gnome-3-34
 ~net-libs/gnome-online-accounts-3.34.1::dantrell-gnome-3-34
-~net-libs/libsoup-2.68.2::dantrell-gnome-3-34
+~net-libs/libsoup-2.68.3::dantrell-gnome-3-34
 ~net-libs/libsoup-gnome-2.68.2::dantrell-gnome-3-34
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome

@@ -1,44 +1,35 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-
-inherit elisp-common flag-o-matic ltprune
+EAPI="7"
 
 DESCRIPTION="GNU Ubiquitous Intelligent Language for Extensions"
 HOMEPAGE="https://www.gnu.org/software/guile/"
 SRC_URI="mirror://gnu/guile/${P}.tar.xz"
 
 LICENSE="LGPL-3+"
-SLOT="12"
+SLOT="12/2.2-1" # libguile-2.2.so.1 => 2.2-1
 KEYWORDS=""
 
-IUSE="debug debug-malloc +deprecated doc emacs +networking +nls +regex static-libs +threads" # upstream recommended +networking +nls
+IUSE="debug debug-malloc +deprecated +networking +nls +regex static-libs +threads" # upstream recommended +networking +nls
+REQUIRED_USE="regex" # workaround for bug 596322
+
+RESTRICT="strip"
 
 RDEPEND="
-	!dev-scheme/guile:2
-
 	>=dev-libs/boehm-gc-7.0:=[threads?]
-	>=dev-libs/gmp-4.2:0=
+	dev-libs/gmp:=
 	virtual/libffi:=
 	dev-libs/libltdl:=
-	>=dev-libs/libunistring-0.9.3
-	>=sys-devel/libtool-1.5.6
-	sys-libs/readline:0=
-"
-DEPEND="
-	${RDEPEND}
+	dev-libs/libunistring:0=
+	sys-libs/ncurses:0=
+	sys-libs/readline:0="
+DEPEND="${RDEPEND}"
+BDEPEND="
 	virtual/pkgconfig
-	doc? ( sys-apps/texinfo )
-	emacs? ( virtual/emacs )
 	sys-devel/libtool
-	sys-devel/gettext
-"
+	sys-devel/gettext"
 
-STRIP_MASK="*.go"
-
-PATCHES=(
-	"${FILESDIR}"/${PN}-2.2.3-gentoo-sandbox.patch
-)
+PATCHES=( "${FILESDIR}"/${PN}-2.2.3-gentoo-sandbox.patch )
 
 src_configure() {
 	# Seems to have issues with -Os, switch to -O2
@@ -77,11 +68,6 @@ src_configure() {
 
 src_install() {
 	default
-	prune_libtool_files
-
-	if use doc; then
-		dodoc GUILE-VERSION HACKING
-	fi
 
 	# Necessary for avoiding ldconfig warnings
 	# 	https://bugzilla.novell.com/show_bug.cgi?id=874028#c0
@@ -92,26 +78,5 @@ src_install() {
 	# 	https://bugs.gentoo.org/206896
 	keepdir /usr/share/guile/site
 
-	# Necessary for some dependencies
-	dosym libguile-2.0.so /usr/$(get_libdir)/libguile.so
-}
-
-pkg_postinst() {
-	[[ "${EROOT}" == "/" ]] && pkg_config
-	use emacs && elisp-site-regen
-}
-
-pkg_prerm() {
-	rm -f "${EROOT}"/usr/share/guile/site/slibcat
-}
-
-pkg_postrm() {
-	use emacs && elisp-site-regen
-}
-
-pkg_config() {
-	if has_version '>=dev-scheme/slib-3.2.4'; then
-		einfo "Registering slib with guile"
-		install_slib_for_guile
-	fi
+	find "${D}" -name '*.la' -delete || die
 }

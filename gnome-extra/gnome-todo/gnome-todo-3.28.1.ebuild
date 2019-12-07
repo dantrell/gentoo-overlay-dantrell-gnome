@@ -36,7 +36,7 @@ src_prepare() {
 		# From Fedora:
 		# 	https://src.fedoraproject.org/rpms/gnome-todo/tree/f31
 		eapply "${FILESDIR}"/${PN}-3.28.1-eds-port-to-libecal-2-0.patch
-	else
+	elif has_version '>=dev-libs/glib-2.59.0'; then
 		# From GNOME:
 		# 	https://gitlab.gnome.org/GNOME/gnome-todo/commit/6cdabc4dd0c6c804a093b94c269461ce376fed4f
 		eapply "${FILESDIR}"/${PN}-9999-drop-the-autoptr-definition-for-esource.patch
