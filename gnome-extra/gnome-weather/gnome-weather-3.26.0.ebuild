@@ -14,6 +14,8 @@ KEYWORDS="*"
 
 IUSE="test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=app-misc/geoclue-2.3.1:2.0
 	>=dev-libs/gjs-1.39.91

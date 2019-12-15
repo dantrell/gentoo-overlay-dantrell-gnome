@@ -14,6 +14,8 @@ KEYWORDS="*"
 
 IUSE="+introspection test"
 
+RESTRICT="!test? ( test )"
+
 # Coverage testing should not be enabled
 RDEPEND="
 	app-misc/ca-certificates

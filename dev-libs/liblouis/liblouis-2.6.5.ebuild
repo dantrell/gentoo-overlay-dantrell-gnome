@@ -52,7 +52,7 @@ src_compile() {
 }
 
 src_install() {
-	emake install DESTDIR="${D}" || die
+	emake install DESTDIR="${D}"
 
 	if use python; then
 		pushd python > /dev/null
@@ -61,6 +61,6 @@ src_install() {
 		popd > /dev/null
 	fi
 
-	dodoc README AUTHORS NEWS ChangeLog || die
+	dodoc README AUTHORS NEWS ChangeLog
 	dohtml doc/liblouis.html
 }

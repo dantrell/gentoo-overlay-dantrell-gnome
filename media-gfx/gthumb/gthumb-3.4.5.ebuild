@@ -14,6 +14,8 @@ KEYWORDS="*"
 
 IUSE="cdr debug exif gnome-keyring gstreamer http jpeg json lcms raw slideshow svg tiff test webkit webp"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=dev-libs/glib-2.36.0:2[dbus]
 	>=x11-libs/gtk+-3.10.0:3

@@ -13,6 +13,8 @@ KEYWORDS="*"
 
 IUSE="test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=dev-libs/glib-2.40:2
 	>=dev-libs/vala-common-${PV}

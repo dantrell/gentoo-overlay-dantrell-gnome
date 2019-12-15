@@ -15,6 +15,8 @@ KEYWORDS="*"
 IUSE="+introspection test vala"
 REQUIRED_USE="vala? ( introspection )"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=gui-libs/amtk-4.0
 	>=dev-libs/glib-2.52:2

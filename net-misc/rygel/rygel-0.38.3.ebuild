@@ -14,6 +14,8 @@ KEYWORDS="*"
 
 IUSE="X +introspection +sqlite tracker test transcode"
 
+RESTRICT="!test? ( test )"
+
 # The deps for tracker? and transcode? are just the earliest available
 # version at the time of writing this ebuild
 RDEPEND="

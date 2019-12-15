@@ -16,6 +16,8 @@ KEYWORDS="~*"
 
 IUSE="berkdb doc examples static-libs test"
 
+RESTRICT="!test? ( test )"
+
 DEPEND="
 	dev-libs/icu:=
 	berkdb? ( sys-libs/db:= )

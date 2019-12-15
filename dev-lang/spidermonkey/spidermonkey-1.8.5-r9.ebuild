@@ -23,6 +23,8 @@ KEYWORDS="*"
 
 IUSE="debug minimal static-libs test"
 
+RESTRICT="!test? ( test )"
+
 S="${WORKDIR}/${MY_P}"
 BUILDDIR="${S}/js/src"
 

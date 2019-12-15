@@ -18,6 +18,8 @@ REQUIRED_USE="
 	?? ( elogind systemd )
 "
 
+RESTRICT="!test? ( test )"
+
 BDEPEND="
 	acct-user/messagebus
 	app-text/xmlto

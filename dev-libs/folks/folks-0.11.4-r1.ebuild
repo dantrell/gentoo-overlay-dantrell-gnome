@@ -19,6 +19,8 @@ KEYWORDS="*"
 IUSE="bluetooth debug eds +telepathy test tracker utils"
 REQUIRED_USE="bluetooth? ( eds )"
 
+RESTRICT="!test? ( test )"
+
 COMMON_DEPEND="
 	$(vala_depend)
 	>=dev-libs/glib-2.40:2

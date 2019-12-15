@@ -13,6 +13,8 @@ KEYWORDS="*"
 
 IUSE="+introspection test"
 
+RESTRICT="!test? ( test )"
+
 COMMON_DEPEND="
 	>=dev-libs/glib-2.29.15:2
 	introspection? ( >=dev-libs/gobject-introspection-0.9.5:= )

@@ -13,6 +13,8 @@ KEYWORDS="*"
 
 IUSE="doc examples test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=dev-cpp/glibmm-2.34.1:2[${MULTILIB_USEDEP}]
 	>=x11-libs/gtk+-2.24.15:2[${MULTILIB_USEDEP}]

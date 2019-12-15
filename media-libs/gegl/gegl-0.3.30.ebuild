@@ -22,6 +22,8 @@ REQUIRED_USE="
 	vala? ( introspection )
 "
 
+RESTRICT="!test? ( test )"
+
 # NOTE: Even current libav 11.4 does not have AV_CODEC_CAP_VARIABLE_FRAME_SIZE
 #       so there is no chance to support libav right now (Gentoo bug #567638)
 #       If it returns, please check prior GEGL ebuilds for how libav was integrated.  Thanks!

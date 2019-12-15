@@ -14,6 +14,8 @@ KEYWORDS="*"
 
 IUSE="archive crypt +introspection +quvi test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	dev-libs/glib:2=
 	>=dev-libs/glib-2.36:2

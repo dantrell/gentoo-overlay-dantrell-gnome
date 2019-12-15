@@ -18,6 +18,8 @@ IUSE="+crypt +introspection test vala"
 REQUIRED_USE="test? ( introspection )
 	vala? ( introspection )"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=dev-libs/glib-2.38:2[${MULTILIB_USEDEP}]
 	crypt? ( >=dev-libs/libgcrypt-1.2.2:0=[${MULTILIB_USEDEP}] )

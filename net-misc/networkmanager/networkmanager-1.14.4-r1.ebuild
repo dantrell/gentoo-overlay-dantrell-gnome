@@ -27,6 +27,8 @@ REQUIRED_USE="
 	?? ( ck consolekit elogind systemd )
 "
 
+RESTRICT="!test? ( test )"
+
 # gobject-introspection-0.10.3 is needed due to gnome bug 642300
 # wpa_supplicant-0.7.3-r3 is needed due to bug 359271
 COMMON_DEPEND="

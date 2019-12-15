@@ -14,6 +14,8 @@ KEYWORDS="*"
 
 IUSE="+css +introspection +libburn mp3 nautilus packagekit playlist test tracker"
 
+RESTRICT="!test? ( test )"
+
 COMMON_DEPEND="
 	>=dev-libs/glib-2.29.14:2
 	>=x11-libs/gtk+-3:3[introspection?]

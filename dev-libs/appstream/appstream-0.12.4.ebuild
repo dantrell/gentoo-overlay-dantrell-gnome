@@ -17,6 +17,8 @@ KEYWORDS="*"
 
 IUSE="apt +introspection qt5 test"
 
+RESTRICT="!test? ( test )"
+
 BDEPEND="
 	app-text/docbook-xml-dtd:4.5
 	dev-libs/appstream-glib

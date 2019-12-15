@@ -13,6 +13,8 @@ KEYWORDS="*"
 
 IUSE="doc debug test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	dev-libs/libsigc++:2=[${MULTILIB_USEDEP}]
 	>=dev-libs/libsigc++-2.6.0:2[${MULTILIB_USEDEP}]

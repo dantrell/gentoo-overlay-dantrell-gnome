@@ -14,6 +14,8 @@ KEYWORDS="*"
 
 IUSE="examples test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	dev-libs/libxml2
 	net-libs/neon

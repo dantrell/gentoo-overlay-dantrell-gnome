@@ -16,6 +16,8 @@ KEYWORDS="*"
 IUSE="+introspection +vala test"
 REQUIRED_USE="vala? ( introspection )"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=dev-libs/glib-2.36.0:2
 	>=dev-libs/libxslt-1.0.0:=

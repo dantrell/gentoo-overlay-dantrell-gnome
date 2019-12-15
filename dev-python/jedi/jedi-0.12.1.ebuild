@@ -15,6 +15,8 @@ KEYWORDS=""
 
 IUSE="doc test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND=">=dev-python/parso-0.3.1[${PYTHON_USEDEP}]"
 DEPEND="
 	dev-python/setuptools[${PYTHON_USEDEP}]

@@ -14,6 +14,8 @@ KEYWORDS="*"
 
 IUSE="examples gssapi libressl +ssh test +threads trace"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	!libressl? ( dev-libs/openssl:0 )
 	libressl? ( dev-libs/libressl )

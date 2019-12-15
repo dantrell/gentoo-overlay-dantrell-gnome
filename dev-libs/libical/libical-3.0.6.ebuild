@@ -18,6 +18,8 @@ KEYWORDS="~*"
 IUSE="berkdb doc examples introspection static-libs test vala"
 REQUIRED_USE="vala? ( introspection )"
 
+RESTRICT="!test? ( test )"
+
 BDEPEND="
 	dev-lang/perl
 	virtual/pkgconfig

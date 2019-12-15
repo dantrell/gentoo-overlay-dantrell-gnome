@@ -15,6 +15,8 @@ KEYWORDS="*"
 
 IUSE="daap dvd examples chromaprint flickr freebox gnome-online-accounts lua subtitles test thetvdb tracker upnp-av vimeo +youtube"
 
+RESTRICT="!test? ( test )"
+
 # Bump gom requirement to avoid segfaults
 RDEPEND="
 	>=dev-libs/glib-2.44:2

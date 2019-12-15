@@ -13,6 +13,8 @@ KEYWORDS="*"
 
 IUSE="doc static-libs test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND=""
 DEPEND="sys-devel/m4
 	doc? ( app-doc/doxygen )

@@ -15,6 +15,8 @@ KEYWORDS="*"
 
 IUSE="+caps pam selinux +ssh-agent test"
 
+RESTRICT="!test? ( test )"
+
 # Replace gkd gpg-agent with pinentry[gnome-keyring] one, bug #547456
 RDEPEND="
 	>=app-crypt/gcr-3.5.3:=[gtk]

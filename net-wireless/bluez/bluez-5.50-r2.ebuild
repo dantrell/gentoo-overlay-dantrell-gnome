@@ -24,6 +24,8 @@ REQUIRED_USE="
 	test-programs? ( ${PYTHON_REQUIRED_USE} )
 "
 
+RESTRICT="!test? ( test )"
+
 TEST_DEPS="${PYTHON_DEPS}
 	>=dev-python/dbus-python-1[${PYTHON_USEDEP}]
 	dev-python/pygobject:3[${PYTHON_USEDEP}]

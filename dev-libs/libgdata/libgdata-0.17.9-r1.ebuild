@@ -18,6 +18,8 @@ REQUIRED_USE="
 	vala? ( introspection )
 "
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=dev-libs/glib-2.44.0:2
 	>=dev-libs/json-glib-0.15[introspection?]

@@ -14,6 +14,8 @@ KEYWORDS="~*"
 
 IUSE="X gtk-doc +introspection test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=media-libs/harfbuzz-1.4.2:=[glib(+),truetype(+),${MULTILIB_USEDEP}]
 	>=dev-libs/glib-2.59.2:2[${MULTILIB_USEDEP}]

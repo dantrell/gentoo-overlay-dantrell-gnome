@@ -20,6 +20,8 @@ KEYWORDS="*"
 
 IUSE="dbus debug fam gtk-doc kernel_linux +mime selinux static-libs systemtap test xattr"
 
+RESTRICT="!test? ( test )"
+
 # Added util-linux multilib dependency to have libmount support (which
 # is always turned on on linux systems, unless explicitly disabled, but
 # this ebuild does not do that anyway) (bug #599586)

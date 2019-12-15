@@ -18,6 +18,8 @@ KEYWORDS="*"
 IUSE="gtk examples +introspection +network playlist test vala"
 REQUIRED_USE="test? ( introspection )"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=dev-libs/glib-2.34:2
 	dev-libs/libxml2:2

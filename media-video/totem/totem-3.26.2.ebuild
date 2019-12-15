@@ -20,6 +20,8 @@ REQUIRED_USE="
 	python? ( introspection ${PYTHON_REQUIRED_USE} )
 "
 
+RESTRICT="!test? ( test )"
+
 # FIXME:
 # Runtime dependency on gnome-session-2.91
 COMMON_DEPEND="

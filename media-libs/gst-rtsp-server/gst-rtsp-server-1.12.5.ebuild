@@ -12,6 +12,8 @@ KEYWORDS="*"
 
 IUSE="examples +introspection static-libs test"
 
+RESTRICT="!test? ( test )"
+
 # FIXME: check should depend on USE=test but check is losy
 # configure says good and bad are required by macros forces them to be optional
 # they are only used in unittests anyway.

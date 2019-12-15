@@ -4,7 +4,7 @@
 ~app-accessibility/orca-3.34.1::dantrell-gnome-3-34
 ~app-arch/file-roller-3.32.3::dantrell-gnome
 ~app-arch/gcab-1.2::dantrell-gnome
-~app-arch/gnome-autoar-0.2.3::dantrell-gnome
+~app-arch/gnome-autoar-0.2.4::dantrell-gnome
 ~app-crypt/seahorse-3.34::dantrell-gnome-3-34
 ~app-dicts/gnome-dictionary-3.26.1::dantrell-gnome
 ~app-editors/gedit-3.34.1::dantrell-gnome-3-34
@@ -88,7 +88,7 @@
 ~gnome-base/gnome-panel-3.34.0::dantrell-gnome-3-34
 ~gnome-base/gnome-session-3.34.2::dantrell-gnome-3-34
 ~gnome-base/gnome-settings-daemon-3.34.1::dantrell-gnome-3-34
-~gnome-base/gnome-shell-3.34.1::dantrell-gnome-3-34
+~gnome-base/gnome-shell-3.34.2::dantrell-gnome-3-34
 ~gnome-base/gsettings-desktop-schemas-3.34.0::dantrell-gnome-3-34
 ~gnome-base/gvfs-1.42.2::dantrell-gnome-3-34
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
@@ -110,7 +110,7 @@
 ~gnome-extra/gnome-packagekit-3.32.0::dantrell-gnome
 ~gnome-extra/gnome-power-manager-3.32.0::dantrell-gnome
 ~gnome-extra/gnome-recipes-2.0.2::dantrell-gnome
-~gnome-extra/gnome-shell-extensions-3.34.1::dantrell-gnome-3-34
+~gnome-extra/gnome-shell-extensions-3.34.2::dantrell-gnome-3-34
 ~gnome-extra/gnome-shell-frippery-3.34.1::dantrell-gnome-3-34
 ~gnome-extra/gnome-software-3.34.2::dantrell-gnome-3-34
 ~gnome-extra/gnome-system-monitor-3.32.1::dantrell-gnome
@@ -149,8 +149,8 @@
 ~media-video/cheese-3.34.0::dantrell-gnome-3-34
 ~media-video/totem-3.34.1::dantrell-gnome-3-34
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
-~net-irc/polari-3.34.0::dantrell-gnome-3-34
-~net-libs/glib-networking-2.62.1::dantrell-gnome-3-34
+~net-irc/polari-3.34.1::dantrell-gnome-3-34
+~net-libs/glib-networking-2.62.2::dantrell-gnome-3-34
 ~net-libs/gnome-online-accounts-3.34.1::dantrell-gnome-3-34
 ~net-libs/libsoup-2.68.3::dantrell-gnome-3-34
 ~net-libs/libsoup-gnome-2.68.2::dantrell-gnome-3-34
@@ -179,4 +179,4 @@
 ~x11-themes/gnome-backgrounds-3.34.0::dantrell-gnome-3-34
 ~x11-themes/gnome-themes-extra-3.28::dantrell-gnome
 ~x11-wm/metacity-3.34.1::dantrell-gnome-3-34
-~x11-wm/mutter-3.34.1::dantrell-gnome-3-34
+~x11-wm/mutter-3.34.2::dantrell-gnome-3-34

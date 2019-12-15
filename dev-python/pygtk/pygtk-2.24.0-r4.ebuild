@@ -17,6 +17,8 @@ KEYWORDS="*"
 IUSE="doc examples test"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="${PYTHON_DEPS}
 	>=dev-libs/glib-2.8:2
 	>=x11-libs/pango-1.16

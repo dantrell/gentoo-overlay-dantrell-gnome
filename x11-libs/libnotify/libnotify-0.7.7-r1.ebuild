@@ -13,6 +13,8 @@ KEYWORDS="*"
 
 IUSE="+introspection test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	app-eselect/eselect-notify-send
 	>=dev-libs/glib-2.26:2[${MULTILIB_USEDEP}]

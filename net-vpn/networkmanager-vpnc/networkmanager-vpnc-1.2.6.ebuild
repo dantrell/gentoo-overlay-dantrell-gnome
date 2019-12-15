@@ -14,6 +14,8 @@ KEYWORDS="*"
 
 IUSE="gtk test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=net-misc/networkmanager-1.2.0:=
 	>=dev-libs/dbus-glib-0.74

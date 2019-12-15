@@ -16,6 +16,8 @@ KEYWORDS="~*"
 
 IUSE="berkdb doc examples glib static-libs test"
 
+RESTRICT="!test? ( test )"
+
 BDEPEND="
 	dev-lang/perl
 	virtual/pkgconfig

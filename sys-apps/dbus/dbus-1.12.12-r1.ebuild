@@ -18,6 +18,8 @@ REQUIRED_USE="
 	?? ( elogind systemd )
 "
 
+RESTRICT="!test? ( test )"
+
 # autoconf-archive-2019.01.06 blocker added for bug #674830
 # Please check on bumps if the blocker is still necessary.
 BDEPEND="

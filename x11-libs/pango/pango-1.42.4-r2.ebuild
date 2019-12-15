@@ -14,6 +14,8 @@ KEYWORDS="*"
 
 IUSE="X +introspection test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=media-libs/harfbuzz-1.4.2:=[glib(+),truetype(+),${MULTILIB_USEDEP}]
 	>=dev-libs/glib-2.34.3:2[${MULTILIB_USEDEP}]

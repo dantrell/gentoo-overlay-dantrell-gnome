@@ -15,6 +15,8 @@ KEYWORDS="~*"
 IUSE="ck consolekit elogind examples gtk +introspection jit kde nls pam selinux systemd test"
 REQUIRED_USE="?? ( ck consolekit elogind systemd )"
 
+RESTRICT="!test? ( test )"
+
 BDEPEND="
 	acct-user/polkitd
 	app-text/docbook-xml-dtd:4.1.2

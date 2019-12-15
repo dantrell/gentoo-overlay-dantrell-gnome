@@ -15,6 +15,8 @@ KEYWORDS="*"
 IUSE="debug +introspection test vala"
 REQUIRED_USE="vala? ( introspection )"
 
+RESTRICT="!test? ( test )"
+
 COMMON_DEPEND="
 	=app-i18n/unicode-data-$(get_version_component_range 1-2)*
 	>=dev-libs/glib-2.32:2

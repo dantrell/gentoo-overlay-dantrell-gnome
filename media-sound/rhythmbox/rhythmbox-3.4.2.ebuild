@@ -22,6 +22,8 @@ REQUIRED_USE="
 	python? ( ${PYTHON_REQUIRED_USE} )
 "
 
+RESTRICT="!test? ( test )"
+
 COMMON_DEPEND="
 	>=dev-libs/glib-2.38:2
 	>=dev-libs/libxml2-2.7.8:2

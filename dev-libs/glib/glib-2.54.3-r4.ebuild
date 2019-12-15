@@ -28,6 +28,8 @@ REQUIRED_USE="
 	test? ( ${PYTHON_REQUIRED_USE} )
 "
 
+RESTRICT="!test? ( test )"
+
 # Added util-linux multilib dependency to have libmount support (which
 # is always turned on on linux systems, unless explicitly disabled, but
 # this ebuild does not do that anyway) (bug #599586)

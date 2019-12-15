@@ -27,6 +27,8 @@ REQUIRED_USE="
 	entropy? ( $(python_gen_useflags 'python2*' ) )
 "
 
+RESTRICT="!test? ( test )"
+
 # While not strictly needed, consolekit or elogind
 # is the alternative to systemd-login to get current session's user.
 COMMON_DEPEND="

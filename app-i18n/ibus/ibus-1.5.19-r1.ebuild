@@ -29,6 +29,8 @@ REQUIRED_USE="emoji? ( gtk )
 	test? ( gtk )
 	vala? ( introspection )"
 
+RESTRICT="!test? ( test )"
+
 CDEPEND="app-text/iso-codes
 	dev-libs/glib:2
 	gnome-base/dconf

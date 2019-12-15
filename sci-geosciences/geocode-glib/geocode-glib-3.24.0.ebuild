@@ -41,5 +41,5 @@ src_test() {
 	export GVFS_DISABLE_FUSE=1
 	export GIO_USE_VFS=gvfs
 	ewarn "Tests require network access to http://where.yahooapis.com"
-	dbus-launch emake check || die "tests failed"
+	dbus-launch emake check
 }

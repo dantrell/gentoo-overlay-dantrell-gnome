@@ -22,7 +22,7 @@ KEYWORDS="*"
 IUSE="debug jit minimal static-libs test"
 REQUIRED_USE="debug? ( jit )"
 
-RESTRICT="ia64? ( test )"
+RESTRICT="!test? ( test ) ia64? ( test )"
 
 S="${WORKDIR}/${MY_P}"
 BUILDDIR="${S}/js/src"

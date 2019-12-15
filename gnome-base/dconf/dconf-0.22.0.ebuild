@@ -13,6 +13,8 @@ KEYWORDS="*"
 
 IUSE="test X"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=dev-libs/glib-2.39.1:2
 	sys-apps/dbus

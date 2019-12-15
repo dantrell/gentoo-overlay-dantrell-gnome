@@ -19,6 +19,8 @@ KEYWORDS="*"
 IUSE="debug +introspection test vala"
 REQUIRED_USE="vala? ( introspection )"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=dev-libs/glib-2.16.0:2[${MULTILIB_USEDEP}]
 	>=dev-libs/libgcrypt-1.2.2:0=[${MULTILIB_USEDEP}]
@@ -62,5 +64,5 @@ multilib_src_install() {
 
 multilib_src_test() {
 	unset DBUS_SESSION_BUS_ADDRESS
-	dbus-launch emake check || die "tests failed"
+	dbus-launch emake check
 }

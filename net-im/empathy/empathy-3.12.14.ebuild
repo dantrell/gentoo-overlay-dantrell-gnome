@@ -15,6 +15,8 @@ KEYWORDS="*"
 
 IUSE="debug +geolocation gnome gnome-online-accounts +map spell test +v4l"
 
+RESTRICT="!test? ( test )"
+
 # False positives caused by nested configure scripts
 QA_CONFIGURE_OPTIONS=".*"
 

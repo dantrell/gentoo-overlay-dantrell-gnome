@@ -21,7 +21,7 @@ KEYWORDS="~*"
 
 IUSE="debug +jit minimal +system-icu test"
 
-RESTRICT="ia64? ( test )"
+RESTRICT="!test? ( test ) ia64? ( test )"
 
 S="${WORKDIR}/${MY_P%.rc*}"
 

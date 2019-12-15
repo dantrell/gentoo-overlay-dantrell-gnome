@@ -16,6 +16,8 @@ KEYWORDS="*"
 
 IUSE="doc test"
 
+RESTRICT="!test? ( test )"
+
 DEPEND="
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	doc? ( dev-python/sphinx )

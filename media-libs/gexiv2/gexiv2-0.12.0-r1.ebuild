@@ -22,6 +22,8 @@ REQUIRED_USE="
 	vala? ( introspection )
 "
 
+RESTRICT="!test? ( test )"
+
 BDEPEND="
 	virtual/pkgconfig
 	gtk-doc? ( dev-util/gtk-doc )

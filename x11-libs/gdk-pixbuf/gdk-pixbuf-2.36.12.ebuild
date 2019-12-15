@@ -14,6 +14,8 @@ KEYWORDS="*"
 
 IUSE="X debug +introspection jpeg tiff test"
 
+RESTRICT="!test? ( test )"
+
 COMMON_DEPEND="
 	>=dev-libs/glib-2.48.0:2[${MULTILIB_USEDEP}]
 	>=media-libs/libpng-1.4:0=[${MULTILIB_USEDEP}]

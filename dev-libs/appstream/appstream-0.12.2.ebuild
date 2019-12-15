@@ -17,6 +17,8 @@ KEYWORDS="*"
 
 IUSE="apt +introspection qt5 test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=dev-libs/glib-2.46:2
 	dev-libs/libxml2:2

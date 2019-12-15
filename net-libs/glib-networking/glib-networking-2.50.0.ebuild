@@ -14,6 +14,8 @@ KEYWORDS="*"
 
 IUSE="+gnome +libproxy smartcard +ssl test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=dev-libs/glib-2.46.0:2[${MULTILIB_USEDEP}]
 	gnome? ( gnome-base/gsettings-desktop-schemas )

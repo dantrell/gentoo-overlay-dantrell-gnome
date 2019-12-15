@@ -13,6 +13,8 @@ KEYWORDS="*"
 
 IUSE="systemd test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=dev-libs/glib-2.32:2
 	>=x11-libs/gtk+-3.15.3:3

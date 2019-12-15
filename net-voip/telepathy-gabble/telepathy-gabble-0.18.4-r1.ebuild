@@ -16,6 +16,8 @@ KEYWORDS="~*"
 
 IUSE="gnutls +jingle libressl plugins test"
 
+RESTRICT="!test? ( test )"
+
 # Prevent false positives due nested configure
 QA_CONFIGURE_OPTIONS=".*"
 

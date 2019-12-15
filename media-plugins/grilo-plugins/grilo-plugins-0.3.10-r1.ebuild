@@ -14,6 +14,8 @@ KEYWORDS=""
 
 IUSE="daap chromaprint flickr freebox gnome-online-accounts lua test thetvdb tracker upnp-av +youtube"
 
+RESTRICT="!test? ( test )"
+
 # GOA is only optionally used by flickr and lua-factory plugins (checked at v0.3.8)
 # json-glib used by tmdb and lua; tmdb currently non-optional
 # TODO: validate upnp-av dleyna deps

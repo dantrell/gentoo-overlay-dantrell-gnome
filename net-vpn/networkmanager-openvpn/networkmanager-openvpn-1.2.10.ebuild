@@ -14,6 +14,8 @@ KEYWORDS="*"
 
 IUSE="gtk test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=dev-libs/glib-2.32:2
 	>=net-misc/networkmanager-1.2.0:=

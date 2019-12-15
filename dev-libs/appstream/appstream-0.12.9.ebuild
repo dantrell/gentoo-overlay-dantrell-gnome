@@ -15,6 +15,8 @@ KEYWORDS="~*"
 
 IUSE="apt doc +introspection qt5 test"
 
+RESTRICT="!test? ( test )"
+
 BDEPEND="
 	dev-libs/appstream-glib
 	dev-libs/libxslt

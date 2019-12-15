@@ -16,6 +16,8 @@ KEYWORDS="*"
 IUSE="cjk +introspection test vala"
 REQUIRED_USE="vala? ( introspection )"
 
+RESTRICT="!test? ( test )"
+
 COMMON_DEPEND="
 	>=dev-libs/glib-2.32:2
 	>=x11-libs/pango-1.2.1[introspection?]

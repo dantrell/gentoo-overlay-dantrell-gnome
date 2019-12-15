@@ -13,6 +13,8 @@ KEYWORDS="*"
 
 IUSE="+introspection test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=dev-libs/glib-2.18:2
 	>=x11-libs/gtk+-2.91.7:3[X,introspection?]

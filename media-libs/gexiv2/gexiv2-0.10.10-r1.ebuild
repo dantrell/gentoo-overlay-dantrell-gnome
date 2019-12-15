@@ -22,6 +22,8 @@ REQUIRED_USE="
 	vala? ( introspection )
 "
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="${PYTHON_DEPS}
 	>=dev-libs/glib-2.26.1:2
 	>=media-gfx/exiv2-0.21:=

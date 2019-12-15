@@ -18,6 +18,8 @@ REQUIRED_USE="
 	?? ( elogind systemd )
 "
 
+RESTRICT="!test? ( test )"
+
 BDEPEND="
 	app-text/xmlto
 	app-text/docbook-xml-dtd:4.4

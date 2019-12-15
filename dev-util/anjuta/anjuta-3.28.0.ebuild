@@ -20,6 +20,8 @@ KEYWORDS="*"
 IUSE="debug devhelp glade +introspection packagekit subversion terminal test vala"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
+RESTRICT="!test? ( test )"
+
 # FIXME: make python dependency non-automagic
 COMMON_DEPEND="
 	>=dev-libs/glib-2.34:2[dbus]

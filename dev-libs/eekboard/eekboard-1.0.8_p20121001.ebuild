@@ -17,6 +17,8 @@ KEYWORDS="*"
 IUSE="doc +introspection libcanberra static-libs +vala +xtest"
 REQUIRED_USE="vala? ( introspection )"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="app-accessibility/at-spi2-core
 	dev-libs/glib:2
 	dev-libs/libcroco

@@ -18,6 +18,7 @@ IUSE="unwind +ytnef"
 # FIXME: add valadoc support
 
 DEPEND="
+	>=dev-libs/appstream-glib-0.7.10
 	>=dev-libs/glib-2.54:2
 	>=gui-libs/libhandy-0.0.9:0.0=
 	>=x11-libs/gtk+-3.22.26:3[introspection]

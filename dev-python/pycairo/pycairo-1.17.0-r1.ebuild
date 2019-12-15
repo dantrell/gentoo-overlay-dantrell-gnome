@@ -17,6 +17,8 @@ KEYWORDS="*"
 
 IUSE="doc examples test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=x11-libs/cairo-1.13.1[svg]
 "

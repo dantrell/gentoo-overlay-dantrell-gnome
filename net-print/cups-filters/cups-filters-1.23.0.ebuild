@@ -16,6 +16,8 @@ KEYWORDS="*"
 
 IUSE="dbus +foomatic ipp_autosetup jpeg ldap pclm pdf perl png +postscript static-libs test tiff zeroconf"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=app-text/poppler-0.32:=[cxx,jpeg?,lcms,tiff?,utils]
 	>=app-text/qpdf-8.3.0:=

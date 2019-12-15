@@ -24,6 +24,8 @@ REQUIRED_USE="
 	user-session? ( systemd )
 "
 
+RESTRICT="!test? ( test )"
+
 CDEPEND="
 	>=dev-libs/glib-2.28:2[${MULTILIB_USEDEP}]
 	>=sys-apps/dbus-1.6:=[user-session=]

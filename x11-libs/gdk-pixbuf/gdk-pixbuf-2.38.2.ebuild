@@ -13,7 +13,7 @@ KEYWORDS="*"
 
 IUSE="X debug +introspection jpeg tiff test"
 
-RESTRICT="mirror"
+RESTRICT="mirror !test? ( test )"
 
 COMMON_DEPEND="
 	>=dev-libs/glib-2.48.0:2[${MULTILIB_USEDEP}]

@@ -12,6 +12,8 @@ KEYWORDS="~*"
 
 IUSE="examples +introspection static-libs test"
 
+RESTRICT="!test? ( test )"
+
 # gst-plugins-base for many used elements and API
 # gst-plugins-good for rtprtxsend and rtpbin elements, maybe more
 # gst-plugins-srtp for srtpenc and srtpdec elements

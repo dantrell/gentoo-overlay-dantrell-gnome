@@ -16,6 +16,8 @@ KEYWORDS="*"
 IUSE="+introspection +vala test"
 REQUIRED_USE="vala? ( introspection )"
 
+RESTRICT="!test? ( test )"
+
 # Unsure about osinfo-db-tools rdep, but at least fedora does it too
 RDEPEND="
 	>=dev-libs/glib-2.38.0:2

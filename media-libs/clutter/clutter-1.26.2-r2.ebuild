@@ -18,6 +18,8 @@ REQUIRED_USE="
 	wayland? ( egl )
 "
 
+RESTRICT="!test? ( test )"
+
 # NOTE: glx flavour uses libdrm + >=mesa-7.3
 # >=libX11-1.3.1 needed for X Generic Event support
 # do not depend on tslib, it does not build and is disabled by default upstream

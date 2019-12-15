@@ -16,6 +16,8 @@ KEYWORDS="~*"
 
 IUSE="berkdb doc examples glib introspection static-libs test"
 
+RESTRICT="!test? ( test )"
+
 COMMON_DEPEND="
 	dev-libs/icu:=
 	berkdb? ( sys-libs/db:= )

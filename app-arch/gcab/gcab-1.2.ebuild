@@ -14,6 +14,8 @@ KEYWORDS="*"
 
 IUSE="doc +introspection test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=dev-libs/glib-2.44:2
 	sys-libs/zlib
