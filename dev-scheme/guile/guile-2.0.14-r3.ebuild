@@ -31,7 +31,7 @@ DEPEND="
 	${RDEPEND}
 	virtual/pkgconfig
 	doc? ( sys-apps/texinfo )
-	emacs? ( virtual/emacs )
+	emacs? ( >=app-editors/emacs-23.1:* )
 	sys-devel/gettext
 "
 

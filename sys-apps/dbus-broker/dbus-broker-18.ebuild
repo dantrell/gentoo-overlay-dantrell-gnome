@@ -54,7 +54,7 @@ BDEPEND="
 src_prepare() {
 	# From GNOME Without Systemd:
 	# 	https://forums.gentoo.org/viewtopic-p-8267112.html#8267112
-	eapply "${FILESDIR}"/${PN}-15-support-elogind.patch
+	eapply "${FILESDIR}"/${PN}-18-support-elogind.patch
 
 	rmdir subprojects/c-{dvar,ini,list,rbtree,shquote,sundry,utf8} || die
 	mv "${WORKDIR}/c-dvar-${dvar}" subprojects/c-dvar || die

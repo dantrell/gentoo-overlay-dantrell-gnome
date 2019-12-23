@@ -1,0 +1,11 @@
+diff '--exclude=.git' -urN a/samples/powerbtn/powerbtn.sh b/samples/powerbtn/powerbtn.sh
+--- a/samples/powerbtn/powerbtn.sh	2019-12-22 01:03:09.008793563 -0600
++++ b/samples/powerbtn/powerbtn.sh	2019-12-22 01:04:33.516334579 -0600
+@@ -55,6 +55,7 @@
+ PMS="$PMS cinnamon-settings-daemon"
+ PMS="$PMS dalston-power-applet"
+ PMS="$PMS gnome-settings-daemon"
++PMS="$PMS gsd-power"
+ PMS="$PMS guidance-power-manager.py"
+ PMS="$PMS kpowersave"
+ PMS="$PMS mate-power-manager"

@@ -27,7 +27,7 @@ RDEPEND="
 	app-text/docbook-xsl-stylesheets
 	~app-text/docbook-sgml-dtd-3.0
 	>=app-text/docbook-dsssl-stylesheets-1.40
-	emacs? ( virtual/emacs )
+	emacs? ( >=app-editors/emacs-23.1:* )
 	highlight? (
 		vim? ( || ( app-editors/vim app-editors/gvim ) )
 		!vim? ( dev-util/source-highlight )
