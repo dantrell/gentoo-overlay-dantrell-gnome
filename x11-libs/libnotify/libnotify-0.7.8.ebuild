@@ -11,7 +11,7 @@ LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="+introspection test"
+IUSE="gtk-doc +introspection test"
 
 RESTRICT="!test? ( test )"
 
@@ -25,6 +25,8 @@ DEPEND="${RDEPEND}"
 BDEPEND="
 	>=dev-libs/gobject-introspection-common-1.32
 	virtual/pkgconfig
+	gtk-doc? ( dev-util/gtk-doc
+		app-text/docbook-xml-dtd:4.1.2 )
 	test? ( x11-libs/gtk+:3[${MULTILIB_USEDEP}] )
 "
 PDEPEND="virtual/notification-daemon"
@@ -38,7 +40,7 @@ multilib_src_configure() {
 	local emesonargs=(
 		-Dtests="$(usex test true false)"
 		-Dintrospection="$(multilib_native_usex introspection enabled disabled)"
-		-Dgtk_doc=false
+		-Dgtk_doc=$(multilib_native_usex gtk-doc true false)
 		-Ddocbook_docs=disabled
 	)
 	meson_src_configure

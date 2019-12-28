@@ -1,0 +1,59 @@
+From 379669b153595fd1a33b200f6b08e7d5ba0407f4 Mon Sep 17 00:00:00 2001
+From: Alexander Mikhaylenko <alexm@gnome.org>
+Date: Mon, 2 Dec 2019 21:54:37 +0500
+Subject: [PATCH 06/25] Adwaita: use transparent borders for popovers
+
+Do the same thing as menus and windows do already.
+---
+ gtk/theme/Adwaita/_common.scss           | 7 +++++++
+ gtk/theme/Adwaita/gtk-contained-dark.css | 2 ++
+ gtk/theme/Adwaita/gtk-contained.css      | 2 ++
+ 3 files changed, 11 insertions(+)
+
+diff --git a/gtk/theme/Adwaita/_common.scss b/gtk/theme/Adwaita/_common.scss
+index 27cc656bb7..dbeb5c31ed 100644
+--- a/gtk/theme/Adwaita/_common.scss
++++ b/gtk/theme/Adwaita/_common.scss
+@@ -2282,6 +2282,13 @@ popover.background {
+     border-radius: $popover_radius;
+   }
+ 
++  .csd & {
++    $_popover_border: if($variant=='light', transparentize(black, 0.77), transparentize($borders_color, 0.1));
++
++    background-clip: padding-box;
++    border-color: $_popover_border;
++  }
++
+   box-shadow: 0 1px 2px transparentize(black, 0.7);
+ 
+   &:backdrop {
+diff --git a/gtk/theme/Adwaita/gtk-contained-dark.css b/gtk/theme/Adwaita/gtk-contained-dark.css
+index 2d5f375da2..1a18c84305 100644
+--- a/gtk/theme/Adwaita/gtk-contained-dark.css
++++ b/gtk/theme/Adwaita/gtk-contained-dark.css
+@@ -795,6 +795,8 @@ popover.background { padding: 2px; background-color: #353535; box-shadow: 0 1px
+ 
+ .csd popover.background, popover.background { border: 1px solid #1b1b1b; border-radius: 9px; }
+ 
++.csd popover.background { background-clip: padding-box; border-color: rgba(27, 27, 27, 0.9); }
++
+ popover.background:backdrop { background-color: #353535; box-shadow: none; }
+ 
+ popover.background > list, popover.background > .view, popover.background > iconview, popover.background > toolbar { border-style: none; background-color: transparent; }
+diff --git a/gtk/theme/Adwaita/gtk-contained.css b/gtk/theme/Adwaita/gtk-contained.css
+index 69d0992884..91ddb93660 100644
+--- a/gtk/theme/Adwaita/gtk-contained.css
++++ b/gtk/theme/Adwaita/gtk-contained.css
+@@ -803,6 +803,8 @@ popover.background { padding: 2px; background-color: #f6f5f4; box-shadow: 0 1px
+ 
+ .csd popover.background, popover.background { border: 1px solid #cdc7c2; border-radius: 9px; }
+ 
++.csd popover.background { background-clip: padding-box; border-color: rgba(0, 0, 0, 0.23); }
++
+ popover.background:backdrop { background-color: #f6f5f4; box-shadow: none; }
+ 
+ popover.background > list, popover.background > .view, popover.background > iconview, popover.background > toolbar { border-style: none; background-color: transparent; }
+-- 
+2.20.1
+

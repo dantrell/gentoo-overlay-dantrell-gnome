@@ -1,0 +1,40 @@
+From 2fc60a1e3f271282330cab3871e71a8dabc23336 Mon Sep 17 00:00:00 2001
+From: Mohammed Sadiq <sadiq@sadiqpk.org>
+Date: Fri, 6 Dec 2019 19:22:11 +0530
+Subject: [PATCH 08/25] switch: Fix toggling switch on touch devices
+
+priv->is_switch is used to get hint if the gesture happened
+on the switch. On touch devices, ::enter-notify-event may
+not be emitted, and so priv->is_switch may not be set.
+
+Let it be set when ::pressed gesture is emitted so that
+the switch is toggled when the gesture occurs regardless
+of whether a pointing device is present or not.
+---
+ gtk/gtkswitch.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/gtk/gtkswitch.c b/gtk/gtkswitch.c
+index 829bbb38e4..002968e14e 100644
+--- a/gtk/gtkswitch.c
++++ b/gtk/gtkswitch.c
+@@ -208,6 +208,7 @@ gtk_switch_multipress_gesture_pressed (GtkGestureMultiPress *gesture,
+ 
+   gtk_widget_get_allocation (GTK_WIDGET (sw), &allocation);
+   gtk_gesture_set_state (GTK_GESTURE (gesture), GTK_EVENT_SEQUENCE_CLAIMED);
++  priv->in_switch = TRUE;
+ 
+   /* If the press didn't happen in the draggable handle,
+    * cancel the pan gesture right away
+@@ -232,6 +233,8 @@ gtk_switch_multipress_gesture_released (GtkGestureMultiPress *gesture,
+   if (priv->in_switch &&
+       gtk_gesture_handles_sequence (GTK_GESTURE (gesture), sequence))
+     gtk_switch_begin_toggle_animation (sw);
++
++  priv->in_switch = FALSE;
+ }
+ 
+ static void
+-- 
+2.20.1
+

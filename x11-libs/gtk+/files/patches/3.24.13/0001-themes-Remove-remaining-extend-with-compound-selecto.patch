@@ -1,0 +1,246 @@
+From f7d57cc1eb1a6e290cc3242ad7592698dac7d584 Mon Sep 17 00:00:00 2001
+From: nana-4 <hnmaigo@gmail.com>
+Date: Thu, 28 Nov 2019 22:21:23 +0900
+Subject: [PATCH 01/25] themes: Remove remaining @extend with compound
+ selectors
+
+This removes the remaining cases in 6f6070b5 by replacing them with a
+simple placeholder selector.
+
+`%button.flat.suggested-action` has been replaced by
+`%selection_mode_button_flat`, because it's difficult to replace the
+compound selector with a simple placeholder selector, and it doesn't
+seem like a proper selector for `.selection-mode button.titlebutton` to
+inherit.
+
+The CSSs were generated with libsass 3.5.5 to minimize the git diff, but
+I've confirmed that no warning happned with libsass 3.6.3 anymore.
+
+See https://gitlab.gnome.org/GNOME/gtk/issues/2237
+---
+ gtk/theme/Adwaita/_common.scss           | 18 ++++++++++++------
+ gtk/theme/Adwaita/gtk-contained-dark.css | 24 ++++++++++++------------
+ gtk/theme/Adwaita/gtk-contained.css      | 24 ++++++++++++------------
+ gtk/theme/HighContrast/_common.scss      | 14 +++++++++-----
+ 4 files changed, 45 insertions(+), 35 deletions(-)
+
+diff --git a/gtk/theme/Adwaita/_common.scss b/gtk/theme/Adwaita/_common.scss
+index c07c1a4454..6b58b85a74 100644
+--- a/gtk/theme/Adwaita/_common.scss
++++ b/gtk/theme/Adwaita/_common.scss
+@@ -632,12 +632,16 @@ button {
+   @at-root %button_selected, & {
+     row:selected & {
+       @if $variant == 'light' { border-color: $selected_borders_color; }
++    }
+ 
+-      &.flat:not(:active):not(:checked):not(:hover):not(disabled) {
+-        color: $selected_fg_color;
+-        border-color: transparent;
++    @at-root %button_selected_flat, &.flat {
++      row:selected & {
++        &:not(:active):not(:checked):not(:hover):not(disabled) {
++          color: $selected_fg_color;
++          border-color: transparent;
+ 
+-        &:backdrop { color: if($variant=='light', $backdrop_base_color, $backdrop_fg_color); }
++          &:backdrop { color: if($variant=='light', $backdrop_base_color, $backdrop_fg_color); }
++        }
+       }
+     }
+   }
+@@ -1595,6 +1599,7 @@ headerbar {
+     button {
+       @include button(normal, $suggested_bg_color, $selected_fg_color);
+ 
++      @at-root %selection_mode_button_flat,
+       &.flat { @include button(undecorated); }
+ 
+       &:hover { @include button(hover, $suggested_bg_color, $selected_fg_color); }
+@@ -1632,6 +1637,7 @@ headerbar {
+         }
+       }
+ 
++      @at-root %selection_mode_button_flat,
+       &.flat { &:backdrop, &:disabled, &:backdrop:disabled { @include button(undecorated); }}
+ 
+       &:disabled {
+@@ -4083,7 +4089,7 @@ placessidebar {
+     @at-root button.sidebar-button {
+       @extend %button_basic_flat;
+ 
+-      @extend %button_selected.flat;
++      @extend %button_selected_flat;
+ 
+       min-height: 26px;
+       min-width: 26px;
+@@ -4571,7 +4577,7 @@ button.titlebutton {
+   }
+ 
+   .selection-mode & {
+-    @extend %button.flat.suggested-action;
++    @extend %selection_mode_button_flat;
+ 
+     @extend %nobg_selected_items;
+   }
+diff --git a/gtk/theme/Adwaita/gtk-contained-dark.css b/gtk/theme/Adwaita/gtk-contained-dark.css
+index 870dfa0d15..62a05379d2 100644
+--- a/gtk/theme/Adwaita/gtk-contained-dark.css
++++ b/gtk/theme/Adwaita/gtk-contained-dark.css
+@@ -273,29 +273,29 @@ popover.background.touch-selection button.flat:active, popover.background.magnif
+ 
+ button.suggested-action { color: white; outline-color: rgba(255, 255, 255, 0.3); border-color: #0f3b71; border-bottom-color: #092444; background-image: linear-gradient(to top, #155099 2px, #15539e); text-shadow: 0 -1px rgba(0, 0, 0, 0.719216); -gtk-icon-shadow: 0 -1px rgba(0, 0, 0, 0.719216); box-shadow: inset 0 1px rgba(255, 255, 255, 0.02), 0 1px 2px rgba(0, 0, 0, 0.07); }
+ 
+-.selection-mode button.titlebutton, button.suggested-action.flat { border-color: transparent; background-color: transparent; background-image: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); text-shadow: none; -gtk-icon-shadow: none; color: #15539e; }
++button.suggested-action.flat { border-color: transparent; background-color: transparent; background-image: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); text-shadow: none; -gtk-icon-shadow: none; color: #15539e; }
+ 
+ button.suggested-action:hover { color: white; outline-color: rgba(255, 255, 255, 0.3); border-color: #0f3b71; border-bottom-color: #092444; text-shadow: 0 -1px rgba(0, 0, 0, 0.671216); -gtk-icon-shadow: 0 -1px rgba(0, 0, 0, 0.671216); box-shadow: inset 0 1px rgba(255, 255, 255, 0.02), 0 1px 2px rgba(0, 0, 0, 0.07); background-image: linear-gradient(to top, #155099, #1655a2 1px); }
+ 
+ button.suggested-action:active, button.suggested-action:checked { color: white; outline-color: rgba(255, 255, 255, 0.3); border-color: #0f3b71; background-image: image(#103e75); box-shadow: inset 0 1px rgba(255, 255, 255, 0); text-shadow: none; -gtk-icon-shadow: none; }
+ 
+-.selection-mode button.titlebutton:backdrop, button.suggested-action:backdrop, button.suggested-action.flat:backdrop { border-color: #0f3b71; background-image: image(#15539e); text-shadow: none; -gtk-icon-shadow: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
++button.suggested-action:backdrop, button.suggested-action.flat:backdrop { border-color: #0f3b71; background-image: image(#15539e); text-shadow: none; -gtk-icon-shadow: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
+ 
+-.selection-mode button.titlebutton:backdrop label, .selection-mode button.titlebutton:backdrop, button.suggested-action:backdrop label, button.suggested-action:backdrop, button.suggested-action.flat:backdrop label, button.suggested-action.flat:backdrop { color: #d0ddec; }
++button.suggested-action:backdrop label, button.suggested-action:backdrop, button.suggested-action.flat:backdrop label, button.suggested-action.flat:backdrop { color: #d0ddec; }
+ 
+-.selection-mode button.titlebutton:backdrop:active, .selection-mode button.titlebutton:backdrop:checked, button.suggested-action:backdrop:active, button.suggested-action:backdrop:checked, button.suggested-action.flat:backdrop:active, button.suggested-action.flat:backdrop:checked { border-color: #0f3b71; background-image: image(#16447c); box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
++button.suggested-action:backdrop:active, button.suggested-action:backdrop:checked, button.suggested-action.flat:backdrop:active, button.suggested-action.flat:backdrop:checked { border-color: #0f3b71; background-image: image(#16447c); box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
+ 
+-.selection-mode button.titlebutton:backdrop:active label, .selection-mode button.titlebutton:backdrop:active, .selection-mode button.titlebutton:backdrop:checked label, .selection-mode button.titlebutton:backdrop:checked, button.suggested-action:backdrop:active label, button.suggested-action:backdrop:active, button.suggested-action:backdrop:checked label, button.suggested-action:backdrop:checked, button.suggested-action.flat:backdrop:active label, button.suggested-action.flat:backdrop:active, button.suggested-action.flat:backdrop:checked label, button.suggested-action.flat:backdrop:checked { color: #d0dae5; }
++button.suggested-action:backdrop:active label, button.suggested-action:backdrop:active, button.suggested-action:backdrop:checked label, button.suggested-action:backdrop:checked, button.suggested-action.flat:backdrop:active label, button.suggested-action.flat:backdrop:active, button.suggested-action.flat:backdrop:checked label, button.suggested-action.flat:backdrop:checked { color: #d0dae5; }
+ 
+-.selection-mode button.titlebutton:backdrop:disabled, button.suggested-action:backdrop:disabled, button.suggested-action.flat:backdrop:disabled { border-color: #202020; background-image: image(#323232); text-shadow: none; -gtk-icon-shadow: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
++button.suggested-action:backdrop:disabled, button.suggested-action.flat:backdrop:disabled { border-color: #202020; background-image: image(#323232); text-shadow: none; -gtk-icon-shadow: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
+ 
+-.selection-mode button.titlebutton:backdrop:disabled label, .selection-mode button.titlebutton:backdrop:disabled, button.suggested-action:backdrop:disabled label, button.suggested-action:backdrop:disabled, button.suggested-action.flat:backdrop:disabled label, button.suggested-action.flat:backdrop:disabled { color: #5b5b5b; }
++button.suggested-action:backdrop:disabled label, button.suggested-action:backdrop:disabled, button.suggested-action.flat:backdrop:disabled label, button.suggested-action.flat:backdrop:disabled { color: #5b5b5b; }
+ 
+-.selection-mode button.titlebutton:backdrop:disabled:active, .selection-mode button.titlebutton:backdrop:disabled:checked, button.suggested-action:backdrop:disabled:active, button.suggested-action:backdrop:disabled:checked, button.suggested-action.flat:backdrop:disabled:active, button.suggested-action.flat:backdrop:disabled:checked { border-color: #0f3b71; background-image: image(#16447c); box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
++button.suggested-action:backdrop:disabled:active, button.suggested-action:backdrop:disabled:checked, button.suggested-action.flat:backdrop:disabled:active, button.suggested-action.flat:backdrop:disabled:checked { border-color: #0f3b71; background-image: image(#16447c); box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
+ 
+-.selection-mode button.titlebutton:backdrop:disabled:active label, .selection-mode button.titlebutton:backdrop:disabled:checked label, button.suggested-action:backdrop:disabled:active label, button.suggested-action:backdrop:disabled:checked label, button.suggested-action.flat:backdrop:disabled:active label, button.suggested-action.flat:backdrop:disabled:checked label { color: #6885aa; }
++button.suggested-action:backdrop:disabled:active label, button.suggested-action:backdrop:disabled:checked label, button.suggested-action.flat:backdrop:disabled:active label, button.suggested-action.flat:backdrop:disabled:checked label { color: #6885aa; }
+ 
+-.selection-mode button.titlebutton:backdrop, .selection-mode button.titlebutton:disabled, .selection-mode button.titlebutton:backdrop:disabled, button.suggested-action.flat:backdrop, button.suggested-action.flat:disabled, button.suggested-action.flat:backdrop:disabled { border-color: transparent; background-color: transparent; background-image: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); text-shadow: none; -gtk-icon-shadow: none; color: rgba(21, 83, 158, 0.8); }
++button.suggested-action.flat:backdrop, button.suggested-action.flat:disabled, button.suggested-action.flat:backdrop:disabled { border-color: transparent; background-color: transparent; background-image: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); text-shadow: none; -gtk-icon-shadow: none; color: rgba(21, 83, 158, 0.8); }
+ 
+ button.suggested-action:disabled { border-color: #1b1b1b; background-image: image(#323232); text-shadow: none; -gtk-icon-shadow: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
+ 
+@@ -617,7 +617,7 @@ searchbar > revealer > box { margin: -6px; padding: 6px; }
+ 
+ .selection-mode .titlebar:not(headerbar) button, .selection-mode.titlebar:not(headerbar) button, .selection-mode headerbar button, headerbar.selection-mode button { color: #ffffff; outline-color: rgba(255, 255, 255, 0.3); border-color: #0f3b71; border-bottom-color: #092444; background-image: linear-gradient(to top, #155099 2px, #15539e); text-shadow: 0 -1px rgba(0, 0, 0, 0.719216); -gtk-icon-shadow: 0 -1px rgba(0, 0, 0, 0.719216); box-shadow: inset 0 1px rgba(255, 255, 255, 0.02), 0 1px 2px rgba(0, 0, 0, 0.07); }
+ 
+-.selection-mode .titlebar:not(headerbar) button.flat, .selection-mode.titlebar:not(headerbar) button.flat, .selection-mode headerbar button.flat, headerbar.selection-mode button.flat { border-color: transparent; background-color: transparent; background-image: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); text-shadow: none; -gtk-icon-shadow: none; }
++.selection-mode button.titlebutton, .selection-mode .titlebar:not(headerbar) button.flat, .selection-mode.titlebar:not(headerbar) button.flat, .selection-mode headerbar button.flat, headerbar.selection-mode button.flat { border-color: transparent; background-color: transparent; background-image: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); text-shadow: none; -gtk-icon-shadow: none; }
+ 
+ .selection-mode .titlebar:not(headerbar) button:hover, .selection-mode.titlebar:not(headerbar) button:hover, .selection-mode headerbar button:hover, headerbar.selection-mode button:hover { color: #ffffff; outline-color: rgba(255, 255, 255, 0.3); border-color: #0f3b71; border-bottom-color: #092444; text-shadow: 0 -1px rgba(0, 0, 0, 0.671216); -gtk-icon-shadow: 0 -1px rgba(0, 0, 0, 0.671216); box-shadow: inset 0 1px rgba(255, 255, 255, 0.02), 0 1px 2px rgba(0, 0, 0, 0.07); background-image: linear-gradient(to top, #155099, #1655a2 1px); }
+ 
+@@ -639,7 +639,7 @@ searchbar > revealer > box { margin: -6px; padding: 6px; }
+ 
+ .selection-mode .titlebar:not(headerbar) button:backdrop.flat:disabled:active label, .selection-mode .titlebar:not(headerbar) button:backdrop.flat:disabled:checked label, .selection-mode .titlebar:not(headerbar) button:backdrop:disabled:active label, .selection-mode .titlebar:not(headerbar) button:backdrop:disabled:checked label, .selection-mode.titlebar:not(headerbar) button:backdrop.flat:disabled:active label, .selection-mode.titlebar:not(headerbar) button:backdrop.flat:disabled:checked label, .selection-mode.titlebar:not(headerbar) button:backdrop:disabled:active label, .selection-mode.titlebar:not(headerbar) button:backdrop:disabled:checked label, .selection-mode headerbar button:backdrop.flat:disabled:active label, .selection-mode headerbar button:backdrop.flat:disabled:checked label, .selection-mode headerbar button:backdrop:disabled:active label, .selection-mode headerbar button:backdrop:disabled:checked label, headerbar.selection-mode button:backdrop.flat:disabled:active label, headerbar.selection-mode button:backdrop.flat:disabled:checked label, headerbar.selection-mode button:backdrop:disabled:active label, headerbar.selection-mode button:backdrop:disabled:checked label { color: #6885aa; }
+ 
+-.selection-mode .titlebar:not(headerbar) button.flat:backdrop, .selection-mode .titlebar:not(headerbar) button.flat:disabled, .selection-mode .titlebar:not(headerbar) button.flat:backdrop:disabled, .selection-mode.titlebar:not(headerbar) button.flat:backdrop, .selection-mode.titlebar:not(headerbar) button.flat:disabled, .selection-mode.titlebar:not(headerbar) button.flat:backdrop:disabled, .selection-mode headerbar button.flat:backdrop, .selection-mode headerbar button.flat:disabled, .selection-mode headerbar button.flat:backdrop:disabled, headerbar.selection-mode button.flat:backdrop, headerbar.selection-mode button.flat:disabled, headerbar.selection-mode button.flat:backdrop:disabled { border-color: transparent; background-color: transparent; background-image: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); text-shadow: none; -gtk-icon-shadow: none; }
++.selection-mode button.titlebutton:backdrop, .selection-mode button.titlebutton:disabled, .selection-mode button.titlebutton:backdrop:disabled, .selection-mode .titlebar:not(headerbar) button.flat:backdrop, .selection-mode .titlebar:not(headerbar) button.flat:disabled, .selection-mode .titlebar:not(headerbar) button.flat:backdrop:disabled, .selection-mode.titlebar:not(headerbar) button.flat:backdrop, .selection-mode.titlebar:not(headerbar) button.flat:disabled, .selection-mode.titlebar:not(headerbar) button.flat:backdrop:disabled, .selection-mode headerbar button.flat:backdrop, .selection-mode headerbar button.flat:disabled, .selection-mode headerbar button.flat:backdrop:disabled, headerbar.selection-mode button.flat:backdrop, headerbar.selection-mode button.flat:disabled, headerbar.selection-mode button.flat:backdrop:disabled { border-color: transparent; background-color: transparent; background-image: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); text-shadow: none; -gtk-icon-shadow: none; }
+ 
+ .selection-mode .titlebar:not(headerbar) button:disabled, .selection-mode.titlebar:not(headerbar) button:disabled, .selection-mode headerbar button:disabled, headerbar.selection-mode button:disabled { border-color: #0f3b71; background-image: image(#194d8d); text-shadow: none; -gtk-icon-shadow: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
+ 
+diff --git a/gtk/theme/Adwaita/gtk-contained.css b/gtk/theme/Adwaita/gtk-contained.css
+index 9618d53ba7..3abdaa8b83 100644
+--- a/gtk/theme/Adwaita/gtk-contained.css
++++ b/gtk/theme/Adwaita/gtk-contained.css
+@@ -275,29 +275,29 @@ popover.background.touch-selection button.flat:active, popover.background.magnif
+ 
+ button.suggested-action { color: white; outline-color: rgba(255, 255, 255, 0.3); border-color: #1b6acb; border-bottom-color: #15539e; background-image: linear-gradient(to top, #2379e2 2px, #3584e4); text-shadow: 0 -1px rgba(0, 0, 0, 0.559216); -gtk-icon-shadow: 0 -1px rgba(0, 0, 0, 0.559216); box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.07); }
+ 
+-.selection-mode button.titlebutton, button.suggested-action.flat { border-color: transparent; background-color: transparent; background-image: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); text-shadow: none; -gtk-icon-shadow: none; color: #3584e4; }
++button.suggested-action.flat { border-color: transparent; background-color: transparent; background-image: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); text-shadow: none; -gtk-icon-shadow: none; color: #3584e4; }
+ 
+ button.suggested-action:hover { color: white; outline-color: rgba(255, 255, 255, 0.3); border-color: #1b6acb; border-bottom-color: #15539e; text-shadow: 0 -1px rgba(0, 0, 0, 0.511216); -gtk-icon-shadow: 0 -1px rgba(0, 0, 0, 0.511216); box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.07); background-image: linear-gradient(to top, #3584e4, #3987e5 1px); }
+ 
+ button.suggested-action:active, button.suggested-action:checked { color: white; outline-color: rgba(255, 255, 255, 0.3); border-color: #1b6acb; background-image: image(#1961b9); box-shadow: inset 0 1px rgba(255, 255, 255, 0); text-shadow: none; -gtk-icon-shadow: none; }
+ 
+-.selection-mode button.titlebutton:backdrop, button.suggested-action:backdrop, button.suggested-action.flat:backdrop { border-color: #3584e4; background-image: image(#3584e4); text-shadow: none; -gtk-icon-shadow: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
++button.suggested-action:backdrop, button.suggested-action.flat:backdrop { border-color: #3584e4; background-image: image(#3584e4); text-shadow: none; -gtk-icon-shadow: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
+ 
+-.selection-mode button.titlebutton:backdrop label, .selection-mode button.titlebutton:backdrop, button.suggested-action:backdrop label, button.suggested-action:backdrop, button.suggested-action.flat:backdrop label, button.suggested-action.flat:backdrop { color: #d7e6fa; }
++button.suggested-action:backdrop label, button.suggested-action:backdrop, button.suggested-action.flat:backdrop label, button.suggested-action.flat:backdrop { color: #d7e6fa; }
+ 
+-.selection-mode button.titlebutton:backdrop:active, .selection-mode button.titlebutton:backdrop:checked, button.suggested-action:backdrop:active, button.suggested-action:backdrop:checked, button.suggested-action.flat:backdrop:active, button.suggested-action.flat:backdrop:checked { border-color: #2f80e3; background-image: image(#2f80e3); box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
++button.suggested-action:backdrop:active, button.suggested-action:backdrop:checked, button.suggested-action.flat:backdrop:active, button.suggested-action.flat:backdrop:checked { border-color: #2f80e3; background-image: image(#2f80e3); box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
+ 
+-.selection-mode button.titlebutton:backdrop:active label, .selection-mode button.titlebutton:backdrop:active, .selection-mode button.titlebutton:backdrop:checked label, .selection-mode button.titlebutton:backdrop:checked, button.suggested-action:backdrop:active label, button.suggested-action:backdrop:active, button.suggested-action:backdrop:checked label, button.suggested-action:backdrop:checked, button.suggested-action.flat:backdrop:active label, button.suggested-action.flat:backdrop:active, button.suggested-action.flat:backdrop:checked label, button.suggested-action.flat:backdrop:checked { color: #d5e6f9; }
++button.suggested-action:backdrop:active label, button.suggested-action:backdrop:active, button.suggested-action:backdrop:checked label, button.suggested-action:backdrop:checked, button.suggested-action.flat:backdrop:active label, button.suggested-action.flat:backdrop:active, button.suggested-action.flat:backdrop:checked label, button.suggested-action.flat:backdrop:checked { color: #d5e6f9; }
+ 
+-.selection-mode button.titlebutton:backdrop:disabled, button.suggested-action:backdrop:disabled, button.suggested-action.flat:backdrop:disabled { border-color: #d5d0cc; background-image: image(#faf9f8); text-shadow: none; -gtk-icon-shadow: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
++button.suggested-action:backdrop:disabled, button.suggested-action.flat:backdrop:disabled { border-color: #d5d0cc; background-image: image(#faf9f8); text-shadow: none; -gtk-icon-shadow: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
+ 
+-.selection-mode button.titlebutton:backdrop:disabled label, .selection-mode button.titlebutton:backdrop:disabled, button.suggested-action:backdrop:disabled label, button.suggested-action:backdrop:disabled, button.suggested-action.flat:backdrop:disabled label, button.suggested-action.flat:backdrop:disabled { color: #d4cfca; }
++button.suggested-action:backdrop:disabled label, button.suggested-action:backdrop:disabled, button.suggested-action.flat:backdrop:disabled label, button.suggested-action.flat:backdrop:disabled { color: #d4cfca; }
+ 
+-.selection-mode button.titlebutton:backdrop:disabled:active, .selection-mode button.titlebutton:backdrop:disabled:checked, button.suggested-action:backdrop:disabled:active, button.suggested-action:backdrop:disabled:checked, button.suggested-action.flat:backdrop:disabled:active, button.suggested-action.flat:backdrop:disabled:checked { border-color: #2f80e3; background-image: image(#2f80e3); box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
++button.suggested-action:backdrop:disabled:active, button.suggested-action:backdrop:disabled:checked, button.suggested-action.flat:backdrop:disabled:active, button.suggested-action.flat:backdrop:disabled:checked { border-color: #2f80e3; background-image: image(#2f80e3); box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
+ 
+-.selection-mode button.titlebutton:backdrop:disabled:active label, .selection-mode button.titlebutton:backdrop:disabled:checked label, button.suggested-action:backdrop:disabled:active label, button.suggested-action:backdrop:disabled:checked label, button.suggested-action.flat:backdrop:disabled:active label, button.suggested-action.flat:backdrop:disabled:checked label { color: #78aced; }
++button.suggested-action:backdrop:disabled:active label, button.suggested-action:backdrop:disabled:checked label, button.suggested-action.flat:backdrop:disabled:active label, button.suggested-action.flat:backdrop:disabled:checked label { color: #78aced; }
+ 
+-.selection-mode button.titlebutton:backdrop, .selection-mode button.titlebutton:disabled, .selection-mode button.titlebutton:backdrop:disabled, button.suggested-action.flat:backdrop, button.suggested-action.flat:disabled, button.suggested-action.flat:backdrop:disabled { border-color: transparent; background-color: transparent; background-image: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); text-shadow: none; -gtk-icon-shadow: none; color: rgba(53, 132, 228, 0.8); }
++button.suggested-action.flat:backdrop, button.suggested-action.flat:disabled, button.suggested-action.flat:backdrop:disabled { border-color: transparent; background-color: transparent; background-image: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); text-shadow: none; -gtk-icon-shadow: none; color: rgba(53, 132, 228, 0.8); }
+ 
+ button.suggested-action:disabled { border-color: #cdc7c2; background-image: image(#faf9f8); text-shadow: none; -gtk-icon-shadow: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
+ 
+@@ -625,7 +625,7 @@ searchbar > revealer > box { margin: -6px; padding: 6px; }
+ 
+ .selection-mode .titlebar:not(headerbar) button, .selection-mode.titlebar:not(headerbar) button, .selection-mode headerbar button, headerbar.selection-mode button { color: #ffffff; outline-color: rgba(255, 255, 255, 0.3); border-color: #1b6acb; border-bottom-color: #15539e; background-image: linear-gradient(to top, #2379e2 2px, #3584e4); text-shadow: 0 -1px rgba(0, 0, 0, 0.559216); -gtk-icon-shadow: 0 -1px rgba(0, 0, 0, 0.559216); box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.07); }
+ 
+-.selection-mode .titlebar:not(headerbar) button.flat, .selection-mode.titlebar:not(headerbar) button.flat, .selection-mode headerbar button.flat, headerbar.selection-mode button.flat { border-color: transparent; background-color: transparent; background-image: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); text-shadow: none; -gtk-icon-shadow: none; }
++.selection-mode button.titlebutton, .selection-mode .titlebar:not(headerbar) button.flat, .selection-mode.titlebar:not(headerbar) button.flat, .selection-mode headerbar button.flat, headerbar.selection-mode button.flat { border-color: transparent; background-color: transparent; background-image: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); text-shadow: none; -gtk-icon-shadow: none; }
+ 
+ .selection-mode .titlebar:not(headerbar) button:hover, .selection-mode.titlebar:not(headerbar) button:hover, .selection-mode headerbar button:hover, headerbar.selection-mode button:hover { color: #ffffff; outline-color: rgba(255, 255, 255, 0.3); border-color: #1b6acb; border-bottom-color: #15539e; text-shadow: 0 -1px rgba(0, 0, 0, 0.511216); -gtk-icon-shadow: 0 -1px rgba(0, 0, 0, 0.511216); box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.07); background-image: linear-gradient(to top, #3584e4, #3987e5 1px); }
+ 
+@@ -647,7 +647,7 @@ searchbar > revealer > box { margin: -6px; padding: 6px; }
+ 
+ .selection-mode .titlebar:not(headerbar) button:backdrop.flat:disabled:active label, .selection-mode .titlebar:not(headerbar) button:backdrop.flat:disabled:checked label, .selection-mode .titlebar:not(headerbar) button:backdrop:disabled:active label, .selection-mode .titlebar:not(headerbar) button:backdrop:disabled:checked label, .selection-mode.titlebar:not(headerbar) button:backdrop.flat:disabled:active label, .selection-mode.titlebar:not(headerbar) button:backdrop.flat:disabled:checked label, .selection-mode.titlebar:not(headerbar) button:backdrop:disabled:active label, .selection-mode.titlebar:not(headerbar) button:backdrop:disabled:checked label, .selection-mode headerbar button:backdrop.flat:disabled:active label, .selection-mode headerbar button:backdrop.flat:disabled:checked label, .selection-mode headerbar button:backdrop:disabled:active label, .selection-mode headerbar button:backdrop:disabled:checked label, headerbar.selection-mode button:backdrop.flat:disabled:active label, headerbar.selection-mode button:backdrop.flat:disabled:checked label, headerbar.selection-mode button:backdrop:disabled:active label, headerbar.selection-mode button:backdrop:disabled:checked label { color: #78aced; }
+ 
+-.selection-mode .titlebar:not(headerbar) button.flat:backdrop, .selection-mode .titlebar:not(headerbar) button.flat:disabled, .selection-mode .titlebar:not(headerbar) button.flat:backdrop:disabled, .selection-mode.titlebar:not(headerbar) button.flat:backdrop, .selection-mode.titlebar:not(headerbar) button.flat:disabled, .selection-mode.titlebar:not(headerbar) button.flat:backdrop:disabled, .selection-mode headerbar button.flat:backdrop, .selection-mode headerbar button.flat:disabled, .selection-mode headerbar button.flat:backdrop:disabled, headerbar.selection-mode button.flat:backdrop, headerbar.selection-mode button.flat:disabled, headerbar.selection-mode button.flat:backdrop:disabled { border-color: transparent; background-color: transparent; background-image: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); text-shadow: none; -gtk-icon-shadow: none; }
++.selection-mode button.titlebutton:backdrop, .selection-mode button.titlebutton:disabled, .selection-mode button.titlebutton:backdrop:disabled, .selection-mode .titlebar:not(headerbar) button.flat:backdrop, .selection-mode .titlebar:not(headerbar) button.flat:disabled, .selection-mode .titlebar:not(headerbar) button.flat:backdrop:disabled, .selection-mode.titlebar:not(headerbar) button.flat:backdrop, .selection-mode.titlebar:not(headerbar) button.flat:disabled, .selection-mode.titlebar:not(headerbar) button.flat:backdrop:disabled, .selection-mode headerbar button.flat:backdrop, .selection-mode headerbar button.flat:disabled, .selection-mode headerbar button.flat:backdrop:disabled, headerbar.selection-mode button.flat:backdrop, headerbar.selection-mode button.flat:disabled, headerbar.selection-mode button.flat:backdrop:disabled { border-color: transparent; background-color: transparent; background-image: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); text-shadow: none; -gtk-icon-shadow: none; }
+ 
+ .selection-mode .titlebar:not(headerbar) button:disabled, .selection-mode.titlebar:not(headerbar) button:disabled, .selection-mode headerbar button:disabled, headerbar.selection-mode button:disabled { border-color: #1b6acb; background-image: image(#5396e8); text-shadow: none; -gtk-icon-shadow: none; box-shadow: inset 0 1px rgba(255, 255, 255, 0); }
+ 
+diff --git a/gtk/theme/HighContrast/_common.scss b/gtk/theme/HighContrast/_common.scss
+index c403879494..1afa5071b9 100644
+--- a/gtk/theme/HighContrast/_common.scss
++++ b/gtk/theme/HighContrast/_common.scss
+@@ -486,12 +486,16 @@ button {
+   @at-root %button_selected, & {
+     row:selected & {
+       @if $variant == 'light' { border-color: $selected_borders_color; }
++    }
+ 
+-      &.flat:not(:active):not(:checked):not(:hover):not(disabled) {
+-        color: $selected_fg_color;
+-        border-color: transparent;
++    @at-root %button_selected_flat, &.flat {
++      row:selected & {
++        &:not(:active):not(:checked):not(:hover):not(disabled) {
++          color: $selected_fg_color;
++          border-color: transparent;
+ 
+-        &:backdrop { color: if($variant=='light', $backdrop_base_color, $backdrop_fg_color); }
++          &:backdrop { color: if($variant=='light', $backdrop_base_color, $backdrop_fg_color); }
++        }
+       }
+     }
+   }
+@@ -3133,7 +3137,7 @@ placessidebar {
+     @at-root button.sidebar-button {
+       @extend %button_basic_flat;
+ 
+-      @extend %button_selected.flat;
++      @extend %button_selected_flat;
+ 
+       min-height: 26px;
+       min-width: 26px;
+-- 
+2.20.1
+

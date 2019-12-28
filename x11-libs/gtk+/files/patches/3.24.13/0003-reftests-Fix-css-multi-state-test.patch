@@ -1,0 +1,34 @@
+From 25174154b9e255b2585c31e7bbbdc8ead18d5815 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Timm=20B=C3=A4der?= <mail@baedert.org>
+Date: Fri, 29 Nov 2019 11:23:10 +0100
+Subject: [PATCH 03/25] reftests: Fix css-multi-state test
+
+Properly unset theme CSS and use the right selector for the toggle
+buttons.
+---
+ testsuite/reftests/css-multi-state.css | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/testsuite/reftests/css-multi-state.css b/testsuite/reftests/css-multi-state.css
+index cd834ff1ff..50b6a77fd1 100644
+--- a/testsuite/reftests/css-multi-state.css
++++ b/testsuite/reftests/css-multi-state.css
+@@ -1,9 +1,13 @@
+-GtkToggleButton:checked,
++* {
++  all: unset;
++}
++
++button.toggle:checked,
+ #reference:disabled {
+   color: lime;
+ }
+ 
+-GtkToggleButton:checked,
++button.toggle:checked,
+ #reference:checked {
+   color: blue;
+ }
+-- 
+2.20.1
+

@@ -1,0 +1,70 @@
+From dc896f0910c19524b9c6a5df4676dfde1a3df1d3 Mon Sep 17 00:00:00 2001
+From: Yariv Barkan <nushoin@users.noreply.github.com>
+Date: Wed, 18 Dec 2019 23:03:19 +0200
+Subject: [PATCH 20/25] gtkgesturerotate: Fix a memory leak
+
+On touchpads gtk_gesture_get_sequences() was called without a
+corresponding g_list_free(). The same was true for touchscreens
+if due to some reason only a single sequence was found.
+---
+ gtk/gtkgesturerotate.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
+
+diff --git a/gtk/gtkgesturerotate.c b/gtk/gtkgesturerotate.c
+index 88f27a8526..aba08e8c99 100644
+--- a/gtk/gtkgesturerotate.c
++++ b/gtk/gtkgesturerotate.c
+@@ -82,20 +82,20 @@ _gtk_gesture_rotate_get_angle (GtkGestureRotate *rotate,
+   gdouble x1, y1, x2, y2;
+   GtkGesture *gesture;
+   gdouble dx, dy;
+-  GList *sequences;
++  GList *sequences = NULL;
++  gboolean retval = FALSE;
+ 
+   gesture = GTK_GESTURE (rotate);
+   priv = gtk_gesture_rotate_get_instance_private (rotate);
+ 
+   if (!gtk_gesture_is_recognized (gesture))
+-    return FALSE;
++    goto out;
+ 
+   sequences = gtk_gesture_get_sequences (gesture);
+   if (!sequences)
+-    return FALSE;
++    goto out;
+ 
+   last_event = gtk_gesture_get_last_event (gesture, sequences->data);
+-
+   if (last_event->type == GDK_TOUCHPAD_PINCH &&
+       (last_event->touchpad_pinch.phase == GDK_TOUCHPAD_GESTURE_PHASE_BEGIN ||
+        last_event->touchpad_pinch.phase == GDK_TOUCHPAD_GESTURE_PHASE_UPDATE ||
+@@ -106,11 +106,10 @@ _gtk_gesture_rotate_get_angle (GtkGestureRotate *rotate,
+   else
+     {
+       if (!sequences->next)
+-        return FALSE;
++        goto out;
+ 
+       gtk_gesture_get_point (gesture, sequences->data, &x1, &y1);
+       gtk_gesture_get_point (gesture, sequences->next->data, &x2, &y2);
+-      g_list_free (sequences);
+ 
+       dx = x1 - x2;
+       dy = y1 - y2;
+@@ -124,7 +123,11 @@ _gtk_gesture_rotate_get_angle (GtkGestureRotate *rotate,
+       *angle = fmod (*angle, 2 * G_PI);
+     }
+ 
+-  return TRUE;
++  retval = TRUE;
++
++ out:
++  g_list_free (sequences);
++  return retval;
+ }
+ 
+ static gboolean
+-- 
+2.20.1
+

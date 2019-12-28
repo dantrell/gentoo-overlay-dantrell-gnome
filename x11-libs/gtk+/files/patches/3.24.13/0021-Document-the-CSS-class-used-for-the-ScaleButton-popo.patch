@@ -1,0 +1,27 @@
+From e7bd9adf3ed585f3b7492763a9ea7d8f2ba2c854 Mon Sep 17 00:00:00 2001
+From: Emmanuele Bassi <ebassi@gnome.org>
+Date: Fri, 13 Dec 2019 11:27:22 +0000
+Subject: [PATCH 21/25] Document the CSS class used for the ScaleButton popover
+
+Otherwise it's not easy to divine the selector for the scale widget
+inside the popover.
+---
+ gtk/gtkscalebutton.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/gtk/gtkscalebutton.c b/gtk/gtkscalebutton.c
+index e74dcf2b49..82829b153f 100644
+--- a/gtk/gtkscalebutton.c
++++ b/gtk/gtkscalebutton.c
+@@ -70,6 +70,8 @@
+  *
+  * GtkScaleButton has a single CSS node with name button. To differentiate
+  * it from a plain #GtkButton, it gets the .scale style class.
++ *
++ * The popup widget that contains the scale has a .scale-popup style class.
+  */
+ 
+ 
+-- 
+2.20.1
+

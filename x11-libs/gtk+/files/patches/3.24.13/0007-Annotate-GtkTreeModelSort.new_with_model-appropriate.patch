@@ -1,0 +1,38 @@
+From e3247ed0d9156a385a14790abf070ba6b8fcbb3a Mon Sep 17 00:00:00 2001
+From: LutzLue <luemken@pre-sense.de>
+Date: Tue, 3 Dec 2019 15:36:42 +0000
+Subject: [PATCH 07/25] Annotate GtkTreeModelSort.new_with_model()
+ appropriately
+
+The new_with_model() method is a constructor, and it returns a GtkTreeModelSort
+instance, even if the C API returns a GtkTreeModel for the convenience of C
+developers.
+
+Fixes: #1077
+---
+ gtk/gtktreemodelsort.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/gtk/gtktreemodelsort.c b/gtk/gtktreemodelsort.c
+index aeffee9cb7..3cf641dad7 100644
+--- a/gtk/gtktreemodelsort.c
++++ b/gtk/gtktreemodelsort.c
+@@ -526,12 +526,12 @@ gtk_tree_model_sort_drag_source_init (GtkTreeDragSourceIface *iface)
+ }
+ 
+ /**
+- * gtk_tree_model_sort_new_with_model:
++ * gtk_tree_model_sort_new_with_model: (constructor)
+  * @child_model: A #GtkTreeModel
+  *
+- * Creates a new #GtkTreeModel, with @child_model as the child model.
++ * Creates a new #GtkTreeModelSort, with @child_model as the child model.
+  *
+- * Returns: (transfer full): A new #GtkTreeModel.
++ * Returns: (transfer full) (type Gtk.TreeModelSort): A new #GtkTreeModelSort.
+  */
+ GtkTreeModel *
+ gtk_tree_model_sort_new_with_model (GtkTreeModel *child_model)
+-- 
+2.20.1
+
