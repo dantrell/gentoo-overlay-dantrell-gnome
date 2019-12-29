@@ -101,6 +101,9 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-0.48.4-epython.patch
 	"${FILESDIR}"/${PN}-0.92.4-poppler-0.76.0.patch #684246
 	"${FILESDIR}"/${PN}-0.92.4-poppler-0.82.0.patch
+	# From Inkscape:
+	# 	https://gitlab.com/inkscape/inkscape/commit/51351358a62acb6887eab49bc0dc4a7a3d18c17a
+	"${FILESDIR}"/${PN}-0.92.4-poppler-0.83.0.patch
 )
 
 S="${WORKDIR}/${MY_P}"

@@ -1,0 +1,85 @@
+diff '--exclude=.git' -urN a/src/extension/internal/pdfinput/pdf-input.cpp b/src/extension/internal/pdfinput/pdf-input.cpp
+--- a/src/extension/internal/pdfinput/pdf-input.cpp	2019-01-14 22:29:27.000000000 -0600
++++ b/src/extension/internal/pdfinput/pdf-input.cpp	2019-12-28 18:44:20.914512778 -0600
+@@ -689,12 +689,12 @@
+         //
+         gchar const *poppler_datadir = g_getenv("POPPLER_DATADIR");
+         if (poppler_datadir != NULL) {
+-            globalParams = new GlobalParams(poppler_datadir);
++            globalParams = _POPPLER_NEW_GLOBAL_PARAMS(poppler_datadir);
+         } else {
+-            globalParams = new GlobalParams();
++            globalParams = _POPPLER_NEW_GLOBAL_PARAMS();
+         }
+ #else
+-        globalParams = new GlobalParams();
++        globalParams = _POPPLER_NEW_GLOBAL_PARAMS();
+ #endif // ENABLE_OSX_APP_LOCATIONS
+     }
+ 
+diff '--exclude=.git' -urN a/src/extension/internal/pdfinput/pdf-parser.cpp b/src/extension/internal/pdfinput/pdf-parser.cpp
+--- a/src/extension/internal/pdfinput/pdf-parser.cpp	2019-12-28 18:44:05.966574306 -0600
++++ b/src/extension/internal/pdfinput/pdf-parser.cpp	2019-12-28 18:46:40.057928658 -0600
+@@ -272,7 +272,7 @@
+     ClipHistoryEntry *save();
+     ClipHistoryEntry *restore();
+     GBool hasSaves() { return saved != NULL; }
+-    void setClip(GfxPath *newClipPath, GfxClipType newClipType = clipNormal);
++    void setClip(_POPPLER_CONST_83 GfxPath *newClipPath, GfxClipType newClipType = clipNormal);
+     GfxPath *getClipPath() { return clipPath; }
+     GfxClipType getClipType() { return clipType; }
+ 
+@@ -3394,7 +3394,7 @@
+     }
+ }
+ 
+-void ClipHistoryEntry::setClip(GfxPath *clipPathA, GfxClipType clipTypeA) {
++void ClipHistoryEntry::setClip(_POPPLER_CONST_83 GfxPath *clipPathA, GfxClipType clipTypeA) {
+     // Free previous clip path
+     if (clipPath) {
+         delete clipPath;
+diff '--exclude=.git' -urN a/src/extension/internal/pdfinput/poppler-transition-api.h b/src/extension/internal/pdfinput/poppler-transition-api.h
+--- a/src/extension/internal/pdfinput/poppler-transition-api.h	2019-12-28 18:44:05.966574306 -0600
++++ b/src/extension/internal/pdfinput/poppler-transition-api.h	2019-12-28 18:44:20.915512773 -0600
+@@ -3,6 +3,12 @@
+ 
+ #include <glib/poppler-features.h>
+ 
++#if POPPLER_CHECK_VERSION(0, 83, 0)
++#define _POPPLER_CONST_83 const
++#else
++#define _POPPLER_CONST_83
++#endif
++
+ #if POPPLER_CHECK_VERSION(0, 82, 0)
+ #define _POPPLER_CONST_82 const
+ #else
+@@ -15,6 +21,12 @@
+ #define _POPPLER_NEW_PARSER(xref, obj) Parser(xref, new Lexer(xref, obj), gFalse)
+ #endif
+ 
++#if POPPLER_CHECK_VERSION(0, 83, 0)
++#define _POPPLER_NEW_GLOBAL_PARAMS(args...) std::unique_ptr<GlobalParams>(new GlobalParams(args))
++#else
++#define _POPPLER_NEW_GLOBAL_PARAMS(args...) new GlobalParams(args)
++#endif
++
+ 
+ #if POPPLER_CHECK_VERSION(0, 72, 0)
+ #define getCString c_str
+diff '--exclude=.git' -urN a/src/extension/internal/pdfinput/svg-builder.cpp b/src/extension/internal/pdfinput/svg-builder.cpp
+--- a/src/extension/internal/pdfinput/svg-builder.cpp	2019-12-28 18:44:05.966574306 -0600
++++ b/src/extension/internal/pdfinput/svg-builder.cpp	2019-12-28 18:44:20.915512773 -0600
+@@ -264,10 +264,10 @@
+ /**
+  * \brief Generates a SVG path string from poppler's data structure
+  */
+-static gchar *svgInterpretPath(GfxPath *path) {
++static gchar *svgInterpretPath(_POPPLER_CONST_83 GfxPath *path) {
+     Inkscape::SVG::PathString pathString;
+     for (int i = 0 ; i < path->getNumSubpaths() ; ++i ) {
+-        GfxSubpath *subpath = path->getSubpath(i);
++        _POPPLER_CONST_83 GfxSubpath *subpath = path->getSubpath(i);
+         if (subpath->getNumPoints() > 0) {
+             pathString.moveTo(subpath->getX(0), subpath->getY(0));
+             int j = 1;
