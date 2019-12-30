@@ -23,13 +23,13 @@ RDEPEND="
 	>=x11-libs/gtk+-3.16:3[introspection?]
 	>=x11-libs/gtksourceview-3.16:3.0[introspection?]
 	introspection? ( >=dev-libs/gobject-introspection-1.42.0:= )
-	vala? ( $(vala_depend) )
 "
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.24
 	>=dev-util/intltool-0.35.0
 	>=sys-devel/gettext-0.19.4
 	virtual/pkgconfig
+	vala? ( $(vala_depend) )
 "
 
 src_prepare() {

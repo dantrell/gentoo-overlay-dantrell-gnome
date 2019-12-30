@@ -1,5 +1,9 @@
+app-misc/tracker-miners -seccomp
 dev-libs/glib mime
 dev-python/pycurl curl_ssl_openssl
+gnome-base/gnome-desktop -seccomp
 net-libs/webkit-gtk jumbo-build
 net-libs/webkit-gtk opengl
+net-libs/webkit-gtk -seccomp
 net-misc/curl curl_ssl_openssl
+>gnome-base/nautilus-3.29 -seccomp

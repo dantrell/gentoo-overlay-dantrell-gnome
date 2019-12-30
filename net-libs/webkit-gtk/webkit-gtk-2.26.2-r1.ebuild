@@ -4,6 +4,7 @@ EAPI="6"
 CMAKE_MAKEFILE_GENERATOR="ninja"
 PYTHON_COMPAT=( python{3_5,3_6,3_7,3_8} )
 USE_RUBY="ruby24 ruby25 ruby26 ruby27"
+CMAKE_MIN_VERSION=3.10
 
 inherit check-reqs cmake-utils flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs virtualx
 
@@ -14,16 +15,16 @@ SRC_URI="https://www.webkitgtk.org/releases/${MY_P}.tar.xz"
 
 LICENSE="LGPL-2+ BSD"
 SLOT="4/37" # soname version of libwebkit2gtk-4.0
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="aqua coverage doc +egl +geolocation gles2 gnome-keyring +gstreamer +introspection +jit jpeg2k +jumbo-build libnotify nsplugin +opengl spell wayland +webgl +X"
+IUSE="aqua coverage deprecated doc +egl embedded +geolocation gles2 gnome-keyring +gstreamer +introspection +jit jpeg2k +jumbo-build libnotify +opengl seccomp spell wayland +webgl +X"
 # webgl needs gstreamer, bug #560612
 # gstreamer with opengl/gles2 needs egl
 REQUIRED_USE="
 	geolocation? ( introspection )
 	gles2? ( egl !opengl )
 	gstreamer? ( opengl? ( egl ) )
-	nsplugin? ( X )
+	opengl? ( webgl )
 	webgl? ( gstreamer
 		|| ( gles2 opengl ) )
 	wayland? ( egl )
@@ -37,6 +38,7 @@ RESTRICT="test"
 # Aqua support in gtk3 is untested
 # Dependencies found at Source/cmake/OptionsGTK.cmake
 # Missing OpenWebRTC checks and conditionals, but ENABLE_MEDIA_STREAM/ENABLE_WEB_RTC is experimental upstream (PRIVATE OFF)
+# >=gst-plugins-opus-1.14.4-r1 for opusparse (required by MSE)
 RDEPEND="
 	>=x11-libs/cairo-1.16.0:=[X?]
 	>=media-libs/fontconfig-2.8.0:1.0
@@ -59,14 +61,13 @@ RDEPEND="
 	>=dev-libs/libxslt-1.1.7
 	media-libs/woff2
 	gnome-keyring? ( app-crypt/libsecret )
-	geolocation? ( >=app-misc/geoclue-2.4.0:2.0 )
 	introspection? ( >=dev-libs/gobject-introspection-1.32.0:= )
 	dev-libs/libtasn1:=
-	nsplugin? ( >=x11-libs/gtk+-2.24.10:2 )
 	spell? ( >=app-text/enchant-0.22:0= )
 	gstreamer? (
 		>=media-libs/gstreamer-1.14:1.0
 		>=media-libs/gst-plugins-base-1.14:1.0[egl?,gles2?,opengl?]
+		>=media-plugins/gst-plugins-opus-1.14.4-r1:1.0
 		>=media-libs/gst-plugins-bad-1.14:1.0 )
 
 	X? (
@@ -81,11 +82,21 @@ RDEPEND="
 	jpeg2k? ( >=media-libs/openjpeg-2.2.0:2= )
 
 	egl? ( media-libs/mesa[egl] )
+	embedded? (
+		>=gui-libs/libwpe-1.3.0:1.0
+		>=gui-libs/wpebackend-fdo-1.3.1:1.0
+	)
 	gles2? ( media-libs/mesa[gles2] )
 	opengl? ( virtual/opengl )
 	webgl? (
 		x11-libs/libXcomposite
 		x11-libs/libXdamage )
+
+	seccomp? (
+		>=sys-apps/bubblewrap-0.3.1
+		sys-libs/libseccomp
+		sys-apps/xdg-dbus-proxy
+	)
 "
 
 # paxctl needed for bug #407085
@@ -97,7 +108,7 @@ DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.10
 	>=dev-util/gperf-3.0.1
 	>=sys-devel/bison-2.4.3
-	|| ( >=sys-devel/gcc-4.9 >=sys-devel/clang-3.3 )
+	|| ( >=sys-devel/gcc-7.3 >=sys-devel/clang-3.3 )
 	sys-devel/gettext
 	virtual/pkgconfig
 
@@ -114,6 +125,9 @@ DEPEND="${RDEPEND}
 #		dev-python/pygobject:3[python_targets_python2_7]
 #		x11-themes/hicolor-icon-theme
 #		jit? ( sys-apps/paxctl ) )
+RDEPEND="${RDEPEND}
+	geolocation? ( >=app-misc/geoclue-2.1.5:2.0 )
+"
 
 S="${WORKDIR}/${MY_P}"
 
@@ -126,12 +140,12 @@ pkg_pretend() {
 			check-reqs_pkg_pretend
 		fi
 
-		if ! test-flag-CXX -std=c++11 ; then
-			die "You need at least GCC 4.9.x or Clang >= 3.3 for C++11-specific compiler flags"
+		if ! test-flag-CXX -std=c++17 ; then
+			die "You need at least GCC 7.3.x or Clang >= 5 for C++17-specific compiler flags"
 		fi
 
-		if tc-is-gcc && [[ $(gcc-version) < 4.9 ]] ; then
-			die 'The active compiler needs to be gcc 4.9 (or newer)'
+		if tc-is-gcc && [[ $(gcc-version) < 7.3 ]] ; then
+			die 'The active compiler needs to be gcc 7.3 (or newer)'
 		fi
 	fi
 
@@ -155,8 +169,14 @@ pkg_setup() {
 }
 
 src_prepare() {
+	if use deprecated; then
+		# From WebKit:
+		# 	https://bugs.webkit.org/show_bug.cgi?id=199094
+		eapply "${FILESDIR}"/${PN}-2.26.1-restore-preprocessor-guards.patch
+	fi
+
 	eapply "${FILESDIR}"/${PN}-2.24.4-icu-65.patch # bug 698596
-	eapply "${FILESDIR}"/${PN}-2.24.4-eglmesaext-include.patch # bug 699054
+	eapply "${FILESDIR}"/${PN}-2.24.4-eglmesaext-include.patch # bug 699054 # https://bugs.webkit.org/show_bug.cgi?id=204108
 	cmake-utils_src_prepare
 	gnome2_src_prepare
 }
@@ -228,12 +248,19 @@ src_configure() {
 		loop_c_enabled=ON
 	fi
 
+	local datalist_enabled
+	if ! use deprecated; then
+		datalist_enabled=ON
+	else
+		datalist_enabled=OFF
+	fi
+
 	local mycmakeargs=(
 		-DENABLE_UNIFIED_BUILDS=$(usex jumbo-build)
 		-DENABLE_QUARTZ_TARGET=$(usex aqua)
 		-DENABLE_API_TESTS=$(usex test)
 		-DENABLE_GTKDOC=$(usex doc)
-		-DENABLE_GEOLOCATION=$(usex geolocation)
+		-DENABLE_GEOLOCATION=$(usex geolocation) # Runtime optional (talks over dbus service)
 		$(cmake-utils_use_find_package gles2 OpenGLES2)
 		-DENABLE_GLES2=$(usex gles2)
 		-DENABLE_VIDEO=$(usex gstreamer)
@@ -245,17 +272,21 @@ src_configure() {
 		-DUSE_LIBSECRET=$(usex gnome-keyring)
 		-DUSE_OPENJPEG=$(usex jpeg2k)
 		-DUSE_WOFF2=ON
-		-DENABLE_PLUGIN_PROCESS_GTK2=$(usex nsplugin)
 		-DENABLE_SPELLCHECK=$(usex spell)
 		-DENABLE_WAYLAND_TARGET=$(usex wayland)
+		-DUSE_WPE_RENDERER=$(usex embedded)
 		-DENABLE_WEBGL=$(usex webgl)
 		$(cmake-utils_use_find_package egl EGL)
 		$(cmake-utils_use_find_package opengl OpenGL)
 		-DENABLE_X11_TARGET=$(usex X)
 		-DENABLE_OPENGL=${opengl_enabled}
+		-DENABLE_BUBBLEWRAP_SANDBOX=$(usex seccomp)
+		-DBWRAP_EXECUTABLE="${EPREFIX}"/usr/bin/bwrap # If bubblewrap[suid] then portage makes it go-r and cmake find_program fails with that
 		-DENABLE_C_LOOP=${loop_c_enabled}
 		-DCMAKE_BUILD_TYPE=Release
 		-DPORT=GTK
+		-DENABLE_MEDIA_SOURCE=OFF
+		-DENABLE_DATALIST_ELEMENT=${datalist_enabled}
 		${ruby_interpreter}
 	)
 
@@ -288,5 +319,4 @@ src_install() {
 	# Prevents crashes on PaX systems, bug #522808
 	use jit && pax-mark m "${ED}usr/libexec/webkit2gtk-4.0/jsc" "${ED}usr/libexec/webkit2gtk-4.0/WebKitWebProcess"
 	pax-mark m "${ED}usr/libexec/webkit2gtk-4.0/WebKitPluginProcess"
-	use nsplugin && pax-mark m "${ED}usr/libexec/webkit2gtk-4.0/WebKitPluginProcess"2
 }

@@ -3,7 +3,7 @@
 EAPI="6"
 CMAKE_MAKEFILE_GENERATOR="ninja"
 PYTHON_COMPAT=( python{3_5,3_6,3_7,3_8} )
-USE_RUBY="ruby24 ruby25 ruby26"
+USE_RUBY="ruby24 ruby25 ruby26 ruby27"
 
 inherit check-reqs cmake-utils flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs virtualx
 
@@ -243,7 +243,6 @@ src_configure() {
 	fi
 
 	local mycmakeargs=(
-		-DENABLE_BUBBLEWRAP_SANDBOX=OFF
 		-DENABLE_UNIFIED_BUILDS=$(usex jumbo-build)
 		-DENABLE_QUARTZ_TARGET=$(usex aqua)
 		-DENABLE_API_TESTS=$(usex test)
@@ -263,16 +262,17 @@ src_configure() {
 		-DENABLE_PLUGIN_PROCESS_GTK2=$(usex nsplugin)
 		-DENABLE_SPELLCHECK=$(usex spell)
 		-DENABLE_WAYLAND_TARGET=$(usex wayland)
+		-DUSE_WPE_RENDERER=$(usex embedded)
 		-DENABLE_WEBGL=$(usex webgl)
 		$(cmake-utils_use_find_package egl EGL)
 		$(cmake-utils_use_find_package opengl OpenGL)
 		-DENABLE_X11_TARGET=$(usex X)
 		-DENABLE_OPENGL=${opengl_enabled}
+		-DENABLE_BUBBLEWRAP_SANDBOX=OFF
 		-DENABLE_C_LOOP=${loop_c_enabled}
 		-DCMAKE_BUILD_TYPE=Release
 		-DPORT=GTK
 		-DENABLE_MEDIA_SOURCE=OFF
-		-DUSE_WPE_RENDERER=$(usex embedded)
 		-DENABLE_DATALIST_ELEMENT=${datalist_enabled}
 		${ruby_interpreter}
 	)
