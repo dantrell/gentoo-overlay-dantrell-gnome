@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-inherit cmake-utils
+inherit cmake
 
 DESCRIPTION="An implementation of basic iCAL protocols"
 HOMEPAGE="https://github.com/libical/libical"
@@ -28,15 +28,15 @@ src_configure() {
 		-DGOBJECT_INTROSPECTION=$(usex introspection true false)
 	)
 	use static-libs || mycmakeargs+=( -DSHARED_ONLY=ON )
-	cmake-utils_src_configure
+	cmake_src_configure
 }
 
 src_compile() {
-	cmake-utils_src_compile -j1
+	cmake_src_compile -j1
 }
 
 src_install() {
-	cmake-utils_src_install
+	cmake_src_install
 
 	if use examples; then
 		rm examples/Makefile* examples/CMakeLists.txt

@@ -2,7 +2,7 @@
 
 EAPI="7"
 
-inherit cmake-utils flag-o-matic toolchain-funcs xdg-utils
+inherit cmake flag-o-matic toolchain-funcs xdg-utils
 
 DESCRIPTION="PDF rendering library based on the xpdf-3.0 code base"
 HOMEPAGE="https://poppler.freedesktop.org/"
@@ -58,7 +58,7 @@ PATCHES=(
 )
 
 src_prepare() {
-	cmake-utils_src_prepare
+	cmake_src_prepare
 
 	# Clang doesn't grok this flag, the configure nicely tests that, but
 	# cmake just uses it, so remove it if we use clang
@@ -99,15 +99,15 @@ src_configure() {
 		-DENABLE_CMS=$(usex lcms lcms2 none)
 		-DWITH_NSS3=$(usex nss)
 		-DWITH_PNG=$(usex png)
-		$(cmake-utils_use_find_package qt5 Qt5Core)
+		$(cmake_use_find_package qt5 Qt5Core)
 		-DWITH_TIFF=$(usex tiff)
 		-DENABLE_UTILS=$(usex utils)
 	)
 	use cairo && mycmakeargs+=( -DWITH_GObjectIntrospection=$(usex introspection) )
 
-	cmake-utils_src_configure
+	cmake_src_configure
 }
 
 src_install() {
-	cmake-utils_src_install
+	cmake_src_install
 }

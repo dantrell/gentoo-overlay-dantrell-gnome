@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-inherit cmake-utils
+inherit cmake
 
 DESCRIPTION="An implementation of basic iCAL protocols"
 HOMEPAGE="https://github.com/libical/libical"
@@ -14,11 +14,6 @@ KEYWORDS="~*"
 
 IUSE="doc examples static-libs"
 
-# The GOBJECT_INTROSPECTION build is broken, and upstream has given up
-# on it at the moment (it's disabled in Travis). It will probably come
-# back in v2.0.1 or later.
-# This snippet belongs to RDEPEND:
-# introspection? ( dev-libs/gobject-introspection:= )"
 RDEPEND="
 	dev-libs/icu:=
 "
@@ -35,21 +30,19 @@ PATCHES=(
 )
 
 src_configure() {
-	# See above, introspection is disabled for v2.0.0 at least.
-	#local mycmakeargs=(
-	#	-DGOBJECT_INTROSPECTION=$(usex introspection true false)
-	#)
 	use static-libs || mycmakeargs+=( -DSHARED_ONLY=ON )
-	cmake-utils_src_configure
+	cmake_src_configure
 }
 
 src_test() {
-	local myctestargs=( -j1 )
-	cmake-utils_src_test
+	local myctestargs=(
+		-j1
+	)
+	cmake_src_test
 }
 
 src_install() {
-	cmake-utils_src_install
+	cmake_src_install
 
 	if use examples; then
 		rm examples/CMakeLists.txt || die

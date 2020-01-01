@@ -25,7 +25,6 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	dev-util/itstool
-	gnome-base/gnome-common
 	>=sys-devel/gettext-0.19.4
 	virtual/pkgconfig
 "

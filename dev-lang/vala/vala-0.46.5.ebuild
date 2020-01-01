@@ -7,7 +7,7 @@ inherit gnome2
 DESCRIPTION="Compiler for the GObject type system"
 HOMEPAGE="https://wiki.gnome.org/Projects/Vala"
 
-LICENSE="LGPL-2.1"
+LICENSE="LGPL-2.1+"
 SLOT="0.46"
 KEYWORDS="*"
 
@@ -18,6 +18,8 @@ RESTRICT="!test? ( test )"
 RDEPEND="
 	>=dev-libs/glib-2.48:2
 	>=dev-libs/vala-common-${PV}
+	>=media-gfx/graphviz-2.16
+	!<net-libs/libsoup-2.66.2[vala]
 "
 DEPEND="${RDEPEND}
 	!${CATEGORY}/${PN}:0
@@ -25,7 +27,6 @@ DEPEND="${RDEPEND}
 	sys-devel/flex
 	virtual/pkgconfig
 	virtual/yacc
-	>=media-gfx/graphviz-2.16
 	test? (
 		dev-libs/dbus-glib
 		>=dev-libs/glib-2.48:2
@@ -42,4 +43,9 @@ src_configure() {
 		--disable-valadoc \
 		VALAC=: \
 		WEASYPRINT=:
+}
+
+src_install() {
+	default
+	find "${D}" -name "*.la" -delete || die
 }
