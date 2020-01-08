@@ -1,0 +1,33 @@
+From d43f0b7f282446ae3fc2ff25854243e764dd3eb0 Mon Sep 17 00:00:00 2001
+From: Emmanuele Bassi <ebassi@gnome.org>
+Date: Tue, 20 Mar 2018 12:43:06 +0000
+Subject: [PATCH 06/19] Ignore deprecation warning for g_object_newv()
+
+We're not going to move to g_object_new_with_properties(), at least for
+the time being.
+
+(cherry picked from commit 278513d6b99b74df1c996882279564dc7eebd952)
+---
+ clutter/clutter-script-parser.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/clutter/clutter-script-parser.c b/clutter/clutter-script-parser.c
+index 161103734..234e83802 100644
+--- a/clutter/clutter-script-parser.c
++++ b/clutter/clutter-script-parser.c
+@@ -2221,10 +2221,12 @@ _clutter_script_construct_object (ClutterScript *script,
+                                              properties,
+                                              &params);
+ 
++      G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+       parameters = (GParameter *) (void *) params->data;
+       oinfo->object = g_object_newv (oinfo->gtype,
+                                      params->len,
+                                      parameters);
++      G_GNUC_END_IGNORE_DEPRECATIONS
+ 
+       /* by sinking the floating reference, we make sure that the reference
+        * count is correct whether the object is referenced from somewhere
+-- 
+2.20.1
+

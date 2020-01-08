@@ -1,0 +1,28 @@
+From 95213b1634dd15cc5ba34ff519608aafbe486af0 Mon Sep 17 00:00:00 2001
+From: Emmanuele Bassi <ebassi@gnome.org>
+Date: Tue, 20 Mar 2018 12:41:59 +0000
+Subject: [PATCH 05/19] Drop duplicate const specifier
+
+And silence a compiler warning.
+
+(cherry picked from commit 4c06e443052a73b0fd3a630bfbe1208b7aea26d1)
+---
+ clutter/clutter-color.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/clutter/clutter-color.c b/clutter/clutter-color.c
+index b8551849c..1c575a64f 100644
+--- a/clutter/clutter-color.c
++++ b/clutter/clutter-color.c
+@@ -48,7 +48,7 @@
+ #include "clutter-debug.h"
+ 
+ /* XXX - keep in sync with the ClutterStaticColor enumeration order */
+-static const ClutterColor const static_colors[] = {
++static ClutterColor const static_colors[] = {
+   /* CGA/EGA color palette */
+   { 0xff, 0xff, 0xff, 0xff },   /* white */
+   { 0x00, 0x00, 0x00, 0xff },   /* black */
+-- 
+2.20.1
+

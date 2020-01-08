@@ -1,0 +1,49 @@
+From 4234ba69e3fdd5af13500fbb81f4742e0b03807e Mon Sep 17 00:00:00 2001
+From: Emmanuele Bassi <ebassi@gnome.org>
+Date: Tue, 20 Mar 2018 12:31:07 +0000
+Subject: [PATCH 04/19] Clean up the generated enumeration type template
+
+Use the 'once' pragma, and ensure that we don't mess us reproducible
+builds by including full paths to file names.
+
+(cherry picked from commit aee9618bb881cc44f889bda35450cd57cdda28a0)
+---
+ clutter/clutter-enum-types.h.in | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/clutter/clutter-enum-types.h.in b/clutter/clutter-enum-types.h.in
+index aea757ed0..07ff407fb 100644
+--- a/clutter/clutter-enum-types.h.in
++++ b/clutter/clutter-enum-types.h.in
+@@ -1,6 +1,5 @@
+ /*** BEGIN file-header ***/
+-#ifndef __CLUTTER_ENUM_TYPES_H__
+-#define __CLUTTER_ENUM_TYPES_H__
++#pragma once
+ 
+ #if !defined(__CLUTTER_H_INSIDE__) && !defined(CLUTTER_COMPILATION)
+ #error "Only <clutter/clutter.h> can be included directly."
+@@ -13,10 +12,12 @@ G_BEGIN_DECLS
+ /*** END file-header ***/
+ 
+ /*** BEGIN file-production ***/
+-/* enumerations from "@filename@" */
++
++/* enumerations from "@basename@" */
+ /*** END file-production ***/
+ 
+ /*** BEGIN value-header ***/
++
+ CLUTTER_AVAILABLE_IN_ALL GType @enum_name@_get_type (void) G_GNUC_CONST;
+ #define CLUTTER_TYPE_@ENUMSHORT@ (@enum_name@_get_type())
+ 
+@@ -24,6 +25,4 @@ CLUTTER_AVAILABLE_IN_ALL GType @enum_name@_get_type (void) G_GNUC_CONST;
+ 
+ /*** BEGIN file-tail ***/
+ G_END_DECLS
+-
+-#endif /* !__CLUTTER_ENUM_TYPES_H__ */
+ /*** END file-tail ***/
+-- 
+2.20.1
+

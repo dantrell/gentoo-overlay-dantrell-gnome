@@ -1,0 +1,33 @@
+From 0c8e64b5f94d3f4cf6c14166058a50ada6f0675f Mon Sep 17 00:00:00 2001
+From: Emmanuele Bassi <ebassi@gnome.org>
+Date: Tue, 20 Mar 2018 12:49:50 +0000
+Subject: [PATCH 07/19] gdk: Handle all GDK device types
+
+We cannot add new device types in Clutter, but we should handle all
+device types that GDK throws at us.
+
+(cherry picked from commit 5b1d5d82f4fbb3b04d7bf57a91c3e9f378e104f6)
+---
+ clutter/gdk/clutter-input-device-gdk.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/clutter/gdk/clutter-input-device-gdk.c b/clutter/gdk/clutter-input-device-gdk.c
+index 2a079e936..f3364101c 100644
+--- a/clutter/gdk/clutter-input-device-gdk.c
++++ b/clutter/gdk/clutter-input-device-gdk.c
+@@ -151,6 +151,12 @@ _clutter_input_device_gdk_new (ClutterDeviceManager    *manager,
+     case GDK_SOURCE_TOUCHPAD:
+       device_type = CLUTTER_TOUCHPAD_DEVICE;
+       break;
++    case GDK_SOURCE_TRACKPOINT:
++      device_type = CLUTTER_POINTER_DEVICE;
++      break;
++    case GDK_SOURCE_TABLET_PAD:
++      device_type = CLUTTER_CURSOR_DEVICE;
++      break;
+     }
+ 
+   if (device_type != CLUTTER_KEYBOARD_DEVICE)
+-- 
+2.20.1
+

@@ -2,7 +2,7 @@
 
 EAPI="6"
 CMAKE_MAKEFILE_GENERATOR="ninja"
-PYTHON_COMPAT=( python{3_5,3_6,3_7,3_8} )
+PYTHON_COMPAT=( python{3_6,3_7,3_8} )
 USE_RUBY="ruby24 ruby25 ruby26 ruby27"
 CMAKE_MIN_VERSION=3.10
 
@@ -173,6 +173,7 @@ src_prepare() {
 
 	eapply "${FILESDIR}"/${PN}-2.24.4-icu-65.patch # bug 698596
 	eapply "${FILESDIR}"/${PN}-2.24.4-eglmesaext-include.patch # bug 699054 # https://bugs.webkit.org/show_bug.cgi?id=204108
+	eapply "${FILESDIR}"/${PN}-2.26.2-fix-noGL-build.patch # bug 704236
 	cmake-utils_src_prepare
 	gnome2_src_prepare
 }

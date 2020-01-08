@@ -1,0 +1,26 @@
+From 98f677cfe12518eed15d4bd5d8a94583e1f6d4e9 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 14 Feb 2019 13:04:06 +0100
+Subject: [PATCH 12/19] docs: Fix typo in ClutterLayoutManager doc
+
+(cherry picked from commit 495fb22722fd2daa0c8b1ddaa9f88a7bebfb80d7)
+---
+ clutter/clutter-layout-manager.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/clutter/clutter-layout-manager.c b/clutter/clutter-layout-manager.c
+index 3b731c928..2de0f4ac1 100644
+--- a/clutter/clutter-layout-manager.c
++++ b/clutter/clutter-layout-manager.c
+@@ -42,7 +42,7 @@
+  * The implementation of a layout manager does not differ from  the
+  * implementation of the size requisition and allocation bits of
+  * #ClutterActor, so you should read the relative documentation
+- * forr subclassing #ClutterActor.
++ * for subclassing #ClutterActor.
+  *
+  * The layout manager implementation can hold a back pointer to the
+  * #ClutterContainer by implementing the #ClutterLayoutManagerClass.set_container()
+-- 
+2.20.1
+

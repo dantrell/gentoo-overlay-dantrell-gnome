@@ -1,0 +1,54 @@
+From 028e7ded1dfa8618f9806b50cb24fc00a7fb93e4 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jonas=20=C3=85dahl?= <jadahl@gmail.com>
+Date: Mon, 7 Oct 2019 18:45:58 +0200
+Subject: [PATCH 16/19] transition: Don't split reference counting with actor
+
+ClutterActor took a reference in its transition 'stopped' handler,
+aiming to keep the transition alive during signal emission even if it
+was removed during. This is, however, already taken care of by
+ClutterTimeline, by always taking a reference during its 'stopped'
+signal emission, so no need to add another one.
+
+This also has the bonus of making reference ownership simpler, as well
+as avoidance of double free if an actor was destroyed before a
+transition has finished.
+
+(cherry picked from commit c70913e2df8c8e3b924ca355e73cc12bfb45fcb7)
+---
+ clutter/clutter-actor.c      | 7 -------
+ clutter/clutter-transition.c | 1 -
+ 2 files changed, 8 deletions(-)
+
+diff --git a/clutter/clutter-actor.c b/clutter/clutter-actor.c
+index 87318a6f4..00ff71fe7 100644
+--- a/clutter/clutter-actor.c
++++ b/clutter/clutter-actor.c
+@@ -19046,13 +19046,6 @@ on_transition_stopped (ClutterTransition *transition,
+ 
+   if (clutter_transition_get_remove_on_complete (transition))
+     {
+-      /* we take a reference here because removing the closure will release the
+-       * reference on the transition, and we want the transition to survive the
+-       * signal emission. It'll be unreferenced by the remove-on-complete
+-       * handling in ClutterTransition::stopped.
+-       */
+-      g_object_ref (transition);
+-
+       /* this is safe, because the timeline has now stopped,
+        * so we won't recurse; the reference on the Animatable
+        * will be dropped by the ::stopped signal closure in
+diff --git a/clutter/clutter-transition.c b/clutter/clutter-transition.c
+index 03f91d0af..bf4c7af2c 100644
+--- a/clutter/clutter-transition.c
++++ b/clutter/clutter-transition.c
+@@ -136,7 +136,6 @@ clutter_transition_stopped (ClutterTimeline *timeline,
+       clutter_transition_detach (CLUTTER_TRANSITION (timeline),
+                                  priv->animatable);
+       g_clear_object (&priv->animatable);
+-      g_object_unref (timeline);
+     }
+ }
+ 
+-- 
+2.20.1
+

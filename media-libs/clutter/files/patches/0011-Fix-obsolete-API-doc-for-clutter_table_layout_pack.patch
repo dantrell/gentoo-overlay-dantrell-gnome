@@ -1,0 +1,28 @@
+From eb3a6f26e1ec433247d3a6c4f41e80bf9e18d614 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 14 Feb 2019 13:02:57 +0100
+Subject: [PATCH 11/19] Fix obsolete API doc for clutter_table_layout_pack()
+
+clutter_grid_layout_attach_child() doesn't seem to have ever existed.
+
+(cherry picked from commit 075dc4d3d5898672ab23d028a34f0387fc20e4e8)
+---
+ clutter/deprecated/clutter-table-layout.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/clutter/deprecated/clutter-table-layout.c b/clutter/deprecated/clutter-table-layout.c
+index 51944d03d..d456128fd 100644
+--- a/clutter/deprecated/clutter-table-layout.c
++++ b/clutter/deprecated/clutter-table-layout.c
+@@ -1873,7 +1873,7 @@ clutter_table_layout_get_row_spacing (ClutterTableLayout *layout)
+  *
+  * Since: 1.4
+  *
+- * Deprecated: 1.18: Use clutter_grid_layout_attach_child() instead
++ * Deprecated: 1.18: Use clutter_grid_layout_attach() instead
+  */
+ void
+ clutter_table_layout_pack (ClutterTableLayout  *layout,
+-- 
+2.20.1
+

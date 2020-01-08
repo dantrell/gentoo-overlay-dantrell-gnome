@@ -1,0 +1,42 @@
+From ffd4d6f6255c7f5c7330a38e5700114cea012f76 Mon Sep 17 00:00:00 2001
+From: Sjoerd Simons <sjoerd@luon.net>
+Date: Mon, 7 Nov 2016 22:52:45 +0100
+Subject: [PATCH 14/19] gdk: Ensure surface buffer scale is set
+
+GDK will only set the buffer scale for the surfaces it creates when
+attaching an image or when using an egl window window. Neither will
+happen for native clutter applications, thus directly set the buffer
+scale from clutter in that case (so it's in sync with the rendering
+scale)
+
+Signed-off-by: Sjoerd Simons <sjoerd@luon.net>
+
+https://bugzilla.gnome.org/show_bug.cgi?id=769190
+(cherry picked from commit 4eaafae520c0849a581aa9a1321b808a81d8ed7c)
+---
+ clutter/gdk/clutter-stage-gdk.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/clutter/gdk/clutter-stage-gdk.c b/clutter/gdk/clutter-stage-gdk.c
+index 2408b9756..ba8a2edef 100644
+--- a/clutter/gdk/clutter-stage-gdk.c
++++ b/clutter/gdk/clutter-stage-gdk.c
+@@ -231,7 +231,14 @@ clutter_stage_gdk_wayland_surface (ClutterStageGdk *stage_gdk)
+ 
+   if (!stage_gdk->foreign_window ||
+       gdk_window_get_window_type (stage_gdk->window) != GDK_WINDOW_CHILD)
+-    return gdk_wayland_window_get_wl_surface (stage_gdk->window);
++    {
++      struct wl_surface *surface;
++
++      surface = gdk_wayland_window_get_wl_surface (stage_gdk->window);
++      wl_surface_set_buffer_scale (surface,
++                                   gdk_window_get_scale_factor (stage_gdk->window));
++      return surface;
++    }
+ 
+   if (stage_gdk->subsurface)
+     goto out;
+-- 
+2.20.1
+

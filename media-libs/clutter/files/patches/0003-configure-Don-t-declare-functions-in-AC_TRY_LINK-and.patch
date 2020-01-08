@@ -1,0 +1,37 @@
+From 4f89fe7d4f3a27b65b6896f01c734c996d35804e Mon Sep 17 00:00:00 2001
+From: Ting-Wei Lan <lantw@src.gnome.org>
+Date: Sat, 20 Jan 2018 17:30:57 +0800
+Subject: [PATCH 03/19] configure: Don't declare functions in AC_TRY_LINK and
+ AC_TRY_COMPILE
+
+https://bugzilla.gnome.org/show_bug.cgi?id=792716
+(cherry picked from commit 7a46910bc92b06f0a8d8016e142c605c3fe8538a)
+---
+ configure.ac | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 14393bf7c..e35163328 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -160,7 +160,7 @@ AC_ARG_ENABLE([Bsymbolic],
+                 saved_LDFLAGS="${LDFLAGS}"
+                 AC_MSG_CHECKING([for -Bsymbolic-functions linker flag])
+                 LDFLAGS=-Wl,-Bsymbolic-functions
+-                AC_TRY_LINK([], [int main (void) { return 0; }],
++                AC_TRY_LINK([], [return 0],
+                             [
+                               AC_MSG_RESULT([yes])
+                               enable_Bsymbolic=yes
+@@ -189,7 +189,7 @@ case "$host" in
+     SAVED_CFLAGS="${CFLAGS}"
+     CFLAGS="-fvisibility=hidden"
+     AC_MSG_CHECKING([for -fvisibility=hidden compiler flag])
+-    AC_TRY_COMPILE([], [int main (void) { return 0; }],
++    AC_TRY_COMPILE([], [return 0],
+                    AC_MSG_RESULT(yes)
+                    enable_fvisibility_hidden=yes,
+                    AC_MSG_RESULT(no)
+-- 
+2.20.1
+

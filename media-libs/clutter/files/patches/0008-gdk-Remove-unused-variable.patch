@@ -1,0 +1,34 @@
+From 64f44a965137dab6319a7f3976db72a912271a73 Mon Sep 17 00:00:00 2001
+From: Emmanuele Bassi <ebassi@gnome.org>
+Date: Tue, 20 Mar 2018 12:50:30 +0000
+Subject: [PATCH 08/19] gdk: Remove unused variable
+
+(cherry picked from commit e900eb1d9ba53e85b72ef61ba7ebe4e1a52ff9eb)
+---
+ clutter/gdk/clutter-stage-gdk.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/clutter/gdk/clutter-stage-gdk.c b/clutter/gdk/clutter-stage-gdk.c
+index 4b90d5cff..2408b9756 100644
+--- a/clutter/gdk/clutter-stage-gdk.c
++++ b/clutter/gdk/clutter-stage-gdk.c
+@@ -224,7 +224,6 @@ clutter_stage_gdk_unrealize (ClutterStageWindow *stage_window)
+ static struct wl_surface *
+ clutter_stage_gdk_wayland_surface (ClutterStageGdk *stage_gdk)
+ {
+-  GdkDisplay *display;
+   cairo_region_t *input_region;
+   cairo_rectangle_int_t empty_rect = { 0, };
+   GdkWindowAttr attributes;
+@@ -241,8 +240,6 @@ clutter_stage_gdk_wayland_surface (ClutterStageGdk *stage_gdk)
+    * surface to not render in the same buffers as the embedding
+    * framework.
+    */
+-  display = gdk_window_get_display (stage_gdk->window);
+-
+   attributes.window_type = GDK_WINDOW_SUBSURFACE;
+   attributes.wclass = GDK_INPUT_OUTPUT;
+   attributes.x = 0;
+-- 
+2.20.1
+

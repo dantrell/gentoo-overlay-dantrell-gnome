@@ -1,0 +1,122 @@
+From 40f1d1b854436155467e396eeb475a25f14da90e Mon Sep 17 00:00:00 2001
+From: Floris Van den Abeele <florisvda@gmail.com>
+Date: Sat, 7 Sep 2019 21:52:36 +0200
+Subject: [PATCH 17/19] Handle 8 and 10 bits colour depth in picking code (#11)
+
+(cherry picked from commit 9b6d501726e4327db13f6516d229ec43e3cd44e0)
+---
+ clutter/clutter-main.c | 52 ++++++++++++++++++++++++++----------------
+ 1 file changed, 32 insertions(+), 20 deletions(-)
+
+diff --git a/clutter/clutter-main.c b/clutter/clutter-main.c
+index 10fcc2085..8771ca84a 100644
+--- a/clutter/clutter-main.c
++++ b/clutter/clutter-main.c
+@@ -587,6 +587,9 @@ _clutter_id_to_color (guint         id_,
+ {
+   ClutterMainContext *ctx;
+   gint red, green, blue;
++  /* keep track of the bit depth of the RGB channels of the framebuffers (i.e.
++   * either 8 or 10) */
++  gint bpc;
+ 
+   ctx = _clutter_context_get_default ();
+ 
+@@ -610,13 +613,16 @@ _clutter_id_to_color (guint         id_,
+ 	}
+     }
+ 
++  bpc = ctx->fb_r_mask;
++  g_assert (bpc == 8 || bpc == 10);
++
+   /* compute the numbers we'll store in the components */
+   red   = (id_ >> (ctx->fb_g_mask_used+ctx->fb_b_mask_used))
+-        & (0xff >> (8-ctx->fb_r_mask_used));
++        & (0xff >> (bpc-ctx->fb_r_mask_used));
+   green = (id_ >> ctx->fb_b_mask_used)
+-        & (0xff >> (8-ctx->fb_g_mask_used));
++        & (0xff >> (bpc-ctx->fb_g_mask_used));
+   blue  = (id_)
+-        & (0xff >> (8-ctx->fb_b_mask_used));
++        & (0xff >> (bpc-ctx->fb_b_mask_used));
+ 
+   /* shift left bits a bit and add one, this circumvents
+    * at least some potential rounding errors in GL/GLES
+@@ -629,10 +635,10 @@ _clutter_id_to_color (guint         id_,
+   if (ctx->fb_b_mask_used != ctx->fb_b_mask)
+     blue  = blue  * 2;
+ 
+-  /* shift up to be full 8bit values */
+-  red   = (red   << (8 - ctx->fb_r_mask)) | (0x7f >> (ctx->fb_r_mask_used));
+-  green = (green << (8 - ctx->fb_g_mask)) | (0x7f >> (ctx->fb_g_mask_used));
+-  blue  = (blue  << (8 - ctx->fb_b_mask)) | (0x7f >> (ctx->fb_b_mask_used));
++  /* shift up to occupy the full bit depth of the channel */
++  red   = (red   << (bpc - ctx->fb_r_mask)) | (0x7f >> (ctx->fb_r_mask_used));
++  green = (green << (bpc - ctx->fb_g_mask)) | (0x7f >> (ctx->fb_g_mask_used));
++  blue  = (blue  << (bpc - ctx->fb_b_mask)) | (0x7f >> (ctx->fb_b_mask_used));
+ 
+   col->red   = red;
+   col->green = green;
+@@ -646,9 +652,9 @@ _clutter_id_to_color (guint         id_,
+    */
+   if (G_UNLIKELY (clutter_pick_debug_flags & CLUTTER_DEBUG_DUMP_PICK_BUFFERS))
+     {
+-      col->red   = (col->red << 4)   | (col->red >> 4);
+-      col->green = (col->green << 4) | (col->green >> 4);
+-      col->blue  = (col->blue << 4)  | (col->blue >> 4);
++      col->red   = (col->red << bpc/2)   | (col->red >> bpc/2);
++      col->green = (col->green << bpc/2) | (col->green >> bpc/2);
++      col->blue  = (col->blue << bpc/2)  | (col->blue >> bpc/2);
+     }
+ }
+ 
+@@ -658,11 +664,17 @@ _clutter_pixel_to_id (guchar pixel[4])
+   ClutterMainContext *ctx;
+   gint red, green, blue;
+   guint retval;
++  /* keep track of the bit depth of the RGB channels of the framebuffers (i.e.
++   * either 8 or 10) */
++  gint bpc;
+ 
+   ctx = _clutter_context_get_default ();
+ 
++  bpc = ctx->fb_r_mask;
++  g_assert (bpc == 8 || bpc == 10);
++
+   /* reduce the pixel components to the number of bits actually used of the
+-   * 8bits.
++   * bit depth of the channel (i.e. 8 or 10 bits)
+    */
+   if (G_UNLIKELY (clutter_pick_debug_flags & CLUTTER_DEBUG_DUMP_PICK_BUFFERS))
+     {
+@@ -673,18 +685,18 @@ _clutter_pixel_to_id (guchar pixel[4])
+        * identifiers (otherwise pick buffers dumped to an image will pretty
+        * much just look black.) Here we reverse that rotation.
+        */
+-      tmp = ((pixel[0] << 4) | (pixel[0] >> 4));
+-      red = tmp >> (8 - ctx->fb_r_mask);
+-      tmp = ((pixel[1] << 4) | (pixel[1] >> 4));
+-      green = tmp >> (8 - ctx->fb_g_mask);
+-      tmp = ((pixel[2] << 4) | (pixel[2] >> 4));
+-      blue = tmp >> (8 - ctx->fb_b_mask);
++      tmp = ((pixel[0] << bpc/2) | (pixel[0] >> bpc/2));
++      red = tmp >> (bpc - ctx->fb_r_mask);
++      tmp = ((pixel[1] << bpc/2) | (pixel[1] >> bpc/2));
++      green = tmp >> (bpc - ctx->fb_g_mask);
++      tmp = ((pixel[2] << bpc/2) | (pixel[2] >> bpc/2));
++      blue = tmp >> (bpc - ctx->fb_b_mask);
+     }
+   else
+     {
+-      red   = pixel[0] >> (8 - ctx->fb_r_mask);
+-      green = pixel[1] >> (8 - ctx->fb_g_mask);
+-      blue  = pixel[2] >> (8 - ctx->fb_b_mask);
++      red   = pixel[0] >> (bpc - ctx->fb_r_mask);
++      green = pixel[1] >> (bpc - ctx->fb_g_mask);
++      blue  = pixel[2] >> (bpc - ctx->fb_b_mask);
+     }
+ 
+   /* divide potentially by two if 'fuzzy' */
+-- 
+2.20.1
+

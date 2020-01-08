@@ -165,7 +165,6 @@ gnome-extra/zenity::gentoo
 gui-libs/amtk::gentoo
 gui-libs/libhandy::gentoo
 gui-libs/tepl::gentoo
-kde-plasma/xdg-desktop-portal-kde::gentoo
 mail-client/geary::gentoo
 media-fonts/cantarell::gentoo
 media-fonts/croscorefonts::gentoo

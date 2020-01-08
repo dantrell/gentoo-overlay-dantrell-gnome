@@ -1,0 +1,39 @@
+From 3ad6748e539d0d1ffbe301db0dc56dbf7e7d2695 Mon Sep 17 00:00:00 2001
+From: Emmanuele Bassi <ebassi@gnome.org>
+Date: Tue, 11 Jul 2017 11:32:18 +0100
+Subject: [PATCH 01/19] build: Use newer glib-genmarshal argument
+
+When using glib-genmarshal from GLib 2.54, we can use the newly added
+`--prototypes` command line argument to generate the prototypes of the
+marshallers in the C source, and void a missing-prototypes compiler
+warning.
+
+(cherry picked from commit 7d499a09e1ef7dae0f3e9be774f3be25e2aa76ff)
+---
+ build/autotools/Makefile.am.marshal | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/build/autotools/Makefile.am.marshal b/build/autotools/Makefile.am.marshal
+index f29629ce1..3501ccf03 100644
+--- a/build/autotools/Makefile.am.marshal
++++ b/build/autotools/Makefile.am.marshal
+@@ -34,6 +34,7 @@ stamp-marshal: $(marshal_list)
+ 	$(AM_V_GEN)$(GLIB_GENMARSHAL) \
+ 		--prefix=$(glib_marshal_prefix) \
+ 		--header \
++		--valist-marshallers \
+ 	$(marshal_list) > xgen-mh \
+ 	&& (cmp -s xgen-mh $(marshal_h) || cp -f xgen-mh $(marshal_h)) \
+ 	&& rm -f xgen-mh \
+@@ -46,6 +47,8 @@ $(marshal_c): $(marshal_h)
+ 	$(AM_V_GEN)$(GLIB_GENMARSHAL) \
+ 		--prefix=$(glib_marshal_prefix) \
+ 		--body \
++		--prototypes \
++		--valist-marshallers \
+ 	$(marshal_list) > xgen-mc \
+ 	&& (cmp -s xgen-mc $(marshal_c) || cp -f xgen-mc $(marshal_c)) \
+ 	&& rm -f xgen-mc
+-- 
+2.20.1
+

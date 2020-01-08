@@ -4,7 +4,7 @@ EAPI="6"
 
 inherit gnome2
 
-DESCRIPTION="Library for the Desktop Menu fd.o specification"
+DESCRIPTION="Library and layout configuration for the Desktop Menu fd.o specification"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-menus"
 
 LICENSE="GPL-2+ LGPL-2+"
@@ -15,17 +15,12 @@ IUSE="+introspection test"
 
 RESTRICT="!test? ( test )"
 
-COMMON_DEPEND="
+RDEPEND="
 	>=dev-libs/glib-2.29.15:2
 	introspection? ( >=dev-libs/gobject-introspection-0.9.5:= )
 "
-# Older versions of slot 0 install the menu editor and the desktop directories
-RDEPEND="${COMMON_DEPEND}
-	!<gnome-base/gnome-menus-3.0.1-r1:0
-"
-DEPEND="${COMMON_DEPEND}
-	>=dev-util/intltool-0.40
-	sys-devel/gettext
+DEPEND="${RDEPEND}
+	>=sys-devel/gettext-0.19.4
 	virtual/pkgconfig
 	test? ( dev-libs/gjs )
 "

@@ -1,0 +1,29 @@
+From 283e2702f6cf3fc46dc21e1fe9695d8ab4a9332b Mon Sep 17 00:00:00 2001
+From: Emmanuele Bassi <ebassi@gnome.org>
+Date: Sun, 17 Jun 2018 16:50:29 +0100
+Subject: [PATCH 09/19] Cast the g_object_ref() return value
+
+GObject started performing type checks on generic gpointer API to avoid
+hard to chase bugs.
+
+(cherry picked from commit 1f9ab173131861799ff0912dd8fbbff294186e66)
+---
+ examples/threads.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/examples/threads.c b/examples/threads.c
+index 7a1e71e5c..f6d006160 100644
+--- a/examples/threads.c
++++ b/examples/threads.c
+@@ -195,7 +195,7 @@ on_key_press_event (ClutterStage *stage,
+ 
+       /* the data structure holding all our objects */
+       data = test_thread_data_new ();
+-      data->stage = g_object_ref (stage);
++      data->stage = (ClutterActor *) g_object_ref (stage);
+       data->label = g_object_ref (count_label);
+       data->progress = g_object_ref (progress_rect);
+       data->rect = g_object_ref (rect);
+-- 
+2.20.1
+

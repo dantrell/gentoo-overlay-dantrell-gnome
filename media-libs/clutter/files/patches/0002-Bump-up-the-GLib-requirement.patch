@@ -1,0 +1,29 @@
+From a00c4192ca9ca84f18ff0a820823cfe558752377 Mon Sep 17 00:00:00 2001
+From: Emmanuele Bassi <ebassi@gnome.org>
+Date: Tue, 8 Aug 2017 11:20:02 +0100
+Subject: [PATCH 02/19] Bump up the GLib requirement
+
+We are using a newer glib-genmarshal, so we should be using a newer
+GLib as well.
+
+(cherry picked from commit 66243ea57052aeada0a20f524a934bea0d0cc2d5)
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 7758faa3a..14393bf7c 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -119,7 +119,7 @@ LT_LIB_M
+ AC_HEADER_STDC
+ 
+ # required versions for dependencies
+-m4_define([glib_req_version],           [2.44.0])
++m4_define([glib_req_version],           [2.53.4])
+ m4_define([cogl_req_version],           [1.21.2])
+ m4_define([json_glib_req_version],      [0.12.0])
+ m4_define([atk_req_version],            [2.5.3])
+-- 
+2.20.1
+
