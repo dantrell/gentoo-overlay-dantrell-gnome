@@ -29,7 +29,7 @@
 ~dev-cpp/glibmm-2.60.1::dantrell-gnome
 ~dev-cpp/mm-common-0.9.12::dantrell-gnome
 ~dev-lang/vala-0.44.11::dantrell-gnome
-~dev-libs/appstream-glib-0.7.15::dantrell-gnome
+~dev-libs/appstream-glib-0.7.16::dantrell-gnome
 ~dev-libs/atk-2.32.0::dantrell-gnome-3-32
 ~dev-libs/folks-0.12.1::dantrell-gnome
 ~dev-libs/gjs-1.56.2::dantrell-gnome-3-32

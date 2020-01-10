@@ -33,10 +33,12 @@ src_prepare() {
 }
 
 src_configure() {
-	econf \
-		$(use_enable static-libs static) \
-		GPG_ERROR_CONFIG="${EROOT}/usr/bin/${CHOST}-gpg-error-config" \
-		$("${S}/configure" --help | grep -- '--without-.*-prefix' | sed -e 's/^ *\([^ ]*\) .*/\1/g')
+	local myeconfargs=(
+		$(use_enable static-libs static)
+		GPG_ERROR_CONFIG="${EROOT}/usr/bin/${CHOST}-gpg-error-config"
+		$("${S}/configure" --help | grep -o -- '--without-.*-prefix')
+	)
+	econf "${myeconfargs[@]}"
 }
 
 src_install() {
