@@ -63,6 +63,7 @@ net-misc/dhcpcd-ui -qt4
 net-misc/networkmanager modemmanager
 net-misc/networkmanager ppp
 net-misc/spice-gtk smartcard
+net-misc/spice-gtk usbredir
 net-nds/openldap minimal
 sys-apps/dbus X
 sys-devel/llvm clang
