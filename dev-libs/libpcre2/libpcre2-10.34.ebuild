@@ -7,14 +7,14 @@ inherit flag-o-matic libtool multilib-minimal toolchain-funcs usr-ldscript
 PATCH_SET="${P}-patchset-01.tar.xz"
 
 DESCRIPTION="Perl-compatible regular expression library"
-HOMEPAGE="http://www.pcre.org/"
+HOMEPAGE="https://www.pcre.org/"
 MY_P="pcre2-${PV/_rc/-RC}"
 if [[ ${PV} != *_rc* ]] ; then
 	# Only the final releases are available here.
 	SRC_URI="mirror://sourceforge/pcre/${MY_P}.tar.bz2
-		ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/${MY_P}.tar.bz2"
+		https://ftp.pcre.org/pub/pcre/${MY_P}.tar.bz2"
 else
-	SRC_URI="ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/Testing/${MY_P}.tar.bz2"
+	SRC_URI="https://ftp.pcre.org/pub/pcre/Testing/${MY_P}.tar.bz2"
 fi
 
 if [[ -n "${PATCH_SET}" ]] ; then

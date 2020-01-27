@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python{2_7,3_6,3_7,3_8} )
 
+PYTHON_COMPAT=( python{2_7,3_6,3_7,3_8} )
 # vala and introspection support is broken, bug #468208
 VALA_USE_DEPEND=vapigen
 
@@ -16,7 +16,7 @@ LICENSE="|| ( GPL-3+ LGPL-3 )"
 SLOT="0.4"
 KEYWORDS="~*"
 
-IUSE="cairo debug ffmpeg +introspection lcms lensfun libav openexr pdf raw sdl svg test tiff umfpack vala v4l webp"
+IUSE="cairo debug ffmpeg introspection lcms lensfun libav openexr pdf raw sdl svg test tiff umfpack vala v4l webp"
 REQUIRED_USE="
 	svg? ( cairo )
 	test? ( introspection )
@@ -31,7 +31,7 @@ RESTRICT="!test? ( test )"
 RDEPEND="
 	>=dev-libs/glib-2.44:2
 	>=dev-libs/json-glib-1.2.6
-	>=media-libs/babl-0.1.72[introspection?]
+	>=media-libs/babl-0.1.74[introspection?]
 	media-libs/libnsgif
 	>=media-libs/libpng-1.6.0:0=
 	>=sys-libs/zlib-1.2.0
@@ -57,9 +57,7 @@ RDEPEND="
 	webp? ( >=media-libs/libwebp-0.5.0:= )
 "
 
-DEPEND="
-	${RDEPEND}
-"
+DEPEND="${RDEPEND}"
 
 BDEPEND="
 	dev-lang/perl
@@ -71,10 +69,11 @@ BDEPEND="
 	vala? ( $(vala_depend) )
 "
 
+DOCS=( AUTHORS docs/ChangeLog docs/NEWS.txt )
+
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.4.18-drop-failing-tests.patch
 	"${FILESDIR}"/${PN}-0.4.18-program-suffix.patch
-	"${FILESDIR}"/${PN}-0.4.18-meson_cpu_detection.patch
 	"${FILESDIR}"/${PN}-0.4.18-cltostring_force_utf8.patch
 )
 

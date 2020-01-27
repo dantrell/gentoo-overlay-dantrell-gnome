@@ -26,7 +26,10 @@ RDEPEND="${PYTHON_DEPS}
 	>=x11-libs/gtk+-2.24:2
 	>=dev-python/pycairo-1.0.2[${PYTHON_USEDEP}]
 	>=dev-python/pygobject-2.26.8-r53:2[${PYTHON_USEDEP}]
-	dev-python/numpy[${PYTHON_USEDEP}]
+	|| (
+		>=dev-python/numpy-python2-1.16.5[${PYTHON_USEDEP}]
+		<dev-python/numpy-1.17.4[${PYTHON_USEDEP}]
+	)
 	>=gnome-base/libglade-2.5:2.0
 "
 DEPEND="${RDEPEND}

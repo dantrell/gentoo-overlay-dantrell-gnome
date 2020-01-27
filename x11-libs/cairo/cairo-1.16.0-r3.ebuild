@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-inherit eutils flag-o-matic autotools multilib-minimal
+inherit flag-o-matic autotools multilib-minimal
 
 DESCRIPTION="A vector graphics library with cross-device output support"
 HOMEPAGE="https://www.cairographics.org"
@@ -12,11 +12,14 @@ LICENSE="|| ( LGPL-2.1 MPL-1.1 )"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="X aqua debug gles2 +glib opengl static-libs +svg utils valgrind xcb"
+IUSE="X aqua debug gles2 +glib opengl static-libs +svg utils valgrind"
 
 # Test causes a circular depend on gtk+... since gtk+ needs cairo but test needs gtk+ so we need to block it
 RESTRICT="test"
 
+BDEPEND="
+	virtual/pkgconfig
+	>=sys-devel/libtool-2"
 RDEPEND="
 	>=dev-libs/lzo-2.06-r1[${MULTILIB_USEDEP}]
 	>=media-libs/fontconfig-2.10.92[${MULTILIB_USEDEP}]
@@ -32,14 +35,10 @@ RDEPEND="
 		>=x11-libs/libXrender-0.9.8[${MULTILIB_USEDEP}]
 		>=x11-libs/libXext-1.3.2[${MULTILIB_USEDEP}]
 		>=x11-libs/libX11-1.6.2[${MULTILIB_USEDEP}]
-	)
-	xcb? (
 		>=x11-libs/libxcb-1.9.1[${MULTILIB_USEDEP}]
 	)
 "
 DEPEND="${RDEPEND}
-	virtual/pkgconfig
-	>=sys-devel/libtool-2
 	X? ( x11-base/xorg-proto )
 "
 
@@ -79,6 +78,8 @@ multilib_src_configure() {
 		$(use_enable X tee) \
 		$(use_enable X xlib) \
 		$(use_enable X xlib-xrender) \
+		$(use_enable X xcb) \
+		$(use_enable X xcb-shm) \
 		$(use_enable aqua quartz) \
 		$(use_enable aqua quartz-image) \
 		$(use_enable debug test-surfaces) \
@@ -89,14 +90,12 @@ multilib_src_configure() {
 		$(use_enable svg) \
 		$(use_enable utils trace) \
 		$(use_enable valgrind) \
-		$(use_enable xcb) \
-		$(use_enable xcb xcb-shm) \
 		--enable-ft \
+		--enable-interpreter \
 		--enable-pdf \
 		--enable-png \
 		--enable-ps \
 		--enable-script \
-		--enable-interpreter \
 		--disable-drm \
 		--disable-directfb \
 		--disable-gallium \
@@ -107,6 +106,6 @@ multilib_src_configure() {
 }
 
 multilib_src_install_all() {
-	prune_libtool_files --all
+	find "${D}" -name '*.la' -delete || die
 	einstalldocs
 }

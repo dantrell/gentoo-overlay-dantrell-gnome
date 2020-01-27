@@ -2,6 +2,7 @@
 
 EAPI="7"
 PYTHON_COMPAT=( python{3_6,3_7,3_8} )
+DISTUTILS_USE_SETUPTOOLS="rdepend"
 
 inherit distutils-r1 toolchain-funcs
 
@@ -16,8 +17,7 @@ KEYWORDS="~*"
 IUSE="test"
 RESTRICT="!test? ( test )"
 
-RDEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
-DEPEND="${RDEPEND}
+DEPEND="
 	test? (
 		dev-libs/glib:2
 		dev-libs/gobject-introspection:=

@@ -10,15 +10,17 @@ HOMEPAGE="https://www.gtk.org/gtk-doc/"
 
 LICENSE="GPL-2 FDL-1.1"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
-IUSE="debug doc emacs highlight vim"
+IUSE="debug doc emacs"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
+
+# tests require unpackaged python module "anytree", and require java(fop) or tex(dblatex)
+RESTRICT="test"
 
 RDEPEND="
 	${PYTHON_DEPS}
 	>=dev-libs/glib-2.6:2
-	>=dev-lang/perl-5.18
 	dev-libs/libxslt
 	>=dev-libs/libxml2-2.3.6:2
 	~app-text/docbook-xml-dtd-4.3
@@ -26,14 +28,11 @@ RDEPEND="
 	~app-text/docbook-sgml-dtd-3.0
 	>=app-text/docbook-dsssl-stylesheets-1.40
 	emacs? ( >=app-editors/emacs-23.1:* )
-	highlight? (
-		vim? ( || ( app-editors/vim app-editors/gvim ) )
-		!vim? ( dev-util/source-highlight )
-	)
+	dev-python/pygments[${PYTHON_USEDEP}]
 "
 DEPEND="${RDEPEND}
 	~dev-util/gtk-doc-am-${PV}
-	app-text/yelp-tools
+	dev-util/itstool
 	virtual/pkgconfig
 "
 
@@ -53,17 +52,9 @@ src_prepare() {
 }
 
 src_configure() {
-	local myconf
-	if use vim; then
-		myconf="${myconf} $(use_with highlight highlight vim)"
-	else
-		myconf="${myconf} $(use_with highlight highlight source-highlight)"
-	fi
-
 	gnome2_src_configure \
 		--with-xml-catalog="${EPREFIX}"/etc/xml/catalog \
-		$(use_enable debug) \
-		${myconf}
+		$(use_enable debug)
 }
 
 src_compile() {
@@ -76,9 +67,8 @@ src_install() {
 
 	python_fix_shebang "${ED}"/usr/bin/gtkdoc-depscan
 
-	# Don't install those files, they are in gtk-doc-am now
+	# Don't install this file, it's in gtk-doc-am now
 	rm "${ED}"/usr/share/aclocal/gtk-doc.m4 || die "failed to remove gtk-doc.m4"
-	rm "${ED}"/usr/bin/gtkdoc-rebase || die "failed to remove gtkdoc-rebase"
 
 	if use doc; then
 		docinto doc

@@ -3,7 +3,7 @@
 EAPI="6"
 GNOME_ORG_MODULE="gnome-themes-extra"
 
-inherit gnome.org ltprune multilib-minimal
+inherit gnome.org multilib-minimal
 
 DESCRIPTION="Adwaita GTK+2 theme engine"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-themes-extra"
@@ -40,5 +40,5 @@ multilib_src_compile() {
 
 multilib_src_install() {
 	emake -C themes/Adwaita/gtk-2.0 DESTDIR="${D}" install-engineLTLIBRARIES
-	prune_libtool_files --modules
+	find "${D}" -name '*.la' -delete || die
 }
