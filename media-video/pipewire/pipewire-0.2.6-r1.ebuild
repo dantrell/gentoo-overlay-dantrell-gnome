@@ -15,7 +15,7 @@ SRC_URI="https://github.com/PipeWire/${PN}/archive/${MY_PV}.tar.gz -> ${MY_P}.ta
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="doc gstreamer systemd"
 

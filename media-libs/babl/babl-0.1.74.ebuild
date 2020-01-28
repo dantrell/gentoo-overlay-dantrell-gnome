@@ -10,7 +10,7 @@ SRC_URI="http://ftp.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.xz"
 
 LICENSE="LGPL-3"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="introspection lcms cpu_flags_x86_avx2 cpu_flags_x86_f16c cpu_flags_x86_mmx cpu_flags_x86_sse cpu_flags_x86_sse2 cpu_flags_x86_sse3 cpu_flags_x86_sse4_1"
 
