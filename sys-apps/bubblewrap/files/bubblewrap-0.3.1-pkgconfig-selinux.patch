@@ -1,0 +1,11 @@
+diff '--exclude=.git' -urN a/configure.ac b/configure.ac
+--- a/configure.ac	2018-09-17 04:06:33.000000000 -0500
++++ b/configure.ac	2020-01-29 17:23:42.543409374 -0600
+@@ -14,6 +14,7 @@
+ 
+ AC_PROG_CC
+ AM_PROG_CC_C_O
++PKG_PROG_PKG_CONFIG([])
+ 
+ AC_CHECK_HEADERS([sys/capability.h], [], [AC_MSG_ERROR([*** POSIX caps headers not found])])
+ 

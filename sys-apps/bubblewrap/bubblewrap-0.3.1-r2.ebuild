@@ -40,6 +40,10 @@ pkg_setup() {
 }
 
 src_prepare() {
+	# From Gentoo:
+	# 	https://bugs.gentoo.org/674312#c3
+	eapply "${FILESDIR}"/${PN}-0.3.1-pkgconfig-selinux.patch
+
 	eapply_user
 	eautoreconf
 }
