@@ -56,6 +56,10 @@ src_prepare() {
 	# Fix build on Darwin
 	epatch "${FILESDIR}"/${PN}-2.24.0-quartz-objc.patch
 
+	# From GNOME:
+	# 	https://gitlab.gnome.org/Archive/pygtk/commit/4aaa48eb80c6802aec6d03e5695d2a0ff20e0fc2
+	epatch "${FILESDIR}"/${PN}-2.24.1-drop-the-pangofont-find-shaper-virtual-method.patch
+
 	# Examples is handled "manually"
 	sed -e 's/\(SUBDIRS = .* \)examples/\1/' \
 		-i Makefile.am Makefile.in || die
