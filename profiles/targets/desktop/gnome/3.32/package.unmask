@@ -18,7 +18,7 @@
 ~app-misc/gnote-3.32.1::dantrell-gnome-3-32
 ~app-misc/tracker-2.2.2::dantrell-gnome-3-32
 ~app-misc/tracker-miners-2.2.2::dantrell-gnome-3-32
-~app-text/enchant-2.2.4::dantrell-gnome
+~app-text/enchant-2.2.7::dantrell-gnome
 ~app-text/evince-3.32.1::dantrell-gnome-3-32
 ~app-text/gspell-1.8.3::dantrell-gnome
 ~app-text/libgepub-0.6.0::dantrell-gnome
@@ -43,7 +43,7 @@
 ~dev-libs/libcroco-0.6.13::dantrell-gnome
 ~dev-libs/libdazzle-3.32.3::dantrell-gnome-3-32
 ~dev-libs/libgdata-0.17.9::dantrell-gnome
-~dev-libs/libgee-0.20.2::dantrell-gnome
+~dev-libs/libgee-0.20.3::dantrell-gnome
 ~dev-libs/libgnome-games-support-1.4.4::dantrell-gnome
 ~dev-libs/libgweather-3.32.2::dantrell-gnome-3-32
 ~dev-libs/libical-3.0.7::dantrell-gnome

@@ -18,9 +18,9 @@ REQUIRED_USE="?? ( elogind systemd )"
 COMMON_DEPEND="
 	>=dev-libs/glib-2.50:2
 	>=dev-libs/libatasmart-0.19
+	>=dev-libs/libgudev-165:=
 	>=sys-auth/polkit-0.110
 	>=sys-libs/libblockdev-2.19[cryptsetup,lvm?,vdo?]
-	>=dev-libs/libgudev-165:=
 	virtual/udev
 	acl? ( virtual/acl )
 	elogind? ( >=sys-auth/elogind-219 )
@@ -74,9 +74,9 @@ src_configure() {
 		--enable-btrfs
 		--disable-gtk-doc
 		--disable-static
-		--localstatedir="${EPREFIX%/}"/var
-		--with-html-dir="${EPREFIX%/}"/usr/share/gtk-doc/html
-		--with-modprobedir="${EPREFIX%/}"/lib/modprobe.d
+		--localstatedir="${EPREFIX}"/var
+		--with-html-dir="${EPREFIX}"/usr/share/gtk-doc/html
+		--with-modprobedir="${EPREFIX}"/lib/modprobe.d
 		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
 		--with-tmpfilesdir="/usr/lib/tmpfiles.d"
 		--with-udevdir="$(get_udevdir)"

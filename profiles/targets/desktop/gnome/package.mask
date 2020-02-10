@@ -1,12 +1,3 @@
-# Masked to investigate systemd requirement
-#
-# Ref. https://bugs.gentoo.org/642252
-=net-dns/avahi-0.7-r3
-
-# Regression in linking process
-=sys-fs/udev-240
-=sys-fs/udev-241
-
 # Regression in meson_options.txt default values
 #
 # Ref. https://bugs.freedesktop.org/show_bug.cgi?id=103162
@@ -45,11 +36,6 @@
 # Masked to prefer stable releases
 #
 # Ref. https://forums.gentoo.org/viewtopic-t-1022050.html
-=media-libs/mesa-18.0.0_rc*
-=media-libs/mesa-18.1.0_rc*
-=media-libs/mesa-18.2.0_rc*
-=media-libs/mesa-18.3.0_rc*
-=media-libs/mesa-18.4.0_rc*
 =media-libs/mesa-19.0.0_rc*
 =media-libs/mesa-19.1.0_rc*
 =media-libs/mesa-19.2.0_rc*
@@ -60,3 +46,8 @@
 =media-libs/mesa-20.2.0_rc*
 =media-libs/mesa-20.3.0_rc*
 =media-libs/mesa-20.4.0_rc*
+=media-libs/mesa-21.0.0_rc*
+=media-libs/mesa-21.1.0_rc*
+=media-libs/mesa-21.2.0_rc*
+=media-libs/mesa-21.3.0_rc*
+=media-libs/mesa-21.4.0_rc*

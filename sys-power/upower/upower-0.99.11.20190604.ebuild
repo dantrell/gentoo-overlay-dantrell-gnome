@@ -409,10 +409,10 @@ src_configure() {
 		--disable-static
 		--disable-tests
 		--enable-man-pages
-		--libexecdir="${EPREFIX%/}"/usr/lib/${PN}
-		--localstatedir="${EPREFIX%/}"/var
+		--libexecdir="${EPREFIX}"/usr/lib/${PN}
+		--localstatedir="${EPREFIX}"/var
 		--with-backend=${backend}
-		--with-html-dir="${EPREFIX%/}"/usr/share/doc/${PF}/html
+		--with-html-dir="${EPREFIX}"/usr/share/doc/${PF}/html
 		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
 		--with-systemdutildir="$(systemd_get_utildir)"
 		$(use_enable ck deprecated)

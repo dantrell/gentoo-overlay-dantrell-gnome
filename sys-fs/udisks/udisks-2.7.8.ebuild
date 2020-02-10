@@ -74,9 +74,9 @@ src_configure() {
 		--enable-btrfs
 		--disable-gtk-doc
 		--disable-static
-		--localstatedir="${EPREFIX%/}"/var
-		--with-html-dir="${EPREFIX%/}"/usr/share/gtk-doc/html
-		--with-modprobedir="${EPREFIX%/}"/lib/modprobe.d
+		--localstatedir="${EPREFIX}"/var
+		--with-html-dir="${EPREFIX}"/usr/share/gtk-doc/html
+		--with-modprobedir="${EPREFIX}"/lib/modprobe.d
 		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
 		--with-udevdir="$(get_udevdir)"
 		$(use_enable acl)
