@@ -18,7 +18,7 @@ REQUIRED_USE="bluetooth? ( eds )"
 
 RESTRICT="!test? ( test )"
 
-DEPEND="
+COMMON_DEPEND="
 	$(vala_depend)
 	>=dev-libs/glib-2.44:2
 	dev-libs/dbus-glib
@@ -32,7 +32,7 @@ DEPEND="
 "
 # telepathy-mission-control needed at runtime; it is used by the telepathy
 # backend via telepathy-glib's AccountManager binding.
-RDEPEND="${DEPEND}
+RDEPEND="${COMMON_DEPEND}
 	bluetooth? ( >=net-wireless/bluez-5[obex] )
 	telepathy? ( net-im/telepathy-mission-control )
 "
