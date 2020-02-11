@@ -28,7 +28,9 @@ COMMON_DEPS="
 		sys-power/pm-utils
 	)
 	integration-test? (
-		dev-python/dbusmock[${PYTHON_USEDEP}]
+		$(python_gen_cond_dep '
+			dev-python/dbusmock[${PYTHON_MULTI_USEDEP}]
+		')
 		dev-util/umockdev
 	)
 	introspection? ( dev-libs/gobject-introspection:= )

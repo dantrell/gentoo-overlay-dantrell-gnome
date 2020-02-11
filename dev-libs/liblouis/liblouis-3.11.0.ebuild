@@ -1,24 +1,25 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 
 PYTHON_COMPAT=( python{2_7,3_6,3_7,3_8} )
 PYTHON_REQ_USE="wide-unicode(+)"
 DISTUTILS_OPTIONAL=1
 
-inherit distutils-r1
+inherit autotools distutils-r1
 
-DESCRIPTION="An open-source braille translator, back-translator and formatter"
-HOMEPAGE="http://www.liblouis.org/ https://github.com/liblouis/liblouis"
+DESCRIPTION="An open-source braille translator and back-translator"
+HOMEPAGE="http://liblouis.org/ https://github.com/liblouis/liblouis"
 SRC_URI="https://github.com/liblouis/liblouis/releases/download/v${PV}/${P}.tar.gz"
 
-LICENSE="LGPL-3"
+LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="python"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
+BDEPEND="sys-apps/help2man"
 RDEPEND="python? ( ${PYTHON_DEPS} )"
 DEPEND="${RDEPEND}"
 
@@ -30,6 +31,7 @@ src_prepare() {
 		distutils-r1_src_prepare
 		popd > /dev/null
 	fi
+	eautoreconf
 }
 
 src_configure() {
@@ -52,7 +54,7 @@ src_compile() {
 }
 
 src_install() {
-	emake install DESTDIR="${D}"
+	emake DESTDIR="${D}" install
 
 	if use python; then
 		pushd python > /dev/null
@@ -61,6 +63,7 @@ src_install() {
 		popd > /dev/null
 	fi
 
-	dodoc README AUTHORS NEWS ChangeLog
-	dohtml doc/liblouis.html
+	DOCS=( README AUTHORS NEWS ChangeLog doc/liblouis.txt )
+	HTML_DOCS=( doc/liblouis.html )
+	einstalldocs
 }

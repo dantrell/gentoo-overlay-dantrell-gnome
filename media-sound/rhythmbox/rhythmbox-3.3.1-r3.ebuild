@@ -84,7 +84,9 @@ RDEPEND="${COMMON_DEPEND}
 		dbus? ( sys-apps/dbus )
 		gnome-keyring? ( >=app-crypt/libsecret-0.18[introspection] )
 		webkit? (
-			dev-python/mako[${PYTHON_USEDEP}]
+			$(python_gen_cond_dep '
+				dev-python/mako[${PYTHON_MULTI_USEDEP}]
+			')
 			net-libs/webkit-gtk:4[introspection] ) )
 	upnp-av? (
 		>=media-libs/grilo-0.2:0.2

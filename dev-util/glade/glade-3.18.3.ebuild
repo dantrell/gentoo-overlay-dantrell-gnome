@@ -27,7 +27,10 @@ RDEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-1.32:= )
 	python? (
 		${PYTHON_DEPS}
-		>=dev-python/pygobject-3.8:3[${PYTHON_USEDEP}] )
+		$(python_gen_cond_dep '
+			>=dev-python/pygobject-3.8:3[${PYTHON_MULTI_USEDEP}]
+		')
+	)
 "
 DEPEND="${RDEPEND}
 	app-text/docbook-xml-dtd:4.1.2
