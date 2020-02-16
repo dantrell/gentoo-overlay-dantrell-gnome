@@ -2,7 +2,7 @@
 
 EAPI="5"
 
-inherit eutils gstreamer
+inherit eutils gstreamer ltprune
 
 DESCRIPTION="A GStreamer based RTSP server"
 HOMEPAGE="https://people.freedesktop.org/~wtay/"

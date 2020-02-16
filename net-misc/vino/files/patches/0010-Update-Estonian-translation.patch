@@ -1,0 +1,845 @@
+From 4ebedd8e72dcbb1d20ab64471860952ce87053c4 Mon Sep 17 00:00:00 2001
+From: Mart Raudsepp <leio@gentoo.org>
+Date: Fri, 9 Feb 2018 01:34:23 +0000
+Subject: [PATCH 10/68] Update Estonian translation
+
+---
+ po/et.po | 397 ++++++++++++++++++++++++++++++++++---------------------
+ 1 file changed, 244 insertions(+), 153 deletions(-)
+
+diff --git a/po/et.po b/po/et.po
+index 68f1fe3..6974063 100644
+--- a/po/et.po
++++ b/po/et.po
+@@ -13,114 +13,24 @@
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: Vino HEAD\n"
+-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
++"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
+ "product=vino&keywords=I18N+L10N&component=Preferences Dialog\n"
+-"POT-Creation-Date: 2013-03-10 22:52+0000\n"
+-"PO-Revision-Date: 2013-03-12 16:46+0300\n"
+-"Last-Translator: Mattias Põldaru <mahfiaz@gmail.com>\n"
++"POT-Creation-Date: 2017-04-10 15:29+0000\n"
++"PO-Revision-Date: 2018-02-09 03:32+0200\n"
++"Last-Translator: Mart Raudsepp <leio@gentoo.org>\n"
+ "Language-Team: Estonian <gnome-et@linux.ee>\n"
+ "Language: et\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=2; plural=(n!=1);\n"
++"X-Generator: Poedit 2.0.6\n"
+ 
+-#, c-format
+-msgid "There was an error showing the URL \"%s\""
+-msgstr "URLi \"%s\" kuvamisel esines viga"
+-
+-#, c-format
+-msgid ""
+-"There was an error displaying help:\n"
+-"%s"
+-msgstr ""
+-"Abiteabe kuvamisel tekkis viga:\n"
+-"%s"
+-
+-msgid "Checking the connectivity of this machine..."
+-msgstr "Selle masinaga ühendumise kontrollimine..."
+-
+-msgid "Your desktop is only reachable over the local network."
+-msgstr "Sinu töölauda on võimalik vaadata ainult kohtvõrgust."
+-
+-msgid " or "
+-msgstr " või "
+-
+-#, c-format
+-msgid "Others can access your computer using the address %s."
+-msgstr "Teised pääsevad Sinu arvutile ligi kasutades aadressi %s."
+-
+-msgid "Nobody can access your desktop."
+-msgstr "Keegi ei pääse su töölauale ligi."
+-
+-msgid "Desktop Sharing"
+-msgstr "Töölaua jagamine"
+-
+-msgid "Choose how other users can remotely view your desktop"
+-msgstr "Määrab kuidas teised kasutajad sinu töölauda vaadata tohivad"
+-
+-msgid "Desktop Sharing Preferences"
+-msgstr "Töölaua jagamise eelistused"
+-
+-msgid "Sharing"
+-msgstr "Ühiskasutus"
+-
+-msgid "Some of these preferences are locked down"
+-msgstr "Mõned nendest eelistustest on lukustatud"
+-
+-msgid "Allow other users to _view your desktop"
+-msgstr "Teistel kasutajatel on lubatud _vaadata Sinu töölauda"
+-
+-msgid "Your desktop will be shared"
+-msgstr "Sinu töölaud jagatakse ühiskasutuseks välja"
+-
+-msgid "_Allow other users to control your desktop"
+-msgstr "_Teistel kasutajatel lubatakse juhtida Sinu töölauda"
+-
+-msgid "Remote users are able to control your mouse and keyboard"
+-msgstr "Kaugkasutajatel on lubatud sinu hiirt ja klaviatuuri juhtida"
+-
+-msgid "Security"
+-msgstr "Turvalisus"
+-
+-msgid "_You must confirm each access to this machine"
+-msgstr "_Iga pöördumist sellesse masinasse peab kasutaja kinnitama"
+-
+-msgid "_Require the user to enter this password:"
+-msgstr "Nõutakse kasutajalt pa_rooli sisestamist:"
+-
+-msgid "Automatically _configure UPnP router to open and forward ports"
+-msgstr "UPnP ruuteris portite automaatne avamine ja suunamine"
+-
+-msgid "The router must have the UPnP feature enabled"
+-msgstr "Ruuteris peab UPnP võimalus olema lubatud"
+-
+-msgid "Show Notification Area Icon"
+-msgstr "Teateala ikooni näitamine"
+-
+-msgid "Al_ways"
+-msgstr "_Alati"
+-
+-msgid "_Only when someone is connected"
+-msgstr "_Ainult, kui keegi on ühendatud"
+-
+-msgid "_Never"
+-msgstr "_Mitte kunagi"
+-
+-msgid "Enable remote access to the desktop"
+-msgstr "Kaugkasutajatel lubatakse töölauda ainult vaadata"
+-
+-msgid ""
+-"If true, allows remote access to the desktop via the RFB protocol. Users on "
+-"remote machines may then connect to the desktop using a VNC viewer."
+-msgstr ""
+-"Kui märgitud, siis töölauale on lubatud väline juurdepääs RFB protokolli "
+-"abil. Eemalasuvate masinate kasutajad saavad seejärel töölauaga ühenduda VNC "
+-"vaaturi abil."
+-
++#: ../common/org.gnome.Vino.gschema.xml.h:1
+ msgid "Prompt the user before completing a connection"
+ msgstr "Kasutajalt kinnituse küsimine enne ühendamise lõpuleviimist"
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:2
+ msgid ""
+ "If true, remote users accessing the desktop are not allowed access until the "
+ "user on the host machine approves the connection. Recommended especially "
+@@ -130,9 +40,11 @@ msgstr ""
+ "kaugjuurdepääsu kasutaja saab töölauda kasutada. See on soovitatav eelkõige "
+ "parooliga kaitsmata ligipääsu korral."
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:3
+ msgid "Only allow remote users to view the desktop"
+ msgstr "Kaugkasutajatel lubatakse töölauda ainult vaadata"
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:4
+ msgid ""
+ "If true, remote users accessing the desktop are only allowed to view the "
+ "desktop. Remote users will not be able to use the mouse or keyboard."
+@@ -140,9 +52,11 @@ msgstr ""
+ "Kui märgitud, siis kaugjuurdepääsu kasutajatel lubatakse töölauda ainult "
+ "vaadata, neil pole võimalik kasutada ei hiirt ega klaviatuuri."
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:5
+ msgid "Network interface for listening"
+ msgstr "Võrguliides, mida kuulatakse"
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:6
+ msgid ""
+ "If not set, the server will listen on all network interfaces.\n"
+ "\n"
+@@ -154,9 +68,11 @@ msgstr ""
+ "Märgi see, et nõustuda ühendustega ainult määratud võrguliidestelt. Näiteks "
+ "eth0, wifi0, lo ja teised."
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:9
+ msgid "Listen on an alternative port"
+ msgstr "Alternatiivse pordi kuulamine"
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:10
+ msgid ""
+ "If true, the server will listen on another port, instead of the default "
+ "(5900). The port must be specified in the 'alternative-port' key."
+@@ -164,9 +80,11 @@ msgstr ""
+ "Kui märgitud, siis kuulab server vaikimisi pordi (5900) asemel võtmega "
+ "'alternative_port' määratud alternatiivset porti."
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:11
+ msgid "Alternative port number"
+ msgstr "Alternatiivse pordi number"
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:12
+ msgid ""
+ "The port which the server will listen to if the 'use-alternative-port' key "
+ "is set to true. Valid values are in the range of 5000 to 50000."
+@@ -174,9 +92,11 @@ msgstr ""
+ "Port, mida kuulatakse, kui võti \"use_alternative_port\" on märgitud. "
+ "Võimalikud väärtused on vahemikus 5000 kuni 50000."
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:13
+ msgid "Require encryption"
+ msgstr "Krüptimise nõudmine"
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:14
+ msgid ""
+ "If true, remote users accessing the desktop are required to support "
+ "encryption. It is highly recommended that you use a client which supports "
+@@ -186,9 +106,11 @@ msgstr ""
+ "kaugtöölauda ei kasutata usaldusväärses võrgus, on tungivalt soovitatav "
+ "pruukida krüptimise toega klienti."
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:15
+ msgid "Allowed authentication methods"
+ msgstr "Lubatud autentimismeetodid"
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:16
+ msgid ""
+ "Lists the authentication methods with which remote users may access the "
+ "desktop.\n"
+@@ -205,9 +127,11 @@ msgstr ""
+ "enne ühenduse loomist parooli (saab määrata võtmega \"vnc_password\") ja "
+ "\"none\", mis lubab igaühel ühenduse luua."
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:19
+ msgid "Password required for \"vnc\" authentication"
+ msgstr "\"vnc\" autentimiseks on vaja salasõna"
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:20
+ msgid ""
+ "The password which the remote user will be prompted for if the \"vnc\" "
+ "authentication method is used. The password specified by the key is base64 "
+@@ -222,9 +146,11 @@ msgstr ""
+ "Eriväärtus 'keyring' (mis ei ole ka korrektne base64) tähendab, et parool on "
+ "salvestatud GNOME võtmerõngasse."
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:23
+ msgid "E-mail address to which the remote desktop URL should be sent"
+ msgstr "E-posti aadress, millele võrgutöölaua URL tuleks saata"
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:24
+ msgid ""
+ "This key specifies the e-mail address to which the remote desktop URL should "
+ "be sent if the user clicks on the URL in the Desktop Sharing preferences "
+@@ -234,18 +160,22 @@ msgstr ""
+ "saadetakse, juhul kui kasutaja klõpsab töölaua jagamise eelistuste dialoogis "
+ "oleval URL-il."
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:25
+ msgid "Lock the screen when last user disconnect"
+ msgstr "Ekraani lukustamine pärast viimase kasutaja lahtiühendamist"
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:26
+ msgid ""
+ "If true, the screen will be locked after the last remote client disconnects."
+ msgstr ""
+ "Kui märgitud, siis pärast viimase kaugkliendi lahtiühendamist ekraan "
+ "lukustatakse."
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:27
+ msgid "When the status icon should be shown"
+ msgstr "Kas olekuikooni tuleb näidata"
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:28
+ msgid ""
+ "This key controls the behavior of the status icon. There are three options: "
+ "\"always\" - the icon will always be present; \"client\" - the icon will "
+@@ -257,9 +187,11 @@ msgstr ""
+ "juhul, kui keegi on ühendatud, see on ka vaikimisi väärtus; \"never\" - "
+ "ikooni ei kuvata mitte kunagi."
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:29
+ msgid "Whether to disable the desktop background when a user is connected"
+ msgstr "Kui märgitud, keelatakse sissetuleva õige ühenduse korral taustapilt"
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:30
+ msgid ""
+ "When true, disable the desktop background and replace it with a single block "
+ "of color when a user successfully connects."
+@@ -267,9 +199,11 @@ msgstr ""
+ "Kui märgitud, keelatakse kasutaja edukal ühendumisel töölaua taustapilt ja "
+ "asendatakse see ühtlase värviga."
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:31
+ msgid "Whether a UPnP router should be used to forward and open ports"
+ msgstr "UPNP kasutamine ruuterist pordi edasisuunamiseks"
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:32
+ msgid ""
+ "If true, request that a UPnP-capable router should forward and open the port "
+ "used by Vino."
+@@ -277,28 +211,30 @@ msgstr ""
+ "Kui märgitud, nõutakse, et UPnP võimekusega ruuter edastaks ja avaks Vino "
+ "kasutatava pordi."
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:33
+ msgid "Whether we should disable the XDamage extension of X.org"
+-msgstr "Kas X.org'i XDamage laiendus on keelatud või mitte"
++msgstr "Kas X.org’i XDamage laiendus on keelatud või mitte"
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:34
+ msgid ""
+ "If true, do not use the XDamage extension of X.org. This extension does not "
+ "work properly on some video drivers when using 3D effects. Disabling it will "
+ "make Vino work in these environments, with slower rendering as a side effect."
+ msgstr ""
+-"Kui märgitud, siis X.org'i XDamage laiendust ei kasutata. See laiendus ei "
++"Kui märgitud, siis X.org’i XDamage laiendust ei kasutata. See laiendus ei "
+ "tööta mõnede videodraiveritega korrektselt, kui kasutatakse 3D efekte. "
+ "Laienduse keelamine lubab Vinol töötada, kuid renderdamine on mõnevõrra "
+ "aeglasem."
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:35
+ msgid "Notify on connect"
+ msgstr "Teade ühendumisel"
+ 
++#: ../common/org.gnome.Vino.gschema.xml.h:36
+ msgid "If true, show a notification when a user connects to the system."
+ msgstr "Kui märgitud, siis antakse teada kasutaja ühendumisest süsteemiga."
+ 
+-msgid "Remote desktop sharing password"
+-msgstr "Töölaua jagamise parool"
+-
++#: ../server/smclient/eggdesktopfile.c:165
+ #, c-format
+ msgid "File is not a valid .desktop file"
+ msgstr "See pole korrektne .desktop fail"
+@@ -306,54 +242,68 @@ msgstr "See pole korrektne .desktop fail"
+ #. translators: 'Version' is from a desktop file, and
+ #. * should not be translated. '%s' would probably be a
+ #. * version number.
++#: ../server/smclient/eggdesktopfile.c:191
+ #, c-format
+ msgid "Unrecognized desktop file Version '%s'"
+ msgstr "Töölauafaili versioon '%s' on tundmatu"
+ 
++#: ../server/smclient/eggdesktopfile.c:974
+ #, c-format
+ msgid "Starting %s"
+ msgstr "Käivitamine: %s"
+ 
++#: ../server/smclient/eggdesktopfile.c:1116
+ #, c-format
+ msgid "Application does not accept documents on command line"
+ msgstr "Rakendus ei ava käsurealt dokumenti"
+ 
++#: ../server/smclient/eggdesktopfile.c:1184
+ #, c-format
+ msgid "Unrecognized launch option: %d"
+ msgstr "Tundmatu käivitusvalik: %d"
+ 
+ #. translators: The 'Type=Link' string is found in a
+ #. * desktop file, and should not be translated.
++#: ../server/smclient/eggdesktopfile.c:1391
+ #, c-format
+ msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
+ msgstr ""
+ "Dokumendi URI-sid pole võimalik 'Liik=Viit' tüüpi töölauakirjetele edastada"
+ 
++#: ../server/smclient/eggdesktopfile.c:1412
+ #, c-format
+ msgid "Not a launchable item"
+ msgstr "Element pole käivitatav"
+ 
++#: ../server/smclient/eggsmclient.c:226
+ msgid "Disable connection to session manager"
+ msgstr "Ühenduse keelamine seansihalduriga"
+ 
++#: ../server/smclient/eggsmclient.c:229
+ msgid "Specify file containing saved configuration"
+ msgstr "Määra salvestatud häälestust sisaldav fail"
+ 
++#: ../server/smclient/eggsmclient.c:229
+ msgid "FILE"
+ msgstr "FAIL"
+ 
++#: ../server/smclient/eggsmclient.c:232
+ msgid "Specify session management ID"
+ msgstr "Määra seansihalduse ID"
+ 
++#: ../server/smclient/eggsmclient.c:232
+ msgid "ID"
+ msgstr "ID"
+ 
++#: ../server/smclient/eggsmclient.c:253
+ msgid "Session management options:"
+ msgstr "Seansihalduse valikud:"
+ 
++#: ../server/smclient/eggsmclient.c:254
+ msgid "Show session management options"
+ msgstr "Seansihalduse valikuid näidatakse"
+ 
++#: ../server/vino-main.c:153
+ msgid ""
+ "Your XServer does not support the XTest extension - remote desktop access "
+ "will be view-only\n"
+@@ -364,18 +314,22 @@ msgstr ""
+ #. Tube mode uses Telepathy's Tubes to share a user's desktop directly
+ #. * with another IM contact. http://telepathy.freedesktop.org/wiki/Tubes
+ #.
++#: ../server/vino-main.c:249
+ msgid "Start in tube mode, for the ‘Share my Desktop’ feature"
+-msgstr "\"Minu töölaua jagamise\" võimaluse jaoks käivitumine toru-režiimis"
++msgstr "„Minu töölaua jagamise“ võimaluse jaoks käivitumine toru-režiimis"
+ 
++#: ../server/vino-main.c:260
+ msgid "- VNC Server for GNOME"
+ msgstr "- VNC server GNOME jaoks"
+ 
++#: ../server/vino-main.c:268
+ msgid ""
+ "Run 'vino-server --help' to see a full list of available command line options"
+ msgstr ""
+ "Käivita 'vino-server --help', et näha kogu nimekirja saadaolevatest käsurea "
+ "valikutest"
+ 
++#: ../server/vino-main.c:280
+ msgid "GNOME Desktop Sharing"
+ msgstr "GNOME töölaua jagamine"
+ 
+@@ -384,6 +338,7 @@ msgstr "GNOME töölaua jagamine"
+ #. * "1" if "%s's remote desktop" doesn't make sense in
+ #. * your language.
+ #.
++#: ../server/vino-mdns.c:62
+ msgid "vino-mdns:showusername"
+ msgstr "0"
+ 
+@@ -392,24 +347,31 @@ msgstr "0"
+ #. * translated "vino-mdns:showusername" to anything
+ #. * other than "1"
+ #.
++#: ../server/vino-mdns.c:74
+ #, c-format
+ msgid "%s's remote desktop on %s"
+ msgstr "Kasutaja %s kaugtöölaud masinas %s"
+ 
++#: ../server/vino-prefs.c:111
+ #, c-format
+ msgid "Received signal %d, exiting."
+ msgstr "Vastu võeti signaal %d, väljumine."
+ 
++#: ../server/vino-prompt.c:144
+ msgid "Screen"
+ msgstr "Ekraan"
+ 
++#: ../server/vino-prompt.c:145
+ msgid "The screen on which to display the prompt"
+ msgstr "Viiba kuvamiseks kasutatav ekraan"
+ 
++#: ../server/vino-prompt.c:270 ../server/vino-status-icon.c:604
++#: ../server/vino-status-tube-icon.c:396
+ #, c-format
+ msgid "Error initializing libnotify\n"
+ msgstr "Viga libnotify lähtestamisel\n"
+ 
++#: ../server/vino-prompt.c:289
+ #, c-format
+ msgid ""
+ "A user on the computer '%s' is trying to remotely view or control your "
+@@ -417,40 +379,56 @@ msgid ""
+ msgstr ""
+ "Kasutaja arvutist '%s' proovib üle võrgu vaadata või kasutada Sinu töölauda."
+ 
++#: ../server/vino-prompt.c:292
+ msgid "Another user is trying to view your desktop."
+ msgstr "Üks kasutaja proovib vaadata sinu töölauda."
+ 
++#: ../server/vino-prompt.c:298
+ msgid "Refuse"
+ msgstr "Keeldu"
+ 
++#: ../server/vino-prompt.c:304
+ msgid "Accept"
+ msgstr "Nõustu"
+ 
++#: ../server/vino-server.c:159 ../server/vino-server.c:182
+ #, c-format
+ msgid "Failed to open connection to bus: %s\n"
+ msgstr "Tõrge siiniga ühendumisel: %s\n"
+ 
++#: ../server/vino-server.desktop.in.in.h:1
++msgid "Desktop Sharing"
++msgstr "Töölaua jagamine"
++
++#: ../server/vino-server.desktop.in.in.h:2
+ msgid "GNOME Desktop Sharing Server"
+ msgstr "GNOME töölaua jagamise server"
+ 
++#: ../server/vino-server.desktop.in.in.h:3
+ msgid "vnc;share;remote;"
+ msgstr "vnc;jagamine;kaugtöölaud;"
+ 
+-msgid "Desktop sharing is enabled"
+-msgstr "Töölaua jagamine on lubatud"
+-
++#: ../server/vino-status-icon.c:103
+ #, c-format
+ msgid "One person is viewing your desktop"
+ msgid_plural "%d people are viewing your desktop"
+ msgstr[0] "Üks kasutaja vaatab Sinu töölauda"
+ msgstr[1] "%d kasutajat vaatavad Sinu töölauda"
+ 
++#: ../server/vino-status-icon.c:112 ../server/vino-status-tube-icon.c:90
++msgid "Desktop sharing is enabled"
++msgstr "Töölaua jagamine on lubatud"
++
++#: ../server/vino-status-icon.c:208 ../server/vino-status-icon.c:214
++#: ../server/vino-status-tube-icon.c:173 ../server/vino-status-tube-icon.c:179
+ msgid "Error displaying preferences"
+ msgstr "Viga eelistuste kuvamisel"
+ 
++#: ../server/vino-status-icon.c:236 ../server/vino-status-tube-icon.c:199
+ msgid "Error displaying help"
+ msgstr "Viga abiteabe kuvamisel"
+ 
++#: ../server/vino-status-icon.c:269
+ msgid ""
+ "Licensed under the GNU General Public License Version 2\n"
+ "\n"
+@@ -476,7 +454,7 @@ msgstr ""
+ "versioon number 2 või (vastavalt Teie valikule) ükskõik milline\n"
+ "hilisem versioon.\n"
+ "\n"
+-"Vino'd levitatakse lootuses, et see on kasulik, kuid ILMA\n"
++"Vino’d levitatakse lootuses, et see on kasulik, kuid ILMA\n"
+ "IGASUGUSE GARANTIITA; isegi KESKMISE/TAVALISE KVALITEEDI GARANTIITA\n"
+ "või SOBIVUSELE TEATUD KINDLAKS EESMÄRGIKS. Üksikasjade suhtes\n"
+ "vaata GNU Üldist Avalikku Litsentsi.\n"
+@@ -486,6 +464,7 @@ msgstr ""
+ "51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n"
+ 
+ #. Translators comment: put your own name here to appear in the about dialog.
++#: ../server/vino-status-icon.c:284
+ msgid "translator-credits"
+ msgstr ""
+ "Ivar Smolin <okul@linux.ee>, 2006-2008.\n"
+@@ -493,159 +472,271 @@ msgstr ""
+ "Ain Vagula <avagula@gmail.com>, 2005.\n"
+ "Mattias Põldaru <mahfiaz gmail.com>, 2008"
+ 
++#: ../server/vino-status-icon.c:290
+ msgid "Share your desktop with other users"
+ msgstr "Oma töölaua jagamine teistega"
+ 
++#. Translators: %s is a hostname
++#. Translators: %s is the alias of the telepathy contact
++#: ../server/vino-status-icon.c:357 ../server/vino-status-tube-icon.c:231
+ #, c-format
+ msgid "Are you sure you want to disconnect '%s'?"
+ msgstr "Kas sa soovid '%s' ühenduse katkestada?"
+ 
++#: ../server/vino-status-icon.c:360
+ #, c-format
+ msgid "The remote user from '%s' will be disconnected. Are you sure?"
+ msgstr ""
+ "Masinast '%s' ühendatud kaugkasutajate ühendused katkestatakse. Oled sa "
+-"kindel? "
++"kindel?"
+ 
++#: ../server/vino-status-icon.c:366
+ msgid "Are you sure you want to disconnect all clients?"
+ msgstr "Kas soovid kõikide klientide ühenduse katkestada?"
+ 
++#: ../server/vino-status-icon.c:368
+ msgid "All remote users will be disconnected. Are you sure?"
+ msgstr "Kõigi kaugkasutajate ühendused katkestatakse. Oled sa kindel?"
+ 
++#: ../server/vino-status-icon.c:380 ../server/vino-status-tube-icon.c:245
+ msgid "Disconnect"
+ msgstr "Katkesta"
+ 
++#: ../server/vino-status-icon.c:406 ../server/vino-status-tube-icon.c:270
+ msgid "_Preferences"
+ msgstr "_Eelistused"
+ 
++#: ../server/vino-status-icon.c:421
+ msgid "Disconnect all"
+ msgstr "Katkesta kõik"
+ 
+ #. Translators: %s is a hostname
+ #. Translators: %s is the alias of the telepathy contact
++#: ../server/vino-status-icon.c:445 ../server/vino-status-tube-icon.c:283
+ #, c-format
+ msgid "Disconnect %s"
+ msgstr "Katkesta %s"
+ 
++#: ../server/vino-status-icon.c:466 ../server/vino-status-tube-icon.c:302
+ msgid "_Help"
+ msgstr "A_bi"
+ 
++#: ../server/vino-status-icon.c:474
+ msgid "_About"
+ msgstr "_Programmist lähemalt"
+ 
+ #. Translators: %s is a hostname
++#: ../server/vino-status-icon.c:625
+ msgid "Another user is viewing your desktop"
+ msgstr "Teine kasutaja vaatab Sinu töölauda"
+ 
++#: ../server/vino-status-icon.c:627
+ #, c-format
+ msgid "A user on the computer '%s' is remotely viewing your desktop."
+ msgstr "Kasutaja arvutist '%s' vaatab üle võrgu Sinu töölauda."
+ 
+ #. Translators: %s is a hostname
++#: ../server/vino-status-icon.c:633
+ msgid "Another user is controlling your desktop"
+ msgstr "Teine kasutaja juhib Sinu töölauda"
+ 
++#: ../server/vino-status-icon.c:635
+ #, c-format
+ msgid "A user on the computer '%s' is remotely controlling your desktop."
+ msgstr "Kasutaja arvutist '%s' juhib üle võrgu Sinu töölauda."
+ 
++#: ../server/vino-status-icon.c:657 ../server/vino-status-tube-icon.c:430
+ #, c-format
+ msgid "Error while displaying notification bubble: %s\n"
+ msgstr "Viga teavitusmulli kuvamisel: %s\n"
+ 
++#: ../server/vino-status-tube-icon.c:234
+ #, c-format
+ msgid "The remote user '%s' will be disconnected. Are you sure?"
+ msgstr "Kaugkasutaja '%s' ühendus katkestatakse. Oled sa kindel? "
+ 
++#: ../server/vino-tube-server.c:220 ../server/vino-tube-server.c:249
+ msgid "Share my desktop information"
+ msgstr "Oma töölaua andmete jagamine teistega"
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
++#: ../server/vino-tube-server.c:224
+ #, c-format
+ msgid "'%s' rejected the desktop sharing invitation."
+ msgstr "'%s' keeldus töölaua jagamise kutsest."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
++#: ../server/vino-tube-server.c:228
+ #, c-format
+ msgid "'%s' disconnected"
+ msgstr "Ühendus masinaga '%s' katkes"
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
++#: ../server/vino-tube-server.c:255
+ #, c-format
+ msgid "'%s' is remotely controlling your desktop."
+ msgstr "'%s' juhib üle võrgu Sinu töölauda."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
++#: ../server/vino-tube-server.c:264
+ #, c-format
+ msgid "Waiting for '%s' to connect to the screen."
+ msgstr "Oodatakse masina '%s' järel, et see looks ühenduse ekraaniga."
+ 
++#: ../server/vino-util.c:88
+ msgid "_Allow"
+ msgstr "_Luba"
+ 
++#: ../server/vino-util.c:89
+ msgid "_Refuse"
+ msgstr "_Keela"
+ 
++#: ../server/vino-util.c:139
+ msgid "An error has occurred:"
+ msgstr "Esines järgnev viga:"
+ 
+-#, c-format
+-msgid "Cancelled"
+-msgstr "Tühistatud"
++#~ msgid "There was an error showing the URL \"%s\""
++#~ msgstr "URLi \"%s\" kuvamisel esines viga"
+ 
+-#, c-format
+-msgid ""
+-"ERROR: Maximum length of password is %d character. Please, re-enter the "
+-"password."
+-msgid_plural ""
+-"ERROR: Maximum length of password is %d characters. Please, re-enter the "
+-"password."
+-msgstr[0] ""
+-"VIGA: Parooli suurim lubatud pikkus on %d märk. Palun sisesta parool uuesti."
+-msgstr[1] ""
+-"VIGA: Parooli suurim lubatud pikkus on %d märki. Palun sisesta parool uuesti."
++#~ msgid ""
++#~ "There was an error displaying help:\n"
++#~ "%s"
++#~ msgstr ""
++#~ "Abiteabe kuvamisel tekkis viga:\n"
++#~ "%s"
+ 
+-#, c-format
+-msgid "Changing Vino password.\n"
+-msgstr "Vino parooli muutmine.\n"
++#~ msgid "Checking the connectivity of this machine..."
++#~ msgstr "Selle masinaga ühendumise kontrollimine..."
+ 
+-msgid "Enter new Vino password: "
+-msgstr "Sisesta uus Vino parool: "
++#~ msgid "Your desktop is only reachable over the local network."
++#~ msgstr "Sinu töölauda on võimalik vaadata ainult kohtvõrgust."
+ 
+-msgid "Retype new Vino password: "
+-msgstr "Sisesta uus Vino parool uuesti: "
++#~ msgid " or "
++#~ msgstr " või "
+ 
+-#, c-format
+-msgid "vino-passwd: password updated successfully.\n"
+-msgstr "vino-passwd: parool edukalt uuendatud.\n"
++#~ msgid "Others can access your computer using the address %s."
++#~ msgstr "Teised pääsevad Sinu arvutile ligi kasutades aadressi %s."
+ 
+-#, c-format
+-msgid "Sorry, passwords do not match.\n"
+-msgstr "Kahjuks paroolid ei klapi.\n"
++#~ msgid "Nobody can access your desktop."
++#~ msgstr "Keegi ei pääse su töölauale ligi."
+ 
+-#, c-format
+-msgid "vino-passwd: password unchanged.\n"
+-msgstr "vino-passwd: parool muutmata.\n"
++#~ msgid "Choose how other users can remotely view your desktop"
++#~ msgstr "Määrab kuidas teised kasutajad sinu töölauda vaadata tohivad"
+ 
+-msgid "Show Vino version"
+-msgstr "Näita Vino versiooni"
++#~ msgid "Desktop Sharing Preferences"
++#~ msgstr "Töölaua jagamise eelistused"
+ 
+-msgid "- Updates Vino password"
+-msgstr "- Uuendab Vino parooli"
++#~ msgid "Sharing"
++#~ msgstr "Ühiskasutus"
+ 
+-msgid ""
+-"Run 'vino-passwd --help' to see a full list of available command line options"
+-msgstr ""
+-"Käivita 'vino-passwd --help' et näha kogu nimekirja saadaval olevatest "
+-"käsurea valikutest"
++#~ msgid "Some of these preferences are locked down"
++#~ msgstr "Mõned nendest eelistustest on lukustatud"
+ 
+-#, c-format
+-msgid "VINO Version %s\n"
+-msgstr "VINO versioon %s\n"
++#~ msgid "Allow other users to _view your desktop"
++#~ msgstr "Teistel kasutajatel on lubatud _vaadata Sinu töölauda"
+ 
+-#, c-format
+-msgid "ERROR: You do not have enough permissions to change Vino password.\n"
+-msgstr "VIGA: Sul ei ole piisavalt õiguseid Vino parooli muutmiseks.\n"
++#~ msgid "Your desktop will be shared"
++#~ msgstr "Sinu töölaud jagatakse ühiskasutuseks välja"
++
++#~ msgid "_Allow other users to control your desktop"
++#~ msgstr "_Teistel kasutajatel lubatakse juhtida Sinu töölauda"
++
++#~ msgid "Remote users are able to control your mouse and keyboard"
++#~ msgstr "Kaugkasutajatel on lubatud sinu hiirt ja klaviatuuri juhtida"
++
++#~ msgid "Security"
++#~ msgstr "Turvalisus"
++
++#~ msgid "_You must confirm each access to this machine"
++#~ msgstr "_Iga pöördumist sellesse masinasse peab kasutaja kinnitama"
++
++#~ msgid "_Require the user to enter this password:"
++#~ msgstr "Nõutakse kasutajalt pa_rooli sisestamist:"
++
++#~ msgid "Automatically _configure UPnP router to open and forward ports"
++#~ msgstr "UPnP ruuteris portite automaatne avamine ja suunamine"
++
++#~ msgid "The router must have the UPnP feature enabled"
++#~ msgstr "Ruuteris peab UPnP võimalus olema lubatud"
++
++#~ msgid "Show Notification Area Icon"
++#~ msgstr "Teateala ikooni näitamine"
++
++#~ msgid "Al_ways"
++#~ msgstr "_Alati"
++
++#~ msgid "_Only when someone is connected"
++#~ msgstr "_Ainult, kui keegi on ühendatud"
++
++#~ msgid "_Never"
++#~ msgstr "_Mitte kunagi"
++
++#~ msgid "Enable remote access to the desktop"
++#~ msgstr "Kaugkasutajatel lubatakse töölauda ainult vaadata"
++
++#~ msgid ""
++#~ "If true, allows remote access to the desktop via the RFB protocol. Users "
++#~ "on remote machines may then connect to the desktop using a VNC viewer."
++#~ msgstr ""
++#~ "Kui märgitud, siis töölauale on lubatud väline juurdepääs RFB protokolli "
++#~ "abil. Eemalasuvate masinate kasutajad saavad seejärel töölauaga ühenduda "
++#~ "VNC vaaturi abil."
++
++#~ msgid "Remote desktop sharing password"
++#~ msgstr "Töölaua jagamise parool"
++
++#~ msgid "Cancelled"
++#~ msgstr "Tühistatud"
++
++#~ msgid ""
++#~ "ERROR: Maximum length of password is %d character. Please, re-enter the "
++#~ "password."
++#~ msgid_plural ""
++#~ "ERROR: Maximum length of password is %d characters. Please, re-enter the "
++#~ "password."
++#~ msgstr[0] ""
++#~ "VIGA: Parooli suurim lubatud pikkus on %d märk. Palun sisesta parool "
++#~ "uuesti."
++#~ msgstr[1] ""
++#~ "VIGA: Parooli suurim lubatud pikkus on %d märki. Palun sisesta parool "
++#~ "uuesti."
++
++#~ msgid "Changing Vino password.\n"
++#~ msgstr "Vino parooli muutmine.\n"
++
++#~ msgid "Enter new Vino password: "
++#~ msgstr "Sisesta uus Vino parool: "
++
++#~ msgid "Retype new Vino password: "
++#~ msgstr "Sisesta uus Vino parool uuesti: "
++
++#~ msgid "vino-passwd: password updated successfully.\n"
++#~ msgstr "vino-passwd: parool edukalt uuendatud.\n"
++
++#~ msgid "Sorry, passwords do not match.\n"
++#~ msgstr "Kahjuks paroolid ei klapi.\n"
++
++#~ msgid "vino-passwd: password unchanged.\n"
++#~ msgstr "vino-passwd: parool muutmata.\n"
++
++#~ msgid "Show Vino version"
++#~ msgstr "Näita Vino versiooni"
++
++#~ msgid "- Updates Vino password"
++#~ msgstr "- Uuendab Vino parooli"
++
++#~ msgid ""
++#~ "Run 'vino-passwd --help' to see a full list of available command line "
++#~ "options"
++#~ msgstr ""
++#~ "Käivita 'vino-passwd --help' et näha kogu nimekirja saadaval olevatest "
++#~ "käsurea valikutest"
++
++#~ msgid "VINO Version %s\n"
++#~ msgstr "VINO versioon %s\n"
++
++#~ msgid "ERROR: You do not have enough permissions to change Vino password.\n"
++#~ msgstr "VIGA: Sul ei ole piisavalt õiguseid Vino parooli muutmiseks.\n"
+ 
+ #~ msgid "Question"
+ #~ msgstr "Küsimus"
+-- 
+2.20.1
+

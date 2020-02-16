@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit eutils
+inherit eutils ltprune
 
 MY_PN="NetworkManager-sstp"
 MY_P="${MY_PN}-${PV}"

@@ -1,0 +1,426 @@
+From a43f91ec1eec314ad9c8eeb075f44e974e19c99b Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Tr=E1=BA=A7n=20Ng=E1=BB=8Dc=20Qu=C3=A2n?=
+ <vnwildman@gmail.com>
+Date: Tue, 5 Mar 2019 07:39:23 +0700
+Subject: [PATCH 58/68] Updated Vietnamese translation
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Trần Ngọc Quân <vnwildman@gmail.com>
+---
+ po/vi.po | 175 ++++++++++++++++++++++++++++---------------------------
+ 1 file changed, 88 insertions(+), 87 deletions(-)
+
+diff --git a/po/vi.po b/po/vi.po
+index d54c6b4..88a714f 100644
+--- a/po/vi.po
++++ b/po/vi.po
+@@ -8,10 +8,9 @@
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: vino master\n"
+-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+-"product=vino&keywords=I18N+L10N&component=Preferences Dialog\n"
+-"POT-Creation-Date: 2014-11-26 23:50+0000\n"
+-"PO-Revision-Date: 2014-11-27 13:25+0700\n"
++"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/vino/issues\n"
++"POT-Creation-Date: 2019-02-28 22:23+0000\n"
++"PO-Revision-Date: 2019-03-05 07:37+0700\n"
+ "Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
+ "Language-Team: Vietnamese <gnome-vi-list@gnome.org>\n"
+ "Language: vi\n"
+@@ -19,6 +18,7 @@ msgstr ""
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=1; plural=0;\n"
++"X-Generator: Poedit 2.2.1\n"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:1
+ msgid "Prompt the user before completing a connection"
+@@ -69,7 +69,7 @@ msgstr "Lắng nghe trên cổng thay thế"
+ #: ../common/org.gnome.Vino.gschema.xml.h:10
+ msgid ""
+ "If true, the server will listen on another port, instead of the default "
+-"(5900). The port must be specified in the 'alternative-port' key."
++"(5900). The port must be specified in the “alternative-port” key."
+ msgstr ""
+ "Nếu đúng (true) thì trình phục vụ sẽ lắng nghe trên cổng khác, thay cho cổng "
+ "mặc định (5900). Cổng khác này cần phải được chỉ định trong khoá "
+@@ -81,7 +81,7 @@ msgstr "Số hiệu cổng thay thế"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:12
+ msgid ""
+-"The port which the server will listen to if the 'use-alternative-port' key "
++"The port which the server will listen to if the “use-alternative-port” key "
+ "is set to true. Valid values are in the range of 5000 to 50000."
+ msgstr ""
+ "Cổng trên đó trình phục vụ sẽ lắng nghe nếu khoá “use-alternative-"
+@@ -111,37 +111,35 @@ msgid ""
+ "Lists the authentication methods with which remote users may access the "
+ "desktop.\n"
+ "\n"
+-"There are two possible authentication methods; \"vnc\" causes the remote "
+-"user to be prompted for a password (the password is specified by the vnc-"
+-"password key) before connecting and \"none\" which allows any remote user to "
+-"connect."
++"There are two possible authentication methods; “vnc” causes the remote user "
++"to be prompted for a password (the password is specified by the vnc-password "
++"key) before connecting and “none” which allows any remote user to connect."
+ msgstr ""
+ "Liệt kê các phương pháp xác thực với chúng người dùng từ xa có thể truy cập "
+ "màn hình làm việc.\n"
+ "\n"
+-"Có hai phương pháp truy cập có thể: \"vnc\" gây ra người dùng từ xa được "
+-"nhắc nhập mật khẩu (được ghi rõ trong khóa \"vnc-password\") trước khi kết "
+-"nối, còn \"none\" (không có) cho phép mọi người dùng từ xa có khả năng truy "
+-"cập."
++"Có hai phương pháp truy cập có thể: “vnc” làm cho người dùng từ xa được nhắc "
++"nhập mật khẩu (được ghi rõ trong khóa \"vnc-password\") trước khi kết nối, "
++"còn “none” (không có) cho phép mọi người dùng từ xa có khả năng truy cập."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:19
+-msgid "Password required for \"vnc\" authentication"
++msgid "Password required for “vnc” authentication"
+ msgstr "Mật khẩu cần thiết để xác thực “vnc”"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:20
+ msgid ""
+-"The password which the remote user will be prompted for if the \"vnc\" "
++"The password which the remote user will be prompted for if the “vnc” "
+ "authentication method is used. The password specified by the key is base64 "
+ "encoded.\n"
+ "\n"
+-"The special value of 'keyring' (which is not valid base64) means that the "
++"The special value of “keyring” (which is not valid base64) means that the "
+ "password is stored in the GNOME keyring."
+ msgstr ""
+-"Mật khẩu người dùng từ xa được nhắc nhập nếu phương pháp xác thực \"vnc\" "
+-"được dùng. Mật khẩu được chỉ ra bằng khoá được mã hóa kiểu base64.\n"
++"Mật khẩu người dùng từ xa được nhắc nhập nếu phương pháp xác thực “vnc” được "
++"dùng. Mật khẩu được chỉ ra bằng khoá được mã hóa kiểu base64.\n"
+ "\n"
+-"Giá trị đặc biệt \"keyring\" (không phải là giá trị base64 hợp lệ) nghĩa là "
+-"mật khẩu lưu trong vòng khoá GNOME."
++"Giá trị đặc biệt “keyring” (không phải là giá trị base64 hợp lệ) nghĩa là "
++"mật khẩu lưu trong chùm chìa khoá GNOME."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:23
+ msgid "E-mail address to which the remote desktop URL should be sent"
+@@ -176,14 +174,14 @@ msgstr "Có nên hiển thị biểu tượng trạng thái khi nào"
+ #: ../common/org.gnome.Vino.gschema.xml.h:28
+ msgid ""
+ "This key controls the behavior of the status icon. There are three options: "
+-"\"always\" - the icon will always be present; \"client\" - the icon will "
+-"only be present when someone is connected (this is the default behavior); "
+-"\"never\" - the icon will not be present."
++"“always” — the icon will always be present; “client” — the icon will only be "
++"present when someone is connected (this is the default behavior); “never” — "
++"the icon will not be present."
+ msgstr ""
+ "Khoá này điều khiển ứng xử của biểu tượng trạng thái. Có ba tùy chọn:\n"
+-" * always\t\tbiểu tượng luôn luôn ở đó\n"
+-" * client\t\tbạn thấy biểu tượng chỉ khi người dùng có kết nối (mặc định)\n"
+-" * never\t\tkhông bao giờ hiển thị biểu tượng."
++" * “always” — biểu tượng luôn luôn ở đó\n"
++" * “client” — bạn thấy biểu tượng chỉ khi người dùng có kết nối (mặc định)\n"
++" * “never” — không bao giờ hiển thị biểu tượng."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:29
+ msgid "Whether to disable the desktop background when a user is connected"
+@@ -242,8 +240,8 @@ msgstr "Không phải tập tin .desktop hợp lệ"
+ #. * version number.
+ #: ../server/smclient/eggdesktopfile.c:191
+ #, c-format
+-msgid "Unrecognized desktop file Version '%s'"
+-msgstr "Không nhận ra phiên bản tập tin .desktop “%s”"
++msgid "Unrecognized desktop file Version “%s”"
++msgstr "Không nhận ra phiên bản tập tin desktop “%s”"
+ 
+ #: ../server/smclient/eggdesktopfile.c:974
+ #, c-format
+@@ -264,7 +262,7 @@ msgstr "Tuỳ chọn thực thi không nhận ra: %d"
+ #. * desktop file, and should not be translated.
+ #: ../server/smclient/eggdesktopfile.c:1391
+ #, c-format
+-msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
++msgid "Can’t pass document URIs to a “Type=Link” desktop entry"
+ msgstr "Không thể chuyển URI tài liệu cho mục desktop “Type=Link”"
+ 
+ #: ../server/smclient/eggdesktopfile.c:1412
+@@ -300,33 +298,33 @@ msgstr "Các tùy chọn quản lý phiên:"
+ msgid "Show session management options"
+ msgstr "Hiện các tùy chọn quản lý phiên chạy"
+ 
+-#: ../server/vino-main.c:153
++#: ../server/vino-main.c:154
+ msgid ""
+-"Your XServer does not support the XTest extension - remote desktop access "
++"Your XServer does not support the XTest extension — remote desktop access "
+ "will be view-only\n"
+ msgstr ""
+ "XServer (trình hỗ trợ hệ thống cửa sổ X) của bạn không hỗ trợ phần mở rộng "
+-"XTest nên truy cập vào màn hình làm việc từ xa chỉ có khả năng xem\n"
++"XTest — nên truy cập vào màn hình làm việc từ xa chỉ có khả năng xem\n"
+ 
+ #. Tube mode uses Telepathy's Tubes to share a user's desktop directly
+ #. * with another IM contact. http://telepathy.freedesktop.org/wiki/Tubes
+ #.
+-#: ../server/vino-main.c:249
+-msgid "Start in tube mode, for the ‘Share my Desktop’ feature"
++#: ../server/vino-main.c:250
++msgid "Start in tube mode, for the “Share my Desktop” feature"
+ msgstr "Hoạt động ở chế độ tube, dành cho đặc tính “Chia sẻ máy tính của tôi”"
+ 
+-#: ../server/vino-main.c:255
+-msgid "- VNC Server for GNOME"
+-msgstr " - Máy chủ VNC cho GNOME"
++#: ../server/vino-main.c:261
++msgid "— VNC Server for GNOME"
++msgstr "— Máy chủ VNC cho GNOME"
+ 
+-#: ../server/vino-main.c:263
++#: ../server/vino-main.c:269
+ msgid ""
+-"Run 'vino-server --help' to see a full list of available command line options"
++"Run “vino-server --help” to see a full list of available command line options"
+ msgstr ""
+-"Hãy chạy \"vino-server --help\" để thấy một danh sách đầy đủ các tuỳ chọn "
+-"dòng lệnh"
++"Hãy chạy “vino-server --help” để thấy một danh sách đầy đủ các tuỳ chọn dòng "
++"lệnh"
+ 
+-#: ../server/vino-main.c:275
++#: ../server/vino-main.c:287
+ msgid "GNOME Desktop Sharing"
+ msgstr "Chia sẻ Màn hình GNOME"
+ 
+@@ -346,7 +344,7 @@ msgstr "vino-mdns:tài_khoản_người_xem"
+ #.
+ #: ../server/vino-mdns.c:74
+ #, c-format
+-msgid "%s's remote desktop on %s"
++msgid "%s’s remote desktop on %s"
+ msgstr "Màn hình nền từ xa của %s trên %s"
+ 
+ #: ../server/vino-prefs.c:111
+@@ -362,30 +360,30 @@ msgstr "Màn hình"
+ msgid "The screen on which to display the prompt"
+ msgstr "Màn hình cần hiển thị lời nhắc"
+ 
+-#: ../server/vino-prompt.c:263 ../server/vino-status-icon.c:598
+-#: ../server/vino-status-tube-icon.c:389
++#: ../server/vino-prompt.c:270 ../server/vino-status-icon.c:604
++#: ../server/vino-status-tube-icon.c:396
+ #, c-format
+ msgid "Error initializing libnotify\n"
+ msgstr "Gặp lỗi khi khởi tạo libnotify\n"
+ 
+-#: ../server/vino-prompt.c:282
++#: ../server/vino-prompt.c:289
+ #, c-format
+ msgid ""
+-"A user on the computer '%s' is trying to remotely view or control your "
++"A user on the computer “%s” is trying to remotely view or control your "
+ "desktop."
+ msgstr ""
+ "Người dùng trên máy “%s” đang cố xem hoặc điều khiển màn hình làm việc của "
+ "bạn từ xa."
+ 
+-#: ../server/vino-prompt.c:285
++#: ../server/vino-prompt.c:292
+ msgid "Another user is trying to view your desktop."
+ msgstr "Người dùng khác đang cố xem màn hình làm việc của bạn."
+ 
+-#: ../server/vino-prompt.c:291
++#: ../server/vino-prompt.c:298
+ msgid "Refuse"
+ msgstr "Từ chối"
+ 
+-#: ../server/vino-prompt.c:297
++#: ../server/vino-prompt.c:304
+ msgid "Accept"
+ msgstr "Nhận lời"
+ 
+@@ -406,25 +404,26 @@ msgstr "Máy chủ Chia sẻ màn hình GNOME"
+ msgid "vnc;share;remote;"
+ msgstr "vnc;share;remote;chia;sẻ;se;từ;xa;điều;khiển;dieu;khien;"
+ 
+-#: ../server/vino-status-icon.c:97 ../server/vino-status-tube-icon.c:90
+-msgid "Desktop sharing is enabled"
+-msgstr "Đã bật chia sẻ màn hình nền"
+-
+-#: ../server/vino-status-icon.c:105
++#: ../server/vino-status-icon.c:103
+ #, c-format
+ msgid "One person is viewing your desktop"
+ msgid_plural "%d people are viewing your desktop"
+ msgstr[0] "%d người đang xem màn hình của bạn"
+ 
+-#: ../server/vino-status-icon.c:208 ../server/vino-status-tube-icon.c:172
++#: ../server/vino-status-icon.c:112 ../server/vino-status-tube-icon.c:90
++msgid "Desktop sharing is enabled"
++msgstr "Đã bật chia sẻ màn hình nền"
++
++#: ../server/vino-status-icon.c:208 ../server/vino-status-icon.c:214
++#: ../server/vino-status-tube-icon.c:173 ../server/vino-status-tube-icon.c:179
+ msgid "Error displaying preferences"
+ msgstr "Gặp lỗi khi hiển thị tuỳ thích"
+ 
+-#: ../server/vino-status-icon.c:230 ../server/vino-status-tube-icon.c:192
++#: ../server/vino-status-icon.c:236 ../server/vino-status-tube-icon.c:199
+ msgid "Error displaying help"
+ msgstr "Gặp lỗi khi hiển thị trợ giúp"
+ 
+-#: ../server/vino-status-icon.c:263
++#: ../server/vino-status-icon.c:269
+ msgid ""
+ "Licensed under the GNU General Public License Version 2\n"
+ "\n"
+@@ -462,87 +461,89 @@ msgstr ""
+ "Boston, MA  02110-1301, USA.\n"
+ 
+ #. Translators comment: put your own name here to appear in the about dialog.
+-#: ../server/vino-status-icon.c:278
++#: ../server/vino-status-icon.c:284
+ msgid "translator-credits"
+-msgstr "Nhóm Việt hoá GNOME (http://gnomevi.sourceforge.net)"
++msgstr "Nhóm Việt hóa GNOME <gnome-vi-list@gnome.org>"
+ 
+-#: ../server/vino-status-icon.c:284
++#: ../server/vino-status-icon.c:290
+ msgid "Share your desktop with other users"
+ msgstr "Chia sẻ màn hình của bạn với người khác"
+ 
+-#: ../server/vino-status-icon.c:351 ../server/vino-status-tube-icon.c:224
++#. Translators: %s is a hostname
++#. Translators: %s is the alias of the telepathy contact
++#: ../server/vino-status-icon.c:357 ../server/vino-status-tube-icon.c:231
+ #, c-format
+-msgid "Are you sure you want to disconnect '%s'?"
++msgid "Are you sure you want to disconnect “%s”?"
+ msgstr "Bạn có chắc muốn ngắt kết nối “%s” chứ?"
+ 
+-#: ../server/vino-status-icon.c:354
++#: ../server/vino-status-icon.c:360
+ #, c-format
+-msgid "The remote user from '%s' will be disconnected. Are you sure?"
++msgid "The remote user from “%s” will be disconnected. Are you sure?"
+ msgstr "Người dùng từ “%s” sẽ bị ngắt kết nối. Bạn chắc chứ?"
+ 
+-#: ../server/vino-status-icon.c:360
++#: ../server/vino-status-icon.c:366
+ msgid "Are you sure you want to disconnect all clients?"
+ msgstr "Bạn có chắc muốn ngắt kết nối mọi người không?"
+ 
+-#: ../server/vino-status-icon.c:362
++#: ../server/vino-status-icon.c:368
+ msgid "All remote users will be disconnected. Are you sure?"
+ msgstr "Mọi người sẽ bị ngắt kết nối. Bạn chắc chứ?"
+ 
+-#: ../server/vino-status-icon.c:374 ../server/vino-status-tube-icon.c:238
++#: ../server/vino-status-icon.c:380 ../server/vino-status-tube-icon.c:245
+ msgid "Disconnect"
+ msgstr "Ngắt kết nối"
+ 
+-#: ../server/vino-status-icon.c:400 ../server/vino-status-tube-icon.c:263
++#: ../server/vino-status-icon.c:406 ../server/vino-status-tube-icon.c:270
+ msgid "_Preferences"
+ msgstr "_Tuỳ thích"
+ 
+-#: ../server/vino-status-icon.c:415
++#: ../server/vino-status-icon.c:421
+ msgid "Disconnect all"
+ msgstr "Ngắt tất cả kết nối"
+ 
+ #. Translators: %s is a hostname
+ #. Translators: %s is the alias of the telepathy contact
+-#: ../server/vino-status-icon.c:439 ../server/vino-status-tube-icon.c:276
++#: ../server/vino-status-icon.c:445 ../server/vino-status-tube-icon.c:283
+ #, c-format
+ msgid "Disconnect %s"
+ msgstr "Ngắt kết nối %s"
+ 
+-#: ../server/vino-status-icon.c:460 ../server/vino-status-tube-icon.c:295
++#: ../server/vino-status-icon.c:466 ../server/vino-status-tube-icon.c:302
+ msgid "_Help"
+ msgstr "Trợ _giúp"
+ 
+-#: ../server/vino-status-icon.c:468
++#: ../server/vino-status-icon.c:474
+ msgid "_About"
+ msgstr "_Giới thiệu"
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:619
++#: ../server/vino-status-icon.c:625
+ msgid "Another user is viewing your desktop"
+ msgstr "Cho phép người khác xem màn hình làm việc của bạn"
+ 
+-#: ../server/vino-status-icon.c:621
++#: ../server/vino-status-icon.c:627
+ #, c-format
+-msgid "A user on the computer '%s' is remotely viewing your desktop."
++msgid "A user on the computer “%s” is remotely viewing your desktop."
+ msgstr "Người dùng trên máy “%s” xem màn hình làm việc của bạn từ xa."
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:627
++#: ../server/vino-status-icon.c:633
+ msgid "Another user is controlling your desktop"
+ msgstr "Cho phép người dùng khác điều khiển màn hình làm việc của bạn"
+ 
+-#: ../server/vino-status-icon.c:629
++#: ../server/vino-status-icon.c:635
+ #, c-format
+-msgid "A user on the computer '%s' is remotely controlling your desktop."
++msgid "A user on the computer “%s” is remotely controlling your desktop."
+ msgstr "Người dùng trên máy “%s” điều khiển màn hình làm việc của bạn từ xa."
+ 
+-#: ../server/vino-status-icon.c:651 ../server/vino-status-tube-icon.c:423
++#: ../server/vino-status-icon.c:657 ../server/vino-status-tube-icon.c:430
+ #, c-format
+ msgid "Error while displaying notification bubble: %s\n"
+ msgstr "Lỗi hiển thị bong bóng thông báo: %s\n"
+ 
+-#: ../server/vino-status-tube-icon.c:227
++#: ../server/vino-status-tube-icon.c:234
+ #, c-format
+-msgid "The remote user '%s' will be disconnected. Are you sure?"
++msgid "The remote user “%s” will be disconnected. Are you sure?"
+ msgstr "Người dùng từ xa “%s” sẽ bị ngắt kết nối. Bạn chắc chứ?"
+ 
+ #: ../server/vino-tube-server.c:220 ../server/vino-tube-server.c:249
+@@ -552,25 +553,25 @@ msgstr "Chia sẻ thông tin màn hình của bạn"
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:224
+ #, c-format
+-msgid "'%s' rejected the desktop sharing invitation."
++msgid "“%s” rejected the desktop sharing invitation."
+ msgstr "“%s” đã từ chối lời mời chia sẻ màn hình."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:228
+ #, c-format
+-msgid "'%s' disconnected"
++msgid "“%s” disconnected"
+ msgstr "“%s” đã ngắt kết nối"
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:255
+ #, c-format
+-msgid "'%s' is remotely controlling your desktop."
++msgid "“%s” is remotely controlling your desktop."
+ msgstr "“%s” đang điều khiển màn hình của bạn."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:264
+ #, c-format
+-msgid "Waiting for '%s' to connect to the screen."
++msgid "Waiting for “%s” to connect to the screen."
+ msgstr "Đang chờ “%s” kết nối vào màn hình."
+ 
+ #: ../server/vino-util.c:88
+-- 
+2.20.1
+

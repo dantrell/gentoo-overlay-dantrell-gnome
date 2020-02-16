@@ -1,0 +1,59 @@
+From be1131ed69b3158b31a9ad2c5cda591d2440fe85 Mon Sep 17 00:00:00 2001
+From: Kukuh Syafaat <kukuhsyafaat@gnome.org>
+Date: Wed, 22 May 2019 07:20:37 +0000
+Subject: [PATCH 63/68] Update Indonesian translation
+
+---
+ po/id.po | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/po/id.po b/po/id.po
+index 1e1a5f5..fb51ccd 100644
+--- a/po/id.po
++++ b/po/id.po
+@@ -5,12 +5,13 @@
+ # Mohammad DAMT <mdamt@bisnisweb.com>, 2004, 2006.
+ # Dirgita <dirgitadevina@yahoo.co.id>, 2011, 2012.
+ # Andika Triwidada <andika@gmail.com>, 2010, 2011, 2012, 2013.
++# Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2018, 2019.
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: vino master\n"
+ "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/vino/issues\n"
+-"POT-Creation-Date: 2018-09-26 11:59+0000\n"
+-"PO-Revision-Date: 2018-09-27 21:31+0700\n"
++"POT-Creation-Date: 2018-09-27 14:32+0000\n"
++"PO-Revision-Date: 2019-05-22 14:19+0700\n"
+ "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
+ "Language-Team: Indonesian <gnome@i15n.org>\n"
+ "Language: id\n"
+@@ -18,7 +19,7 @@ msgstr ""
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=1; plural=0;\n"
+-"X-Generator: Poedit 2.0.6\n"
++"X-Generator: Poedit 2.2.1\n"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:1
+ msgid "Prompt the user before completing a connection"
+@@ -117,7 +118,7 @@ msgid ""
+ "to be prompted for a password (the password is specified by the vnc-password "
+ "key) before connecting and “none” which allows any remote user to connect."
+ msgstr ""
+-"Daftar metode otentikasi yang tersedia untuk mengakses destop dari jarak "
++"Daftar metode autentikasi yang tersedia untuk mengakses destop dari jarak "
+ "jauh.\n"
+ "\n"
+ "Terdapat dua metode yang dapat digunakan; \"vnc\" untuk akses dengan meminta "
+@@ -467,7 +468,7 @@ msgstr ""
+ "Imam Musthaqim <userindesign@gmail.com>, 2009.\n"
+ "Dirgita <dirgitadevina@yahoo.co.id>, 2011, 2012.\n"
+ "Andika Triwidada <andika@gmail.com>, 2010, 2011, 2012, 2013.\n"
+-"Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2018."
++"Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2018, 2019."
+ 
+ #: ../server/vino-status-icon.c:290
+ msgid "Share your desktop with other users"
+-- 
+2.20.1
+

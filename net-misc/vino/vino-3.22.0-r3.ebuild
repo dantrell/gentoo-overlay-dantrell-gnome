@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
+GNOME2_EAUTORECONF="yes"
 
 inherit gnome2 systemd
 
@@ -11,7 +12,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="crypt debug gnome-keyring ipv6 jpeg ssl systemd +telepathy zeroconf +zlib"
+IUSE="crypt debug gnome-keyring ipv6 jpeg ssl +telepathy zeroconf +zlib"
 # bug #394611; tight encoding requires zlib encoding
 REQUIRED_USE="jpeg? ( zlib )"
 
@@ -38,7 +39,6 @@ RDEPEND="
 	gnome-keyring? ( app-crypt/libsecret )
 	jpeg? ( virtual/jpeg:0= )
 	ssl? ( >=net-libs/gnutls-2.2.0:= )
-	systemd? ( sys-apps/dbus[user-session] )
 	telepathy? (
 		dev-libs/dbus-glib
 		>=net-libs/telepathy-glib-0.18 )
@@ -53,8 +53,10 @@ DEPEND="${RDEPEND}
 # libsecret is always required at build time per bug 322763
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-segfaults-on-wayland.patch
-	"${FILESDIR}"/${PN}-return-error-if-X11-is-no-detected.patch
+	"${FILESDIR}"/patches/ # Patches from master branch at 2020-02-15 state; needs autoreconf
+	"${FILESDIR}"/CVE-2014-6053.patch
+	"${FILESDIR}"/CVE-2018-7225.patch
+	"${FILESDIR}"/CVE-2019-15681.patch
 )
 
 src_configure() {

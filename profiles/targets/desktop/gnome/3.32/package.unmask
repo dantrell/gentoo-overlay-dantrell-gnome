@@ -2,7 +2,7 @@
 ~app-accessibility/at-spi2-atk-2.32.0::dantrell-gnome-3-32
 ~app-accessibility/at-spi2-core-2.32.1::dantrell-gnome-3-32
 ~app-accessibility/orca-3.32.0::dantrell-gnome-3-32
-~app-arch/file-roller-3.32.3::dantrell-gnome
+~app-arch/file-roller-3.32.4::dantrell-gnome
 ~app-arch/gcab-1.2::dantrell-gnome
 ~app-arch/gnome-autoar-0.2.4::dantrell-gnome
 ~app-crypt/gcr-3.28.1::dantrell-gnome
@@ -34,7 +34,7 @@
 ~dev-libs/folks-0.12.1::dantrell-gnome
 ~dev-libs/gjs-1.56.2::dantrell-gnome-3-32
 ~dev-libs/glib-2.60.7::dantrell-gnome
-~dev-libs/gmime-3.2.5::dantrell-gnome
+~dev-libs/gmime-3.2.6::dantrell-gnome
 ~dev-libs/gobject-introspection-1.60.2::dantrell-gnome-3-32
 ~dev-libs/gobject-introspection-common-1.60.2::dantrell-gnome-3-32
 ~dev-libs/gom-0.3.3::dantrell-gnome

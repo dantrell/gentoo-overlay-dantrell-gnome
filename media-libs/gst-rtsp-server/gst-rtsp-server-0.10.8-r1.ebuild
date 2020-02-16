@@ -3,7 +3,7 @@
 EAPI="5"
 PYTHON_COMPAT=( python2_7 )
 
-inherit eutils gstreamer python-r1 vala
+inherit eutils gstreamer ltprune python-r1 vala
 
 DESCRIPTION="A GStreamer based RTSP server"
 HOMEPAGE="https://people.freedesktop.org/~wtay/"

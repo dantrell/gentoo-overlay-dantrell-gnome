@@ -1,0 +1,992 @@
+From 0e4728ab93fa157c7183df302b491c364fb1c50e Mon Sep 17 00:00:00 2001
+From: Stas Solovey <whats_up@tut.by>
+Date: Wed, 26 Sep 2018 16:32:18 +0000
+Subject: [PATCH 23/68] Update Russian translation
+
+---
+ po/ru.po | 600 ++++++++++++++++++++++++-------------------------------
+ 1 file changed, 263 insertions(+), 337 deletions(-)
+
+diff --git a/po/ru.po b/po/ru.po
+index b7b04c1..14f3a38 100644
+--- a/po/ru.po
++++ b/po/ru.po
+@@ -8,151 +8,24 @@
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: ru\n"
+-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+-"product=vino&keywords=I18N+L10N&component=Preferences Dialog\n"
+-"POT-Creation-Date: 2013-01-28 19:57+0000\n"
+-"PO-Revision-Date: 2013-02-23 10:26+0400\n"
+-"Last-Translator: Yuri Myasoedov <omerta13@yandex.ru>\n"
++"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/vino/issues\n"
++"POT-Creation-Date: 2018-09-26 11:59+0000\n"
++"PO-Revision-Date: 2018-09-26 19:31+0300\n"
++"Last-Translator: Stas Solovey <whats_up@tut.by>\n"
+ "Language-Team: русский <gnome-cyr@gnome.org>\n"
+ "Language: ru\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+-"X-Generator: KBabel 1.11.4\n"
++"X-Generator: Poedit 2.1.1\n"
+ "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+-"X-Poedit-Language: Russian\n"
+-"X-Poedit-Country: RUSSIAN FEDERATION\n"
+-
+-#: ../capplet/vino-message-box.c:55
+-#, c-format
+-msgid "There was an error showing the URL \"%s\""
+-msgstr "При отображении URL произошла ошибка «%s»"
+-
+-#: ../capplet/vino-preferences.c:245
+-#, c-format
+-msgid ""
+-"There was an error displaying help:\n"
+-"%s"
+-msgstr ""
+-"При отображении справки произошла ошибка:\n"
+-"%s"
+-
+-#: ../capplet/vino-preferences.c:278
+-msgid "Checking the connectivity of this machine..."
+-msgstr "Определение возможностей соединения с этим компьютером…"
+-
+-#: ../capplet/vino-preferences.c:298
+-msgid "Your desktop is only reachable over the local network."
+-msgstr "Ваш рабочий стол доступен только из локальной сети."
+-
+-#: ../capplet/vino-preferences.c:311
+-msgid " or "
+-msgstr " или "
+-
+-#: ../capplet/vino-preferences.c:315
+-#, c-format
+-msgid "Others can access your computer using the address %s."
+-msgstr "К вашему компьютеру можно подключиться, используя адрес %s."
+-
+-#: ../capplet/vino-preferences.c:324
+-msgid "Nobody can access your desktop."
+-msgstr "Никто не имеет доступа к рабочему столу."
+-
+-#: ../capplet/vino-preferences.desktop.in.in.h:1
+-#: ../server/vino-server.desktop.in.in.h:1
+-msgid "Desktop Sharing"
+-msgstr "Общий доступ к рабочему столу"
+-
+-#: ../capplet/vino-preferences.desktop.in.in.h:2
+-msgid "Choose how other users can remotely view your desktop"
+-msgstr ""
+-"Позволять определять, как другие пользователи могут видеть ваш рабочий стол"
+-
+-#: ../capplet/vino-preferences.ui.h:1
+-msgid "Desktop Sharing Preferences"
+-msgstr "Настройки удалённого рабочего стола"
+-
+-#: ../capplet/vino-preferences.ui.h:2
+-msgid "Sharing"
+-msgstr "Совместный доступ"
+-
+-#: ../capplet/vino-preferences.ui.h:3
+-msgid "Some of these preferences are locked down"
+-msgstr "Некоторые из этих параметров заблокированы"
+-
+-#: ../capplet/vino-preferences.ui.h:4
+-msgid "Allow other users to _view your desktop"
+-msgstr "Позволять другим пользователям _видеть ваш рабочий стол"
+-
+-#: ../capplet/vino-preferences.ui.h:5
+-msgid "Your desktop will be shared"
+-msgstr "Ваш рабочий стол будет доступен подключения другим пользователям"
+-
+-#: ../capplet/vino-preferences.ui.h:6
+-msgid "_Allow other users to control your desktop"
+-msgstr "П_озволять другим пользователям управлять вашим рабочим столом"
+-
+-#: ../capplet/vino-preferences.ui.h:7
+-msgid "Remote users are able to control your mouse and keyboard"
+-msgstr "Разрешить удалённым пользователям управлять клавиатурой и мышью"
+-
+-#: ../capplet/vino-preferences.ui.h:8
+-msgid "Security"
+-msgstr "Безопасность"
+-
+-#: ../capplet/vino-preferences.ui.h:9
+-msgid "_You must confirm each access to this machine"
+-msgstr "_Запрашивать подтверждение при любой попытке доступа к компьютеру"
+-
+-#: ../capplet/vino-preferences.ui.h:10
+-msgid "_Require the user to enter this password:"
+-msgstr "_Требовать от пользователя ввести следующий пароль:"
+-
+-#: ../capplet/vino-preferences.ui.h:11
+-msgid "Automatically _configure UPnP router to open and forward ports"
+-msgstr ""
+-"_Автоматически настраивать маршрутизатор для открытия и перенаправления "
+-"портов"
+-
+-#: ../capplet/vino-preferences.ui.h:12
+-msgid "The router must have the UPnP feature enabled"
+-msgstr "В маршрутизаторе должна быть включена возможность UPnP"
+-
+-#: ../capplet/vino-preferences.ui.h:13
+-msgid "Show Notification Area Icon"
+-msgstr "Значок в области уведомлений"
+-
+-#: ../capplet/vino-preferences.ui.h:14
+-msgid "Al_ways"
+-msgstr "_Всегда"
+-
+-#: ../capplet/vino-preferences.ui.h:15
+-msgid "_Only when someone is connected"
+-msgstr "_Только когда кто-нибудь подключён"
+-
+-#: ../capplet/vino-preferences.ui.h:16
+-msgid "_Never"
+-msgstr "_Никогда"
++"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:1
+-msgid "Enable remote access to the desktop"
+-msgstr "Разрешить удалённый доступ к рабочему столу"
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:2
+-msgid ""
+-"If true, allows remote access to the desktop via the RFB protocol. Users on "
+-"remote machines may then connect to the desktop using a VNC viewer."
+-msgstr ""
+-"Если установлено, то к рабочему столу разрешается получать удалённый доступ "
+-"по протоколу RFB. Пользователи могут подключаться к рабочему столу с помощью "
+-"просмотрщика VNC."
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:3
+ msgid "Prompt the user before completing a connection"
+ msgstr "Запрашивать разрешение пользователя перед соединением"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:4
++#: ../common/org.gnome.Vino.gschema.xml.h:2
+ msgid ""
+ "If true, remote users accessing the desktop are not allowed access until the "
+ "user on the host machine approves the connection. Recommended especially "
+@@ -162,11 +35,11 @@ msgstr ""
+ "подключиться к рабочему столу, пока локальный пользователь не подтвердит "
+ "соединение. Особенно рекомендуется, если доступ не защищён паролем."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:5
++#: ../common/org.gnome.Vino.gschema.xml.h:3
+ msgid "Only allow remote users to view the desktop"
+ msgstr "Разрешить доступ к рабочему столу только для просмотра"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:6
++#: ../common/org.gnome.Vino.gschema.xml.h:4
+ msgid ""
+ "If true, remote users accessing the desktop are only allowed to view the "
+ "desktop. Remote users will not be able to use the mouse or keyboard."
+@@ -174,16 +47,11 @@ msgstr ""
+ "Если ключ установлен, рабочий стол доступен удалённым пользователям только "
+ "для просмотра. Они не смогут пользоваться мышью или клавиатурой."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:7
++#: ../common/org.gnome.Vino.gschema.xml.h:5
+ msgid "Network interface for listening"
+ msgstr "Сетевой интерфейс для ожидания соединения"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:8
+-#| msgid ""
+-#| "If not set, the server will listen on all network interfaces.\n"
+-#| "\n"
+-#| "Set this if you want that accept connections only from some specific "
+-#| "network interface. eg: eth0, wifi0, lo, ..."
++#: ../common/org.gnome.Vino.gschema.xml.h:6
+ msgid ""
+ "If not set, the server will listen on all network interfaces.\n"
+ "\n"
+@@ -196,41 +64,35 @@ msgstr ""
+ "Установите значение, если хотите принимать соединения только от "
+ "определённого сетевого интерфейса, например: eth0, wifi0, lo и т.д."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:11
++#: ../common/org.gnome.Vino.gschema.xml.h:9
+ msgid "Listen on an alternative port"
+ msgstr "Использовать альтернативный порт"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:12
+-#| msgid ""
+-#| "If true, the server will listen to another port, instead of the default "
+-#| "(5900). The port must be specified in the 'alternative-port' key."
++#: ../common/org.gnome.Vino.gschema.xml.h:10
+ msgid ""
+ "If true, the server will listen on another port, instead of the default "
+-"(5900). The port must be specified in the 'alternative-port' key."
++"(5900). The port must be specified in the “alternative-port” key."
+ msgstr ""
+ "Если значение установлено, то сервер будет слушать другой порт вместо порта "
+ "по умолчанию (5900). Порт указывается в ключе «alternative-port»."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:13
++#: ../common/org.gnome.Vino.gschema.xml.h:11
+ msgid "Alternative port number"
+ msgstr "Альтернативный номер порта"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:14
+-#| msgid ""
+-#| "The port which the server will listen to if the 'use-alternative-port' "
+-#| "key is set to true. Valid values are in the range from 5000 to 50000."
++#: ../common/org.gnome.Vino.gschema.xml.h:12
+ msgid ""
+-"The port which the server will listen to if the 'use-alternative-port' key "
++"The port which the server will listen to if the “use-alternative-port” key "
+ "is set to true. Valid values are in the range of 5000 to 50000."
+ msgstr ""
+ "Порт, который будет слушать сервер, если установлено значение ключа «use-"
+-"alternative-port». Диапазон допустмых значений: от 5000 до 50000."
++"alternative-port». Диапазон допустимых значений: от 5000 до 50000."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:15
++#: ../common/org.gnome.Vino.gschema.xml.h:13
+ msgid "Require encryption"
+ msgstr "Требовать шифрование"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:16
++#: ../common/org.gnome.Vino.gschema.xml.h:14
+ msgid ""
+ "If true, remote users accessing the desktop are required to support "
+ "encryption. It is highly recommended that you use a client which supports "
+@@ -240,52 +102,52 @@ msgstr ""
+ "шифрования. Настоятельно рекомендуется использовать шифрование, если сеть "
+ "между узлами не надёжна."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:17
++#: ../common/org.gnome.Vino.gschema.xml.h:15
+ msgid "Allowed authentication methods"
+ msgstr "Разрешенные методы аутентификации"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:18
++#: ../common/org.gnome.Vino.gschema.xml.h:16
+ msgid ""
+ "Lists the authentication methods with which remote users may access the "
+ "desktop.\n"
+ "\n"
+-"There are two possible authentication methods; \"vnc\" causes the remote "
+-"user to be prompted for a password (the password is specified by the vnc-"
+-"password key) before connecting and \"none\" which allows any remote user to "
+-"connect."
++"There are two possible authentication methods; “vnc” causes the remote user "
++"to be prompted for a password (the password is specified by the vnc-password "
++"key) before connecting and “none” which allows any remote user to connect."
+ msgstr ""
+-"Перечиcляет методы аутентификации, при помощи которых удалённые пользователи "
++"Перечисляет методы аутентификации, при помощи которых удалённые пользователи "
+ "могут получить доступ к рабочему столу.\n"
++"\n"
+ "Существует два возможных метода: «vnc» — заставляет удалённого пользователя "
+-"вводить пароль, указанный в ключе vnc-password; «none» — позволяет "
+-"подключиться любому удалённому пользователю."
++"перед подключением вводить пароль, указанный в ключе vnc-password; «none» — "
++"позволяет подключиться любому удалённому пользователю."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:21
+-msgid "Password required for \"vnc\" authentication"
++#: ../common/org.gnome.Vino.gschema.xml.h:19
++msgid "Password required for “vnc” authentication"
+ msgstr "Требовать пароль для аутентификации «vnc»"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:22
++#: ../common/org.gnome.Vino.gschema.xml.h:20
+ msgid ""
+-"The password which the remote user will be prompted for if the \"vnc\" "
++"The password which the remote user will be prompted for if the “vnc” "
+ "authentication method is used. The password specified by the key is base64 "
+ "encoded.\n"
+ "\n"
+-"The special value of 'keyring' (which is not valid base64) means that the "
++"The special value of “keyring” (which is not valid base64) means that the "
+ "password is stored in the GNOME keyring."
+ msgstr ""
+-"Пароль, которые будет запрошен у пользователя, если используется метод "
++"Пароль, который будет запрошен у пользователя, если используется метод "
+ "аутентификации «vnc». Пароль зашифрован алгоритмом base64.\n"
+ "\n"
+ "Особое значение «keyring» говорит о том, что пароль хранится в связке ключей "
+ "GNOME."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:25
++#: ../common/org.gnome.Vino.gschema.xml.h:23
+ msgid "E-mail address to which the remote desktop URL should be sent"
+ msgstr ""
+ "Адрес эл. почты, по которому должен быть отправлен URL удалённого рабочего "
+ "стола"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:26
++#: ../common/org.gnome.Vino.gschema.xml.h:24
+ msgid ""
+ "This key specifies the e-mail address to which the remote desktop URL should "
+ "be sent if the user clicks on the URL in the Desktop Sharing preferences "
+@@ -295,45 +157,37 @@ msgstr ""
+ "ссылка, если пользователь щёлкает по URL в диалоге «Настройки удалённого "
+ "рабочего стола»."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:27
++#: ../common/org.gnome.Vino.gschema.xml.h:25
+ msgid "Lock the screen when last user disconnect"
+ msgstr "Блокировать экран после отсоединения последнего пользователя"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:28
+-#| msgid ""
+-#| "If true, screen will be locked after the last remote client disconnect."
++#: ../common/org.gnome.Vino.gschema.xml.h:26
+ msgid ""
+ "If true, the screen will be locked after the last remote client disconnects."
+ msgstr ""
+ "Если установлено, экран будет заблокирован после отключения последнего "
+ "пользователя."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:29
++#: ../common/org.gnome.Vino.gschema.xml.h:27
+ msgid "When the status icon should be shown"
+ msgstr "Когда показывать значок статуса"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:30
+-#| msgid ""
+-#| "This key controls the behavior of the status icon. There are three "
+-#| "options: \"always\" - The icon will be always there; \"client\" - You "
+-#| "will see the icon only when there is someone connected, this is the "
+-#| "default behavior; \"never\" - Never shows the icon."
++#: ../common/org.gnome.Vino.gschema.xml.h:28
+ msgid ""
+ "This key controls the behavior of the status icon. There are three options: "
+-"\"always\" - the icon will always be present; \"client\" - the icon will "
+-"only be present when someone is connected (this is the default behavior); "
+-"\"never\" - the icon will not be present."
++"“always” — the icon will always be present; “client” — the icon will only be "
++"present when someone is connected (this is the default behavior); “never” — "
++"the icon will not be present."
+ msgstr ""
+ "Этот ключ управляет значком состояния. Доступно три состояния: «always» — "
+ "всегда показывать значок; «client» — показывать значок при наличии активных "
+ "подключений (по умолчанию); «never» — никогда не показывать значок."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:31
+-#| msgid "When true, disable the background on receive valid session"
++#: ../common/org.gnome.Vino.gschema.xml.h:29
+ msgid "Whether to disable the desktop background when a user is connected"
+ msgstr "Не использовать фон рабочего стола при подключении пользователя"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:32
++#: ../common/org.gnome.Vino.gschema.xml.h:30
+ msgid ""
+ "When true, disable the desktop background and replace it with a single block "
+ "of color when a user successfully connects."
+@@ -341,12 +195,11 @@ msgstr ""
+ "Если установлено, то при успешном подключении пользователя фон рабочего "
+ "стола будет заменён сплошной заливкой."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:33
+-#| msgid "Whether we should use UPNP to forward the port in routers"
++#: ../common/org.gnome.Vino.gschema.xml.h:31
+ msgid "Whether a UPnP router should be used to forward and open ports"
+ msgstr "Использовать маршрутизатор UPnP для перенаправления и открытия портов"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:34
++#: ../common/org.gnome.Vino.gschema.xml.h:32
+ msgid ""
+ "If true, request that a UPnP-capable router should forward and open the port "
+ "used by Vino."
+@@ -354,16 +207,11 @@ msgstr ""
+ "Если установлено, то маршрутизатор UPnP должен управлять перенаправлением и "
+ "открытием портов, используемых приложением Vino."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:35
++#: ../common/org.gnome.Vino.gschema.xml.h:33
+ msgid "Whether we should disable the XDamage extension of X.org"
+ msgstr "Отключить расширение XDamage для X.org"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:36
+-#| msgid ""
+-#| "If true, we will not use the XDamage extension of X.org. This extension "
+-#| "does not work properly on some video drivers when using 3D effects. "
+-#| "Disabling it will make vino work on these environments with a slower "
+-#| "rendering as side effect."
++#: ../common/org.gnome.Vino.gschema.xml.h:34
+ msgid ""
+ "If true, do not use the XDamage extension of X.org. This extension does not "
+ "work properly on some video drivers when using 3D effects. Disabling it will "
+@@ -374,21 +222,16 @@ msgstr ""
+ "применяются трёхмерные эффекты. Отключение расширения замедляет отрисовку, "
+ "когда vino работает в этих окружениях."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:37
++#: ../common/org.gnome.Vino.gschema.xml.h:35
+ msgid "Notify on connect"
+ msgstr "Уведомлять при подключении"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:38
+-#| msgid "If true, we will notify, when the user connects to the system."
++#: ../common/org.gnome.Vino.gschema.xml.h:36
+ msgid "If true, show a notification when a user connects to the system."
+ msgstr ""
+ "Если установлено, то при подключении пользователя к системе показывается "
+ "уведомление."
+ 
+-#: ../common/vino-keyring.c:54 ../tools/vino-passwd.c:54
+-msgid "Remote desktop sharing password"
+-msgstr "Пароль удалённого рабочего стола"
+-
+ #: ../server/smclient/eggdesktopfile.c:165
+ #, c-format
+ msgid "File is not a valid .desktop file"
+@@ -399,13 +242,13 @@ msgstr "Это некорректный файл  .desktop"
+ #. * version number.
+ #: ../server/smclient/eggdesktopfile.c:191
+ #, c-format
+-msgid "Unrecognized desktop file Version '%s'"
+-msgstr "Неправильная версия файла с расширением desktop пользователя «%s»"
++msgid "Unrecognized desktop file Version “%s”"
++msgstr "Неопознанный файл .desktop Version «%s»"
+ 
+ #: ../server/smclient/eggdesktopfile.c:974
+ #, c-format
+ msgid "Starting %s"
+-msgstr "Запуск %s"
++msgstr "Запускается %s"
+ 
+ #: ../server/smclient/eggdesktopfile.c:1116
+ #, c-format
+@@ -421,7 +264,7 @@ msgstr "Неопознанный параметр запуска: %d"
+ #. * desktop file, and should not be translated.
+ #: ../server/smclient/eggdesktopfile.c:1391
+ #, c-format
+-msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
++msgid "Can’t pass document URIs to a “Type=Link” desktop entry"
+ msgstr ""
+ "Не получается передать URI документа в запись «Type=Link» рабочего стола"
+ 
+@@ -458,35 +301,35 @@ msgstr "Параметры управления сеансом:"
+ msgid "Show session management options"
+ msgstr "Показать параметры управления сеансом"
+ 
+-#: ../server/vino-main.c:202
++#: ../server/vino-main.c:154
+ msgid ""
+-"Your XServer does not support the XTest extension - remote desktop access "
++"Your XServer does not support the XTest extension — remote desktop access "
+ "will be view-only\n"
+ msgstr ""
+ "Ваш X-сервер не поддерживает расширение XTest — удалённый доступ будет "
+-"только для просмотра\n"
++"только в режиме просмотра\n"
+ 
+ #. Tube mode uses Telepathy's Tubes to share a user's desktop directly
+ #. * with another IM contact. http://telepathy.freedesktop.org/wiki/Tubes
+ #.
+-#: ../server/vino-main.c:301
+-msgid "Start in tube mode, for the ‘Share my Desktop’ feature"
++#: ../server/vino-main.c:250
++msgid "Start in tube mode, for the “Share my Desktop” feature"
+ msgstr ""
+ "Запустить в туннельном режиме для предоставления доступа к своему рабочего "
+ "столу"
+ 
+-#: ../server/vino-main.c:307
+-msgid "- VNC Server for GNOME"
++#: ../server/vino-main.c:261
++msgid "— VNC Server for GNOME"
+ msgstr "— VNC-сервер для GNOME"
+ 
+-#: ../server/vino-main.c:315
++#: ../server/vino-main.c:269
+ msgid ""
+-"Run 'vino-server --help' to see a full list of available command line options"
++"Run “vino-server --help” to see a full list of available command line options"
+ msgstr ""
+-"Запустите «vino-server --help», чтобы увидеть полный список доступных "
++"Выполните «vino-server --help», чтобы увидеть полный список доступных "
+ "параметров командной строки"
+ 
+-#: ../server/vino-main.c:336
++#: ../server/vino-main.c:287
+ msgid "GNOME Desktop Sharing"
+ msgstr "Удалённый рабочий стол GNOME"
+ 
+@@ -506,7 +349,7 @@ msgstr "0"
+ #.
+ #: ../server/vino-mdns.c:74
+ #, c-format
+-msgid "%s's remote desktop on %s"
++msgid "%s’s remote desktop on %s"
+ msgstr "Удалённый рабочий стол пользователя %s на %s"
+ 
+ #: ../server/vino-prefs.c:111
+@@ -522,39 +365,42 @@ msgstr "Экран"
+ msgid "The screen on which to display the prompt"
+ msgstr "Экран, на котором должен выводиться запрос"
+ 
+-#: ../server/vino-prompt.c:263 ../server/vino-status-icon.c:598
+-#: ../server/vino-status-tube-icon.c:389
++#: ../server/vino-prompt.c:270 ../server/vino-status-icon.c:604
++#: ../server/vino-status-tube-icon.c:396
+ #, c-format
+ msgid "Error initializing libnotify\n"
+ msgstr "Ошибка инициализации libnotify\n"
+ 
+-#: ../server/vino-prompt.c:282
++#: ../server/vino-prompt.c:289
+ #, c-format
+ msgid ""
+-"A user on the computer '%s' is trying to remotely view or control your "
++"A user on the computer “%s” is trying to remotely view or control your "
+ "desktop."
+ msgstr ""
+ "Пользователь компьютера «%s» пытается подключиться для просмотра или "
+ "управления вашим рабочим столом."
+ 
+-#: ../server/vino-prompt.c:285
++#: ../server/vino-prompt.c:292
+ msgid "Another user is trying to view your desktop."
+ msgstr "Другой пользователь пытается подключиться к вашему рабочему столу."
+ 
+-#: ../server/vino-prompt.c:291
+-#| msgid "_Refuse"
++#: ../server/vino-prompt.c:298
+ msgid "Refuse"
+ msgstr "Отклонить"
+ 
+-#: ../server/vino-prompt.c:297
++#: ../server/vino-prompt.c:304
+ msgid "Accept"
+ msgstr "Принять"
+ 
+-#: ../server/vino-server.c:164 ../server/vino-server.c:187
++#: ../server/vino-server.c:159 ../server/vino-server.c:182
+ #, c-format
+ msgid "Failed to open connection to bus: %s\n"
+ msgstr "Не удаётся открыть соединение с шиной: %s\n"
+ 
++#: ../server/vino-server.desktop.in.in.h:1
++msgid "Desktop Sharing"
++msgstr "Общий доступ к рабочему столу"
++
+ #: ../server/vino-server.desktop.in.in.h:2
+ msgid "GNOME Desktop Sharing Server"
+ msgstr "Сервер удалённого рабочего стола GNOME"
+@@ -563,11 +409,7 @@ msgstr "Сервер удалённого рабочего стола GNOME"
+ msgid "vnc;share;remote;"
+ msgstr "vnc;доступ;удалённые;"
+ 
+-#: ../server/vino-status-icon.c:97 ../server/vino-status-tube-icon.c:90
+-msgid "Desktop sharing is enabled"
+-msgstr "Включён общий доступ к рабочему столу"
+-
+-#: ../server/vino-status-icon.c:105
++#: ../server/vino-status-icon.c:103
+ #, c-format
+ msgid "One person is viewing your desktop"
+ msgid_plural "%d people are viewing your desktop"
+@@ -575,15 +417,20 @@ msgstr[0] "%d пользователь просматривает ваш раб
+ msgstr[1] "%d человека просматривают ваш рабочий стол"
+ msgstr[2] "%d человек просматривают ваш рабочий стол"
+ 
+-#: ../server/vino-status-icon.c:208 ../server/vino-status-tube-icon.c:172
++#: ../server/vino-status-icon.c:112 ../server/vino-status-tube-icon.c:90
++msgid "Desktop sharing is enabled"
++msgstr "Включён общий доступ к рабочему столу"
++
++#: ../server/vino-status-icon.c:208 ../server/vino-status-icon.c:214
++#: ../server/vino-status-tube-icon.c:173 ../server/vino-status-tube-icon.c:179
+ msgid "Error displaying preferences"
+ msgstr "При отображении параметров произошла ошибка"
+ 
+-#: ../server/vino-status-icon.c:230 ../server/vino-status-tube-icon.c:192
++#: ../server/vino-status-icon.c:236 ../server/vino-status-tube-icon.c:199
+ msgid "Error displaying help"
+ msgstr "При отображении справки произошла ошибка"
+ 
+-#: ../server/vino-status-icon.c:263
++#: ../server/vino-status-icon.c:269
+ msgid ""
+ "Licensed under the GNU General Public License Version 2\n"
+ "\n"
+@@ -624,91 +471,93 @@ msgstr ""
+ "02110-1301, USA.\n"
+ 
+ #. Translators comment: put your own name here to appear in the about dialog.
+-#: ../server/vino-status-icon.c:278
++#: ../server/vino-status-icon.c:284
+ msgid "translator-credits"
+ msgstr ""
+ "Леонид Кантер <leon@asplinux.ru>\n"
+ "Алексей Гультяев <hokum83@gmail.com>\n"
+ "Евгения Власова<jane.vlasova@gmail.com>"
+ 
+-#: ../server/vino-status-icon.c:284
++#: ../server/vino-status-icon.c:290
+ msgid "Share your desktop with other users"
+ msgstr "Доступ других пользователей к вашему рабочему столу"
+ 
+-#: ../server/vino-status-icon.c:351 ../server/vino-status-tube-icon.c:224
++#. Translators: %s is a hostname
++#. Translators: %s is the alias of the telepathy contact
++#: ../server/vino-status-icon.c:357 ../server/vino-status-tube-icon.c:231
+ #, c-format
+-msgid "Are you sure you want to disconnect '%s'?"
++msgid "Are you sure you want to disconnect “%s”?"
+ msgstr "Действительно отключить «%s»?"
+ 
+-#: ../server/vino-status-icon.c:354
++#: ../server/vino-status-icon.c:360
+ #, c-format
+-msgid "The remote user from '%s' will be disconnected. Are you sure?"
+-msgstr "Удалённый пользователь «%s» будет отключён. Продолжить?"
++msgid "The remote user from “%s” will be disconnected. Are you sure?"
++msgstr "Удалённый пользователь из «%s» будет отключён. Продолжить?"
+ 
+-#: ../server/vino-status-icon.c:360
++#: ../server/vino-status-icon.c:366
+ msgid "Are you sure you want to disconnect all clients?"
+ msgstr "Действительно отключить все клиенты?"
+ 
+-#: ../server/vino-status-icon.c:362
++#: ../server/vino-status-icon.c:368
+ msgid "All remote users will be disconnected. Are you sure?"
+ msgstr "Все удалённые пользователи будут отключены. Продолжить?"
+ 
+-#: ../server/vino-status-icon.c:374 ../server/vino-status-tube-icon.c:238
++#: ../server/vino-status-icon.c:380 ../server/vino-status-tube-icon.c:245
+ msgid "Disconnect"
+ msgstr "Отключить"
+ 
+-#: ../server/vino-status-icon.c:400 ../server/vino-status-tube-icon.c:263
++#: ../server/vino-status-icon.c:406 ../server/vino-status-tube-icon.c:270
+ msgid "_Preferences"
+ msgstr "_Настройки"
+ 
+-#: ../server/vino-status-icon.c:415
++#: ../server/vino-status-icon.c:421
+ msgid "Disconnect all"
+ msgstr "Отключить всех"
+ 
+ #. Translators: %s is a hostname
+ #. Translators: %s is the alias of the telepathy contact
+-#: ../server/vino-status-icon.c:439 ../server/vino-status-tube-icon.c:276
++#: ../server/vino-status-icon.c:445 ../server/vino-status-tube-icon.c:283
+ #, c-format
+ msgid "Disconnect %s"
+ msgstr "Отключить %s"
+ 
+-#: ../server/vino-status-icon.c:460 ../server/vino-status-tube-icon.c:295
++#: ../server/vino-status-icon.c:466 ../server/vino-status-tube-icon.c:302
+ msgid "_Help"
+ msgstr "_Справка"
+ 
+-#: ../server/vino-status-icon.c:468
++#: ../server/vino-status-icon.c:474
+ msgid "_About"
+ msgstr "_О программе"
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:619
++#: ../server/vino-status-icon.c:625
+ msgid "Another user is viewing your desktop"
+ msgstr "Другой пользователь просматривает ваш рабочий стол"
+ 
+-#: ../server/vino-status-icon.c:621
++#: ../server/vino-status-icon.c:627
+ #, c-format
+-msgid "A user on the computer '%s' is remotely viewing your desktop."
++msgid "A user on the computer “%s” is remotely viewing your desktop."
+ msgstr "Пользователь компьютера «%s» удалённо просматривает ваш рабочий стол."
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:627
++#: ../server/vino-status-icon.c:633
+ msgid "Another user is controlling your desktop"
+ msgstr "Другой пользователь управляет вашим рабочим столом"
+ 
+-#: ../server/vino-status-icon.c:629
++#: ../server/vino-status-icon.c:635
+ #, c-format
+-msgid "A user on the computer '%s' is remotely controlling your desktop."
++msgid "A user on the computer “%s” is remotely controlling your desktop."
+ msgstr "Пользователь компьютера «%s» удалённо управляет вашим рабочим столом."
+ 
+-#: ../server/vino-status-icon.c:651 ../server/vino-status-tube-icon.c:423
++#: ../server/vino-status-icon.c:657 ../server/vino-status-tube-icon.c:430
+ #, c-format
+ msgid "Error while displaying notification bubble: %s\n"
+ msgstr "Ошибка при отображении всплывающего уведомления: %s\n"
+ 
+-#: ../server/vino-status-tube-icon.c:227
++#: ../server/vino-status-tube-icon.c:234
+ #, c-format
+-msgid "The remote user '%s' will be disconnected. Are you sure?"
+-msgstr "Удалённый пользователь «%s» будет отключён. Вы уверены?"
++msgid "The remote user “%s” will be disconnected. Are you sure?"
++msgstr "Удалённый пользователь «%s» будет отключён. Продолжить?"
+ 
+ #: ../server/vino-tube-server.c:220 ../server/vino-tube-server.c:249
+ msgid "Share my desktop information"
+@@ -717,112 +566,189 @@ msgstr "Дать доступ другим пользователям к инф
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:224
+ #, c-format
+-msgid "'%s' rejected the desktop sharing invitation."
++msgid "“%s” rejected the desktop sharing invitation."
+ msgstr ""
+ "Пользователь «%s» отклонил приглашение на совместный доступ к рабочему столу."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:228
+ #, c-format
+-msgid "'%s' disconnected"
+-msgstr "Пользователь «%s»  отключён"
++msgid "“%s” disconnected"
++msgstr "«%s» отключён"
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:255
+ #, c-format
+-msgid "'%s' is remotely controlling your desktop."
+-msgstr "Пользователь «%s»  удалённо управляет вашим рабочим столом."
++msgid "“%s” is remotely controlling your desktop."
++msgstr "«%s» удалённо управляет вашим рабочим столом."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:264
+ #, c-format
+-msgid "Waiting for '%s' to connect to the screen."
++msgid "Waiting for “%s” to connect to the screen."
+ msgstr "Ожидание подключения пользователя «%s» к экрану."
+ 
+-#: ../server/vino-util.c:89
++#: ../server/vino-util.c:88
+ msgid "_Allow"
+ msgstr "_Разрешить"
+ 
+-#: ../server/vino-util.c:90
++#: ../server/vino-util.c:89
+ msgid "_Refuse"
+ msgstr "_Отклонить"
+ 
+-#: ../server/vino-util.c:140
++#: ../server/vino-util.c:139
+ msgid "An error has occurred:"
+ msgstr "Произошла ошибка:"
+ 
+-#: ../tools/vino-passwd.c:108
+-#, c-format
+-msgid "Cancelled"
+-msgstr "Отменено"
++#~ msgid "There was an error showing the URL \"%s\""
++#~ msgstr "При отображении URL произошла ошибка «%s»"
+ 
+-#: ../tools/vino-passwd.c:115
+-#, c-format
+-msgid ""
+-"ERROR: Maximum length of password is %d character. Please, re-enter the "
+-"password."
+-msgid_plural ""
+-"ERROR: Maximum length of password is %d characters. Please, re-enter the "
+-"password."
+-msgstr[0] ""
+-"ОШИБКА. Максимальная длина пароля составляет %d знак. Введите пароль снова."
+-msgstr[1] ""
+-"ОШИБКА. Максимальная длина пароля составляет %d знака. Введите пароль снова."
+-msgstr[2] ""
+-"ОШИБКА. Максимальная длина пароля составляет %d знаков. Введите пароль снова."
+-
+-#: ../tools/vino-passwd.c:149
+-#, c-format
+-msgid "Changing Vino password.\n"
+-msgstr "Изменение пароля Vino.\n"
++#~ msgid ""
++#~ "There was an error displaying help:\n"
++#~ "%s"
++#~ msgstr ""
++#~ "При отображении справки произошла ошибка:\n"
++#~ "%s"
+ 
+-#: ../tools/vino-passwd.c:151
+-msgid "Enter new Vino password: "
+-msgstr "Введите новый пароль:"
++#~ msgid "Checking the connectivity of this machine..."
++#~ msgstr "Определение возможностей соединения с этим компьютером…"
+ 
+-#: ../tools/vino-passwd.c:154
+-msgid "Retype new Vino password: "
+-msgstr "Повторите ввод нового пароля:"
++#~ msgid "Your desktop is only reachable over the local network."
++#~ msgstr "Ваш рабочий стол доступен только из локальной сети."
+ 
+-#: ../tools/vino-passwd.c:160
+-#, c-format
+-msgid "vino-passwd: password updated successfully.\n"
+-msgstr "vino-passwd: пароль успешно изменён.\n"
++#~ msgid " or "
++#~ msgstr " или "
+ 
+-#: ../tools/vino-passwd.c:165
+-#, c-format
+-msgid "Sorry, passwords do not match.\n"
+-msgstr "Извините, пароли не совпадают.\n"
++#~ msgid "Others can access your computer using the address %s."
++#~ msgstr "К вашему компьютеру можно подключиться, используя адрес %s."
+ 
+-#: ../tools/vino-passwd.c:166
+-#, c-format
+-msgid "vino-passwd: password unchanged.\n"
+-msgstr "vino-passwd: пароль не изменен.\n"
++#~ msgid "Nobody can access your desktop."
++#~ msgstr "Никто не имеет доступа к рабочему столу."
+ 
+-#: ../tools/vino-passwd.c:182
+-msgid "Show Vino version"
+-msgstr "Показать версию Vino"
++#~ msgid "Choose how other users can remotely view your desktop"
++#~ msgstr ""
++#~ "Позволять определять, как другие пользователи могут видеть ваш рабочий "
++#~ "стол"
+ 
+-#: ../tools/vino-passwd.c:191
+-msgid "- Updates Vino password"
+-msgstr "— Обновляет пароль Vino"
++#~ msgid "Desktop Sharing Preferences"
++#~ msgstr "Настройки удалённого рабочего стола"
+ 
+-#: ../tools/vino-passwd.c:201
+-msgid ""
+-"Run 'vino-passwd --help' to see a full list of available command line options"
+-msgstr ""
+-"Запустите «vino-passwd --help», чтобы вывести полный список всех доступных "
+-"параметров командной строки"
++#~ msgid "Sharing"
++#~ msgstr "Совместный доступ"
+ 
+-#: ../tools/vino-passwd.c:208
+-#, c-format
+-msgid "VINO Version %s\n"
+-msgstr "Версия VINO %s\n"
++#~ msgid "Some of these preferences are locked down"
++#~ msgstr "Некоторые из этих параметров заблокированы"
+ 
+-#: ../tools/vino-passwd.c:219
+-#, c-format
+-msgid "ERROR: You do not have enough permissions to change Vino password.\n"
+-msgstr "ОШИБКА: у вас недостаточно прав, чтобы изменить пароль в Vino.\n"
++#~ msgid "Allow other users to _view your desktop"
++#~ msgstr "Позволять другим пользователям _видеть ваш рабочий стол"
++
++#~ msgid "Your desktop will be shared"
++#~ msgstr "Ваш рабочий стол будет доступен подключения другим пользователям"
++
++#~ msgid "_Allow other users to control your desktop"
++#~ msgstr "П_озволять другим пользователям управлять вашим рабочим столом"
++
++#~ msgid "Remote users are able to control your mouse and keyboard"
++#~ msgstr "Разрешить удалённым пользователям управлять клавиатурой и мышью"
++
++#~ msgid "Security"
++#~ msgstr "Безопасность"
++
++#~ msgid "_You must confirm each access to this machine"
++#~ msgstr "_Запрашивать подтверждение при любой попытке доступа к компьютеру"
++
++#~ msgid "_Require the user to enter this password:"
++#~ msgstr "_Требовать от пользователя ввести следующий пароль:"
++
++#~ msgid "Automatically _configure UPnP router to open and forward ports"
++#~ msgstr ""
++#~ "_Автоматически настраивать маршрутизатор для открытия и перенаправления "
++#~ "портов"
++
++#~ msgid "The router must have the UPnP feature enabled"
++#~ msgstr "В маршрутизаторе должна быть включена возможность UPnP"
++
++#~ msgid "Show Notification Area Icon"
++#~ msgstr "Значок в области уведомлений"
++
++#~ msgid "Al_ways"
++#~ msgstr "_Всегда"
++
++#~ msgid "_Only when someone is connected"
++#~ msgstr "_Только когда кто-нибудь подключён"
++
++#~ msgid "_Never"
++#~ msgstr "_Никогда"
++
++#~ msgid "Enable remote access to the desktop"
++#~ msgstr "Разрешить удалённый доступ к рабочему столу"
++
++#~ msgid ""
++#~ "If true, allows remote access to the desktop via the RFB protocol. Users "
++#~ "on remote machines may then connect to the desktop using a VNC viewer."
++#~ msgstr ""
++#~ "Если установлено, то к рабочему столу разрешается получать удалённый "
++#~ "доступ по протоколу RFB. Пользователи могут подключаться к рабочему столу "
++#~ "с помощью просмотрщика VNC."
++
++#~ msgid "Remote desktop sharing password"
++#~ msgstr "Пароль удалённого рабочего стола"
++
++#~ msgid "Cancelled"
++#~ msgstr "Отменено"
++
++#~ msgid ""
++#~ "ERROR: Maximum length of password is %d character. Please, re-enter the "
++#~ "password."
++#~ msgid_plural ""
++#~ "ERROR: Maximum length of password is %d characters. Please, re-enter the "
++#~ "password."
++#~ msgstr[0] ""
++#~ "ОШИБКА. Максимальная длина пароля составляет %d знак. Введите пароль "
++#~ "снова."
++#~ msgstr[1] ""
++#~ "ОШИБКА. Максимальная длина пароля составляет %d знака. Введите пароль "
++#~ "снова."
++#~ msgstr[2] ""
++#~ "ОШИБКА. Максимальная длина пароля составляет %d знаков. Введите пароль "
++#~ "снова."
++
++#~ msgid "Changing Vino password.\n"
++#~ msgstr "Изменение пароля Vino.\n"
++
++#~ msgid "Enter new Vino password: "
++#~ msgstr "Введите новый пароль:"
++
++#~ msgid "Retype new Vino password: "
++#~ msgstr "Повторите ввод нового пароля:"
++
++#~ msgid "vino-passwd: password updated successfully.\n"
++#~ msgstr "vino-passwd: пароль успешно изменён.\n"
++
++#~ msgid "Sorry, passwords do not match.\n"
++#~ msgstr "Извините, пароли не совпадают.\n"
++
++#~ msgid "vino-passwd: password unchanged.\n"
++#~ msgstr "vino-passwd: пароль не изменен.\n"
++
++#~ msgid "Show Vino version"
++#~ msgstr "Показать версию Vino"
++
++#~ msgid "- Updates Vino password"
++#~ msgstr "— Обновляет пароль Vino"
++
++#~ msgid ""
++#~ "Run 'vino-passwd --help' to see a full list of available command line "
++#~ "options"
++#~ msgstr ""
++#~ "Запустите «vino-passwd --help», чтобы вывести полный список всех "
++#~ "доступных параметров командной строки"
++
++#~ msgid "VINO Version %s\n"
++#~ msgstr "Версия VINO %s\n"
++
++#~ msgid "ERROR: You do not have enough permissions to change Vino password.\n"
++#~ msgstr "ОШИБКА: у вас недостаточно прав, чтобы изменить пароль в Vino.\n"
+ 
+ #~ msgid ""
+ #~ "If true, we will use UPNP protocol to automatically forward the port used "
+-- 
+2.20.1
+

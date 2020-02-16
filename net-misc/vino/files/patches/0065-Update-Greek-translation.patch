@@ -1,0 +1,468 @@
+From aed81a798558c8127b765cd4fb4dc726d10f1e21 Mon Sep 17 00:00:00 2001
+From: Efstathios Iosifidis <eiosifidis@gnome.org>
+Date: Mon, 8 Jul 2019 07:21:09 +0000
+Subject: [PATCH 65/68] Update Greek translation
+
+---
+ po/el.po | 213 ++++++++++++++++++++++++++++---------------------------
+ 1 file changed, 108 insertions(+), 105 deletions(-)
+
+diff --git a/po/el.po b/po/el.po
+index 2cd7e18..043ba7c 100644
+--- a/po/el.po
++++ b/po/el.po
+@@ -11,18 +11,17 @@
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: vino.HEAD\n"
+-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+-"product=vino&keywords=I18N+L10N&component=Preferences Dialog\n"
+-"POT-Creation-Date: 2014-08-15 15:50+0000\n"
+-"PO-Revision-Date: 2014-08-28 23:03+0200\n"
+-"Last-Translator: Tom Tryfonidis <tomtryf@gmail.com>\n"
++"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/vino/issues\n"
++"POT-Creation-Date: 2018-09-26 11:59+0000\n"
++"PO-Revision-Date: 2019-07-08 10:20+0300\n"
++"Last-Translator: Efstathios Iosifidis <iosifidis@opensuse.org>\n"
+ "Language-Team: team@gnome.gr\n"
+ "Language: el\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+-"X-Generator: Poedit 1.6.5\n"
++"X-Generator: Poedit 2.2.3\n"
+ "X-Project-Style: gnome\n"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:1
+@@ -78,11 +77,11 @@ msgstr "Αναμονή σύνδεσης σε εναλλακτική θύρα"
+ #: ../common/org.gnome.Vino.gschema.xml.h:10
+ msgid ""
+ "If true, the server will listen on another port, instead of the default "
+-"(5900). The port must be specified in the 'alternative-port' key."
++"(5900). The port must be specified in the “alternative-port” key."
+ msgstr ""
+ "Αν είναι αληθές, ο διακομιστής θα αναμένει συνδέσεις σε μια άλλη θύρα, αντί "
+ "της προεπιλεγμένης (5900). Η θύρα πρέπει να καθοριστεί με το κλειδί "
+-"'alternative-port'."
++"«alternative-port»."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:11
+ msgid "Alternative port number"
+@@ -90,11 +89,11 @@ msgstr "Εναλλακτικός αριθμός θύρας"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:12
+ msgid ""
+-"The port which the server will listen to if the 'use-alternative-port' key "
++"The port which the server will listen to if the “use-alternative-port” key "
+ "is set to true. Valid values are in the range of 5000 to 50000."
+ msgstr ""
+-"Η θύρα που θα παρακολουθεί ο διακομιστής εάν το κλειδί 'use-alternative-"
+-"port' είναι καθορισμένο σε αληθές. Έγκυρες τιμές κυμαίνονται από 5000 μέχρι "
++"Η θύρα που θα παρακολουθεί ο διακομιστής εάν το κλειδί «use-alternative-"
++"port» είναι καθορισμένο σε αληθές. Έγκυρες τιμές κυμαίνονται από 5000 μέχρι "
+ "50000."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:13
+@@ -121,37 +120,36 @@ msgid ""
+ "Lists the authentication methods with which remote users may access the "
+ "desktop.\n"
+ "\n"
+-"There are two possible authentication methods; \"vnc\" causes the remote "
+-"user to be prompted for a password (the password is specified by the vnc-"
+-"password key) before connecting and \"none\" which allows any remote user to "
+-"connect."
++"There are two possible authentication methods; “vnc” causes the remote user "
++"to be prompted for a password (the password is specified by the vnc-password "
++"key) before connecting and “none” which allows any remote user to connect."
+ msgstr ""
+-"Παρουσιάζει τις μεθόδους πιστοποίησης των απομακρυσμένων χρηστών για την "
+-"πρόσβαση στην επιφάνεια εργασίας.\n"
++"Παρουσιάζει τις μεθόδους πιστοποίησης με τις οποίες οι απομακρυσμένοι "
++"χρήστες θα έχουν πρόσβαση στην επιφάνεια εργασίας.\n"
+ "\n"
+-"Υπάρχουν δύο πιθανές μέθοδοι πιστοποίησης, το \"vnc\" όπου και θα ζητείται "
+-"από το χρήστη κωδικός πρόσβασης (ο κωδικός καθορίζεται από το κλειδί vnc-"
+-"password), και \"none\" όπου και επιτρέπεται η ελεύθερη σύνδεση του χρήστη."
++"Υπάρχουν δύο πιθανές μέθοδοι πιστοποίησης, το «vnc» όπου πριν την σύνδεση θα "
++"ζητείται από το χρήστη συνθηματικό (το συνθηματικό καθορίζεται από το κλειδί "
++"vnc-password), και «none» όπου και επιτρέπεται η ελεύθερη σύνδεση του χρήστη."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:19
+-msgid "Password required for \"vnc\" authentication"
+-msgstr "Απαιτείται κωδικός πρόσβασης για την πιστοποίηση \"vnc\""
++msgid "Password required for “vnc” authentication"
++msgstr "Απαιτείται συνθηματικό για την πιστοποίηση «vnc»"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:20
+ msgid ""
+-"The password which the remote user will be prompted for if the \"vnc\" "
++"The password which the remote user will be prompted for if the “vnc” "
+ "authentication method is used. The password specified by the key is base64 "
+ "encoded.\n"
+ "\n"
+-"The special value of 'keyring' (which is not valid base64) means that the "
++"The special value of “keyring” (which is not valid base64) means that the "
+ "password is stored in the GNOME keyring."
+ msgstr ""
+-"Ο κωδικός πρόσβασης που θα ζητηθεί από το χρήστη αν χρησιμοποιείται η "
+-"μέθοδος πιστοποίησης \"vnc\". Ο κωδικός πρόσβασης που καθορίζεται από το "
+-"κλειδί είναι κωδικοποιημένος σε base64.\n"
++"Το συνθηματικό που θα ζητηθεί από το χρήστη αν χρησιμοποιείται η μέθοδος "
++"πιστοποίησης «vnc». Το συνθηματικό που καθορίζεται από το κλειδί είναι "
++"κωδικοποιημένο σε base64.\n"
+ "\n"
+-" Η ειδική τιμή του \"keyring\" (το οποίο δεν είναι έγκυρο base64) σημαίνει "
+-"ότι ο κωδικός είναι αποθηκευμένος στην κλειδοθήκη του GNOME."
++" Η ειδική τιμή του «keyring» (το οποίο δεν είναι έγκυρο base64) σημαίνει ότι "
++"το συνθηματικό είναι αποθηκευμένο στην κλειδοθήκη του GNOME."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:23
+ msgid "E-mail address to which the remote desktop URL should be sent"
+@@ -188,14 +186,14 @@ msgstr "Πότε θα πρέπει να εμφανίζεται το εικονί
+ #: ../common/org.gnome.Vino.gschema.xml.h:28
+ msgid ""
+ "This key controls the behavior of the status icon. There are three options: "
+-"\"always\" - the icon will always be present; \"client\" - the icon will "
+-"only be present when someone is connected (this is the default behavior); "
+-"\"never\" - the icon will not be present."
++"“always” — the icon will always be present; “client” — the icon will only be "
++"present when someone is connected (this is the default behavior); “never” — "
++"the icon will not be present."
+ msgstr ""
+ "Αυτό το κλειδί ελέγχει τη συμπεριφορά του εικονιδίου κατάστασης. Υπάρχουν "
+-"τρεις επιλογές: \"πάντα\" - το εικονίδιο θα είναι πάντα παρόν· \"πελάτης\" - "
+-"Θα βλέπετε το εικονίδιο μόνο όταν είναι κάποιος συνδεδεμένος (αυτή είναι η "
+-"προεπιλεγμένη συμπεριφορά)· και \"ποτέ\" - το εικονίδιο δεν θα εμφανίζεται "
++"τρεις επιλογές: «always» — το εικονίδιο θα είναι πάντα παρόν· «client» — θα "
++"βλέπετε το εικονίδιο μόνο όταν είναι κάποιος συνδεδεμένος (αυτή είναι η "
++"προεπιλεγμένη συμπεριφορά)· και «never» — το εικονίδιο δεν θα εμφανίζεται "
+ "ποτέ."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:29
+@@ -262,8 +260,8 @@ msgstr "Το αρχείο δεν είναι ένα έγκυρο αρχείο .de
+ #. * version number.
+ #: ../server/smclient/eggdesktopfile.c:191
+ #, c-format
+-msgid "Unrecognized desktop file Version '%s'"
+-msgstr "Μη αναγνωρίσιμο αρχείο desktop Version '%s'"
++msgid "Unrecognized desktop file Version “%s”"
++msgstr "Μη αναγνωρίσιμο αρχείο desktop Version «%s»"
+ 
+ #: ../server/smclient/eggdesktopfile.c:974
+ #, c-format
+@@ -284,9 +282,10 @@ msgstr "Μη αναγνωρίσιμη επιλογή εκκίνησης: %d"
+ #. * desktop file, and should not be translated.
+ #: ../server/smclient/eggdesktopfile.c:1391
+ #, c-format
+-msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
++msgid "Can’t pass document URIs to a “Type=Link” desktop entry"
+ msgstr ""
+-"Αδύνατο το πέρασμα των URI εγγράφων στην καταχώρηση 'Type=Link' του desktop"
++"Αδύνατο το πέρασμα των URI εγγράφων στην καταχώρηση «Type=Link» της "
++"επιφάνειας εργασίας"
+ 
+ #: ../server/smclient/eggdesktopfile.c:1412
+ #, c-format
+@@ -321,9 +320,9 @@ msgstr "Επιλογές διαχείρισης συνεδρίας:"
+ msgid "Show session management options"
+ msgstr "Προβολή επιλογών διαχείρισης συνεδρίας"
+ 
+-#: ../server/vino-main.c:153
++#: ../server/vino-main.c:154
+ msgid ""
+-"Your XServer does not support the XTest extension - remote desktop access "
++"Your XServer does not support the XTest extension — remote desktop access "
+ "will be view-only\n"
+ msgstr ""
+ "Ο XServer δεν υποστηρίζει την επέκταση XTest - η πρόσβαση απομακρυσμένης "
+@@ -332,24 +331,24 @@ msgstr ""
+ #. Tube mode uses Telepathy's Tubes to share a user's desktop directly
+ #. * with another IM contact. http://telepathy.freedesktop.org/wiki/Tubes
+ #.
+-#: ../server/vino-main.c:249
+-msgid "Start in tube mode, for the ‘Share my Desktop’ feature"
++#: ../server/vino-main.c:250
++msgid "Start in tube mode, for the “Share my Desktop” feature"
+ msgstr ""
+-"Εκκίνηση σε λειτουργία σωλήνα, για τη λειτουργία ‘Κοινή χρήση της επιφάνειας "
+-"εργασίας μου’"
++"Εκκίνηση σε λειτουργία σωλήνα, για τη λειτουργία «Κοινή χρήση της επιφάνειας "
++"εργασίας μου»"
+ 
+-#: ../server/vino-main.c:255
+-msgid "- VNC Server for GNOME"
+-msgstr "- Διακομιστής VNC για το GNOME"
++#: ../server/vino-main.c:261
++msgid "— VNC Server for GNOME"
++msgstr "— Διακομιστής VNC για το GNOME"
+ 
+-#: ../server/vino-main.c:263
++#: ../server/vino-main.c:269
+ msgid ""
+-"Run 'vino-server --help' to see a full list of available command line options"
++"Run “vino-server --help” to see a full list of available command line options"
+ msgstr ""
+-"Εκτελέστε 'vino-server --help' για να εμφανιστεί η πλήρης λίστα των "
++"Εκτελέστε «vino-server --help» για να εμφανιστεί η πλήρης λίστα των "
+ "διαθέσιμων επιλογών της γραμμής εντολών"
+ 
+-#: ../server/vino-main.c:275
++#: ../server/vino-main.c:287
+ msgid "GNOME Desktop Sharing"
+ msgstr "Κοινή χρήση επιφάνειας εργασίας του GNOME"
+ 
+@@ -369,7 +368,7 @@ msgstr "vino-mdns:showusername"
+ #.
+ #: ../server/vino-mdns.c:74
+ #, c-format
+-msgid "%s's remote desktop on %s"
++msgid "%s’s remote desktop on %s"
+ msgstr "Απομακρυσμένη επιφάνεια εργασίας του %s σε %s"
+ 
+ #: ../server/vino-prefs.c:111
+@@ -385,30 +384,30 @@ msgstr "Οθόνη"
+ msgid "The screen on which to display the prompt"
+ msgstr "Η οθόνη στην οποία θα εμφανίζεται η προτροπή"
+ 
+-#: ../server/vino-prompt.c:263 ../server/vino-status-icon.c:598
+-#: ../server/vino-status-tube-icon.c:389
++#: ../server/vino-prompt.c:270 ../server/vino-status-icon.c:604
++#: ../server/vino-status-tube-icon.c:396
+ #, c-format
+ msgid "Error initializing libnotify\n"
+ msgstr "Σφάλμα αρχικοποίησης του libnotify\n"
+ 
+-#: ../server/vino-prompt.c:282
++#: ../server/vino-prompt.c:289
+ #, c-format
+ msgid ""
+-"A user on the computer '%s' is trying to remotely view or control your "
++"A user on the computer “%s” is trying to remotely view or control your "
+ "desktop."
+ msgstr ""
+-"Ένας χρήστης στον υπολογιστή '%s' προσπαθεί να δει ή να ελέγξει "
++"Ένας χρήστης στον υπολογιστή «%s» προσπαθεί να δει ή να ελέγξει "
+ "απομακρυσμένα την επιφάνεια εργασίας σας."
+ 
+-#: ../server/vino-prompt.c:285
++#: ../server/vino-prompt.c:292
+ msgid "Another user is trying to view your desktop."
+ msgstr "Ένας άλλος χρήστης προσπαθεί να δει την επιφάνεια εργασίας σας."
+ 
+-#: ../server/vino-prompt.c:291
++#: ../server/vino-prompt.c:298
+ msgid "Refuse"
+ msgstr "Άρνηση"
+ 
+-#: ../server/vino-prompt.c:297
++#: ../server/vino-prompt.c:304
+ msgid "Accept"
+ msgstr "Αποδοχή"
+ 
+@@ -429,26 +428,27 @@ msgstr "Διακομιστής απομακρυσμένης επιφάνειας
+ msgid "vnc;share;remote;"
+ msgstr "vnc;κοινόχρηστο;απομακρυσμένο;share;remote;"
+ 
+-#: ../server/vino-status-icon.c:97 ../server/vino-status-tube-icon.c:90
+-msgid "Desktop sharing is enabled"
+-msgstr "Η κοινή χρήση επιφάνειας εργασίας είναι ενεργοποιημένη"
+-
+-#: ../server/vino-status-icon.c:105
++#: ../server/vino-status-icon.c:103
+ #, c-format
+ msgid "One person is viewing your desktop"
+ msgid_plural "%d people are viewing your desktop"
+ msgstr[0] "Ένας χρήστης βλέπει την επιφάνεια εργασίας σας"
+ msgstr[1] "%d χρήστες βλέπουν την επιφάνεια εργασίας σας"
+ 
+-#: ../server/vino-status-icon.c:208 ../server/vino-status-tube-icon.c:172
++#: ../server/vino-status-icon.c:112 ../server/vino-status-tube-icon.c:90
++msgid "Desktop sharing is enabled"
++msgstr "Η κοινή χρήση επιφάνειας εργασίας είναι ενεργοποιημένη"
++
++#: ../server/vino-status-icon.c:208 ../server/vino-status-icon.c:214
++#: ../server/vino-status-tube-icon.c:173 ../server/vino-status-tube-icon.c:179
+ msgid "Error displaying preferences"
+ msgstr "Σφάλμα εμφάνισης των προτιμήσεων"
+ 
+-#: ../server/vino-status-icon.c:230 ../server/vino-status-tube-icon.c:192
++#: ../server/vino-status-icon.c:236 ../server/vino-status-tube-icon.c:199
+ msgid "Error displaying help"
+ msgstr "Σφάλμα εμφάνισης της βοήθειας"
+ 
+-#: ../server/vino-status-icon.c:263
++#: ../server/vino-status-icon.c:269
+ msgid ""
+ "Licensed under the GNU General Public License Version 2\n"
+ "\n"
+@@ -486,7 +486,7 @@ msgstr ""
+ "02110-1301, USA.\n"
+ 
+ #. Translators comment: put your own name here to appear in the about dialog.
+-#: ../server/vino-status-icon.c:278
++#: ../server/vino-status-icon.c:284
+ msgid "translator-credits"
+ msgstr ""
+ "Ελληνική μεταφραστική ομάδα GNOME\n"
+@@ -497,92 +497,95 @@ msgstr ""
+ " Νίκος Αγιαννιώτης <nickagian@gmail.com>\n"
+ " Τζένη Πετούμενου <epetoumenou@gmail.com>\n"
+ " Μαρία Μαυρίδου <mavridou@gmail.com>\n"
++" Ευστάθιος Ιωσηφίδης <iosifidis@opensuse.org>\n"
+ "\n"
+ "Για περισσότερες πληροφορίες, επισκεφθείτε τη σελίδα\n"
+ "http://gnome.gr/"
+ 
+-#: ../server/vino-status-icon.c:284
++#: ../server/vino-status-icon.c:290
+ msgid "Share your desktop with other users"
+ msgstr "Κοινή χρήση της επιφάνειας εργασίας με άλλους χρήστες"
+ 
+-#: ../server/vino-status-icon.c:351 ../server/vino-status-tube-icon.c:224
++#. Translators: %s is a hostname
++#. Translators: %s is the alias of the telepathy contact
++#: ../server/vino-status-icon.c:357 ../server/vino-status-tube-icon.c:231
+ #, c-format
+-msgid "Are you sure you want to disconnect '%s'?"
+-msgstr "Είστε βέβαιος πως θέλετε να αποσυνδέσετε τον '%s';"
++msgid "Are you sure you want to disconnect “%s”?"
++msgstr "Είστε βέβαιος πως θέλετε να αποσυνδέσετε τον «%s»;"
+ 
+-#: ../server/vino-status-icon.c:354
++#: ../server/vino-status-icon.c:360
+ #, c-format
+-msgid "The remote user from '%s' will be disconnected. Are you sure?"
+-msgstr "Ο απομακρυσμένος χρήστης από το '%s' θα αποσυνδεθεί. Είστε βέβαιος;"
++msgid "The remote user from “%s” will be disconnected. Are you sure?"
++msgstr "Ο απομακρυσμένος χρήστης από το «%s» θα αποσυνδεθεί. Είστε βέβαιος;"
+ 
+-#: ../server/vino-status-icon.c:360
++#: ../server/vino-status-icon.c:366
+ msgid "Are you sure you want to disconnect all clients?"
+ msgstr "Είστε βέβαιος πως θέλετε να αποσυνδέσετε όλους τους πελάτες;"
+ 
+-#: ../server/vino-status-icon.c:362
++#: ../server/vino-status-icon.c:368
+ msgid "All remote users will be disconnected. Are you sure?"
+ msgstr "Όλοι οι απομακρυσμένοι χρήστες θα αποσυνδεθούν. Είστε βέβαιος;"
+ 
+-#: ../server/vino-status-icon.c:374 ../server/vino-status-tube-icon.c:238
++#: ../server/vino-status-icon.c:380 ../server/vino-status-tube-icon.c:245
+ msgid "Disconnect"
+ msgstr "Αποσύνδεση"
+ 
+-#: ../server/vino-status-icon.c:400 ../server/vino-status-tube-icon.c:263
++#: ../server/vino-status-icon.c:406 ../server/vino-status-tube-icon.c:270
+ msgid "_Preferences"
+ msgstr "_Προτιμήσεις"
+ 
+-#: ../server/vino-status-icon.c:415
++#: ../server/vino-status-icon.c:421
+ msgid "Disconnect all"
+ msgstr "Αποσύνδεση όλων"
+ 
+ #. Translators: %s is a hostname
+ #. Translators: %s is the alias of the telepathy contact
+-#: ../server/vino-status-icon.c:439 ../server/vino-status-tube-icon.c:276
++#: ../server/vino-status-icon.c:445 ../server/vino-status-tube-icon.c:283
+ #, c-format
+ msgid "Disconnect %s"
+ msgstr "Αποσύνδεση %s"
+ 
+-#: ../server/vino-status-icon.c:460 ../server/vino-status-tube-icon.c:295
++#: ../server/vino-status-icon.c:466 ../server/vino-status-tube-icon.c:302
+ msgid "_Help"
+ msgstr "_Βοήθεια"
+ 
+-#: ../server/vino-status-icon.c:468
++#: ../server/vino-status-icon.c:474
+ msgid "_About"
+ msgstr "_Περί"
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:619
++#: ../server/vino-status-icon.c:625
+ msgid "Another user is viewing your desktop"
+ msgstr "Ένας άλλος χρήστης βλέπει την επιφάνεια εργασίας σας"
+ 
+-#: ../server/vino-status-icon.c:621
++#: ../server/vino-status-icon.c:627
+ #, c-format
+-msgid "A user on the computer '%s' is remotely viewing your desktop."
++msgid "A user on the computer “%s” is remotely viewing your desktop."
+ msgstr ""
+-"Ένας χρήστης από τον υπολογιστή '%s' βλέπει απομακρυσμένα την επιφάνεια "
++"Ένας χρήστης από τον υπολογιστή «%s» βλέπει απομακρυσμένα την επιφάνεια "
+ "εργασίας σας."
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:627
++#: ../server/vino-status-icon.c:633
+ msgid "Another user is controlling your desktop"
+ msgstr "Ένας άλλος χρήστης ελέγχει την επιφάνεια εργασίας σας"
+ 
+-#: ../server/vino-status-icon.c:629
++#: ../server/vino-status-icon.c:635
+ #, c-format
+-msgid "A user on the computer '%s' is remotely controlling your desktop."
++msgid "A user on the computer “%s” is remotely controlling your desktop."
+ msgstr ""
+-"Ένας χρήστης από τον υπολογιστή '%s' ελέγχει απομακρυσμένα την επιφάνεια "
++"Ένας χρήστης από τον υπολογιστή «%s» ελέγχει απομακρυσμένα την επιφάνεια "
+ "εργασίας σας."
+ 
+-#: ../server/vino-status-icon.c:651 ../server/vino-status-tube-icon.c:423
++#: ../server/vino-status-icon.c:657 ../server/vino-status-tube-icon.c:430
+ #, c-format
+ msgid "Error while displaying notification bubble: %s\n"
+ msgstr "Σφάλμα κατά την εμφάνιση της ειδοποίησης: %s\n"
+ 
+-#: ../server/vino-status-tube-icon.c:227
++#: ../server/vino-status-tube-icon.c:234
+ #, c-format
+-msgid "The remote user '%s' will be disconnected. Are you sure?"
+-msgstr "Ο απομακρυσμένος χρήστης '%s' θα αποσυνδεθεί. Είστε βέβαιος;"
++msgid "The remote user “%s” will be disconnected. Are you sure?"
++msgstr "Ο απομακρυσμένος χρήστης «%s» θα αποσυνδεθεί. Είστε βέβαιος;"
+ 
+ #: ../server/vino-tube-server.c:220 ../server/vino-tube-server.c:249
+ msgid "Share my desktop information"
+@@ -591,26 +594,26 @@ msgstr "Πληροφορίες για τη κοινή χρήση της επιφ
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:224
+ #, c-format
+-msgid "'%s' rejected the desktop sharing invitation."
+-msgstr "Ο '%s' απέρριψε την πρόσκληση κοινής χρήσης της επιφάνειας εργασίας."
++msgid "“%s” rejected the desktop sharing invitation."
++msgstr "Ο «%s» απέρριψε την πρόσκληση κοινής χρήσης της επιφάνειας εργασίας."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:228
+ #, c-format
+-msgid "'%s' disconnected"
+-msgstr "Ο '%s' αποσυνδέθηκε"
++msgid "“%s” disconnected"
++msgstr "Ο «%s» αποσυνδέθηκε"
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:255
+ #, c-format
+-msgid "'%s' is remotely controlling your desktop."
+-msgstr "Ο '%s' ελέγχει απομακρυσμένα την επιφάνεια εργασίας σας."
++msgid "“%s” is remotely controlling your desktop."
++msgstr "Ο «%s» ελέγχει απομακρυσμένα την επιφάνεια εργασίας σας."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:264
+ #, c-format
+-msgid "Waiting for '%s' to connect to the screen."
+-msgstr "Αναμονή του '%s' για σύνδεση στην οθόνη."
++msgid "Waiting for “%s” to connect to the screen."
++msgstr "Αναμονή του «%s» για σύνδεση στην οθόνη."
+ 
+ #: ../server/vino-util.c:88
+ msgid "_Allow"
+-- 
+2.20.1
+

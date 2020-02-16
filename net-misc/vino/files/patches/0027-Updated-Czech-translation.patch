@@ -1,0 +1,811 @@
+From 9476c06b9c18bf928ebedad46c3fbc6121e42b5b Mon Sep 17 00:00:00 2001
+From: Marek Cernocky <marek_cernocky@conel.cz>
+Date: Fri, 28 Sep 2018 12:15:39 +0200
+Subject: [PATCH 27/68] Updated Czech translation
+
+---
+ po/cs.po | 440 ++++++++++++++++---------------------------------------
+ 1 file changed, 123 insertions(+), 317 deletions(-)
+
+diff --git a/po/cs.po b/po/cs.po
+index 88fa63a..1729398 100644
+--- a/po/cs.po
++++ b/po/cs.po
+@@ -9,15 +9,14 @@
+ # Petr Kovar <pknbe@volny.cz>, 2008, 2009.
+ # Kamil Páral <ripper42@gmail.com>, 2008.
+ # Pavel Šefránek <pavel.sefranek@gmail.com>, 2008, 2009, 2011.
+-# Marek Černocký <marek@manet.cz>, 2012, 2013.
++# Marek Černocký <marek@manet.cz>, 2012, 2013, 2018.
+ #
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: vino\n"
+-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+-"product=vino&keywords=I18N+L10N&component=Preferences Dialog\n"
+-"POT-Creation-Date: 2013-01-28 19:57+0000\n"
+-"PO-Revision-Date: 2013-02-21 22:26+0100\n"
++"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/vino/issues\n"
++"POT-Creation-Date: 2018-09-26 11:59+0000\n"
++"PO-Revision-Date: 2018-09-28 12:13+0200\n"
+ "Last-Translator: Marek Černocký <marek@manet.cz>\n"
+ "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
+ "Language: cs\n"
+@@ -27,137 +26,11 @@ msgstr ""
+ "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+ "X-Generator: Gtranslator 2.91.6\n"
+ 
+-#: ../capplet/vino-message-box.c:55
+-#, c-format
+-msgid "There was an error showing the URL \"%s\""
+-msgstr "Nepodařilo se otevřít adresu „%s“"
+-
+-#: ../capplet/vino-preferences.c:245
+-#, c-format
+-msgid ""
+-"There was an error displaying help:\n"
+-"%s"
+-msgstr ""
+-"Při zobrazování nápovědy došlo k chybě:\n"
+-"%s"
+-
+-#: ../capplet/vino-preferences.c:278
+-msgid "Checking the connectivity of this machine..."
+-msgstr "Kontroluje se připojení k síti"
+-
+-#: ../capplet/vino-preferences.c:298
+-msgid "Your desktop is only reachable over the local network."
+-msgstr "Vaše pracovní plocha je dostupná pouze v místní síti."
+-
+-#: ../capplet/vino-preferences.c:311
+-msgid " or "
+-msgstr " nebo "
+-
+-#: ../capplet/vino-preferences.c:315
+-#, c-format
+-msgid "Others can access your computer using the address %s."
+-msgstr ""
+-"Ostatní uživatelé se mohou připojit k vaší pracovní ploše pomocí adresy %s."
+-
+-#: ../capplet/vino-preferences.c:324
+-msgid "Nobody can access your desktop."
+-msgstr "Nikdo nemůže přistupovat k vaší pracovní ploše."
+-
+-#: ../capplet/vino-preferences.desktop.in.in.h:1
+-#: ../server/vino-server.desktop.in.in.h:1
+-msgid "Desktop Sharing"
+-msgstr "Sdílení pracovní plochy"
+-
+-#: ../capplet/vino-preferences.desktop.in.in.h:2
+-msgid "Choose how other users can remotely view your desktop"
+-msgstr ""
+-"Vyberte, jakým způsobem umožníte vzdáleně zobrazit vaši pracovní plochu"
+-
+-#: ../capplet/vino-preferences.ui.h:1
+-msgid "Desktop Sharing Preferences"
+-msgstr "Předvolby sdílení pracovní plochy"
+-
+-#: ../capplet/vino-preferences.ui.h:2
+-msgid "Sharing"
+-msgstr "Sdílení"
+-
+-#: ../capplet/vino-preferences.ui.h:3
+-msgid "Some of these preferences are locked down"
+-msgstr "Některá z těchto nastavení nejsou přístupná"
+-
+-#: ../capplet/vino-preferences.ui.h:4
+-msgid "Allow other users to _view your desktop"
+-msgstr "Umožnit jiným uživatelům _zobrazit vaši pracovní plochu"
+-
+-#: ../capplet/vino-preferences.ui.h:5
+-msgid "Your desktop will be shared"
+-msgstr "Vaše pracovní plocha bude sdílena"
+-
+-#: ../capplet/vino-preferences.ui.h:6
+-msgid "_Allow other users to control your desktop"
+-msgstr "Umožnit jiným uživatelům _ovládat vaši pracovní plochu"
+-
+-#: ../capplet/vino-preferences.ui.h:7
+-msgid "Remote users are able to control your mouse and keyboard"
+-msgstr ""
+-"Vzdálení uživatelé, kteří přistupují k tomuto počítači, budou moci ovládat "
+-"vaši myš a klávesnici"
+-
+-#: ../capplet/vino-preferences.ui.h:8
+-msgid "Security"
+-msgstr "Zabezpečení"
+-
+-#: ../capplet/vino-preferences.ui.h:9
+-msgid "_You must confirm each access to this machine"
+-msgstr "_Dotazovat se na každé příchozí spojení"
+-
+-#: ../capplet/vino-preferences.ui.h:10
+-msgid "_Require the user to enter this password:"
+-msgstr "_Vyžadovat, aby uživatel zadal toto heslo:"
+-
+-#: ../capplet/vino-preferences.ui.h:11
+-msgid "Automatically _configure UPnP router to open and forward ports"
+-msgstr ""
+-"Automaticky nastavit směrovač s UPnP, aby otevřel a přesměrovával porty"
+-
+-#: ../capplet/vino-preferences.ui.h:12
+-msgid "The router must have the UPnP feature enabled"
+-msgstr "Směrovač musí mít zapnutou funkci UPnP"
+-
+-#: ../capplet/vino-preferences.ui.h:13
+-msgid "Show Notification Area Icon"
+-msgstr "Zobrazovat ikonu v oznamovací oblasti"
+-
+-#: ../capplet/vino-preferences.ui.h:14
+-msgid "Al_ways"
+-msgstr "_Vždy"
+-
+-#: ../capplet/vino-preferences.ui.h:15
+-msgid "_Only when someone is connected"
+-msgstr "Jen když je někd_o připojen"
+-
+-#: ../capplet/vino-preferences.ui.h:16
+-msgid "_Never"
+-msgstr "_Nikdy"
+-
+ #: ../common/org.gnome.Vino.gschema.xml.h:1
+-msgid "Enable remote access to the desktop"
+-msgstr "Povolit vzdálený přístup k pracovní ploše"
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:2
+-msgid ""
+-"If true, allows remote access to the desktop via the RFB protocol. Users on "
+-"remote machines may then connect to the desktop using a VNC viewer."
+-msgstr ""
+-"Je-li zapnuto, umožňuje vzdálený přístup k pracovní ploše pomocí protokolu "
+-"RFB. Uživatelé na vzdálených počítačích se pak mohou připojit k pracovní "
+-"ploše pomocí prohlížeče VNC."
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:3
+ msgid "Prompt the user before completing a connection"
+ msgstr "Zeptat se uživatele před dokončením spojení"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:4
++#: ../common/org.gnome.Vino.gschema.xml.h:2
+ msgid ""
+ "If true, remote users accessing the desktop are not allowed access until the "
+ "user on the host machine approves the connection. Recommended especially "
+@@ -167,11 +40,11 @@ msgstr ""
+ "povolen přístup, dokud uživatel na tomto počítači nepovolí připojení. "
+ "Doporučeno obzvláště pokud přístup není chráněn heslem."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:5
++#: ../common/org.gnome.Vino.gschema.xml.h:3
+ msgid "Only allow remote users to view the desktop"
+ msgstr "Povolit vzdáleným uživatelům jen prohlížet pracovní plochu"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:6
++#: ../common/org.gnome.Vino.gschema.xml.h:4
+ msgid ""
+ "If true, remote users accessing the desktop are only allowed to view the "
+ "desktop. Remote users will not be able to use the mouse or keyboard."
+@@ -180,11 +53,11 @@ msgstr ""
+ "povoleno jen prohlížet pracovní plochu. Nebudou moci používat myš nebo "
+ "klávesnici."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:7
++#: ../common/org.gnome.Vino.gschema.xml.h:5
+ msgid "Network interface for listening"
+ msgstr "Síťové rozhraní k naslouchání"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:8
++#: ../common/org.gnome.Vino.gschema.xml.h:6
+ msgid ""
+ "If not set, the server will listen on all network interfaces.\n"
+ "\n"
+@@ -196,36 +69,36 @@ msgstr ""
+ "Nastavte tuto volbu, chcete-li přijímat spojení pouze z určených síťových "
+ "rozhraní. Příklad: eth0, wifi0, lo atd."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:11
++#: ../common/org.gnome.Vino.gschema.xml.h:9
+ msgid "Listen on an alternative port"
+ msgstr "Naslouchat na alternativním portu"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:12
++#: ../common/org.gnome.Vino.gschema.xml.h:10
+ msgid ""
+ "If true, the server will listen on another port, instead of the default "
+-"(5900). The port must be specified in the 'alternative-port' key."
++"(5900). The port must be specified in the “alternative-port” key."
+ msgstr ""
+ "Je-li zapnuto, server bude naslouchat na jiném portu než výchozím (5900). "
+ "Jiný port musí být uveden v klíči „alternative-port“."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:13
++#: ../common/org.gnome.Vino.gschema.xml.h:11
+ msgid "Alternative port number"
+ msgstr "Alternativní číslo portu"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:14
++#: ../common/org.gnome.Vino.gschema.xml.h:12
+ msgid ""
+-"The port which the server will listen to if the 'use-alternative-port' key "
++"The port which the server will listen to if the “use-alternative-port” key "
+ "is set to true. Valid values are in the range of 5000 to 50000."
+ msgstr ""
+ "Číslo portu, na kterém bude server naslouchat, pokud je klíč „use-"
+ "alternative-port“ nastaven na zapnuto. Přípustné hodnoty jsou v rozmezí od "
+ "5000 do 50000."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:15
++#: ../common/org.gnome.Vino.gschema.xml.h:13
+ msgid "Require encryption"
+ msgstr "Vyžadovat šifrování"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:16
++#: ../common/org.gnome.Vino.gschema.xml.h:14
+ msgid ""
+ "If true, remote users accessing the desktop are required to support "
+ "encryption. It is highly recommended that you use a client which supports "
+@@ -235,19 +108,18 @@ msgstr ""
+ "podporovat šifrování. Důrazně se doporučuje používat klienta, který "
+ "podporuje šifrování, pokud tedy není síť propojující počítače důvěryhodná."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:17
++#: ../common/org.gnome.Vino.gschema.xml.h:15
+ msgid "Allowed authentication methods"
+ msgstr "Povolené metody autentizace"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:18
++#: ../common/org.gnome.Vino.gschema.xml.h:16
+ msgid ""
+ "Lists the authentication methods with which remote users may access the "
+ "desktop.\n"
+ "\n"
+-"There are two possible authentication methods; \"vnc\" causes the remote "
+-"user to be prompted for a password (the password is specified by the vnc-"
+-"password key) before connecting and \"none\" which allows any remote user to "
+-"connect."
++"There are two possible authentication methods; “vnc” causes the remote user "
++"to be prompted for a password (the password is specified by the vnc-password "
++"key) before connecting and “none” which allows any remote user to connect."
+ msgstr ""
+ "Obsahuje metody autentizace, se kterými mohou vzdálení uživatelé přistupovat "
+ "k pracovní ploše.\n"
+@@ -256,17 +128,17 @@ msgstr ""
+ "před připojením dotázán na heslo (nastavené v klíči vnc-password) a „none“ "
+ "povoluje připojení kterémukoli vzdálenému uživateli."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:21
+-msgid "Password required for \"vnc\" authentication"
++#: ../common/org.gnome.Vino.gschema.xml.h:19
++msgid "Password required for “vnc” authentication"
+ msgstr "Heslo vyžadované pro autentizaci „vnc“"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:22
++#: ../common/org.gnome.Vino.gschema.xml.h:20
+ msgid ""
+-"The password which the remote user will be prompted for if the \"vnc\" "
++"The password which the remote user will be prompted for if the “vnc” "
+ "authentication method is used. The password specified by the key is base64 "
+ "encoded.\n"
+ "\n"
+-"The special value of 'keyring' (which is not valid base64) means that the "
++"The special value of “keyring” (which is not valid base64) means that the "
+ "password is stored in the GNOME keyring."
+ msgstr ""
+ "Heslo, na které bude vzdálený uživatel dotázán, pokud se používá metoda "
+@@ -275,12 +147,12 @@ msgstr ""
+ "Speciální hodnota „keyring“ (která není platná v base64) označuje, že heslo "
+ "je uchováno v klíčence GNOME."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:25
++#: ../common/org.gnome.Vino.gschema.xml.h:23
+ msgid "E-mail address to which the remote desktop URL should be sent"
+ msgstr ""
+ "E-mailová adresa, na kterou má být odesláno URL vzdálené pracovní plochy"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:26
++#: ../common/org.gnome.Vino.gschema.xml.h:24
+ msgid ""
+ "This key specifies the e-mail address to which the remote desktop URL should "
+ "be sent if the user clicks on the URL in the Desktop Sharing preferences "
+@@ -290,37 +162,37 @@ msgstr ""
+ "plochy odesláno, když uživatel klikne na URL v dialogovém okně Nastavení "
+ "sdílení pracovní plochy."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:27
++#: ../common/org.gnome.Vino.gschema.xml.h:25
+ msgid "Lock the screen when last user disconnect"
+ msgstr "Uzamknout obrazovku, když se odpojí poslední uživatel"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:28
++#: ../common/org.gnome.Vino.gschema.xml.h:26
+ msgid ""
+ "If true, the screen will be locked after the last remote client disconnects."
+ msgstr ""
+ "Je-li zapnuto, obrazovka bude zamknuta poté, co se odpojí poslední klient."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:29
++#: ../common/org.gnome.Vino.gschema.xml.h:27
+ msgid "When the status icon should be shown"
+ msgstr "Kdy zobrazovat ikonu v oznamovací oblasti"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:30
++#: ../common/org.gnome.Vino.gschema.xml.h:28
+ msgid ""
+ "This key controls the behavior of the status icon. There are three options: "
+-"\"always\" - the icon will always be present; \"client\" - the icon will "
+-"only be present when someone is connected (this is the default behavior); "
+-"\"never\" - the icon will not be present."
++"“always” — the icon will always be present; “client” — the icon will only be "
++"present when someone is connected (this is the default behavior); “never” — "
++"the icon will not be present."
+ msgstr ""
+ "Tento klíč upravuje chování ikony v oznamovací oblasti. Možné jsou tři "
+-"možnosti: „always“ - zobrazovat pořád; „client“ - zobrazovat pouze, když je "
+-"připojen vzdálený klient (jde o výchozí chování); „never“ - nezobrazovat "
++"možnosti: „always“ — zobrazovat pořád; „client“ — zobrazovat pouze, když je "
++"připojen vzdálený klient (jde o výchozí chování); „never“ — nezobrazovat "
+ "nikdy."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:31
++#: ../common/org.gnome.Vino.gschema.xml.h:29
+ msgid "Whether to disable the desktop background when a user is connected"
+ msgstr "Zda uživatelům, kteří se připojí, vypnout tapetu na ploše"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:32
++#: ../common/org.gnome.Vino.gschema.xml.h:30
+ msgid ""
+ "When true, disable the desktop background and replace it with a single block "
+ "of color when a user successfully connects."
+@@ -328,11 +200,11 @@ msgstr ""
+ "Když je zapnuto, vypne se tapeta na pozadí pracovní plochy a nahradí se "
+ "jednobarevnou plochou po té, co se uživatel úspěšně připojí."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:33
++#: ../common/org.gnome.Vino.gschema.xml.h:31
+ msgid "Whether a UPnP router should be used to forward and open ports"
+ msgstr "Zda by se měl používat směrovač UPnP k otevření a přesměrování portů"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:34
++#: ../common/org.gnome.Vino.gschema.xml.h:32
+ msgid ""
+ "If true, request that a UPnP-capable router should forward and open the port "
+ "used by Vino."
+@@ -340,11 +212,11 @@ msgstr ""
+ "Je-li zapnuto, požadovat, aby měl směrovač s podporou UPnP otevřené porty "
+ "používané aplikací Vino a předával jejich provoz do vnitřní sítě."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:35
++#: ../common/org.gnome.Vino.gschema.xml.h:33
+ msgid "Whether we should disable the XDamage extension of X.org"
+ msgstr "Zda používat rozšíření XDamage serveru X.org"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:36
++#: ../common/org.gnome.Vino.gschema.xml.h:34
+ msgid ""
+ "If true, do not use the XDamage extension of X.org. This extension does not "
+ "work properly on some video drivers when using 3D effects. Disabling it will "
+@@ -355,20 +227,16 @@ msgstr ""
+ "některých ovladačů grafických karet. Pokud rozšíření zakážete, vyhnete se "
+ "tím možným problémum, avšak za cenu pomalejšího vykreslování."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:37
++#: ../common/org.gnome.Vino.gschema.xml.h:35
+ msgid "Notify on connect"
+ msgstr "Upozornit při připojení"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:38
++#: ../common/org.gnome.Vino.gschema.xml.h:36
+ msgid "If true, show a notification when a user connects to the system."
+ msgstr ""
+ "Je-li zapnuto, budete zobrazeno upozorněni, když se k systému připojí "
+ "uživatel."
+ 
+-#: ../common/vino-keyring.c:54 ../tools/vino-passwd.c:54
+-msgid "Remote desktop sharing password"
+-msgstr "Heslo pro sdílení vzdálené plochy"
+-
+ #: ../server/smclient/eggdesktopfile.c:165
+ #, c-format
+ msgid "File is not a valid .desktop file"
+@@ -379,7 +247,7 @@ msgstr "Soubor není platným souborem typu .desktop"
+ #. * version number.
+ #: ../server/smclient/eggdesktopfile.c:191
+ #, c-format
+-msgid "Unrecognized desktop file Version '%s'"
++msgid "Unrecognized desktop file Version “%s”"
+ msgstr "Nepodařilo se rozpoznat soubor typu .desktop „%s“"
+ 
+ #: ../server/smclient/eggdesktopfile.c:974
+@@ -401,7 +269,7 @@ msgstr "Nerozpoznaná volba spouštění: %d"
+ #. * desktop file, and should not be translated.
+ #: ../server/smclient/eggdesktopfile.c:1391
+ #, c-format
+-msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
++msgid "Can’t pass document URIs to a “Type=Link” desktop entry"
+ msgstr "Nepodařilo se předat URI dokumentu položce typu „Type=Link“"
+ 
+ #: ../server/smclient/eggdesktopfile.c:1412
+@@ -438,31 +306,33 @@ msgid "Show session management options"
+ msgstr "Zobrazit volby správy sezení"
+ 
+ # FIXME: s/XServer/X server/
+-#: ../server/vino-main.c:202
++#: ../server/vino-main.c:154
+ msgid ""
+-"Your XServer does not support the XTest extension - remote desktop access "
++"Your XServer does not support the XTest extension — remote desktop access "
+ "will be view-only\n"
+ msgstr ""
+-"Váš server X nepodporuje rozšíření XTest - vzdálený přístup k pracovní ploše "
++"Váš server X nepodporuje rozšíření XTest — vzdálený přístup k pracovní ploše "
+ "bude jen pro zobrazování\n"
+ 
+ #. Tube mode uses Telepathy's Tubes to share a user's desktop directly
+ #. * with another IM contact. http://telepathy.freedesktop.org/wiki/Tubes
+ #.
+-#: ../server/vino-main.c:301
+-msgid "Start in tube mode, for the ‘Share my Desktop’ feature"
++#: ../server/vino-main.c:250
++msgid "Start in tube mode, for the “Share my Desktop” feature"
+ msgstr "Spustit v režimu roury, pro funkci „Sdílet moji pracovní plochu“"
+ 
+-#: ../server/vino-main.c:307
+-msgid "- VNC Server for GNOME"
+-msgstr "- server VNC pro prostředí GNOME"
++#: ../server/vino-main.c:261
++msgid "— VNC Server for GNOME"
++msgstr "— server VNC pro prostředí GNOME"
+ 
+-#: ../server/vino-main.c:315
++#: ../server/vino-main.c:269
+ msgid ""
+-"Run 'vino-server --help' to see a full list of available command line options"
+-msgstr "Více informací získáte příkazem „vino-server --help“"
++"Run “vino-server --help” to see a full list of available command line options"
++msgstr ""
++"Spuštěním „vino-server --help“ si zobrazíte všechny dostupné přepínače "
++"příkazové řádky."
+ 
+-#: ../server/vino-main.c:336
++#: ../server/vino-main.c:287
+ msgid "GNOME Desktop Sharing"
+ msgstr "Sdílení pracovní plochy GNOME"
+ 
+@@ -483,7 +353,7 @@ msgstr "1"
+ #.
+ #: ../server/vino-mdns.c:74
+ #, c-format
+-msgid "%s's remote desktop on %s"
++msgid "%s’s remote desktop on %s"
+ msgstr "Vzdálená plocha %s na %s"
+ 
+ #: ../server/vino-prefs.c:111
+@@ -499,38 +369,42 @@ msgstr "Obrazovka"
+ msgid "The screen on which to display the prompt"
+ msgstr "Obrazovka, na které zobrazovat výzvu"
+ 
+-#: ../server/vino-prompt.c:263 ../server/vino-status-icon.c:598
+-#: ../server/vino-status-tube-icon.c:389
++#: ../server/vino-prompt.c:270 ../server/vino-status-icon.c:604
++#: ../server/vino-status-tube-icon.c:396
+ #, c-format
+ msgid "Error initializing libnotify\n"
+ msgstr "Problém s inicializací libnotify\n"
+ 
+-#: ../server/vino-prompt.c:282
++#: ../server/vino-prompt.c:289
+ #, c-format
+ msgid ""
+-"A user on the computer '%s' is trying to remotely view or control your "
++"A user on the computer “%s” is trying to remotely view or control your "
+ "desktop."
+ msgstr ""
+ "Uživatel na počítači „%s“ se pokouší vzdáleně zobrazit nebo ovládat vaši "
+ "pracovní plochu."
+ 
+-#: ../server/vino-prompt.c:285
++#: ../server/vino-prompt.c:292
+ msgid "Another user is trying to view your desktop."
+ msgstr "Jiný uživatel se pokouší zobrazit vaši pracovní plochu."
+ 
+-#: ../server/vino-prompt.c:291
++#: ../server/vino-prompt.c:298
+ msgid "Refuse"
+ msgstr "Odmítnout"
+ 
+-#: ../server/vino-prompt.c:297
++#: ../server/vino-prompt.c:304
+ msgid "Accept"
+ msgstr "Přijmout"
+ 
+-#: ../server/vino-server.c:164 ../server/vino-server.c:187
++#: ../server/vino-server.c:159 ../server/vino-server.c:182
+ #, c-format
+ msgid "Failed to open connection to bus: %s\n"
+ msgstr "Nepodařilo se připojit ke sběrnici: %s\n"
+ 
++#: ../server/vino-server.desktop.in.in.h:1
++msgid "Desktop Sharing"
++msgstr "Sdílení pracovní plochy"
++
+ #: ../server/vino-server.desktop.in.in.h:2
+ msgid "GNOME Desktop Sharing Server"
+ msgstr "Server sdílení pracovní plochy GNOME"
+@@ -539,11 +413,7 @@ msgstr "Server sdílení pracovní plochy GNOME"
+ msgid "vnc;share;remote;"
+ msgstr "vnc;sdílení;vzdálený;přístup;"
+ 
+-#: ../server/vino-status-icon.c:97 ../server/vino-status-tube-icon.c:90
+-msgid "Desktop sharing is enabled"
+-msgstr "Vzdálená pracovní plocha je zapnuta"
+-
+-#: ../server/vino-status-icon.c:105
++#: ../server/vino-status-icon.c:103
+ #, c-format
+ msgid "One person is viewing your desktop"
+ msgid_plural "%d people are viewing your desktop"
+@@ -551,15 +421,20 @@ msgstr[0] "Jiný uživatel vzdáleně sleduje vaši pracovní plochu"
+ msgstr[1] "Jiní %d uživatelé vzdáleně sledují vaši pracovní plochu"
+ msgstr[2] "Jiných %d uživatelů vzdáleně sleduje vaši pracovní plochu"
+ 
+-#: ../server/vino-status-icon.c:208 ../server/vino-status-tube-icon.c:172
++#: ../server/vino-status-icon.c:112 ../server/vino-status-tube-icon.c:90
++msgid "Desktop sharing is enabled"
++msgstr "Vzdálená pracovní plocha je zapnuta"
++
++#: ../server/vino-status-icon.c:208 ../server/vino-status-icon.c:214
++#: ../server/vino-status-tube-icon.c:173 ../server/vino-status-tube-icon.c:179
+ msgid "Error displaying preferences"
+ msgstr "Nepodařilo se zobrazit předvolby"
+ 
+-#: ../server/vino-status-icon.c:230 ../server/vino-status-tube-icon.c:192
++#: ../server/vino-status-icon.c:236 ../server/vino-status-tube-icon.c:199
+ msgid "Error displaying help"
+ msgstr "Nepodařilo se zobrazit nápovědu"
+ 
+-#: ../server/vino-status-icon.c:263
++#: ../server/vino-status-icon.c:269
+ msgid ""
+ "Licensed under the GNU General Public License Version 2\n"
+ "\n"
+@@ -596,92 +471,94 @@ msgstr ""
+ "02110-1301, USA.\n"
+ 
+ #. Translators comment: put your own name here to appear in the about dialog.
+-#: ../server/vino-status-icon.c:278
++#: ../server/vino-status-icon.c:284
+ msgid "translator-credits"
+ msgstr ""
+ "Jakub Friedl <jfriedl@suse.cz>\n"
+ "Pavel Šefránek <ps@pjoul.cz>\n"
+ "Petr Kovář <pknbe@volny.cz>"
+ 
+-#: ../server/vino-status-icon.c:284
++#: ../server/vino-status-icon.c:290
+ msgid "Share your desktop with other users"
+ msgstr "Sdílejte svou plochu s dalšími uživateli"
+ 
+-#: ../server/vino-status-icon.c:351 ../server/vino-status-tube-icon.c:224
++#. Translators: %s is a hostname
++#. Translators: %s is the alias of the telepathy contact
++#: ../server/vino-status-icon.c:357 ../server/vino-status-tube-icon.c:231
+ #, c-format
+-msgid "Are you sure you want to disconnect '%s'?"
++msgid "Are you sure you want to disconnect “%s”?"
+ msgstr "Opravdu chcete odpojit „%s“?"
+ 
+-#: ../server/vino-status-icon.c:354
++#: ../server/vino-status-icon.c:360
+ #, c-format
+-msgid "The remote user from '%s' will be disconnected. Are you sure?"
+-msgstr "Vzdálený uživatel z „%s“ bude odpojen. Opravdu?"
++msgid "The remote user from “%s” will be disconnected. Are you sure?"
++msgstr "Vzdálený uživatel z „%s“ bude odpojen. Opravdu to chcete?"
+ 
+-#: ../server/vino-status-icon.c:360
++#: ../server/vino-status-icon.c:366
+ msgid "Are you sure you want to disconnect all clients?"
+ msgstr "Opravdu chcete odpojit všechny klienty?"
+ 
+-#: ../server/vino-status-icon.c:362
++#: ../server/vino-status-icon.c:368
+ msgid "All remote users will be disconnected. Are you sure?"
+ msgstr "Všichni vzdálení uživatelé budou odpojeni. Opravdu?"
+ 
+-#: ../server/vino-status-icon.c:374 ../server/vino-status-tube-icon.c:238
++#: ../server/vino-status-icon.c:380 ../server/vino-status-tube-icon.c:245
+ msgid "Disconnect"
+ msgstr "Odpojit"
+ 
+-#: ../server/vino-status-icon.c:400 ../server/vino-status-tube-icon.c:263
++#: ../server/vino-status-icon.c:406 ../server/vino-status-tube-icon.c:270
+ msgid "_Preferences"
+ msgstr "_Předvolby"
+ 
+-#: ../server/vino-status-icon.c:415
++#: ../server/vino-status-icon.c:421
+ msgid "Disconnect all"
+ msgstr "Odpojit vše"
+ 
+ #. Translators: %s is a hostname
+ #. Translators: %s is the alias of the telepathy contact
+-#: ../server/vino-status-icon.c:439 ../server/vino-status-tube-icon.c:276
++#: ../server/vino-status-icon.c:445 ../server/vino-status-tube-icon.c:283
+ #, c-format
+ msgid "Disconnect %s"
+ msgstr "Odpojit %s"
+ 
+-#: ../server/vino-status-icon.c:460 ../server/vino-status-tube-icon.c:295
++#: ../server/vino-status-icon.c:466 ../server/vino-status-tube-icon.c:302
+ msgid "_Help"
+ msgstr "_Nápověda"
+ 
+-#: ../server/vino-status-icon.c:468
++#: ../server/vino-status-icon.c:474
+ msgid "_About"
+ msgstr "O _aplikaci"
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:619
++#: ../server/vino-status-icon.c:625
+ msgid "Another user is viewing your desktop"
+ msgstr "Jiný uživatel vzdáleně sleduje vaši pracovní plochu"
+ 
+-#: ../server/vino-status-icon.c:621
++#: ../server/vino-status-icon.c:627
+ #, c-format
+-msgid "A user on the computer '%s' is remotely viewing your desktop."
+-msgstr "Uživatel na počítači „%s“ vzdáleně sleduje vaši pracovní plochu."
++msgid "A user on the computer “%s” is remotely viewing your desktop."
++msgstr "Uživatel na počítači „%s“ se vzdáleně dívá na vaši pracovní plochu."
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:627
++#: ../server/vino-status-icon.c:633
+ msgid "Another user is controlling your desktop"
+ msgstr "Jiný uživatel vzdáleně ovládá vaši pracovní plochu"
+ 
+-#: ../server/vino-status-icon.c:629
++#: ../server/vino-status-icon.c:635
+ #, c-format
+-msgid "A user on the computer '%s' is remotely controlling your desktop."
++msgid "A user on the computer “%s” is remotely controlling your desktop."
+ msgstr "Uživatel na počítači „%s“ vzdáleně ovládá vaši pracovní plochu."
+ 
+ # jak překládat notiffication bubble?
+-#: ../server/vino-status-icon.c:651 ../server/vino-status-tube-icon.c:423
++#: ../server/vino-status-icon.c:657 ../server/vino-status-tube-icon.c:430
+ #, c-format
+ msgid "Error while displaying notification bubble: %s\n"
+ msgstr "Nastal problém při pokusu zobrazit oznámení: %s\n"
+ 
+-#: ../server/vino-status-tube-icon.c:227
++#: ../server/vino-status-tube-icon.c:234
+ #, c-format
+-msgid "The remote user '%s' will be disconnected. Are you sure?"
+-msgstr "Vzdálený uživatel z „%s“ bude odpojen. Jste si jisti?"
++msgid "The remote user “%s” will be disconnected. Are you sure?"
++msgstr "Vzdálený uživatel z „%s“ bude odpojen. Opravdu to chcete?"
+ 
+ #: ../server/vino-tube-server.c:220 ../server/vino-tube-server.c:249
+ msgid "Share my desktop information"
+@@ -690,106 +567,35 @@ msgstr "Sdílejte informace o své ploše s dalšími uživateli"
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:224
+ #, c-format
+-msgid "'%s' rejected the desktop sharing invitation."
+-msgstr "Uživatel na počítači „%s“ odmítl vaši pozvánku."
++msgid "“%s” rejected the desktop sharing invitation."
++msgstr "Uživatel „%s“ odmítl vaši pozvánku."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:228
+ #, c-format
+-msgid "'%s' disconnected"
+-msgstr "Uživatel na počítači „%s“ se odpojil"
++msgid "“%s” disconnected"
++msgstr "Uživatel „%s“ se odpojil"
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:255
+ #, c-format
+-msgid "'%s' is remotely controlling your desktop."
+-msgstr "Uživatel na počítači „%s“ vzdáleně ovládá vaši pracovní plochu."
++msgid "“%s” is remotely controlling your desktop."
++msgstr "Uživatel „%s“ vzdáleně ovládá vaši pracovní plochu."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:264
+ #, c-format
+-msgid "Waiting for '%s' to connect to the screen."
+-msgstr ""
+-"Čeká se na uživatele na počítači „%s“, dokud se nepřipojí k vaší ploše."
++msgid "Waiting for “%s” to connect to the screen."
++msgstr "Čeká se na uživatele „%s“, dokud se nepřipojí k vaší ploše."
+ 
+-#: ../server/vino-util.c:89
++#: ../server/vino-util.c:88
+ msgid "_Allow"
+ msgstr "_Povolit"
+ 
+-#: ../server/vino-util.c:90
++#: ../server/vino-util.c:89
+ msgid "_Refuse"
+ msgstr "_Odmítnout"
+ 
+-#: ../server/vino-util.c:140
++#: ../server/vino-util.c:139
+ msgid "An error has occurred:"
+ msgstr "Došlo k chybě:"
+-
+-#: ../tools/vino-passwd.c:108
+-#, c-format
+-msgid "Cancelled"
+-msgstr "Zrušeno"
+-
+-#: ../tools/vino-passwd.c:115
+-#, c-format
+-msgid ""
+-"ERROR: Maximum length of password is %d character. Please, re-enter the "
+-"password."
+-msgid_plural ""
+-"ERROR: Maximum length of password is %d characters. Please, re-enter the "
+-"password."
+-msgstr[0] "CHYBA: Délka hesla je omezena na %d znak. Zadejte kratší heslo."
+-msgstr[1] "CHYBA: Délka hesla je omezena na %d znaky. Zadejte kratší heslo."
+-msgstr[2] "CHYBA: Délka hesla je omezena na %d znaků. Zadejte kratší heslo."
+-
+-#: ../tools/vino-passwd.c:149
+-#, c-format
+-msgid "Changing Vino password.\n"
+-msgstr "Vyžádali jste si změnu hesla k aplikaci Vino.\n"
+-
+-#: ../tools/vino-passwd.c:151
+-msgid "Enter new Vino password: "
+-msgstr "Zadejte nové heslo: "
+-
+-#: ../tools/vino-passwd.c:154
+-msgid "Retype new Vino password: "
+-msgstr "Zopakujte nové heslo: "
+-
+-#: ../tools/vino-passwd.c:160
+-#, c-format
+-msgid "vino-passwd: password updated successfully.\n"
+-msgstr "vino-passwd: heslo bylo úspěšně změněno.\n"
+-
+-#: ../tools/vino-passwd.c:165
+-#, c-format
+-msgid "Sorry, passwords do not match.\n"
+-msgstr "Hesla nesouhlasí.\n"
+-
+-#: ../tools/vino-passwd.c:166
+-#, c-format
+-msgid "vino-passwd: password unchanged.\n"
+-msgstr "vino-passwd: heslo nebylo změněno.\n"
+-
+-#: ../tools/vino-passwd.c:182
+-msgid "Show Vino version"
+-msgstr "Zobrazit verzi aplikace Vino"
+-
+-#: ../tools/vino-passwd.c:191
+-msgid "- Updates Vino password"
+-msgstr "- změna hesla k aplikaci Vino"
+-
+-#: ../tools/vino-passwd.c:201
+-msgid ""
+-"Run 'vino-passwd --help' to see a full list of available command line options"
+-msgstr "Více informací získáte příkazem „vino-passwd --help“"
+-
+-#: ../tools/vino-passwd.c:208
+-#, c-format
+-msgid "VINO Version %s\n"
+-msgstr "Vino %s\n"
+-
+-#: ../tools/vino-passwd.c:219
+-#, c-format
+-msgid "ERROR: You do not have enough permissions to change Vino password.\n"
+-msgstr ""
+-"CHYBA: nemáte dostatečná oprávnění, abyste mohli změnit heslo k aplikaci "
+-"Vino.\n"
+-- 
+2.20.1
+

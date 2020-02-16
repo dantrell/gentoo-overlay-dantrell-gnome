@@ -2,7 +2,7 @@
 
 EAPI="5"
 
-inherit eutils
+inherit eutils ltprune
 
 DESCRIPTION="utility library for higher level dLeyna libraries"
 HOMEPAGE="https://01.org/dleyna/"

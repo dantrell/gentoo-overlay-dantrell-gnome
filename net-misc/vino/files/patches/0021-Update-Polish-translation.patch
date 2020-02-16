@@ -1,0 +1,387 @@
+From 918bbcdb47a9c54b460821a094c5372a56d07050 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Piotr=20Dr=C4=85g?= <piotrdrag@gmail.com>
+Date: Wed, 26 Sep 2018 17:41:29 +0200
+Subject: [PATCH 21/68] Update Polish translation
+
+---
+ po/pl.po | 134 +++++++++++++++++++++++++++----------------------------
+ 1 file changed, 67 insertions(+), 67 deletions(-)
+
+diff --git a/po/pl.po b/po/pl.po
+index 1678b14..7ce3142 100644
+--- a/po/pl.po
++++ b/po/pl.po
+@@ -1,17 +1,17 @@
+ # Polish translation for vino.
+-# Copyright © 2004-2016 the vino authors.
++# Copyright © 2004-2018 the vino authors.
+ # This file is distributed under the same license as the vino package.
+ # Artur Flinta <aflinta@at.kernel.pl>, 2004-2007.
+ # Tomasz Dominikowski <dominikowski@gmail.com>, 2007-2009.
+-# Piotr Drąg <piotrdrag@gmail.com>, 2010-2016.
+-# Aviary.pl <community-poland@mozilla.org>, 2007-2016.
++# Piotr Drąg <piotrdrag@gmail.com>, 2010-2018.
++# Aviary.pl <community-poland@mozilla.org>, 2007-2018.
+ #
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: vino\n"
+ "Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2016-09-10 05:17+0200\n"
+-"PO-Revision-Date: 2016-09-10 05:18+0200\n"
++"POT-Creation-Date: 2018-09-26 17:38+0200\n"
++"PO-Revision-Date: 2018-09-26 17:39+0200\n"
+ "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
+ "Language-Team: Polish <community-poland@mozilla.org>\n"
+ "Language: pl\n"
+@@ -32,7 +32,7 @@ msgid ""
+ "when access is not password protected."
+ msgstr ""
+ "Jeśli jest ustawione na „true”, to zdalni użytkownicy nie otrzymają "
+-"pozwolenia na dostęp do pulpitu bez akceptacji użytkownika na lokalnym "
++"pozwolenia na dostęp do pulpitu bez zatwierdzenia użytkownika na lokalnym "
+ "komputerze. Zalecane szczególnie przy dostępie niezabezpieczonym hasłem."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:3
+@@ -61,7 +61,7 @@ msgstr ""
+ "Jeśli nie jest ustawione, to serwer będzie nasłuchiwał na wszystkich "
+ "interfejsach sieciowych.\n"
+ "\n"
+-"Można to ustawić, jeśli wymagane jest akceptowane połączenie wyłącznie "
++"Można to ustawić, jeśli wymagane jest przyjmowanie połączeń wyłącznie "
+ "z konkretnych interfejsów sieciowych, np.: eth0, wifi0, lo itd."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:9
+@@ -71,7 +71,7 @@ msgstr "Nasłuch na alternatywnym porcie"
+ #: ../common/org.gnome.Vino.gschema.xml.h:10
+ msgid ""
+ "If true, the server will listen on another port, instead of the default "
+-"(5900). The port must be specified in the 'alternative-port' key."
++"(5900). The port must be specified in the “alternative-port” key."
+ msgstr ""
+ "Jeśli jest ustawione na „true”, to serwer będzie nasłuchiwał na porcie innym "
+ "od domyślnego (5900). Port musi zostać podany w kluczu „alternative-port”."
+@@ -82,12 +82,12 @@ msgstr "Alternatywny numer portu"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:12
+ msgid ""
+-"The port which the server will listen to if the 'use-alternative-port' key "
++"The port which the server will listen to if the “use-alternative-port” key "
+ "is set to true. Valid values are in the range of 5000 to 50000."
+ msgstr ""
+-"Numer portu, na którym serwer będzie nasłuchiwał w przypadku ustawienia "
+-"klucza „use-alternative-port”. Dopuszczalnymi wartościami są liczby "
+-"z przedziału od 5000 do 50000."
++"Port, na którym serwer będzie nasłuchiwał w przypadku ustawienia klucza „use-"
++"alternative-port”. Dopuszczalnymi wartościami są liczby z przedziału od 5000 "
++"do 50000."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:13
+ msgid "Require encryption"
+@@ -112,30 +112,29 @@ msgid ""
+ "Lists the authentication methods with which remote users may access the "
+ "desktop.\n"
+ "\n"
+-"There are two possible authentication methods; \"vnc\" causes the remote "
+-"user to be prompted for a password (the password is specified by the vnc-"
+-"password key) before connecting and \"none\" which allows any remote user to "
+-"connect."
++"There are two possible authentication methods; “vnc” causes the remote user "
++"to be prompted for a password (the password is specified by the vnc-password "
++"key) before connecting and “none” which allows any remote user to connect."
+ msgstr ""
+ "Lista metod uwierzytelniania, za pomocą których zdalni użytkownicy mogą mieć "
+ "dostęp do pulpitu.\n"
+ "\n"
+ "Są dwie możliwe metody upoważniania; „vnc” powoduje zapytanie przed "
+ "połączeniem zdalnego użytkownika o hasło (hasło jest określone w kluczu „vnc-"
+-"password”), oraz „none” (brak), która pozwala dowolnemu zdalnemu "
+-"użytkownikowi na dostęp."
++"password”), oraz „none” (brak), która pozwala każdemu zdalnemu użytkownikowi "
++"na dostęp."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:19
+-msgid "Password required for \"vnc\" authentication"
++msgid "Password required for “vnc” authentication"
+ msgstr "Hasło wymagane do uwierzytelnienia „vnc”"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:20
+ msgid ""
+-"The password which the remote user will be prompted for if the \"vnc\" "
++"The password which the remote user will be prompted for if the “vnc” "
+ "authentication method is used. The password specified by the key is base64 "
+ "encoded.\n"
+ "\n"
+-"The special value of 'keyring' (which is not valid base64) means that the "
++"The special value of “keyring” (which is not valid base64) means that the "
+ "password is stored in the GNOME keyring."
+ msgstr ""
+ "Hasło, o które będzie zapytany zdalny użytkownik przy metodzie upoważnienia "
+@@ -146,7 +145,7 @@ msgstr ""
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:23
+ msgid "E-mail address to which the remote desktop URL should be sent"
+-msgstr "Adres e-mail, na który powinien być wysłany adres URL zdalnego pulpitu"
++msgstr "Adres e-mail, na który ma być wysłany adres URL zdalnego pulpitu"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:24
+ msgid ""
+@@ -154,7 +153,7 @@ msgid ""
+ "be sent if the user clicks on the URL in the Desktop Sharing preferences "
+ "dialog."
+ msgstr ""
+-"Ten klucz określa adres e-mail, na który powinien zostać wysłany adres URL "
++"Ten klucz określa adres e-mail, na który ma zostać wysłany adres URL "
+ "zdalnego pulpitu. Adres będzie wysłany po kliknięciu adresu URL w oknie "
+ "preferencji udostępniania pulpitu."
+ 
+@@ -176,13 +175,13 @@ msgstr "Kiedy ikona stanu ma być wyświetlana"
+ #: ../common/org.gnome.Vino.gschema.xml.h:28
+ msgid ""
+ "This key controls the behavior of the status icon. There are three options: "
+-"\"always\" - the icon will always be present; \"client\" - the icon will "
+-"only be present when someone is connected (this is the default behavior); "
+-"\"never\" - the icon will not be present."
++"“always” — the icon will always be present; “client” — the icon will only be "
++"present when someone is connected (this is the default behavior); “never” — "
++"the icon will not be present."
+ msgstr ""
+-"Ten klucz kontroluje zachowanie ikony stanu. Istnieją trzy opcje: „always” - "
+-"ikona zawsze jest wyświetlana; „client” - wyświetlana jest tylko, gdy ktoś "
+-"jest podłączony (to domyślne zachowanie); „never” - ikona nigdy nie będzie "
++"Ten klucz kontroluje zachowanie ikony stanu. Są trzy opcje: „always” — ikona "
++"zawsze jest wyświetlana; „client” — wyświetlana jest tylko, gdy ktoś jest "
++"podłączony (to domyślne zachowanie); „never” — ikona nigdy nie będzie "
+ "wyświetlana."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:29
+@@ -200,8 +199,7 @@ msgstr ""
+ #: ../common/org.gnome.Vino.gschema.xml.h:31
+ msgid "Whether a UPnP router should be used to forward and open ports"
+ msgstr ""
+-"Określa, czy router UPnP powinien być używany do przekierowania i otwierania "
+-"portów"
++"Określa, czy router UPnP ma być używany do przekierowania i otwierania portów"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:32
+ msgid ""
+@@ -235,7 +233,7 @@ msgstr "Powiadamianie o połączeniu"
+ msgid "If true, show a notification when a user connects to the system."
+ msgstr ""
+ "Jeśli jest ustawione na „true”, to wyświetla powiadomienie po połączeniu "
+-"użytkownika z systemem."
++"użytkownika z komputerem."
+ 
+ #: ../server/smclient/eggdesktopfile.c:165
+ #, c-format
+@@ -247,7 +245,7 @@ msgstr "Nieprawidłowy plik .desktop"
+ #. * version number.
+ #: ../server/smclient/eggdesktopfile.c:191
+ #, c-format
+-msgid "Unrecognized desktop file Version '%s'"
++msgid "Unrecognized desktop file Version “%s”"
+ msgstr "Nierozpoznana wersja pliku .desktop „%s”"
+ 
+ #: ../server/smclient/eggdesktopfile.c:974
+@@ -269,7 +267,7 @@ msgstr "Nierozpoznana opcja uruchamiania: %d"
+ #. * desktop file, and should not be translated.
+ #: ../server/smclient/eggdesktopfile.c:1391
+ #, c-format
+-msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
++msgid "Can’t pass document URIs to a “Type=Link” desktop entry"
+ msgstr "Nie można przekazać adresu URI dokumentu do wpisu .desktop „Type=Link”"
+ 
+ #: ../server/smclient/eggdesktopfile.c:1412
+@@ -305,9 +303,9 @@ msgstr "Opcje zarządzania sesją:"
+ msgid "Show session management options"
+ msgstr "Wyświetla opcje zarządzania sesją"
+ 
+-#: ../server/vino-main.c:153
++#: ../server/vino-main.c:154
+ msgid ""
+-"Your XServer does not support the XTest extension - remote desktop access "
++"Your XServer does not support the XTest extension — remote desktop access "
+ "will be view-only\n"
+ msgstr ""
+ "Serwer X nie obsługuje rozszerzenia XTest — dostęp zdalnego pulpitu będzie "
+@@ -316,22 +314,22 @@ msgstr ""
+ #. Tube mode uses Telepathy's Tubes to share a user's desktop directly
+ #. * with another IM contact. http://telepathy.freedesktop.org/wiki/Tubes
+ #.
+-#: ../server/vino-main.c:249
+-msgid "Start in tube mode, for the ‘Share my Desktop’ feature"
++#: ../server/vino-main.c:250
++msgid "Start in tube mode, for the “Share my Desktop” feature"
+ msgstr "Uruchamia w trybie tuby dla funkcji „Udostępnianie pulpitu”"
+ 
+-#: ../server/vino-main.c:260
+-msgid "- VNC Server for GNOME"
++#: ../server/vino-main.c:261
++msgid "— VNC Server for GNOME"
+ msgstr "— serwer VNC dla środowiska GNOME"
+ 
+-#: ../server/vino-main.c:268
++#: ../server/vino-main.c:269
+ msgid ""
+-"Run 'vino-server --help' to see a full list of available command line options"
++"Run “vino-server --help” to see a full list of available command line options"
+ msgstr ""
+-"Wykonanie polecenia „vino-server --help” wyświetli pełną listę dostępnych "
+-"opcji w wierszu poleceń"
++"Polecenie „vino-server --help” wyświetli pełną listę dostępnych opcji "
++"wiersza poleceń"
+ 
+-#: ../server/vino-main.c:280
++#: ../server/vino-main.c:287
+ msgid "GNOME Desktop Sharing"
+ msgstr "Udostępnianie pulpitu GNOME"
+ 
+@@ -351,7 +349,7 @@ msgstr "1"
+ #.
+ #: ../server/vino-mdns.c:74
+ #, c-format
+-msgid "%s's remote desktop on %s"
++msgid "%s’s remote desktop on %s"
+ msgstr "Zdalny pulpit użytkownika %s na %s"
+ 
+ #: ../server/vino-prefs.c:111
+@@ -376,14 +374,14 @@ msgstr "Błąd podczas inicjowania biblioteki libnotify\n"
+ #: ../server/vino-prompt.c:289
+ #, c-format
+ msgid ""
+-"A user on the computer '%s' is trying to remotely view or control your "
++"A user on the computer “%s” is trying to remotely view or control your "
+ "desktop."
+ msgstr ""
+-"Użytkownik komputera „%s” próbuje zdalnie wyświetlić lub kontrolować pulpit."
++"Użytkownik komputera „%s” próbuje zdalnie wyświetlić lub sterować pulpitem."
+ 
+ #: ../server/vino-prompt.c:292
+ msgid "Another user is trying to view your desktop."
+-msgstr "Inny użytkownik próbuje wyświetlić pulpit użytkownika."
++msgstr "Inny użytkownik próbuje wyświetlić pulpit."
+ 
+ #: ../server/vino-prompt.c:298
+ msgid "Refuse"
+@@ -391,7 +389,7 @@ msgstr "Odmów"
+ 
+ #: ../server/vino-prompt.c:304
+ msgid "Accept"
+-msgstr "Zaakceptuj"
++msgstr "Przyjmij"
+ 
+ #: ../server/vino-server.c:159 ../server/vino-server.c:182
+ #, c-format
+@@ -467,7 +465,7 @@ msgstr ""
+ "Z pewnością wraz z niniejszym programem dostarczono także\n"
+ "egzemplarz Powszechnej Licencji Publicznej GNU (GNU General Public\n"
+ "License); jeśli nie — proszę napisać do Free Software Foundation,\n"
+-"Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
++"Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n"
+ 
+ #. Translators comment: put your own name here to appear in the about dialog.
+ #: ../server/vino-status-icon.c:284
+@@ -475,21 +473,23 @@ msgid "translator-credits"
+ msgstr ""
+ "Artur Flinta <aflinta@at.kernel.pl>, 2004-2007\n"
+ "Tomasz Dominikowski <dominikowski@gmail.com>, 2007-2009\n"
+-"Piotr Drąg <piotrdrag@gmail.com>, 2010-2016\n"
+-"Aviary.pl <community-poland@mozilla.org>, 2007-2016"
++"Piotr Drąg <piotrdrag@gmail.com>, 2010-2018\n"
++"Aviary.pl <community-poland@mozilla.org>, 2007-2018"
+ 
+ #: ../server/vino-status-icon.c:290
+ msgid "Share your desktop with other users"
+ msgstr "Udostępnianie pulpitu innym użytkownikom"
+ 
++#. Translators: %s is a hostname
++#. Translators: %s is the alias of the telepathy contact
+ #: ../server/vino-status-icon.c:357 ../server/vino-status-tube-icon.c:231
+ #, c-format
+-msgid "Are you sure you want to disconnect '%s'?"
++msgid "Are you sure you want to disconnect “%s”?"
+ msgstr "Na pewno rozłączyć „%s”?"
+ 
+ #: ../server/vino-status-icon.c:360
+ #, c-format
+-msgid "The remote user from '%s' will be disconnected. Are you sure?"
++msgid "The remote user from “%s” will be disconnected. Are you sure?"
+ msgstr "Zdalny użytkownik z „%s” zostanie rozłączny. Kontynuować?"
+ 
+ #: ../server/vino-status-icon.c:366
+@@ -498,7 +498,7 @@ msgstr "Na pewno rozłączyć wszystkich klientów?"
+ 
+ #: ../server/vino-status-icon.c:368
+ msgid "All remote users will be disconnected. Are you sure?"
+-msgstr "Wszyscy zdalni klienci zostaną rozłączeni. Kontynuować?"
++msgstr "Wszyscy zdalni użytkownicy zostaną rozłączeni. Kontynuować?"
+ 
+ #: ../server/vino-status-icon.c:380 ../server/vino-status-tube-icon.c:245
+ msgid "Disconnect"
+@@ -534,18 +534,18 @@ msgstr "Inny użytkownik wyświetla pulpit"
+ 
+ #: ../server/vino-status-icon.c:627
+ #, c-format
+-msgid "A user on the computer '%s' is remotely viewing your desktop."
+-msgstr "Użytkownik komputera „%s” wyświetla zdalnie pulpit."
++msgid "A user on the computer “%s” is remotely viewing your desktop."
++msgstr "Użytkownik komputera „%s” zdalnie wyświetla pulpit."
+ 
+ #. Translators: %s is a hostname
+ #: ../server/vino-status-icon.c:633
+ msgid "Another user is controlling your desktop"
+-msgstr "Inny użytkownik kontroluje pulpit"
++msgstr "Inny użytkownik steruje pulpitem"
+ 
+ #: ../server/vino-status-icon.c:635
+ #, c-format
+-msgid "A user on the computer '%s' is remotely controlling your desktop."
+-msgstr "Użytkownik komputera „%s” zdalnie kontroluje pulpit."
++msgid "A user on the computer “%s” is remotely controlling your desktop."
++msgstr "Użytkownik komputera „%s” zdalnie steruje pulpitem."
+ 
+ #: ../server/vino-status-icon.c:657 ../server/vino-status-tube-icon.c:430
+ #, c-format
+@@ -554,7 +554,7 @@ msgstr "Błąd podczas wyświetlania komunikatu powiadamiania: %s\n"
+ 
+ #: ../server/vino-status-tube-icon.c:234
+ #, c-format
+-msgid "The remote user '%s' will be disconnected. Are you sure?"
++msgid "The remote user “%s” will be disconnected. Are you sure?"
+ msgstr "Zdalny użytkownik „%s” zostanie rozłączny. Kontynuować?"
+ 
+ #: ../server/vino-tube-server.c:220 ../server/vino-tube-server.c:249
+@@ -564,25 +564,25 @@ msgstr "Udostępnianie informacji o pulpicie innym użytkownikom"
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:224
+ #, c-format
+-msgid "'%s' rejected the desktop sharing invitation."
++msgid "“%s” rejected the desktop sharing invitation."
+ msgstr "Użytkownik „%s” odrzucił zaproszenie do udostępniania pulpitu."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:228
+ #, c-format
+-msgid "'%s' disconnected"
++msgid "“%s” disconnected"
+ msgstr "Użytkownik „%s” został rozłączony"
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:255
+ #, c-format
+-msgid "'%s' is remotely controlling your desktop."
+-msgstr "Użytkownik „%s” zdalnie kontroluje pulpit."
++msgid "“%s” is remotely controlling your desktop."
++msgstr "Użytkownik „%s” zdalnie steruje pulpitem."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:264
+ #, c-format
+-msgid "Waiting for '%s' to connect to the screen."
++msgid "Waiting for “%s” to connect to the screen."
+ msgstr "Oczekiwanie na użytkownika „%s”, aby ustanowił połączenie z ekranem."
+ 
+ #: ../server/vino-util.c:88
+-- 
+2.20.1
+

@@ -1,0 +1,32 @@
+From f920f5e0d5243a1de22df002781335ab4351abc1 Mon Sep 17 00:00:00 2001
+From: Ondrej Holy <oholy@redhat.com>
+Date: Wed, 10 Oct 2018 08:18:44 +0200
+Subject: [PATCH 64/68] Fix locale dir
+
+Vino strings are always in english regardless system language.
+This is caused by wrong locale dir. $(DATADIRNAME) which is used to
+build the path seems undefined. Let's use $(localedir) instead
+to fix this issue.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=788381
+Closes: https://gitlab.gnome.org/GNOME/vino/issues/1
+---
+ Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index a424445..1bcc1ad 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -110,7 +110,7 @@ vino_server_CPPFLAGS = \
+ 	$(LIBGCRYPT_CFLAGS) \
+ 	$(WARN_CFLAGS) \
+ 	$(DISABLE_DEPRECATED) \
+-	-DVINO_LOCALEDIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
++	-DVINO_LOCALEDIR=\""$(localedir)"\" \
+ 	-DVINO_ICONDIR=\""$(datadir)/pixmaps\"" \
+ 	-DVINO_CLIENTDIR=\""$(pkgdatadir)"\" \
+ 	-DVINO_UIDIR=\""$(pkgdatadir)"\"
+-- 
+2.20.1
+

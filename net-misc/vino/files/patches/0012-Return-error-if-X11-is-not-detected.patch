@@ -1,7 +1,7 @@
-From 5e49ab2d125388b843eca4f1f47849d18ccabcd3 Mon Sep 17 00:00:00 2001
+From d5b743b11a6f102353af719fa34abd5e6c679e77 Mon Sep 17 00:00:00 2001
 From: Ondrej Holy <oholy@redhat.com>
 Date: Tue, 20 Feb 2018 12:26:18 +0100
-Subject: [PATCH] Return error if X11 is not detected
+Subject: [PATCH 12/68] Return error if X11 is not detected
 
 Vino-server crashes on Wayland in XQueryExtension. Since vino-server is
 not expected to work on displays other than X11, let's exit immediately
@@ -38,4 +38,5 @@ index dd95de7..7be3fff 100644
    vino.settings = g_settings_new ("org.gnome.Vino");
  
 -- 
-2.16.2
+2.20.1
+

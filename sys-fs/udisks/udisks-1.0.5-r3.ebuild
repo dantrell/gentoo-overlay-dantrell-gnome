@@ -2,7 +2,7 @@
 
 EAPI="5"
 
-inherit eutils bash-completion-r1 linux-info udev systemd
+inherit eutils bash-completion-r1 linux-info ltprune udev systemd
 
 DESCRIPTION="Daemon providing interfaces to work with storage devices"
 HOMEPAGE="https://www.freedesktop.org/wiki/Software/udisks"

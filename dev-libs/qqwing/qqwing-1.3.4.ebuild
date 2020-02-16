@@ -2,7 +2,7 @@
 
 EAPI="5"
 
-inherit eutils
+inherit eutils ltprune
 
 DESCRIPTION="Sudoku puzzle generator and solver"
 HOMEPAGE="https://qqwing.com"

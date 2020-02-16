@@ -1,7 +1,7 @@
 From c5e3011b7364729fa2cd4f11761bf1f001a931a4 Mon Sep 17 00:00:00 2001
 From: Ondrej Holy <oholy@redhat.com>
 Date: Tue, 22 May 2018 20:45:45 +0200
-Subject: [PATCH] Do not restart service after unclean exit code
+Subject: [PATCH 13/68] Do not restart service after unclean exit code
 
 Currently, the vino-server.service has Restart=on-failure, which means
 that it is restarted in abnormal cases, but also in case of non-zero
@@ -27,4 +27,5 @@ index a48b813..49e9c1f 100644
 -Restart=on-failure
 +Restart=on-abnormal
 -- 
-2.17.0
+2.20.1
+

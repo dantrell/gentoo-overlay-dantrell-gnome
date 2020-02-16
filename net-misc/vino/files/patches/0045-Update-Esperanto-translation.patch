@@ -1,0 +1,485 @@
+From ed3bb6a918635049e30c2f7d20492aefe839ffec Mon Sep 17 00:00:00 2001
+From: Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>
+Date: Mon, 26 Nov 2018 19:39:12 +0000
+Subject: [PATCH 45/68] Update Esperanto translation
+
+---
+ po/eo.po | 282 ++++++++++++++-----------------------------------------
+ 1 file changed, 68 insertions(+), 214 deletions(-)
+
+diff --git a/po/eo.po b/po/eo.po
+index fd52046..74280b2 100644
+--- a/po/eo.po
++++ b/po/eo.po
+@@ -3,187 +3,33 @@
+ # This file is distributed under the same license as the vino package.
+ # Aisano <>, 2010.
+ # Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>, 2010, 2011, 2012, 2017.
++# Carmen Bianca Bakker <carmen@carmenbianca.eu>, 2018.
++#
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: vino\n"
+-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=vino&k"
+-"eywords=I18N+L10N&component=Preferences Dialog\n"
+-"POT-Creation-Date: 2017-04-10 15:29+0000\n"
+-"PO-Revision-Date: 2017-06-10 17:37+0200\n"
+-"Last-Translator: Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>\n"
++"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/vino/issues\n"
++"POT-Creation-Date: 2018-09-26 11:59+0000\n"
++"PO-Revision-Date: 2018-11-26 13:28+0100\n"
++"Last-Translator: Carmen Bianca Bakker <carmen@carmenbianca.eu>\n"
+ "Language-Team: Esperanto <gnome-eo-list@gnome.org>\n"
+ "Language: eo\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+-"X-Generator: Virtaal 0.7.1\n"
++"X-DamnedLies-Scope: partial\n"
++"X-Generator: Poedit 2.2\n"
+ "X-Project-Style: gnome\n"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:1
+-msgid "Prompt the user before completing a connection"
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:2
+-msgid ""
+-"If true, remote users accessing the desktop are not allowed access until the "
+-"user on the host machine approves the connection. Recommended especially "
+-"when access is not password protected."
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:3
+-msgid "Only allow remote users to view the desktop"
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:4
+-msgid ""
+-"If true, remote users accessing the desktop are only allowed to view the "
+-"desktop. Remote users will not be able to use the mouse or keyboard."
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:5
+-msgid "Network interface for listening"
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:6
+-msgid ""
+-"If not set, the server will listen on all network interfaces.\n"
+-"\n"
+-"Set this if you want to accept connections only from some specific network "
+-"interface. For example, eth0, wifi0, lo and so on."
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:9
+-msgid "Listen on an alternative port"
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:10
+-msgid ""
+-"If true, the server will listen on another port, instead of the default "
+-"(5900). The port must be specified in the 'alternative-port' key."
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:11
+-msgid "Alternative port number"
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:12
+-msgid ""
+-"The port which the server will listen to if the 'use-alternative-port' key "
+-"is set to true. Valid values are in the range of 5000 to 50000."
+-msgstr ""
+-
+ #: ../common/org.gnome.Vino.gschema.xml.h:13
+ msgid "Require encryption"
+-msgstr "Bezonas ĉifradon"
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:14
+-msgid ""
+-"If true, remote users accessing the desktop are required to support "
+-"encryption. It is highly recommended that you use a client which supports "
+-"encryption unless the intervening network is trusted."
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:15
+-msgid "Allowed authentication methods"
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:16
+-msgid ""
+-"Lists the authentication methods with which remote users may access the "
+-"desktop.\n"
+-"\n"
+-"There are two possible authentication methods; \"vnc\" causes the remote "
+-"user to be prompted for a password (the password is specified by the vnc-"
+-"password key) before connecting and \"none\" which allows any remote user to "
+-"connect."
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:19
+-msgid "Password required for \"vnc\" authentication"
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:20
+-msgid ""
+-"The password which the remote user will be prompted for if the \"vnc\" "
+-"authentication method is used. The password specified by the key is base64 "
+-"encoded.\n"
+-"\n"
+-"The special value of 'keyring' (which is not valid base64) means that the "
+-"password is stored in the GNOME keyring."
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:23
+-msgid "E-mail address to which the remote desktop URL should be sent"
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:24
+-msgid ""
+-"This key specifies the e-mail address to which the remote desktop URL should "
+-"be sent if the user clicks on the URL in the Desktop Sharing preferences "
+-"dialog."
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:25
+-msgid "Lock the screen when last user disconnect"
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:26
+-msgid ""
+-"If true, the screen will be locked after the last remote client disconnects."
+-msgstr ""
++msgstr "Ĉifrado necesas"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:27
+ msgid "When the status icon should be shown"
+ msgstr "Kiam montri la statopiktogramon"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:28
+-msgid ""
+-"This key controls the behavior of the status icon. There are three options: "
+-"\"always\" - the icon will always be present; \"client\" - the icon will "
+-"only be present when someone is connected (this is the default behavior); "
+-"\"never\" - the icon will not be present."
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:29
+-msgid "Whether to disable the desktop background when a user is connected"
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:30
+-msgid ""
+-"When true, disable the desktop background and replace it with a single block "
+-"of color when a user successfully connects."
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:31
+-msgid "Whether a UPnP router should be used to forward and open ports"
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:32
+-msgid ""
+-"If true, request that a UPnP-capable router should forward and open the port "
+-"used by Vino."
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:33
+-msgid "Whether we should disable the XDamage extension of X.org"
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:34
+-msgid ""
+-"If true, do not use the XDamage extension of X.org. This extension does not "
+-"work properly on some video drivers when using 3D effects. Disabling it will "
+-"make Vino work in these environments, with slower rendering as a side effect."
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:35
+-msgid "Notify on connect"
+-msgstr ""
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:36
+-msgid "If true, show a notification when a user connects to the system."
+-msgstr ""
+-
+ #: ../server/smclient/eggdesktopfile.c:165
+ #, c-format
+ msgid "File is not a valid .desktop file"
+@@ -194,8 +40,8 @@ msgstr "La dosiero ne estas valida .desktop-dosiero"
+ #. * version number.
+ #: ../server/smclient/eggdesktopfile.c:191
+ #, c-format
+-msgid "Unrecognized desktop file Version '%s'"
+-msgstr "Nerekonata versio '%s' de labortabla dosiero"
++msgid "Unrecognized desktop file Version “%s”"
++msgstr "Nerekonata versio “%s” de labortabla dosiero"
+ 
+ #: ../server/smclient/eggdesktopfile.c:974
+ #, c-format
+@@ -216,8 +62,8 @@ msgstr "Nerekonata lanĉparametro: %d"
+ #. * desktop file, and should not be translated.
+ #: ../server/smclient/eggdesktopfile.c:1391
+ #, c-format
+-msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
+-msgstr "Ne eblas transdoni dokument-URIojn al labortabla elemento 'Type=Link'"
++msgid "Can’t pass document URIs to a “Type=Link” desktop entry"
++msgstr "Ne eblas transdoni dokumentajn URI-ojn al labortabla ero “Type=Link”"
+ 
+ #: ../server/smclient/eggdesktopfile.c:1412
+ #, c-format
+@@ -252,31 +98,35 @@ msgstr "Agordoj de la seancoadministrilo:"
+ msgid "Show session management options"
+ msgstr "Montri la agordojn de la seancoadministrilo"
+ 
+-#: ../server/vino-main.c:153
++#: ../server/vino-main.c:154
+ msgid ""
+-"Your XServer does not support the XTest extension - remote desktop access "
++"Your XServer does not support the XTest extension — remote desktop access "
+ "will be view-only\n"
+ msgstr ""
++"Via XServer ne subtenas la XTest-etendaĵon — defora labortabla aliro estos "
++"nurvida\n"
+ 
+ #. Tube mode uses Telepathy's Tubes to share a user's desktop directly
+ #. * with another IM contact. http://telepathy.freedesktop.org/wiki/Tubes
+ #.
+-#: ../server/vino-main.c:249
+-msgid "Start in tube mode, for the ‘Share my Desktop’ feature"
++#: ../server/vino-main.c:250
++msgid "Start in tube mode, for the “Share my Desktop” feature"
+ msgstr ""
+ 
+-#: ../server/vino-main.c:260
+-msgid "- VNC Server for GNOME"
+-msgstr "- VNC-servilo por GNOME"
++#: ../server/vino-main.c:261
++msgid "— VNC Server for GNOME"
++msgstr "— VNC-servilo por GNOME"
+ 
+-#: ../server/vino-main.c:268
++#: ../server/vino-main.c:269
+ msgid ""
+-"Run 'vino-server --help' to see a full list of available command line options"
++"Run “vino-server --help” to see a full list of available command line options"
+ msgstr ""
++"Rulu “vino-server --help” por vidi kompletan liston de disponeblaj "
++"komandliniaj opcioj"
+ 
+-#: ../server/vino-main.c:280
++#: ../server/vino-main.c:287
+ msgid "GNOME Desktop Sharing"
+-msgstr "GNOMEa Labortablo-komunigo"
++msgstr "GNOME Labortabla Kunhavigo"
+ 
+ #.
+ #. * Translators: translate "vino-mdns:showusername" to
+@@ -285,7 +135,7 @@ msgstr "GNOMEa Labortablo-komunigo"
+ #.
+ #: ../server/vino-mdns.c:62
+ msgid "vino-mdns:showusername"
+-msgstr "0"
++msgstr "vino-mdns:showusername"
+ 
+ #.
+ #. * Translators: this string is used ONLY if you
+@@ -294,13 +144,13 @@ msgstr "0"
+ #.
+ #: ../server/vino-mdns.c:74
+ #, c-format
+-msgid "%s's remote desktop on %s"
+-msgstr ""
++msgid "%s’s remote desktop on %s"
++msgstr "Defora labortablo de %s sur %s"
+ 
+ #: ../server/vino-prefs.c:111
+ #, c-format
+ msgid "Received signal %d, exiting."
+-msgstr ""
++msgstr "Ricevita signalon %d, ĉesante."
+ 
+ #: ../server/vino-prompt.c:144
+ msgid "Screen"
+@@ -308,28 +158,30 @@ msgstr "Ekrano"
+ 
+ #: ../server/vino-prompt.c:145
+ msgid "The screen on which to display the prompt"
+-msgstr ""
++msgstr "La ekrano sur kiu montri la invitilon"
+ 
+ #: ../server/vino-prompt.c:270 ../server/vino-status-icon.c:604
+ #: ../server/vino-status-tube-icon.c:396
+ #, c-format
+ msgid "Error initializing libnotify\n"
+-msgstr ""
++msgstr "Eraro dum pravolarizado de libnotify\n"
+ 
+ #: ../server/vino-prompt.c:289
+ #, c-format
+ msgid ""
+-"A user on the computer '%s' is trying to remotely view or control your "
++"A user on the computer “%s” is trying to remotely view or control your "
+ "desktop."
+ msgstr ""
++"Uzanto de la komputilo “%s” klopodas rigardi aŭ stiri vian labortablon "
++"defore."
+ 
+ #: ../server/vino-prompt.c:292
+ msgid "Another user is trying to view your desktop."
+-msgstr ""
++msgstr "Alia uzanto klopodas rigardi vian labortablon."
+ 
+ #: ../server/vino-prompt.c:298
+ msgid "Refuse"
+-msgstr ""
++msgstr "Rifuzi"
+ 
+ #: ../server/vino-prompt.c:304
+ msgid "Accept"
+@@ -342,15 +194,15 @@ msgstr "Malsukcesis malfermi konekton al buso: %s\n"
+ 
+ #: ../server/vino-server.desktop.in.in.h:1
+ msgid "Desktop Sharing"
+-msgstr "Labortablo-komunigo"
++msgstr "Labortabla Kunhavigo"
+ 
+ #: ../server/vino-server.desktop.in.in.h:2
+ msgid "GNOME Desktop Sharing Server"
+-msgstr ""
++msgstr "GNOME Labortabla Kunhaviga Servilo"
+ 
+ #: ../server/vino-server.desktop.in.in.h:3
+ msgid "vnc;share;remote;"
+-msgstr ""
++msgstr "vnc;kunhavigi;defora;"
+ 
+ #: ../server/vino-status-icon.c:103
+ #, c-format
+@@ -361,7 +213,7 @@ msgstr[1] "%d uzantoj rigardas vian labortablon"
+ 
+ #: ../server/vino-status-icon.c:112 ../server/vino-status-tube-icon.c:90
+ msgid "Desktop sharing is enabled"
+-msgstr ""
++msgstr "Labortabla kunhavigo estas ŝaltita"
+ 
+ #: ../server/vino-status-icon.c:208 ../server/vino-status-icon.c:214
+ #: ../server/vino-status-tube-icon.c:173 ../server/vino-status-tube-icon.c:179
+@@ -409,7 +261,10 @@ msgstr ""
+ #. Translators comment: put your own name here to appear in the about dialog.
+ #: ../server/vino-status-icon.c:284
+ msgid "translator-credits"
+-msgstr "Aisano, Kristjan SCHMIDT"
++msgstr ""
++"Aisano\n"
++"Kristjan SCHMIDT\n"
++"Carmen Bianca BAKKER <carmen@carmenbianca.eu>"
+ 
+ #: ../server/vino-status-icon.c:290
+ msgid "Share your desktop with other users"
+@@ -419,13 +274,13 @@ msgstr "Kunhavigi vian labortablon kun aliaj uzantoj"
+ #. Translators: %s is the alias of the telepathy contact
+ #: ../server/vino-status-icon.c:357 ../server/vino-status-tube-icon.c:231
+ #, c-format
+-msgid "Are you sure you want to disconnect '%s'?"
+-msgstr "Ĉu vi certe volas malkonektigi '%s'?"
++msgid "Are you sure you want to disconnect “%s”?"
++msgstr "Ĉu vi certe volas malkonektigi “%s”?"
+ 
+ #: ../server/vino-status-icon.c:360
+ #, c-format
+-msgid "The remote user from '%s' will be disconnected. Are you sure?"
+-msgstr ""
++msgid "The remote user from “%s” will be disconnected. Are you sure?"
++msgstr "La defora uzanto “%s” estos malkonektita. Ĉu vi certas?"
+ 
+ #: ../server/vino-status-icon.c:366
+ msgid "Are you sure you want to disconnect all clients?"
+@@ -469,57 +324,56 @@ msgstr "Alia uzanto rigardas vian labortablon"
+ 
+ #: ../server/vino-status-icon.c:627
+ #, c-format
+-msgid "A user on the computer '%s' is remotely viewing your desktop."
+-msgstr "Uzanto de la komputilo '%s' rigardas vian labortablon defore."
++msgid "A user on the computer “%s” is remotely viewing your desktop."
++msgstr "Uzanto de la komputilo “%s” rigardas vian labortablon defore."
+ 
+ #. Translators: %s is a hostname
+ #: ../server/vino-status-icon.c:633
+-#, fuzzy
+ msgid "Another user is controlling your desktop"
+ msgstr "Alia uzanto stiras vian labortablon"
+ 
+ #: ../server/vino-status-icon.c:635
+ #, c-format
+-msgid "A user on the computer '%s' is remotely controlling your desktop."
+-msgstr ""
++msgid "A user on the computer “%s” is remotely controlling your desktop."
++msgstr "Uzanto de la komputilo “%s” stiras vian labortablon defore."
+ 
+ #: ../server/vino-status-icon.c:657 ../server/vino-status-tube-icon.c:430
+ #, c-format
+ msgid "Error while displaying notification bubble: %s\n"
+-msgstr ""
++msgstr "Eraro dum montrado de sciiga bobelo: %s\n"
+ 
+ #: ../server/vino-status-tube-icon.c:234
+ #, c-format
+-msgid "The remote user '%s' will be disconnected. Are you sure?"
+-msgstr "La defora uzanto '%s' estos malkonektita. Ĉu vi estas certe?"
++msgid "The remote user “%s” will be disconnected. Are you sure?"
++msgstr "La defora uzanto “%s” estos malkonektita. Ĉu vi certas?"
+ 
+ #: ../server/vino-tube-server.c:220 ../server/vino-tube-server.c:249
+ msgid "Share my desktop information"
+-msgstr ""
++msgstr "Kunhavigi miajn labortablajn informojn"
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:224
+ #, c-format
+-msgid "'%s' rejected the desktop sharing invitation."
+-msgstr ""
++msgid "“%s” rejected the desktop sharing invitation."
++msgstr "“%s” rifuzis la inviton de labortabla kunhavigo."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:228
+ #, c-format
+-msgid "'%s' disconnected"
+-msgstr "'%s' malkonektiĝis"
++msgid "“%s” disconnected"
++msgstr "“%s” malkonektiĝis"
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:255
+ #, c-format
+-msgid "'%s' is remotely controlling your desktop."
+-msgstr ""
++msgid "“%s” is remotely controlling your desktop."
++msgstr "“%s” stiras vian labortablon defore."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:264
+ #, c-format
+-msgid "Waiting for '%s' to connect to the screen."
+-msgstr ""
++msgid "Waiting for “%s” to connect to the screen."
++msgstr "Atendante “%s” por konekti al la ekrano."
+ 
+ #: ../server/vino-util.c:88
+ msgid "_Allow"
+@@ -527,7 +381,7 @@ msgstr "_Permesi"
+ 
+ #: ../server/vino-util.c:89
+ msgid "_Refuse"
+-msgstr ""
++msgstr "_Rifuzi"
+ 
+ #: ../server/vino-util.c:139
+ msgid "An error has occurred:"
+-- 
+2.20.1
+

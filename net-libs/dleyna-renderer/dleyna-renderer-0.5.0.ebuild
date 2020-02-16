@@ -2,7 +2,7 @@
 
 EAPI="5"
 
-inherit eutils
+inherit eutils ltprune
 
 DESCRIPTION="library implementing services that allow clients to discover and manipulate DLNA renderers"
 HOMEPAGE="https://01.org/dleyna/"

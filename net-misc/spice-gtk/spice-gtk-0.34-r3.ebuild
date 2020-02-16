@@ -3,7 +3,7 @@
 EAPI="6"
 VALA_USE_DEPEND="vapigen"
 
-inherit autotools eutils xdg-utils vala readme.gentoo-r1
+inherit autotools eutils ltprune readme.gentoo-r1 vala xdg-utils
 
 DESCRIPTION="Set of GObject and Gtk objects for connecting to Spice servers and a client GUI"
 HOMEPAGE="https://www.spice-space.org https://cgit.freedesktop.org/spice/spice-gtk/"

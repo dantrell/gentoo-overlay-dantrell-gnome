@@ -1,0 +1,38 @@
+From 15eb3c5e51b799aa22fff547dd88921d9cc4b5f2 Mon Sep 17 00:00:00 2001
+From: Ondrej Holy <oholy@redhat.com>
+Date: Fri, 24 Aug 2018 14:30:14 +0200
+Subject: [PATCH 18/68] Return empty string instead of NULL to prevent
+ criticals
+
+The code expects that avahi_client_get_host_name_fqdn never return NULL,
+but it can happen in some cases. Return empty string instead of NULL to
+prevent the following criticals:
+
+GLib-CRITICAL **: 14:29:52.305: g_variant_new_string: assertion 'string != NULL' failed
+
+https://bugzilla.gnome.org/show_bug.cgi?id=796349
+---
+ server/vino-mdns.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/server/vino-mdns.c b/server/vino-mdns.c
+index 4f7e693..6a16b64 100644
+--- a/server/vino-mdns.c
++++ b/server/vino-mdns.c
+@@ -356,7 +356,12 @@ vino_mdns_shutdown (void)
+ const char *
+ vino_mdns_get_hostname (void)
+ {
+-  return mdns_client ? avahi_client_get_host_name_fqdn (mdns_client) : "";
++  const char *hostname = NULL;
++
++  if (mdns_client)
++    hostname = avahi_client_get_host_name_fqdn (mdns_client);
++
++  return hostname ? hostname : "";
+ }
+ 
+ #else /* !defined (VINO_HAVE_AVAHI) */
+-- 
+2.20.1
+

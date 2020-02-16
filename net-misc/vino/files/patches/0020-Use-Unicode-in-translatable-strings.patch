@@ -1,0 +1,260 @@
+From 7d477b1756eb08b9d07fb7de2b0c0fc33d6309e2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Piotr=20Dr=C4=85g?= <piotrdrag@gmail.com>
+Date: Thu, 10 Nov 2016 15:34:53 +0100
+Subject: [PATCH 20/68] Use Unicode in translatable strings
+
+See https://developer.gnome.org/hig/stable/typography.html
+
+https://bugzilla.gnome.org/show_bug.cgi?id=774214
+---
+ common/org.gnome.Vino.gschema.xml | 18 +++++++++---------
+ server/smclient/eggdesktopfile.c  |  4 ++--
+ server/vino-main.c                |  8 ++++----
+ server/vino-mdns.c                |  2 +-
+ server/vino-prompt.c              |  2 +-
+ server/vino-status-icon.c         |  8 ++++----
+ server/vino-status-tube-icon.c    |  4 ++--
+ server/vino-tube-server.c         |  8 ++++----
+ 8 files changed, 27 insertions(+), 27 deletions(-)
+
+diff --git a/common/org.gnome.Vino.gschema.xml b/common/org.gnome.Vino.gschema.xml
+index 73655de..0d6dc17 100644
+--- a/common/org.gnome.Vino.gschema.xml
++++ b/common/org.gnome.Vino.gschema.xml
+@@ -37,7 +37,7 @@
+       <summary>Listen on an alternative port</summary>
+       <description>
+         If true, the server will listen on another port, instead of the default
+-        (5900). The port must be specified in the 'alternative-port' key.
++        (5900). The port must be specified in the “alternative-port” key.
+       </description>
+       <default>false</default>
+     </key>
+@@ -45,7 +45,7 @@
+     <key name='alternative-port' type='q'>
+       <summary>Alternative port number</summary>
+       <description>
+-        The port which the server will listen to if the 'use-alternative-port'
++        The port which the server will listen to if the “use-alternative-port”
+         key is set to true. Valid values are in the range of 5000 to 50000.
+       </description>
+       <default>5900</default>
+@@ -68,22 +68,22 @@
+         Lists the authentication methods with which remote users may
+         access the desktop.
+ 
+-        There are two possible authentication methods; "vnc" causes the
++        There are two possible authentication methods; “vnc” causes the
+         remote user to be prompted for a password (the password is
+-        specified by the vnc-password key) before connecting and "none"
++        specified by the vnc-password key) before connecting and “none”
+         which allows any remote user to connect.
+       </description>
+       <default>['none']</default>
+     </key>
+ 
+     <key name='vnc-password' type='s'>
+-      <summary>Password required for "vnc" authentication</summary>
++      <summary>Password required for “vnc” authentication</summary>
+       <description>
+         The password which the remote user will be prompted for if the
+-        "vnc" authentication method is used. The password specified by
++        “vnc” authentication method is used. The password specified by
+         the key is base64 encoded.
+ 
+-        The special value of 'keyring' (which is not valid base64) means
++        The special value of “keyring” (which is not valid base64) means
+         that the password is stored in the GNOME keyring.
+       </description>
+       <default>'keyring'</default>
+@@ -112,9 +112,9 @@
+       <summary>When the status icon should be shown</summary>
+       <description>
+         This key controls the behavior of the status icon. There are
+-        three options: "always" - the icon will always be present; "client" -
++        three options: “always” — the icon will always be present; “client” —
+         the icon will only be present when someone is connected (this is the
+-        default behavior); "never" - the icon will not be present.
++        default behavior); “never” — the icon will not be present.
+       </description>
+       <default>'client'</default>
+     </key>
+diff --git a/server/smclient/eggdesktopfile.c b/server/smclient/eggdesktopfile.c
+index 443d5ec..7db43d8 100644
+--- a/server/smclient/eggdesktopfile.c
++++ b/server/smclient/eggdesktopfile.c
+@@ -188,7 +188,7 @@ egg_desktop_file_new_from_key_file (GKeyFile    *key_file,
+ 		       /* translators: 'Version' is from a desktop file, and
+ 			* should not be translated. '%s' would probably be a
+ 			* version number. */
+-		       _("Unrecognized desktop file Version '%s'"), version);
++		       _("Unrecognized desktop file Version “%s”"), version);
+ 	  g_free (version);
+ 	  g_key_file_free (key_file);
+ 	  return NULL;
+@@ -1388,7 +1388,7 @@ egg_desktop_file_launch (EggDesktopFile *desktop_file,
+ 		       EGG_DESKTOP_FILE_ERROR_NOT_LAUNCHABLE,
+ 		       /* translators: The 'Type=Link' string is found in a
+ 			* desktop file, and should not be translated. */
+-		       _("Can't pass document URIs to a 'Type=Link' desktop entry"));
++		       _("Can’t pass document URIs to a “Type=Link” desktop entry"));
+ 	  return FALSE;
+ 	}	  
+ 
+diff --git a/server/vino-main.c b/server/vino-main.c
+index 7be3fff..fbe7159 100644
+--- a/server/vino-main.c
++++ b/server/vino-main.c
+@@ -151,7 +151,7 @@ name_acquired (GDBusConnection *connection,
+    * listeners.
+    */
+   if ((view_only = !vino_input_init (vino->display)))
+-    g_warning (_("Your XServer does not support the XTest extension - "
++    g_warning (_("Your XServer does not support the XTest extension — "
+                  "remote desktop access will be view-only\n"));
+ 
+   for (i = 0; i < vino->n_screens; i++)
+@@ -247,7 +247,7 @@ main (int argc, char **argv)
+         /* Tube mode uses Telepathy's Tubes to share a user's desktop directly
+          * with another IM contact. http://telepathy.freedesktop.org/wiki/Tubes
+          */
+-        N_("Start in tube mode, for the ‘Share my Desktop’ feature"),
++        N_("Start in tube mode, for the “Share my Desktop” feature"),
+         NULL },
+ #endif
+       { NULL }
+@@ -258,7 +258,7 @@ main (int argc, char **argv)
+      * the real state later, avoids a critical warning on startup. */
+     egg_sm_client_set_mode (EGG_SM_CLIENT_MODE_DISABLED);
+ 
+-    context = g_option_context_new (_("- VNC Server for GNOME"));
++    context = g_option_context_new (_("— VNC Server for GNOME"));
+     g_option_context_add_group (context, gtk_get_option_group (TRUE));
+     g_option_context_add_group (context, egg_sm_client_get_option_group ());
+     g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
+@@ -266,7 +266,7 @@ main (int argc, char **argv)
+     if (!g_option_context_parse (context, &argc, &argv, &error))
+       {
+         g_print ("%s\n%s\n", error->message,
+-                 _("Run 'vino-server --help' to see a full list of "
++                 _("Run “vino-server --help” to see a full list of "
+                    "available command line options"));
+         g_error_free (error);
+         return 1;
+diff --git a/server/vino-mdns.c b/server/vino-mdns.c
+index 6a16b64..a9d9cf7 100644
+--- a/server/vino-mdns.c
++++ b/server/vino-mdns.c
+@@ -71,7 +71,7 @@ vino_mdns_get_service_name (void)
+            * translated "vino-mdns:showusername" to anything
+            * other than "1"
+            */
+-          mdns_service_name = g_strdup_printf (_("%s's remote desktop on %s"),
++          mdns_service_name = g_strdup_printf (_("%s’s remote desktop on %s"),
+                                                g_get_user_name (),
+                                                g_get_host_name ());  
+         }
+diff --git a/server/vino-prompt.c b/server/vino-prompt.c
+index f99b8e9..67314ae 100644
+--- a/server/vino-prompt.c
++++ b/server/vino-prompt.c
+@@ -286,7 +286,7 @@ vino_prompt_display (VinoPrompt   *prompt,
+   if (!vino_prompt_setup_dialog (prompt))
+     return FALSE;
+ 
+-  host_label = g_strdup_printf (_("A user on the computer '%s' is trying to remotely view or control your desktop."),
++  host_label = g_strdup_printf (_("A user on the computer “%s” is trying to remotely view or control your desktop."),
+ 				rfb_client->host);
+ 
+   prompt->priv->notification = notify_notification_new (_("Another user is trying to view your desktop."),
+diff --git a/server/vino-status-icon.c b/server/vino-status-icon.c
+index dcdc181..4b26147 100644
+--- a/server/vino-status-icon.c
++++ b/server/vino-status-icon.c
+@@ -354,10 +354,10 @@ vino_status_icon_disconnect_confirm (VinoStatusIconNotify *a)
+     {
+       primary_msg   = g_strdup_printf
+           /* Translators: %s is a hostname */
+-          (_("Are you sure you want to disconnect '%s'?"),
++          (_("Are you sure you want to disconnect “%s”?"),
+           vino_client_get_hostname (client));
+       secondary_msg = g_strdup_printf
+-          (_("The remote user from '%s' will be disconnected. Are you sure?"),
++          (_("The remote user from “%s” will be disconnected. Are you sure?"),
+           vino_client_get_hostname (client));
+     }
+   else
+@@ -624,7 +624,7 @@ vino_status_icon_show_new_client_notification (gpointer user_data)
+       /* Translators: %s is a hostname */
+       summary = _("Another user is viewing your desktop");
+       body = g_strdup_printf
+-          (_("A user on the computer '%s' is remotely viewing your desktop."),
++          (_("A user on the computer “%s” is remotely viewing your desktop."),
+           vino_client_get_hostname (client));
+     }
+   else
+@@ -632,7 +632,7 @@ vino_status_icon_show_new_client_notification (gpointer user_data)
+       /* Translators: %s is a hostname */
+       summary = _("Another user is controlling your desktop");
+       body = g_strdup_printf
+-          (_("A user on the computer '%s' is remotely controlling "
++          (_("A user on the computer “%s” is remotely controlling "
+           "your desktop."), vino_client_get_hostname (client));
+     }
+ 
+diff --git a/server/vino-status-tube-icon.c b/server/vino-status-tube-icon.c
+index e8fc183..48fa3c6 100644
+--- a/server/vino-status-tube-icon.c
++++ b/server/vino-status-tube-icon.c
+@@ -228,10 +228,10 @@ vino_status_tube_icon_disconnect_confirm (VinoStatusTubeIcon *icon)
+ 
+   primary_msg   = g_strdup_printf
+       /* Translators: %s is the alias of the telepathy contact */
+-      (_("Are you sure you want to disconnect '%s'?"),
++      (_("Are you sure you want to disconnect “%s”?"),
+       vino_tube_server_get_alias (icon->priv->server));
+   secondary_msg = g_strdup_printf
+-      (_("The remote user '%s' will be disconnected. Are you sure?"),
++      (_("The remote user “%s” will be disconnected. Are you sure?"),
+       vino_tube_server_get_alias (icon->priv->server));
+ 
+   icon->priv->disconnect_dialog = gtk_message_dialog_new (NULL,
+diff --git a/server/vino-tube-server.c b/server/vino-tube-server.c
+index 0bc3806..5145809 100644
+--- a/server/vino-tube-server.c
++++ b/server/vino-tube-server.c
+@@ -221,11 +221,11 @@ vino_tube_server_invalidated_cb (TpProxy *proxy,
+ 
+   if (self->priv->state == TP_TUBE_CHANNEL_STATE_REMOTE_PENDING)
+       /* Translators: '%s' is the name of a contact, buddy coming from Empathy */
+-      body = g_strdup_printf (_("'%s' rejected the desktop sharing invitation."),
++      body = g_strdup_printf (_("“%s” rejected the desktop sharing invitation."),
+ 			      vino_tube_server_get_alias (self));
+   else
+       /* Translators: '%s' is the name of a contact, buddy coming from Empathy */
+-      body = g_strdup_printf (_("'%s' disconnected"),
++      body = g_strdup_printf (_("“%s” disconnected"),
+ 			      vino_tube_server_get_alias (self));
+ 
+   vino_status_tube_icon_show_notif (self->priv->icon_tube, summary,
+@@ -252,7 +252,7 @@ vino_tube_server_state_changed (TpChannel *channel,
+     {
+       case TP_TUBE_CHANNEL_STATE_OPEN:
+         /* Translators: '%s' is the name of a contact, buddy coming from Empathy */
+-        body = g_strdup_printf (_("'%s' is remotely controlling your desktop."),
++        body = g_strdup_printf (_("“%s” is remotely controlling your desktop."),
+ 				vino_tube_server_get_alias (server));
+         vino_status_tube_icon_show_notif (server->priv->icon_tube, summary,
+             (const gchar*) body, FALSE);
+@@ -261,7 +261,7 @@ vino_tube_server_state_changed (TpChannel *channel,
+         break;
+       case TP_TUBE_CHANNEL_STATE_REMOTE_PENDING:
+         /* Translators: '%s' is the name of a contact, buddy coming from Empathy */
+-        body =  g_strdup_printf (_("Waiting for '%s' to connect to the screen."),
++        body =  g_strdup_printf (_("Waiting for “%s” to connect to the screen."),
+ 				 vino_tube_server_get_alias (server));
+         vino_status_tube_icon_show_notif (server->priv->icon_tube, summary,
+             (const gchar*) body, FALSE);
+-- 
+2.20.1
+

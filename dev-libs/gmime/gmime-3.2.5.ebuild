@@ -10,7 +10,7 @@ HOMEPAGE="http://spruce.sourceforge.net/gmime/ https://developer.gnome.org/gmime
 
 LICENSE="LGPL-2.1+"
 SLOT="3.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="crypt doc idn static-libs test vala"
 

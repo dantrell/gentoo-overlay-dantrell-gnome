@@ -1,0 +1,35 @@
+From 44e765a22bfc7954d88e1ab11b25f889c32da0ed Mon Sep 17 00:00:00 2001
+From: Debarshi Ray <debarshir@gnome.org>
+Date: Tue, 14 Aug 2018 13:40:24 +0200
+Subject: [PATCH 15/68] Don't install the D-Bus service file when Telepathy is
+ disabled
+
+The org.freedesktop.Telepathy.Client.Vino service is necessary for Vino
+to act as a Telepathy client, and is not useful without Telepathy.
+
+https://gitlab.gnome.org/GNOME/vino/merge_requests/3
+---
+ Makefile.am | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Makefile.am b/Makefile.am
+index c354d16..a424445 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -229,11 +229,13 @@ server/vino-enums.h: $(vino_enum_headers)
+ server/vino-server.desktop.in: server/vino-server.desktop.in.in
+ 	$(AM_V_GEN)$(SED) -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
+ 
++if VINO_HAVE_TELEPATHY_GLIB
+ servicedir = $(datadir)/dbus-1/services
+ nodist_service_DATA = server/org.freedesktop.Telepathy.Client.Vino.service
+ 
+ server/org.freedesktop.Telepathy.Client.Vino.service: server/org.freedesktop.Telepathy.Client.Vino.service.in
+ 	$(AM_V_GEN)$(SED) -e "s|[@]libexecdir[@]|$(libexecdir)|" $< > $@
++endif
+ 
+ if INSTALL_USER_UNITS
+ systemdservicedir = $(systemduserunitdir)
+-- 
+2.20.1
+

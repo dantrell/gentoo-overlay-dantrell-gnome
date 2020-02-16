@@ -6,7 +6,7 @@ EAPI="6"
 PYTHON_COMPAT=( python2_7 )
 VALA_USE_DEPEND="vapigen"
 
-inherit autotools bash-completion-r1 multilib python-single-r1 systemd vala xdg-utils
+inherit autotools bash-completion-r1 ltprune multilib python-single-r1 systemd vala xdg-utils
 
 MY_PN="PackageKit"
 MY_P=${MY_PN}-${PV}

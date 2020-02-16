@@ -1,0 +1,407 @@
+From 20a3c9346be6123333c5d94a401921d4787aadc8 Mon Sep 17 00:00:00 2001
+From: Yi-Jyun Pan <pan93412@gmail.com>
+Date: Wed, 3 Oct 2018 14:50:01 +0000
+Subject: [PATCH 30/68] Update Chinese (Taiwan) translation
+
+---
+ po/zh_TW.po | 176 ++++++++++++++++++++++++++--------------------------
+ 1 file changed, 88 insertions(+), 88 deletions(-)
+
+diff --git a/po/zh_TW.po b/po/zh_TW.po
+index 1978f14..a983e97 100644
+--- a/po/zh_TW.po
++++ b/po/zh_TW.po
+@@ -7,18 +7,17 @@
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: vino 3.3.4\n"
+-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+-"product=vino&keywords=I18N+L10N&component=Preferences Dialog\n"
+-"POT-Creation-Date: 2015-07-21 12:03+0000\n"
+-"PO-Revision-Date: 2013-02-03 23:18+0800\n"
++"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/vino/issues\n"
++"POT-Creation-Date: 2018-09-26 11:59+0000\n"
++"PO-Revision-Date: 2018-10-03 22:43+0800\n"
+ "Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
+ "Language-Team: Chinese (traditional)\n"
+ "Language: zh_TW\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+-"X-Generator: Poedit 1.5.4\n"
++"Plural-Forms: nplurals=1; plural=0;\n"
++"X-Generator: Poedit 2.1.1\n"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:1
+ msgid "Prompt the user before completing a connection"
+@@ -65,9 +64,9 @@ msgstr "監聽替代的連接埠"
+ #: ../common/org.gnome.Vino.gschema.xml.h:10
+ msgid ""
+ "If true, the server will listen on another port, instead of the default "
+-"(5900). The port must be specified in the 'alternative-port' key."
++"(5900). The port must be specified in the “alternative-port” key."
+ msgstr ""
+-"如設定為 true，該伺服器會監聽其他連接埠，而非預設值 (5900)。此連接埠必須在"
++"如設定為 true，該伺服器將會監聽其他連接埠，而非預設值 (5900)。此連接埠必須在"
+ "「alternative-port」設定鍵中指定。"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:11
+@@ -76,11 +75,11 @@ msgstr "替代連接埠號"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:12
+ msgid ""
+-"The port which the server will listen to if the 'use-alternative-port' key "
++"The port which the server will listen to if the “use-alternative-port” key "
+ "is set to true. Valid values are in the range of 5000 to 50000."
+ msgstr ""
+-"如「use-alternative-port」鍵值設為 true 時，伺服器要監聽的連接埠。可用的數值"
+-"範圍為 5000 到 50000。"
++"「use-alternative-port」鍵值設為 true 時伺服器要監聽的連接埠。可用的數值範圍"
++"為 5000 到 50000。"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:13
+ msgid "Require encryption"
+@@ -104,10 +103,9 @@ msgid ""
+ "Lists the authentication methods with which remote users may access the "
+ "desktop.\n"
+ "\n"
+-"There are two possible authentication methods; \"vnc\" causes the remote "
+-"user to be prompted for a password (the password is specified by the vnc-"
+-"password key) before connecting and \"none\" which allows any remote user to "
+-"connect."
++"There are two possible authentication methods; “vnc” causes the remote user "
++"to be prompted for a password (the password is specified by the vnc-password "
++"key) before connecting and “none” which allows any remote user to connect."
+ msgstr ""
+ "列出遠端使用者可以使用的核對方式。\n"
+ "\n"
+@@ -115,16 +113,16 @@ msgstr ""
+ "由 vnc-password 設定鍵決定)，或者是「none」，即允許任何遠端使用者連接。"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:19
+-msgid "Password required for \"vnc\" authentication"
+-msgstr "“vnc”核對方式需要密碼"
++msgid "Password required for “vnc” authentication"
++msgstr "「vnc」核對方式需要密碼"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:20
+ msgid ""
+-"The password which the remote user will be prompted for if the \"vnc\" "
++"The password which the remote user will be prompted for if the “vnc” "
+ "authentication method is used. The password specified by the key is base64 "
+ "encoded.\n"
+ "\n"
+-"The special value of 'keyring' (which is not valid base64) means that the "
++"The special value of “keyring” (which is not valid base64) means that the "
+ "password is stored in the GNOME keyring."
+ msgstr ""
+ "如果使用「vnc」核對方法的話，遠端使用者需要輸入這個密碼。此密碼是用 base64 編"
+@@ -163,13 +161,13 @@ msgstr "何時要顯示狀態圖示"
+ #: ../common/org.gnome.Vino.gschema.xml.h:28
+ msgid ""
+ "This key controls the behavior of the status icon. There are three options: "
+-"\"always\" - the icon will always be present; \"client\" - the icon will "
+-"only be present when someone is connected (this is the default behavior); "
+-"\"never\" - the icon will not be present."
++"“always” — the icon will always be present; “client” — the icon will only be "
++"present when someone is connected (this is the default behavior); “never” — "
++"the icon will not be present."
+ msgstr ""
+-"這個設定鍵控制了狀態圖示的行為。一共有三種選項：「always」(總是)─ 總是顯示圖"
+-"示；「client」(客戶端) ─ 只在有人連線時才顯示圖示 (這是預設的行為)；「never」"
+-"(永不) ─ 永遠不顯示圖示。"
++"這個設定鍵控制了狀態圖示的行為。一共有三種選項：「always」(總是) ─ 總是顯示圖"
++"示；「client」(客戶端) ─ 只會在有人連線時才會顯示圖示 (這是預設行為)；"
++"「never」(永不) ─ 永遠不顯示圖示。"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:29
+ msgid "Whether to disable the desktop background when a user is connected"
+@@ -224,7 +222,7 @@ msgstr "檔案不是有效的 .desktop 檔案"
+ #. * version number.
+ #: ../server/smclient/eggdesktopfile.c:191
+ #, c-format
+-msgid "Unrecognized desktop file Version '%s'"
++msgid "Unrecognized desktop file Version “%s”"
+ msgstr "無法辨識的桌面檔案版本「%s」"
+ 
+ #: ../server/smclient/eggdesktopfile.c:974
+@@ -246,7 +244,7 @@ msgstr "無法辨識的啟動選項：%d"
+ #. * desktop file, and should not be translated.
+ #: ../server/smclient/eggdesktopfile.c:1391
+ #, c-format
+-msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
++msgid "Can’t pass document URIs to a “Type=Link” desktop entry"
+ msgstr "不能傳送文件 URI 至「Type=Link」桌面項目"
+ 
+ #: ../server/smclient/eggdesktopfile.c:1412
+@@ -282,29 +280,29 @@ msgstr "作業階段管理選項："
+ msgid "Show session management options"
+ msgstr "顯示作業階段管理選項"
+ 
+-#: ../server/vino-main.c:153
++#: ../server/vino-main.c:154
+ msgid ""
+-"Your XServer does not support the XTest extension - remote desktop access "
++"Your XServer does not support the XTest extension — remote desktop access "
+ "will be view-only\n"
+-msgstr "您的 X Server 不支援 XTest 延伸功能 ─ 只可以觀看遠端桌面\n"
++msgstr "您的 X Server 不支援 XTest 延伸功能 ─ 將只能觀看遠端桌面\n"
+ 
+ #. Tube mode uses Telepathy's Tubes to share a user's desktop directly
+ #. * with another IM contact. http://telepathy.freedesktop.org/wiki/Tubes
+ #.
+-#: ../server/vino-main.c:249
+-msgid "Start in tube mode, for the ‘Share my Desktop’ feature"
++#: ../server/vino-main.c:250
++msgid "Start in tube mode, for the “Share my Desktop” feature"
+ msgstr "以管道模式啟動，用於「分享我的桌面」功能"
+ 
+-#: ../server/vino-main.c:260
+-msgid "- VNC Server for GNOME"
+-msgstr "- GNOME 的 VNC 伺服器"
++#: ../server/vino-main.c:261
++msgid "— VNC Server for GNOME"
++msgstr "— GNOME 的 VNC 伺服器"
+ 
+-#: ../server/vino-main.c:268
++#: ../server/vino-main.c:269
+ msgid ""
+-"Run 'vino-server --help' to see a full list of available command line options"
+-msgstr "執行‘vino-server --help‘ 以查看所有可用的命令列選項清單"
++"Run “vino-server --help” to see a full list of available command line options"
++msgstr "執行「vino-server --help」以查看所有可用的命令列選項清單"
+ 
+-#: ../server/vino-main.c:280
++#: ../server/vino-main.c:287
+ msgid "GNOME Desktop Sharing"
+ msgstr "GNOME 桌面分享"
+ 
+@@ -324,8 +322,8 @@ msgstr "vino-mdns:showusername"
+ #.
+ #: ../server/vino-mdns.c:74
+ #, c-format
+-msgid "%s's remote desktop on %s"
+-msgstr "%s 的遠端桌面於 %s"
++msgid "%s’s remote desktop on %s"
++msgstr "%s 在 %s 上的遠端桌面"
+ 
+ #: ../server/vino-prefs.c:111
+ #, c-format
+@@ -340,8 +338,8 @@ msgstr "螢幕"
+ msgid "The screen on which to display the prompt"
+ msgstr "顯示提示的螢幕"
+ 
+-#: ../server/vino-prompt.c:270 ../server/vino-status-icon.c:598
+-#: ../server/vino-status-tube-icon.c:389
++#: ../server/vino-prompt.c:270 ../server/vino-status-icon.c:604
++#: ../server/vino-status-tube-icon.c:396
+ #, c-format
+ msgid "Error initializing libnotify\n"
+ msgstr "初始化 libnotify 時發生錯誤\n"
+@@ -349,9 +347,9 @@ msgstr "初始化 libnotify 時發生錯誤\n"
+ #: ../server/vino-prompt.c:289
+ #, c-format
+ msgid ""
+-"A user on the computer '%s' is trying to remotely view or control your "
++"A user on the computer “%s” is trying to remotely view or control your "
+ "desktop."
+-msgstr "在電腦‘%s’上的使用者正嘗試觀看或控制您的桌面"
++msgstr "在「%s」電腦上的使用者正嘗試遠端觀看或控制您的桌面"
+ 
+ #: ../server/vino-prompt.c:292
+ msgid "Another user is trying to view your desktop."
+@@ -382,26 +380,26 @@ msgstr "GNOME 桌面分享伺服器"
+ msgid "vnc;share;remote;"
+ msgstr "vnc;share;remote;分享;遠端;"
+ 
+-#: ../server/vino-status-icon.c:97 ../server/vino-status-tube-icon.c:90
+-msgid "Desktop sharing is enabled"
+-msgstr "桌面共享已啟用"
+-
+-#: ../server/vino-status-icon.c:105
++#: ../server/vino-status-icon.c:103
+ #, c-format
+ msgid "One person is viewing your desktop"
+ msgid_plural "%d people are viewing your desktop"
+-msgstr[0] "一個使用者正在觀看您的桌面"
+-msgstr[1] "%d 個使用者正在觀看您的桌面"
++msgstr[0] "%d 位使用者正在觀看您的桌面"
+ 
+-#: ../server/vino-status-icon.c:208 ../server/vino-status-tube-icon.c:172
++#: ../server/vino-status-icon.c:112 ../server/vino-status-tube-icon.c:90
++msgid "Desktop sharing is enabled"
++msgstr "桌面共享已啟用"
++
++#: ../server/vino-status-icon.c:208 ../server/vino-status-icon.c:214
++#: ../server/vino-status-tube-icon.c:173 ../server/vino-status-tube-icon.c:179
+ msgid "Error displaying preferences"
+ msgstr "顯示偏好設定時發生錯誤"
+ 
+-#: ../server/vino-status-icon.c:230 ../server/vino-status-tube-icon.c:192
++#: ../server/vino-status-icon.c:236 ../server/vino-status-tube-icon.c:199
+ msgid "Error displaying help"
+ msgstr "顯示說明文件時發生錯誤"
+ 
+-#: ../server/vino-status-icon.c:263
++#: ../server/vino-status-icon.c:269
+ msgid ""
+ "Licensed under the GNU General Public License Version 2\n"
+ "\n"
+@@ -438,7 +436,7 @@ msgstr ""
+ "02110-1301, USA.\n"
+ 
+ #. Translators comment: put your own name here to appear in the about dialog.
+-#: ../server/vino-status-icon.c:278
++#: ../server/vino-status-icon.c:284
+ msgid "translator-credits"
+ msgstr ""
+ "如對翻譯有任何意見，請送一封電子郵件給\n"
+@@ -447,84 +445,86 @@ msgstr ""
+ "\n"
+ "Chi-Wei Chen <michelin@seed.net.tw>, 2004."
+ 
+-#: ../server/vino-status-icon.c:284
++#: ../server/vino-status-icon.c:290
+ msgid "Share your desktop with other users"
+ msgstr "與別的使用者分享您的桌面"
+ 
+-#: ../server/vino-status-icon.c:351 ../server/vino-status-tube-icon.c:224
++#. Translators: %s is a hostname
++#. Translators: %s is the alias of the telepathy contact
++#: ../server/vino-status-icon.c:357 ../server/vino-status-tube-icon.c:231
+ #, c-format
+-msgid "Are you sure you want to disconnect '%s'?"
+-msgstr "您確定要將‘%s’斷線？"
++msgid "Are you sure you want to disconnect “%s”?"
++msgstr "確定中斷「%s」的連線？"
+ 
+-#: ../server/vino-status-icon.c:354
++#: ../server/vino-status-icon.c:360
+ #, c-format
+-msgid "The remote user from '%s' will be disconnected. Are you sure?"
+-msgstr "來自‘%s’的遠端使用者會被斷線。您確定嗎？"
++msgid "The remote user from “%s” will be disconnected. Are you sure?"
++msgstr "將會中斷來自「%s」的遠端使用者連線。確定嗎？"
+ 
+-#: ../server/vino-status-icon.c:360
++#: ../server/vino-status-icon.c:366
+ msgid "Are you sure you want to disconnect all clients?"
+ msgstr "確定要將所有的客戶端斷線？"
+ 
+-#: ../server/vino-status-icon.c:362
++#: ../server/vino-status-icon.c:368
+ msgid "All remote users will be disconnected. Are you sure?"
+ msgstr "所有的遠端使用者會被斷線。您確定嗎？"
+ 
+-#: ../server/vino-status-icon.c:374 ../server/vino-status-tube-icon.c:238
++#: ../server/vino-status-icon.c:380 ../server/vino-status-tube-icon.c:245
+ msgid "Disconnect"
+ msgstr "斷線"
+ 
+-#: ../server/vino-status-icon.c:400 ../server/vino-status-tube-icon.c:263
++#: ../server/vino-status-icon.c:406 ../server/vino-status-tube-icon.c:270
+ msgid "_Preferences"
+ msgstr "偏好設定(_P)"
+ 
+-#: ../server/vino-status-icon.c:415
++#: ../server/vino-status-icon.c:421
+ msgid "Disconnect all"
+ msgstr "全部斷線"
+ 
+ #. Translators: %s is a hostname
+ #. Translators: %s is the alias of the telepathy contact
+-#: ../server/vino-status-icon.c:439 ../server/vino-status-tube-icon.c:276
++#: ../server/vino-status-icon.c:445 ../server/vino-status-tube-icon.c:283
+ #, c-format
+ msgid "Disconnect %s"
+ msgstr "斷線 %s"
+ 
+-#: ../server/vino-status-icon.c:460 ../server/vino-status-tube-icon.c:295
++#: ../server/vino-status-icon.c:466 ../server/vino-status-tube-icon.c:302
+ msgid "_Help"
+ msgstr "求助(_H)"
+ 
+-#: ../server/vino-status-icon.c:468
++#: ../server/vino-status-icon.c:474
+ msgid "_About"
+ msgstr "關於(_A)"
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:619
++#: ../server/vino-status-icon.c:625
+ msgid "Another user is viewing your desktop"
+ msgstr "其他使用者正在觀看您的桌面"
+ 
+-#: ../server/vino-status-icon.c:621
++#: ../server/vino-status-icon.c:627
+ #, c-format
+-msgid "A user on the computer '%s' is remotely viewing your desktop."
+-msgstr "在電腦‘%s’上的使用者正遠端觀看您的桌面。"
++msgid "A user on the computer “%s” is remotely viewing your desktop."
++msgstr "「%s」電腦上的使用者正遠端觀看您的桌面。"
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:627
++#: ../server/vino-status-icon.c:633
+ msgid "Another user is controlling your desktop"
+ msgstr "其他使用者正在控制您的桌面"
+ 
+-#: ../server/vino-status-icon.c:629
++#: ../server/vino-status-icon.c:635
+ #, c-format
+-msgid "A user on the computer '%s' is remotely controlling your desktop."
+-msgstr "在電腦‘%s’上的使用者正遠端控制您的桌面。"
++msgid "A user on the computer “%s” is remotely controlling your desktop."
++msgstr "「%s」電腦上的使用者正遠端控制您的桌面。"
+ 
+-#: ../server/vino-status-icon.c:651 ../server/vino-status-tube-icon.c:423
++#: ../server/vino-status-icon.c:657 ../server/vino-status-tube-icon.c:430
+ #, c-format
+ msgid "Error while displaying notification bubble: %s\n"
+ msgstr "顯示通知氣泡視窗時發生錯誤：%s\n"
+ 
+-#: ../server/vino-status-tube-icon.c:227
++#: ../server/vino-status-tube-icon.c:234
+ #, c-format
+-msgid "The remote user '%s' will be disconnected. Are you sure?"
+-msgstr "遠端使用者「%s」會被斷線。您確定嗎？"
++msgid "The remote user “%s” will be disconnected. Are you sure?"
++msgstr "將會中斷「%s」遠端使用者的連線。您確定嗎？"
+ 
+ #: ../server/vino-tube-server.c:220 ../server/vino-tube-server.c:249
+ msgid "Share my desktop information"
+@@ -533,25 +533,25 @@ msgstr "分享我的桌面資訊"
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:224
+ #, c-format
+-msgid "'%s' rejected the desktop sharing invitation."
++msgid "“%s” rejected the desktop sharing invitation."
+ msgstr "「%s」拒絕了桌面分享邀請。"
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:228
+ #, c-format
+-msgid "'%s' disconnected"
+-msgstr "「%s」已斷線"
++msgid "“%s” disconnected"
++msgstr "「%s」已中斷連線"
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:255
+ #, c-format
+-msgid "'%s' is remotely controlling your desktop."
++msgid "“%s” is remotely controlling your desktop."
+ msgstr "「%s」正在遠端控制您的桌面。"
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:264
+ #, c-format
+-msgid "Waiting for '%s' to connect to the screen."
++msgid "Waiting for “%s” to connect to the screen."
+ msgstr "正在等候「%s」連線至畫面。"
+ 
+ #: ../server/vino-util.c:88
+-- 
+2.20.1
+

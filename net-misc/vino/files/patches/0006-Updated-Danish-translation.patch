@@ -1,0 +1,387 @@
+From f17242e8d42fcd4b189f1bb3755104b5b595fdb2 Mon Sep 17 00:00:00 2001
+From: Ask Hjorth Larsen <asklarsen@gmail.com>
+Date: Mon, 28 Aug 2017 19:44:49 +0200
+Subject: [PATCH 06/68] Updated Danish translation
+
+---
+ po/da.po | 138 ++++++++++++++++++++++++++++---------------------------
+ 1 file changed, 71 insertions(+), 67 deletions(-)
+
+diff --git a/po/da.po b/po/da.po
+index f7be0e1..077d2fd 100644
+--- a/po/da.po
++++ b/po/da.po
+@@ -15,8 +15,10 @@
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: vino\n"
+-"Report-Msgid-Bugs-To: \n"
+-"POT-Creation-Date: 2016-03-20 23:21+0100\n"
++"Report-Msgid-Bugs-To: "
++"https://bugzilla.gnome.org/enter_bug.cgi?product=vino&keywords=I18N+L10N&component=Preferences "
++"Dialog\n"
++"POT-Creation-Date: 2017-04-10 15:29+0000\n"
+ "PO-Revision-Date: 2016-03-20 21:58+0100\n"
+ "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
+ "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
+@@ -78,8 +80,7 @@ msgid ""
+ "(5900). The port must be specified in the 'alternative-port' key."
+ msgstr ""
+ "Hvis sand (true), vil serveren lytte på en anden port i stedet for "
+-"standardporten (5900). Porten skal være angivet i \"alternative-port\"-"
+-"nøglen."
++"standardporten (5900). Porten skal være angivet i “alternative-port”-nøglen."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:11
+ msgid "Alternative port number"
+@@ -90,8 +91,8 @@ msgid ""
+ "The port which the server will listen to if the 'use-alternative-port' key "
+ "is set to true. Valid values are in the range of 5000 to 50000."
+ msgstr ""
+-"Porten som serveren vil lytte på, hvis \"use-alternative-port\"-nøglen er "
+-"sat til sand (true). Gyldige værdier er i området fra 5000 til 50000."
++"Porten som serveren vil lytte på, hvis “use-alternative-port”-nøglen er sat "
++"til sand (true). Gyldige værdier er i området fra 5000 til 50000."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:13
+ msgid "Require encryption"
+@@ -117,19 +118,19 @@ msgid ""
+ "desktop.\n"
+ "\n"
+ "There are two possible authentication methods; \"vnc\" causes the remote "
+-"user to be prompted for a password (the password is specified by the vnc-"
+-"password key) before connecting and \"none\" which allows any remote user to "
+-"connect."
++"user to be prompted for a password (the password is specified by the "
++"vnc-password key) before connecting and \"none\" which allows any remote "
++"user to connect."
+ msgstr ""
+ "Viser de godkendelsesmetoder som fjernbrugere kan tilgå skrivebordet med.\n"
+ "\n"
+-"Der er to mulige godkendelsesmetoder; \"vnc\" gør at fjernbrugeren bliver "
++"Der er to mulige godkendelsesmetoder; “vnc” gør at fjernbrugeren bliver "
+ "spurgt efter en adgangskode (som angives i nøglen vnc-password) før "
+-"tilslutning, og \"none\" tillader enhver fjernbruger at tilslutte."
++"tilslutning, og “none” tillader enhver fjernbruger at tilslutte."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:19
+ msgid "Password required for \"vnc\" authentication"
+-msgstr "Adgangskode påkrævet for \"vnc\"-godkendelse"
++msgstr "Adgangskode påkrævet for “vnc”-godkendelse"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:20
+ msgid ""
+@@ -140,11 +141,11 @@ msgid ""
+ "The special value of 'keyring' (which is not valid base64) means that the "
+ "password is stored in the GNOME keyring."
+ msgstr ""
+-"Den adgangskode som fjernbrugeren bliver spurgt efter hvis \"vnc\"-"
+-"godkendelsesmetoden benyttes. Den angivne adgangskode skal være base64-"
+-"kodet.\n"
++"Den adgangskode som fjernbrugeren bliver spurgt efter hvis "
++"“vnc”-godkendelsesmetoden benyttes. Den angivne adgangskode skal være "
++"base64-kodet.\n"
+ "\n"
+-"Specialværdien \"keyring\" (som ikke er gyldig base64) betyder, at "
++"Specialværdien “keyring” (som ikke er gyldig base64) betyder, at "
+ "adgangskoden lagres i GNOME-nøgleringen."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:23
+@@ -184,9 +185,9 @@ msgid ""
+ "\"never\" - the icon will not be present."
+ msgstr ""
+ "Denne nøgle styrer opførslen af statusikonet. Der er tre valgmuligheder: "
+-"\"always\" - Ikonet vil altid være der; \"client\" - Ikonet vil være der "
+-"hvis nogen er forbundet (dette er standardopførsel); \"never\" - Ikonet vil "
+-"aldrig vises."
++"“always” - Ikonet vil altid være der; “client” - Ikonet vil være der hvis "
++"nogen er forbundet (dette er standardopførsel); “never” - Ikonet vil aldrig "
++"vises."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:29
+ msgid "Whether to disable the desktop background when a user is connected"
+@@ -247,7 +248,7 @@ msgstr "Filen er ikke en gyldig .desktop-fil"
+ #: ../server/smclient/eggdesktopfile.c:191
+ #, c-format
+ msgid "Unrecognized desktop file Version '%s'"
+-msgstr "Ukendt version \"%s\" af skrivebordsfil"
++msgstr "Ukendt version “%s” af skrivebordsfil"
+ 
+ #: ../server/smclient/eggdesktopfile.c:974
+ #, c-format
+@@ -269,7 +270,7 @@ msgstr "Ukendt starttilvalg: %d"
+ #: ../server/smclient/eggdesktopfile.c:1391
+ #, c-format
+ msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
+-msgstr "Kan ikke give dokument-URI'er til et \"Type=Link\"-skrivebordselement"
++msgstr "Kan ikke give dokument-URI'er til et “Type=Link”-skrivebordselement"
+ 
+ #: ../server/smclient/eggdesktopfile.c:1412
+ #, c-format
+@@ -317,7 +318,7 @@ msgstr ""
+ #.
+ #: ../server/vino-main.c:249
+ msgid "Start in tube mode, for the ‘Share my Desktop’ feature"
+-msgstr "Start i rørtilstand til \"Del mit skrivebord\"-funktionen"
++msgstr "Start i rørtilstand til “Del mit skrivebord”-funktionen"
+ 
+ #: ../server/vino-main.c:260
+ msgid "- VNC Server for GNOME"
+@@ -327,7 +328,7 @@ msgstr "- VNC-server til GNOME"
+ msgid ""
+ "Run 'vino-server --help' to see a full list of available command line options"
+ msgstr ""
+-"Kør \"vino-server --help\" for at se en fuld liste over tilgængelige "
++"Kør “vino-server --help” for at se en fuld liste over tilgængelige "
+ "kommandolinjetilvalg"
+ 
+ #: ../server/vino-main.c:280
+@@ -366,7 +367,7 @@ msgstr "Skærm"
+ msgid "The screen on which to display the prompt"
+ msgstr "Den skærm som spørgsmålet skal vises på"
+ 
+-#: ../server/vino-prompt.c:270 ../server/vino-status-icon.c:603
++#: ../server/vino-prompt.c:270 ../server/vino-status-icon.c:604
+ #: ../server/vino-status-tube-icon.c:396
+ #, c-format
+ msgid "Error initializing libnotify\n"
+@@ -378,7 +379,7 @@ msgid ""
+ "A user on the computer '%s' is trying to remotely view or control your "
+ "desktop."
+ msgstr ""
+-"En bruger på maskinen \"%s\" forsøger at se eller fjernkontrollere dit "
++"En bruger på maskinen “%s” forsøger at se eller fjernkontrollere dit "
+ "skrivebord."
+ 
+ #: ../server/vino-prompt.c:292
+@@ -410,27 +411,27 @@ msgstr "Server til deling af GNOME-skrivebord"
+ msgid "vnc;share;remote;"
+ msgstr "vnc;del;ekstern;fjern;"
+ 
+-#: ../server/vino-status-icon.c:97 ../server/vino-status-tube-icon.c:90
+-msgid "Desktop sharing is enabled"
+-msgstr "Skrivebordsdeling er slået til"
+-
+-#: ../server/vino-status-icon.c:105
++#: ../server/vino-status-icon.c:103
+ #, c-format
+ msgid "One person is viewing your desktop"
+ msgid_plural "%d people are viewing your desktop"
+ msgstr[0] "En bruger ser dit skrivebord"
+ msgstr[1] "%d brugere ser dit skrivebord"
+ 
+-#: ../server/vino-status-icon.c:207 ../server/vino-status-icon.c:213
++#: ../server/vino-status-icon.c:112 ../server/vino-status-tube-icon.c:90
++msgid "Desktop sharing is enabled"
++msgstr "Skrivebordsdeling er slået til"
++
++#: ../server/vino-status-icon.c:208 ../server/vino-status-icon.c:214
+ #: ../server/vino-status-tube-icon.c:173 ../server/vino-status-tube-icon.c:179
+ msgid "Error displaying preferences"
+ msgstr "Fejl ved visning af indstillinger"
+ 
+-#: ../server/vino-status-icon.c:235 ../server/vino-status-tube-icon.c:199
++#: ../server/vino-status-icon.c:236 ../server/vino-status-tube-icon.c:199
+ msgid "Error displaying help"
+ msgstr "Fejl ved visning af hjælp"
+ 
+-#: ../server/vino-status-icon.c:268
++#: ../server/vino-status-icon.c:269
+ msgid ""
+ "Licensed under the GNU General Public License Version 2\n"
+ "\n"
+@@ -468,7 +469,7 @@ msgstr ""
+ "MA  02111-1307  USA\n"
+ 
+ #. Translators comment: put your own name here to appear in the about dialog.
+-#: ../server/vino-status-icon.c:283
++#: ../server/vino-status-icon.c:284
+ msgid "translator-credits"
+ msgstr ""
+ "Ole Laursen\n"
+@@ -482,76 +483,78 @@ msgstr ""
+ "Dansk-gruppen <dansk@dansk-gruppen.dk>\n"
+ "Mere info: http://www.dansk-gruppen.dk"
+ 
+-#: ../server/vino-status-icon.c:289
++#: ../server/vino-status-icon.c:290
+ msgid "Share your desktop with other users"
+ msgstr "Del dit skrivebord med andre brugere"
+ 
+-#: ../server/vino-status-icon.c:356 ../server/vino-status-tube-icon.c:231
++#. Translators: %s is a hostname
++#. Translators: %s is the alias of the telepathy contact
++#: ../server/vino-status-icon.c:357 ../server/vino-status-tube-icon.c:231
+ #, c-format
+ msgid "Are you sure you want to disconnect '%s'?"
+-msgstr "Er du sikker på, at du vil afbryde \"%s\"?"
++msgstr "Er du sikker på, at du vil afbryde “%s”?"
+ 
+-#: ../server/vino-status-icon.c:359
++#: ../server/vino-status-icon.c:360
+ #, c-format
+ msgid "The remote user from '%s' will be disconnected. Are you sure?"
+-msgstr "Fjernbrugeren fra \"%s\" vil blive afbrudt. Er du sikker?"
++msgstr "Fjernbrugeren fra “%s” vil blive afbrudt. Er du sikker?"
+ 
+-#: ../server/vino-status-icon.c:365
++#: ../server/vino-status-icon.c:366
+ msgid "Are you sure you want to disconnect all clients?"
+ msgstr "Er du sikker på, at du vil afbryde alle klienter?"
+ 
+-#: ../server/vino-status-icon.c:367
++#: ../server/vino-status-icon.c:368
+ msgid "All remote users will be disconnected. Are you sure?"
+ msgstr "Alle fjerne brugere vil blive afbrudt. Er du sikker?"
+ 
+-#: ../server/vino-status-icon.c:379 ../server/vino-status-tube-icon.c:245
++#: ../server/vino-status-icon.c:380 ../server/vino-status-tube-icon.c:245
+ msgid "Disconnect"
+ msgstr "Afbryd"
+ 
+-#: ../server/vino-status-icon.c:405 ../server/vino-status-tube-icon.c:270
++#: ../server/vino-status-icon.c:406 ../server/vino-status-tube-icon.c:270
+ msgid "_Preferences"
+ msgstr "_Indstillinger"
+ 
+-#: ../server/vino-status-icon.c:420
++#: ../server/vino-status-icon.c:421
+ msgid "Disconnect all"
+ msgstr "Afbryd alle"
+ 
+ #. Translators: %s is a hostname
+ #. Translators: %s is the alias of the telepathy contact
+-#: ../server/vino-status-icon.c:444 ../server/vino-status-tube-icon.c:283
++#: ../server/vino-status-icon.c:445 ../server/vino-status-tube-icon.c:283
+ #, c-format
+ msgid "Disconnect %s"
+ msgstr "Afbryd %s"
+ 
+-#: ../server/vino-status-icon.c:465 ../server/vino-status-tube-icon.c:302
++#: ../server/vino-status-icon.c:466 ../server/vino-status-tube-icon.c:302
+ msgid "_Help"
+ msgstr "_Hjælp"
+ 
+-#: ../server/vino-status-icon.c:473
++#: ../server/vino-status-icon.c:474
+ msgid "_About"
+ msgstr "_Om"
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:624
++#: ../server/vino-status-icon.c:625
+ msgid "Another user is viewing your desktop"
+ msgstr "En anden bruger ser dit skrivebord"
+ 
+-#: ../server/vino-status-icon.c:626
++#: ../server/vino-status-icon.c:627
+ #, c-format
+ msgid "A user on the computer '%s' is remotely viewing your desktop."
+-msgstr "En bruger på maskinen \"%s\" fjernser dit skrivebord."
++msgstr "En bruger på maskinen “%s” fjernser dit skrivebord."
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:632
++#: ../server/vino-status-icon.c:633
+ msgid "Another user is controlling your desktop"
+ msgstr "En anden bruger kontrollerer dit skrivebord"
+ 
+-#: ../server/vino-status-icon.c:634
++#: ../server/vino-status-icon.c:635
+ #, c-format
+ msgid "A user on the computer '%s' is remotely controlling your desktop."
+-msgstr "En bruger på maskinen \"%s\" fjernkontrollerer dit skrivebord."
++msgstr "En bruger på maskinen “%s” fjernkontrollerer dit skrivebord."
+ 
+-#: ../server/vino-status-icon.c:656 ../server/vino-status-tube-icon.c:430
++#: ../server/vino-status-icon.c:657 ../server/vino-status-tube-icon.c:430
+ #, c-format
+ msgid "Error while displaying notification bubble: %s\n"
+ msgstr "Fejl ved visning af påmindelsesboblen: %s\n"
+@@ -559,7 +562,7 @@ msgstr "Fejl ved visning af påmindelsesboblen: %s\n"
+ #: ../server/vino-status-tube-icon.c:234
+ #, c-format
+ msgid "The remote user '%s' will be disconnected. Are you sure?"
+-msgstr "Fjernbrugeren \"%s\" vil blive frakoblet. Er du sikker?"
++msgstr "Fjernbrugeren “%s” vil blive frakoblet. Er du sikker?"
+ 
+ #: ../server/vino-tube-server.c:220 ../server/vino-tube-server.c:249
+ msgid "Share my desktop information"
+@@ -569,25 +572,25 @@ msgstr "Del mine skrivebordsinformationer"
+ #: ../server/vino-tube-server.c:224
+ #, c-format
+ msgid "'%s' rejected the desktop sharing invitation."
+-msgstr "\"%s\" afviste invitationen til skrivebordsdeling."
++msgstr "“%s” afviste invitationen til skrivebordsdeling."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:228
+ #, c-format
+ msgid "'%s' disconnected"
+-msgstr "\"%s\" frakoblede"
++msgstr "“%s” frakoblede"
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:255
+ #, c-format
+ msgid "'%s' is remotely controlling your desktop."
+-msgstr "\"%s\" fjernstyrer dit skrivebord."
++msgstr "“%s” fjernstyrer dit skrivebord."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:264
+ #, c-format
+ msgid "Waiting for '%s' to connect to the screen."
+-msgstr "Venter på at \"%s\" forbinder til skærmen."
++msgstr "Venter på at “%s” forbinder til skærmen."
+ 
+ #: ../server/vino-util.c:88
+ msgid "_Allow"
+@@ -602,7 +605,7 @@ msgid "An error has occurred:"
+ msgstr "Der opstod en fejl:"
+ 
+ #~ msgid "There was an error showing the URL \"%s\""
+-#~ msgstr "Der opstod en fejl ved visning af URL'en \"%s\""
++#~ msgstr "Der opstod en fejl ved visning af URL'en “%s”"
+ 
+ #~ msgid ""
+ #~ "There was an error displaying help:\n"
+@@ -681,12 +684,12 @@ msgstr "Der opstod en fejl:"
+ #~ msgstr "Aktiver fjernadgang til skrivebordet"
+ 
+ #~ msgid ""
+-#~ "If true, allows remote access to the desktop via the RFB protocol. Users "
+-#~ "on remote machines may then connect to the desktop using a VNC viewer."
++#~ "If true, allows remote access to the desktop via the RFB protocol. Users on "
++#~ "remote machines may then connect to the desktop using a VNC viewer."
+ #~ msgstr ""
+ #~ "Hvis sand, tillader fjernadgang til skrivebordet vha. RFB-protokollen. "
+-#~ "Brugere på fjernmaskiner kan så tilslutte til skrivebordet med en VNC-"
+-#~ "fremviser."
++#~ "Brugere på fjernmaskiner kan så tilslutte til skrivebordet med en "
++#~ "VNC-fremviser."
+ 
+ #~ msgid "Remote desktop sharing password"
+ #~ msgstr "Adgangskode til deling af fjernskrivebord"
+@@ -732,10 +735,9 @@ msgstr "Der opstod en fejl:"
+ #~ msgstr "- Opdaterer Vino-kodeord"
+ 
+ #~ msgid ""
+-#~ "Run 'vino-passwd --help' to see a full list of available command line "
+-#~ "options"
++#~ "Run 'vino-passwd --help' to see a full list of available command line options"
+ #~ msgstr ""
+-#~ "Kør \"vino-passwd --help\" for at se en fuld liste over tilgængelige "
++#~ "Kør “vino-passwd --help” for at se en fuld liste over tilgængelige "
+ #~ "kommandolinjetilvalg"
+ 
+ #~ msgid "VINO Version %s\n"
+@@ -743,3 +745,5 @@ msgstr "Der opstod en fejl:"
+ 
+ #~ msgid "ERROR: You do not have enough permissions to change Vino password.\n"
+ #~ msgstr "FEJL: Du har ikke rettigheder til at ændre Vino-kodeord.\n"
++
++
+-- 
+2.20.1
+

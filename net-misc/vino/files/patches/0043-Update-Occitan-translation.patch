@@ -1,0 +1,548 @@
+From 23e709042d233f52dcd856bf494223163eb7b092 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?C=C3=A9dric=20Valmary?= <cvalmary@yahoo.fr>
+Date: Tue, 30 Oct 2018 15:50:04 +0000
+Subject: [PATCH 43/68] Update Occitan translation
+
+---
+ po/oc.po | 277 +++++++++++++++++++++++++++++++++----------------------
+ 1 file changed, 166 insertions(+), 111 deletions(-)
+
+diff --git a/po/oc.po b/po/oc.po
+index e537362..d2673a6 100644
+--- a/po/oc.po
++++ b/po/oc.po
+@@ -5,14 +5,13 @@
+ # This file is distributed under the same license as the vino package.
+ # Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>, 2006-2008.
+ # Cédric Valmary (Tot en òc) <cvalmary@yahoo.fr>, 2015.
+-# Cédric Valmary (totenoc.eu) <cvalmary@yahoo.fr>, 2016.
++# Cédric Valmary (totenoc.eu) <cvalmary@yahoo.fr>, 2016, 2018.
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: vino\n"
+-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+-"product=vino&keywords=I18N+L10N&component=Preferences Dialog\n"
+-"POT-Creation-Date: 2016-05-10 16:55+0000\n"
+-"PO-Revision-Date: 2016-05-08 18:52+0200\n"
++"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/vino/issues\n"
++"POT-Creation-Date: 2018-09-26 11:59+0000\n"
++"PO-Revision-Date: 2018-10-30 16:49+0200\n"
+ "Last-Translator: Cédric Valmary (totenoc.eu) <cvalmary@yahoo.fr>\n"
+ "Language-Team: Tot En Òc\n"
+ "Language: oc\n"
+@@ -49,7 +48,7 @@ msgid ""
+ "desktop. Remote users will not be able to use the mouse or keyboard."
+ msgstr ""
+ "Se verai, los utilizaires a distància qu'accedisson al burèu son unicament "
+-"autorizats a veire lo burèu. Pòdon utilizar ni la mirga ni lo clavièr."
++"autorizats a veire lo burèu. Pòdon pas utilizar ni la mirga ni lo clavièr."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:5
+ msgid "Network interface for listening"
+@@ -72,20 +71,26 @@ msgid "Listen on an alternative port"
+ msgstr "Escotar sus un autre pòrt"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:10
++#| msgid ""
++#| "If true, the server will listen on another port, instead of the default "
++#| "(5900). The port must be specified in the 'alternative-port' key."
+ msgid ""
+ "If true, the server will listen on another port, instead of the default "
+-"(5900). The port must be specified in the 'alternative-port' key."
++"(5900). The port must be specified in the “alternative-port” key."
+ msgstr ""
+-"Se verai, lo servidor escotarà sus un autre pòrt, al luòc del pòrt per "
+-"defaut (5900). Lo pòrt deu èsser indicat per la clau « alternative-port »."
++"Se verai, lo servidor escotarà sus un autre pòrt, al luòc del pòrt per defaut "
++"(5900). Lo pòrt deu èsser indicat per la clau « alternative-port »."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:11
+ msgid "Alternative port number"
+ msgstr "Numèro de pòrt alternatiu"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:12
++#| msgid ""
++#| "The port which the server will listen to if the 'use-alternative-port' "
++#| "key is set to true. Valid values are in the range of 5000 to 50000."
+ msgid ""
+-"The port which the server will listen to if the 'use-alternative-port' key "
++"The port which the server will listen to if the “use-alternative-port” key "
+ "is set to true. Valid values are in the range of 5000 to 50000."
+ msgstr ""
+ "Lo pòrt sul qual lo servidor escota se la clau « use-alternative-port » es "
+@@ -110,41 +115,57 @@ msgid "Allowed authentication methods"
+ msgstr "Metòdes d'autentificacion autorizadas"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:16
++#| msgid ""
++#| "Lists the authentication methods with which remote users may access the "
++#| "desktop.\n"
++#| "\n"
++#| "There are two possible authentication methods; \"vnc\" causes the remote "
++#| "user to be prompted for a password (the password is specified by the vnc-"
++#| "password key) before connecting and \"none\" which allows any remote user "
++#| "to connect."
+ msgid ""
+ "Lists the authentication methods with which remote users may access the "
+ "desktop.\n"
+ "\n"
+-"There are two possible authentication methods; \"vnc\" causes the remote "
+-"user to be prompted for a password (the password is specified by the vnc-"
+-"password key) before connecting and \"none\" which allows any remote user to "
+-"connect."
++"There are two possible authentication methods; “vnc” causes the remote user "
++"to be prompted for a password (the password is specified by the vnc-password "
++"key) before connecting and “none” which allows any remote user to connect."
+ msgstr ""
+-"Fa la lista dels metòdes d'autentificacion amb l'ajuda dels quals los "
++"Fa la lista dels metòdes d’autentificacion amb l’ajuda dels quals los "
+ "utilizaires a distància pòdon accedir al burèu.\n"
+ "\n"
+-"Existisson dos metòdes d'autentificacion possibles ; « vnc » farà en sòrta "
+-"qu'un senhal siá demandat a l'utilizaire (lo senhal es indicat per la clau "
+-"vnc-password) abans la connexion e « none » permet a totes los utilizaires a "
++"Existisson dos metòdes d’autentificacion possibles ; « vnc » farà en sòrta "
++"qu’un senhal siá demandat a l’utilizaire (lo senhal es indicat per la clau "
++"vnc-password) abans la connexion e « none » permet a tot utilizaire a "
+ "distància de se connectar."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:19
+-msgid "Password required for \"vnc\" authentication"
+-msgstr "Senhal requesit per l'autentificacion « vnc »"
++#| msgid "Password required for \"vnc\" authentication"
++msgid "Password required for “vnc” authentication"
++msgstr "Senhal requesit per l’autentificacion « vnc »"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:20
++#| msgid ""
++#| "The password which the remote user will be prompted for if the \"vnc\" "
++#| "authentication method is used. The password specified by the key is "
++#| "base64 encoded.\n"
++#| "\n"
++#| "The special value of 'keyring' (which is not valid base64) means that the "
++#| "password is stored in the GNOME keyring."
+ msgid ""
+-"The password which the remote user will be prompted for if the \"vnc\" "
++"The password which the remote user will be prompted for if the “vnc” "
+ "authentication method is used. The password specified by the key is base64 "
+ "encoded.\n"
+ "\n"
+-"The special value of 'keyring' (which is not valid base64) means that the "
++"The special value of “keyring” (which is not valid base64) means that the "
+ "password is stored in the GNOME keyring."
+ msgstr ""
+-"Lo senhal que serà demandat a l'utilizaire se lo metòde d'autentificacion « "
+-"vnc » es utilizat. Lo senhal indicat per la clau es encodat en base64.\n"
++"Lo senhal que serà demandat a l’utilizaire se lo metòde d’"
++"autentificacion « vnc » es utilizat. Lo senhal indicat per la clau "
++"es codat en base64.\n"
+ "\n"
+-"La valor especiala « keyring » (qu'es pas valida en base64) significa que lo "
+-"senhal es enregistrat dins lo trossèl de clau GNOME."
++"La valor especiala « keyring » (qu’es pas valida en base64) significa que "
++"lo senhal es enregistrat dins lo trossèl de clau GNOME."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:23
+ msgid "E-mail address to which the remote desktop URL should be sent"
+@@ -176,16 +197,21 @@ msgid "When the status icon should be shown"
+ msgstr "Indica se l'icòna d'estat deu èsser afichada"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:28
++#| msgid ""
++#| "This key controls the behavior of the status icon. There are three "
++#| "options: \"always\" - the icon will always be present; \"client\" - the "
++#| "icon will only be present when someone is connected (this is the default "
++#| "behavior); \"never\" - the icon will not be present."
+ msgid ""
+ "This key controls the behavior of the status icon. There are three options: "
+-"\"always\" - the icon will always be present; \"client\" - the icon will "
+-"only be present when someone is connected (this is the default behavior); "
+-"\"never\" - the icon will not be present."
++"“always” — the icon will always be present; “client” — the icon will only be "
++"present when someone is connected (this is the default behavior); “never” — "
++"the icon will not be present."
+ msgstr ""
+-"Aquesta clau contraròtla lo comportament de l'icòna d'estat. Tres opcions "
+-"son disponibles : « always » - l'icòna es totjorn afichada ; « client » - "
+-"l'icòna es afichada unicament quand qualqu'un es connectat (comportament per "
+-"defaut) ; « never »  - l'icòna es pas jamai afichada."
++"Aquesta clau contròla lo comportament de l’icòna d’estat. Tres opcions son "
++"disponiblas : « always » — l’icòna es totjorn afichada ; « client » — l’"
++"icòna es afichada unicament quand qualqu’un es connectat (comportament per "
++"defaut) ; « never »  — l’icòna es pas jamai afichada."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:29
+ msgid "Whether to disable the desktop background when a user is connected"
+@@ -247,8 +273,9 @@ msgstr "Lo fichièr es pas un fichièr .desktop valid"
+ #. * should not be translated. '%s' would probably be a
+ #. * version number.
+ #: ../server/smclient/eggdesktopfile.c:191
+-#, c-format
+-msgid "Unrecognized desktop file Version '%s'"
++#, c-format, c-format
++#| msgid "Unrecognized desktop file Version '%s'"
++msgid "Unrecognized desktop file Version “%s”"
+ msgstr "Version « %s » del fichièr desktop pas reconeguda"
+ 
+ #: ../server/smclient/eggdesktopfile.c:974
+@@ -269,8 +296,9 @@ msgstr "Opcion d'aviada pas reconeguda : %d"
+ #. translators: The 'Type=Link' string is found in a
+ #. * desktop file, and should not be translated.
+ #: ../server/smclient/eggdesktopfile.c:1391
+-#, c-format
+-msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
++#, c-format, c-format
++#| msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
++msgid "Can’t pass document URIs to a “Type=Link” desktop entry"
+ msgstr ""
+ "Impossible de transmetre d'URI de documents cap a una entrada de burèu de "
+ "tipe « Type=Link »"
+@@ -308,33 +336,41 @@ msgstr "Opcions de gestion de sessions :"
+ msgid "Show session management options"
+ msgstr "Aficha las opcions de gestion de session"
+ 
+-#: ../server/vino-main.c:153
++#: ../server/vino-main.c:154
++#| msgid ""
++#| "Your XServer does not support the XTest extension - remote desktop access "
++#| "will be view-only\n"
+ msgid ""
+-"Your XServer does not support the XTest extension - remote desktop access "
++"Your XServer does not support the XTest extension — remote desktop access "
+ "will be view-only\n"
+ msgstr ""
+-"Vòstre servidor XServer pren pas en carga l'extension XTest - l'accès al "
++"Vòtre servidor XServer pren pas en carga l’extension XTest — l’accès al "
+ "burèu a distància serà en vista-sola\n"
+ 
+ #. Tube mode uses Telepathy's Tubes to share a user's desktop directly
+ #. * with another IM contact. http://telepathy.freedesktop.org/wiki/Tubes
+ #.
+-#: ../server/vino-main.c:249
+-msgid "Start in tube mode, for the ‘Share my Desktop’ feature"
+-msgstr "Aviar en mòde tub, per la foncionalitat « Partejar mon burèu »"
+-
+-#: ../server/vino-main.c:260
+-msgid "- VNC Server for GNOME"
+-msgstr "- Servidor VNC per GNOME"
+-
+-#: ../server/vino-main.c:268
++#: ../server/vino-main.c:250
++#| msgid "Start in tube mode, for the ‘Share my Desktop’ feature"
++msgid "Start in tube mode, for the “Share my Desktop” feature"
++msgstr "Aviar en mòde tube, per la foncionalitat « Partejar mon burèu »"
++
++#: ../server/vino-main.c:261
++#| msgid "- VNC Server for GNOME"
++msgid "— VNC Server for GNOME"
++msgstr "— Servidor VNC per GNOME"
++
++#: ../server/vino-main.c:269
++#| msgid ""
++#| "Run 'vino-server --help' to see a full list of available command line "
++#| "options"
+ msgid ""
+-"Run 'vino-server --help' to see a full list of available command line options"
++"Run “vino-server --help” to see a full list of available command line options"
+ msgstr ""
+ "Aviatz « vino-server --help » per veire la lista completa de las opcions "
+ "disponiblas en linha de comanda"
+ 
+-#: ../server/vino-main.c:280
++#: ../server/vino-main.c:287
+ msgid "GNOME Desktop Sharing"
+ msgstr "Partiment de burèu GNOME"
+ 
+@@ -353,8 +389,9 @@ msgstr "vino-mdns:showusername"
+ #. * other than "1"
+ #.
+ #: ../server/vino-mdns.c:74
+-#, c-format
+-msgid "%s's remote desktop on %s"
++#, c-format, c-format
++#| msgid "%s's remote desktop on %s"
++msgid "%s’s remote desktop on %s"
+ msgstr "Burèu a distància de %s sus %s"
+ 
+ #: ../server/vino-prefs.c:111
+@@ -370,19 +407,22 @@ msgstr "Ecran"
+ msgid "The screen on which to display the prompt"
+ msgstr "L'ecran sul qual cal afichar lo convit"
+ 
+-#: ../server/vino-prompt.c:270 ../server/vino-status-icon.c:603
++#: ../server/vino-prompt.c:270 ../server/vino-status-icon.c:604
+ #: ../server/vino-status-tube-icon.c:396
+ #, c-format
+ msgid "Error initializing libnotify\n"
+ msgstr "Error al moment de l'inicializacion de libnotify\n"
+ 
+ #: ../server/vino-prompt.c:289
+-#, c-format
++#, c-format, c-format
++#| msgid ""
++#| "A user on the computer '%s' is trying to remotely view or control your "
++#| "desktop."
+ msgid ""
+-"A user on the computer '%s' is trying to remotely view or control your "
++"A user on the computer “%s” is trying to remotely view or control your "
+ "desktop."
+ msgstr ""
+-"Un utilizaire sus l'ordenador « %s » ensaja de veire o contrarotlar a "
++"Un utilizaire sus l’ordenador « %s » ensaja de veire o controlar a "
+ "distància vòstre burèu."
+ 
+ #: ../server/vino-prompt.c:292
+@@ -414,27 +454,27 @@ msgstr "Servidor de partiment de burèu GNOME"
+ msgid "vnc;share;remote;"
+ msgstr "vnc;partiment;distant;"
+ 
+-#: ../server/vino-status-icon.c:97 ../server/vino-status-tube-icon.c:90
+-msgid "Desktop sharing is enabled"
+-msgstr "Lo partiment del burèu es activat"
+-
+-#: ../server/vino-status-icon.c:105
++#: ../server/vino-status-icon.c:103
+ #, c-format
+ msgid "One person is viewing your desktop"
+ msgid_plural "%d people are viewing your desktop"
+ msgstr[0] "Una persona es a veire vòstre burèu"
+ msgstr[1] "%d personas son a veire vòstre burèu"
+ 
+-#: ../server/vino-status-icon.c:207 ../server/vino-status-icon.c:213
++#: ../server/vino-status-icon.c:112 ../server/vino-status-tube-icon.c:90
++msgid "Desktop sharing is enabled"
++msgstr "Lo partiment del burèu es activat"
++
++#: ../server/vino-status-icon.c:208 ../server/vino-status-icon.c:214
+ #: ../server/vino-status-tube-icon.c:173 ../server/vino-status-tube-icon.c:179
+ msgid "Error displaying preferences"
+ msgstr "Una error s'es produita al moment de l'afichatge de las preferéncias"
+ 
+-#: ../server/vino-status-icon.c:235 ../server/vino-status-tube-icon.c:199
++#: ../server/vino-status-icon.c:236 ../server/vino-status-tube-icon.c:199
+ msgid "Error displaying help"
+ msgstr "Una error s'es produita al moment de l'afichatge de l'ajuda"
+ 
+-#: ../server/vino-status-icon.c:268
++#: ../server/vino-status-icon.c:269
+ msgid ""
+ "Licensed under the GNU General Public License Version 2\n"
+ "\n"
+@@ -453,6 +493,8 @@ msgid ""
+ "Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA\n"
+ "02110-1301, USA.\n"
+ msgstr ""
++"Jos licéncia GNU Version 2\n"
++"\n"
+ "Vino es un logicial liure ; lo podètz redistribuir e/o lo\n"
+ "modificar segon los tèrmes de la Licéncia Publica Generala GNU, tala\n"
+ "coma publicada per la Free Software Foundation ; version 2 de la licéncia,\n"
+@@ -469,91 +511,100 @@ msgstr ""
+ "USA.\n"
+ 
+ #. Translators comment: put your own name here to appear in the about dialog.
+-#: ../server/vino-status-icon.c:283
++#: ../server/vino-status-icon.c:284
+ msgid "translator-credits"
+ msgstr "Cédric Valmary (totenoc.eu) <cvalmary@yahoo.fr>"
+ 
+-#: ../server/vino-status-icon.c:289
++#: ../server/vino-status-icon.c:290
+ msgid "Share your desktop with other users"
+ msgstr "Partejatz vòstre burèu amb d'autres utilizaires"
+ 
+-#: ../server/vino-status-icon.c:356 ../server/vino-status-tube-icon.c:231
+-#, c-format
+-msgid "Are you sure you want to disconnect '%s'?"
++#. Translators: %s is a hostname
++#. Translators: %s is the alias of the telepathy contact
++#: ../server/vino-status-icon.c:357 ../server/vino-status-tube-icon.c:231
++#, c-format, c-format
++#| msgid "Are you sure you want to disconnect '%s'?"
++msgid "Are you sure you want to disconnect “%s”?"
+ msgstr "Sètz segur que volètz desconnectar « %s » ?"
+ 
+-#: ../server/vino-status-icon.c:359
+-#, c-format
+-msgid "The remote user from '%s' will be disconnected. Are you sure?"
+-msgstr "L'utilizaire distant de « %s » serà desconnectat. Sètz segur ?"
++#: ../server/vino-status-icon.c:360
++#, c-format, c-format
++#| msgid "The remote user from '%s' will be disconnected. Are you sure?"
++msgid "The remote user from “%s” will be disconnected. Are you sure?"
++msgstr ""
++"L’utilizaire distant de « %s » serà desconnectat. Volètz contunhar ?"
+ 
+-#: ../server/vino-status-icon.c:365
++#: ../server/vino-status-icon.c:366
+ msgid "Are you sure you want to disconnect all clients?"
+ msgstr "Sètz segur que volètz desconnectar totes los clients ?"
+ 
+-#: ../server/vino-status-icon.c:367
++#: ../server/vino-status-icon.c:368
+ msgid "All remote users will be disconnected. Are you sure?"
+ msgstr "Totes los utilizaires distants seràn desconnectats. Sètz segur ?"
+ 
+-#: ../server/vino-status-icon.c:379 ../server/vino-status-tube-icon.c:245
++#: ../server/vino-status-icon.c:380 ../server/vino-status-tube-icon.c:245
+ msgid "Disconnect"
+ msgstr "Desconnectar"
+ 
+-#: ../server/vino-status-icon.c:405 ../server/vino-status-tube-icon.c:270
++#: ../server/vino-status-icon.c:406 ../server/vino-status-tube-icon.c:270
+ msgid "_Preferences"
+ msgstr "_Preferéncias"
+ 
+-#: ../server/vino-status-icon.c:420
++#: ../server/vino-status-icon.c:421
+ msgid "Disconnect all"
+ msgstr "Desconnectar tot"
+ 
+ #. Translators: %s is a hostname
+ #. Translators: %s is the alias of the telepathy contact
+-#: ../server/vino-status-icon.c:444 ../server/vino-status-tube-icon.c:283
++#: ../server/vino-status-icon.c:445 ../server/vino-status-tube-icon.c:283
+ #, c-format
+ msgid "Disconnect %s"
+ msgstr "Desconnectar %s"
+ 
+-#: ../server/vino-status-icon.c:465 ../server/vino-status-tube-icon.c:302
++#: ../server/vino-status-icon.c:466 ../server/vino-status-tube-icon.c:302
+ msgid "_Help"
+ msgstr "A_juda"
+ 
+-#: ../server/vino-status-icon.c:473
++#: ../server/vino-status-icon.c:474
+ msgid "_About"
+ msgstr "A _prepaus"
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:624
++#: ../server/vino-status-icon.c:625
+ msgid "Another user is viewing your desktop"
+ msgstr "Un autre utilizaire es a veire vòstre burèu"
+ 
+-#: ../server/vino-status-icon.c:626
+-#, c-format
+-msgid "A user on the computer '%s' is remotely viewing your desktop."
++#: ../server/vino-status-icon.c:627
++#, c-format, c-format
++#| msgid "A user on the computer '%s' is remotely viewing your desktop."
++msgid "A user on the computer “%s” is remotely viewing your desktop."
+ msgstr ""
+-"Un utilizaire sus l'ordenador « %s » es a veire vòstre burèu a distància."
++"Un utilizaire sus l’ordenador « %s » es a veire vòstre burèu a "
++"distància."
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:632
++#: ../server/vino-status-icon.c:633
+ msgid "Another user is controlling your desktop"
+-msgstr "Un autre utilizaire es a contrarotlar vòstre burèu"
++msgstr "Un autre utilizaire es a controlar vòstre burèu"
+ 
+-#: ../server/vino-status-icon.c:634
+-#, c-format
+-msgid "A user on the computer '%s' is remotely controlling your desktop."
++#: ../server/vino-status-icon.c:635
++#, c-format, c-format
++#| msgid "A user on the computer '%s' is remotely controlling your desktop."
++msgid "A user on the computer “%s” is remotely controlling your desktop."
+ msgstr ""
+-"Un utilizaire sus l'ordenador « %s » contraròtla actualament vòstre burèu a "
++"Un utilizaire sus l’ordenador « %s » contròla actualament vòstre burèu a "
+ "distància."
+ 
+-#: ../server/vino-status-icon.c:656 ../server/vino-status-tube-icon.c:430
++#: ../server/vino-status-icon.c:657 ../server/vino-status-tube-icon.c:430
+ #, c-format
+ msgid "Error while displaying notification bubble: %s\n"
+ msgstr "Error al moment de l'afichatge de la bulla de notificacion : %s\n"
+ 
+ #: ../server/vino-status-tube-icon.c:234
+-#, c-format
+-msgid "The remote user '%s' will be disconnected. Are you sure?"
+-msgstr "L'utilizaire distant « %s » serà desconnectat. Sètz segur ?"
++#, c-format, c-format
++#| msgid "The remote user '%s' will be disconnected. Are you sure?"
++msgid "The remote user “%s” will be disconnected. Are you sure?"
++msgstr "L’utilizaire distant « %s » serà desconnectat. Volètz contunhar ?"
+ 
+ #: ../server/vino-tube-server.c:220 ../server/vino-tube-server.c:249
+ msgid "Share my desktop information"
+@@ -561,26 +612,30 @@ msgstr "Partejar mon burèu"
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:224
+-#, c-format
+-msgid "'%s' rejected the desktop sharing invitation."
++#, c-format, c-format
++#| msgid "'%s' rejected the desktop sharing invitation."
++msgid "“%s” rejected the desktop sharing invitation."
+ msgstr "« %s » a regetat lo convit de partiment del burèu."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:228
+-#, c-format
+-msgid "'%s' disconnected"
+-msgstr "« %s » s'es desconnectat"
++#, c-format, c-format
++#| msgid "'%s' disconnected"
++msgid "“%s” disconnected"
++msgstr "« %s » s’es desconnectat"
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:255
+-#, c-format
+-msgid "'%s' is remotely controlling your desktop."
+-msgstr "« %s » contraròtla actualament vòstre burèu a distància."
++#, c-format, c-format
++#| msgid "'%s' is remotely controlling your desktop."
++msgid "“%s” is remotely controlling your desktop."
++msgstr "« %s » contròla actualament vòstre burèu a distància."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:264
+-#, c-format
+-msgid "Waiting for '%s' to connect to the screen."
++#, c-format, c-format
++#| msgid "Waiting for '%s' to connect to the screen."
++msgid "Waiting for “%s” to connect to the screen."
+ msgstr "En espèra de la connexion de « %s » a aqueste ecran."
+ 
+ #: ../server/vino-util.c:88
+@@ -620,7 +675,7 @@ msgstr "Una error s'es produita :"
+ #~ "%s."
+ 
+ #~ msgid "Nobody can access your desktop."
+-#~ msgstr "Personne ne pòt accedir a vòstre burèu."
++#~ msgstr "Degun pòt pas accedir a vòstre burèu."
+ 
+ #~ msgid "Choose how other users can remotely view your desktop"
+ #~ msgstr ""
+@@ -642,11 +697,11 @@ msgstr "Una error s'es produita :"
+ #~ msgstr "Vòstre burèu serà partejat"
+ 
+ #~ msgid "_Allow other users to control your desktop"
+-#~ msgstr "_Autorizar d'autres utilizaires a contrarotlar vòstre burèu"
++#~ msgstr "_Autorizar d'autres utilizaires a controlar vòstre burèu"
+ 
+ #~ msgid "Remote users are able to control your mouse and keyboard"
+ #~ msgstr ""
+-#~ "Los utilizaires distants pòdon contrarotlar vòstra mirga e vòstre clavièr"
++#~ "Los utilizaires distants pòdon controlar vòstra mirga e vòstre clavièr"
+ 
+ #~ msgid "Security"
+ #~ msgstr "Seguretat"
+@@ -747,7 +802,7 @@ msgstr "Una error s'es produita :"
+ #~ "A user on another computer is trying to remotely view or control your "
+ #~ "desktop."
+ #~ msgstr ""
+-#~ "Un utilizaire sus un autre ordenador ensaja de veire o contrarotlar a "
++#~ "Un utilizaire sus un autre ordenador ensaja de veire o controlar a "
+ #~ "distància vòstre burèu."
+ 
+ #~ msgid "Do you want to allow them to do so?"
+-- 
+2.20.1
+

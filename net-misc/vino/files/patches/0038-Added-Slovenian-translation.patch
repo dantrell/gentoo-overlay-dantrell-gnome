@@ -1,0 +1,1077 @@
+From 39c6c3bba829d6282b3801370f225bb48558c062 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Matej=20Urban=C4=8Di=C4=8D?= <mateju@svn.gnome.org>
+Date: Fri, 19 Oct 2018 19:17:48 +0200
+Subject: [PATCH 38/68] Added Slovenian translation
+
+---
+ po/sl.po | 706 ++++++++++++++++++++++++++-----------------------------
+ 1 file changed, 328 insertions(+), 378 deletions(-)
+
+diff --git a/po/sl.po b/po/sl.po
+index c578031..f2f1dd5 100644
+--- a/po/sl.po
++++ b/po/sl.po
+@@ -3,168 +3,44 @@
+ # This file is distributed under the same license as the vino package.
+ #
+ # Matic Žgur <mr.zgur@gmail.com>, 2006.
+-# Matej Urbančič <mateju@svn.gnome.org>, 2005 - 2013.
++# Matej Urbančič <mateju@svn.gnome.org>, + 2005–2018.
+ #
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: vino master\n"
+-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+-"product=vino&keywords=I18N+L10N&component=Preferences Dialog\n"
+-"POT-Creation-Date: 2013-01-28 19:57+0000\n"
+-"PO-Revision-Date: 2013-01-28 21:47+0100\n"
++"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/vino/issues\n"
++"POT-Creation-Date: 2018-10-14 17:01+0000\n"
++"PO-Revision-Date: 2018-10-19 12:38+0200\n"
+ "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
+ "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
+-"Language: sl\n"
++"Language: sl_SI\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
+ "%100==4 ? 3 : 0);\n"
+ "X-Poedit-SourceCharset: utf-8\n"
+-"X-Generator: Poedit 1.5.4\n"
+-
+-#: ../capplet/vino-message-box.c:55
+-#, c-format
+-msgid "There was an error showing the URL \"%s\""
+-msgstr "Prišlo je do napake med prikazovanjem naslova URL \"%s\""
+-
+-#: ../capplet/vino-preferences.c:245
+-#, c-format
+-msgid ""
+-"There was an error displaying help:\n"
+-"%s"
+-msgstr ""
+-"Prišlo je do napake med prikazovanjem pomoči:\n"
+-"%s"
+-
+-#: ../capplet/vino-preferences.c:278
+-msgid "Checking the connectivity of this machine..."
+-msgstr "Preverjanje povezljivosti računalnika ..."
+-
+-#: ../capplet/vino-preferences.c:298
+-msgid "Your desktop is only reachable over the local network."
+-msgstr "Do tega namizja je mogoč dostop le znotraj krajevnega omrežja."
+-
+-#: ../capplet/vino-preferences.c:311
+-msgid " or "
+-msgstr " ali "
+-
+-#: ../capplet/vino-preferences.c:315
+-#, c-format
+-msgid "Others can access your computer using the address %s."
+-msgstr "Drugi uporabniki imajo dostop do računalnika preko naslova %s."
+-
+-#: ../capplet/vino-preferences.c:324
+-msgid "Nobody can access your desktop."
+-msgstr "Nihče nima dostopa do tega namizja."
+-
+-#: ../capplet/vino-preferences.desktop.in.in.h:1
+-#: ../server/vino-server.desktop.in.in.h:1
+-msgid "Desktop Sharing"
+-msgstr "Souporaba namizja"
+-
+-#: ../capplet/vino-preferences.desktop.in.in.h:2
+-msgid "Choose how other users can remotely view your desktop"
+-msgstr ""
+-"Izberite, na kakšen način si lahko drugi uporabniki ogledajo vaše namizje"
+-
+-#: ../capplet/vino-preferences.ui.h:1
+-msgid "Desktop Sharing Preferences"
+-msgstr "Možnosti souporabe namizja"
+-
+-#: ../capplet/vino-preferences.ui.h:2
+-msgid "Sharing"
+-msgstr "Souporaba"
+-
+-#: ../capplet/vino-preferences.ui.h:3
+-msgid "Some of these preferences are locked down"
+-msgstr "Nekatere možnosti so zaklenjene"
+-
+-#: ../capplet/vino-preferences.ui.h:4
+-msgid "Allow other users to _view your desktop"
+-msgstr "Dovolite drugim uporabnikom _pregled vašega namizja"
+-
+-#: ../capplet/vino-preferences.ui.h:5
+-msgid "Your desktop will be shared"
+-msgstr "Namizje bo v souporabi"
+-
+-#: ../capplet/vino-preferences.ui.h:6
+-msgid "_Allow other users to control your desktop"
+-msgstr "_Dovoli drugim uporabnikom nadziranje namizja"
+-
+-#: ../capplet/vino-preferences.ui.h:7
+-msgid "Remote users are able to control your mouse and keyboard"
+-msgstr "Oddaljeni uporabniki lahko nadzirajo tipkovnico in miško"
+-
+-#: ../capplet/vino-preferences.ui.h:8
+-msgid "Security"
+-msgstr "Varnost"
+-
+-#: ../capplet/vino-preferences.ui.h:9
+-msgid "_You must confirm each access to this machine"
+-msgstr "_Potrditi je treba vsak dostop do tega računalnika"
+-
+-#: ../capplet/vino-preferences.ui.h:10
+-msgid "_Require the user to enter this password:"
+-msgstr "Od uporabnika _zahtevaj geslo:"
+-
+-#: ../capplet/vino-preferences.ui.h:11
+-msgid "Automatically _configure UPnP router to open and forward ports"
+-msgstr ""
+-"Samodejno _nastavi usmerjevalnik UPnP za odpiranje in posredovanje vrat"
+-
+-#: ../capplet/vino-preferences.ui.h:12
+-msgid "The router must have the UPnP feature enabled"
+-msgstr "Usmerjevalnih mora imeti možnost UPnP omogočeno"
+-
+-#: ../capplet/vino-preferences.ui.h:13
+-msgid "Show Notification Area Icon"
+-msgstr "Pokaži obvestilno ikono"
+-
+-#: ../capplet/vino-preferences.ui.h:14
+-msgid "Al_ways"
+-msgstr "_Vedno"
+-
+-#: ../capplet/vino-preferences.ui.h:15
+-msgid "_Only when someone is connected"
+-msgstr "Le, ko je kdo _povezan"
+-
+-#: ../capplet/vino-preferences.ui.h:16
+-msgid "_Never"
+-msgstr "_Nikoli"
++"X-Generator: Poedit 2.1.1\n"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:1
+-msgid "Enable remote access to the desktop"
+-msgstr "Omogoči oddaljeni dostop do namizja"
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:2
+-msgid ""
+-"If true, allows remote access to the desktop via the RFB protocol. Users on "
+-"remote machines may then connect to the desktop using a VNC viewer."
+-msgstr ""
+-"Izbrana možnost omogoča oddaljenim uporabnikom dostop do namizja preko "
+-"protokola RFB. Uporabniki na oddaljenih namizjih se bodo lahko povezali "
+-"preko programa VNC viewer."
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:3
+ msgid "Prompt the user before completing a connection"
+ msgstr "Obvesti uporabnika pred ustvarjanjem povezave"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:4
++#: ../common/org.gnome.Vino.gschema.xml.h:2
+ msgid ""
+ "If true, remote users accessing the desktop are not allowed access until the "
+ "user on the host machine approves the connection. Recommended especially "
+ "when access is not password protected."
+ msgstr ""
+-"Izbrana možnost določa, da oddaljeni uporabniki ne bodo imeli dostopa dokler "
+-"uporabnik na gostiteljskem računalniku tega ne odobri. Priporočljiva možnost "
+-"kadar dostop ni zaščiten z geslom."
++"Izbrana možnost določa, da oddaljeni uporabniki ne bodo imeli dostopa, "
++"dokler uporabnik na gostiteljskem računalniku tega ne odobri. Možnost je "
++"priporočljiva, kadar dostop ni zaščiten z geslom."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:5
++#: ../common/org.gnome.Vino.gschema.xml.h:3
+ msgid "Only allow remote users to view the desktop"
+-msgstr "Dovoljen je le ogled namizja"
++msgstr "Dovoljeno je le ogledovanje namizja"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:6
++#: ../common/org.gnome.Vino.gschema.xml.h:4
+ msgid ""
+ "If true, remote users accessing the desktop are only allowed to view the "
+ "desktop. Remote users will not be able to use the mouse or keyboard."
+@@ -173,11 +49,11 @@ msgstr ""
+ "pregledujejo. Uporabniki ne bodo imeli dovoljenja za uporabo tipkovnice in "
+ "miške."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:7
++#: ../common/org.gnome.Vino.gschema.xml.h:5
+ msgid "Network interface for listening"
+ msgstr "Omrežni vmesnik za prisluh"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:8
++#: ../common/org.gnome.Vino.gschema.xml.h:6
+ msgid ""
+ "If not set, the server will listen on all network interfaces.\n"
+ "\n"
+@@ -187,92 +63,90 @@ msgstr ""
+ "Neizbrana možnost določi, da bo strežnik prisluhnil vsem omrežnim "
+ "vmesnikom.\n"
+ "\n"
+-"Nastavite možnost, če želite sprejemati povezave le preko določenega "
++"Nastavite možnost, če želite sprejemati povezave le prek določenega "
+ "vmesnika: eth0, wifi0, lo ..."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:11
++#: ../common/org.gnome.Vino.gschema.xml.h:9
+ msgid "Listen on an alternative port"
+ msgstr "Prisluhni nadomestnim vratom"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:12
++#: ../common/org.gnome.Vino.gschema.xml.h:10
+ msgid ""
+ "If true, the server will listen on another port, instead of the default "
+-"(5900). The port must be specified in the 'alternative-port' key."
++"(5900). The port must be specified in the “alternative-port” key."
+ msgstr ""
+ "Izbrana možnost omogoča, da bo strežnik prisluhnil tudi na drugih vratih in "
+-"ne le na privzetih (5900). Vrata morajo biti določena s ključem 'nadomestna "
+-"vrata'."
++"ne le na privzetih (5900). Vrata morajo biti določena s ključem »nadomestna "
++"vrata«."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:13
++#: ../common/org.gnome.Vino.gschema.xml.h:11
+ msgid "Alternative port number"
+-msgstr "Pomožna vrata"
++msgstr "Nadomestna vrata"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:14
++#: ../common/org.gnome.Vino.gschema.xml.h:12
+ msgid ""
+-"The port which the server will listen to if the 'use-alternative-port' key "
++"The port which the server will listen to if the “use-alternative-port” key "
+ "is set to true. Valid values are in the range of 5000 to 50000."
+ msgstr ""
+-"Vrata, ki jim bo strežnik prisluhnil, če je izbrana možnost 'uporabe "
+-"nadomestnih vrat'. Veljavne vrednosti so v območju med 5000 in 50000."
++"Vrata, ki jim bo strežnik prisluhnil, če je izbrana možnost »uporabe "
++"nadomestnih vrat«. Veljavne vrednosti so v območju med 5000 in 50000."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:15
++#: ../common/org.gnome.Vino.gschema.xml.h:13
+ msgid "Require encryption"
+ msgstr "Zahtevaj šifriranje"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:16
++#: ../common/org.gnome.Vino.gschema.xml.h:14
+ msgid ""
+ "If true, remote users accessing the desktop are required to support "
+ "encryption. It is highly recommended that you use a client which supports "
+ "encryption unless the intervening network is trusted."
+ msgstr ""
+ "Izbrana možnost zahteva od oddaljenih uporabnikov, da podpirajo šifriranje. "
+-"Priporočljiva je uporaba odjemalca, ki podpira šifriranje."
++"Priporočljiva je uporaba odjemalca, ki tovrstne možnosti podpira."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:17
++#: ../common/org.gnome.Vino.gschema.xml.h:15
+ msgid "Allowed authentication methods"
+ msgstr "Dovoljeni načini overitve"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:18
++#: ../common/org.gnome.Vino.gschema.xml.h:16
+ msgid ""
+ "Lists the authentication methods with which remote users may access the "
+ "desktop.\n"
+ "\n"
+-"There are two possible authentication methods; \"vnc\" causes the remote "
+-"user to be prompted for a password (the password is specified by the vnc-"
+-"password key) before connecting and \"none\" which allows any remote user to "
+-"connect."
++"There are two possible authentication methods; “vnc” causes the remote user "
++"to be prompted for a password (the password is specified by the vnc-password "
++"key) before connecting and “none” which allows any remote user to connect."
+ msgstr ""
+ "Izpiše načine overitve, s katerimi lahko uporabnik dostopi do namizja.\n"
+ "\n"
+-"Podprta sta dva načina overitve; \"vnc\", ki zahteva vnos gesla pred "
+-"povezavo (geslo je določeno z možnostjo vnc_geslo)  in \"brez\" ki dovoli "
++"Podprta sta dva načina overitve: način »vnc«, ki zahteva vnos gesla pred "
++"povezavo (geslo je določeno z možnostjo vnc_geslo) in »brez«, ki dovoli "
+ "vsakemu uporabniku prosto povezavo."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:21
+-msgid "Password required for \"vnc\" authentication"
+-msgstr "Zahtevan je vnos gesla za \"vnc\" overitev"
++#: ../common/org.gnome.Vino.gschema.xml.h:19
++msgid "Password required for “vnc” authentication"
++msgstr "Za overjanje »vnc« je zahtevano geslo."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:22
++#: ../common/org.gnome.Vino.gschema.xml.h:20
+ msgid ""
+-"The password which the remote user will be prompted for if the \"vnc\" "
++"The password which the remote user will be prompted for if the “vnc” "
+ "authentication method is used. The password specified by the key is base64 "
+ "encoded.\n"
+ "\n"
+-"The special value of 'keyring' (which is not valid base64) means that the "
++"The special value of “keyring” (which is not valid base64) means that the "
+ "password is stored in the GNOME keyring."
+ msgstr ""
+-"Overitev z zahtevanim geslom, ki ga bo moral uporabnik vnesti, če bo želel "
+-"dostop do \"vnc\".\n"
++"Geslo, s katerim bo lahko zunanji uporabnik vzpostavil povezavo prek omrežja "
++"»vnc«, če je overitev zahtevana. Geslo je kodirano z base64.\n"
+ "\n"
+-"Geslo je base64 kodirano. Posebna vrednost je 'zbirka ključev' (ki ni "
+-"kodiran z base64) pomeni, da je geslo shranjeno v zbirki ključev GNOME."
++"Posebna vrednost je koda »zbirka ključev« (ni kodirana z base64), ki pomeni, "
++"da je geslo shranjeno v zbirki ključev GNOME."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:25
++#: ../common/org.gnome.Vino.gschema.xml.h:23
+ msgid "E-mail address to which the remote desktop URL should be sent"
+-msgstr ""
+-"Elektronski naslov na katerega naj se pošlje naslov URL oddaljenega namizja"
++msgstr "Elektronski naslov za pošljanje naslova URL oddaljenega namizja"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:26
++#: ../common/org.gnome.Vino.gschema.xml.h:24
+ msgid ""
+ "This key specifies the e-mail address to which the remote desktop URL should "
+ "be sent if the user clicks on the URL in the Desktop Sharing preferences "
+@@ -282,96 +156,95 @@ msgstr ""
+ "oddaljenega namizja, če uporabnik klikne povezavo v možnostih oddaljenega "
+ "namizja."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:27
++#: ../common/org.gnome.Vino.gschema.xml.h:25
+ msgid "Lock the screen when last user disconnect"
+-msgstr "Zakleni zaslon, ko se prekine povezava z zadnjim uporabnikom"
++msgstr ""
++"Zakleni zaslon, ko se prekine povezava z nazadnje povezanim uporabnikom"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:28
++#: ../common/org.gnome.Vino.gschema.xml.h:26
+ msgid ""
+ "If true, the screen will be locked after the last remote client disconnects."
+ msgstr ""
+ "Izbrana možnost omogoči zaklep zaslona, po prekinitvi povezave zadnjega "
+ "oddaljenega uporabnika."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:29
++#: ../common/org.gnome.Vino.gschema.xml.h:27
+ msgid "When the status icon should be shown"
+ msgstr "Nastavitev prikaza ikone stanja"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:30
++#: ../common/org.gnome.Vino.gschema.xml.h:28
+ msgid ""
+ "This key controls the behavior of the status icon. There are three options: "
+-"\"always\" - the icon will always be present; \"client\" - the icon will "
+-"only be present when someone is connected (this is the default behavior); "
+-"\"never\" - the icon will not be present."
++"“always” — the icon will always be present; “client” — the icon will only be "
++"present when someone is connected (this is the default behavior); “never” — "
++"the icon will not be present."
+ msgstr ""
+-"Ključ nadzira obnašanje ikone stanja. Na voljo so tri možnosti: \"vedno\" - "
+-"ikona je vedno vidna; \"odjemalec\" - ikona bo vidna le, kadar je uporabnik "
+-"z računalnikom povezan (privzeto); \"nikoli\" - ikona ni nikoli vidna."
++"Ključ nadzira obnašanje ikone stanja. Na voljo so tri možnosti: »vedno« – "
++"ikona je vedno vidna, »odjemalec« – ikona bo vidna le, kadar je uporabnik z "
++"računalnikom povezan z namizjem (privzeto) in »nikoli« – ikona ni nikoli "
++"vidna."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:31
++#: ../common/org.gnome.Vino.gschema.xml.h:29
+ msgid "Whether to disable the desktop background when a user is connected"
+ msgstr "Ali naj se onemogoči ozadje namizja ob vzpostavitvi povezave"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:32
++#: ../common/org.gnome.Vino.gschema.xml.h:30
+ msgid ""
+ "When true, disable the desktop background and replace it with a single block "
+ "of color when a user successfully connects."
+ msgstr ""
+-"Izbrana možnost določi, da bo ozadje namizja zamenjano z enobarvno sliko, ko "
+-"se uporabnik uspešno poveže."
++"Izbrana možnost določi, da se ozadje namizja zamenja z enobarvno podlago, ko "
++"se zunanji uporabnik uspešno poveže."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:33
++#: ../common/org.gnome.Vino.gschema.xml.h:31
+ msgid "Whether a UPnP router should be used to forward and open ports"
+-msgstr "Ali naj bo uporabljeno UPnP za posredovanje vrat na usmerjevalnik."
++msgstr ""
++"Ali naj bo uporabljen protokol UPnP za posredovanje vrat na usmerjevalnik."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:34
++#: ../common/org.gnome.Vino.gschema.xml.h:32
+ msgid ""
+ "If true, request that a UPnP-capable router should forward and open the port "
+ "used by Vino."
+ msgstr ""
+-"Izbrana možnost določi posredovanje in odpiranje vrat le za usmerjavalnike, "
++"Izbrana možnost določi posredovanje in odpiranje vrat le za usmerjevalnike, "
+ "ki podpirajo možnost UPnP s programom Vino."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:35
++#: ../common/org.gnome.Vino.gschema.xml.h:33
+ msgid "Whether we should disable the XDamage extension of X.org"
+ msgstr "Ali naj bo razširitev XDamage v X.org onemogočena"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:36
++#: ../common/org.gnome.Vino.gschema.xml.h:34
+ msgid ""
+ "If true, do not use the XDamage extension of X.org. This extension does not "
+ "work properly on some video drivers when using 3D effects. Disabling it will "
+ "make Vino work in these environments, with slower rendering as a side effect."
+ msgstr ""
+ "Izbrana možnost omogoča, da bo razširitev XDamage v X.org prezrta. "
+-"Razširitev na nekaterih gonilnikih, pri uporabi učinkov 3D, ne deluje "
++"Razširitev na nekaterih gonilnikih pri uporabi učinkov 3D ne deluje "
+ "pravilno. Onemogočena razširitev omogoča delovanje programa vino na "
+ "sistemih, kjer je sprejemljiv tudi malce počasnejši izris."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:37
++#: ../common/org.gnome.Vino.gschema.xml.h:35
+ msgid "Notify on connect"
+ msgstr "Obvesti ob vzpostavitvi povezave"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:38
++#: ../common/org.gnome.Vino.gschema.xml.h:36
+ msgid "If true, show a notification when a user connects to the system."
+ msgstr ""
+ "Izbrana možnost omogoča prikaz obvestila ob povezavi uporabnika v sistem."
+ 
+-#: ../common/vino-keyring.c:54 ../tools/vino-passwd.c:54
+-msgid "Remote desktop sharing password"
+-msgstr "Geslo za povezavo z oddaljenim namizjem"
+-
+ #: ../server/smclient/eggdesktopfile.c:165
+ #, c-format
+ msgid "File is not a valid .desktop file"
+-msgstr "Datoteka ni veljavna .desktop datoteka"
++msgstr "Datoteka ni veljavna datoteka .desktop"
+ 
+ #. translators: 'Version' is from a desktop file, and
+ #. * should not be translated. '%s' would probably be a
+ #. * version number.
+ #: ../server/smclient/eggdesktopfile.c:191
+ #, c-format
+-msgid "Unrecognized desktop file Version '%s'"
+-msgstr "Neznana različica datoteke namizja '%s'"
++msgid "Unrecognized desktop file Version “%s”"
++msgstr "Neznana različica datoteke namizja »%s«"
+ 
+ #: ../server/smclient/eggdesktopfile.c:974
+ #, c-format
+@@ -381,7 +254,7 @@ msgstr "Zaganjanje %s"
+ #: ../server/smclient/eggdesktopfile.c:1116
+ #, c-format
+ msgid "Application does not accept documents on command line"
+-msgstr "Program ne sprejme dokumentov preko ukazne vrstice"
++msgstr "Program ne sprejema dokumentov prek ukazne vrstice"
+ 
+ #: ../server/smclient/eggdesktopfile.c:1184
+ #, c-format
+@@ -392,10 +265,10 @@ msgstr "Nepoznana možnost zagona: %d"
+ #. * desktop file, and should not be translated.
+ #: ../server/smclient/eggdesktopfile.c:1391
+ #, c-format
+-msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
++msgid "Can’t pass document URIs to a “Type=Link” desktop entry"
+ msgstr ""
+-"Ni mogoče poslati naslova URI dokumenta na vnos 'Vrsta=Povezava' predmeta "
+-"namizja"
++"Ni mogoče poslati naslova URI dokumenta na vnos do predmeta namizja "
++"»Vrsta=Povezava«"
+ 
+ #: ../server/smclient/eggdesktopfile.c:1412
+ #, c-format
+@@ -430,33 +303,33 @@ msgstr "Možnosti upravljanja seje:"
+ msgid "Show session management options"
+ msgstr "Pokaži možnosti upravljanja seje"
+ 
+-#: ../server/vino-main.c:202
++#: ../server/vino-main.c:154
+ msgid ""
+-"Your XServer does not support the XTest extension - remote desktop access "
++"Your XServer does not support the XTest extension — remote desktop access "
+ "will be view-only\n"
+ msgstr ""
+-"XServer ne podpira XTest razširitve - dostop do oddaljenega namizja bo le za "
+-"branje\n"
++"Strežnik XServer ne podpira razširitve XTest – dostop do oddaljenega namizja "
++"bo le za branje\n"
+ 
+ #. Tube mode uses Telepathy's Tubes to share a user's desktop directly
+ #. * with another IM contact. http://telepathy.freedesktop.org/wiki/Tubes
+ #.
+-#: ../server/vino-main.c:301
+-msgid "Start in tube mode, for the ‘Share my Desktop’ feature"
+-msgstr "Začni v načinu možnosti ’Souporaba namizja’"
++#: ../server/vino-main.c:250
++msgid "Start in tube mode, for the “Share my Desktop” feature"
++msgstr "Začni v načinu možnosti »Souporaba namizja«"
+ 
+-#: ../server/vino-main.c:307
+-msgid "- VNC Server for GNOME"
+-msgstr "- VNC strežnik za GNOME"
++#: ../server/vino-main.c:261
++msgid "— VNC Server for GNOME"
++msgstr "– Strežnik VNC za GNOME"
+ 
+-#: ../server/vino-main.c:315
++#: ../server/vino-main.c:269
+ msgid ""
+-"Run 'vino-server --help' to see a full list of available command line options"
+-msgstr "Ukaz 'vino-passwd --help' pokaže seznam vseh ukazov na voljo."
++"Run “vino-server --help” to see a full list of available command line options"
++msgstr "Ukaz 'vino-passwd --help' izpiše seznam vseh možnih ukazov."
+ 
+-#: ../server/vino-main.c:336
++#: ../server/vino-main.c:287
+ msgid "GNOME Desktop Sharing"
+-msgstr "Oddaljena souporaba namizja"
++msgstr "Oddaljena souporaba namizja GNOME"
+ 
+ #.
+ #. * Translators: translate "vino-mdns:showusername" to
+@@ -474,13 +347,13 @@ msgstr "vino-mdns:showusername"
+ #.
+ #: ../server/vino-mdns.c:74
+ #, c-format
+-msgid "%s's remote desktop on %s"
++msgid "%s’s remote desktop on %s"
+ msgstr "%s : oddaljeno namizje na %s"
+ 
+ #: ../server/vino-prefs.c:111
+ #, c-format
+ msgid "Received signal %d, exiting."
+-msgstr "Prejet signal %d, zaustavljanje."
++msgstr "Prejet je signal %d, poteka zaustavljanje opravila."
+ 
+ #: ../server/vino-prompt.c:144
+ msgid "Screen"
+@@ -488,70 +361,75 @@ msgstr "Zaslon"
+ 
+ #: ../server/vino-prompt.c:145
+ msgid "The screen on which to display the prompt"
+-msgstr "Zaslon na katerem bo prikazan pozivnik"
++msgstr "Zaslon, na katerem bo prikazan pozivnik"
+ 
+-#: ../server/vino-prompt.c:263 ../server/vino-status-icon.c:598
+-#: ../server/vino-status-tube-icon.c:389
++#: ../server/vino-prompt.c:270 ../server/vino-status-icon.c:604
++#: ../server/vino-status-tube-icon.c:396
+ #, c-format
+ msgid "Error initializing libnotify\n"
+ msgstr "Napaka med zagonom libnotify\n"
+ 
+-#: ../server/vino-prompt.c:282
++#: ../server/vino-prompt.c:289
+ #, c-format
+ msgid ""
+-"A user on the computer '%s' is trying to remotely view or control your "
++"A user on the computer “%s” is trying to remotely view or control your "
+ "desktop."
+ msgstr ""
+-"Uporabnik za računalnikom '%s' poskuša oddaljeno pregledovati ali "
+-"spreminjati namizje."
++"Uporabnik za računalnikom »%s« poskuša oddaljeno pregledovati namizje oz. z "
++"njim upravljati."
+ 
+-#: ../server/vino-prompt.c:285
++#: ../server/vino-prompt.c:292
+ msgid "Another user is trying to view your desktop."
+-msgstr "Drug uporabnik si poskuša ogledati vaše namizje."
++msgstr "Zunanji uporabnik čaka na dovoljenje za pogled namizja."
+ 
+-#: ../server/vino-prompt.c:291
++#: ../server/vino-prompt.c:298
+ msgid "Refuse"
+ msgstr "Zavrni"
+ 
+-#: ../server/vino-prompt.c:297
++#: ../server/vino-prompt.c:304
+ msgid "Accept"
+ msgstr "Sprejmi"
+ 
+-#: ../server/vino-server.c:164 ../server/vino-server.c:187
++#: ../server/vino-server.c:159 ../server/vino-server.c:182
+ #, c-format
+ msgid "Failed to open connection to bus: %s\n"
+-msgstr "Napaka med odpiranjem vodila: %s\n"
++msgstr "Odpiranje povezave do vodila je spodletelo: %s\n"
++
++#: ../server/vino-server.desktop.in.in.h:1
++msgid "Desktop Sharing"
++msgstr "Souporaba namizja"
+ 
+ #: ../server/vino-server.desktop.in.in.h:2
+ msgid "GNOME Desktop Sharing Server"
+-msgstr "Strežnik oddaljene souporabe GNOME"
++msgstr "Strežnik za oddaljeno souporabo namizja GNOME"
+ 
+ #: ../server/vino-server.desktop.in.in.h:3
+ msgid "vnc;share;remote;"
+-msgstr "vnc;souporaba;oddaljeno;"
+-
+-#: ../server/vino-status-icon.c:97 ../server/vino-status-tube-icon.c:90
+-msgid "Desktop sharing is enabled"
+-msgstr "Omogočena je souporaba namizja"
++msgstr "vnc;souporaba;oddaljeno;namizje;omrežje;"
+ 
+-#: ../server/vino-status-icon.c:105
++#: ../server/vino-status-icon.c:103
+ #, c-format
+ msgid "One person is viewing your desktop"
+ msgid_plural "%d people are viewing your desktop"
+-msgstr[0] "%d uporabnikov pregleduje vaše namizje"
+-msgstr[1] "%d uporabnik pregleduje vaše namizje"
+-msgstr[2] "%d uporabnika pregledujeta vaše namizje"
+-msgstr[3] "%d uporabniki pregledujejo vaše namizje"
++msgstr[0] "%d uporabnikov pregleduje namizje"
++msgstr[1] "%d uporabnik pregleduje namizje"
++msgstr[2] "%d uporabnika pregledujeta namizje"
++msgstr[3] "%d uporabniki pregledujejo namizje"
+ 
+-#: ../server/vino-status-icon.c:208 ../server/vino-status-tube-icon.c:172
++#: ../server/vino-status-icon.c:112 ../server/vino-status-tube-icon.c:90
++msgid "Desktop sharing is enabled"
++msgstr "Souporaba namizja je omogočena"
++
++#: ../server/vino-status-icon.c:208 ../server/vino-status-icon.c:214
++#: ../server/vino-status-tube-icon.c:173 ../server/vino-status-tube-icon.c:179
+ msgid "Error displaying preferences"
+ msgstr "Prišlo je do napake med prikazovanjem možnosti"
+ 
+-#: ../server/vino-status-icon.c:230 ../server/vino-status-tube-icon.c:192
++#: ../server/vino-status-icon.c:236 ../server/vino-status-tube-icon.c:199
+ msgid "Error displaying help"
+-msgstr "Napaka med prikazom pomoči"
++msgstr "Prišlo je do napake med prikazovanjem pomoči"
+ 
+-#: ../server/vino-status-icon.c:263
++#: ../server/vino-status-icon.c:269
+ msgid ""
+ "Licensed under the GNU General Public License Version 2\n"
+ "\n"
+@@ -570,223 +448,295 @@ msgid ""
+ "Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA\n"
+ "02110-1301, USA.\n"
+ msgstr ""
+-"Objavljeno pod pogoji GNU Splošnega javnega dovoljenja, različica 2\n"
++"Objavljeno pod pogoji GNU Splošnega javnega dovoljenja, različice 2\n"
+ "\n"
+-"Vino je prosta programska oprema, ki jo lahko širite in spreminjate pod "
+-"pogoji Splošnega javnega dovoljenja\n"
+-"kot je objavljeno na Free Software Foundation; različica 2\n"
+-"ali kasnejših različic.\n"
++"Vino je prosta programska oprema, ki jo lahko širite in spreminjate\n"
++"pod pogoji Splošnega javnega dovoljenja, objavljenega na spletišču\n"
++"Free Software Foundation; različice 2 ali kasnejše različice.\n"
+ "\n"
+-"Vino se razširja v upanju, da bo uporabnikom koristen,\n"
+-"vendar BREZ KAKRŠNEKOLI GARANCIJE; več podrobnosti je zapisanih v Splošnem "
+-"javnem dovoljenju.\n"
++"Program Vino se razširja v upanju, da bo uporabnikom koristen,\n"
++"vendar BREZ KAKRŠNEKOLI GARANCIJE; več podrobnosti je\n"
++"zapisanih v Splošnem javnem dovoljenju.\n"
+ "\n"
+-"Pogoje uporabe ste dobili skupaj s programom. Če kopije niste dobili, pišite "
+-"na Free Software Foundation, Inc.\n"
+-"51 Franklin Street\n"
+-"Fifth Floor, Boston, MA\n"
+-"02110-1301, USA.\n"
++"Pogoje uporabe ste dobili skupaj s programom. Če kopije niste dobili,\n"
++"pišite na Free Software Foundation, Inc. 51 Franklin Street\n"
++"Fifth Floor, Boston, MA 02110-1301, USA.\n"
+ 
+ #. Translators comment: put your own name here to appear in the about dialog.
+-#: ../server/vino-status-icon.c:278
++#: ../server/vino-status-icon.c:284
+ msgid "translator-credits"
+-msgstr "Matej Urbančič"
++msgstr "Matej Urbančič <matej.u@svn.gnome.org>"
+ 
+-#: ../server/vino-status-icon.c:284
++#: ../server/vino-status-icon.c:290
+ msgid "Share your desktop with other users"
+ msgstr "Souporaba namizja z drugimi uporabniki"
+ 
+-#: ../server/vino-status-icon.c:351 ../server/vino-status-tube-icon.c:224
++#. Translators: %s is a hostname
++#. Translators: %s is the alias of the telepathy contact
++#: ../server/vino-status-icon.c:357 ../server/vino-status-tube-icon.c:231
+ #, c-format
+-msgid "Are you sure you want to disconnect '%s'?"
+-msgstr "Ali želite prekiniti povezavo '%s'?"
++msgid "Are you sure you want to disconnect “%s”?"
++msgstr "Ali res želite prekiniti povezavo »%s«?"
+ 
+-#: ../server/vino-status-icon.c:354
++#: ../server/vino-status-icon.c:360
+ #, c-format
+-msgid "The remote user from '%s' will be disconnected. Are you sure?"
++msgid "The remote user from “%s” will be disconnected. Are you sure?"
+ msgstr ""
+-"Povezava z oddaljenim uporabnikom '%s' bo  prekinjena. Ali želite "
+-"nadaljevati?"
++"Povezava z oddaljenim uporabnikom »%s« bo prekinjena. Ali želite nadaljevati?"
+ 
+-#: ../server/vino-status-icon.c:360
++#: ../server/vino-status-icon.c:366
+ msgid "Are you sure you want to disconnect all clients?"
+-msgstr "Ali želite prekiniti povezave vseh oddaljenih uporabnikov?"
++msgstr "Ali res želite prekiniti povezave vseh oddaljenih uporabnikov?"
+ 
+-#: ../server/vino-status-icon.c:362
++#: ../server/vino-status-icon.c:368
+ msgid "All remote users will be disconnected. Are you sure?"
+ msgstr ""
+-"Povezave vseh oddaljenih uporabnikov bodo prekinjene. Ali želite nadaljevati?"
++"Vzpostavljene povezave vseh oddaljenih uporabnikov bodo prekinjene. Ali "
++"želite nadaljevati?"
+ 
+-#: ../server/vino-status-icon.c:374 ../server/vino-status-tube-icon.c:238
++#: ../server/vino-status-icon.c:380 ../server/vino-status-tube-icon.c:245
+ msgid "Disconnect"
+ msgstr "Prekini povezavo"
+ 
+-#: ../server/vino-status-icon.c:400 ../server/vino-status-tube-icon.c:263
++#: ../server/vino-status-icon.c:406 ../server/vino-status-tube-icon.c:270
+ msgid "_Preferences"
+ msgstr "_Možnosti"
+ 
+-#: ../server/vino-status-icon.c:415
++#: ../server/vino-status-icon.c:421
+ msgid "Disconnect all"
+-msgstr "Odstrani vse povezave"
++msgstr "Prekini vse povezave"
+ 
+ #. Translators: %s is a hostname
+ #. Translators: %s is the alias of the telepathy contact
+-#: ../server/vino-status-icon.c:439 ../server/vino-status-tube-icon.c:276
++#: ../server/vino-status-icon.c:445 ../server/vino-status-tube-icon.c:283
+ #, c-format
+ msgid "Disconnect %s"
+ msgstr "Prekini povezavo %s"
+ 
+-#: ../server/vino-status-icon.c:460 ../server/vino-status-tube-icon.c:295
++#: ../server/vino-status-icon.c:466 ../server/vino-status-tube-icon.c:302
+ msgid "_Help"
+ msgstr "Pomo_č"
+ 
+-#: ../server/vino-status-icon.c:468
++#: ../server/vino-status-icon.c:474
+ msgid "_About"
+ msgstr "_O Programu"
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:619
++#: ../server/vino-status-icon.c:625
+ msgid "Another user is viewing your desktop"
+-msgstr "Drug uporabnik pregleduje namizje"
++msgstr "Povezani uporabnik pregleduje namizje"
+ 
+-#: ../server/vino-status-icon.c:621
++#: ../server/vino-status-icon.c:627
+ #, c-format
+-msgid "A user on the computer '%s' is remotely viewing your desktop."
+-msgstr "Uporabnik za računalnikom '%s' poskuša oddaljeno pregledovati namizje."
++msgid "A user on the computer “%s” is remotely viewing your desktop."
++msgstr "Uporabnik za računalnikom »%s« oddaljeno pregleduje namizje."
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:627
++#: ../server/vino-status-icon.c:633
+ msgid "Another user is controlling your desktop"
+-msgstr "Drug uporabnik nadzira namizje"
++msgstr "Povezani uporabnik nadzira namizje"
+ 
+-#: ../server/vino-status-icon.c:629
++#: ../server/vino-status-icon.c:635
+ #, c-format
+-msgid "A user on the computer '%s' is remotely controlling your desktop."
+-msgstr "Uporabnik za računalnikom '%s' nadzira oddaljeno namizje."
++msgid "A user on the computer “%s” is remotely controlling your desktop."
++msgstr "Uporabnik za računalnikom »%s« uporavlja namizje."
+ 
+-#: ../server/vino-status-icon.c:651 ../server/vino-status-tube-icon.c:423
++#: ../server/vino-status-icon.c:657 ../server/vino-status-tube-icon.c:430
+ #, c-format
+ msgid "Error while displaying notification bubble: %s\n"
+ msgstr "Napaka med prikazovanjem opozorila v oblačku: %s\n"
+ 
+-#: ../server/vino-status-tube-icon.c:227
++#: ../server/vino-status-tube-icon.c:234
+ #, c-format
+-msgid "The remote user '%s' will be disconnected. Are you sure?"
+-msgstr ""
+-"Z oddaljenim uporabnikom '%s' bo povezava prekinjena. Ali želite nadaljevati?"
++msgid "The remote user “%s” will be disconnected. Are you sure?"
++msgstr "Povezava z uporabnikom »%s« bo prekinjena. Ali želite nadaljevati?"
+ 
+ #: ../server/vino-tube-server.c:220 ../server/vino-tube-server.c:249
+ msgid "Share my desktop information"
+-msgstr "Souporaba namizja"
++msgstr "Omogoči souporabo namizja"
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:224
+ #, c-format
+-msgid "'%s' rejected the desktop sharing invitation."
+-msgstr "'%s' je zavrnil vabilo za souporabo namizja."
++msgid "“%s” rejected the desktop sharing invitation."
++msgstr "Uporabnik »%s« je zavrnil vabilo za souporabo namizja."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:228
+ #, c-format
+-msgid "'%s' disconnected"
+-msgstr "'%s' je prekinil povezavo"
++msgid "“%s” disconnected"
++msgstr "Uporabnik »%s« je prekinil povezavo"
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:255
+ #, c-format
+-msgid "'%s' is remotely controlling your desktop."
+-msgstr "Uporabnik '%s' oddaljeno nadzira vaše namizje."
++msgid "“%s” is remotely controlling your desktop."
++msgstr "Uporabnik »%s« oddaljeno upravlja z namizjem."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:264
+ #, c-format
+-msgid "Waiting for '%s' to connect to the screen."
+-msgstr "Čakanje na '%s' za povezavo z zaslonom."
++msgid "Waiting for “%s” to connect to the screen."
++msgstr "Poteka čakanje na vzpostavitev povezave z uporabnikom »%s«."
+ 
+-#: ../server/vino-util.c:89
++#: ../server/vino-util.c:88
+ msgid "_Allow"
+ msgstr "_Dovoli"
+ 
+-#: ../server/vino-util.c:90
++#: ../server/vino-util.c:89
+ msgid "_Refuse"
+ msgstr "_Zavrni"
+ 
+-#: ../server/vino-util.c:140
++#: ../server/vino-util.c:139
+ msgid "An error has occurred:"
+ msgstr "Prišlo je do napake:"
+ 
+-#: ../tools/vino-passwd.c:108
+-#, c-format
+-msgid "Cancelled"
+-msgstr "Preklicano"
++#~ msgid "There was an error showing the URL \"%s\""
++#~ msgstr "Prišlo je do napake med prikazovanjem naslova URL \"%s\""
+ 
+-#: ../tools/vino-passwd.c:115
+-#, c-format
+-msgid ""
+-"ERROR: Maximum length of password is %d character. Please, re-enter the "
+-"password."
+-msgid_plural ""
+-"ERROR: Maximum length of password is %d characters. Please, re-enter the "
+-"password."
+-msgstr[0] ""
+-"NAPAKA: dolžina gesla je omejena na %d znakov. Ponovno vpišite geslo."
+-msgstr[1] "NAPAKA: dolžina gesla je omejena na %d znak. Ponovno vpišite geslo."
+-msgstr[2] ""
+-"NAPAKA: dolžina gesla je omejena na %d znaka. Ponovno vpišite geslo."
+-msgstr[3] ""
+-"NAPAKA: dolžina gesla je omejena na %d znake. Ponovno vpišite geslo."
+-
+-#: ../tools/vino-passwd.c:149
+-#, c-format
+-msgid "Changing Vino password.\n"
+-msgstr "Spreminjanje gesla.\n"
++#~ msgid ""
++#~ "There was an error displaying help:\n"
++#~ "%s"
++#~ msgstr ""
++#~ "Prišlo je do napake med prikazovanjem pomoči:\n"
++#~ "%s"
+ 
+-#: ../tools/vino-passwd.c:151
+-msgid "Enter new Vino password: "
+-msgstr "Vpišite novo geslo: "
++#~ msgid "Checking the connectivity of this machine..."
++#~ msgstr "Preverjanje povezljivosti računalnika ..."
+ 
+-#: ../tools/vino-passwd.c:154
+-msgid "Retype new Vino password: "
+-msgstr "Ponovno vpišite novo geslo: "
++#~ msgid "Your desktop is only reachable over the local network."
++#~ msgstr "Do tega namizja je mogoč dostop le znotraj krajevnega omrežja."
+ 
+-#: ../tools/vino-passwd.c:160
+-#, c-format
+-msgid "vino-passwd: password updated successfully.\n"
+-msgstr "vino-passwd: geslo je bilo uspešno posodobljeno.\n"
++#~ msgid " or "
++#~ msgstr " ali "
+ 
+-#: ../tools/vino-passwd.c:165
+-#, c-format
+-msgid "Sorry, passwords do not match.\n"
+-msgstr "Gesli nista skladni.\n"
++#~ msgid "Others can access your computer using the address %s."
++#~ msgstr "Drugi uporabniki imajo dostop do računalnika preko naslova %s."
+ 
+-#: ../tools/vino-passwd.c:166
+-#, c-format
+-msgid "vino-passwd: password unchanged.\n"
+-msgstr "vino-passwd: geslo ni spremenjeno.\n"
++#~ msgid "Nobody can access your desktop."
++#~ msgstr "Nihče nima dostopa do tega namizja."
+ 
+-#: ../tools/vino-passwd.c:182
+-msgid "Show Vino version"
+-msgstr "Pokaži različico programa"
++#~ msgid "Choose how other users can remotely view your desktop"
++#~ msgstr ""
++#~ "Izberite, na kakšen način si lahko drugi uporabniki ogledajo vaše namizje"
+ 
+-#: ../tools/vino-passwd.c:191
+-msgid "- Updates Vino password"
+-msgstr "- Posodobi geslo Vino"
++#~ msgid "Desktop Sharing Preferences"
++#~ msgstr "Možnosti souporabe namizja"
+ 
+-#: ../tools/vino-passwd.c:201
+-msgid ""
+-"Run 'vino-passwd --help' to see a full list of available command line options"
+-msgstr "Ukaz 'vino-passwd --help' prikaže seznam vseh ukazov, ki so na voljo."
++#~ msgid "Sharing"
++#~ msgstr "Souporaba"
+ 
+-#: ../tools/vino-passwd.c:208
+-#, c-format
+-msgid "VINO Version %s\n"
+-msgstr "Različica paketa VINO %s\n"
++#~ msgid "Some of these preferences are locked down"
++#~ msgstr "Nekatere možnosti so zaklenjene"
+ 
+-#: ../tools/vino-passwd.c:219
+-#, c-format
+-msgid "ERROR: You do not have enough permissions to change Vino password.\n"
+-msgstr ""
+-"NAPAKA: ni ustreznih dovoljenj za spreminjanje gesla v programu Vino.\n"
++#~ msgid "Allow other users to _view your desktop"
++#~ msgstr "Dovolite drugim uporabnikom _pregled vašega namizja"
++
++#~ msgid "Your desktop will be shared"
++#~ msgstr "Namizje bo v souporabi"
++
++#~ msgid "_Allow other users to control your desktop"
++#~ msgstr "_Dovoli drugim uporabnikom nadziranje namizja"
++
++#~ msgid "Remote users are able to control your mouse and keyboard"
++#~ msgstr "Oddaljeni uporabniki lahko nadzirajo tipkovnico in miško"
++
++#~ msgid "Security"
++#~ msgstr "Varnost"
++
++#~ msgid "_You must confirm each access to this machine"
++#~ msgstr "_Potrditi je treba vsak dostop do tega računalnika"
++
++#~ msgid "_Require the user to enter this password:"
++#~ msgstr "Od uporabnika _zahtevaj geslo:"
++
++#~ msgid "Automatically _configure UPnP router to open and forward ports"
++#~ msgstr ""
++#~ "Samodejno _nastavi usmerjevalnik UPnP za odpiranje in posredovanje vrat"
++
++#~ msgid "The router must have the UPnP feature enabled"
++#~ msgstr "Usmerjevalnih mora imeti možnost UPnP omogočeno"
++
++#~ msgid "Show Notification Area Icon"
++#~ msgstr "Pokaži obvestilno ikono"
++
++#~ msgid "Al_ways"
++#~ msgstr "_Vedno"
++
++#~ msgid "_Only when someone is connected"
++#~ msgstr "Le, ko je kdo _povezan"
++
++#~ msgid "_Never"
++#~ msgstr "_Nikoli"
++
++#~ msgid "Enable remote access to the desktop"
++#~ msgstr "Omogoči oddaljeni dostop do namizja"
++
++#~ msgid ""
++#~ "If true, allows remote access to the desktop via the RFB protocol. Users "
++#~ "on remote machines may then connect to the desktop using a VNC viewer."
++#~ msgstr ""
++#~ "Izbrana možnost omogoča oddaljenim uporabnikom dostop do namizja preko "
++#~ "protokola RFB. Uporabniki na oddaljenih namizjih se bodo lahko povezali "
++#~ "preko programa VNC viewer."
++
++#~ msgid "Remote desktop sharing password"
++#~ msgstr "Geslo za povezavo z oddaljenim namizjem"
++
++#~ msgid "Cancelled"
++#~ msgstr "Preklicano"
++
++#~ msgid ""
++#~ "ERROR: Maximum length of password is %d character. Please, re-enter the "
++#~ "password."
++#~ msgid_plural ""
++#~ "ERROR: Maximum length of password is %d characters. Please, re-enter the "
++#~ "password."
++#~ msgstr[0] ""
++#~ "NAPAKA: dolžina gesla je omejena na %d znakov. Ponovno vpišite geslo."
++#~ msgstr[1] ""
++#~ "NAPAKA: dolžina gesla je omejena na %d znak. Ponovno vpišite geslo."
++#~ msgstr[2] ""
++#~ "NAPAKA: dolžina gesla je omejena na %d znaka. Ponovno vpišite geslo."
++#~ msgstr[3] ""
++#~ "NAPAKA: dolžina gesla je omejena na %d znake. Ponovno vpišite geslo."
++
++#~ msgid "Changing Vino password.\n"
++#~ msgstr "Spreminjanje gesla.\n"
++
++#~ msgid "Enter new Vino password: "
++#~ msgstr "Vpišite novo geslo: "
++
++#~ msgid "Retype new Vino password: "
++#~ msgstr "Ponovno vpišite novo geslo: "
++
++#~ msgid "vino-passwd: password updated successfully.\n"
++#~ msgstr "vino-passwd: geslo je bilo uspešno posodobljeno.\n"
++
++#~ msgid "Sorry, passwords do not match.\n"
++#~ msgstr "Gesli nista skladni.\n"
++
++#~ msgid "vino-passwd: password unchanged.\n"
++#~ msgstr "vino-passwd: geslo ni spremenjeno.\n"
++
++#~ msgid "Show Vino version"
++#~ msgstr "Pokaži različico programa"
++
++#~ msgid "- Updates Vino password"
++#~ msgstr "- Posodobi geslo Vino"
++
++#~ msgid ""
++#~ "Run 'vino-passwd --help' to see a full list of available command line "
++#~ "options"
++#~ msgstr ""
++#~ "Ukaz 'vino-passwd --help' prikaže seznam vseh ukazov, ki so na voljo."
++
++#~ msgid "VINO Version %s\n"
++#~ msgstr "Različica paketa VINO %s\n"
++
++#~ msgid "ERROR: You do not have enough permissions to change Vino password.\n"
++#~ msgstr ""
++#~ "NAPAKA: ni ustreznih dovoljenj za spreminjanje gesla v programu Vino.\n"
+ 
+ #~ msgid "Question"
+ #~ msgstr "Vprašanje"
+-- 
+2.20.1
+

@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit eutils
+inherit eutils ltprune
 
 DESCRIPTION="A dynamic, any to any, pixel format conversion library"
 HOMEPAGE="http://www.gegl.org/babl/"

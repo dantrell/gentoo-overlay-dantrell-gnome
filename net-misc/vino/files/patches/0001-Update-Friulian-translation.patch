@@ -1,0 +1,190 @@
+From 1decd8f218cc622ab3327463314cd9c7f86efc09 Mon Sep 17 00:00:00 2001
+From: Fabio Tomat <f.t.public@gmail.com>
+Date: Mon, 17 Oct 2016 10:36:26 +0000
+Subject: [PATCH 01/68] Update Friulian translation
+
+---
+ po/fur.po | 60 +++++++++++++++++++++++++++----------------------------
+ 1 file changed, 30 insertions(+), 30 deletions(-)
+
+diff --git a/po/fur.po b/po/fur.po
+index 63f93f6..2e7fd66 100644
+--- a/po/fur.po
++++ b/po/fur.po
+@@ -8,8 +8,8 @@ msgstr ""
+ "Project-Id-Version: vino master\n"
+ "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+ "product=vino&keywords=I18N+L10N&component=Preferences Dialog\n"
+-"POT-Creation-Date: 2016-04-15 14:37+0000\n"
+-"PO-Revision-Date: 2016-04-16 00:11+0200\n"
++"POT-Creation-Date: 2016-08-19 16:23+0000\n"
++"PO-Revision-Date: 2016-10-17 12:35+0200\n"
+ "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
+ "Language-Team: Friulian <fur@li.org>\n"
+ "Language: fur\n"
+@@ -17,7 +17,7 @@ msgstr ""
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+-"X-Generator: Poedit 1.8.5\n"
++"X-Generator: Poedit 1.8.8\n"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:1
+ msgid "Prompt the user before completing a connection"
+@@ -73,7 +73,7 @@ msgid ""
+ "(5900). The port must be specified in the 'alternative-port' key."
+ msgstr ""
+ "Se impuestât su VÊR, il servidôr al reste in scolte suntune puarte divierse "
+-"di che predefinide (5900). La puarte e scugne sedi specificade te clâf "
++"di che predefinide (5900). La puarte e scugne jessi specificade te clâf "
+ "'alternative-port'."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:11
+@@ -367,7 +367,7 @@ msgstr "Schermi"
+ msgid "The screen on which to display the prompt"
+ msgstr "Il schermi dulà mostrâ la richieste"
+ 
+-#: ../server/vino-prompt.c:270 ../server/vino-status-icon.c:603
++#: ../server/vino-prompt.c:270 ../server/vino-status-icon.c:604
+ #: ../server/vino-status-tube-icon.c:396
+ #, c-format
+ msgid "Error initializing libnotify\n"
+@@ -411,27 +411,27 @@ msgstr "Servidôr di condivision scritori par GNOME"
+ msgid "vnc;share;remote;"
+ msgstr "vnc;condivision;rimot;"
+ 
+-#: ../server/vino-status-icon.c:97 ../server/vino-status-tube-icon.c:90
+-msgid "Desktop sharing is enabled"
+-msgstr "La condivision dal scritori e je abilitade"
+-
+-#: ../server/vino-status-icon.c:105
++#: ../server/vino-status-icon.c:103
+ #, c-format
+ msgid "One person is viewing your desktop"
+ msgid_plural "%d people are viewing your desktop"
+ msgstr[0] "Une persone e sta viodint chest scritori"
+ msgstr[1] "%d personis a stan viodint chest scritori"
+ 
+-#: ../server/vino-status-icon.c:207 ../server/vino-status-icon.c:213
++#: ../server/vino-status-icon.c:112 ../server/vino-status-tube-icon.c:90
++msgid "Desktop sharing is enabled"
++msgstr "La condivision dal scritori e je abilitade"
++
++#: ../server/vino-status-icon.c:208 ../server/vino-status-icon.c:214
+ #: ../server/vino-status-tube-icon.c:173 ../server/vino-status-tube-icon.c:179
+ msgid "Error displaying preferences"
+ msgstr "Erôr tal mostrâ lis preferencis"
+ 
+-#: ../server/vino-status-icon.c:235 ../server/vino-status-tube-icon.c:199
++#: ../server/vino-status-icon.c:236 ../server/vino-status-tube-icon.c:199
+ msgid "Error displaying help"
+ msgstr "Erôr tal mostrâ il jutori"
+ 
+-#: ../server/vino-status-icon.c:268
++#: ../server/vino-status-icon.c:269
+ msgid ""
+ "Licensed under the GNU General Public License Version 2\n"
+ "\n"
+@@ -471,82 +471,82 @@ msgstr ""
+ "  02111-1301  USA.\n"
+ 
+ #. Translators comment: put your own name here to appear in the about dialog.
+-#: ../server/vino-status-icon.c:283
++#: ../server/vino-status-icon.c:284
+ msgid "translator-credits"
+ msgstr "Fabio Tomat <f.t.public@gmail.com>"
+ 
+-#: ../server/vino-status-icon.c:289
++#: ../server/vino-status-icon.c:290
+ msgid "Share your desktop with other users"
+ msgstr "Condividi il propri scritori cun altris utents"
+ 
+-#: ../server/vino-status-icon.c:356 ../server/vino-status-tube-icon.c:231
++#: ../server/vino-status-icon.c:357 ../server/vino-status-tube-icon.c:231
+ #, c-format
+ msgid "Are you sure you want to disconnect '%s'?"
+ msgstr "Sigûrs di disconeti \"%s\"?"
+ 
+-#: ../server/vino-status-icon.c:359
++#: ../server/vino-status-icon.c:360
+ #, c-format
+ msgid "The remote user from '%s' will be disconnected. Are you sure?"
+ msgstr "L'utent rimot di \"%s\" al sarà disconetût. Sêstu sigûr/sigure?"
+ 
+-#: ../server/vino-status-icon.c:365
++#: ../server/vino-status-icon.c:366
+ msgid "Are you sure you want to disconnect all clients?"
+ msgstr "Sigûrs di disconeti ducj i client?"
+ 
+-#: ../server/vino-status-icon.c:367
++#: ../server/vino-status-icon.c:368
+ msgid "All remote users will be disconnected. Are you sure?"
+ msgstr "Ducj i utents rimots a saran disconetûts. Sêstu sigûr/sigure?"
+ 
+-#: ../server/vino-status-icon.c:379 ../server/vino-status-tube-icon.c:245
++#: ../server/vino-status-icon.c:380 ../server/vino-status-tube-icon.c:245
+ msgid "Disconnect"
+ msgstr "Disconet"
+ 
+-#: ../server/vino-status-icon.c:405 ../server/vino-status-tube-icon.c:270
++#: ../server/vino-status-icon.c:406 ../server/vino-status-tube-icon.c:270
+ msgid "_Preferences"
+ msgstr "_Preferencis"
+ 
+-#: ../server/vino-status-icon.c:420
++#: ../server/vino-status-icon.c:421
+ msgid "Disconnect all"
+ msgstr "Disconet ducj"
+ 
+ #. Translators: %s is a hostname
+ #. Translators: %s is the alias of the telepathy contact
+-#: ../server/vino-status-icon.c:444 ../server/vino-status-tube-icon.c:283
++#: ../server/vino-status-icon.c:445 ../server/vino-status-tube-icon.c:283
+ #, c-format
+ msgid "Disconnect %s"
+ msgstr "Disconet %s"
+ 
+-#: ../server/vino-status-icon.c:465 ../server/vino-status-tube-icon.c:302
++#: ../server/vino-status-icon.c:466 ../server/vino-status-tube-icon.c:302
+ msgid "_Help"
+ msgstr "_Jutori"
+ 
+-#: ../server/vino-status-icon.c:473
++#: ../server/vino-status-icon.c:474
+ msgid "_About"
+ msgstr "_Informazions"
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:624
++#: ../server/vino-status-icon.c:625
+ msgid "Another user is viewing your desktop"
+ msgstr "Un altri utent al sta viodint chest scritori"
+ 
+-#: ../server/vino-status-icon.c:626
++#: ../server/vino-status-icon.c:627
+ #, c-format
+ msgid "A user on the computer '%s' is remotely viewing your desktop."
+ msgstr ""
+ "Un utent tal computer \"%s\" al sta visualizant di rimot chest scritori."
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:632
++#: ../server/vino-status-icon.c:633
+ msgid "Another user is controlling your desktop"
+ msgstr "Un altri utent al sta controlant chest scritori"
+ 
+-#: ../server/vino-status-icon.c:634
++#: ../server/vino-status-icon.c:635
+ #, c-format
+ msgid "A user on the computer '%s' is remotely controlling your desktop."
+ msgstr ""
+ "Un utent tal computer \"%s\" al sta controlant di rimot chest scritori."
+ 
+-#: ../server/vino-status-icon.c:656 ../server/vino-status-tube-icon.c:430
++#: ../server/vino-status-icon.c:657 ../server/vino-status-tube-icon.c:430
+ #, c-format
+ msgid "Error while displaying notification bubble: %s\n"
+ msgstr "Erôr tal mostrâ la notifiche:%s\n"
+-- 
+2.20.1
+

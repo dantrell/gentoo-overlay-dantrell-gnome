@@ -1,0 +1,634 @@
+From f8eb716e1f486687d242ba627445dcd6202fde64 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Emin=20Tufan=20=C3=87etin?= <etcetin@gmail.com>
+Date: Tue, 2 Oct 2018 17:53:32 +0000
+Subject: [PATCH 29/68] Update Turkish translation
+
+---
+ po/tr.po | 311 +++++++++++++++++++++++++++++++------------------------
+ 1 file changed, 173 insertions(+), 138 deletions(-)
+
+diff --git a/po/tr.po b/po/tr.po
+index fc1c001..cacd4da 100644
+--- a/po/tr.po
++++ b/po/tr.po
+@@ -5,22 +5,22 @@
+ #
+ # Baris Cicek <baris@teamforce.name.tr>, 2004, 2007, 2008, 2009.
+ # Muhammet Kara <muhammetk@gmail.com>, 2011, 2012, 2014.
++# Emin Tufan Çetin <etcetin@gmail.com>, 2018.
+ #
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: vino\n"
+-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+-"product=vino&keywords=I18N+L10N&component=Preferences Dialog\n"
+-"POT-Creation-Date: 2014-12-03 23:53+0000\n"
+-"PO-Revision-Date: 2014-12-04 21:00+0200\n"
+-"Last-Translator: Muhammet Kara <muhammetk@gmail.com>\n"
++"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/vino/issues\n"
++"POT-Creation-Date: 2018-09-26 11:59+0000\n"
++"PO-Revision-Date: 2018-10-02 20:52+0300\n"
++"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
+ "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
+ "Language: tr\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=1; plural=0;\n"
+-"X-Generator: Gtranslator 2.91.6\n"
++"X-Generator: Gtranslator 2.91.7\n"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:1
+ msgid "Prompt the user before completing a connection"
+@@ -38,26 +38,21 @@ msgstr ""
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:3
+ msgid "Only allow remote users to view the desktop"
+-msgstr "Uzaktaki kullanıcıların sadece görüntülemesine izin ver"
++msgstr "Uzaktaki kullanıcıların yalnızca görüntülemesine izin ver"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:4
+ msgid ""
+ "If true, remote users accessing the desktop are only allowed to view the "
+ "desktop. Remote users will not be able to use the mouse or keyboard."
+ msgstr ""
+-"Eğer seçiliyse, uzaktaki kullanıcının sadece masaüstünü görüntülemesine izin "
+-"verilecek. Uzaktaki kullanıcı fare ya da klavye kullanamayacak."
++"Eğer seçiliyse, uzaktaki kullanıcının yalnızca masaüstünü görüntülemesine "
++"izin verilecek. Uzaktaki kullanıcı fare ya da klavye kullanamayacak."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:5
+ msgid "Network interface for listening"
+ msgstr "Dinlemek için ağ arayüzü"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:6
+-#| msgid ""
+-#| "If not set, the server will listen on all network interfaces.\n"
+-#| "\n"
+-#| "Set this if you want that accept connections only from some specific "
+-#| "network interface. eg: eth0, wifi0, lo, ..."
+ msgid ""
+ "If not set, the server will listen on all network interfaces.\n"
+ "\n"
+@@ -66,38 +61,39 @@ msgid ""
+ msgstr ""
+ "Eğer atanmamışsa, sunucu tüm ağ arayüzleri üzerinden dinler.\n"
+ "\n"
+-"Bunu eğer sadece bazı belirli ağ arayüzleri üzerinden bağlantı kabul etmek "
+-"istiyorsanız atayın. Örn: eth0, wifi0, lo, ..."
++"Bunu eğer yalnızca bazı belirli ağ arayüzleri üzerinden bağlantı kabul etmek "
++"istiyorsanız atayın. Örn: eth0, wifi0, lo, vb."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:9
+ msgid "Listen on an alternative port"
+-msgstr "Alternatif bir port üzerinden dinle"
++msgstr "Alternatif bağlantı noktası üzerinden dinle"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:10
+ #| msgid ""
+-#| "If true, the server will listen to another port, instead of the default "
++#| "If true, the server will listen on another port, instead of the default "
+ #| "(5900). The port must be specified in the 'alternative-port' key."
+ msgid ""
+ "If true, the server will listen on another port, instead of the default "
+-"(5900). The port must be specified in the 'alternative-port' key."
++"(5900). The port must be specified in the “alternative-port” key."
+ msgstr ""
+-"Eğer seçiliyse, sunucu öntanımlı port (5900) yerine başka bir port üzerinde "
+-"dinleyecek. Bu port, 'alternative-port' anahtarında belirtilmelidir."
++"Eğer seçiliyse; sunucu, öntanımlı bağlantı noktası (5900) yerine başka bir "
++"bağlantı noktası üzerinde dinleyecek. Bu bağlantı noktası, “alternative-"
++"port” anahtarında belirtilmelidir."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:11
+ msgid "Alternative port number"
+-msgstr "Alternatif port numarası"
++msgstr "Alternatif bağlantı noktası numarası"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:12
+ #| msgid ""
+ #| "The port which the server will listen to if the 'use-alternative-port' "
+-#| "key is set to true. Valid values are in the range from 5000 to 50000."
++#| "key is set to true. Valid values are in the range of 5000 to 50000."
+ msgid ""
+-"The port which the server will listen to if the 'use-alternative-port' key "
++"The port which the server will listen to if the “use-alternative-port” key "
+ "is set to true. Valid values are in the range of 5000 to 50000."
+ msgstr ""
+-"Eğer 'use-alternative-port' anahtarı seçiliyse sunucunun dinleyeceği port. "
+-"Geçerli değerler 5000 ile 50000 arasındadır."
++"Eğer “use-alternative-port” anahtarı seçiliyse sunucunun dinleyeceği "
++"bağlantı noktası. Geçerli değerler 5000 ile 50000 arasındadır."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:13
+ msgid "Require encryption"
+@@ -118,44 +114,59 @@ msgid "Allowed authentication methods"
+ msgstr "İzin verilen kimlik doğrulama metodları"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:16
++#| msgid ""
++#| "Lists the authentication methods with which remote users may access the "
++#| "desktop.\n"
++#| "\n"
++#| "There are two possible authentication methods; \"vnc\" causes the remote "
++#| "user to be prompted for a password (the password is specified by the vnc-"
++#| "password key) before connecting and \"none\" which allows any remote user "
++#| "to connect."
+ msgid ""
+ "Lists the authentication methods with which remote users may access the "
+ "desktop.\n"
+ "\n"
+-"There are two possible authentication methods; \"vnc\" causes the remote "
+-"user to be prompted for a password (the password is specified by the vnc-"
+-"password key) before connecting and \"none\" which allows any remote user to "
+-"connect."
++"There are two possible authentication methods; “vnc” causes the remote user "
++"to be prompted for a password (the password is specified by the vnc-password "
++"key) before connecting and “none” which allows any remote user to connect."
+ msgstr ""
+ "Uzaktaki kullanıcıların masaüstüne erişmek için kullanacakları kimlik "
+ "doğrulama yöntemlerini listeler.\n"
+-"Mümkün olan iki kimlik doğrulama yöntemi vardır; \"vnc\" uzaktaki "
+-"kullanıcıya bağlanmadan önce parola sorulmasını sağlar (parola vnc-password "
+-"anahtarı ile ayarlanır) ve \"none\" uzaktaki her kullanıcının bağlanmasına "
+-"izin verir."
++"\n"
++"Olası iki kimlik doğrulama yöntemi vardır; “vnc” uzaktaki kullanıcıya "
++"bağlanmadan önce parola sorulmasını sağlar (parola, vnc-password anahtarı "
++"ile ayarlanır) ve “none” uzaktaki her kullanıcının bağlanmasını sağlar."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:19
+-msgid "Password required for \"vnc\" authentication"
+-msgstr "\"vnc\" kimlik doğrulaması için parola gerekli"
++#| msgid "Password required for \"vnc\" authentication"
++msgid "Password required for “vnc” authentication"
++msgstr "“vnc” kimlik doğrulaması için parola gerekli"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:20
++#| msgid ""
++#| "The password which the remote user will be prompted for if the \"vnc\" "
++#| "authentication method is used. The password specified by the key is "
++#| "base64 encoded.\n"
++#| "\n"
++#| "The special value of 'keyring' (which is not valid base64) means that the "
++#| "password is stored in the GNOME keyring."
+ msgid ""
+-"The password which the remote user will be prompted for if the \"vnc\" "
++"The password which the remote user will be prompted for if the “vnc” "
+ "authentication method is used. The password specified by the key is base64 "
+ "encoded.\n"
+ "\n"
+-"The special value of 'keyring' (which is not valid base64) means that the "
++"The special value of “keyring” (which is not valid base64) means that the "
+ "password is stored in the GNOME keyring."
+ msgstr ""
+-"Eğer \"vnc\" kimlik doğrulama yöntemi kullanılırsa uzaktaki kullanıcıya "
++"Eğer “vnc” kimlik doğrulama yöntemi kullanılırsa uzaktaki kullanıcıya "
+ "sorulacak parola. Anahtarda belirtilen parola base64 kodludur.\n"
+ "\n"
+-"'keyring' özel değeri (ki bu, geçerli bir base64 kodlaması değildir), "
++"“keyring” özel değeri (ki bu, geçerli bir base64 kodlaması değildir), "
+ "parolanın GNOME anahtarlığında saklandığı anlamına gelir."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:23
+ msgid "E-mail address to which the remote desktop URL should be sent"
+-msgstr "Uzaktaki masaüstü URL'sinin gönderileceği e-posta adresi"
++msgstr "Uzaktaki masaüstü URLʼsinin gönderileceği e-posta adresi"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:24
+ msgid ""
+@@ -185,19 +196,18 @@ msgstr "Durum simgesinin ne zaman gösterileceği"
+ #: ../common/org.gnome.Vino.gschema.xml.h:28
+ #| msgid ""
+ #| "This key controls the behavior of the status icon. There are three "
+-#| "options: \"always\" - The icon will be always there; \"client\" - You "
+-#| "will see the icon only when there is someone connected, this is the "
+-#| "default behavior; \"never\" - Never shows the icon."
++#| "options: \"always\" - the icon will always be present; \"client\" - the "
++#| "icon will only be present when someone is connected (this is the default "
++#| "behavior); \"never\" - the icon will not be present."
+ msgid ""
+ "This key controls the behavior of the status icon. There are three options: "
+-"\"always\" - the icon will always be present; \"client\" - the icon will "
+-"only be present when someone is connected (this is the default behavior); "
+-"\"never\" - the icon will not be present."
++"“always” — the icon will always be present; “client” — the icon will only be "
++"present when someone is connected (this is the default behavior); “never” — "
++"the icon will not be present."
+ msgstr ""
+-"Bu anahtar durum simgesinin işleyişini kontrol eder. Üç seçenek vardır: "
+-"\"always\" - simge her zaman gösterilir; \"client\" - simgeyi sadece birisi "
+-"bağlandığında görebilirsiniz (bu öntanımlı işleyiştir); \"never\" - asla "
+-"simge gösterilmez."
++"Bu anahtar, durum simgesinin işleyişini denetler. Üç seçenek vardır: "
++"“always” — simge her zaman gösterilir; “client” — simge, yalnızca birisi "
++"bağlandığında görünür (bu öntanımlı işleyiştir); “never” — simge gösterilmez."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:29
+ msgid "Whether to disable the desktop background when a user is connected"
+@@ -213,22 +223,22 @@ msgstr ""
+ "planını devre dışı bırakır ve tek bir renk bloğu ile değiştirir."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:31
+-#| msgid "Whether we should use UPNP to forward the port in routers"
+ msgid "Whether a UPnP router should be used to forward and open ports"
+ msgstr ""
+-"Portları yönlendirmek ve açmak için UPnP yönlendirici (router) kullanılması"
++"Bağlantı noktalarını yönlendirmek ve açmak için UPnP yönlendirici "
++"kullanılması"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:32
+ msgid ""
+ "If true, request that a UPnP-capable router should forward and open the port "
+ "used by Vino."
+ msgstr ""
+-"Eğer seçiliyse, Vino tarafından kullanılacak portu UPnP özellikli "
+-"yönlendiricinin açması ve yönlendirilmesi talep edilir."
++"Eğer seçiliyse, Vino tarafından kullanılacak bağlantı noktasının açılmasını "
++"ve yönlendirmesini UPnP özellikli yönlendiriciden iste."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:33
+ msgid "Whether we should disable the XDamage extension of X.org"
+-msgstr "X.org'un XDamage eklentisinin kullanılması"
++msgstr "X.orgʼun XDamage eklentisinin kullanılması"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:34
+ msgid ""
+@@ -236,9 +246,9 @@ msgid ""
+ "work properly on some video drivers when using 3D effects. Disabling it will "
+ "make Vino work in these environments, with slower rendering as a side effect."
+ msgstr ""
+-"Eğer seçiliyse, X.org'un XDamage eklentisini kullanmayacağız. Bu eklenti "
++"Eğer seçiliyse, X.orgʼun XDamage eklentisini kullanmayacağız. Bu eklenti "
+ "bazı video sürücülerinde 3B etkileri kullanıldığında doğru çalışmıyor. Bunu "
+-"kapatmak Vino'nun bu ortamlarda daha yavaş tarama yan etkisiyle çalışmasını "
++"kapatmak Vinoʼnun bu ortamlarda daha yavaş tarama yan etkisiyle çalışmasını "
+ "sağlayacak."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:35
+@@ -260,8 +270,9 @@ msgstr "Dosya geçerli bir .desktop dosyası değil"
+ #. * version number.
+ #: ../server/smclient/eggdesktopfile.c:191
+ #, c-format
+-msgid "Unrecognized desktop file Version '%s'"
+-msgstr "Tanımlanamayan masaüstü dosyası Sürüm '%s'"
++#| msgid "Unrecognized desktop file Version '%s'"
++msgid "Unrecognized desktop file Version “%s”"
++msgstr "Tanımlanamayan masaüstü dosyası Version “%s”"
+ 
+ #: ../server/smclient/eggdesktopfile.c:974
+ #, c-format
+@@ -282,13 +293,14 @@ msgstr "Tanımlanamayan başlangıç seçeneği: %d"
+ #. * desktop file, and should not be translated.
+ #: ../server/smclient/eggdesktopfile.c:1391
+ #, c-format
+-msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
+-msgstr "Bir 'Type=Link' masaüstü girişine belge URI'leri geçilemez"
++#| msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
++msgid "Can’t pass document URIs to a “Type=Link” desktop entry"
++msgstr "“Type=Link” masaüstü girdisine belge URIʼleri verilemez"
+ 
+ #: ../server/smclient/eggdesktopfile.c:1412
+ #, c-format
+ msgid "Not a launchable item"
+-msgstr "Başlatılabilir bir öğe değil"
++msgstr "Başlatılabilir bir öge değil"
+ 
+ #: ../server/smclient/eggsmclient.c:226
+ msgid "Disable connection to session manager"
+@@ -308,7 +320,7 @@ msgstr "Oturum yöneticisi kimliğini belirtin"
+ 
+ #: ../server/smclient/eggsmclient.c:232
+ msgid "ID"
+-msgstr "ID"
++msgstr "Kimlik"
+ 
+ #: ../server/smclient/eggsmclient.c:253
+ msgid "Session management options:"
+@@ -318,33 +330,41 @@ msgstr "Oturum yöneticisi seçenekleri:"
+ msgid "Show session management options"
+ msgstr "Oturum yönetimi seçeneklerini göster"
+ 
+-#: ../server/vino-main.c:153
++#: ../server/vino-main.c:154
++#| msgid ""
++#| "Your XServer does not support the XTest extension - remote desktop access "
++#| "will be view-only\n"
+ msgid ""
+-"Your XServer does not support the XTest extension - remote desktop access "
++"Your XServer does not support the XTest extension — remote desktop access "
+ "will be view-only\n"
+ msgstr ""
+-"XSunucunuz XTest eklentisini desteklemiyor - uzaktaki masaüstü erişimi "
+-"sadece görünüm şeklinde olacak\n"
++"XServerʼınız XTest eklentisini desteklemiyor — uzaktaki masaüstü erişimi "
++"yalnızca görüntüleme biçiminde olacak\n"
+ 
+ #. Tube mode uses Telepathy's Tubes to share a user's desktop directly
+ #. * with another IM contact. http://telepathy.freedesktop.org/wiki/Tubes
+ #.
+-#: ../server/vino-main.c:249
+-msgid "Start in tube mode, for the ‘Share my Desktop’ feature"
+-msgstr "‘Masaüstümü Paylaş’ özelliği için tüp kipinde başla"
++#: ../server/vino-main.c:250
++#| msgid "Start in tube mode, for the ‘Share my Desktop’ feature"
++msgid "Start in tube mode, for the “Share my Desktop” feature"
++msgstr "“Masaüstümü Paylaş” özelliği için tüp kipinde başla"
+ 
+-#: ../server/vino-main.c:255
+-msgid "- VNC Server for GNOME"
+-msgstr "- GNOME için VNC sunucusu"
++#: ../server/vino-main.c:261
++#| msgid "- VNC Server for GNOME"
++msgid "— VNC Server for GNOME"
++msgstr "— GNOME için VNC Sunucusu"
+ 
+-#: ../server/vino-main.c:263
++#: ../server/vino-main.c:269
++#| msgid ""
++#| "Run 'vino-server --help' to see a full list of available command line "
++#| "options"
+ msgid ""
+-"Run 'vino-server --help' to see a full list of available command line options"
++"Run “vino-server --help” to see a full list of available command line options"
+ msgstr ""
+-"Tüm geçerli komut satırı seçeneklerini tam listesini görmek için 'vino-"
+-"server --help' çalıştırın"
++"Kullanılabilir komut satırı seçeneklerinin tam listesini görmek için “vino-"
++"server --help” çalıştırın"
+ 
+-#: ../server/vino-main.c:275
++#: ../server/vino-main.c:287
+ msgid "GNOME Desktop Sharing"
+ msgstr "GNOME Masaüstü Paylaşımı"
+ 
+@@ -364,8 +384,9 @@ msgstr "0"
+ #.
+ #: ../server/vino-mdns.c:74
+ #, c-format
+-msgid "%s's remote desktop on %s"
+-msgstr "%s kullanıcısının %s üzerindeki masaüstü"
++#| msgid "%s's remote desktop on %s"
++msgid "%s’s remote desktop on %s"
++msgstr "%s kullanıcısının %s üstündeki masaüstüsü"
+ 
+ #: ../server/vino-prefs.c:111
+ #, c-format
+@@ -380,30 +401,33 @@ msgstr "Ekran"
+ msgid "The screen on which to display the prompt"
+ msgstr "Belirtimin gösterileceği ekran"
+ 
+-#: ../server/vino-prompt.c:263 ../server/vino-status-icon.c:598
+-#: ../server/vino-status-tube-icon.c:389
++#: ../server/vino-prompt.c:270 ../server/vino-status-icon.c:604
++#: ../server/vino-status-tube-icon.c:396
+ #, c-format
+ msgid "Error initializing libnotify\n"
+ msgstr "libnotify başlatılırken hata\n"
+ 
+-#: ../server/vino-prompt.c:282
++#: ../server/vino-prompt.c:289
+ #, c-format
++#| msgid ""
++#| "A user on the computer '%s' is trying to remotely view or control your "
++#| "desktop."
+ msgid ""
+-"A user on the computer '%s' is trying to remotely view or control your "
++"A user on the computer “%s” is trying to remotely view or control your "
+ "desktop."
+ msgstr ""
+-"'%s' bilgisayarındaki kullanıcı uzaktan masaüstünüzü kontrol etmek ya da "
++"“%s” bilgisayarındaki kullanıcı masaüstünüzü uzaktan denetlemek ya da "
+ "görüntülemek istiyor."
+ 
+-#: ../server/vino-prompt.c:285
++#: ../server/vino-prompt.c:292
+ msgid "Another user is trying to view your desktop."
+ msgstr "Başka bir kullanıcı masaüstünüzü görüntülemeye çalışıyor."
+ 
+-#: ../server/vino-prompt.c:291
++#: ../server/vino-prompt.c:298
+ msgid "Refuse"
+ msgstr "Reddet"
+ 
+-#: ../server/vino-prompt.c:297
++#: ../server/vino-prompt.c:304
+ msgid "Accept"
+ msgstr "Kabul et"
+ 
+@@ -422,27 +446,28 @@ msgstr "GNOME Masaüstü Paylaşım Sunucusu"
+ 
+ #: ../server/vino-server.desktop.in.in.h:3
+ msgid "vnc;share;remote;"
+-msgstr "vnc;share;remote;paylaşım;uzakbağlantı;"
+-
+-#: ../server/vino-status-icon.c:97 ../server/vino-status-tube-icon.c:90
+-msgid "Desktop sharing is enabled"
+-msgstr "Masaüstü paylaşımı etkin"
++msgstr "vnc;share;remote;paylaşım;uzaktan;uzakbağlantı;"
+ 
+-#: ../server/vino-status-icon.c:105
++#: ../server/vino-status-icon.c:103
+ #, c-format
+ msgid "One person is viewing your desktop"
+ msgid_plural "%d people are viewing your desktop"
+ msgstr[0] "%d kişi masaüstünüzü görüntülüyor"
+ 
+-#: ../server/vino-status-icon.c:208 ../server/vino-status-tube-icon.c:172
++#: ../server/vino-status-icon.c:112 ../server/vino-status-tube-icon.c:90
++msgid "Desktop sharing is enabled"
++msgstr "Masaüstü paylaşımı etkin"
++
++#: ../server/vino-status-icon.c:208 ../server/vino-status-icon.c:214
++#: ../server/vino-status-tube-icon.c:173 ../server/vino-status-tube-icon.c:179
+ msgid "Error displaying preferences"
+ msgstr "Tercihler görüntülenirken hata"
+ 
+-#: ../server/vino-status-icon.c:230 ../server/vino-status-tube-icon.c:192
++#: ../server/vino-status-icon.c:236 ../server/vino-status-tube-icon.c:199
+ msgid "Error displaying help"
+ msgstr "Yardım görüntülenirken hata"
+ 
+-#: ../server/vino-status-icon.c:263
++#: ../server/vino-status-icon.c:269
+ msgid ""
+ "Licensed under the GNU General Public License Version 2\n"
+ "\n"
+@@ -472,97 +497,103 @@ msgstr ""
+ "SATILABİLİRLİĞİ garanti etmez. Daha fazla ayrıntı için GNU Genel Kamu\n"
+ "Lisansını inceleyin.\n"
+ "\n"
+-"GNU Genel Kamu Lisansı'nın bir kopyasını Vino ile almış\n"
++"GNU Genel Kamu Lisansıʼnın bir kopyasını Vino ile almış\n"
+ "olmalısınız; eğer almadıysanız Free Software Foundation, Inc., 59 Temple\n"
+ "Place, Suite 330, Boston, MA  02111-1307  USA adresine yazın\n"
+ 
+ #. Translators comment: put your own name here to appear in the about dialog.
+-#: ../server/vino-status-icon.c:278
++#: ../server/vino-status-icon.c:284
+ msgid "translator-credits"
+ msgstr ""
+ "Barış Çiçek <baris@teamforce.name.tr>\n"
+ "Muhammet Kara <muhammet.k@gmail.com>"
+ 
+-#: ../server/vino-status-icon.c:284
++#: ../server/vino-status-icon.c:290
+ msgid "Share your desktop with other users"
+ msgstr "Masaüstünüzü diğer kullanıcılar ile paylaşın"
+ 
+-#: ../server/vino-status-icon.c:351 ../server/vino-status-tube-icon.c:224
++#. Translators: %s is a hostname
++#. Translators: %s is the alias of the telepathy contact
++#: ../server/vino-status-icon.c:357 ../server/vino-status-tube-icon.c:231
+ #, c-format
+-msgid "Are you sure you want to disconnect '%s'?"
+-msgstr "'%s' bağlantısını kesmek istediğinizden emin misiniz?"
++#| msgid "Are you sure you want to disconnect '%s'?"
++msgid "Are you sure you want to disconnect “%s”?"
++msgstr "“%s” bağlantısını kesmek istediğinizden emin misiniz?"
+ 
+-#: ../server/vino-status-icon.c:354
++#: ../server/vino-status-icon.c:360
+ #, c-format
+-msgid "The remote user from '%s' will be disconnected. Are you sure?"
++#| msgid "The remote user from '%s' will be disconnected. Are you sure?"
++msgid "The remote user from “%s” will be disconnected. Are you sure?"
+ msgstr ""
+-"'%s' konumundaki uzaktaki kullanıcının bağlantısı kesilecek. Emin misiniz?"
++"“%s” konumundaki uzaktaki kullanıcının bağlantısı kesilecek. Emin misiniz?"
+ 
+-#: ../server/vino-status-icon.c:360
++#: ../server/vino-status-icon.c:366
+ msgid "Are you sure you want to disconnect all clients?"
+ msgstr "Tüm istemcilerin bağlantılarını kesmek istediğinizden emin misiniz?"
+ 
+-#: ../server/vino-status-icon.c:362
++#: ../server/vino-status-icon.c:368
+ msgid "All remote users will be disconnected. Are you sure?"
+ msgstr "Tüm uzaktaki kullanıcıların bağlantıları kesilecek. Emin misiniz?"
+ 
+-#: ../server/vino-status-icon.c:374 ../server/vino-status-tube-icon.c:238
++#: ../server/vino-status-icon.c:380 ../server/vino-status-tube-icon.c:245
+ msgid "Disconnect"
+ msgstr "Bağlantıyı kes"
+ 
+-#: ../server/vino-status-icon.c:400 ../server/vino-status-tube-icon.c:263
++#: ../server/vino-status-icon.c:406 ../server/vino-status-tube-icon.c:270
+ msgid "_Preferences"
+ msgstr "_Tercihler"
+ 
+-#: ../server/vino-status-icon.c:415
++#: ../server/vino-status-icon.c:421
+ msgid "Disconnect all"
+ msgstr "Tüm bağlantıları kes"
+ 
+ #. Translators: %s is a hostname
+ #. Translators: %s is the alias of the telepathy contact
+-#: ../server/vino-status-icon.c:439 ../server/vino-status-tube-icon.c:276
++#: ../server/vino-status-icon.c:445 ../server/vino-status-tube-icon.c:283
+ #, c-format
+ msgid "Disconnect %s"
+ msgstr "%s bağlantısını kes"
+ 
+-#: ../server/vino-status-icon.c:460 ../server/vino-status-tube-icon.c:295
++#: ../server/vino-status-icon.c:466 ../server/vino-status-tube-icon.c:302
+ msgid "_Help"
+ msgstr "_Yardım"
+ 
+-#: ../server/vino-status-icon.c:468
++#: ../server/vino-status-icon.c:474
+ msgid "_About"
+ msgstr "_Hakkında"
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:619
++#: ../server/vino-status-icon.c:625
+ msgid "Another user is viewing your desktop"
+ msgstr "Masaüstünüzü başka bir kullanıcı görüntülüyor"
+ 
+-#: ../server/vino-status-icon.c:621
++#: ../server/vino-status-icon.c:627
+ #, c-format
+-msgid "A user on the computer '%s' is remotely viewing your desktop."
+-msgstr "'%s' bilgisayarındaki bir kullanıcı masaüstünüzü uzaktan görüntülüyor."
++#| msgid "A user on the computer '%s' is remotely viewing your desktop."
++msgid "A user on the computer “%s” is remotely viewing your desktop."
++msgstr "“%s” bilgisayarındaki kullanıcı masaüstünüzü uzaktan görüntülüyor."
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:627
++#: ../server/vino-status-icon.c:633
+ msgid "Another user is controlling your desktop"
+-msgstr "Masaüstünüzü başka bir kullanıcı kontrol ediyor"
++msgstr "Masaüstünüzü başka bir kullanıcı denetliyor"
+ 
+-#: ../server/vino-status-icon.c:629
++#: ../server/vino-status-icon.c:635
+ #, c-format
+-msgid "A user on the computer '%s' is remotely controlling your desktop."
+-msgstr ""
+-"'%s' bilgisayarındaki bir kullanıcı masaüstünüzü uzaktan kontrol ediyor."
++#| msgid "A user on the computer '%s' is remotely controlling your desktop."
++msgid "A user on the computer “%s” is remotely controlling your desktop."
++msgstr "“%s” bilgisayarındaki kullanıcı masaüstünüzü uzaktan denetliyor."
+ 
+-#: ../server/vino-status-icon.c:651 ../server/vino-status-tube-icon.c:423
++#: ../server/vino-status-icon.c:657 ../server/vino-status-tube-icon.c:430
+ #, c-format
+ msgid "Error while displaying notification bubble: %s\n"
+-msgstr "Uyarı balonunu gösteriken hata: %s\n"
++msgstr "Bildirim balonunu gösteriken hata: %s\n"
+ 
+-#: ../server/vino-status-tube-icon.c:227
++#: ../server/vino-status-tube-icon.c:234
+ #, c-format
+-msgid "The remote user '%s' will be disconnected. Are you sure?"
+-msgstr "Uzaktaki kullanıcı '%s' bağlantısı kesilecek. Emin misiniz?"
++#| msgid "The remote user '%s' will be disconnected. Are you sure?"
++msgid "The remote user “%s” will be disconnected. Are you sure?"
++msgstr "Uzaktaki kullanıcı “%s” bağlantısı kesilecek. Emin misiniz?"
+ 
+ #: ../server/vino-tube-server.c:220 ../server/vino-tube-server.c:249
+ msgid "Share my desktop information"
+@@ -571,26 +602,30 @@ msgstr "Masaüstü bilgimi paylaş"
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:224
+ #, c-format
+-msgid "'%s' rejected the desktop sharing invitation."
+-msgstr "'%s' masaüstü paylaşım davetlerini reddetti."
++#| msgid "'%s' rejected the desktop sharing invitation."
++msgid "“%s” rejected the desktop sharing invitation."
++msgstr "“%s” masaüstü paylaşım davetini reddetti."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:228
+ #, c-format
+-msgid "'%s' disconnected"
+-msgstr "'%s' bağlantısı kesildi"
++#| msgid "'%s' disconnected"
++msgid "“%s” disconnected"
++msgstr "“%s” bağlı değil"
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:255
+ #, c-format
+-msgid "'%s' is remotely controlling your desktop."
+-msgstr "'%s' uzaktan masaüstünüzü kontrol ediyor."
++#| msgid "'%s' is remotely controlling your desktop."
++msgid "“%s” is remotely controlling your desktop."
++msgstr "“%s” masaüstünüzü uzaktan denetliyor."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:264
+ #, c-format
+-msgid "Waiting for '%s' to connect to the screen."
+-msgstr "'%s' ekrana bağlanmak için bekliyor."
++#| msgid "Waiting for '%s' to connect to the screen."
++msgid "Waiting for “%s” to connect to the screen."
++msgstr "“%s” ekrana bağlanması için bekleniyor."
+ 
+ #: ../server/vino-util.c:88
+ msgid "_Allow"
+-- 
+2.20.1
+

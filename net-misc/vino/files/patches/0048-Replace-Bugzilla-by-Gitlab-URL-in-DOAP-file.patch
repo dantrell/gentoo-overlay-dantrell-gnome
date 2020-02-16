@@ -1,0 +1,25 @@
+From d9555bf3e1b42682ab2ce0ab7bac4c5a1529b2ca Mon Sep 17 00:00:00 2001
+From: Andre Klapper <a9016009@gmx.de>
+Date: Sat, 15 Dec 2018 23:58:26 +0100
+Subject: [PATCH 48/68] Replace Bugzilla by Gitlab URL in DOAP file
+
+---
+ vino.doap | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/vino.doap b/vino.doap
+index 4ec8e7f..18649a7 100644
+--- a/vino.doap
++++ b/vino.doap
+@@ -10,7 +10,7 @@
+   allows you to share your desktop with remote clients.</description>
+   <homepage rdf:resource="https://wiki.gnome.org/Projects/Vino" />
+   <download-page rdf:resource="http://download.gnome.org/sources/vino/" />
+-  <bug-database rdf:resource="https://bugzilla.gnome.org/browse.cgi?product=vino" />
++  <bug-database rdf:resource="https://gitlab.gnome.org/GNOME/vino/issues/" />
+ 
+   <category rdf:resource="http://api.gnome.org/doap-extensions#core" />
+   <programming-language>C</programming-language>
+-- 
+2.20.1
+

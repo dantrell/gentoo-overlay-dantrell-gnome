@@ -1,0 +1,72 @@
+From d496b9f2698314a103fcfd4b70863f1d251c49ae Mon Sep 17 00:00:00 2001
+From: Fabio Tomat <f.t.public@gmail.com>
+Date: Thu, 28 Feb 2019 18:24:41 +0000
+Subject: [PATCH 56/68] Update Friulian translation
+
+---
+ po/fur.po | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/po/fur.po b/po/fur.po
+index e27bcb7..3a47b1c 100644
+--- a/po/fur.po
++++ b/po/fur.po
+@@ -7,8 +7,8 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: vino master\n"
+ "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/vino/issues\n"
+-"POT-Creation-Date: 2018-09-26 11:59+0000\n"
+-"PO-Revision-Date: 2018-10-27 15:11+0200\n"
++"POT-Creation-Date: 2018-10-27 13:11+0000\n"
++"PO-Revision-Date: 2019-02-28 19:23+0100\n"
+ "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
+ "Language-Team: Friulian <fur@li.org>\n"
+ "Language: fur\n"
+@@ -16,7 +16,7 @@ msgstr ""
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+-"X-Generator: Poedit 2.1.1\n"
++"X-Generator: Poedit 2.2.1\n"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:1
+ msgid "Prompt the user before completing a connection"
+@@ -56,11 +56,11 @@ msgid ""
+ "Set this if you want to accept connections only from some specific network "
+ "interface. For example, eth0, wifi0, lo and so on."
+ msgstr ""
+-"Se no impuestade, il servidôr al reste in scolte su dutis lis interfacis di "
+-"rêt.\n"
++"Se no je stabilide, il servidôr al reste in scolte su dutis lis interfacis "
++"di rêt.\n"
+ "\n"
+-"Impuestâ par acetâ lis conessions nome di cualchi interface di rêt "
+-"specifiche come: eth0, wifi0, lo e cussì indenant."
++"Configure chest par acetâ lis conessions nome di cualchi specifiche "
++"interface di rêt come: eth0, wifi0, lo e cussì indenant."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:9
+ msgid "Listen on an alternative port"
+@@ -71,8 +71,8 @@ msgid ""
+ "If true, the server will listen on another port, instead of the default "
+ "(5900). The port must be specified in the “alternative-port” key."
+ msgstr ""
+-"Se impuestât su VÊR, il servidôr al reste in scolte suntune puarte divierse "
+-"di che predefinide (5900). La puarte e scugne jessi specificade te clâf "
++"Se metût su VÊR, il servidôr al reste in scolte suntune puarte divierse di "
++"che predefinide (5900). La puarte e scugne jessi specificade te clâf "
+ "“alternative-port”."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:11
+@@ -85,7 +85,7 @@ msgid ""
+ "is set to true. Valid values are in the range of 5000 to 50000."
+ msgstr ""
+ "La puarte dulà che il servidôr al starà in scolte se la clâf “use-"
+-"alternative-port” e je impuestade su VÊR. I valôrs pussibii a van di 5000 a "
++"alternative-port” e je metude su VÊR. I valôrs pussibii a van di 5000 a "
+ "50000."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:13
+-- 
+2.20.1
+

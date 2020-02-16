@@ -1,0 +1,959 @@
+From fcaee54551ab5e86a9fb53845a1c9449a6c7e987 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bal=C3=A1zs=20Mesk=C3=B3?= <meskobalazs@fedoraproject.org>
+Date: Sat, 6 Oct 2018 18:33:35 +0000
+Subject: [PATCH 33/68] Update Hungarian translation
+
+---
+ po/hu.po | 567 ++++++++++++++++++++++++-------------------------------
+ 1 file changed, 247 insertions(+), 320 deletions(-)
+
+diff --git a/po/hu.po b/po/hu.po
+index 29a9d2f..8479e33 100644
+--- a/po/hu.po
++++ b/po/hu.po
+@@ -8,146 +8,23 @@
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: vino master\n"
+-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+-"product=vino&keywords=I18N+L10N&component=Preferences Dialog\n"
+-"POT-Creation-Date: 2013-03-13 22:48+0000\n"
+-"PO-Revision-Date: 2013-03-15 11:29+0100\n"
+-"Last-Translator: Balázs Úr <urbalazs at gmail dot com>\n"
++"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/vino/issues\n"
++"POT-Creation-Date: 2018-09-26 11:59+0000\n"
++"PO-Revision-Date: 2018-10-02 17:33+0200\n"
++"Last-Translator: Meskó Balázs <mesko.balazs@fsf.hu>\n"
+ "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
+ "Language: hu\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+-"X-Generator: Lokalize 1.2\n"
+-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+-
+-#: ../capplet/vino-message-box.c:55
+-#, c-format
+-msgid "There was an error showing the URL \"%s\""
+-msgstr "Hiba történt az URL („%s”) megjelenítése közben"
+-
+-#: ../capplet/vino-preferences.c:245
+-#, c-format
+-msgid ""
+-"There was an error displaying help:\n"
+-"%s"
+-msgstr ""
+-"Hiba történt a súgó megjelenítése közben:\n"
+-"%s"
+-
+-#: ../capplet/vino-preferences.c:278
+-msgid "Checking the connectivity of this machine..."
+-msgstr "Ezen gép elérhetőségének ellenőrzése…"
+-
+-#: ../capplet/vino-preferences.c:298
+-msgid "Your desktop is only reachable over the local network."
+-msgstr "A számítógépe csak a helyi hálózatról érhető el."
+-
+-#: ../capplet/vino-preferences.c:311
+-msgid " or "
+-msgstr " vagy "
+-
+-#: ../capplet/vino-preferences.c:315
+-#, c-format
+-msgid "Others can access your computer using the address %s."
+-msgstr "A következő címen érhető el a számítógépe: %s."
+-
+-#: ../capplet/vino-preferences.c:324
+-msgid "Nobody can access your desktop."
+-msgstr "Senki nem érheti el a számítógépét."
+-
+-#: ../capplet/vino-preferences.desktop.in.in.h:1
+-#: ../server/vino-server.desktop.in.in.h:1
+-msgid "Desktop Sharing"
+-msgstr "Asztal megosztása"
+-
+-#: ../capplet/vino-preferences.desktop.in.in.h:2
+-msgid "Choose how other users can remotely view your desktop"
+-msgstr "Távoli asztal elérésének beállításai"
+-
+-#: ../capplet/vino-preferences.ui.h:1
+-msgid "Desktop Sharing Preferences"
+-msgstr "Asztalmegosztás beállításai"
+-
+-#: ../capplet/vino-preferences.ui.h:2
+-msgid "Sharing"
+-msgstr "Megosztás"
+-
+-#: ../capplet/vino-preferences.ui.h:3
+-msgid "Some of these preferences are locked down"
+-msgstr "Ezen beállítások közül néhány zárolva van"
+-
+-#: ../capplet/vino-preferences.ui.h:4
+-msgid "Allow other users to _view your desktop"
+-msgstr "Más felhasználók _láthatják az asztalát"
+-
+-#: ../capplet/vino-preferences.ui.h:5
+-msgid "Your desktop will be shared"
+-msgstr "Az asztal megosztásra kerül"
+-
+-#: ../capplet/vino-preferences.ui.h:6
+-msgid "_Allow other users to control your desktop"
+-msgstr "Más _felhasználók irányíthatják az asztalát"
+-
+-#: ../capplet/vino-preferences.ui.h:7
+-msgid "Remote users are able to control your mouse and keyboard"
+-msgstr "A távoli felhasználók képesek irányítani az egeret és a billentyűzetet"
+-
+-#: ../capplet/vino-preferences.ui.h:8
+-msgid "Security"
+-msgstr "Biztonság"
+-
+-#: ../capplet/vino-preferences.ui.h:9
+-msgid "_You must confirm each access to this machine"
+-msgstr "Meg kell _erősítenie minden kapcsolódást a számítógéphez"
+-
+-#: ../capplet/vino-preferences.ui.h:10
+-msgid "_Require the user to enter this password:"
+-msgstr "A felhasználónak meg kell adnia ezt a _jelszót:"
+-
+-#: ../capplet/vino-preferences.ui.h:11
+-msgid "Automatically _configure UPnP router to open and forward ports"
+-msgstr ""
+-"_UPnP router automatikus beállítása portok megnyitására és továbbítására"
+-
+-#: ../capplet/vino-preferences.ui.h:12
+-msgid "The router must have the UPnP feature enabled"
+-msgstr "A routeren engedélyezni kell az UPnP szolgáltatást"
+-
+-#: ../capplet/vino-preferences.ui.h:13
+-msgid "Show Notification Area Icon"
+-msgstr "Értesítésiterület-ikon megjelenítése"
+-
+-#: ../capplet/vino-preferences.ui.h:14
+-msgid "Al_ways"
+-msgstr "Min_dig"
+-
+-#: ../capplet/vino-preferences.ui.h:15
+-msgid "_Only when someone is connected"
+-msgstr "_Csak ha valaki csatlakozott"
+-
+-#: ../capplet/vino-preferences.ui.h:16
+-msgid "_Never"
+-msgstr "S_oha"
++"X-Generator: Poedit 2.1.1\n"
++"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:1
+-msgid "Enable remote access to the desktop"
+-msgstr "Távoli asztalelérés engedélyezése"
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:2
+-msgid ""
+-"If true, allows remote access to the desktop via the RFB protocol. Users on "
+-"remote machines may then connect to the desktop using a VNC viewer."
+-msgstr ""
+-"Engedélyezi-e az asztalhoz való hozzáférést RFB protokollon keresztül? Ekkor "
+-"távoli gépek felhasználói egy VNC-megjelenítő programmal kapcsolódhatnak az "
+-"asztalához."
+-
+-#: ../common/org.gnome.Vino.gschema.xml.h:3
+ msgid "Prompt the user before completing a connection"
+ msgstr "Kapcsolat befejezése előtt a felhasználó figyelmeztetése"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:4
++#: ../common/org.gnome.Vino.gschema.xml.h:2
+ msgid ""
+ "If true, remote users accessing the desktop are not allowed access until the "
+ "user on the host machine approves the connection. Recommended especially "
+@@ -157,11 +34,11 @@ msgstr ""
+ "asztalhoz nem engedélyezett, amíg a kiszolgáló gép felhasználója nem hagyja "
+ "azt jóvá. Különösen akkor javasolt, ha a hozzáférés nincs jelszóval védve."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:5
++#: ../common/org.gnome.Vino.gschema.xml.h:3
+ msgid "Only allow remote users to view the desktop"
+ msgstr "A távoli felhasználók csak megnézhetik az asztalt"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:6
++#: ../common/org.gnome.Vino.gschema.xml.h:4
+ msgid ""
+ "If true, remote users accessing the desktop are only allowed to view the "
+ "desktop. Remote users will not be able to use the mouse or keyboard."
+@@ -170,16 +47,11 @@ msgstr ""
+ "felhasználóknak csak az asztal megnézése engedélyezett. A távoli "
+ "felhasználók nem lesznek képesek az egeret vagy a billentyűzetet használni."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:7
++#: ../common/org.gnome.Vino.gschema.xml.h:5
+ msgid "Network interface for listening"
+ msgstr "Figyelendő hálózati csatoló"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:8
+-#| msgid ""
+-#| "If not set, the server will listen on all network interfaces.\n"
+-#| "\n"
+-#| "Set this if you want that accept connections only from some specific "
+-#| "network interface. eg: eth0, wifi0, lo, ..."
++#: ../common/org.gnome.Vino.gschema.xml.h:6
+ msgid ""
+ "If not set, the server will listen on all network interfaces.\n"
+ "\n"
+@@ -191,42 +63,36 @@ msgstr ""
+ "Állítsa be azokat a hálózati csatolókat, amelyekről el kívánja fogadni a "
+ "kapcsolatokat, például eth0, wifi0, lo és így tovább."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:11
++#: ../common/org.gnome.Vino.gschema.xml.h:9
+ msgid "Listen on an alternative port"
+ msgstr "Figyelés alternatív porton"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:12
+-#| msgid ""
+-#| "If true, the server will listen to another port, instead of the default "
+-#| "(5900). The port must be specified in the 'alternative-port' key."
++#: ../common/org.gnome.Vino.gschema.xml.h:10
+ msgid ""
+ "If true, the server will listen on another port, instead of the default "
+-"(5900). The port must be specified in the 'alternative-port' key."
++"(5900). The port must be specified in the “alternative-port” key."
+ msgstr ""
+ "Ha ez igazra van állítva, akkor a kiszolgáló másik portot fog figyelni az "
+-"alapértelmezett (5900) helyett. A portot az alternative-port kulcsban kell "
++"alapértelmezett (5900) helyett. A portot az „alternative-port” kulcsban kell "
+ "megadni."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:13
++#: ../common/org.gnome.Vino.gschema.xml.h:11
+ msgid "Alternative port number"
+ msgstr "Alternatív portszám"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:14
+-#| msgid ""
+-#| "The port which the server will listen to if the 'use-alternative-port' "
+-#| "key is set to true. Valid values are in the range from 5000 to 50000."
++#: ../common/org.gnome.Vino.gschema.xml.h:12
+ msgid ""
+-"The port which the server will listen to if the 'use-alternative-port' key "
++"The port which the server will listen to if the “use-alternative-port” key "
+ "is set to true. Valid values are in the range of 5000 to 50000."
+ msgstr ""
+-"Az a port, amelyet a kiszolgáló figyelni fog, ha a use-alternative-port "
++"Az a port, amelyet a kiszolgáló figyelni fog, ha a „use-alternative-port” "
+ "kulcs igazra van állítva. Az érvényes értékek az 5000-50000 tartomány elemei."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:15
++#: ../common/org.gnome.Vino.gschema.xml.h:13
+ msgid "Require encryption"
+ msgstr "Titkosítás szükséges"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:16
++#: ../common/org.gnome.Vino.gschema.xml.h:14
+ msgid ""
+ "If true, remote users accessing the desktop are required to support "
+ "encryption. It is highly recommended that you use a client which supports "
+@@ -237,19 +103,18 @@ msgstr ""
+ "ajánlott titkosítást támogató klienst használni, kivéve ha a beavatkozó "
+ "hálózat megbízható."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:17
++#: ../common/org.gnome.Vino.gschema.xml.h:15
+ msgid "Allowed authentication methods"
+ msgstr "Engedélyezett hitelesítési eljárások"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:18
++#: ../common/org.gnome.Vino.gschema.xml.h:16
+ msgid ""
+ "Lists the authentication methods with which remote users may access the "
+ "desktop.\n"
+ "\n"
+-"There are two possible authentication methods; \"vnc\" causes the remote "
+-"user to be prompted for a password (the password is specified by the vnc-"
+-"password key) before connecting and \"none\" which allows any remote user to "
+-"connect."
++"There are two possible authentication methods; “vnc” causes the remote user "
++"to be prompted for a password (the password is specified by the vnc-password "
++"key) before connecting and “none” which allows any remote user to connect."
+ msgstr ""
+ "Felsorolja azokat a hitelesítési eljárásokat, amelyekkel a távoli "
+ "felhasználók kapcsolódhatnak az asztalhoz.\n"
+@@ -259,17 +124,17 @@ msgstr ""
+ "jelszót, illetve a „none” (nincs), amely bárki számára lehetővé teszi a "
+ "kapcsolódást."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:21
+-msgid "Password required for \"vnc\" authentication"
++#: ../common/org.gnome.Vino.gschema.xml.h:19
++msgid "Password required for “vnc” authentication"
+ msgstr "A „vnc” hitelesítéshez szükséges jelszó"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:22
++#: ../common/org.gnome.Vino.gschema.xml.h:20
+ msgid ""
+-"The password which the remote user will be prompted for if the \"vnc\" "
++"The password which the remote user will be prompted for if the “vnc” "
+ "authentication method is used. The password specified by the key is base64 "
+ "encoded.\n"
+ "\n"
+-"The special value of 'keyring' (which is not valid base64) means that the "
++"The special value of “keyring” (which is not valid base64) means that the "
+ "password is stored in the GNOME keyring."
+ msgstr ""
+ "A távoli felhasználótól kért jelszó a „vnc” hitelesítési eljárás "
+@@ -278,11 +143,11 @@ msgstr ""
+ "A speciális „keyring” érték (amely nem érvényes base64) azt jelzi, hogy a "
+ "jelszó a GNOME kulcstartóban található."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:25
++#: ../common/org.gnome.Vino.gschema.xml.h:23
+ msgid "E-mail address to which the remote desktop URL should be sent"
+ msgstr "E-mail cím, amelyre a távoli asztal URL címét kell elküldeni"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:26
++#: ../common/org.gnome.Vino.gschema.xml.h:24
+ msgid ""
+ "This key specifies the e-mail address to which the remote desktop URL should "
+ "be sent if the user clicks on the URL in the Desktop Sharing preferences "
+@@ -292,47 +157,39 @@ msgstr ""
+ "lesz küldve, ha a felhasználó az URL-címre kattint az Asztalmegosztás "
+ "beállításai ablakban."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:27
++#: ../common/org.gnome.Vino.gschema.xml.h:25
+ msgid "Lock the screen when last user disconnect"
+ msgstr "A képernyő zárolása az utolsó felhasználó kijelentkezésekor"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:28
+-#| msgid ""
+-#| "If true, screen will be locked after the last remote client disconnect."
++#: ../common/org.gnome.Vino.gschema.xml.h:26
+ msgid ""
+ "If true, the screen will be locked after the last remote client disconnects."
+ msgstr ""
+ "Ha ez igazra van állítva, akkor a képernyő zárolásra kerül az utolsó távoli "
+ "kliens kilépése után."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:29
++#: ../common/org.gnome.Vino.gschema.xml.h:27
+ msgid "When the status icon should be shown"
+ msgstr "Mikor jelenjen meg az állapotikon"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:30
+-#| msgid ""
+-#| "This key controls the behavior of the status icon. There are three "
+-#| "options: \"always\" - The icon will be always there; \"client\" - You "
+-#| "will see the icon only when there is someone connected, this is the "
+-#| "default behavior; \"never\" - Never shows the icon."
++#: ../common/org.gnome.Vino.gschema.xml.h:28
+ msgid ""
+ "This key controls the behavior of the status icon. There are three options: "
+-"\"always\" - the icon will always be present; \"client\" - the icon will "
+-"only be present when someone is connected (this is the default behavior); "
+-"\"never\" - the icon will not be present."
++"“always” — the icon will always be present; “client” — the icon will only be "
++"present when someone is connected (this is the default behavior); “never” — "
++"the icon will not be present."
+ msgstr ""
+ "Ez a kulcs vezérli az állapotikon viselkedését. Három beállítási lehetőség "
+ "van: „always” (mindig) - az ikon mindig látható; „client” (kliens) - az ikon "
+ "csak akkor látható, ha valaki kapcsolódott (ez az alapértelmezett "
+ "viselkedés); „never” (soha) - az ikon soha sem látható."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:31
+-#| msgid "When true, disable the background on receive valid session"
++#: ../common/org.gnome.Vino.gschema.xml.h:29
+ msgid "Whether to disable the desktop background when a user is connected"
+ msgstr ""
+ "Le legyen-e tiltva az asztal háttere, amikor egy felhasználó csatlakozik"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:32
++#: ../common/org.gnome.Vino.gschema.xml.h:30
+ msgid ""
+ "When true, disable the desktop background and replace it with a single block "
+ "of color when a user successfully connects."
+@@ -341,12 +198,11 @@ msgstr ""
+ "egyszerű színnel lesz helyettesítve, amikor a felhasználó sikeresen "
+ "csatlakozik."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:33
+-#| msgid "Whether we should use UPNP to forward the port in routers"
++#: ../common/org.gnome.Vino.gschema.xml.h:31
+ msgid "Whether a UPnP router should be used to forward and open ports"
+ msgstr "Használva legyen-e az UPnP router portok megnyitására és továbbítására"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:34
++#: ../common/org.gnome.Vino.gschema.xml.h:32
+ msgid ""
+ "If true, request that a UPnP-capable router should forward and open the port "
+ "used by Vino."
+@@ -354,16 +210,11 @@ msgstr ""
+ "Ha igazra van állítva, kéri az UPnP-képes routert a Vino által használt port "
+ "megnyitására és továbbítására."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:35
++#: ../common/org.gnome.Vino.gschema.xml.h:33
+ msgid "Whether we should disable the XDamage extension of X.org"
+ msgstr "Az X.org XDamage kiterjesztésének letiltása"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:36
+-#| msgid ""
+-#| "If true, we will not use the XDamage extension of X.org. This extension "
+-#| "does not work properly on some video drivers when using 3D effects. "
+-#| "Disabling it will make vino work on these environments with a slower "
+-#| "rendering as side effect."
++#: ../common/org.gnome.Vino.gschema.xml.h:34
+ msgid ""
+ "If true, do not use the XDamage extension of X.org. This extension does not "
+ "work properly on some video drivers when using 3D effects. Disabling it will "
+@@ -374,21 +225,16 @@ msgstr ""
+ "használatakor. Letiltásával a vino ilyen környezetben is működni fog, "
+ "lassabb megjelenítés mellett."
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:37
++#: ../common/org.gnome.Vino.gschema.xml.h:35
+ msgid "Notify on connect"
+ msgstr "Értesítés csatlakozáskor"
+ 
+-#: ../common/org.gnome.Vino.gschema.xml.h:38
+-#| msgid "If true, we will notify, when the user connects to the system."
++#: ../common/org.gnome.Vino.gschema.xml.h:36
+ msgid "If true, show a notification when a user connects to the system."
+ msgstr ""
+ "Ha igazra van állítva, akkor értesítést jelenít meg, amikor a felhasználó "
+ "csatlakozik a rendszerhez."
+ 
+-#: ../common/vino-keyring.c:54 ../tools/vino-passwd.c:54
+-msgid "Remote desktop sharing password"
+-msgstr "Távoli asztal megosztás jelszava"
+-
+ #: ../server/smclient/eggdesktopfile.c:165
+ #, c-format
+ msgid "File is not a valid .desktop file"
+@@ -399,7 +245,7 @@ msgstr "A fájl nem egy érvényes .desktop fájl"
+ #. * version number.
+ #: ../server/smclient/eggdesktopfile.c:191
+ #, c-format
+-msgid "Unrecognized desktop file Version '%s'"
++msgid "Unrecognized desktop file Version “%s”"
+ msgstr "Ismeretlen .desktop fájl verzió: „%s”"
+ 
+ #: ../server/smclient/eggdesktopfile.c:974
+@@ -421,7 +267,7 @@ msgstr "Ismeretlen indítási kapcsoló: %d"
+ #. * desktop file, and should not be translated.
+ #: ../server/smclient/eggdesktopfile.c:1391
+ #, c-format
+-msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
++msgid "Can’t pass document URIs to a “Type=Link” desktop entry"
+ msgstr "Nem adhatók dokumentum-URI címek egy „Type=Link” asztali bejegyzésnek"
+ 
+ #: ../server/smclient/eggdesktopfile.c:1412
+@@ -457,9 +303,9 @@ msgstr "Munkamenet-kezelés kapcsolói:"
+ msgid "Show session management options"
+ msgstr "Munkamenet-kezelési kapcsolók megjelenítése"
+ 
+-#: ../server/vino-main.c:202
++#: ../server/vino-main.c:154
+ msgid ""
+-"Your XServer does not support the XTest extension - remote desktop access "
++"Your XServer does not support the XTest extension — remote desktop access "
+ "will be view-only\n"
+ msgstr ""
+ "Az Ön X kiszolgálója nem támogatja az XTest kiterjesztést - a távoli asztal "
+@@ -468,22 +314,22 @@ msgstr ""
+ #. Tube mode uses Telepathy's Tubes to share a user's desktop directly
+ #. * with another IM contact. http://telepathy.freedesktop.org/wiki/Tubes
+ #.
+-#: ../server/vino-main.c:301
+-msgid "Start in tube mode, for the ‘Share my Desktop’ feature"
++#: ../server/vino-main.c:250
++msgid "Start in tube mode, for the “Share my Desktop” feature"
+ msgstr "Indítás átviteli módban az „Az asztalom megosztása” szolgáltatáshoz"
+ 
+-#: ../server/vino-main.c:307
+-msgid "- VNC Server for GNOME"
++#: ../server/vino-main.c:261
++msgid "— VNC Server for GNOME"
+ msgstr "– VNC kiszolgáló a GNOME-hoz"
+ 
+-#: ../server/vino-main.c:315
++#: ../server/vino-main.c:269
+ msgid ""
+-"Run 'vino-server --help' to see a full list of available command line options"
++"Run “vino-server --help” to see a full list of available command line options"
+ msgstr ""
+ "Az elérhető parancssori kapcsolók listájáért adja ki a „vino-server --help” "
+ "parancsot"
+ 
+-#: ../server/vino-main.c:336
++#: ../server/vino-main.c:287
+ msgid "GNOME Desktop Sharing"
+ msgstr "GNOME asztalmegosztás"
+ 
+@@ -503,7 +349,7 @@ msgstr "1"
+ #.
+ #: ../server/vino-mdns.c:74
+ #, c-format
+-msgid "%s's remote desktop on %s"
++msgid "%s’s remote desktop on %s"
+ msgstr "%s távoli asztala ezen: %s"
+ 
+ #: ../server/vino-prefs.c:111
+@@ -519,39 +365,42 @@ msgstr "Képernyő"
+ msgid "The screen on which to display the prompt"
+ msgstr "A képernyő, amelyen a készenléti jel megjelenik"
+ 
+-#: ../server/vino-prompt.c:263 ../server/vino-status-icon.c:598
+-#: ../server/vino-status-tube-icon.c:389
++#: ../server/vino-prompt.c:270 ../server/vino-status-icon.c:604
++#: ../server/vino-status-tube-icon.c:396
+ #, c-format
+ msgid "Error initializing libnotify\n"
+ msgstr "Hiba a libnotify előkészítésekor\n"
+ 
+-#: ../server/vino-prompt.c:282
++#: ../server/vino-prompt.c:289
+ #, c-format
+ msgid ""
+-"A user on the computer '%s' is trying to remotely view or control your "
++"A user on the computer “%s” is trying to remotely view or control your "
+ "desktop."
+ msgstr ""
+ "Egy felhasználó „%s” távoli számítógépről megpróbálja távolról megnézni vagy "
+ "irányítani az Ön asztalát."
+ 
+-#: ../server/vino-prompt.c:285
++#: ../server/vino-prompt.c:292
+ msgid "Another user is trying to view your desktop."
+ msgstr "Egy másik felhasználó megpróbálja megnézni az Ön asztalát."
+ 
+-#: ../server/vino-prompt.c:291
+-#| msgid "_Refuse"
++#: ../server/vino-prompt.c:298
+ msgid "Refuse"
+ msgstr "Visszautasítás"
+ 
+-#: ../server/vino-prompt.c:297
++#: ../server/vino-prompt.c:304
+ msgid "Accept"
+ msgstr "Elfogadás"
+ 
+-#: ../server/vino-server.c:166 ../server/vino-server.c:189
++#: ../server/vino-server.c:159 ../server/vino-server.c:182
+ #, c-format
+ msgid "Failed to open connection to bus: %s\n"
+ msgstr "A kapcsolat megnyitása meghiúsult a buszhoz: %s\n"
+ 
++#: ../server/vino-server.desktop.in.in.h:1
++msgid "Desktop Sharing"
++msgstr "Asztal megosztása"
++
+ #: ../server/vino-server.desktop.in.in.h:2
+ msgid "GNOME Desktop Sharing Server"
+ msgstr "GNOME asztalmegosztás-kiszolgáló"
+@@ -560,26 +409,27 @@ msgstr "GNOME asztalmegosztás-kiszolgáló"
+ msgid "vnc;share;remote;"
+ msgstr "vnc;megosztás;távoli;"
+ 
+-#: ../server/vino-status-icon.c:97 ../server/vino-status-tube-icon.c:90
+-msgid "Desktop sharing is enabled"
+-msgstr "Az asztal megosztása engedélyezett"
+-
+-#: ../server/vino-status-icon.c:105
++#: ../server/vino-status-icon.c:103
+ #, c-format
+ msgid "One person is viewing your desktop"
+ msgid_plural "%d people are viewing your desktop"
+ msgstr[0] "Egy másik felhasználó nézi az asztalát"
+ msgstr[1] "%d másik felhasználó nézi az asztalát"
+ 
+-#: ../server/vino-status-icon.c:208 ../server/vino-status-tube-icon.c:172
++#: ../server/vino-status-icon.c:112 ../server/vino-status-tube-icon.c:90
++msgid "Desktop sharing is enabled"
++msgstr "Az asztal megosztása engedélyezett"
++
++#: ../server/vino-status-icon.c:208 ../server/vino-status-icon.c:214
++#: ../server/vino-status-tube-icon.c:173 ../server/vino-status-tube-icon.c:179
+ msgid "Error displaying preferences"
+ msgstr "Hiba a beállítások megjelenítésekor"
+ 
+-#: ../server/vino-status-icon.c:230 ../server/vino-status-tube-icon.c:192
++#: ../server/vino-status-icon.c:236 ../server/vino-status-tube-icon.c:199
+ msgid "Error displaying help"
+ msgstr "Hiba a súgó megjelenítésekor"
+ 
+-#: ../server/vino-status-icon.c:263
++#: ../server/vino-status-icon.c:269
+ msgid ""
+ "Licensed under the GNU General Public License Version 2\n"
+ "\n"
+@@ -615,92 +465,94 @@ msgstr ""
+ "St, Fifth Floor, Boston, MA 02110-1301, USA.\n"
+ 
+ #. Translators comment: put your own name here to appear in the about dialog.
+-#: ../server/vino-status-icon.c:278
++#: ../server/vino-status-icon.c:284
+ msgid "translator-credits"
+ msgstr ""
+ "Kelemen Gábor <kelemeng at gnome dot hu>\n"
+ "Nyitrai István <sianis at gmail dot com>"
+ 
+-#: ../server/vino-status-icon.c:284
++#: ../server/vino-status-icon.c:290
+ msgid "Share your desktop with other users"
+ msgstr "Az asztal megosztása más felhasználókkal"
+ 
+-#: ../server/vino-status-icon.c:351 ../server/vino-status-tube-icon.c:224
++#. Translators: %s is a hostname
++#. Translators: %s is the alias of the telepathy contact
++#: ../server/vino-status-icon.c:357 ../server/vino-status-tube-icon.c:231
+ #, c-format
+-msgid "Are you sure you want to disconnect '%s'?"
++msgid "Are you sure you want to disconnect “%s”?"
+ msgstr "Valóban bontani akarja a kapcsolatot a következővel: „%s”?"
+ 
+-#: ../server/vino-status-icon.c:354
++#: ../server/vino-status-icon.c:360
+ #, c-format
+-msgid "The remote user from '%s' will be disconnected. Are you sure?"
++msgid "The remote user from “%s” will be disconnected. Are you sure?"
+ msgstr "„%s” távoli felhasználója le lesz választva. Biztosan ezt akarja?"
+ 
+-#: ../server/vino-status-icon.c:360
++#: ../server/vino-status-icon.c:366
+ msgid "Are you sure you want to disconnect all clients?"
+ msgstr "Biztosan le kíván választani minden klienst?"
+ 
+-#: ../server/vino-status-icon.c:362
++#: ../server/vino-status-icon.c:368
+ msgid "All remote users will be disconnected. Are you sure?"
+ msgstr "Minden távoli felhasználó le lesz választva. Biztosan ezt akarja?"
+ 
+-#: ../server/vino-status-icon.c:374 ../server/vino-status-tube-icon.c:238
++#: ../server/vino-status-icon.c:380 ../server/vino-status-tube-icon.c:245
+ msgid "Disconnect"
+ msgstr "Leválasztás"
+ 
+-#: ../server/vino-status-icon.c:400 ../server/vino-status-tube-icon.c:263
++#: ../server/vino-status-icon.c:406 ../server/vino-status-tube-icon.c:270
+ msgid "_Preferences"
+ msgstr "_Beállítások"
+ 
+-#: ../server/vino-status-icon.c:415
++#: ../server/vino-status-icon.c:421
+ msgid "Disconnect all"
+ msgstr "Összes leválasztása"
+ 
+ #. Translators: %s is a hostname
+ #. Translators: %s is the alias of the telepathy contact
+-#: ../server/vino-status-icon.c:439 ../server/vino-status-tube-icon.c:276
++#: ../server/vino-status-icon.c:445 ../server/vino-status-tube-icon.c:283
+ #, c-format
+ msgid "Disconnect %s"
+ msgstr "%s leválasztása"
+ 
+-#: ../server/vino-status-icon.c:460 ../server/vino-status-tube-icon.c:295
++#: ../server/vino-status-icon.c:466 ../server/vino-status-tube-icon.c:302
+ msgid "_Help"
+ msgstr "_Súgó"
+ 
+-#: ../server/vino-status-icon.c:468
++#: ../server/vino-status-icon.c:474
+ msgid "_About"
+ msgstr "_Névjegy"
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:619
++#: ../server/vino-status-icon.c:625
+ msgid "Another user is viewing your desktop"
+ msgstr "Egy másik felhasználó nézi az asztalát"
+ 
+-#: ../server/vino-status-icon.c:621
++#: ../server/vino-status-icon.c:627
+ #, c-format
+-msgid "A user on the computer '%s' is remotely viewing your desktop."
++msgid "A user on the computer “%s” is remotely viewing your desktop."
+ msgstr ""
+ "A(z) „%s” távoli számítógép egy felhasználója távolról nézi az Ön asztalát."
+ 
+ #. Translators: %s is a hostname
+-#: ../server/vino-status-icon.c:627
++#: ../server/vino-status-icon.c:633
+ msgid "Another user is controlling your desktop"
+ msgstr "Egy másik felhasználó irányítja az asztalát"
+ 
+-#: ../server/vino-status-icon.c:629
++#: ../server/vino-status-icon.c:635
+ #, c-format
+-msgid "A user on the computer '%s' is remotely controlling your desktop."
++msgid "A user on the computer “%s” is remotely controlling your desktop."
+ msgstr ""
+ "A(z) „%s” távoli számítógép egy felhasználója távolról irányítja az Ön "
+ "asztalát."
+ 
+-#: ../server/vino-status-icon.c:651 ../server/vino-status-tube-icon.c:423
++#: ../server/vino-status-icon.c:657 ../server/vino-status-tube-icon.c:430
+ #, c-format
+ msgid "Error while displaying notification bubble: %s\n"
+ msgstr "Hiba az értesítési buborék megjelenítése közben: %s\n"
+ 
+-#: ../server/vino-status-tube-icon.c:227
++#: ../server/vino-status-tube-icon.c:234
+ #, c-format
+-msgid "The remote user '%s' will be disconnected. Are you sure?"
++msgid "The remote user “%s” will be disconnected. Are you sure?"
+ msgstr "„%s” távoli felhasználója le lesz választva. Biztosan ezt akarja?"
+ 
+ #: ../server/vino-tube-server.c:220 ../server/vino-tube-server.c:249
+@@ -710,109 +562,184 @@ msgstr "Az asztal információinak megosztása"
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:224
+ #, c-format
+-msgid "'%s' rejected the desktop sharing invitation."
++msgid "“%s” rejected the desktop sharing invitation."
+ msgstr "„%s” visszautasította az asztal megosztására vonatkozó meghívását."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:228
+ #, c-format
+-msgid "'%s' disconnected"
++msgid "“%s” disconnected"
+ msgstr "„%s” leválasztva"
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:255
+ #, c-format
+-msgid "'%s' is remotely controlling your desktop."
++msgid "“%s” is remotely controlling your desktop."
+ msgstr "„%s” távolról irányítja az Ön asztalát."
+ 
+ #. Translators: '%s' is the name of a contact, buddy coming from Empathy
+ #: ../server/vino-tube-server.c:264
+ #, c-format
+-msgid "Waiting for '%s' to connect to the screen."
++msgid "Waiting for “%s” to connect to the screen."
+ msgstr "Várakozás arra, hogy „%s” kapcsolódjon a képernyőhöz."
+ 
+-#: ../server/vino-util.c:89
++#: ../server/vino-util.c:88
+ msgid "_Allow"
+ msgstr "_Engedélyezés"
+ 
+-#: ../server/vino-util.c:90
++#: ../server/vino-util.c:89
+ msgid "_Refuse"
+ msgstr "_Visszautasítás"
+ 
+-#: ../server/vino-util.c:140
++#: ../server/vino-util.c:139
+ msgid "An error has occurred:"
+ msgstr "Hiba történt:"
+ 
+-#: ../tools/vino-passwd.c:108
+-#, c-format
+-msgid "Cancelled"
+-msgstr "Megszakítva"
++#~ msgid "There was an error showing the URL \"%s\""
++#~ msgstr "Hiba történt az URL („%s”) megjelenítése közben"
+ 
+-#: ../tools/vino-passwd.c:115
+-#, c-format
+-msgid ""
+-"ERROR: Maximum length of password is %d character. Please, re-enter the "
+-"password."
+-msgid_plural ""
+-"ERROR: Maximum length of password is %d characters. Please, re-enter the "
+-"password."
+-msgstr[0] ""
+-"HIBA: A jelszó legfeljebb %d karakter hosszú lehet. Adja meg újra a jelszót."
+-msgstr[1] ""
+-"HIBA: A jelszó legfeljebb %d karakter hosszú lehet. Adja meg újra a jelszót."
+-
+-#: ../tools/vino-passwd.c:149
+-#, c-format
+-msgid "Changing Vino password.\n"
+-msgstr "A Vino jelszavának módosítása.\n"
++#~ msgid ""
++#~ "There was an error displaying help:\n"
++#~ "%s"
++#~ msgstr ""
++#~ "Hiba történt a súgó megjelenítése közben:\n"
++#~ "%s"
+ 
+-#: ../tools/vino-passwd.c:151
+-msgid "Enter new Vino password: "
+-msgstr "Adja meg a Vino új jelszavát: "
++#~ msgid "Checking the connectivity of this machine..."
++#~ msgstr "Ezen gép elérhetőségének ellenőrzése…"
+ 
+-#: ../tools/vino-passwd.c:154
+-msgid "Retype new Vino password: "
+-msgstr "Adja meg újra a Vino új jelszavát: "
++#~ msgid "Your desktop is only reachable over the local network."
++#~ msgstr "A számítógépe csak a helyi hálózatról érhető el."
+ 
+-#: ../tools/vino-passwd.c:160
+-#, c-format
+-msgid "vino-passwd: password updated successfully.\n"
+-msgstr "vino-passwd: a jelszó sikeresen frissítve.\n"
++#~ msgid " or "
++#~ msgstr " vagy "
+ 
+-#: ../tools/vino-passwd.c:165
+-#, c-format
+-msgid "Sorry, passwords do not match.\n"
+-msgstr "Elnézést, a jelszavak nem egyeznek.\n"
++#~ msgid "Others can access your computer using the address %s."
++#~ msgstr "A következő címen érhető el a számítógépe: %s."
+ 
+-#: ../tools/vino-passwd.c:166
+-#, c-format
+-msgid "vino-passwd: password unchanged.\n"
+-msgstr "vino-passwd: a jelszó változatlan.\n"
++#~ msgid "Nobody can access your desktop."
++#~ msgstr "Senki nem érheti el a számítógépét."
+ 
+-#: ../tools/vino-passwd.c:182
+-msgid "Show Vino version"
+-msgstr "A Vino verziószámának megjelenítése"
++#~ msgid "Choose how other users can remotely view your desktop"
++#~ msgstr "Távoli asztal elérésének beállításai"
+ 
+-#: ../tools/vino-passwd.c:191
+-msgid "- Updates Vino password"
+-msgstr "– Frissíti a Vino jelszavát"
++#~ msgid "Desktop Sharing Preferences"
++#~ msgstr "Asztalmegosztás beállításai"
+ 
+-#: ../tools/vino-passwd.c:201
+-msgid ""
+-"Run 'vino-passwd --help' to see a full list of available command line options"
+-msgstr ""
+-"Az elérhető parancssori kapcsolók listájáért adja ki a „vino-passwd --help” "
+-"parancsot"
++#~ msgid "Sharing"
++#~ msgstr "Megosztás"
+ 
+-#: ../tools/vino-passwd.c:208
+-#, c-format
+-msgid "VINO Version %s\n"
+-msgstr "VINO %s verzió\n"
++#~ msgid "Some of these preferences are locked down"
++#~ msgstr "Ezen beállítások közül néhány zárolva van"
+ 
+-#: ../tools/vino-passwd.c:219
+-#, c-format
+-msgid "ERROR: You do not have enough permissions to change Vino password.\n"
+-msgstr "HIBA: Nincs megfelelő jogosultsága a Vino jelszavának módosításához.\n"
++#~ msgid "Allow other users to _view your desktop"
++#~ msgstr "Más felhasználók _láthatják az asztalát"
++
++#~ msgid "Your desktop will be shared"
++#~ msgstr "Az asztal megosztásra kerül"
++
++#~ msgid "_Allow other users to control your desktop"
++#~ msgstr "Más _felhasználók irányíthatják az asztalát"
++
++#~ msgid "Remote users are able to control your mouse and keyboard"
++#~ msgstr ""
++#~ "A távoli felhasználók képesek irányítani az egeret és a billentyűzetet"
++
++#~ msgid "Security"
++#~ msgstr "Biztonság"
++
++#~ msgid "_You must confirm each access to this machine"
++#~ msgstr "Meg kell _erősítenie minden kapcsolódást a számítógéphez"
++
++#~ msgid "_Require the user to enter this password:"
++#~ msgstr "A felhasználónak meg kell adnia ezt a _jelszót:"
++
++#~ msgid "Automatically _configure UPnP router to open and forward ports"
++#~ msgstr ""
++#~ "_UPnP router automatikus beállítása portok megnyitására és továbbítására"
++
++#~ msgid "The router must have the UPnP feature enabled"
++#~ msgstr "A routeren engedélyezni kell az UPnP szolgáltatást"
++
++#~ msgid "Show Notification Area Icon"
++#~ msgstr "Értesítésiterület-ikon megjelenítése"
++
++#~ msgid "Al_ways"
++#~ msgstr "Min_dig"
++
++#~ msgid "_Only when someone is connected"
++#~ msgstr "_Csak ha valaki csatlakozott"
++
++#~ msgid "_Never"
++#~ msgstr "S_oha"
++
++#~ msgid "Enable remote access to the desktop"
++#~ msgstr "Távoli asztalelérés engedélyezése"
++
++#~ msgid ""
++#~ "If true, allows remote access to the desktop via the RFB protocol. Users "
++#~ "on remote machines may then connect to the desktop using a VNC viewer."
++#~ msgstr ""
++#~ "Engedélyezi-e az asztalhoz való hozzáférést RFB protokollon keresztül? "
++#~ "Ekkor távoli gépek felhasználói egy VNC-megjelenítő programmal "
++#~ "kapcsolódhatnak az asztalához."
++
++#~ msgid "Remote desktop sharing password"
++#~ msgstr "Távoli asztal megosztás jelszava"
++
++#~ msgid "Cancelled"
++#~ msgstr "Megszakítva"
++
++#~ msgid ""
++#~ "ERROR: Maximum length of password is %d character. Please, re-enter the "
++#~ "password."
++#~ msgid_plural ""
++#~ "ERROR: Maximum length of password is %d characters. Please, re-enter the "
++#~ "password."
++#~ msgstr[0] ""
++#~ "HIBA: A jelszó legfeljebb %d karakter hosszú lehet. Adja meg újra a "
++#~ "jelszót."
++#~ msgstr[1] ""
++#~ "HIBA: A jelszó legfeljebb %d karakter hosszú lehet. Adja meg újra a "
++#~ "jelszót."
++
++#~ msgid "Changing Vino password.\n"
++#~ msgstr "A Vino jelszavának módosítása.\n"
++
++#~ msgid "Enter new Vino password: "
++#~ msgstr "Adja meg a Vino új jelszavát: "
++
++#~ msgid "Retype new Vino password: "
++#~ msgstr "Adja meg újra a Vino új jelszavát: "
++
++#~ msgid "vino-passwd: password updated successfully.\n"
++#~ msgstr "vino-passwd: a jelszó sikeresen frissítve.\n"
++
++#~ msgid "Sorry, passwords do not match.\n"
++#~ msgstr "Elnézést, a jelszavak nem egyeznek.\n"
++
++#~ msgid "vino-passwd: password unchanged.\n"
++#~ msgstr "vino-passwd: a jelszó változatlan.\n"
++
++#~ msgid "Show Vino version"
++#~ msgstr "A Vino verziószámának megjelenítése"
++
++#~ msgid "- Updates Vino password"
++#~ msgstr "– Frissíti a Vino jelszavát"
++
++#~ msgid ""
++#~ "Run 'vino-passwd --help' to see a full list of available command line "
++#~ "options"
++#~ msgstr ""
++#~ "Az elérhető parancssori kapcsolók listájáért adja ki a „vino-passwd --"
++#~ "help” parancsot"
++
++#~ msgid "VINO Version %s\n"
++#~ msgstr "VINO %s verzió\n"
++
++#~ msgid "ERROR: You do not have enough permissions to change Vino password.\n"
++#~ msgstr ""
++#~ "HIBA: Nincs megfelelő jogosultsága a Vino jelszavának módosításához.\n"
+ 
+ #~ msgid ""
+ #~ "If true, we will use UPNP protocol to automatically forward the port used "
+-- 
+2.20.1
+

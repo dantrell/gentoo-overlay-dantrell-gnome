@@ -2,7 +2,7 @@
 
 EAPI="5"
 
-inherit autotools eutils
+inherit autotools eutils ltprune
 
 DESCRIPTION="A geoinformation D-Bus service"
 HOMEPAGE="https://freedesktop.org/wiki/Software/GeoClue"

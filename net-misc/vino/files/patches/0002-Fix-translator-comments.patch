@@ -1,0 +1,42 @@
+From 437bc7627d78e6f55406c6a3a0089a2469837a98 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Piotr=20Dr=C4=85g?= <piotrdrag@gmail.com>
+Date: Sat, 28 Jan 2017 01:56:44 +0100
+Subject: [PATCH 02/68] Fix translator comments
+
+They need to be exactly one line above a string to show up in .po files.
+---
+ server/vino-status-icon.c      | 2 +-
+ server/vino-status-tube-icon.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/server/vino-status-icon.c b/server/vino-status-icon.c
+index 74900e9..dcdc181 100644
+--- a/server/vino-status-icon.c
++++ b/server/vino-status-icon.c
+@@ -352,8 +352,8 @@ vino_status_icon_disconnect_confirm (VinoStatusIconNotify *a)
+ 
+   if (client != NULL)
+     {
+-      /* Translators: %s is a hostname */
+       primary_msg   = g_strdup_printf
++          /* Translators: %s is a hostname */
+           (_("Are you sure you want to disconnect '%s'?"),
+           vino_client_get_hostname (client));
+       secondary_msg = g_strdup_printf
+diff --git a/server/vino-status-tube-icon.c b/server/vino-status-tube-icon.c
+index e5cbb11..e8fc183 100644
+--- a/server/vino-status-tube-icon.c
++++ b/server/vino-status-tube-icon.c
+@@ -226,8 +226,8 @@ vino_status_tube_icon_disconnect_confirm (VinoStatusTubeIcon *icon)
+     return;
+   }
+ 
+-  /* Translators: %s is the alias of the telepathy contact */
+   primary_msg   = g_strdup_printf
++      /* Translators: %s is the alias of the telepathy contact */
+       (_("Are you sure you want to disconnect '%s'?"),
+       vino_tube_server_get_alias (icon->priv->server));
+   secondary_msg = g_strdup_printf
+-- 
+2.20.1
+

@@ -1,0 +1,24 @@
+From d97cbba78bf834af360b75e581afc7e4208f6fd3 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Piotr=20Dr=C4=85g?= <piotrdrag@gmail.com>
+Date: Sun, 1 Oct 2017 19:27:28 +0200
+Subject: [PATCH 08/68] gschema: Fix gettext-domain
+
+---
+ common/org.gnome.Vino.gschema.xml | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/common/org.gnome.Vino.gschema.xml b/common/org.gnome.Vino.gschema.xml
+index 3c9cfe5..73655de 100644
+--- a/common/org.gnome.Vino.gschema.xml
++++ b/common/org.gnome.Vino.gschema.xml
+@@ -1,5 +1,6 @@
++<?xml version='1.0' encoding='UTF-8'?>
+ <schemalist>
+-  <schema id='org.gnome.Vino' path='/org/gnome/desktop/remote-access/'>
++  <schema id='org.gnome.Vino' path='/org/gnome/desktop/remote-access/' gettext-domain='vino'>
+     <key name='prompt-enabled' type='b'>
+       <summary>Prompt the user before completing a connection</summary>
+       <description>
+-- 
+2.20.1
+

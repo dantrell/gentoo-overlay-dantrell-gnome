@@ -1,0 +1,106 @@
+From d6aef8030306955eb157541df25fb0b3083b25a7 Mon Sep 17 00:00:00 2001
+From: Ask Hjorth Larsen <asklarsen@gmail.com>
+Date: Sun, 7 Apr 2019 03:44:40 +0200
+Subject: [PATCH 61/68] Updated Danish translation
+
+---
+ po/da.po | 35 +++++++++++++++++++++--------------
+ 1 file changed, 21 insertions(+), 14 deletions(-)
+
+diff --git a/po/da.po b/po/da.po
+index f37bdca..b77ad82 100644
+--- a/po/da.po
++++ b/po/da.po
+@@ -16,7 +16,7 @@ msgid ""
+ msgstr ""
+ "Project-Id-Version: vino\n"
+ "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/vino/issues\n"
+-"POT-Creation-Date: 2018-09-26 11:59+0000\n"
++"POT-Creation-Date: 2018-10-02 14:58+0000\n"
+ "PO-Revision-Date: 2018-10-02 16:57+0200\n"
+ "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
+ "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
+@@ -138,9 +138,9 @@ msgid ""
+ "The special value of “keyring” (which is not valid base64) means that the "
+ "password is stored in the GNOME keyring."
+ msgstr ""
+-"Den adgangskode som fjernbrugeren bliver spurgt efter hvis “vnc”-"
+-"godkendelsesmetoden benyttes. Den angivne adgangskode skal være base64-"
+-"kodet.\n"
++"Den adgangskode som fjernbrugeren bliver spurgt efter hvis "
++"“vnc”-godkendelsesmetoden benyttes. Den angivne adgangskode skal være "
++"base64-kodet.\n"
+ "\n"
+ "Specialværdien “keyring” (som ikke er gyldig base64) betyder, at "
+ "adgangskoden lagres i GNOME-nøgleringen."
+@@ -180,7 +180,11 @@ msgid ""
+ "“always” — the icon will always be present; “client” — the icon will only be "
+ "present when someone is connected (this is the default behavior); “never” — "
+ "the icon will not be present."
+-msgstr "Denne nøgle styrer opførslen af statusikonet. Der er tre valgmuligheder: “always” — Ikonet vil altid være der; “client” — Ikonet vil være der hvis nogen er forbundet (dette er standardopførsel); “never” — Ikonet vil aldrig vises."
++msgstr ""
++"Denne nøgle styrer opførslen af statusikonet. Der er tre valgmuligheder: "
++"“always” — Ikonet vil altid være der; “client” — Ikonet vil være der hvis "
++"nogen er forbundet (dette er standardopførsel); “never” — Ikonet vil aldrig "
++"vises."
+ 
+ #: ../common/org.gnome.Vino.gschema.xml.h:29
+ msgid "Whether to disable the desktop background when a user is connected"
+@@ -302,7 +306,9 @@ msgstr "Vis indstillinger for sessionshåndtering"
+ msgid ""
+ "Your XServer does not support the XTest extension — remote desktop access "
+ "will be view-only\n"
+-msgstr "Din X-server understøtter ikke XTest-udvidelsen — fjernadgang til skrivebordet er kun med visning\n"
++msgstr ""
++"Din X-server understøtter ikke XTest-udvidelsen — fjernadgang til "
++"skrivebordet er kun med visning\n"
+ 
+ #. Tube mode uses Telepathy's Tubes to share a user's desktop directly
+ #. * with another IM contact. http://telepathy.freedesktop.org/wiki/Tubes
+@@ -471,8 +477,9 @@ msgstr ""
+ "Ask Hjorth Larsen\n"
+ "Joe Hansen\n"
+ "\n"
+-"Dansk-gruppen <dansk@dansk-gruppen.dk>\n"
+-"Mere info: http://www.dansk-gruppen.dk"
++"Dansk-gruppen\n"
++"Websted <http://dansk-gruppen.dk>\n"
++"E-mail <dansk@dansk-gruppen.dk>"
+ 
+ #: ../server/vino-status-icon.c:290
+ msgid "Share your desktop with other users"
+@@ -675,12 +682,12 @@ msgstr "Der opstod en fejl:"
+ #~ msgstr "Aktiver fjernadgang til skrivebordet"
+ 
+ #~ msgid ""
+-#~ "If true, allows remote access to the desktop via the RFB protocol. Users "
+-#~ "on remote machines may then connect to the desktop using a VNC viewer."
++#~ "If true, allows remote access to the desktop via the RFB protocol. Users on "
++#~ "remote machines may then connect to the desktop using a VNC viewer."
+ #~ msgstr ""
+ #~ "Hvis sand, tillader fjernadgang til skrivebordet vha. RFB-protokollen. "
+-#~ "Brugere på fjernmaskiner kan så tilslutte til skrivebordet med en VNC-"
+-#~ "fremviser."
++#~ "Brugere på fjernmaskiner kan så tilslutte til skrivebordet med en "
++#~ "VNC-fremviser."
+ 
+ #~ msgid "Remote desktop sharing password"
+ #~ msgstr "Adgangskode til deling af fjernskrivebord"
+@@ -726,8 +733,7 @@ msgstr "Der opstod en fejl:"
+ #~ msgstr "- Opdaterer Vino-kodeord"
+ 
+ #~ msgid ""
+-#~ "Run 'vino-passwd --help' to see a full list of available command line "
+-#~ "options"
++#~ "Run 'vino-passwd --help' to see a full list of available command line options"
+ #~ msgstr ""
+ #~ "Kør “vino-passwd --help” for at se en fuld liste over tilgængelige "
+ #~ "kommandolinjetilvalg"
+@@ -737,3 +743,4 @@ msgstr "Der opstod en fejl:"
+ 
+ #~ msgid "ERROR: You do not have enough permissions to change Vino password.\n"
+ #~ msgstr "FEJL: Du har ikke rettigheder til at ændre Vino-kodeord.\n"
++
+-- 
+2.20.1
+
