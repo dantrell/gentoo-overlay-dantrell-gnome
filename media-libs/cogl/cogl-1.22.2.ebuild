@@ -38,7 +38,7 @@ COMMON_DEPEND="
 	wayland? (
 		>=dev-libs/wayland-1.1.90
 		media-libs/mesa[egl,gbm,wayland]
-		x11-libs/libdrm:= 
+		x11-libs/libdrm:=
 	)
 "
 # before clutter-1.7, cogl was part of clutter
