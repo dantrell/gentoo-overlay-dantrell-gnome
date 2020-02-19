@@ -15,8 +15,8 @@
 ~app-misc/bijiben-3.34.2::dantrell-gnome-3-34
 ~app-misc/geoclue-2.4.8::dantrell-gnome
 ~app-misc/gnote-3.33.0::dantrell-gnome-3-34
-~app-misc/tracker-2.3.1::dantrell-gnome-3-34
-~app-misc/tracker-miners-2.3.1::dantrell-gnome-3-34
+~app-misc/tracker-2.3.2::dantrell-gnome-3-34
+~app-misc/tracker-miners-2.3.2::dantrell-gnome-3-34
 ~app-text/enchant-2.2.7::dantrell-gnome
 ~app-text/evince-3.34.2::dantrell-gnome-3-34
 ~app-text/gspell-1.8.3::dantrell-gnome
@@ -29,8 +29,8 @@
 ~dev-libs/appstream-glib-0.7.16::dantrell-gnome
 ~dev-libs/atk-2.34.1::dantrell-gnome-3-34
 ~dev-libs/folks-0.13.2::dantrell-gnome
-~dev-libs/gjs-1.58.4::dantrell-gnome-3-34
-~dev-libs/glib-2.62.4::dantrell-gnome
+~dev-libs/gjs-1.58.5::dantrell-gnome-3-34
+~dev-libs/glib-2.62.5::dantrell-gnome
 ~dev-libs/gmime-3.2.6::dantrell-gnome
 ~dev-libs/gobject-introspection-1.62.0::dantrell-gnome-3-34
 ~dev-libs/gobject-introspection-common-1.62.0::dantrell-gnome-3-34
@@ -51,7 +51,7 @@
 ~dev-python/pyatspi-2.34.0::dantrell-gnome-3-34
 ~dev-python/pygobject-3.34.0::dantrell-gnome-3-34
 ~dev-util/devhelp-3.34.0::dantrell-gnome-3-34
-~dev-util/gdbus-codegen-2.62.4::dantrell-gnome
+~dev-util/gdbus-codegen-2.62.5::dantrell-gnome
 ~dev-util/gnome-builder-3.34.1::dantrell-gnome-3-34
 ~dev-util/gnome-devel-docs-3.32.1::dantrell-gnome
 ~dev-util/gtk-doc-1.32::dantrell-gnome
@@ -83,7 +83,7 @@
 ~gnome-base/gnome-control-center-3.34.4::dantrell-gnome-3-34
 ~gnome-base/gnome-core-apps-3.34.0::dantrell-gnome-3-34
 ~gnome-base/gnome-core-libs-3.34.0::dantrell-gnome-3-34
-~gnome-base/gnome-desktop-3.34.3::dantrell-gnome-3-34
+~gnome-base/gnome-desktop-3.34.4::dantrell-gnome-3-34
 ~gnome-base/gnome-extra-apps-3.34.0::dantrell-gnome-3-34
 ~gnome-base/gnome-flashback-3.34.2::dantrell-gnome-3-34
 ~gnome-base/gnome-keyring-3.34.0::dantrell-gnome-3-34
@@ -100,7 +100,7 @@
 ~gnome-base/nautilus-3.34.2::dantrell-gnome-3-34
 ~gnome-extra/evolution-data-server-3.34.4::dantrell-gnome-3-34
 ~gnome-extra/evolution-ews-3.34.4::dantrell-gnome-3-34
-~gnome-extra/gnome-boxes-3.34.3::dantrell-gnome-3-34
+~gnome-extra/gnome-boxes-3.34.4::dantrell-gnome-3-34
 ~gnome-extra/gnome-calculator-3.34.1::dantrell-gnome-3-34
 ~gnome-extra/gnome-calendar-3.34.2::dantrell-gnome-3-34
 ~gnome-extra/gnome-characters-3.32.1::dantrell-gnome

@@ -4,6 +4,7 @@ EAPI="6"
 PYTHON_REQ_USE="xml"
 PYTHON_COMPAT=( python{3_6,3_7,3_8} )
 DISTUTILS_SINGLE_IMPL=1
+DISTUTILS_USE_SETUPTOOLS=no
 
 inherit gnome2 distutils-r1
 
@@ -17,7 +18,7 @@ KEYWORDS="~*"
 IUSE=""
 
 RDEPEND="${PYTHON_DEPS}
-	>=dev-libs/glib-2.50:2[dbus]
+	>=dev-libs/glib-2.50:2
 	$(python_gen_cond_dep '
 		>=dev-python/pygobject-3.12:3[cairo,${PYTHON_MULTI_USEDEP}]
 	')
@@ -32,6 +33,9 @@ DEPEND="${RDEPEND}
 	dev-util/itstool
 	sys-devel/gettext
 "
+# dev-python/distro is soft-required in BDEPEND for python3.8 and onwards,
+# but it's mainly needed for debian and derivatives - seems the fallback
+# works fine, as we aren't a special_case, just an annoying warning.
 
 python_compile_all() {
 	mydistutilsargs=( --no-update-icon-cache --no-compile-schemas )
