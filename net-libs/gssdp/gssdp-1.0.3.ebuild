@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP"
 
 LICENSE="LGPL-2"
 SLOT="0/3"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+introspection gtk"
 

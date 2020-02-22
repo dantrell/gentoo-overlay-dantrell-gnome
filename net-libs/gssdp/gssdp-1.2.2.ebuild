@@ -1,52 +1,59 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 VALA_USE_DEPEND="vapigen"
 
-inherit gnome2 meson multilib-minimal vala
+inherit gnome.org meson multilib-minimal vala xdg
 
-DESCRIPTION="A GObject-based API for handling resource discovery and announcement over SSDP"
+DESCRIPTION="GObject-based API for handling resource discovery and announcement over SSDP"
 HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP"
 
-LICENSE="LGPL-2"
-SLOT="0/3"
-KEYWORDS=""
+LICENSE="LGPL-2+"
+SLOT="0/1.2-0" # <API version>-<soname>
+KEYWORDS="~*"
 
-IUSE="examples gtk gtk-doc +introspection"
+IUSE="gtk-doc +introspection gtk vala"
+REQUIRED_USE="vala? ( introspection )"
 
 RDEPEND="
-	>=dev-libs/glib-2.42.2:2[${MULTILIB_USEDEP}]
-	>=net-libs/libsoup-2.44.2:2.4[${MULTILIB_USEDEP},introspection?]
-	gtk? ( >=x11-libs/gtk+-3.0:3 )
-	introspection? (
-		$(vala_depend)
-		>=dev-libs/gobject-introspection-1.36:= )
-	!<net-libs/gupnp-vala-0.10.3
+	>=dev-libs/glib-2.54:2[${MULTILIB_USEDEP}]
+	>=net-libs/libsoup-2.26.1:2.4[${MULTILIB_USEDEP},introspection?]
+	gtk? ( >=x11-libs/gtk+-3.12:3 )
+	introspection? ( >=dev-libs/gobject-introspection-1.54:= )
 "
-DEPEND="${RDEPEND}
-	gtk-doc? ( >=dev-util/gtk-doc-am-1.14 )
-	sys-devel/gettext
+DEPEND="${RDEPEND}"
+BDEPEND="
+	gtk-doc? ( >=dev-util/gtk-doc-1.14
+		app-text/docbook-xml-dtd:4.1.2 )
 	>=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}]
+	vala? (
+		$(vala_depend)
+		net-libs/libsoup:2.4[vala]
+	)
 "
 
 src_prepare() {
-	use introspection && vala_src_prepare
-	gnome2_src_prepare
+	use vala && vala_src_prepare
+	xdg_src_prepare
 }
 
 multilib_src_configure() {
 	local emesonargs=(
-		$(meson_use examples)
-		$(meson_use gtk-doc gtk_doc)
-		$(meson_use gtk sniffer)
-		$(meson_use introspection)
-		$(meson_use introspection vapi)
+		-Dgtk_doc=$(multilib_native_usex gtk-doc true false)
+		-Dsniffer=$(multilib_native_usex gtk true false)
+		-Dintrospection=$(multilib_native_usex introspection true false)
+		-Dvapi=$(multilib_native_usex vala true false)
+		-Dexamples=false
 	)
 	meson_src_configure
 }
 
 multilib_src_compile() {
 	meson_src_compile
+}
+
+multilib_src_test() {
+	meson_src_test
 }
 
 multilib_src_install() {

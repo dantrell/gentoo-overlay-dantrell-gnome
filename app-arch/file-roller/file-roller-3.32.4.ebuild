@@ -67,6 +67,9 @@ src_prepare() {
 		eapply "${FILESDIR}"/${PN}-3.32.1-add-nautilus-extension.patch
 	fi
 
+	# https://gitlab.gnome.org/GNOME/file-roller/merge_requests/31
+	eapply "${FILESDIR}"/${PN}-3.32.4-fno-common.patch
+
 	# File providing Gentoo package names for various archivers
 	cp -f "${FILESDIR}"/3.32-packages.match data/packages.match || die
 

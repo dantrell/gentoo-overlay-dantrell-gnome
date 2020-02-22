@@ -114,7 +114,7 @@
 ~gnome-extra/gnome-power-manager-3.32.0::dantrell-gnome
 ~gnome-extra/gnome-recipes-2.0.2::dantrell-gnome
 ~gnome-extra/gnome-shell-extensions-3.34.2::dantrell-gnome-3-34
-~gnome-extra/gnome-shell-frippery-3.34.1::dantrell-gnome-3-34
+~gnome-extra/gnome-shell-frippery-3.34.2::dantrell-gnome-3-34
 ~gnome-extra/gnome-software-3.34.2::dantrell-gnome-3-34
 ~gnome-extra/gnome-system-monitor-3.32.1::dantrell-gnome
 ~gnome-extra/gnome-tweaks-3.34.0::dantrell-gnome-3-34
@@ -156,6 +156,8 @@
 ~net-irc/polari-3.34.1::dantrell-gnome-3-34
 ~net-libs/glib-networking-2.62.3::dantrell-gnome-3-34
 ~net-libs/gnome-online-accounts-3.34.1::dantrell-gnome-3-34
+~net-libs/gssdp-1.2.2::dantrell-gnome
+~net-libs/gupnp-1.2.2::dantrell-gnome
 ~net-libs/libsoup-2.68.3::dantrell-gnome-3-34
 ~net-libs/libsoup-gnome-2.68.2::dantrell-gnome-3-34
 ~net-libs/libzapojit-0.0.3::dantrell-gnome

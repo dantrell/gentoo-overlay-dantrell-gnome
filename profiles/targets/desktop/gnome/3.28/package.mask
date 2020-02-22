@@ -6,6 +6,14 @@
 
 # Requires GLib 2.58 (or greater)
 >=dev-java/icedtea-bin-3.12.0
+>=net-libs/dleyna-connector-dbus-0.3.0
+>=net-libs/dleyna-core-0.6.0
+>=net-libs/dleyna-renderer-0.6.0
+>=net-libs/gssdp-1.2.0
+>=net-libs/gupnp-1.2.0
+>=net-libs/gupnp-igd-0.2.5-r10
+>=net-misc/dleyna-server-0.6.0
+>=net-misc/gupnp-tools-0.10.0
 
 # Masked to freeze the state of GNOME
 >=app-accessibility/accerciser-3.31.0

@@ -222,6 +222,7 @@ net-libs/uhttpmock::gentoo
 net-libs/webkit-gtk::gentoo
 net-misc/dleyna-server::gentoo
 net-misc/gnome-online-miners::gentoo
+net-misc/gupnp-tools::gentoo
 net-misc/modemmanager::gentoo
 net-misc/networkmanager::gentoo
 net-misc/rygel::gentoo

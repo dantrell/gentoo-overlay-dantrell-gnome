@@ -8,27 +8,25 @@ inherit gnome2 systemd versionator
 DESCRIPTION="Rygel is an open source UPnP/DLNA MediaServer"
 HOMEPAGE="https://wiki.gnome.org/Projects/Rygel"
 
-LICENSE="GPL-2"
+LICENSE="LGPL-2.1+ CC-BY-SA-3.0"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="X +introspection +sqlite tracker test transcode"
 
 RESTRICT="!test? ( test )"
 
-# The deps for tracker? and transcode? are just the earliest available
-# version at the time of writing this ebuild
 RDEPEND="
-	>=dev-libs/glib-2.40.0:2
+	>=dev-libs/glib-2.44.0:2
 	>=dev-libs/libgee-0.8:0.8
 	>=dev-libs/libxml2-2.7:2
 	>=media-libs/gupnp-dlna-0.9.4:2.0
-	media-libs/gstreamer:1.0
-	media-libs/gst-plugins-base:1.0
+	>=media-libs/gstreamer-1.12:1.0
+	>=media-libs/gst-plugins-base-1.12:1.0
 	>=media-libs/libmediaart-0.7:2.0
 	media-plugins/gst-plugins-soup:1.0
-	>=net-libs/gssdp-0.13
-	>=net-libs/gupnp-0.20.14
+	>=net-libs/gssdp-1.1.0:0=
+	>=net-libs/gupnp-1.1.0:0=
 	>=net-libs/gupnp-av-0.12.8
 	>=net-libs/libsoup-2.44:2.4
 	>=sys-apps/util-linux-2.20
@@ -39,13 +37,13 @@ RDEPEND="
 		dev-libs/libunistring:=
 		x11-libs/gdk-pixbuf:2
 	)
-	tracker? ( >=app-misc/tracker-0.16:= )
+	tracker? ( app-misc/tracker:= )
 	transcode? (
 		media-libs/gst-plugins-bad:1.0
 		media-plugins/gst-plugins-twolame:1.0
 		media-plugins/gst-plugins-libav:1.0
 	)
-	X? ( >=x11-libs/gtk+-3:3 )
+	X? ( >=x11-libs/gtk+-3.22:3 )
 "
 DEPEND="${RDEPEND}
 	dev-util/gtk-doc-am

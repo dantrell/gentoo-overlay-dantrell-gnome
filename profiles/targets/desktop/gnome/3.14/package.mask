@@ -6,6 +6,14 @@
 
 # Requires GLib 2.58 (or greater)
 >=dev-java/icedtea-bin-3.12.0
+>=net-libs/dleyna-connector-dbus-0.3.0
+>=net-libs/dleyna-core-0.6.0
+>=net-libs/dleyna-renderer-0.6.0
+>=net-libs/gssdp-1.2.0
+>=net-libs/gupnp-1.2.0
+>=net-libs/gupnp-igd-0.2.5-r10
+>=net-misc/dleyna-server-0.6.0
+>=net-misc/gupnp-tools-0.10.0
 
 # Requires GLib 2.56 (or greater)
 >=media-sound/pulseeffects-4.3.5
@@ -41,6 +49,11 @@
 >=net-im/empathy-3.12.14
 >=net-libs/libnice-0.1.15
 >=www-client/midori-6.0
+
+# Requires GLib 2.46 (or greater) and glibmm 2.50 (or greater)
+>=dev-db/mysql-connector-c++-7.0
+>=dev-db/mysql-connector-c-7.0
+>=dev-db/mysql-workbench-7.0
 
 # Requires GLib 2.46 (or greater)
 >=app-admin/packagekit-1.1.0

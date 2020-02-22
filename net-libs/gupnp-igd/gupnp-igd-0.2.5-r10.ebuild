@@ -2,14 +2,14 @@
 
 EAPI="6"
 
-inherit gnome.org multilib-minimal xdg-utils
+inherit autotools gnome.org multilib-minimal xdg
 
 DESCRIPTION="Library to handle UPnP IGD port mapping for GUPnP"
 HOMEPAGE="http://gupnp.org"
 
 LICENSE="LGPL-2.1+"
-SLOT="0"
-KEYWORDS="*"
+SLOT="0/1.2" # pkg-config file links in gupnp API, so some consumers of gupnp-igd need to be relinked for it
+KEYWORDS="~*"
 
 IUSE="+introspection"
 
@@ -18,8 +18,8 @@ RESTRICT="test"
 
 RDEPEND="
 	>=dev-libs/glib-2.34.3:2[${MULTILIB_USEDEP}]
-	>=net-libs/gssdp-0.14.7:0/3[${MULTILIB_USEDEP}]
-	>=net-libs/gupnp-0.20.10[${MULTILIB_USEDEP}]
+	>=net-libs/gssdp-1.2:0=[${MULTILIB_USEDEP}]
+	>=net-libs/gupnp-1.2:0=[${MULTILIB_USEDEP}]
 	introspection? ( >=dev-libs/gobject-introspection-0.10:= )
 "
 DEPEND="${RDEPEND}
@@ -28,9 +28,16 @@ DEPEND="${RDEPEND}
 	>=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}]
 "
 
-multilib_src_configure() {
-	xdg_environment_reset
+PATCHES=(
+	"${FILESDIR}"/${PN}-0.2.5-gupnp-1.2.patch # needs eautoreconf, https://gitlab.gnome.org/GNOME/gupnp-igd/merge_requests/1
+)
 
+src_prepare() {
+	xdg_src_prepare
+	eautoreconf
+}
+
+multilib_src_configure() {
 	# python is old-style bindings; use introspection and pygobject instead
 	ECONF_SOURCE=${S} \
 	econf \
