@@ -36,7 +36,7 @@ DEPEND="${RDEPEND}
 	app-arch/zip
 	virtual/pkgconfig"
 
-pkg_setup(){
+pkg_setup() {
 	if [[ ${MERGE_TYPE} != "binary" ]]; then
 		python-any-r1_pkg_setup
 		export LC_ALL="C"

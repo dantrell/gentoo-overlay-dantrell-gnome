@@ -118,7 +118,6 @@ src_configure() {
 	# https://bugs.gentoo.org/451136
 	#
 	econf \
-		--disable-silent-rules \
 		--disable-profile \
 		--without-libspiro \
 		--disable-docs --disable-workshop \

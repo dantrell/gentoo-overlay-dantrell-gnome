@@ -43,7 +43,6 @@ src_configure() {
 	# Gypsy has multiple vulnerabilities:
 	# https://bugs.freedesktop.org/show_bug.cgi?id=33431
 	econf \
-		--disable-silent-rules \
 		$(use_enable static-libs static) \
 		--disable-schemas-compile \
 		$(use_enable gtk tests) \

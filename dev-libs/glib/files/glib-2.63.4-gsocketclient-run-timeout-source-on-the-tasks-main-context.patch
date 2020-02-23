@@ -1,0 +1,29 @@
+From cc3cf6b8b2ad12d54f3474113f0ccfa7dcf66b7b Mon Sep 17 00:00:00 2001
+From: Michael Catanzaro <mcatanzaro@gnome.org>
+Date: Sat, 4 Jan 2020 20:46:25 -0600
+Subject: [PATCH] gsocketclient: run timeout source on the task's main context
+
+This shouldn't make any difference, because this code should only ever
+be running in the main context that was thread-default at the time the
+task was created, so it should already match the task's context. But
+let's make sure, just in case.
+---
+ gio/gsocketclient.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gio/gsocketclient.c b/gio/gsocketclient.c
+index 6adeee299..81721795b 100644
+--- a/gio/gsocketclient.c
++++ b/gio/gsocketclient.c
+@@ -1794,7 +1794,7 @@ g_socket_client_enumerator_callback (GObject      *object,
+   attempt->connection = (GIOStream *)g_socket_connection_factory_create_connection (socket);
+   attempt->timeout_source = g_timeout_source_new (HAPPY_EYEBALLS_CONNECTION_ATTEMPT_TIMEOUT_MS);
+   g_source_set_callback (attempt->timeout_source, on_connection_attempt_timeout, attempt, NULL);
+-  g_source_attach (attempt->timeout_source, g_main_context_get_thread_default ());
++  g_source_attach (attempt->timeout_source, g_task_get_context (data->task));
+   data->connection_attempts = g_slist_append (data->connection_attempts, attempt);
+ 
+   if (g_task_get_cancellable (data->task))
+-- 
+2.24.1
+

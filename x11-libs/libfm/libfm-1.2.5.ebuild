@@ -81,8 +81,6 @@ src_prepare() {
 
 src_configure() {
 	econf \
-		--sysconfdir="${EPREFIX}/etc" \
-		--disable-dependency-tracking \
 		--disable-static \
 		$(use_enable examples demo) \
 		$(use_enable exif) \

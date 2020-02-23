@@ -44,7 +44,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-24.2.0-update-common-python-code.patch
 )
 
-pkg_setup(){
+pkg_setup() {
 	if [[ ${MERGE_TYPE} != "binary" ]]; then
 		python-any-r1_pkg_setup
 		export LC_ALL="C"

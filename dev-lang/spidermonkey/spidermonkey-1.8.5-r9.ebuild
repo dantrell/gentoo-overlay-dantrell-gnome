@@ -41,25 +41,25 @@ PATCHES=(
 	"${WORKDIR}"/sm0/${P}-fix-install-symlinks.patch
 	# https://bugzilla.mozilla.org/show_bug.cgi?id=638056#c9
 	"${WORKDIR}"/sm0/${P}-fix-ppc64.patch
-	# https://bugs.gentoo.org/show_bug.cgi?id=400727
-	# https://bugs.gentoo.org/show_bug.cgi?id=420471
+	# https://bugs.gentoo.org/400727
+	# https://bugs.gentoo.org/420471
 	"${WORKDIR}"/sm0/${P}-arm_respect_cflags-3.patch
-	# https://bugs.gentoo.org/show_bug.cgi?id=438746
+	# https://bugs.gentoo.org/438746
 	"${WORKDIR}"/sm0/${PN}-1.8.7-freebsd-pthreads.patch
-	# https://bugs.gentoo.org/show_bug.cgi?id=441928
+	# https://bugs.gentoo.org/441928
 	"${WORKDIR}"/sm0/${PN}-1.8.5-perf_event-check.patch
-	# https://bugs.gentoo.org/show_bug.cgi?id=439260
+	# https://bugs.gentoo.org/439260
 	"${WORKDIR}"/sm0/${P}-symbol-versions.patch
-	# https://bugs.gentoo.org/show_bug.cgi?id=441934
+	# https://bugs.gentoo.org/441934
 	"${WORKDIR}"/sm0/${PN}-1.8.5-ia64-fix.patch
 	"${WORKDIR}"/sm0/${PN}-1.8.5-ia64-static-strings.patch
-	# https://bugs.gentoo.org/show_bug.cgi?id=431560
+	# https://bugs.gentoo.org/431560
 	"${WORKDIR}"/sm0/${PN}-1.8.5-isfinite.patch
-	# https://bugs.gentoo.org/show_bug.cgi?id=552786
+	# https://bugs.gentoo.org/552786
 	"${FILESDIR}"/${PN}-perl-defined-array-check.patch
-	# https://bugs.gentoo.org/show_bug.cgi?id=439558
+	# https://bugs.gentoo.org/439558
 	"${WORKDIR}"/sm0/${PN}-1.8.7-x32.patch
-	# https://bugs.gentoo.org/show_bug.cgi?id=582478
+	# https://bugs.gentoo.org/582478
 	"${WORKDIR}"/sm0/${PN}-1.8.5-gcc6.patch
 	# https://bugs.gentoo.org/679330
 	"${WORKDIR}"/sm0/${PN}-1.8.5-drop-asm-volatile-toplevel.patch
@@ -69,7 +69,7 @@ PATCHES=(
 
 HTML_DOCS=( ${BUILDDIR}/README.html )
 
-pkg_setup(){
+pkg_setup() {
 	if [[ ${MERGE_TYPE} != "binary" ]]; then
 		export LC_ALL="C"
 	fi

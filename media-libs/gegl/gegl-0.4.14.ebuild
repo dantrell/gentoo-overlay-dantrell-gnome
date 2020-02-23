@@ -106,7 +106,6 @@ src_configure() {
 		--disable-docs
 		# never enable altering of CFLAGS via profile option
 		--disable-profile
-		--disable-silent-rules
 		#  - Parameter --disable-workshop disables any use of Lua, effectivly
 		--disable-workshop
 		--program-suffix=-${SLOT}

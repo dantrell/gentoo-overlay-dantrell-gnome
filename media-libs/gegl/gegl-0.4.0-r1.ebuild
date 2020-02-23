@@ -139,7 +139,6 @@ src_configure() {
 	econf \
 		--disable-docs \
 		--disable-profile \
-		--disable-silent-rules \
 		--disable-workshop \
 		--program-suffix=-${SLOT} \
 		--with-gdk-pixbuf \
