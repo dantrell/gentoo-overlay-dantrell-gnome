@@ -55,7 +55,6 @@ src_prepare() {
 
 src_configure() {
 	local myeconfargs=(
-		--docdir="${EPREFIX}/usr/share/doc/${PF}"
 		--enable-imagefilters
 		--localstatedir="${EPREFIX}"/var
 		--with-browseremoteprotocols=DNSSD,CUPS

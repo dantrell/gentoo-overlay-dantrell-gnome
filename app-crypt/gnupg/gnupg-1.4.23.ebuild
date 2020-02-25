@@ -62,7 +62,6 @@ src_configure() {
 	use static && append-ldflags -static
 
 	econf \
-		--docdir="${EPREFIX}/usr/share/doc/${PF}" \
 		$(use_enable ldap) \
 		$(use_enable mta mailto) \
 		--enable-hkp \

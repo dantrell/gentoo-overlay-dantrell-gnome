@@ -49,7 +49,7 @@ DEPEND="
 	obex? ( dev-libs/libical:= )
 	readline? ( sys-libs/readline:0= )
 	systemd? (
-		>=sys-apps/dbus-1.6:=[user-session?]
+		>=sys-apps/dbus-1.6:=[user-session=]
 		sys-apps/systemd
 	)
 	!systemd? ( >=sys-apps/dbus-1.6:= )

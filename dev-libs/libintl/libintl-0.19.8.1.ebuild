@@ -2,11 +2,11 @@
 
 # Note: Keep version bumps in sync with sys-devel/gettext.
 
-EAPI="5"
+EAPI="7"
 
 MY_P="gettext-${PV}"
 
-inherit multilib-minimal toolchain-funcs libtool ltprune usr-ldscript
+inherit multilib-minimal toolchain-funcs libtool usr-ldscript
 
 DESCRIPTION="the GNU international library (split out of gettext)"
 HOMEPAGE="https://www.gnu.org/software/gettext/"
@@ -28,6 +28,8 @@ RDEPEND="${DEPEND}
 S="${WORKDIR}/${MY_P}/gettext-runtime"
 
 src_prepare() {
+	default
+
 	# The libtool files are stored higher up, so make sure we run in the
 	# whole tree and not just the subdir we build.
 	elibtoolize "${WORKDIR}"
@@ -52,7 +54,7 @@ multilib_src_configure() {
 		$(use_enable static-libs static)
 		$(use_enable threads)
 	)
-	ECONF_SOURCE=${S} econf "${myconf[@]}"
+	ECONF_SOURCE="${S}" econf "${myconf[@]}"
 }
 
 multilib_src_compile() {
@@ -68,7 +70,9 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
-	use static-libs || prune_libtool_files --all
+	if ! use static-libs ; then
+		find "${ED}" -type f -name "*.la" -delete || die
+	fi
 
 	rm -f "${ED}"/usr/share/locale/locale.alias "${ED}"/usr/lib/charset.alias
 

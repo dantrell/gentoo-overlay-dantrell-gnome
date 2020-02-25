@@ -48,7 +48,9 @@ BDEPEND="
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.12.1-conditional-tests.patch # Allow not building lots of test executables when tests are disabled
-	"${FILESDIR}"/${PN}-0.12.1-no-tracker-tests.patch # TODO: Tracker tests fail; this removed them for now
+	"${FILESDIR}"/${PN}-0.12.1-no-tracker-tests.patch # TODO: Tracker tests fail; this removes them for now
+	"${FILESDIR}"/${PN}-0.12.1-meson-0.53-compat.patch # https://gitlab.gnome.org/GNOME/folks/issues/119
+	"${FILESDIR}"/${PN}-0.12.1-meson-0.53-compat2.patch # Don't require dbusmock if tests aren't built (with our downstream conditional-tests patch)
 )
 
 src_prepare() {

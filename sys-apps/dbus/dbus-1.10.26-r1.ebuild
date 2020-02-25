@@ -1,9 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="6"
 PYTHON_COMPAT=( python{2_7,3_6,3_7,3_8} )
 
-inherit autotools flag-o-matic linux-info python-any-r1 readme.gentoo-r1 systemd virtualx user multilib-minimal
+inherit autotools linux-info flag-o-matic python-any-r1 readme.gentoo-r1 systemd virtualx multilib-minimal
 
 DESCRIPTION="A message bus system, a simple way for applications to talk to each other"
 HOMEPAGE="https://dbus.freedesktop.org/"
@@ -11,26 +11,25 @@ SRC_URI="https://dbus.freedesktop.org/releases/dbus/${P}.tar.gz"
 
 LICENSE="|| ( AFL-2.1 GPL-2 )"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="debug doc elogind selinux static-libs systemd test user-session X"
 REQUIRED_USE="
 	?? ( elogind systemd )
+	test? ( debug )
 "
 
 RESTRICT="!test? ( test )"
 
-# autoconf-archive-2019.01.06 blocker added for bug #674830
-# Please check on bumps if the blocker is still necessary.
 BDEPEND="
+	acct-user/messagebus
 	app-text/xmlto
 	app-text/docbook-xml-dtd:4.4
-	<sys-devel/autoconf-archive-2019.01.06
 	virtual/pkgconfig
 	doc? ( app-doc/doxygen )
 "
 COMMON_DEPEND="
-	>=dev-libs/expat-2.1.0
+	>=dev-libs/expat-2
 	elogind? ( sys-auth/elogind )
 	selinux? ( sys-libs/libselinux )
 	systemd? ( sys-apps/systemd:0= )
@@ -40,13 +39,13 @@ COMMON_DEPEND="
 	)
 "
 DEPEND="${COMMON_DEPEND}
-	dev-libs/expat
 	test? (
 		${PYTHON_DEPS}
-		>=dev-libs/glib-2.40:2
+		>=dev-libs/glib-2.36:2
 	)
 "
 RDEPEND="${COMMON_DEPEND}
+	acct-user/messagebus
 	selinux? ( sec-policy/selinux-dbus )
 "
 
@@ -60,13 +59,9 @@ TBD="${WORKDIR}/${P}-tests-build"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-enable-elogind.patch
-	"${FILESDIR}"/${PN}-daemon-optional.patch # bug #653136
 )
 
 pkg_setup() {
-	enewgroup messagebus
-	enewuser messagebus -1 -1 -1 messagebus
-
 	use test && python-any-r1_pkg_setup
 
 	if use kernel_linux; then
@@ -83,13 +78,6 @@ src_prepare() {
 		bus/test-main.c || die
 
 	default
-
-	if [[ ${CHOST} == *-solaris* ]]; then
-		# fix standards conflict, due to gcc being c99 by default nowadays
-		sed -i \
-			-e 's/_XOPEN_SOURCE=500/_XOPEN_SOURCE=600/' \
-			configure.ac configure || die
-	fi
 
 	# required for bug 263909, cross-compile so don't remove eautoreconf
 	eautoreconf
@@ -112,8 +100,6 @@ multilib_src_configure() {
 	# not on an SELinux profile.
 	myconf=(
 		--localstatedir="${EPREFIX}/var"
-		--docdir="${EPREFIX}/usr/share/doc/${PF}"
-		--htmldir="${EPREFIX}/usr/share/doc/${PF}/html"
 		$(use_enable static-libs static)
 		$(use_enable debug verbose-mode)
 		--disable-asserts
@@ -155,12 +141,15 @@ multilib_src_configure() {
 			--disable-doxygen-docs
 		)
 		myconf+=(
-			--disable-daemon
 			--disable-selinux
 			--disable-libaudit
 			--disable-elogind
 			--disable-systemd
 			--without-x
+
+			# expat is used for the daemon only
+			# fake the check for multilib library build
+			ac_cv_lib_expat_XML_ParserCreate_MM=yes
 		)
 	fi
 
@@ -174,7 +163,6 @@ multilib_src_configure() {
 			$(use_enable test asserts)
 			$(use_enable test checks)
 			$(use_enable test embedded-tests)
-			$(use_enable test stats)
 			$(has_version dev-libs/dbus-glib && echo --enable-modular-tests)
 		)
 		einfo "Running configure in ${TBD}"
@@ -234,7 +222,7 @@ multilib_src_install_all() {
 	# let the init script create the /var/run/dbus directory
 	rm -rf "${ED}"/var/run
 
-	dodoc AUTHORS ChangeLog NEWS README doc/TODO
+	dodoc AUTHORS ChangeLog HACKING NEWS README doc/TODO
 	readme.gentoo_create_doc
 
 	find "${ED}" -name '*.la' -delete || die
@@ -268,5 +256,17 @@ pkg_postinst() {
 		elog "specified and refused to start otherwise, then export the"
 		elog "the following to your environment:"
 		elog " DBUS_SESSION_BUS_ADDRESS=\"launchd:env=DBUS_LAUNCHD_SESSION_BUS_SOCKET\""
+	fi
+
+	if use user-session; then
+		ewarn "You have enabled user-session. Please note this can cause"
+		ewarn "bogus behaviors in several dbus consumers that are not prepared"
+		ewarn "for this dbus activation method yet."
+		ewarn
+		ewarn "See the following link for background on this change:"
+		ewarn "https://lists.freedesktop.org/archives/systemd-devel/2015-January/027711.html"
+		ewarn
+		ewarn "Known issues are tracked here:"
+		ewarn "https://bugs.gentoo.org/576028"
 	fi
 }

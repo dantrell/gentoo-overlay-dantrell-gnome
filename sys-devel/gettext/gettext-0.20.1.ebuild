@@ -14,7 +14,7 @@ SRC_URI="mirror://gnu/${PN}/${P}.tar.gz"
 # so put that license behind USE=cxx.
 LICENSE="GPL-3+ cxx? ( LGPL-2.1+ )"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="acl -cvs +cxx doc emacs git java ncurses nls openmp static-libs"
 
@@ -77,7 +77,6 @@ multilib_src_configure() {
 	local myconf=(
 		# switches common to runtime and top-level
 		--cache-file="${BUILD_DIR}"/config.cache
-		#--docdir="\$(datarootdir)/doc/${PF}"
 
 		# Emacs support is now in a separate package
 		--without-emacs
@@ -132,7 +131,7 @@ multilib_src_install_all() {
 		rm "${ED}"/usr/share/${PN}/*.jar || die
 		rm "${ED}"/usr/share/${PN}/*.class || die
 		if use doc ; then
-			java-pkg_dojavadoc "${ED}"/usr/share/doc/${PF}/javadoc2
+			java-pkg_dojavadoc "${ED}"/usr/share/doc/${PF}/html/javadoc2
 		fi
 	fi
 
