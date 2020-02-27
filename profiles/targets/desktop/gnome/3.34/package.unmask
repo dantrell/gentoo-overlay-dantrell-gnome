@@ -159,6 +159,7 @@
 ~net-libs/gssdp-1.2.2::dantrell-gnome
 ~net-libs/gupnp-1.2.2::dantrell-gnome
 ~net-libs/libsoup-2.68.3::dantrell-gnome-3-34
+~net-libs/libsoup-2.68.4::dantrell-gnome-3-34
 ~net-libs/libsoup-gnome-2.68.2::dantrell-gnome-3-34
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome
@@ -174,7 +175,7 @@
 ~sys-process/gnome-usage-3.33.2::dantrell-gnome-3-34
 ~www-client/epiphany-3.34.4::dantrell-gnome-3-34
 ~x11-libs/gtk+-3.24.9::dantrell-gnome
-~x11-libs/libnotify-0.7.8::dantrell-gnome
+~x11-libs/libnotify-0.7.9::dantrell-gnome
 ~x11-libs/libwnck-3.32.0::dantrell-gnome
 ~x11-libs/pango-1.44.7::dantrell-gnome
 ~x11-libs/vte-0.58.2::dantrell-gnome-3-34

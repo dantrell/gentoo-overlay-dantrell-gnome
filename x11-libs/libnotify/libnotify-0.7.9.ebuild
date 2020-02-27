@@ -9,7 +9,7 @@ HOMEPAGE="https://gitlab.gnome.org/GNOME/libnotify"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="gtk-doc +introspection test"
 
@@ -23,7 +23,10 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
+	app-text/docbook-xsl-ns-stylesheets
+	dev-libs/libxslt
 	>=dev-libs/gobject-introspection-common-1.32
+	virtual/man
 	virtual/pkgconfig
 	gtk-doc? ( dev-util/gtk-doc
 		app-text/docbook-xml-dtd:4.1.2 )
@@ -40,6 +43,7 @@ multilib_src_configure() {
 	local emesonargs=(
 		-Dtests="$(usex test true false)"
 		-Dintrospection="$(multilib_native_usex introspection enabled disabled)"
+		-Dman=true
 		-Dgtk_doc=$(multilib_native_usex gtk-doc true false)
 		-Ddocbook_docs=disabled
 	)
