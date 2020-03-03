@@ -26,7 +26,10 @@ COMMON_DEPEND="
 	>=dev-libs/gobject-introspection-1.54:=
 	telepathy? ( >=net-libs/telepathy-glib-0.19.9[vala] )
 	tracker? ( app-misc/tracker:0/2.0 )
-	eds? ( >=gnome-extra/evolution-data-server-3.13.90:=[vala] )
+	eds? (
+		>=gnome-extra/evolution-data-server-3.13.90:=[vala]
+		<gnome-extra/evolution-data-server-3.33
+	)
 	dev-libs/libxml2:2
 	utils? ( sys-libs/readline:0= )
 "

@@ -32,7 +32,10 @@ COMMON_DEPEND="
 	sys-libs/readline:0=
 
 	bluetooth? ( >=net-wireless/bluez-5 )
-	eds? ( >=gnome-extra/evolution-data-server-3.13.90:=[vala] )
+	eds? (
+		>=gnome-extra/evolution-data-server-3.13.90:=[vala]
+		<gnome-extra/evolution-data-server-3.33
+	)
 	telepathy? ( >=net-libs/telepathy-glib-0.19.9[vala] )
 	tracker? ( >=app-misc/tracker-1:0= )
 "

@@ -9,7 +9,7 @@ HOMEPAGE="https://developer.gnome.org/totem-pl-parser/stable/"
 
 LICENSE="LGPL-2+"
 SLOT="0/18"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="archive crypt doc +introspection +quvi test"
 

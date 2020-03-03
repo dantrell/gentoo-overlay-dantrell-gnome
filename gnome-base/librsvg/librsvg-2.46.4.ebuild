@@ -32,6 +32,8 @@ RDEPEND="
 #  media-gfx/graphviz
 #   gnome-base/librsvg
 #    dev-lang/vala
+#
+# Ref. https://github.com/dantrell/gentoo-project-gnome-without-systemd#known-issues
 DEPEND="${RDEPEND}
 	dev-libs/gobject-introspection-common
 	dev-libs/vala-common
