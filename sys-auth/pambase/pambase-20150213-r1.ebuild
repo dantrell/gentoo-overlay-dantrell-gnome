@@ -1,9 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 DESCRIPTION="PAM base configuration files"
-HOMEPAGE="https://wiki.gentoo.org/wiki/Project:PAM"
+HOMEPAGE="https://github.com/gentoo/pambase"
 SRC_URI="https://dev.gentoo.org/~vapier/dist/${P}.tar.xz"
 
 LICENSE="GPL-2"
@@ -41,8 +41,8 @@ DEPEND="
 "
 
 PATCHES=(
-	"${FILESDIR}"/${P}-selinux-note.patch #540096
-	"${FILESDIR}"/${P}-elogind.patch #599498
+	"${FILESDIR}"/${PN}-20150213-selinux-note.patch #540096
+	"${FILESDIR}"/${PN}-20150213-elogind.patch #599498
 )
 
 src_compile() {

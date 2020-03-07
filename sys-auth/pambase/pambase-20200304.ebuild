@@ -4,13 +4,13 @@ EAPI="7"
 
 DESCRIPTION="PAM base configuration files"
 HOMEPAGE="https://github.com/gentoo/pambase"
-SRC_URI="https://dev.gentoo.org/~vapier/dist/${P}.tar.xz"
+SRC_URI="https://github.com/gentoo/pambase/archive/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
-IUSE="ck consolekit +cracklib debug elogind minimal mktemp +nullok pam_krb5 pam_ssh passwdqc securetty selinux +sha512 systemd"
+IUSE="caps ck consolekit +cracklib debug elogind minimal mktemp +nullok pam_krb5 pam_ssh passwdqc securetty selinux +sha512 systemd"
 REQUIRED_USE="?? ( ck consolekit elogind systemd )"
 
 RESTRICT="binchecks"
@@ -28,6 +28,7 @@ RDEPEND="
 		>=sys-libs/pam-${MIN_PAM_REQ}
 		sys-auth/pam_krb5
 	)
+	caps? ( sys-libs/libcap[pam] )
 	pam_ssh? ( sys-auth/pam_ssh )
 	passwdqc? ( sys-auth/pam_passwdqc )
 	selinux? ( sys-libs/pam[selinux] )
@@ -39,22 +40,13 @@ DEPEND="
 	app-portage/portage-utils
 "
 
-PATCHES=(
-	"${FILESDIR}"/${P}-selinux-note.patch #540096
-	"${FILESDIR}"/${P}-elogind.patch #599498
-	"${FILESDIR}"/${P}-gnome-keyring.patch #652194
-)
+S="${WORKDIR}/${PN}-${P}"
 
 src_compile() {
-	local implementation linux_pam_version
+	local linux_pam_version
 	if has_version sys-libs/pam; then
-		implementation=linux-pam
 		local ver_str=$(qatom $(best_version sys-libs/pam) | cut -d ' ' -f 3)
 		linux_pam_version=$(printf "0x%02x%02x%02x" ${ver_str//\./ })
-	elif has_version sys-auth/openpam; then
-		implementation=openpam
-	else
-		die "PAM implementation not identified"
 	fi
 
 	use_var() {
@@ -78,6 +70,7 @@ src_compile() {
 	emake \
 		GIT=true \
 		$(use_var debug) \
+		$(use_var LIBCAP caps) \
 		$(use_var cracklib) \
 		$(use_var passwdqc) \
 		"${myconf[@]}" \
@@ -89,7 +82,6 @@ src_compile() {
 		$(use_var sha512) \
 		$(use_var KRB5 pam_krb5) \
 		$(use_var minimal) \
-		IMPLEMENTATION=${implementation} \
 		LINUX_PAM_VERSION=${linux_pam_version}
 }
 

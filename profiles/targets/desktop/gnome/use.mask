@@ -1,3 +1,4 @@
 consolekit
+libglvnd
 systemd
 -elogind

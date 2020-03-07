@@ -207,6 +207,8 @@ multilib_src_configure() {
 		$(multilib_native_use_with ncurses nmtui)
 		$(multilib_native_use_with ofono)
 		$(multilib_native_use_enable ovs)
+		$(multilib_native_use_enable policykit polkit)
+		$(multilib_native_use_enable policykit polkit-agent)
 		$(multilib_native_use_with resolvconf)
 		$(multilib_native_use_with selinux)
 		$(multilib_native_use_with systemd systemd-journal)
@@ -218,12 +220,6 @@ multilib_src_configure() {
 		$(multilib_native_use_with wext)
 		$(multilib_native_use_enable wifi)
 	)
-
-	if multilib_is_native_abi && use policykit; then
-		myconf+=( --enable-polkit=yes )
-	else
-		myconf+=( --enable-polkit=disabled )
-	fi
 
 	# Same hack as net-dialup/pptpd to get proper plugin dir for ppp, bug #519986
 	if use ppp; then
@@ -271,6 +267,8 @@ multilib_src_install() {
 	if multilib_is_native_abi; then
 		# Install completions at proper place, bug #465100
 		gnome2_src_install completiondir="$(get_bashcompdir)"
+		insinto /usr/lib/NetworkManager/conf.d #702476
+		doins "${S}"/examples/nm-conf.d/31-mac-addr-change.conf
 	else
 		local targets=(
 			install-libLTLIBRARIES

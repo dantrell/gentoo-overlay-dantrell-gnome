@@ -30,7 +30,7 @@ RDEPEND="${DEPEND}
 	!<x11-libs/gtk+-2.21.3:2
 	!<x11-libs/gtk+-2.90.4:3
 "
-DEPEND="
+DEPEND="${DEPEND}
 	app-text/docbook-xsl-stylesheets
 	dev-libs/libxslt
 	gtk-doc? ( >=dev-util/gtk-doc-1.20

@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="6"
 
 inherit gnome.org gnome2-utils meson multilib multilib-minimal xdg
 
@@ -30,7 +30,7 @@ RDEPEND="${DEPEND}
 	!<x11-libs/gtk+-2.21.3:2
 	!<x11-libs/gtk+-2.90.4:3
 "
-DEPEND="
+DEPEND="${DEPEND}
 	app-text/docbook-xsl-stylesheets
 	dev-libs/libxslt
 	gtk-doc? ( >=dev-util/gtk-doc-1.20
@@ -108,14 +108,15 @@ pkg_preinst() {
 		# Make sure loaders.cache belongs to gdk-pixbuf alone
 		local cache="usr/$(get_libdir)/${PN}-2.0/2.10.0/loaders.cache"
 
-		if [[ -e ${EROOT}/${cache} ]]; then
-			cp "${EROOT}"/${cache} "${ED}"/${cache} || die
+		if [[ -e ${EROOT%/}/${cache} ]]; then
+			cp "${EROOT%/}"/${cache} "${ED}"/${cache} || die
 		else
-			touch "${ED}"/${cache} || die
+			touch "${ED%/}"/${cache} || die
 		fi
 	}
 
 	multilib_foreach_abi multilib_pkg_preinst
+	gnome2_gdk_pixbuf_savelist
 }
 
 pkg_postinst() {
@@ -124,19 +125,12 @@ pkg_postinst() {
 
 	xdg_pkg_postinst
 	multilib_foreach_abi gnome2_gdk_pixbuf_update
-
-	# Migration snippet for when this was handled by gtk+
-	if [ -e "${EROOT}"/usr/lib/gtk-2.0/2.*/loaders ]; then
-		elog "You need to rebuild ebuilds that installed into" "${EROOT}"/usr/lib/gtk-2.0/2.*/loaders
-		elog "to do that you can use qfile from portage-utils:"
-		elog "emerge -va1 \$(qfile -qC ${EPREFIX}/usr/lib/gtk-2.0/2.*/loaders)"
-	fi
 }
 
 pkg_postrm() {
 	xdg_pkg_postrm
 
 	if [[ -z ${REPLACED_BY_VERSION} ]]; then
-		rm -f "${EROOT}"/usr/lib*/${PN}-2.0/2.10.0/loaders.cache
+		rm -f "${EROOT%/}"/usr/lib*/${PN}-2.0/2.10.0/loaders.cache
 	fi
 }
