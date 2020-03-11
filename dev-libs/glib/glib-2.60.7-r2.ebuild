@@ -30,7 +30,7 @@ RDEPEND="
 	!<dev-util/gdbus-codegen-${PV}
 	>=dev-libs/libpcre-8.31:3[${MULTILIB_USEDEP},static-libs?]
 	>=virtual/libiconv-0-r1[${MULTILIB_USEDEP}]
-	>=virtual/libffi-3.0.13-r1:=[${MULTILIB_USEDEP}]
+	>=dev-libs/libffi-3.0.13-r1:=[${MULTILIB_USEDEP}]
 	>=virtual/libintl-0-r2[${MULTILIB_USEDEP}]
 	>=sys-libs/zlib-1.2.8-r1[${MULTILIB_USEDEP}]
 	kernel_linux? ( >=sys-apps/util-linux-2.23[${MULTILIB_USEDEP}] )

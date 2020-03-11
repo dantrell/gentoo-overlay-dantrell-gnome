@@ -46,7 +46,7 @@
 ~dev-libs/libgee-0.20.3::dantrell-gnome
 ~dev-libs/libgnome-games-support-1.4.4::dantrell-gnome
 ~dev-libs/libgweather-3.32.2::dantrell-gnome-3-32
-~dev-libs/libical-3.0.7::dantrell-gnome
+~dev-libs/libical-3.0.8::dantrell-gnome
 ~dev-libs/libpeas-1.22.0::dantrell-gnome
 ~dev-libs/template-glib-3.32.0::dantrell-gnome-3-32
 ~dev-libs/totem-pl-parser-3.26.5::dantrell-gnome

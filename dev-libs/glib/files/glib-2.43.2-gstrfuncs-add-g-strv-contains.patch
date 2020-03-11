@@ -1,0 +1,117 @@
+From 71944b1bfd2cff57e889b806d001458dce6fa2b5 Mon Sep 17 00:00:00 2001
+From: Xavier Claessens <xavier.claessens@collabora.co.uk>
+Date: Mon, 15 Apr 2013 14:54:31 +0200
+Subject: gstrfuncs: Add g_strv_contains()
+
+Includes unit tests.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=685880
+---
+ docs/reference/glib/glib-sections.txt |  1 +
+ glib/gstrfuncs.c                      | 27 +++++++++++++++++++++++++++
+ glib/gstrfuncs.h                      |  4 ++++
+ glib/tests/strfuncs.c                 | 19 +++++++++++++++++++
+ 4 files changed, 51 insertions(+)
+
+diff --git a/docs/reference/glib/glib-sections.txt b/docs/reference/glib/glib-sections.txt
+index 19bae6f35..20b71013c 100644
+--- a/docs/reference/glib/glib-sections.txt
++++ b/docs/reference/glib/glib-sections.txt
+@@ -1380,6 +1380,7 @@ g_strconcat
+ g_strjoin
+ g_strjoinv
+ g_strv_length
++g_strv_contains
+ 
+ <SUBSECTION>
+ g_strerror
+diff --git a/glib/gstrfuncs.c b/glib/gstrfuncs.c
+index 0a9b1090d..e2b1fb38d 100644
+--- a/glib/gstrfuncs.c
++++ b/glib/gstrfuncs.c
+@@ -3077,3 +3077,30 @@ one_matched:
+ 
+   return matched;
+ }
++
++/**
++ * g_strv_contains:
++ * @strv: a %NULL-terminated array of strings
++ * @str: a string
++ *
++ * Checks if @strv contains @str. @strv must not be %NULL.
++ *
++ * Returns: %TRUE if @str is an element of @strv, according to g_str_equal().
++ *
++ * Since: 2.44
++ */
++gboolean
++g_strv_contains (const gchar * const *strv,
++                 const gchar         *str)
++{
++  g_return_val_if_fail (strv != NULL, FALSE);
++  g_return_val_if_fail (str != NULL, FALSE);
++
++  for (; *strv != NULL; strv++)
++    {
++      if (g_str_equal (str, *strv))
++        return TRUE;
++    }
++
++  return FALSE;
++}
+diff --git a/glib/gstrfuncs.h b/glib/gstrfuncs.h
+index 41fc8397e..76004aae3 100644
+--- a/glib/gstrfuncs.h
++++ b/glib/gstrfuncs.h
+@@ -301,6 +301,10 @@ gboolean                g_str_match_string                              (const g
+                                                                          const gchar   *potential_hit,
+                                                                          gboolean       accept_alternates);
+ 
++GLIB_AVAILABLE_IN_2_44
++gboolean              g_strv_contains  (const gchar * const *strv,
++                                        const gchar         *str);
++
+ G_END_DECLS
+ 
+ #endif /* __G_STRFUNCS_H__ */
+diff --git a/glib/tests/strfuncs.c b/glib/tests/strfuncs.c
+index 17f6f7378..27dfb4521 100644
+--- a/glib/tests/strfuncs.c
++++ b/glib/tests/strfuncs.c
+@@ -1461,6 +1461,24 @@ test_transliteration (void)
+   g_free (out);
+ }
+ 
++static void
++test_strv_contains (void)
++{
++  static const gchar *strv_simple[] = { "hello", "there", NULL };
++  static const gchar *strv_dupe[] = { "dupe", "dupe", NULL };
++  static const gchar *strv_empty[] = { NULL };
++
++  g_assert_true (g_strv_contains (strv_simple, "hello"));
++  g_assert_true (g_strv_contains (strv_simple, "there"));
++  g_assert_false (g_strv_contains (strv_simple, "non-existent"));
++  g_assert_false (g_strv_contains (strv_simple, ""));
++
++  g_assert_true (g_strv_contains (strv_dupe, "dupe"));
++
++  g_assert_false (g_strv_contains (strv_empty, "empty!"));
++  g_assert_false (g_strv_contains (strv_empty, ""));
++}
++
+ int
+ main (int   argc,
+       char *argv[])
+@@ -1496,6 +1514,7 @@ main (int   argc,
+   g_test_add_func ("/strfuncs/strsignal", test_strsignal);
+   g_test_add_func ("/strfuncs/strup", test_strup);
+   g_test_add_func ("/strfuncs/transliteration", test_transliteration);
++  g_test_add_func ("/strfuncs/strv-contains", test_strv_contains);
+ 
+   return g_test_run();
+ }
+-- 
+cgit v1.2.2
+

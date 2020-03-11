@@ -28,7 +28,7 @@ S="${WORKDIR}/${MY_P}"
 BUILDDIR="${S}/js/src"
 
 RDEPEND=">=dev-libs/nspr-4.9.4
-	virtual/libffi
+	dev-libs/libffi
 	sys-libs/readline:0=
 	>=sys-libs/zlib-1.1.4"
 DEPEND="${RDEPEND}

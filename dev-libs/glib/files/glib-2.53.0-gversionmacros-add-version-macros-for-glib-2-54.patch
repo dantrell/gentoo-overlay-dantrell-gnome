@@ -1,0 +1,53 @@
+From aebcb15a9b9881b3a06c7db1a9674e6cc1b77e84 Mon Sep 17 00:00:00 2001
+From: Philip Withnall <withnall@endlessm.com>
+Date: Thu, 23 Mar 2017 16:20:27 +0000
+Subject: gversionmacros: Add version macros for GLib 2.54
+
+Let the new API season commence.
+---
+ glib/gversionmacros.h | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/glib/gversionmacros.h b/glib/gversionmacros.h
+index cbbb4a7ec..48a6ece87 100644
+--- a/glib/gversionmacros.h
++++ b/glib/gversionmacros.h
+@@ -175,6 +175,16 @@
+  */
+ #define GLIB_VERSION_2_52       (G_ENCODE_VERSION (2, 52))
+ 
++/**
++ * GLIB_VERSION_2_54:
++ *
++ * A macro that evaluates to the 2.54 version of GLib, in a format
++ * that can be used by the C pre-processor.
++ *
++ * Since: 2.54
++ */
++#define GLIB_VERSION_2_54       (G_ENCODE_VERSION (2, 54))
++
+ /* evaluates to the current stable version; for development cycles,
+  * this means the next stable target
+  */
+@@ -462,4 +472,18 @@
+ # define GLIB_AVAILABLE_IN_2_52                 _GLIB_EXTERN
+ #endif
+ 
++#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_54
++# define GLIB_DEPRECATED_IN_2_54                GLIB_DEPRECATED
++# define GLIB_DEPRECATED_IN_2_54_FOR(f)         GLIB_DEPRECATED_FOR(f)
++#else
++# define GLIB_DEPRECATED_IN_2_54                _GLIB_EXTERN
++# define GLIB_DEPRECATED_IN_2_54_FOR(f)         _GLIB_EXTERN
++#endif
++
++#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_54
++# define GLIB_AVAILABLE_IN_2_54                 GLIB_UNAVAILABLE(2, 54)
++#else
++# define GLIB_AVAILABLE_IN_2_54                 _GLIB_EXTERN
++#endif
++
+ #endif /*  __G_VERSION_MACROS_H__ */
+-- 
+cgit v1.2.2
+

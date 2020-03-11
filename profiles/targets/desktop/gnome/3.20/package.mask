@@ -23,7 +23,7 @@
 # Requires GLib 2.54 (or greater)
 >=dev-libs/appstream-0.12.0
 >=mail-client/geary-0.13.0
->=net-misc/networkmanager-wireguard-9999
+>=net-vpn/networkmanager-wireguard-9999
 
 # Requires GLib 2.52 (or greater)
 >=net-libs/phodav-2.2

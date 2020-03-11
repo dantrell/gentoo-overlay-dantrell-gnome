@@ -1,0 +1,57 @@
+From e8222c334318a2fce87a32bcd321580623eb00be Mon Sep 17 00:00:00 2001
+From: Krzesimir Nowak <krzesimir@kinvolk.io>
+Date: Wed, 10 May 2017 16:03:20 +0200
+Subject: gstrfuncs: Fix translation issues
+
+The tool that extracts the translatable strings to .po files does not
+cope with the G_GUINTX_FORMAT macros, so we preformat the numbers to
+strings and use the strings in the translatable error messages.
+---
+ glib/gstrfuncs.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
+
+diff --git a/glib/gstrfuncs.c b/glib/gstrfuncs.c
+index 8a52bd5bc..a9f575428 100644
+--- a/glib/gstrfuncs.c
++++ b/glib/gstrfuncs.c
+@@ -3263,11 +3263,15 @@ g_ascii_string_to_signed (const gchar  *str,
+     }
+   if (saved_errno == ERANGE || number < min || number > max)
+     {
++      gchar *min_str = g_strdup_printf ("%" G_GINT64_FORMAT, min);
++      gchar *max_str = g_strdup_printf ("%" G_GINT64_FORMAT, max);
++
+       g_set_error (error,
+                    G_NUMBER_PARSER_ERROR, G_NUMBER_PARSER_ERROR_OUT_OF_BOUNDS,
+-                   _("Number “%" G_GINT64_FORMAT "” is out of bounds"
+-                   " [%" G_GINT64_FORMAT ", %" G_GINT64_FORMAT "]"),
+-                   number, min, max);
++                   _("Number “%s” is out of bounds [%s, %s]"),
++                   str, min_str, max_str);
++      g_free (min_str);
++      g_free (max_str);
+       return FALSE;
+     }
+   if (out_num != NULL)
+@@ -3362,11 +3366,15 @@ g_ascii_string_to_unsigned (const gchar  *str,
+     }
+   if (saved_errno == ERANGE || number < min || number > max)
+     {
++      gchar *min_str = g_strdup_printf ("%" G_GUINT64_FORMAT, min);
++      gchar *max_str = g_strdup_printf ("%" G_GUINT64_FORMAT, max);
++
+       g_set_error (error,
+                    G_NUMBER_PARSER_ERROR, G_NUMBER_PARSER_ERROR_OUT_OF_BOUNDS,
+-                   _("Number “%" G_GUINT64_FORMAT "” is out of bounds"
+-                     " [%" G_GUINT64_FORMAT ", %" G_GUINT64_FORMAT "]"),
+-                   number, min, max);
++                   _("Number “%s” is out of bounds [%s, %s]"),
++                   str, min_str, max_str);
++      g_free (min_str);
++      g_free (max_str);
+       return FALSE;
+     }
+   if (out_num != NULL)
+-- 
+cgit v1.2.2
+

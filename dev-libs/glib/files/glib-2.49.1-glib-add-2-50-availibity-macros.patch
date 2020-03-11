@@ -1,0 +1,84 @@
+From e4aaae4ed689669a8530d0b79d4523eeb12554ad Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=D0=A0=D1=83=D1=81=D0=BB=D0=B0=D0=BD=20=D0=98=D0=B6=D0=B1?=
+ =?UTF-8?q?=D1=83=D0=BB=D0=B0=D1=82=D0=BE=D0=B2?= <lrn1986@gmail.com>
+Date: Tue, 26 Apr 2016 14:02:10 +0000
+Subject: glib: Add 2.50 availibity macros
+
+https://bugzilla.gnome.org/show_bug.cgi?id=665446
+---
+ docs/reference/glib/glib-sections.txt |  4 ++++
+ glib/gversionmacros.h                 | 23 +++++++++++++++++++++++
+ 2 files changed, 27 insertions(+)
+
+diff --git a/docs/reference/glib/glib-sections.txt b/docs/reference/glib/glib-sections.txt
+index 4dbdd0619..40024d1b6 100644
+--- a/docs/reference/glib/glib-sections.txt
++++ b/docs/reference/glib/glib-sections.txt
+@@ -128,6 +128,7 @@ GLIB_VERSION_2_42
+ GLIB_VERSION_2_44
+ GLIB_VERSION_2_46
+ GLIB_VERSION_2_48
++GLIB_VERSION_2_50
+ GLIB_VERSION_MIN_REQUIRED
+ GLIB_VERSION_MAX_ALLOWED
+ GLIB_DISABLE_DEPRECATION_WARNINGS
+@@ -147,6 +148,7 @@ GLIB_AVAILABLE_IN_2_42
+ GLIB_AVAILABLE_IN_2_44
+ GLIB_AVAILABLE_IN_2_46
+ GLIB_AVAILABLE_IN_2_48
++GLIB_AVAILABLE_IN_2_50
+ GLIB_DEPRECATED_IN_2_26
+ GLIB_DEPRECATED_IN_2_26_FOR
+ GLIB_DEPRECATED_IN_2_28
+@@ -171,6 +173,8 @@ GLIB_DEPRECATED_IN_2_46
+ GLIB_DEPRECATED_IN_2_46_FOR
+ GLIB_DEPRECATED_IN_2_48
+ GLIB_DEPRECATED_IN_2_48_FOR
++GLIB_DEPRECATED_IN_2_50
++GLIB_DEPRECATED_IN_2_50_FOR
+ GLIB_VERSION_CUR_STABLE
+ GLIB_VERSION_PREV_STABLE
+ </SECTION>
+diff --git a/glib/gversionmacros.h b/glib/gversionmacros.h
+index a9a8c01c8..1611eaf2a 100644
+--- a/glib/gversionmacros.h
++++ b/glib/gversionmacros.h
+@@ -155,6 +155,16 @@
+  */
+ #define GLIB_VERSION_2_48       (G_ENCODE_VERSION (2, 48))
+ 
++/**
++ * GLIB_VERSION_2_50:
++ *
++ * A macro that evaluates to the 2.50 version of GLib, in a format
++ * that can be used by the C pre-processor.
++ *
++ * Since: 2.50
++ */
++#define GLIB_VERSION_2_50       (G_ENCODE_VERSION (2, 50))
++
+ /* evaluates to the current stable version; for development cycles,
+  * this means the next stable target
+  */
+@@ -414,5 +424,18 @@
+ # define GLIB_AVAILABLE_IN_2_48                 _GLIB_EXTERN
+ #endif
+ 
++#if GLIB_VERSION_MIN_REQUIRED >= GLIB_VERSION_2_50
++# define GLIB_DEPRECATED_IN_2_50                GLIB_DEPRECATED
++# define GLIB_DEPRECATED_IN_2_50_FOR(f)         GLIB_DEPRECATED_FOR(f)
++#else
++# define GLIB_DEPRECATED_IN_2_50                _GLIB_EXTERN
++# define GLIB_DEPRECATED_IN_2_50_FOR(f)         _GLIB_EXTERN
++#endif
++
++#if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_50
++# define GLIB_AVAILABLE_IN_2_50                 GLIB_UNAVAILABLE(2, 50)
++#else
++# define GLIB_AVAILABLE_IN_2_50                 _GLIB_EXTERN
++#endif
+ 
+ #endif /*  __G_VERSION_MACROS_H__ */
+-- 
+cgit v1.2.2
+

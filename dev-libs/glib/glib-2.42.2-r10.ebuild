@@ -37,7 +37,7 @@ RESTRICT="!test? ( test )"
 RDEPEND="
 	!<dev-util/gdbus-codegen-${PV}
 	>=virtual/libiconv-0-r1[${MULTILIB_USEDEP}]
-	>=virtual/libffi-3.0.13-r1:=[${MULTILIB_USEDEP}]
+	>=dev-libs/libffi-3.0.13-r1:=[${MULTILIB_USEDEP}]
 	>=sys-libs/zlib-1.2.8-r1[${MULTILIB_USEDEP}]
 	selinux? ( >=sys-libs/libselinux-2.2.2-r5[${MULTILIB_USEDEP}] )
 	xattr? ( >=sys-apps/attr-2.4.47-r1[${MULTILIB_USEDEP}] )
@@ -201,6 +201,12 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-2.46.1-doc-g-autoptrgchar-has-been-replaced-by-g-autofree.patch
 
 	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/71944b1bfd2cff57e889b806d001458dce6fa2b5
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/7f2f4ab12df6ddb501900846896f496520871d16
+	epatch "${FILESDIR}"/${PN}-2.43.2-gstrfuncs-add-g-strv-contains.patch
+	epatch "${FILESDIR}"/${PN}-2.43.2-use-the-new-g-strv-contains.patch
+
+	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/ed4a742946374f7ee3c46b93eb943c95f04ec4c4
 	epatch "${FILESDIR}"/${PN}-2.43.92-http-proxy-support.patch
 
@@ -261,6 +267,18 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-2.55.0-docs-fix-various-minor-syntax-errors-in-gtk-doc-comments.patch
 	epatch "${FILESDIR}"/${PN}-2.57.2-unicode-update-to-unicode-11-0-0.patch
 	epatch "${FILESDIR}"/${PN}-2.57.2-unicode-update-test-data-files-for-unicode-11-0-0.patch
+
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/e4aaae4ed689669a8530d0b79d4523eeb12554ad
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/67ce53058102905ac3c8f6f57b044616301d479b
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/aebcb15a9b9881b3a06c7db1a9674e6cc1b77e84
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/4fe89b0437db0a4997d548929eec07b8c579fff2
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/e8222c334318a2fce87a32bcd321580623eb00be
+	epatch "${FILESDIR}"/${PN}-2.49.1-glib-add-2-50-availibity-macros.patch
+	epatch "${FILESDIR}"/${PN}-2.51.0-add-version-macros-for-2-52.patch
+	epatch "${FILESDIR}"/${PN}-2.53.0-gversionmacros-add-version-macros-for-glib-2-54.patch
+	epatch "${FILESDIR}"/${PN}-2.53.2-gstrfuncs-add-replacement-for-string-to-number-functions.patch
+	epatch "${FILESDIR}"/${PN}-2.53.2-gstrfuncs-fix-translation-issues.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/merge_requests/411
