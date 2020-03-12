@@ -15,8 +15,8 @@
 ~app-misc/bijiben-3.34.2::dantrell-gnome-3-34
 ~app-misc/geoclue-2.4.8::dantrell-gnome
 ~app-misc/gnote-3.33.0::dantrell-gnome-3-34
-~app-misc/tracker-2.3.2::dantrell-gnome-3-34
-~app-misc/tracker-miners-2.3.2::dantrell-gnome-3-34
+~app-misc/tracker-2.3.4::dantrell-gnome-3-34
+~app-misc/tracker-miners-2.3.3::dantrell-gnome-3-34
 ~app-text/enchant-2.2.7::dantrell-gnome
 ~app-text/evince-3.34.2::dantrell-gnome-3-34
 ~app-text/gspell-1.8.3::dantrell-gnome
@@ -167,8 +167,8 @@
 ~net-misc/gnome-online-miners-3.34.0::dantrell-gnome-3-34
 ~net-misc/rygel-0.38.3::dantrell-gnome
 ~net-misc/vino-3.22.0::dantrell-gnome
-~net-wireless/gnome-bluetooth-3.34.0::dantrell-gnome-3-34
-~sci-geosciences/geocode-glib-3.26.1::dantrell-gnome
+~net-wireless/gnome-bluetooth-3.34.1::dantrell-gnome-3-34
+~sci-geosciences/geocode-glib-3.26.2::dantrell-gnome
 ~sci-geosciences/gnome-maps-3.34.3::dantrell-gnome-3-34
 ~sys-apps/baobab-3.34.0::dantrell-gnome-3-34
 ~sys-apps/gnome-disk-utility-3.34.4::dantrell-gnome-3-34

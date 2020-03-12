@@ -7,12 +7,12 @@ inherit font
 DESCRIPTION="Google's font family that aims to support all the world's languages (plus Arimo, Cousine & Tinos)"
 HOMEPAGE="https://www.google.com/get/noto/ https://github.com/googlei18n/noto-fonts"
 
-COMMIT="d7af81e614086435102cca95961b141b3530a027"
+COMMIT="1c9f53362889d4468fd1193b76c397c208d81da8"
 SRC_URI="https://github.com/googlei18n/noto-fonts/archive/${COMMIT}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="OFL-1.1"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="cjk emoji extra minimal +ttf"
 
@@ -87,18 +87,18 @@ src_install() {
 
 	mkdir "${S}"/staging/ || die
 
-	cp "${S}"/hinted/Arimo* "${S}"/staging/ || die
-	cp "${S}"/hinted/Cousine* "${S}"/staging/ || die
-	cp "${S}"/hinted/Tinos* "${S}"/staging/ || die
+	cp "${S}"/hinted/Arimo/* "${S}"/staging/ || die
+	cp "${S}"/hinted/Cousine/* "${S}"/staging/ || die
+	cp "${S}"/hinted/Tinos/* "${S}"/staging/ || die
 
 	if use minimal; then
 		if use ttf; then
-			cp "${S}"/hinted/NotoMusic* "${S}"/staging/ || die
-			cp "${S}"/hinted/NotoSansDisplay-* "${S}"/staging/ || die
-			cp "${S}"/hinted/NotoSansMono-* "${S}"/staging/ || die
-			cp "${S}"/hinted/NotoSans-* "${S}"/staging/ || die
-			cp "${S}"/hinted/NotoSerifDisplay-* "${S}"/staging/ || die
-			cp "${S}"/hinted/NotoSerif-* "${S}"/staging/ || die
+			cp "${S}"/hinted/NotoMusic/* "${S}"/staging/ || die
+			cp "${S}"/hinted/NotoSansDisplay/* "${S}"/staging/ || die
+			cp "${S}"/hinted/NotoSansMono/* "${S}"/staging/ || die
+			cp "${S}"/hinted/NotoSans/* "${S}"/staging/ || die
+			cp "${S}"/hinted/NotoSerifDisplay/* "${S}"/staging/ || die
+			cp "${S}"/hinted/NotoSerif/* "${S}"/staging/ || die
 		else
 			cp "${S}"/phaseIII_only/unhinted/otf/NotoMusic/* "${S}"/staging/ || die
 			cp "${S}"/phaseIII_only/unhinted/otf/NotoSansDisplay/* "${S}"/staging/ || die

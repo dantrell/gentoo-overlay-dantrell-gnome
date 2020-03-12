@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit font
 
@@ -27,6 +27,7 @@ RDEPEND="
 	cjk? ( media-fonts/noto-cjk )
 	emoji? ( media-fonts/noto-emoji )
 "
+DEPEND=""
 
 S="${WORKDIR}/${PN}-fonts-${COMMIT}"
 
