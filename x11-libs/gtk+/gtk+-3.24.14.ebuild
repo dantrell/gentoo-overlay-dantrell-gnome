@@ -2,9 +2,8 @@
 
 EAPI="6"
 GNOME2_LA_PUNT="yes"
-GNOME2_EAUTORECONF="yes"
 
-inherit flag-o-matic gnome2 multilib virtualx multilib-minimal
+inherit autotools flag-o-matic gnome2 multilib virtualx multilib-minimal
 
 DESCRIPTION="Gimp ToolKit +"
 HOMEPAGE="https://www.gtk.org/"
@@ -132,7 +131,9 @@ src_prepare() {
 	# Fix broken autotools logic
 	eapply "${FILESDIR}"/${PN}-3.22.20-libcloudproviders-automagic.patch
 
+	# call eapply_user (implicitly) before eautoreconf
 	gnome2_src_prepare
+	eautoreconf
 }
 
 multilib_src_configure() {

@@ -13,6 +13,8 @@ KEYWORDS="*"
 
 IUSE=""
 
+RESTRICT="!test? ( test )" # IUSE=test comes from virtualx.eclass
+
 RDEPEND="
 	>=dev-libs/glib-2.44.0:2
 	sys-apps/dbus

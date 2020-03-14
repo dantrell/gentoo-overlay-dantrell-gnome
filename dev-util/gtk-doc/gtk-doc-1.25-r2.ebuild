@@ -83,7 +83,7 @@ src_install() {
 
 	python_fix_shebang "${ED}"/usr/bin/gtkdoc-depscan
 
-	# Don't install those files, they are in gtk-doc-am now
+	# Don't install these files, they are in gtk-doc-am now
 	rm "${ED}"/usr/share/aclocal/gtk-doc.m4 || die "failed to remove gtk-doc.m4"
 	rm "${ED}"/usr/bin/gtkdoc-rebase || die "failed to remove gtkdoc-rebase"
 

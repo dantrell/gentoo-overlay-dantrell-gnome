@@ -2,10 +2,10 @@
 
 EAPI="6"
 
-PYTHON_COMPAT=( python{2_7,3_6,3_7,3_8} )
+PYTHON_COMPAT=( python{3_6,3_7,3_8} )
 VALA_USE_DEPEND="vapigen"
 
-inherit gnome2 python-single-r1 vala virtualx
+inherit gnome2 python-any-r1 vala virtualx
 
 DESCRIPTION="GLib bindings for the Telepathy D-Bus protocol"
 HOMEPAGE="https://telepathy.freedesktop.org/"
@@ -13,13 +13,10 @@ SRC_URI="https://telepathy.freedesktop.org/releases/${PN}/${P}.tar.gz"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="debug +introspection +vala"
-REQUIRED_USE="
-	${PYTHON_REQUIRED_USE}
-	vala? ( introspection )
-"
+REQUIRED_USE="vala? ( introspection )"
 
 # Broken for a long time and upstream doesn't care
 # https://bugs.freedesktop.org/show_bug.cgi?id=63212

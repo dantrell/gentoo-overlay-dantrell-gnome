@@ -68,7 +68,7 @@
 ~games-board/iagno-3.32.0::dantrell-gnome-3-32
 ~games-board/tali-3.32.1::dantrell-gnome
 ~games-puzzle/atomix-3.32.1::dantrell-gnome-3-32
-~games-puzzle/five-or-more-3.32.0::dantrell-gnome
+~games-puzzle/five-or-more-3.32.1::dantrell-gnome
 ~games-puzzle/gnome2048-3.32.0::dantrell-gnome-3-32
 ~games-puzzle/gnome-klotski-3.32.0::dantrell-gnome-3-32
 ~games-puzzle/gnome-sudoku-3.32.0::dantrell-gnome-3-32
@@ -127,7 +127,7 @@
 ~gnome-extra/libgsf-1.14.46::dantrell-gnome
 ~gnome-extra/mousetweaks-3.32.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
-~gnome-extra/nm-applet-1.8.24::dantrell-gnome
+~gnome-extra/nm-applet-1.8.25::dantrell-gnome
 ~gnome-extra/sushi-3.32.1::dantrell-gnome-3-32
 ~gnome-extra/yelp-3.32.2::dantrell-gnome-3-32
 ~gnome-extra/yelp-xsl-3.32.1::dantrell-gnome-3-32

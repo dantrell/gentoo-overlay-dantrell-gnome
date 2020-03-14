@@ -9,6 +9,7 @@ dev-libs/wayland-protocols::gentoo ~*
 gnome-base/libgtop::dantrell-gnome ~*
 gui-libs/tepl::dantrell-gnome ~*
 mail-client/geary::dantrell-gnome **
+sys-apps/bubblewrap::dantrell-gnome ~*
 sys-apps/osinfo-db-tools::dantrell-gnome ~*
 sys-apps/osinfo-db::dantrell-gnome ~*
 sys-auth/elogind::dantrell-gnome ~*

@@ -1,5 +1,6 @@
 app-crypt/gpgme python
 dev-lang/spidermonkey system-icu
+dev-python/pycairo doc
 dev-python/pycurl curl_ssl_gnutls
 dev-python/pycurl curl_ssl_libressl
 dev-python/pycurl curl_ssl_nss

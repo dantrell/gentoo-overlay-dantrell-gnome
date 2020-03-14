@@ -13,7 +13,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="ayatana gcr +introspection +modemmanager selinux teamd"
+IUSE="ayatana gcr gtk +introspection +modemmanager selinux teamd"
 
 RDEPEND="
 	>=app-crypt/libsecret-0.18
@@ -51,7 +51,6 @@ PDEPEND="virtual/notification-daemon" #546134
 src_configure() {
 	local myconf=(
 		--with-appindicator=$(usex ayatana ubuntu no)
-		--with-libnm-gtk
 		--without-libnma-gtk4
 		--disable-lto
 		--disable-ld-gc
@@ -60,6 +59,7 @@ src_configure() {
 		--localstatedir=/var
 		$(use_enable introspection)
 		$(use_with gcr)
+		$(use_with gtk libnm-gtk)
 		$(use_with modemmanager wwan)
 		$(use_with selinux)
 		$(use_with teamd team)

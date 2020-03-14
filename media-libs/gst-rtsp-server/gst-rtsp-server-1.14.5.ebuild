@@ -8,7 +8,7 @@ DESCRIPTION="A GStreamer based RTSP server"
 HOMEPAGE="https://gstreamer.freedesktop.org/modules/gst-rtsp-server.html"
 
 LICENSE="LGPL-2+"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="examples +introspection static-libs test"
 

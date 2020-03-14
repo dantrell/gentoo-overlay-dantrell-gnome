@@ -10,7 +10,7 @@ HOMEPAGE="https://blogs.gnome.org/clutter/"
 
 LICENSE="LGPL-2.1+"
 SLOT="3.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="X debug examples +introspection udev"
 

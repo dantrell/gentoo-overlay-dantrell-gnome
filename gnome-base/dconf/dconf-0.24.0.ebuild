@@ -11,9 +11,9 @@ LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="test"
+IUSE=""
 
-RESTRICT="!test? ( test )"
+RESTRICT="!test? ( test )" # IUSE=test comes from virtualx.eclass
 
 RDEPEND="
 	>=dev-libs/glib-2.39.1:2

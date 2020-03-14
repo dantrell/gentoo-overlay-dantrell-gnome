@@ -12,7 +12,7 @@ LICENSE="LGPL-2+ GPL-2+"
 SLOT="2"
 KEYWORDS="~*"
 
-IUSE="acl debug elogind +introspection lvm nls selinux systemd vdo"
+IUSE="acl debug elogind fhs +introspection lvm nls selinux systemd vdo"
 REQUIRED_USE="?? ( elogind systemd )"
 
 COMMON_DEPEND="
@@ -82,6 +82,7 @@ src_configure() {
 		--with-udevdir="$(get_udevdir)"
 		$(use_enable acl)
 		$(use_enable debug)
+		$(use_enable fhs fhs-media)
 		$(use_enable introspection)
 		$(use_enable lvm lvm2)
 		$(use_enable lvm lvmcache)

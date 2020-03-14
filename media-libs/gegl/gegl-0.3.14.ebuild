@@ -1,12 +1,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-PYTHON_COMPAT=( python2_7 )
 
 # vala and introspection support is broken, bug #468208
 VALA_USE_DEPEND=vapigen
 
-inherit autotools eutils gnome2-utils ltprune python-any-r1 vala versionator
+inherit autotools eutils gnome2-utils ltprune vala versionator
 
 DESCRIPTION="A graph based image processing framework"
 HOMEPAGE="http://www.gegl.org/"
@@ -16,13 +15,13 @@ LICENSE="|| ( GPL-3 LGPL-3 )"
 SLOT="0.3"
 KEYWORDS="*"
 
-IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection lcms lensfun openexr raw sdl svg test tiff umfpack vala v4l webp"
+IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection lcms lensfun openexr raw sdl svg tiff umfpack vala v4l webp"
 REQUIRED_USE="
 	svg? ( cairo )
 	vala? ( introspection )
 "
 
-RESTRICT="!test? ( test )"
+RESTRICT="test"
 
 # NOTE: Even current libav 11.4 does not have AV_CODEC_CAP_VARIABLE_FRAME_SIZE
 #       so there is no chance to support libav right now (Gentoo bug #567638)
@@ -59,14 +58,8 @@ DEPEND="${RDEPEND}
 	dev-lang/perl
 	virtual/pkgconfig
 	>=sys-devel/libtool-2.2
-	test? ( introspection? (
-		$(python_gen_any_dep '>=dev-python/pygobject-3.2[${PYTHON_USEDEP}]') ) )
 	vala? ( $(vala_depend) )
 "
-
-pkg_setup() {
-	use test && use introspection && python-any-r1_pkg_setup
-}
 
 src_prepare() {
 	default
@@ -82,12 +75,6 @@ src_prepare() {
 	# https://bugs.gentoo.org/617618
 	eapply "${FILESDIR}"/${P}-g_log_domain.patch
 
-	# commit 7c78497b : tests that use gegl.png are broken on non-amd64
-	sed -e '/clones.xml/d' \
-		-e '/composite-transform.xml/d' \
-		-i tests/compositions/Makefile.am || die
-
-	eapply "${FILESDIR}"/${PN}-0.3.12-failing-tests.patch
 	eapply "${FILESDIR}"/${P}-implicit-declaration.patch
 
 	eautoreconf

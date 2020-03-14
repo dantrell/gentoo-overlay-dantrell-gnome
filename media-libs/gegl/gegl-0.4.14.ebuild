@@ -1,12 +1,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python2_7 )
 
 # vala and introspection support is broken, bug #468208
 VALA_USE_DEPEND=vapigen
 
-inherit autotools gnome2-utils python-any-r1 vala
+inherit autotools gnome2-utils vala
 
 DESCRIPTION="A graph based image processing framework"
 HOMEPAGE="http://www.gegl.org/"
@@ -16,13 +15,13 @@ LICENSE="|| ( GPL-3+ LGPL-3 )"
 SLOT="0.4"
 KEYWORDS="*"
 
-IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection lcms lensfun libav openexr pdf raw sdl svg test tiff umfpack vala v4l webp zlib"
+IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection lcms lensfun libav openexr pdf raw sdl svg tiff umfpack vala v4l webp zlib"
 REQUIRED_USE="
 	svg? ( cairo )
 	vala? ( introspection )
 "
 
-RESTRICT="!test? ( test )"
+RESTRICT="test"
 
 # NOTE: Even current libav 11.4 does not have AV_CODEC_CAP_VARIABLE_FRAME_SIZE
 #       so there is no chance to support libav right now (Gentoo bug #567638)
@@ -60,21 +59,8 @@ DEPEND="${RDEPEND}
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	>=sys-devel/libtool-2.2
-	test? ( ffmpeg? ( media-libs/gexiv2 )
-		introspection? (
-			$(python_gen_any_dep '>=dev-python/pygobject-3.2[${PYTHON_USEDEP}]')
-		)
-	)
 	vala? ( $(vala_depend) )
 "
-
-PATCHES=(
-	"${FILESDIR}"/${PN}-0.3.12-failing-tests.patch
-)
-
-pkg_setup() {
-	use test && use introspection && python-any-r1_pkg_setup
-}
 
 src_prepare() {
 	default
@@ -86,11 +72,6 @@ src_prepare() {
 	if [[ ${CHOST} == *-darwin* && ${CHOST#*-darwin} -le 9 ]] ; then
 		sed -i -e 's/#ifdef __APPLE__/#if 0/' gegl/opencl/* || die
 	fi
-
-	# commit 7c78497b : tests that use gegl.png are broken on non-amd64
-	sed -e '/clones.xml/d' \
-		-e '/composite-transform.xml/d' \
-		-i tests/compositions/Makefile.am || die
 
 	eautoreconf
 
@@ -145,13 +126,8 @@ src_configure() {
 		$(use_with vala)
 		$(use_with webp)
 		$(use_with zlib)
+		--without-gexiv2
 	)
-
-	if use test; then
-		myeconfargs+=( $(use_with ffmpeg gexiv2) )
-	else
-		myeconfargs+=( --without-gexiv2 )
-	fi
 
 	econf "${myeconfargs[@]}"
 }

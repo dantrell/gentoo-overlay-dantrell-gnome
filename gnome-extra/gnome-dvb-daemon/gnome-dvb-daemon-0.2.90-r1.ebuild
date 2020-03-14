@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/DVBDaemon"
 
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
@@ -26,7 +26,7 @@ RDEPEND=">=dev-libs/glib-2.32.0:2
 	media-plugins/gst-plugins-dvb:1.0
 	dev-python/gst-python:1.0
 	>=dev-python/pygobject-3.2.1:3
-	>=dev-libs/gobject-introspection-1.44.0:=
+	dev-libs/gobject-introspection:=
 	x11-libs/pango[introspection]
 	x11-libs/gtk+:3[introspection]
 	${PYTHON_DEPS}"

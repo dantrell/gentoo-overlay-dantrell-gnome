@@ -21,7 +21,7 @@ RDEPEND="
 	net-vpn/libreswan
 	gtk? (
 		app-crypt/libsecret
-		>=gnome-extra/nm-applet-1.2.0
+		>=gnome-extra/nm-applet-1.2.0[gtk]
 		>=x11-libs/gtk+-3.4:3
 	)
 	!net-vpn/networkmanager-openswan

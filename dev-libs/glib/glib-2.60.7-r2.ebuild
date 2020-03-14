@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-PYTHON_COMPAT=( python{2_7,3_6,3_7,3_8} )
+PYTHON_COMPAT=( python{3_6,3_7,3_8} )
 
 inherit meson bash-completion-r1 epunt-cxx flag-o-matic gnome2 libtool linux-info \
 	multilib multilib-minimal pax-utils python-r1 toolchain-funcs virtualx

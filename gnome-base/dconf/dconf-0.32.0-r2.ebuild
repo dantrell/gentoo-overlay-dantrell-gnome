@@ -33,7 +33,9 @@ BDEPEND="
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.30.1-bash-completion-dir.patch
 	"${FILESDIR}"/${PN}-0.32.0-drop-vapigen-dep.patch # .vapi/.deps are pregenerated, just install them without a vala dep
-	"${FILESDIR}"/${PN}-0.32.0-meson-0.52-compat.patch # https://gitlab.gnome.org/GNOME/dconf/issues/59
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/dconf/commit/cc32667c5d7d9ff95e65cc21f59905d8f9218394
+	"${FILESDIR}"/${PN}-0.35.1-build-update-use-of-link-whole-for-meson-0-52.patch
 )
 
 src_configure() {
@@ -44,6 +46,10 @@ src_configure() {
 		-Dvapi=true
 	)
 	meson_src_configure
+}
+
+src_test() {
+	virtx meson_src_test
 }
 
 src_install() {
@@ -58,10 +64,6 @@ src_install() {
 	echo 'CONFIG_PROTECT_MASK="/etc/dconf"' >> 51dconf
 	echo 'GSETTINGS_BACKEND="dconf"' >> 51dconf
 	doenvd 51dconf
-}
-
-src_test() {
-	virtx meson_src_test
 }
 
 pkg_postinst() {

@@ -22,7 +22,7 @@ RDEPEND="
 	|| ( net-misc/openswan net-vpn/libreswan )
 	gtk? (
 		app-crypt/libsecret
-		>=gnome-extra/nm-applet-0.9.10
+		>=gnome-extra/nm-applet-0.9.10[gtk]
 		>=x11-libs/gtk+-3.4:3
 	)
 "

@@ -2,16 +2,15 @@
 
 EAPI="6"
 GNOME2_LA_PUNT="yes"
-GNOME2_EAUTORECONF="yes"
 
-inherit flag-o-matic gnome2 multilib virtualx multilib-minimal
+inherit autotools flag-o-matic gnome2 multilib virtualx multilib-minimal
 
 DESCRIPTION="Gimp ToolKit +"
 HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2+"
 SLOT="3/24" # From WebKit: http://trac.webkit.org/changeset/195811
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="aqua broadway cloudprint colord cups examples gtk-doc +introspection test vim-syntax wayland X xinerama"
 REQUIRED_USE="
@@ -131,7 +130,9 @@ src_prepare() {
 	# Fix broken autotools logic
 	eapply "${FILESDIR}"/${PN}-3.22.20-libcloudproviders-automagic.patch
 
+	# call eapply_user (implicitly) before eautoreconf
 	gnome2_src_prepare
+	eautoreconf
 }
 
 multilib_src_configure() {
@@ -198,7 +199,7 @@ multilib_src_install() {
 multilib_src_install_all() {
 	insinto /etc/gtk-3.0
 	doins "${FILESDIR}"/settings.ini
-	# Skip README.{in,commits,win32} and useless ChangeLog that would get installed by default
+	# Skip README.{in,commits,win32} that would get installed by default
 	einstalldocs
 }
 

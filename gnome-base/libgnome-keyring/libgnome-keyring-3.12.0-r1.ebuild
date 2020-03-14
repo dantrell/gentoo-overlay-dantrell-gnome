@@ -5,21 +5,20 @@ GCONF_DEBUG="yes"
 GNOME2_LA_PUNT="yes"
 VALA_USE_DEPEND="vapigen"
 VALA_MAX_API_VERSION="0.40"
-PYTHON_COMPAT=( python2_7 )
 
-inherit gnome2 python-any-r1 vala multilib-minimal
+inherit gnome2 vala multilib-minimal
 
 DESCRIPTION="Compatibility library for accessing secrets"
 HOMEPAGE="https://wiki.gnome.org/Projects/GnomeKeyring"
 
-LICENSE="LGPL-2+ GPL-2+" # tests are GPL-2
+LICENSE="LGPL-2+ GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="debug +introspection test vala"
+IUSE="debug +introspection vala"
 REQUIRED_USE="vala? ( introspection )"
 
-RESTRICT="!test? ( test )"
+RESTRICT="test"
 
 RDEPEND="
 	>=dev-libs/glib-2.16.0:2[${MULTILIB_USEDEP}]
@@ -33,9 +32,6 @@ DEPEND="${RDEPEND}
 	>=dev-util/intltool-0.35
 	sys-devel/gettext
 	virtual/pkgconfig
-	test? ( $(python_gen_any_dep '
-		dev-python/pygobject:2[${PYTHON_USEDEP}]
-		dev-python/dbus-python[${PYTHON_USEDEP}]') )
 	vala? ( $(vala_depend) )
 "
 
@@ -60,9 +56,4 @@ multilib_src_configure() {
 
 multilib_src_install() {
 	gnome2_src_install
-}
-
-multilib_src_test() {
-	unset DBUS_SESSION_BUS_ADDRESS
-	dbus-launch emake check
 }

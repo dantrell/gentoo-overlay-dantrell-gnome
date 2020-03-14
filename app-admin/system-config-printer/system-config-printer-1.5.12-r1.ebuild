@@ -58,8 +58,8 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 PATCHES=(
-	"${FILESDIR}"/${P}-check-for-null.patch
-	"${FILESDIR}"/${P}-fix-abrt-in-udev-configure-printer.patch
+	"${FILESDIR}"/${PN}-1.5.12-check-for-null.patch
+	"${FILESDIR}"/${PN}-1.5.12-fix-abrt-in-udev-configure-printer.patch
 )
 
 pkg_setup() {

@@ -66,7 +66,7 @@
 ~games-board/iagno-3.34.5::dantrell-gnome-3-34
 ~games-board/tali-3.32.1::dantrell-gnome
 ~games-puzzle/atomix-3.34.0::dantrell-gnome-3-34
-~games-puzzle/five-or-more-3.32.0::dantrell-gnome
+~games-puzzle/five-or-more-3.32.1::dantrell-gnome
 ~games-puzzle/gnome2048-3.34.0::dantrell-gnome-3-34
 ~games-puzzle/gnome-klotski-3.34.4::dantrell-gnome-3-34
 ~games-puzzle/gnome-sudoku-3.34.1::dantrell-gnome-3-34
@@ -125,7 +125,7 @@
 ~gnome-extra/libgsf-1.14.46::dantrell-gnome
 ~gnome-extra/mousetweaks-3.32.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
-~gnome-extra/nm-applet-1.8.24::dantrell-gnome
+~gnome-extra/nm-applet-1.8.25::dantrell-gnome
 ~gnome-extra/sushi-3.34.0::dantrell-gnome-3-34
 ~gnome-extra/yelp-3.34.0::dantrell-gnome-3-34
 ~gnome-extra/yelp-xsl-3.34.2::dantrell-gnome-3-34
@@ -175,7 +175,7 @@
 ~sys-process/gnome-usage-3.33.2::dantrell-gnome-3-34
 ~www-client/epiphany-3.34.4::dantrell-gnome-3-34
 ~x11-libs/gdk-pixbuf-2.40.0::dantrell-gnome
-~x11-libs/gtk+-3.24.9::dantrell-gnome
+~x11-libs/gtk+-3.24.5::dantrell-gnome
 ~x11-libs/libnotify-0.7.9::dantrell-gnome
 ~x11-libs/libwnck-3.32.0::dantrell-gnome
 ~x11-libs/pango-1.44.7::dantrell-gnome

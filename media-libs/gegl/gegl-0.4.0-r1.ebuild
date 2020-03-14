@@ -1,12 +1,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-PYTHON_COMPAT=( python2_7 )
 
 # vala and introspection support is broken, bug #468208
 VALA_USE_DEPEND=vapigen
 
-inherit autotools eutils gnome2-utils ltprune python-any-r1 vala versionator
+inherit autotools eutils gnome2-utils ltprune vala versionator
 
 DESCRIPTION="A graph based image processing framework"
 HOMEPAGE="http://www.gegl.org/"
@@ -16,13 +15,13 @@ LICENSE="|| ( GPL-3 LGPL-3 )"
 SLOT="0.4"
 KEYWORDS="*"
 
-IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection lcms lensfun openexr raw sdl svg test tiff umfpack vala v4l webp"
+IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection lcms lensfun openexr raw sdl svg tiff umfpack vala v4l webp"
 REQUIRED_USE="
 	svg? ( cairo )
 	vala? ( introspection )
 "
 
-RESTRICT="!test? ( test )"
+RESTRICT="test"
 
 # NOTE: Even current libav 11.4 does not have AV_CODEC_CAP_VARIABLE_FRAME_SIZE
 #       so there is no chance to support libav right now (Gentoo bug #567638)
@@ -59,18 +58,10 @@ DEPEND="${RDEPEND}
 	dev-lang/perl
 	virtual/pkgconfig
 	>=sys-devel/libtool-2.2
-	test? ( ffmpeg? ( media-libs/gexiv2 )
-		introspection? (
-		$(python_gen_any_dep '>=dev-python/pygobject-3.2[${PYTHON_USEDEP}]') ) )
 	vala? ( $(vala_depend) )
 "
 
-pkg_setup() {
-	use test && use introspection && python-any-r1_pkg_setup
-}
-
 PATCHES=(
-	"${FILESDIR}"/${PN}-0.3.12-failing-tests.patch
 	"${FILESDIR}"/${P}-ffmpeg-4-0-compat-1.patch  # bug 654172
 	"${FILESDIR}"/${P}-ffmpeg-4-0-compat-2.patch  # bug 654172
 )
@@ -86,24 +77,11 @@ src_prepare() {
 		sed -i -e 's/#ifdef __APPLE__/#if 0/' gegl/opencl/* || die
 	fi
 
-	# commit 7c78497b : tests that use gegl.png are broken on non-amd64
-	sed -e '/clones.xml/d' \
-		-e '/composite-transform.xml/d' \
-		-i tests/compositions/Makefile.am || die
-
 	eautoreconf
 
 	gnome2_environment_reset
 
 	use vala && vala_src_prepare
-}
-
-_use_with_both() {
-	if use "$1" && use "$2"; then
-		echo "--with-$3"
-	else
-		echo "--without-$3"
-	fi
 }
 
 src_configure() {
@@ -151,7 +129,7 @@ src_configure() {
 		$(use_with cairo pangocairo) \
 		--without-exiv2 \
 		$(use_with ffmpeg libavformat) \
-		$(_use_with_both ffmpeg test gexiv2) \
+		--without-gexiv2 \
 		--without-graphviz \
 		--without-jasper \
 		$(use_with lcms) \

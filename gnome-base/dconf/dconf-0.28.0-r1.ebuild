@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit gnome.org gnome2-utils meson vala virtualx xdg
 
@@ -13,11 +13,14 @@ KEYWORDS="*"
 
 IUSE="gtk-doc"
 
+RESTRICT="!test? ( test )" # IUSE=test comes from virtualx.eclass
+
 RDEPEND="
 	>=dev-libs/glib-2.44.0:2
 	sys-apps/dbus
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	$(vala_depend)
 	app-text/docbook-xml-dtd:4.2
 	app-text/docbook-xsl-stylesheets
@@ -26,8 +29,7 @@ DEPEND="${RDEPEND}
 	gtk-doc? ( >=dev-util/gtk-doc-1.15 )
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
-	<dev-util/meson-0.52
-" # problem with meson-0.52+ https://gitlab.gnome.org/GNOME/dconf/issues/59
+"
 
 src_prepare() {
 	xdg_src_prepare
@@ -52,6 +54,9 @@ src_install() {
 	# GSettings backend may be one of: memory, gconf, dconf
 	# Only dconf is really considered functional by upstream
 	# must have it enabled over gconf if both are installed
+	# This snippet can't be removed until gconf package is
+	# ensured to not install a /etc/env.d/50gconf and then
+	# still consider the CONFIG_PROTECT_MASK bit.
 	echo 'CONFIG_PROTECT_MASK="/etc/dconf"' >> 51dconf
 	echo 'GSETTINGS_BACKEND="dconf"' >> 51dconf
 	doenvd 51dconf

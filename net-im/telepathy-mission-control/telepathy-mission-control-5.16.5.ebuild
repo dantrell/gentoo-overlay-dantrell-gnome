@@ -13,7 +13,7 @@ SRC_URI="https://telepathy.freedesktop.org/releases/${PN}/${P}.tar.gz"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="ck debug elogind networkmanager systemd"
 REQUIRED_USE="
@@ -44,7 +44,9 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	eapply "${FILESDIR}"/${PN}-5.16.5-account-fix-property-name.patch
+	# From Telepathy Mission Control:
+	# 	https://cgit.freedesktop.org/telepathy/telepathy-mission-control/commit/?id=d8dab08fe8db137c6bbd8bbdc3d9b01d98c48910
+	eapply "${FILESDIR}"/${PN}-5.16.6-account-fix-property-name.patch
 
 	# From Funtoo:
 	# 	https://bugs.funtoo.org/browse/FL-1329

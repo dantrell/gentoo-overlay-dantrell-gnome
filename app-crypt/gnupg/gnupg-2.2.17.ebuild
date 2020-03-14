@@ -62,6 +62,11 @@ src_configure() {
 		append-cppflags -I"${EPREFIX}/usr/include/libusb-1.0"
 	fi
 
+	# Remove when https://dev.gnupg.org/T4831 gets released.
+	[[ $PV != 2.2.19 ]] && die "Check if -fcommon workaround is still needed."
+	# Workaround gcc-10 build failure (bug #705884).
+	append-cflags -fcommon
+
 	if use elibc_SunOS || use elibc_AIX; then
 		myconf+=( --disable-symcryptrun )
 	else

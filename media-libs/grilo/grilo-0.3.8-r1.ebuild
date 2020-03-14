@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-PYTHON_COMPAT=( python{2_7,3_6,3_7,3_8} )
+PYTHON_COMPAT=( python{3_6,3_7,3_8} )
 VALA_MIN_API_VERSION="0.28"
 VALA_USE_DEPEND="vapigen"
 
@@ -23,7 +23,7 @@ RDEPEND="
 	dev-libs/libxml2:2
 	network? ( >=net-libs/libsoup-2.41.3:2.4[introspection?] )
 	playlist? ( >=dev-libs/totem-pl-parser-3.4.1 )
-	introspection? ( >=dev-libs/gobject-introspection-1.54:= )
+	introspection? ( >=dev-libs/gobject-introspection-1.0:= )
 
 	gtk? (
 		net-libs/liboauth

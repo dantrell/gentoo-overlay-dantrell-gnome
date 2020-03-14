@@ -1,25 +1,25 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-inherit bash-completion-r1 eutils linux-info ltprune systemd udev xdg-utils
+inherit bash-completion-r1 linux-info systemd udev xdg-utils
 
 DESCRIPTION="Daemon providing interfaces to work with storage devices"
 HOMEPAGE="https://www.freedesktop.org/wiki/Software/udisks"
 SRC_URI="https://github.com/storaged-project/udisks/releases/download/${P}/${P}.tar.bz2"
 
-LICENSE="GPL-2"
+LICENSE="LGPL-2+ GPL-2+"
 SLOT="2"
 KEYWORDS="*"
 
-IUSE="acl cryptsetup debug elogind +gptfdisk +introspection lvm nls selinux systemd"
+IUSE="acl cryptsetup debug elogind fhs +gptfdisk +introspection lvm nls selinux systemd"
 REQUIRED_USE="?? ( elogind systemd )"
 
 COMMON_DEPEND="
 	>=dev-libs/glib-2.36:2
 	>=dev-libs/libatasmart-0.19
-	>=sys-auth/polkit-0.110
 	>=dev-libs/libgudev-165:=
+	>=sys-auth/polkit-0.110
 	virtual/udev
 	acl? ( virtual/acl )
 	elogind? ( sys-auth/elogind )
@@ -41,11 +41,13 @@ RDEPEND="${COMMON_DEPEND}
 	selinux? ( sec-policy/selinux-devicekit )
 "
 DEPEND="${COMMON_DEPEND}
+	>=sys-kernel/linux-headers-3.1
+"
+BDEPEND="
 	app-text/docbook-xsl-stylesheets
 	dev-libs/libxslt
 	>=dev-util/gdbus-codegen-2.32
 	>=dev-util/gtk-doc-am-1.3
-	>=sys-kernel/linux-headers-3.1
 	virtual/pkgconfig
 	nls? ( dev-util/intltool )
 "
@@ -69,7 +71,6 @@ pkg_setup() {
 
 src_prepare() {
 	xdg_environment_reset
-
 	default
 
 	if ! use systemd ; then
@@ -87,6 +88,7 @@ src_configure() {
 		--with-udevdir="$(get_udevdir)"
 		$(use_enable acl)
 		$(use_enable debug)
+		$(use_enable fhs fhs-media)
 		$(use_enable introspection)
 		$(use_enable lvm lvm2)
 		$(use_enable lvm lvmcache)
@@ -97,10 +99,10 @@ src_configure() {
 
 src_install() {
 	default
-	prune_libtool_files
+	find "${ED}" -type f -name "*.la" -delete || die
 	keepdir /var/lib/udisks2 #383091
 
-	rm -rf "${ED%/}"/usr/share/bash-completion
+	rm -rf "${ED}"/usr/share/bash-completion
 	dobashcomp data/completions/udisksctl
 }
 

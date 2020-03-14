@@ -232,13 +232,16 @@ net-misc/vino::gentoo
 net-print/cups-filters::gentoo
 net-voip/telepathy-gabble::gentoo
 net-vpn/networkmanager-fortisslvpn::gentoo
+net-vpn/networkmanager-l2tp::gentoo
 net-vpn/networkmanager-libreswan::gentoo
 net-vpn/networkmanager-openconnect::gentoo
 net-vpn/networkmanager-openswan::gentoo
 net-vpn/networkmanager-openvpn::gentoo
 net-vpn/networkmanager-pptp::gentoo
 net-vpn/networkmanager-sstp::gentoo
+net-vpn/networkmanager-strongswan::gentoo
 net-vpn/networkmanager-vpnc::gentoo
+net-vpn/networkmanager-wireguard::gentoo
 net-wireless/bluez::gentoo
 net-wireless/gnome-bluetooth::gentoo
 sci-geosciences/geocode-glib::gentoo
@@ -271,7 +274,6 @@ x11-libs/libwnck::gentoo
 x11-libs/libxklavier::gentoo
 x11-libs/pango::gentoo
 x11-libs/vte::gentoo
-x11-libs/xpyb::gentoo
 x11-misc/colord::gentoo
 x11-misc/notification-daemon::gentoo
 x11-themes/gnome-icon-theme-extras::gentoo
