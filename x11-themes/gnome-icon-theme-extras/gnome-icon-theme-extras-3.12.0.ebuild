@@ -15,7 +15,6 @@ IUSE=""
 
 # This ebuild does not install any binaries
 RESTRICT="binchecks strip"
-# FIXME: double check potential LINGUAS problem
 
 RDEPEND=">=x11-themes/hicolor-icon-theme-0.10"
 DEPEND="${RDEPEND}
@@ -27,7 +26,6 @@ src_prepare() {
 	gnome2_src_prepare
 
 	# Always use pre-rendered icons
-	# FIXME: changing configure.ac triggers maintainer-mode rebuild
 	sed -e 's/"x$allow_rendering" = "xyes"/"x$allow_rendering" = "xdonotwant"/' \
 		-i configure || die
 }

@@ -156,6 +156,7 @@
 >=gnome-extra/yelp-3.28.0
 >=gnome-extra/yelp-xsl-3.28.0
 >=gnome-extra/zenity-3.28.0
+>=gui-libs/libhandy-0.0
 >=gui-libs/tepl-4.0
 >=mail-client/evolution-3.28.0
 >=media-gfx/eog-3.28.0

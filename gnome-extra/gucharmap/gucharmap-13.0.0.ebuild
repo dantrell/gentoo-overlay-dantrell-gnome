@@ -3,25 +3,27 @@
 EAPI="6"
 VALA_USE_DEPEND="vapigen"
 
-inherit gnome2 vala versionator
+inherit gnome2 meson vala versionator
 
 DESCRIPTION="Unicode character map viewer and library"
 HOMEPAGE="https://wiki.gnome.org/Apps/Gucharmap"
+SRC_URI="https://gitlab.gnome.org/GNOME/${PN}/-/archive/${PV}/${P}.tar.bz2"
 
-LICENSE="GPL-3"
+LICENSE="GPL-3+"
 SLOT="2.90"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="debug +introspection test vala"
+IUSE="debug doc +introspection vala"
 REQUIRED_USE="vala? ( introspection )"
 
-RESTRICT="!test? ( test )"
+RESTRICT="mirror"
 
 COMMON_DEPEND="
 	=app-i18n/unicode-data-$(get_version_component_range 1-2)*
 	>=dev-libs/glib-2.32:2
 	>=x11-libs/pango-1.2.1[introspection?]
 	>=x11-libs/gtk+-3.4.0:3[introspection?]
+	media-libs/freetype:2
 	introspection? ( >=dev-libs/gobject-introspection-0.9.0:= )
 "
 RDEPEND="${COMMON_DEPEND}
@@ -34,27 +36,23 @@ DEPEND="${RDEPEND}
 	dev-util/itstool
 	sys-devel/gettext
 	virtual/pkgconfig
-	test? (	app-text/docbook-xml-dtd:4.1.2 )
 	vala? ( $(vala_depend) )
 "
 
 src_prepare() {
-	# prevent file collisions with slot 0
-	sed -e "s:GETTEXT_PACKAGE=gucharmap$:GETTEXT_PACKAGE=gucharmap-${SLOT}:" \
-		-i configure.ac configure || die "sed configure.ac configure failed"
-
-	# avoid autoreconf
-	sed -e 's/-Wall //g' -i configure || die "sed failed"
-
 	use vala && vala_src_prepare
 	gnome2_src_prepare
 }
 
 src_configure() {
-	gnome2_src_configure \
-		--disable-static \
-		--with-unicode-data=/usr/share/unicode-data \
-		$(usex debug --enable-debug=yes ' ') \
-		$(use_enable introspection) \
-		$(use_enable vala)
+	local emesonargs=(
+		-D charmap=true
+		$(meson_use debug dbg)
+		$(meson_use doc docs)
+		$(meson_use introspection gir)
+		-D gtk3=true
+		-D ucd_path=/usr/share/unicode-data
+		$(meson_use vala vapi)
+	)
+	meson_src_configure
 }

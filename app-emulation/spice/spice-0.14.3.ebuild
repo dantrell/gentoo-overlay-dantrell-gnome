@@ -11,7 +11,7 @@ SRC_URI="https://www.spice-space.org/download/releases/spice-server/${P}.tar.bz2
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="libressl lz4 sasl smartcard static-libs gstreamer"
 
@@ -33,7 +33,7 @@ RDEPEND="
 		media-libs/gst-plugins-base:1.0
 	)"
 DEPEND="${RDEPEND}
-	>=app-emulation/spice-protocol-0.12.13
+	>=app-emulation/spice-protocol-0.14.0
 	smartcard? ( app-emulation/qemu[smartcard] )"
 BDEPEND="${PYTHON_DEPS}
 	virtual/pkgconfig
@@ -41,12 +41,6 @@ BDEPEND="${PYTHON_DEPS}
 		>=dev-python/pyparsing-1.5.6-r2[${PYTHON_USEDEP}]
 		dev-python/six[${PYTHON_USEDEP}]
 	')"
-
-PATCHES=(
-	"${FILESDIR}"/${PN}-0.14.0-libressl_fix.patch
-	"${FILESDIR}"/${PN}-0.14.0-openssl1.1_fix.patch
-	"${FILESDIR}"/${PN}-0.14.0-fix-flexible-array-buffer-overflow.patch
-)
 
 python_check_deps() {
 	has_version -b ">=dev-python/pyparsing-1.5.6-r2[${PYTHON_USEDEP}]"

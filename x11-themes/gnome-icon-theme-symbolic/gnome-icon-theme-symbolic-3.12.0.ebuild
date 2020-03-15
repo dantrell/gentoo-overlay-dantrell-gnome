@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 
 inherit gnome2
 
@@ -17,18 +16,9 @@ IUSE=""
 # This ebuild does not install any binaries
 RESTRICT="binchecks strip"
 
-COMMON_DEPEND=">=x11-themes/hicolor-icon-theme-0.10"
-
-# gnome-base/librsvg will be needed by apps using this icons, bug #508210
-RDEPEND="${COMMON_DEPEND}
+RDEPEND=">=x11-themes/hicolor-icon-theme-0.10"
+DEPEND="${RDEPEND}
 	gnome-base/librsvg
-	!=gnome-extra/gnome-power-manager-3.0*
-"
-# Matches 3.10
-#	!=gnome-extra/gnome-power-manager-3.1*
-
-# keyboard-brightness icon file collision with old gnome-power-manager
-DEPEND="${COMMON_DEPEND}
 	>=x11-misc/icon-naming-utils-0.8.7
 	virtual/pkgconfig
 "

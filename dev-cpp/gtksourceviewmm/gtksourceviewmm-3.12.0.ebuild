@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 
 inherit gnome2
 
@@ -29,6 +28,5 @@ DEPEND="${RDEPEND}
 "
 
 src_configure() {
-	DOCS="AUTHORS ChangeLog* NEWS README"
 	gnome2_src_configure $(use_enable doc documentation)
 }

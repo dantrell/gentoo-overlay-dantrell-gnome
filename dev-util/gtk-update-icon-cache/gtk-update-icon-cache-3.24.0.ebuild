@@ -5,10 +5,10 @@ EAPI="6"
 inherit gnome2
 
 DESCRIPTION="GTK update icon cache"
-HOMEPAGE="https://www.gtk.org/ https://github.com/EvaSDK/gtk-update-icon-cache"
-SRC_URI="https://dev.gentoo.org/~leio/distfiles/${PN}/${P}.tar.xz"
+HOMEPAGE="https://www.gtk.org/ https://gitlab.gnome.org/Community/gentoo/gtk-update-icon-cache"
+SRC_URI="https://gitlab.gnome.org/Community/gentoo/${PN}/-/archive/${PV}/${P}.tar.bz2"
 
-LICENSE="LGPL-2+"
+LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
 

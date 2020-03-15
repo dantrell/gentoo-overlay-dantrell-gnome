@@ -137,7 +137,6 @@ gnome-base/libgnomeui::gentoo
 gnome-base/libgtop::gentoo
 gnome-base/librsvg::gentoo
 gnome-extra/california::gentoo
-gnome-extra/docky::gentoo
 gnome-extra/gnome-characters::gentoo
 gnome-extra/gnome-color-manager::gentoo
 gnome-extra/gnome-contacts::gentoo

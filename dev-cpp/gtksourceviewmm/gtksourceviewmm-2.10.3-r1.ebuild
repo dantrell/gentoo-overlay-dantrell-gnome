@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 
 inherit flag-o-matic gnome2
@@ -18,8 +17,6 @@ IUSE="doc"
 RDEPEND="
 	>=dev-cpp/gtkmm-2.12:2.4
 	>=x11-libs/gtksourceview-2.10.0:2.0
-
-	!>=dev-cpp/libgtksourceviewmm-1
 
 	dev-cpp/atkmm
 "

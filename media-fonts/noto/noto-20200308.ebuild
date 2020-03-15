@@ -32,6 +32,7 @@ DEPEND=""
 S="${WORKDIR}/${PN}-fonts-${COMMIT}"
 
 FONT_SUFFIX="ttf"
+FONT_S=""
 FONT_CONF=(
 	# From Gentoo:
 	"${FILESDIR}"/62-croscore-arimo.conf
@@ -75,13 +76,13 @@ src_install() {
 
 	if ! use extra; then
 		if use ttf; then
-			rm "${S}"/{hinted,unhinted}/Noto*Condensed*.ttf || die
-			rm "${S}"/{hinted,unhinted}/Noto*Extra*.ttf || die
-			rm "${S}"/{hinted,unhinted}/Noto*SemiBold*.ttf || die
+			rm "${S}"/{hinted,unhinted}/Noto*/Noto*Condensed*.ttf || die
+			rm "${S}"/{hinted,unhinted}/Noto*/Noto*Extra*.ttf || die
+			rm "${S}"/{hinted,unhinted}/Noto*/Noto*SemiBold*.ttf || die
 		else
-			rm "${S}"/phaseIII_only/unhinted/otf/*/Noto*Condensed*.otf || die
-			rm "${S}"/phaseIII_only/unhinted/otf/*/Noto*Extra*.otf || die
-			rm "${S}"/phaseIII_only/unhinted/otf/*/Noto*SemiBold*.otf || die
+			rm "${S}"/phaseIII_only/unhinted/otf/Noto*/Noto*Condensed*.otf || die
+			rm "${S}"/phaseIII_only/unhinted/otf/Noto*/Noto*Extra*.otf || die
+			rm "${S}"/phaseIII_only/unhinted/otf/Noto*/Noto*SemiBold*.otf || die
 		fi
 	fi
 
@@ -111,8 +112,8 @@ src_install() {
 		FONT_S="${S}/staging/" font_src_install
 	else
 		if use ttf; then
-			FONT_S="${S}/unhinted/" font_src_install
-			FONT_S="${S}/hinted/" font_src_install
+			FONT_S="${FONT_S} ${S}/unhinted/" font_src_install
+			FONT_S="${FONT_S} ${S}/hinted/" font_src_install
 		else
 			cp "${S}"/phaseIII_only/unhinted/otf/*/*.otf "${S}"/staging/ || die
 

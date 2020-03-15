@@ -232,6 +232,7 @@
 >=gnome-extra/yelp-3.16.0
 >=gnome-extra/yelp-xsl-3.16.0
 >=gnome-extra/zenity-3.16.0
+>=gui-libs/libhandy-0.0
 >=mail-client/evolution-3.16.0
 >=media-gfx/eog-3.16.0
 >=media-gfx/eog-plugins-3.16.0
