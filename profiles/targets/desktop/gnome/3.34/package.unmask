@@ -3,9 +3,9 @@
 ~app-accessibility/at-spi2-core-2.34.0::dantrell-gnome-3-34
 ~app-accessibility/orca-3.34.2::dantrell-gnome-3-34
 ~app-arch/file-roller-3.32.4::dantrell-gnome
-~app-arch/gcab-1.3::dantrell-gnome
 ~app-arch/gnome-autoar-0.2.4::dantrell-gnome
 ~app-crypt/gcr-3.34.0::dantrell-gnome-3-34
+~app-crypt/libsecret-0.20.1::dantrell-gnome
 ~app-crypt/seahorse-3.34.1::dantrell-gnome-3-34
 ~app-dicts/gnome-dictionary-3.26.1::dantrell-gnome
 ~app-editors/gedit-3.34.1::dantrell-gnome-3-34
@@ -14,7 +14,7 @@
 ~app-editors/gnome-latex-3.32.0::dantrell-gnome
 ~app-misc/bijiben-3.34.2::dantrell-gnome-3-34
 ~app-misc/geoclue-2.4.8::dantrell-gnome
-~app-misc/gnote-3.33.0::dantrell-gnome-3-34
+~app-misc/gnote-3.34.2::dantrell-gnome-3-34
 ~app-misc/tracker-2.3.4::dantrell-gnome-3-34
 ~app-misc/tracker-miners-2.3.3::dantrell-gnome-3-34
 ~app-text/enchant-2.2.7::dantrell-gnome
@@ -34,7 +34,7 @@
 ~dev-libs/gmime-3.2.6::dantrell-gnome
 ~dev-libs/gobject-introspection-1.62.0::dantrell-gnome-3-34
 ~dev-libs/gobject-introspection-common-1.62.0::dantrell-gnome-3-34
-~dev-libs/gom-0.3.3::dantrell-gnome
+~dev-libs/gom-0.4::dantrell-gnome
 ~dev-libs/jsonrpc-glib-3.34.0::dantrell-gnome-3-34
 ~dev-libs/json-glib-1.4.4::dantrell-gnome
 ~dev-libs/libcroco-0.6.13::dantrell-gnome
@@ -42,7 +42,6 @@
 ~dev-libs/libgdata-0.17.9::dantrell-gnome
 ~dev-libs/libgee-0.20.3::dantrell-gnome
 ~dev-libs/libgnome-games-support-1.4.4::dantrell-gnome
-~dev-libs/libgweather-3.33.92::dantrell-gnome-3-34
 ~dev-libs/libgweather-3.34.0::dantrell-gnome-3-34
 ~dev-libs/libical-3.0.8::dantrell-gnome
 ~dev-libs/template-glib-3.34.0::dantrell-gnome-3-34
@@ -61,7 +60,7 @@
 ~games-arcade/gnome-robots-3.34.1::dantrell-gnome-3-34
 ~games-board/four-in-a-row-3.34.4::dantrell-gnome-3-34
 ~games-board/gnome-chess-3.34.0::dantrell-gnome-3-34
-~games-board/gnome-mahjongg-3.33.90::dantrell-gnome-3-34
+~games-board/gnome-mahjongg-3.34.0::dantrell-gnome-3-34
 ~games-board/gnome-mines-3.34.0::dantrell-gnome-3-34
 ~games-board/iagno-3.34.5::dantrell-gnome-3-34
 ~games-board/tali-3.32.1::dantrell-gnome
@@ -74,7 +73,7 @@
 ~games-puzzle/gnome-tetravex-3.34.4::dantrell-gnome-3-34
 ~games-puzzle/hitori-3.34.0::dantrell-gnome-3-34
 ~games-puzzle/lightsoff-3.34.0::dantrell-gnome-3-34
-~games-puzzle/quadrapassel-3.33.91::dantrell-gnome-3-34
+~games-puzzle/quadrapassel-3.34.1::dantrell-gnome-3-34
 ~games-puzzle/swell-foop-3.34.1::dantrell-gnome-3-34
 ~gnome-base/dconf-0.34.0::dantrell-gnome
 ~gnome-base/dconf-editor-3.34.4::dantrell-gnome-3-34
@@ -107,7 +106,7 @@
 ~gnome-extra/gnome-clocks-3.34.0::dantrell-gnome-3-34
 ~gnome-extra/gnome-color-manager-3.32.0::dantrell-gnome
 ~gnome-extra/gnome-contacts-3.34.1::dantrell-gnome-3-34
-~gnome-extra/gnome-documents-3.33.90::dantrell-gnome-3-34
+~gnome-extra/gnome-documents-3.34.0::dantrell-gnome-3-34
 ~gnome-extra/gnome-getting-started-docs-3.34.1::dantrell-gnome-3-34
 ~gnome-extra/gnome-multi-writer-3.32.1::dantrell-gnome
 ~gnome-extra/gnome-packagekit-3.32.0::dantrell-gnome
@@ -120,7 +119,7 @@
 ~gnome-extra/gnome-tweaks-3.34.0::dantrell-gnome-3-34
 ~gnome-extra/gnome-user-docs-3.34.1::dantrell-gnome-3-34
 ~gnome-extra/gnome-user-share-3.34.0::dantrell-gnome-3-34
-~gnome-extra/gnome-weather-3.33.90::dantrell-gnome-3-34
+~gnome-extra/gnome-weather-3.34.0::dantrell-gnome-3-34
 ~gnome-extra/gucharmap-12.0.1::dantrell-gnome
 ~gnome-extra/libgsf-1.14.46::dantrell-gnome
 ~gnome-extra/mousetweaks-3.32.0::dantrell-gnome
@@ -131,12 +130,11 @@
 ~gnome-extra/yelp-xsl-3.34.2::dantrell-gnome-3-34
 ~gnome-extra/zenity-3.32.0::dantrell-gnome
 ~mail-client/evolution-3.34.4::dantrell-gnome-3-34
-~mail-client/geary-3.33.91::dantrell-gnome
+~mail-client/geary-3.34.2::dantrell-gnome
 ~media-fonts/cantarell-0.111::dantrell-gnome
 ~media-gfx/eog-3.34.2::dantrell-gnome-3-34
 ~media-gfx/gnome-font-viewer-3.34.0::dantrell-gnome-3-34
 ~media-gfx/gnome-photos-3.34.1::dantrell-gnome-3-34
-~media-gfx/gnome-screenshot-3.33.90::dantrell-gnome-3-34
 ~media-gfx/gnome-screenshot-3.34.0::dantrell-gnome-3-34
 ~media-gfx/simple-scan-3.34.4::dantrell-gnome-3-34
 ~media-libs/clutter-1.26.2::dantrell-gnome

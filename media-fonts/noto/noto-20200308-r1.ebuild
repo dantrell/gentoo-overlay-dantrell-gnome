@@ -79,6 +79,10 @@ src_install() {
 			rm "${S}"/{hinted,unhinted}/Noto*/Noto*Condensed*.ttf || die
 			rm "${S}"/{hinted,unhinted}/Noto*/Noto*Extra*.ttf || die
 			rm "${S}"/{hinted,unhinted}/Noto*/Noto*SemiBold*.ttf || die
+
+			rm "${S}"/phaseIII_only/{hinted,unhinted}/ttf/Noto*/Noto*Condensed*.ttf || die
+			rm "${S}"/phaseIII_only/{hinted,unhinted}/ttf/Noto*/Noto*Extra*.ttf || die
+			rm "${S}"/phaseIII_only/{hinted,unhinted}/ttf/Noto*/Noto*SemiBold*.ttf || die
 		else
 			rm "${S}"/phaseIII_only/unhinted/otf/Noto*/Noto*Condensed*.otf || die
 			rm "${S}"/phaseIII_only/unhinted/otf/Noto*/Noto*Extra*.otf || die
@@ -92,6 +96,10 @@ src_install() {
 	cp "${S}"/hinted/Cousine/* "${S}"/staging/ || die
 	cp "${S}"/hinted/Tinos/* "${S}"/staging/ || die
 
+	# The 20200308 tarball has 100 empty hinted ttf files in phaseIII.
+	#
+	# To avoid issues, we start with phaseII as the base and overwrite
+	# with valid phaseIII versions where applicable.
 	if use minimal; then
 		if use ttf; then
 			cp "${S}"/hinted/NotoMusic/* "${S}"/staging/ || die
@@ -100,6 +108,15 @@ src_install() {
 			cp "${S}"/hinted/NotoSans/* "${S}"/staging/ || die
 			cp "${S}"/hinted/NotoSerifDisplay/* "${S}"/staging/ || die
 			cp "${S}"/hinted/NotoSerif/* "${S}"/staging/ || die
+
+			find "${S}"/phaseIII_only/hinted/ttf/* -type f -size 0 -delete || die
+
+			#~cp "${S}"/phaseIII_only/hinted/ttf/NotoMusic/*.ttf "${S}"/staging/ || die
+			cp "${S}"/phaseIII_only/hinted/ttf/NotoSansDisplay/*.ttf "${S}"/staging/ || die
+			cp "${S}"/phaseIII_only/hinted/ttf/NotoSansMono/*.ttf "${S}"/staging/ || die
+			cp "${S}"/phaseIII_only/hinted/ttf/NotoSans/*.ttf "${S}"/staging/ || die
+			cp "${S}"/phaseIII_only/hinted/ttf/NotoSerifDisplay/*.ttf "${S}"/staging/ || die
+			cp "${S}"/phaseIII_only/hinted/ttf/NotoSerif/*.ttf "${S}"/staging/ || die
 		else
 			cp "${S}"/phaseIII_only/unhinted/otf/NotoMusic/* "${S}"/staging/ || die
 			cp "${S}"/phaseIII_only/unhinted/otf/NotoSansDisplay/* "${S}"/staging/ || die
@@ -112,8 +129,13 @@ src_install() {
 		FONT_S="${S}/staging/" font_src_install
 	else
 		if use ttf; then
-			FONT_S="${FONT_S} ${S}/unhinted/" font_src_install
-			FONT_S="${FONT_S} ${S}/hinted/" font_src_install
+			cp "${S}"/hinted/*/*.ttf "${S}"/staging/ || die
+
+			find "${S}"/phaseIII_only/hinted/ttf/* -type f -size 0 -delete || die
+
+			cp "${S}"/phaseIII_only/hinted/ttf/*/*.ttf "${S}"/staging/ || die
+
+			FONT_S="${S}/staging/" font_src_install
 		else
 			cp "${S}"/phaseIII_only/unhinted/otf/*/*.otf "${S}"/staging/ || die
 

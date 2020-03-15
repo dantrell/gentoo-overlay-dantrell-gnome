@@ -189,7 +189,7 @@
 >=x11-libs/libwnck-3.34.0
 >=x11-libs/vte-0.58.0
 >=x11-misc/gpaste-3.34.0
->=x11-misc/notification-daemon-3.34.0
+>=x11-misc/notification-daemon-3.22.0
 >=x11-terms/gnome-terminal-3.34.0
 >=x11-themes/adwaita-icon-theme-3.33
 >=x11-themes/gnome-backgrounds-3.34
