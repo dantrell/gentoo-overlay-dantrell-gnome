@@ -5,7 +5,7 @@ EAPI="6"
 inherit gnome.org
 
 DESCRIPTION="Notification daemon"
-HOMEPAGE="https://gitlab.gnome.org/GNOME/notification-daemon/"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/notification-daemon"
 
 LICENSE="GPL-2"
 SLOT="0"

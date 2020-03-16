@@ -32,7 +32,6 @@ DEPEND=""
 S="${WORKDIR}/${PN}-fonts-${COMMIT}"
 
 FONT_SUFFIX="ttf"
-FONT_S=""
 FONT_CONF=(
 	# From Gentoo:
 	"${FILESDIR}"/62-croscore-arimo.conf
@@ -96,7 +95,7 @@ src_install() {
 	cp "${S}"/hinted/Cousine/* "${S}"/staging/ || die
 	cp "${S}"/hinted/Tinos/* "${S}"/staging/ || die
 
-	# The 20200308 tarball has 100 empty hinted ttf files in phaseIII.
+	# The 20200308 snapshot has 100 empty hinted ttf files in phaseIII.
 	#
 	# To avoid issues, we start with phaseII as the base and overwrite
 	# with valid phaseIII versions where applicable.
@@ -125,8 +124,6 @@ src_install() {
 			cp "${S}"/phaseIII_only/unhinted/otf/NotoSerifDisplay/* "${S}"/staging/ || die
 			cp "${S}"/phaseIII_only/unhinted/otf/NotoSerif/* "${S}"/staging/ || die
 		fi
-
-		FONT_S="${S}/staging/" font_src_install
 	else
 		if use ttf; then
 			cp "${S}"/hinted/*/*.ttf "${S}"/staging/ || die
@@ -134,12 +131,10 @@ src_install() {
 			find "${S}"/phaseIII_only/hinted/ttf/* -type f -size 0 -delete || die
 
 			cp "${S}"/phaseIII_only/hinted/ttf/*/*.ttf "${S}"/staging/ || die
-
-			FONT_S="${S}/staging/" font_src_install
 		else
 			cp "${S}"/phaseIII_only/unhinted/otf/*/*.otf "${S}"/staging/ || die
-
-			FONT_S="${S}/staging/" font_src_install
 		fi
 	fi
+
+	FONT_S="${S}/staging/" font_src_install
 }

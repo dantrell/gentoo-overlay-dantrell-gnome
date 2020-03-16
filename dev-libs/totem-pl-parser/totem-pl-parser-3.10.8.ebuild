@@ -27,7 +27,6 @@ RDEPEND="
 	quvi? ( >=media-libs/libquvi-0.9.1:0= )
 "
 DEPEND="${RDEPEND}
-	!<media-video/totem-2.21
 	dev-libs/gobject-introspection-common
 	>=dev-util/intltool-0.35
 	>=dev-util/gtk-doc-am-1.14

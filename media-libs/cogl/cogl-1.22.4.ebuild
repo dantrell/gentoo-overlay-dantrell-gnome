@@ -10,7 +10,7 @@ HOMEPAGE="https://www.cogl3d.org/"
 
 LICENSE="MIT BSD"
 SLOT="1.0/20" # subslot = .so version
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="doc debug examples gles2 gstreamer +introspection +pango wayland"
 

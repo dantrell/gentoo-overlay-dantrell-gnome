@@ -6,7 +6,7 @@ GNOME_ORG_MODULE="gnome-themes-standard"
 inherit gnome.org ltprune multilib-minimal
 
 DESCRIPTION="Adwaita GTK+2 theme engine"
-HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-themes-standard/"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-themes-standard"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"

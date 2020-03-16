@@ -4,7 +4,7 @@ EAPI="6"
 
 inherit gnome2 meson
 
-DESCRIPTION="GLib geocoding library that uses the Yahoo! Place Finder service"
+DESCRIPTION="GLib helper library for geocoding services"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/geocode-glib"
 
 LICENSE="LGPL-2"

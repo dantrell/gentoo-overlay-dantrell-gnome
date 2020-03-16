@@ -11,7 +11,7 @@ EGIT_COMMIT="25cb8f3f179e7286464c149268d65e5f6fd2b9fd"
 
 LICENSE="Unlicense"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="elogind systemd"
 REQUIRED_USE="

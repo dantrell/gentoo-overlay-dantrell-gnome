@@ -6,7 +6,7 @@ GCONF_DEBUG="yes"
 inherit eutils gnome2
 
 DESCRIPTION="Graphical front-ends to various networking command-line"
-HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-nettool/"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-nettool"
 
 LICENSE="GPL-2"
 SLOT="0"

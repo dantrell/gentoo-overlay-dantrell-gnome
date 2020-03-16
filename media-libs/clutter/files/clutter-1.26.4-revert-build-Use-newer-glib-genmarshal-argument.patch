@@ -1,0 +1,20 @@
+diff '--exclude=.git' -urN a/build-aux/autotools/Makefile.am.marshal b/build-aux/autotools/Makefile.am.marshal
+--- a/build-aux/autotools/Makefile.am.marshal	2020-02-17 13:34:51.000000000 -0600
++++ b/build-aux/autotools/Makefile.am.marshal	2020-03-16 01:10:16.587323276 -0500
+@@ -34,7 +34,6 @@
+ 	$(AM_V_GEN)$(GLIB_GENMARSHAL) \
+ 		--prefix=$(glib_marshal_prefix) \
+ 		--header \
+-		--valist-marshallers \
+ 	$(marshal_list) > xgen-mh \
+ 	&& (cmp -s xgen-mh $(marshal_h) || cp -f xgen-mh $(marshal_h)) \
+ 	&& rm -f xgen-mh \
+@@ -47,8 +46,6 @@
+ 	$(AM_V_GEN)$(GLIB_GENMARSHAL) \
+ 		--prefix=$(glib_marshal_prefix) \
+ 		--body \
+-		--prototypes \
+-		--valist-marshallers \
+ 	$(marshal_list) > xgen-mc \
+ 	&& (cmp -s xgen-mc $(marshal_c) || cp -f xgen-mc $(marshal_c)) \
+ 	&& rm -f xgen-mc

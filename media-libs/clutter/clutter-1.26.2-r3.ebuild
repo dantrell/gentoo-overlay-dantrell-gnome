@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Clutter"
 
 LICENSE="LGPL-2.1+ FDL-1.1+"
 SLOT="1.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="aqua debug doc egl gtk +introspection test wayland X"
 REQUIRED_USE="
@@ -66,8 +66,10 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/clutter/commit/7d499a09e1ef7dae0f3e9be774f3be25e2aa76ff
+	# 	https://gitlab.gnome.org/GNOME/clutter/commit/66243ea57052aeada0a20f524a934bea0d0cc2d5
 	if has_version '>=dev-libs/glib-2.53.4'; then
-		# assorted patches from git at 2020-01-03; most importantly fixes wayland amdgpu picking (with working 10bit color) for various GNOME clutter games and gnome-maps
 		eapply "${FILESDIR}"/patches/000{1,2}*.patch # requires eautoreconf
 	fi
 

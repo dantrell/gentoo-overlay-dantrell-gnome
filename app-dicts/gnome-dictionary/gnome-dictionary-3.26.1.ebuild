@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome2 meson
+inherit gnome.org gnome2-utils meson xdg
 
 DESCRIPTION="Dictionary utility for GNOME"
 HOMEPAGE="https://wiki.gnome.org/Apps/Dictionary"
@@ -14,7 +14,7 @@ KEYWORDS="*"
 IUSE="ipv6"
 
 COMMON_DEPEND="
-	>=dev-libs/glib-2.42:2[dbus]
+	>=dev-libs/glib-2.42:2
 	>=x11-libs/gtk+-3.21.2:3
 "
 RDEPEND="${COMMON_DEPEND}
@@ -31,8 +31,18 @@ DEPEND="${COMMON_DEPEND}
 
 src_configure() {
 	local emesonargs=(
-		-D use_ipv6=$(usex ipv6 true false)
-		-D build_man=true
+		$(meson_use ipv6 use_ipv6)
+		-Dbuild_man=true
 	)
 	meson_src_configure
+}
+
+pkg_postinst() {
+	xdg_pkg_postinst
+	gnome2_schemas_update
+}
+
+pkg_postrm() {
+	xdg_pkg_postrm
+	gnome2_schemas_update
 }

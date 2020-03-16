@@ -1,0 +1,27 @@
+From 87c98ebb01873120eecc1757e615b3a4c14a2f1f Mon Sep 17 00:00:00 2001
+From: William Hubbs <w.d.hubbs@gmail.com>
+Date: Tue, 16 Jan 2018 13:34:37 -0600
+Subject: checkpath: fix lchown error message
+
+X-Gentoo-Bug: 643084
+X-Gentoo-Bug-URL: https://bugs.gentoo.org/show_bug.cgi?id=643084
+---
+ src/rc/checkpath.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/rc/checkpath.c b/src/rc/checkpath.c
+index 8846761b..39e7ce4d 100644
+--- a/src/rc/checkpath.c
++++ b/src/rc/checkpath.c
+@@ -169,7 +169,7 @@ static int do_check(char *path, uid_t uid, gid_t gid, mode_t mode,
+ 		}
+ 		einfo("%s: correcting owner", path);
+ 		if (lchown(path, uid, gid)) {
+-			eerror("%s: chown: %s", applet, strerror(errno));
++			eerror("%s: lchown: %s", applet, strerror(errno));
+ 			return -1;
+ 		}
+ 	}
+-- 
+cgit v1.2.3
+

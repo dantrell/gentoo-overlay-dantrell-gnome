@@ -34,6 +34,7 @@ RDEPEND="
 	)"
 DEPEND="${RDEPEND}
 	>=app-emulation/spice-protocol-0.12.13
+	<app-emulation/spice-protocol-0.13.0
 	smartcard? ( app-emulation/qemu[smartcard] )"
 BDEPEND="${PYTHON_DEPS}
 	virtual/pkgconfig

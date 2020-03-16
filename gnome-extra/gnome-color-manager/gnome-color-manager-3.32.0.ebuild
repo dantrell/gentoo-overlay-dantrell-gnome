@@ -5,7 +5,7 @@ EAPI="6"
 inherit gnome.org meson virtualx xdg
 
 DESCRIPTION="GNOME color profile tools"
-HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-color-manager/"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-color-manager"
 
 LICENSE="GPL-2+"
 SLOT="0"

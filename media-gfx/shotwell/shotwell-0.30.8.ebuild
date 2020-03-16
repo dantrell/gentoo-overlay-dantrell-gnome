@@ -30,7 +30,7 @@ DEPEND="
 	>=media-libs/gexiv2-0.10.4
 	>=media-libs/libraw-0.13.2:=
 	>=media-libs/libexif-0.6.16:=
-	dev-libs/libgdata
+	dev-libs/libgdata:=
 	>=app-crypt/gcr-3:=[gtk]
 	x11-libs/cairo
 	opencv? ( >=media-libs/opencv-2.3.0:= )

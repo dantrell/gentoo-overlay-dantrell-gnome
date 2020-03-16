@@ -26,7 +26,6 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	!<media-video/totem-2.21
 	gtk-doc? (
 		>=dev-util/gtk-doc-1.14
 		app-text/docbook-xml-dtd:4.3 )

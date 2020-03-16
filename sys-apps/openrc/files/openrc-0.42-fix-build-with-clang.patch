@@ -1,0 +1,99 @@
+From 7ddc281ab6fd11b63f41059818b0de4748e2821f Mon Sep 17 00:00:00 2001
+From: Martin Wilke <miwi@ixsystems.com>
+Date: Wed, 24 Jul 2019 01:26:44 +0800
+Subject: Fix  build with Clang
+
+This fixes #313.
+---
+ src/libeinfo/libeinfo.c    | 2 +-
+ src/librc/librc-daemon.c   | 2 +-
+ src/librc/librc.c          | 2 +-
+ src/rc/do_e.c              | 4 ++--
+ src/rc/rc.c                | 2 +-
+ src/rc/start-stop-daemon.c | 2 +-
+ 6 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/src/libeinfo/libeinfo.c b/src/libeinfo/libeinfo.c
+index d57c2856..ccb39acc 100644
+--- a/src/libeinfo/libeinfo.c
++++ b/src/libeinfo/libeinfo.c
+@@ -15,7 +15,7 @@
+  *    except according to the terms contained in the LICENSE file.
+  */
+ 
+-const char libeinfo_copyright[] = "Copyright (c) 2007-2008 Roy Marples";
++static const char libeinfo_copyright[] = "Copyright (c) 2007-2008 Roy Marples";
+ 
+ #include <sys/types.h>
+ #include <sys/ioctl.h>
+diff --git a/src/librc/librc-daemon.c b/src/librc/librc-daemon.c
+index 9e7a97ab..863e80d1 100644
+--- a/src/librc/librc-daemon.c
++++ b/src/librc/librc-daemon.c
+@@ -611,7 +611,7 @@ rc_service_daemons_crashed(const char *service)
+ 				i = 0;
+ 				TAILQ_FOREACH(s, list, entries)
+ 				    argv[i++] = s->value;
+-				argv[i] = '\0';
++				argv[i] = NULL;
+ 			}
+ 		}
+ 
+diff --git a/src/librc/librc.c b/src/librc/librc.c
+index 90327097..9da1757f 100644
+--- a/src/librc/librc.c
++++ b/src/librc/librc.c
+@@ -15,7 +15,7 @@
+  *    except according to the terms contained in the LICENSE file.
+  */
+ 
+-const char librc_copyright[] = "Copyright (c) 2007-2008 Roy Marples";
++static const char librc_copyright[] = "Copyright (c) 2007-2008 Roy Marples";
+ 
+ #include "queue.h"
+ #include "librc.h"
+diff --git a/src/rc/do_e.c b/src/rc/do_e.c
+index 426087e9..8e15806f 100644
+--- a/src/rc/do_e.c
++++ b/src/rc/do_e.c
+@@ -35,9 +35,9 @@
+ 
+ const char *applet = NULL;
+ 
+-static int syslog_decode(char *name, CODE *codetab)
++static int syslog_decode(char *name, const CODE *codetab)
+ {
+-	CODE *c;
++	const CODE *c;
+ 
+ 	if (isdigit((unsigned char)*name))
+ 		return atoi(name);
+diff --git a/src/rc/rc.c b/src/rc/rc.c
+index c6e453b3..ef46925d 100644
+--- a/src/rc/rc.c
++++ b/src/rc/rc.c
+@@ -20,7 +20,7 @@
+  *    except according to the terms contained in the LICENSE file.
+  */
+ 
+-const char rc_copyright[] = "Copyright (c) 2007-2008 Roy Marples";
++static const char rc_copyright[] = "Copyright (c) 2007-2008 Roy Marples";
+ 
+ #include <sys/types.h>
+ #include <sys/ioctl.h>
+diff --git a/src/rc/start-stop-daemon.c b/src/rc/start-stop-daemon.c
+index baa73216..77794a6c 100644
+--- a/src/rc/start-stop-daemon.c
++++ b/src/rc/start-stop-daemon.c
+@@ -669,7 +669,7 @@ int main(int argc, char **argv)
+ 					nav[len++] = p;
+ 				for (i = 0; i < opt; i++)
+ 					nav[i + len] = argv[i];
+-				nav[i + len] = '\0';
++				nav[i + len] = NULL;
+ 			}
+ 		}
+ 	}
+-- 
+cgit v1.2.3
+

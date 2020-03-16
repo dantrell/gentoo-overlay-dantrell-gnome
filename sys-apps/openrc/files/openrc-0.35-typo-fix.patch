@@ -1,0 +1,25 @@
+From 5dd1d39d20c118064d31ed65dc7ae2de75dd7908 Mon Sep 17 00:00:00 2001
+From: William Hubbs <w.d.hubbs@gmail.com>
+Date: Wed, 24 Jan 2018 10:56:33 -0600
+Subject: typo fix
+
+---
+ src/rc/checkpath.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/rc/checkpath.c b/src/rc/checkpath.c
+index 2e2b4ee3..07e5f78a 100644
+--- a/src/rc/checkpath.c
++++ b/src/rc/checkpath.c
+@@ -205,7 +205,7 @@ static int do_check(char *path, uid_t uid, gid_t gid, mode_t mode,
+ 		if (selinux_on)
+ 			selinux_util_label(path);
+ 	} else {
+-		eerror(fstat: %s: %s", path, strerror(errno));
++		eerror("fstat: %s: %s", path, strerror(errno));
+ 		close(readfd);
+ 		return -1;
+ 	}
+-- 
+cgit v1.2.3
+

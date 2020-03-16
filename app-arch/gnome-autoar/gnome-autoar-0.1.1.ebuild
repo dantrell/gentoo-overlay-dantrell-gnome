@@ -7,7 +7,7 @@ inherit gnome2
 DESCRIPTION="Automatic archives creating and extracting library"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-autoar"
 
-LICENSE="LGPL-2+ GPL-2+"
+LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
 

@@ -64,6 +64,7 @@
 >=app-accessibility/at-spi2-core-2.20.0
 >=app-accessibility/orca-3.20.0
 >=app-arch/file-roller-3.20.0
+>=app-arch/gcab-1.4
 >=app-crypt/gcr-3.20.0
 >=app-crypt/seahorse-3.20.0
 >=app-dicts/gnome-dictionary-3.20.0

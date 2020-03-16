@@ -1,0 +1,30 @@
+From 4af5a80b0c516773286cc30e743dc90a2d19df23 Mon Sep 17 00:00:00 2001
+From: William Hubbs <w.d.hubbs@gmail.com>
+Date: Tue, 16 Jan 2018 13:11:22 -0600
+Subject: _rc_deptree_load - return NULL if the stat() call is not successful
+
+X-Gentoo-Bug: 643084
+X-Gentoo-Bug-URL: https://bugs.gentoo.org/show_bug.cgi?id=643084
+---
+ src/rc/rc-misc.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/src/rc/rc-misc.c b/src/rc/rc-misc.c
+index 33a17b35..21c06fc5 100644
+--- a/src/rc/rc-misc.c
++++ b/src/rc/rc-misc.c
+@@ -380,7 +380,10 @@ RC_DEPTREE * _rc_deptree_load(int force, int *regen)
+ 		eend (retval, "Failed to update the dependency tree");
+ 
+ 		if (retval == 0) {
+-			stat(RC_DEPTREE_CACHE, &st);
++			if (stat(RC_DEPTREE_CACHE, &st) != 0) {
++				eerror("stat(%s): %s", RC_DEPTREE_CACHE, strerror(errno));
++				return NULL;
++			}
+ 			if (st.st_mtime < t) {
+ 				eerror("Clock skew detected with `%s'", file);
+ 				eerrorn("Adjusting mtime of `" RC_DEPTREE_CACHE
+-- 
+cgit v1.2.3
+

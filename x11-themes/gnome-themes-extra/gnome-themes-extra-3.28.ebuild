@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit autotools gnome.org
+inherit autotools gnome.org gnome2-utils
 
 DESCRIPTION="Standard Themes for GNOME Applications"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-themes-extra"
@@ -17,13 +17,12 @@ IUSE=""
 # their default background image
 RDEPEND="
 	>=gnome-base/gsettings-desktop-schemas-3.4
-
-	!x11-themes/gnome-themes-standard
 "
 DEPEND="
 	>=dev-util/intltool-0.40
 	sys-devel/gettext
 	virtual/pkgconfig
+	!x11-themes/gnome-themes-standard
 "
 
 PATCHES=(
@@ -42,4 +41,12 @@ src_configure() {
 		--disable-gtk2-engine \
 		--disable-gtk3-engine \
 		GTK_UPDATE_ICON_CACHE=$(type -P true)
+}
+
+pkg_postinst() {
+	gnome2_icon_cache_update
+}
+
+pkg_postrm() {
+	gnome2_icon_cache_update
 }

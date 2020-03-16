@@ -8,7 +8,7 @@ PYTHON_COMPAT=( python2_7 )
 inherit autotools eutils flag-o-matic gnome2 ltprune python-r1 virtualx
 
 DESCRIPTION="GTK+2 bindings for Python"
-HOMEPAGE="http://www.pygtk.org/"
+HOMEPAGE="https://gitlab.gnome.org/Archive/pygtk"
 
 LICENSE="LGPL-2.1"
 SLOT="2"

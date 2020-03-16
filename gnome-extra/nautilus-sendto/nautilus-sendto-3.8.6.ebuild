@@ -2,10 +2,10 @@
 
 EAPI="6"
 
-inherit gnome2 meson
+inherit gnome.org meson
 
 DESCRIPTION="A nautilus extension for sending files to locations"
-HOMEPAGE="https://gitlab.gnome.org/GNOME/nautilus-sendto/"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/nautilus-sendto"
 
 LICENSE="GPL-2+"
 SLOT="0"
@@ -20,15 +20,7 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 "
 
-pkg_postrm() {
-	gnome2_icon_cache_update
-	gnome2_schemas_update
-}
-
 pkg_postinst() {
-	gnome2_icon_cache_update
-	gnome2_schemas_update
-
 	if ! has_version "gnome-base/nautilus[sendto]"; then
 		einfo "Note that ${CATEGORY}/${PN} is meant to be used as a helper by gnome-base/nautilus[sendto]"
 	fi

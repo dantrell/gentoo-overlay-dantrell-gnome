@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Clutter"
 
 LICENSE="LGPL-2.1+ FDL-1.1+"
 SLOT="1.0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="aqua debug doc egl gtk +introspection test wayland X"
 REQUIRED_USE="
@@ -66,6 +66,14 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/clutter/commit/7d499a09e1ef7dae0f3e9be774f3be25e2aa76ff
+	# 	https://gitlab.gnome.org/GNOME/clutter/commit/66243ea57052aeada0a20f524a934bea0d0cc2d5
+	if has_version '<dev-libs/glib-2.53.4'; then
+		eapply -R "${FILESDIR}"/patches/0002-Bump-up-the-GLib-requirement.patch # requires eautoreconf
+		eapply "${FILESDIR}"/${PN}-1.26.4-revert-build-Use-newer-glib-genmarshal-argument.patch
+	fi
+
 	if ! use wayland; then
 		# From GNOME:
 		# 	https://gitlab.gnome.org/GNOME/clutter/commit/be8602fbb491c30c1e2febb92553375b2f4ce584

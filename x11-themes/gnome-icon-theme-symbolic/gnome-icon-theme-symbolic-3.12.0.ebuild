@@ -5,7 +5,7 @@ EAPI="6"
 inherit gnome2
 
 DESCRIPTION="Symbolic icons for GNOME default icon theme"
-HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-icon-theme-symbolic/"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-icon-theme-symbolic"
 
 LICENSE="CC-BY-SA-3.0"
 SLOT="0"
