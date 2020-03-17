@@ -248,6 +248,7 @@ sys-apps/accountsservice::gentoo
 sys-apps/bubblewrap::gentoo
 sys-apps/dbus-broker::gentoo
 sys-apps/dbus::gentoo
+sys-apps/lm-sensors::gentoo
 sys-apps/openrc::gentoo
 sys-apps/osinfo-db-tools::gentoo
 sys-apps/osinfo-db::gentoo
