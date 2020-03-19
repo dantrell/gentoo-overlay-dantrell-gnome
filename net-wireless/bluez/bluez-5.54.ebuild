@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python{3_6,3_7,3_8} )
 
 inherit autotools linux-info python-single-r1 readme.gentoo-r1 systemd udev multilib-minimal
 
@@ -11,7 +11,7 @@ SRC_URI="https://www.kernel.org/pub/linux/bluetooth/${P}.tar.xz"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0/3"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="btpclient cups doc debug deprecated extra-tools experimental +mesh midi +obex +readline selinux systemd test test-programs +udev user-session"
 # Since this release all remaining extra-tools need readline support, but this could
@@ -38,11 +38,11 @@ BDEPEND="
 DEPEND="
 	>=dev-libs/glib-2.28:2[${MULTILIB_USEDEP}]
 	>=sys-apps/hwids-20121202.2
-	btpclient? ( >=dev-libs/ell-0.26 )
+	btpclient? ( >=dev-libs/ell-0.28 )
 	cups? ( net-print/cups:= )
 	mesh? (
-		>=dev-libs/ell-0.26
-		dev-libs/json-c:=
+		>=dev-libs/ell-0.28
+		>=dev-libs/json-c-0.13:=
 		sys-libs/readline:0=
 	)
 	midi? ( media-libs/alsa-lib )
@@ -115,10 +115,6 @@ src_prepare() {
 			-e "s:cupsdir = \$(libdir)/cups:cupsdir = $(cups-config --serverbin):" \
 			Makefile.{in,tools} || die
 	fi
-
-	# Broken test https://bugzilla.kernel.org/show_bug.cgi?id=196621
-	# https://bugs.gentoo.org/618548
-	sed -i -e '/unit_tests += unit\/test-gatt\b/d' Makefile.am || die
 
 	eautoreconf
 
@@ -218,12 +214,13 @@ multilib_src_install() {
 
 		# Unittests are not that useful once installed, so make them optional
 		if use test-programs; then
-			# Few are needing python3, the others are python2 only. Remove
-			# until we see how to pull in python2 and python3 for runtime
-			rm "${ED}"/usr/$(get_libdir)/bluez/test/example-gatt-server || die
-			rm "${ED}"/usr/$(get_libdir)/bluez/test/example-gatt-client || die
-			rm "${ED}"/usr/$(get_libdir)/bluez/test/agent.py || die
-			rm "${ED}"/usr/$(get_libdir)/bluez/test/test-mesh || die
+			# Drop python2 only test tools
+			# https://bugzilla.kernel.org/show_bug.cgi?id=206819
+			rm "${ED}"/usr/$(get_libdir)/bluez/test/simple-player || die
+			# https://bugzilla.kernel.org/show_bug.cgi?id=206821
+			rm "${ED}"/usr/$(get_libdir)/bluez/test/test-hfp || die
+			# https://bugzilla.kernel.org/show_bug.cgi?id=206823
+			rm "${ED}"/usr/$(get_libdir)/bluez/test/test-sap-server	|| die
 
 			python_fix_shebang "${ED}"/usr/$(get_libdir)/bluez/test
 
@@ -274,7 +271,7 @@ multilib_src_install_all() {
 	use doc && dodoc doc/*.txt
 	# Install .json files as examples to be used by meshctl
 	if use mesh; then
-		dodoc tools/mesh/*.json
+		dodoc tools/mesh-gatt/*.json
 		local DOC_CONTENTS="Some example .json files were installed into
 		/usr/share/doc/${PF} to be used with meshctl. Feel free to
 		uncompress and copy them to ~/.config/meshctl to use them."

@@ -17,7 +17,7 @@ RESTRICT="!test? ( test )"
 
 RDEPEND="
 	dev-libs/glib:2=
-	>=dev-libs/glib-2.56:2
+	>=dev-libs/glib-2.36:2
 	quvi? ( >=media-libs/libquvi-0.9.1:0= )
 	archive? ( >=app-arch/libarchive-3:0= )
 	dev-libs/libxml2:2

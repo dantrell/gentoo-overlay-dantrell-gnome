@@ -30,7 +30,7 @@
 ~dev-libs/atk-2.34.1::dantrell-gnome-3-34
 ~dev-libs/folks-0.13.2::dantrell-gnome
 ~dev-libs/gjs-1.58.5::dantrell-gnome-3-34
-~dev-libs/glib-2.62.5::dantrell-gnome
+~dev-libs/glib-2.62.6::dantrell-gnome
 ~dev-libs/gmime-3.2.6::dantrell-gnome
 ~dev-libs/gobject-introspection-1.62.0::dantrell-gnome-3-34
 ~dev-libs/gobject-introspection-common-1.62.0::dantrell-gnome-3-34
@@ -50,7 +50,7 @@
 ~dev-python/pyatspi-2.34.0::dantrell-gnome-3-34
 ~dev-python/pygobject-3.34.0::dantrell-gnome-3-34
 ~dev-util/devhelp-3.34.0::dantrell-gnome-3-34
-~dev-util/gdbus-codegen-2.62.5::dantrell-gnome
+~dev-util/gdbus-codegen-2.62.6::dantrell-gnome
 ~dev-util/gnome-builder-3.34.1::dantrell-gnome-3-34
 ~dev-util/gnome-devel-docs-3.32.1::dantrell-gnome
 ~dev-util/gtk-doc-1.32::dantrell-gnome
@@ -66,7 +66,7 @@
 ~games-board/tali-3.32.1::dantrell-gnome
 ~games-puzzle/atomix-3.34.0::dantrell-gnome-3-34
 ~games-puzzle/five-or-more-3.32.1::dantrell-gnome
-~games-puzzle/gnome2048-3.34.0::dantrell-gnome-3-34
+~games-puzzle/gnome2048-3.34.5::dantrell-gnome-3-34
 ~games-puzzle/gnome-klotski-3.34.4::dantrell-gnome-3-34
 ~games-puzzle/gnome-sudoku-3.34.1::dantrell-gnome-3-34
 ~games-puzzle/gnome-taquin-3.34.4::dantrell-gnome-3-34
@@ -156,7 +156,6 @@
 ~net-libs/gnome-online-accounts-3.34.1::dantrell-gnome-3-34
 ~net-libs/gssdp-1.2.2::dantrell-gnome
 ~net-libs/gupnp-1.2.2::dantrell-gnome
-~net-libs/libsoup-2.68.3::dantrell-gnome-3-34
 ~net-libs/libsoup-2.68.4::dantrell-gnome-3-34
 ~net-libs/libsoup-gnome-2.68.2::dantrell-gnome-3-34
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
@@ -177,9 +176,8 @@
 ~x11-libs/libnotify-0.7.9::dantrell-gnome
 ~x11-libs/libwnck-3.32.0::dantrell-gnome
 ~x11-libs/pango-1.44.7::dantrell-gnome
-~x11-libs/vte-0.58.2::dantrell-gnome-3-34
 ~x11-libs/vte-0.58.3::dantrell-gnome-3-34
-~x11-misc/gpaste-3.34.0::dantrell-gnome-3-34
+~x11-misc/gpaste-3.34.1::dantrell-gnome-3-34
 ~x11-terms/gnome-terminal-3.34.2::dantrell-gnome-3-34
 ~x11-themes/adwaita-icon-theme-3.34.3::dantrell-gnome-3-34
 ~x11-themes/gnome-backgrounds-3.34.0::dantrell-gnome-3-34

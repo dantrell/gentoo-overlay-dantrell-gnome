@@ -19,19 +19,19 @@ RESTRICT="!test? ( test )"
 RDEPEND="
 	dev-libs/glib:2=
 	>=dev-libs/glib-2.36:2
-	dev-libs/gmime:2.6
-	>=net-libs/libsoup-2.43:2.4
-	archive? ( >=app-arch/libarchive-3 )
+	quvi? ( >=media-libs/libquvi-0.9.1:0= )
+	archive? ( >=app-arch/libarchive-3:0= )
+	dev-libs/libxml2:2
 	crypt? ( dev-libs/libgcrypt:0= )
 	introspection? ( >=dev-libs/gobject-introspection-0.9.5:= )
-	quvi? ( >=media-libs/libquvi-0.9.1:0= )
+	>=net-libs/libsoup-2.43:2.4
+	dev-libs/gmime:2.6
 "
-DEPEND="${RDEPEND}
-	dev-libs/gobject-introspection-common
-	>=dev-util/intltool-0.35
+DEPEND="${RDEPEND}"
+BDEPEND="
 	>=dev-util/gtk-doc-am-1.14
-	sys-devel/autoconf-archive
 	>=sys-devel/gettext-0.17
+	>=dev-util/intltool-0.35
 	virtual/pkgconfig
 	test? (
 		gnome-base/gvfs[http]
@@ -39,11 +39,16 @@ DEPEND="${RDEPEND}
 "
 # eautoreconf needs:
 #	dev-libs/gobject-introspection-common
-#   sys-devel/autoconf-archive
+#	sys-devel/autoconf-archive
+BDEPEND="${BDEPEND}
+	dev-libs/gobject-introspection-common
+	sys-devel/autoconf-archive
+"
 
 PATCHES=(
-	# Fix gmime slot automagic, https://bugzilla.gnome.org/786231
-	"${FILESDIR}"/${P}-gmime-automagic.patch
+	# From Gentoo:
+	# 	https://bugzilla.gnome.org/786231
+	"${FILESDIR}"/${PN}-3.10.8-gmime-automagic.patch
 )
 
 src_prepare() {
@@ -65,9 +70,9 @@ src_configure() {
 		--disable-static \
 		--enable-gmime=2.6 \
 		--enable-uninstalled-tests \
+		$(use_enable quvi) \
 		$(use_enable archive libarchive) \
 		$(use_enable crypt libgcrypt) \
-		$(use_enable quvi) \
 		$(use_enable introspection)
 }
 

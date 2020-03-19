@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
+GNOME2_EAUTORECONF="yes"
 
 inherit gnome2
 
@@ -14,12 +15,11 @@ KEYWORDS="*"
 
 IUSE=""
 
-# man page was previously installed by gtk+:3 ebuild
+RESTRICT="mirror"
+
 RDEPEND="
 	>=dev-libs/glib-2.49.4:2
 	>=x11-libs/gdk-pixbuf-2.30:2
-	!<x11-libs/gtk+-2.24.28-r1:2
-	!<x11-libs/gtk+-3.22.2:3
 "
 DEPEND="${RDEPEND}
 	>=sys-devel/gettext-0.19.7
@@ -27,7 +27,6 @@ DEPEND="${RDEPEND}
 "
 
 src_configure() {
-	# man pages are shipped in tarball
 	gnome2_src_configure --disable-man
 }
 

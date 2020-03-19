@@ -41,9 +41,6 @@ src_prepare() {
 }
 
 src_configure() {
-	# uninstalled-tests is abused to switch from loading live FS helper
-	# to in-build-tree helper, check on upgrades this is not having other
-	# consequences, bug #630242
 	local emesonargs=(
 		-Denable-quvi=$(usex quvi yes no)
 		-Denable-libarchive=$(usex archive yes no)
