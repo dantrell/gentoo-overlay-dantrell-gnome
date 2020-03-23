@@ -10,7 +10,7 @@ SRC_URI="https://github.com/storaged-project/udisks/releases/download/${P}/${P}.
 
 LICENSE="LGPL-2+ GPL-2+"
 SLOT="2"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="acl debug elogind fhs +introspection lvm nls selinux systemd vdo"
 REQUIRED_USE="?? ( elogind systemd )"
