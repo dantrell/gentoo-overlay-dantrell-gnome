@@ -1,10 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no" # --enable-debug only changes CFLAGS
+EAPI="6"
 GNOME2_LA_PUNT="yes"
+PYTHON_COMPAT=( python{3_6,3_7,3_8} )
 
-inherit gnome2
+inherit gnome2 python-any-r1
 
 DESCRIPTION="A framework for easy media discovery and browsing"
 HOMEPAGE="https://wiki.gnome.org/Projects/Grilo"
@@ -13,7 +13,9 @@ LICENSE="LGPL-2.1+"
 SLOT="0.2"
 KEYWORDS="*"
 
-IUSE="daap dvd flickr freebox gnome-online-accounts lua subtitles thetvdb tracker upnp-av vimeo +youtube"
+IUSE="daap dvd flickr freebox gnome-online-accounts lua subtitles test thetvdb tracker upnp-av vimeo +youtube"
+
+RESTRICT="!test? ( test )"
 
 # Bump gom requirement to avoid segfaults
 RDEPEND="
@@ -50,19 +52,30 @@ RDEPEND="
 		net-libs/dleyna-connector-dbus )
 	vimeo? (
 		>=dev-libs/totem-pl-parser-3.4.1 )
+
+	!media-plugins/grilo-plugins:0.3
 "
 DEPEND="${RDEPEND}
 	app-text/docbook-xml-dtd:4.5
 	app-text/yelp-tools
 	>=dev-util/intltool-0.40.0
 	virtual/pkgconfig
+	upnp-av? ( test? (
+		${PYTHON_DEPS}
+		$(python_gen_any_dep 'dev-python/dbusmock[${PYTHON_USEDEP}]') ) )
 "
 
-# FIXME: some unittests required python-dbusmock
+python_check_deps() {
+	use upnp-av && use test && has_version "dev-python/dbusmock[${PYTHON_USEDEP}]"
+}
+
+pkg_setup() {
+	use upnp-av && use test && python-any-r1_pkg_setup
+}
+
 src_configure() {
 	# --enable-debug only changes CFLAGS, useless for us
-	# Plugins
-	# shoutcast seems to be broken
+	# --enable-shoutcast seems to be broken
 	gnome2_src_configure \
 		--disable-static \
 		--disable-debug \

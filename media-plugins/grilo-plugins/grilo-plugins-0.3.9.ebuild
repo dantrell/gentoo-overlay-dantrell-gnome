@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python{3_6,3_7,3_8} )
 
 inherit gnome.org meson xdg
 
@@ -54,6 +53,8 @@ RDEPEND="
 		>=dev-libs/libgdata-0.9.1:= )
 
 	gnome-online-accounts? ( >=net-libs/gnome-online-accounts-3.17.91:= )
+
+	!media-plugins/grilo-plugins:0.2
 "
 DEPEND="${RDEPEND}"
 BDEPEND="

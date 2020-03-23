@@ -44,10 +44,6 @@ src_configure() {
 		$(use_enable X editor)
 }
 
-src_test() {
-	virtx emake check
-}
-
 src_install() {
 	gnome2_src_install
 
@@ -61,6 +57,10 @@ src_install() {
 	# Install bash-completion file properly to the system
 	rm -rv "${ED}usr/share/bash-completion" || die
 	dobashcomp "${S}/bin/completion/dconf"
+}
+
+src_test() {
+	virtx emake check
 }
 
 pkg_postinst() {

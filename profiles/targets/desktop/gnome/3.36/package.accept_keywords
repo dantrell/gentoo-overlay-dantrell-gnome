@@ -1,9 +1,11 @@
 app-arch/gnome-autoar::dantrell-gnome ~*
+app-crypt/libsecret::dantrell-gnome **
 app-emulation/libvirt-glib::dantrell-gnome **
 app-text/gspell::dantrell-gnome ~*
 app-text/libgepub::dantrell-gnome ~*
 dev-lang/spidermonkey:52::dantrell-gnome ~*
 dev-lang/spidermonkey:60::dantrell-gnome ~*
+dev-lang/spidermonkey:68::dantrell-gnome ~*
 dev-libs/appstream-glib::dantrell-gnome ~*
 dev-libs/json-glib::dantrell-gnome ~*
 dev-libs/libgee::dantrell-gnome ~*
@@ -17,6 +19,7 @@ mail-client/geary::dantrell-gnome **
 media-libs/babl::dantrell-gnome ~*
 media-libs/gegl:0.3::dantrell-gnome ~*
 media-libs/gegl:0.4::dantrell-gnome ~*
+media-libs/graphene::dantrell-gnome ~*
 media-libs/grilo:0.3::dantrell-gnome **
 media-plugins/grilo-plugins:0.3::dantrell-gnome **
 net-misc/networkmanager::dantrell-gnome ~*

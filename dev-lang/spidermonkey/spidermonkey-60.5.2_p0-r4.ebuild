@@ -11,7 +11,6 @@ MY_P="${MY_P/_pre/pre}"
 MY_P="${MY_P%_p[0-9]*}"
 DESCRIPTION="Stand-alone JavaScript C++ library"
 HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"
-#SRC_URI="https://archive.mozilla.org/pub/spidermonkey/prereleases/60/pre3/${MY_P}.tar.bz2
 SRC_URI="https://dev.gentoo.org/~axs/distfiles/${MY_P}.tar.bz2
 	https://dev.gentoo.org/~anarchy/mozilla/patchsets/${PN}-60.0-patches-04.tar.xz"
 
@@ -24,7 +23,6 @@ IUSE="debug +jit minimal +system-icu test"
 RESTRICT="!test? ( test ) ia64? ( test )"
 
 S="${WORKDIR}/${MY_P%.rc*}"
-
 BUILDDIR="${S}/jsobj"
 
 RDEPEND=">=dev-libs/nspr-4.13.1
@@ -39,6 +37,7 @@ pkg_pretend() {
 
 	check-reqs_pkg_setup
 }
+
 pkg_setup() {
 	[[ ${MERGE_TYPE} == "binary" ]] || \
 		moz_pkgsetup
@@ -46,7 +45,7 @@ pkg_setup() {
 }
 
 src_prepare() {
-	eapply "${WORKDIR}/${PN}"
+	eapply "${WORKDIR}"/${PN}
 	eapply "${FILESDIR}"/${PN}-60.5.2-ia64-support.patch
 
 	eapply_user
@@ -99,6 +98,7 @@ cross_make() {
 		RANLIB="${BUILD_RANLIB}" \
 		"$@"
 }
+
 src_compile() {
 	cd "${BUILDDIR}" || die
 	if tc-is-cross-compiler; then

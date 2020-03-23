@@ -36,10 +36,6 @@
 # Masked to prefer stable releases
 #
 # Ref. https://forums.gentoo.org/viewtopic-t-1022050.html
-=media-libs/mesa-19.0.0_rc*
-=media-libs/mesa-19.1.0_rc*
-=media-libs/mesa-19.2.0_rc*
-=media-libs/mesa-19.3.0_rc*
 =media-libs/mesa-19.4.0_rc*
 =media-libs/mesa-20.0.0_rc*
 =media-libs/mesa-20.1.0_rc*
@@ -51,3 +47,8 @@
 =media-libs/mesa-21.2.0_rc*
 =media-libs/mesa-21.3.0_rc*
 =media-libs/mesa-21.4.0_rc*
+=media-libs/mesa-22.0.0_rc*
+=media-libs/mesa-22.1.0_rc*
+=media-libs/mesa-22.2.0_rc*
+=media-libs/mesa-22.3.0_rc*
+=media-libs/mesa-22.4.0_rc*

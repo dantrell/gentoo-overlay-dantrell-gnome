@@ -37,7 +37,7 @@ pkg_setup() {
 }
 
 src_prepare() {
-	eapply "${WORKDIR}/${PN}"
+	eapply "${WORKDIR}"/${PN}
 
 	eapply_user
 
@@ -84,6 +84,7 @@ cross_make() {
 		RANLIB="${BUILD_RANLIB}" \
 		"$@"
 }
+
 src_compile() {
 	cd "${BUILDDIR}" || die
 	if tc-is-cross-compiler; then

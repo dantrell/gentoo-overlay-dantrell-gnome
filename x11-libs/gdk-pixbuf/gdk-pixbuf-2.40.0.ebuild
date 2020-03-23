@@ -21,7 +21,7 @@ DEPEND="
 	jpeg? ( virtual/jpeg:0=[${MULTILIB_USEDEP}] )
 	tiff? ( >=media-libs/tiff-3.9.2:0=[${MULTILIB_USEDEP}] )
 	X? ( x11-libs/libX11[${MULTILIB_USEDEP}] )
-	introspection? ( >=dev-libs/gobject-introspection-1.54:= )
+	introspection? ( >=dev-libs/gobject-introspection-0.9.3:= )
 "
 # librsvg blocker is for the new pixbuf loader API, you lose icons otherwise
 RDEPEND="${DEPEND}

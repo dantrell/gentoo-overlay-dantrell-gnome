@@ -26,12 +26,12 @@
 ~dev-cpp/cairomm-1.12.2::dantrell-gnome
 ~dev-cpp/mm-common-0.9.12::dantrell-gnome
 ~dev-lang/vala-0.46.6::dantrell-gnome
-~dev-libs/appstream-glib-0.7.16::dantrell-gnome
+~dev-libs/appstream-glib-0.7.17::dantrell-gnome
 ~dev-libs/atk-2.34.1::dantrell-gnome-3-34
 ~dev-libs/folks-0.13.2::dantrell-gnome
 ~dev-libs/gjs-1.58.5::dantrell-gnome-3-34
 ~dev-libs/glib-2.62.6::dantrell-gnome
-~dev-libs/gmime-3.2.6::dantrell-gnome
+~dev-libs/gmime-3.2.7::dantrell-gnome
 ~dev-libs/gobject-introspection-1.62.0::dantrell-gnome-3-34
 ~dev-libs/gobject-introspection-common-1.62.0::dantrell-gnome-3-34
 ~dev-libs/gom-0.4::dantrell-gnome
@@ -168,7 +168,7 @@
 ~sci-geosciences/geocode-glib-3.26.2::dantrell-gnome
 ~sci-geosciences/gnome-maps-3.34.3::dantrell-gnome-3-34
 ~sys-apps/baobab-3.34.0::dantrell-gnome-3-34
-~sys-apps/gnome-disk-utility-3.34.4::dantrell-gnome-3-34
+~sys-apps/gnome-disk-utility-3.34.5::dantrell-gnome-3-34
 ~sys-process/gnome-usage-3.33.2::dantrell-gnome-3-34
 ~www-client/epiphany-3.34.4::dantrell-gnome-3-34
 ~x11-libs/gdk-pixbuf-2.40.0::dantrell-gnome

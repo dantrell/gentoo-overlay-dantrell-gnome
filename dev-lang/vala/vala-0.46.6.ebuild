@@ -18,18 +18,15 @@ RESTRICT="!test? ( test )"
 RDEPEND="
 	>=dev-libs/glib-2.48:2
 	>=dev-libs/vala-common-${PV}
-	>=media-gfx/graphviz-2.16
 	!<net-libs/libsoup-2.66.2[vala]
 "
 DEPEND="${RDEPEND}
-	!${CATEGORY}/${PN}:0
 	dev-libs/libxslt
 	sys-devel/flex
 	virtual/pkgconfig
 	virtual/yacc
 	test? (
 		dev-libs/dbus-glib
-		>=dev-libs/glib-2.48:2
 		dev-libs/gobject-introspection:= )
 "
 

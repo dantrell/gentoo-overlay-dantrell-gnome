@@ -43,7 +43,6 @@
 >=dev-libs/vala-common-0.46.0
 >=dev-util/valadoc-0.46.0
 >=games-mud/gnome-mud-9999
->=gnome-base/librsvg-2.42.0
 >=media-plugins/gst-plugins-libnice-0.1.15
 >=media-sound/pasystray-0.6.0
 >=net-im/empathy-3.12.14
@@ -72,6 +71,7 @@
 >=sys-apps/fwupd-0.8.0
 
 # Masked to freeze the state of GNOME
+>=gnome-base/librsvg-2.41.0
 >=app-accessibility/accerciser-3.22.0
 >=app-accessibility/at-spi2-atk-2.18.0
 >=app-accessibility/at-spi2-core-2.18.0

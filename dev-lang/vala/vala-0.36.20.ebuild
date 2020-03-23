@@ -20,14 +20,12 @@ RDEPEND="
 	>=dev-libs/vala-common-${PV}
 "
 DEPEND="${RDEPEND}
-	!${CATEGORY}/${PN}:0
 	dev-libs/libxslt
 	sys-devel/flex
 	virtual/pkgconfig
 	virtual/yacc
 	test? (
 		dev-libs/dbus-glib
-		>=dev-libs/glib-2.26:2
 		dev-libs/gobject-introspection:= )
 "
 

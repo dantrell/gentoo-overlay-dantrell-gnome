@@ -17,12 +17,13 @@ IUSE=""
 # their default background image
 RDEPEND="
 	>=gnome-base/gsettings-desktop-schemas-3.4
+
+	!x11-themes/gnome-themes-standard
 "
 DEPEND="
 	>=dev-util/intltool-0.40
 	sys-devel/gettext
 	virtual/pkgconfig
-	!x11-themes/gnome-themes-standard
 "
 
 PATCHES=(

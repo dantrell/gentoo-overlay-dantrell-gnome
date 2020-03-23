@@ -150,6 +150,7 @@
 >=gnome-base/gsettings-desktop-schemas-3.22.0
 >=gnome-base/gvfs-1.30.0
 >=gnome-base/libgtop-2.36.0
+>=gnome-base/librsvg-2.41.0
 >=gnome-base/nautilus-3.22.0
 >=gnome-extra/california-0.5.0
 >=gnome-extra/evolution-data-server-3.22.0

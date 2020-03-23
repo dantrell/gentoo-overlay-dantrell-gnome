@@ -1,0 +1,28 @@
+From 85cd95ae53499788a0df86af28876ec27074caa2 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 24 Oct 2019 12:52:33 +0200
+Subject: [PATCH 7/7] linux: Detect Bluetooth pens
+
+Numbers from:
+https://www.bluetooth.com/specifications/assigned-numbers/baseband/
+---
+ src/linux/up-device-bluez.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/linux/up-device-bluez.c b/src/linux/up-device-bluez.c
+index 2074746..8673d82 100644
+--- a/src/linux/up-device-bluez.c
++++ b/src/linux/up-device-bluez.c
+@@ -52,6 +52,9 @@ appearance_to_kind (guint16 appearance)
+                         return UP_DEVICE_KIND_GAMING_INPUT;
+                 case 0x05:
+                         return UP_DEVICE_KIND_TABLET;
++                case 0x0e:
++                case 0x0f:
++                        return UP_DEVICE_KIND_PEN;
+                 }
+                 break;
+         }
+-- 
+2.25.2
+

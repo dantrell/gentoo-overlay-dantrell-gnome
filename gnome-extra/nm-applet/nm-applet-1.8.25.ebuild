@@ -12,7 +12,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="ayatana doc gtk introspection lto modemmanager selinux teamd test wwan"
+IUSE="ayatana doc gtk +introspection lto +modemmanager selinux teamd test wwan"
 
 # TODO
 RESTRICT="test"

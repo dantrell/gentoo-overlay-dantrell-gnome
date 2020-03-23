@@ -29,8 +29,3 @@ DEPEND="${RDEPEND}
 src_configure() {
 	gnome2_src_configure --disable-man
 }
-
-src_install() {
-	gnome2_src_install
-	doman docs/${PN}.1
-}

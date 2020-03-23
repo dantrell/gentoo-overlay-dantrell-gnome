@@ -182,6 +182,7 @@ media-libs/clutter::gentoo
 media-libs/cogl::gentoo
 media-libs/gegl::gentoo
 media-libs/gexiv2::gentoo
+media-libs/graphene::gentoo
 media-libs/grilo::gentoo
 media-libs/gsound::gentoo
 media-libs/gst-rtsp-server::gentoo

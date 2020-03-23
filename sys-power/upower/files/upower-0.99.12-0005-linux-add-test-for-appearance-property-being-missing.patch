@@ -1,0 +1,69 @@
+From a1a437d7b1e0a9ea46bf72c390c3aeaf6d61c07d Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Wed, 23 Oct 2019 13:26:53 +0200
+Subject: [PATCH 5/7] linux: Add test for Appearance property being missing
+
+Similar test to the test_bluetooth_le_mouse() one, but without an
+appearance property.
+---
+ src/linux/integration-test | 44 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 3009eab..7098a67 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -1596,6 +1596,50 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Type'), UP_DEVICE_KIND_MOUSE)
+         self.stop_daemon()
+ 
++    def test_bluetooth_le_device(self):
++        '''Bluetooth LE Device'''
++        '''See https://gitlab.freedesktop.org/upower/upower/issues/100'''
++
++        self.start_bluez()
++
++        # Add an adapter to both bluez and udev
++        adapter_name = 'hci0'
++        path = self.bluez_obj.AddAdapter(adapter_name, 'my-computer')
++        self.assertEqual(path, '/org/bluez/' + adapter_name)
++
++        dev = self.testbed.add_device('bluetooth',
++                                      'usb2/bluetooth/hci0/hci0:1',
++                                      None,
++                                      [], [])
++
++        # Add a device to both bluez and udev
++        address = '11:22:33:44:55:66'
++        alias = 'Satechi M1 Mouse'
++
++        path = self.bluez_obj.AddDevice(adapter_name, address, alias)
++
++        device = self.dbus_con.get_object('org.bluez', path)
++        properties = {
++            'Percentage': dbus.Byte(99, variant_level=1),
++        }
++        device.AddProperties(BATTERY_IFACE, properties)
++
++        self.start_daemon()
++
++        # process = subprocess.Popen(['gdbus', 'introspect', '--system', '--dest', 'org.bluez', '--object-path', '/org/bluez/hci0/dev_11_22_33_44_55_66'])
++
++        # Wait for UPower to process the new device
++        time.sleep(0.5)
++        devs = self.proxy.EnumerateDevices()
++        self.assertEqual(len(devs), 1)
++        mouse_bat0_up = devs[0]
++
++        self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Model'), 'Satechi M1 Mouse')
++        self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Percentage'), 99)
++        self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'PowerSupply'), False)
++        self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Type'), UP_DEVICE_KIND_UNKNOWN)
++        self.stop_daemon()
++
+     #
+     # libupower-glib tests (through introspection)
+     #
+-- 
+2.25.2
+

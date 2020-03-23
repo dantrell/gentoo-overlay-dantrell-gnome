@@ -41,10 +41,6 @@ src_configure() {
 		--enable-man
 }
 
-src_test() {
-	virtx emake check
-}
-
 src_install() {
 	gnome2_src_install
 
@@ -54,6 +50,10 @@ src_install() {
 	echo 'CONFIG_PROTECT_MASK="/etc/dconf"' >> 51dconf
 	echo 'GSETTINGS_BACKEND="dconf"' >> 51dconf
 	doenvd 51dconf
+}
+
+src_test() {
+	virtx emake check
 }
 
 pkg_postinst() {

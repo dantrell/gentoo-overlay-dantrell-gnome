@@ -1,5 +1,5 @@
-# Masked to test on GNOME 3.36 first
->=net-libs/webkit-gtk-2.28.0
+# Masked to test on GNOME 3.38 first
+>=net-libs/webkit-gtk-2.30.0
 
 # Masked to freeze the state of GNOME
 >=dev-cpp/cairomm-1.13.0

@@ -34,7 +34,7 @@ DEPEND="${RDEPEND}
 	dev-util/itstool
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
-	app-crypt/gcr[vala]
+	app-crypt/gcr[vala(+)]
 	app-crypt/libsecret[vala]
 "
 

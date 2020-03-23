@@ -1,0 +1,40 @@
+From 27541a6130f20b6f059d7a6ed25f62fc1356e52c Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Wed, 23 Oct 2019 13:25:39 +0200
+Subject: [PATCH 4/7] linux: Remove unused code in test suite
+
+There's no need to create a udev device, the metadata comes from bluez.
+---
+ src/linux/integration-test | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 788d848..3009eab 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -1566,7 +1566,7 @@ class Tests(dbusmock.DBusTestCase):
+                                       None,
+                                       [], [])
+ 
+-        # Add a device to both bluez and udev
++        # Add a device to bluez
+         address = '11:22:33:44:55:66'
+         alias = 'Arc Touch Mouse SE'
+ 
+@@ -1580,13 +1580,6 @@ class Tests(dbusmock.DBusTestCase):
+         }
+         device.AddProperties(BATTERY_IFACE, properties)
+ 
+-        parent = dev
+-        self.testbed.add_device(
+-            'input',
+-            'input3/event4',
+-            parent,
+-            [], ['DEVNAME', 'input/event4', 'ID_INPUT_MOUSE', '1'])
+-
+         self.start_daemon()
+ 
+         # process = subprocess.Popen(['gdbus', 'introspect', '--system', '--dest', 'org.bluez', '--object-path', '/org/bluez/hci0/dev_11_22_33_44_55_66'])
+-- 
+2.25.2
+

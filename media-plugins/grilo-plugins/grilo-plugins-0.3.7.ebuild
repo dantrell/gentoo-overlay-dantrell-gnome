@@ -54,6 +54,8 @@ RDEPEND="
 		net-misc/dleyna-server )
 	vimeo? (
 		>=dev-libs/totem-pl-parser-3.4.1 )
+
+	!media-plugins/grilo-plugins:0.2
 "
 DEPEND="${RDEPEND}
 	app-text/docbook-xml-dtd:4.5
@@ -81,11 +83,9 @@ src_prepare () {
 		-i configure.ac configure || die "sed configure.ac configure failed"
 }
 
-# FIXME: some unittests required python-dbusmock
 src_configure() {
 	# --enable-debug only changes CFLAGS, useless for us
-	# Plugins
-	# shoutcast seems to be broken
+	# --enable-shoutcast seems to be broken
 	gnome2_src_configure \
 		--disable-static \
 		--disable-debug \
@@ -127,8 +127,5 @@ src_install() {
 		HELP_ID="grilo-plugins-${SLOT%/*}" \
 		HELP_MEDIA=""
 
-	# The above doesn't work and collides with 0.2 slot
-	mv "${ED}"/usr/share/help/C/examples/example-tmdb{,-0.3}.c || die
-	mv "${ED}"/usr/share/help/C/grilo-plugins/legal{,-0.3}.xml || die
-	mv "${ED}"/usr/share/help/C/grilo-plugins/grilo-plugins{,-0.3}.xml || die
+	mv "${ED}"/usr/share/help/C/grilo-plugins{,-0.3} || die
 }

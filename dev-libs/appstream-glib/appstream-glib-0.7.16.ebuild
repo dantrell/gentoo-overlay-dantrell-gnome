@@ -15,7 +15,7 @@ KEYWORDS="~*"
 IUSE="gtk-doc fonts +introspection stemmer"
 
 RDEPEND="
-	>=dev-libs/glib-2.45.8:2
+	>=dev-libs/glib-2.58:2
 	sys-apps/util-linux
 	app-arch/libarchive
 	>=net-libs/libsoup-2.51.92:2.4
@@ -28,7 +28,7 @@ RDEPEND="
 	dev-libs/libyaml
 	stemmer? ( dev-libs/snowball-stemmer )
 	x11-libs/pango
-	introspection? ( >=dev-libs/gobject-introspection-1.54:= )
+	introspection? ( >=dev-libs/gobject-introspection-0.9.8:= )
 "
 # libxml2 required for glib-compile-resources
 DEPEND="${RDEPEND}

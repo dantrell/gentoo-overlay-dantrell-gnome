@@ -1,0 +1,89 @@
+From 72b85b8c1371f3396c293d9a2aa373b6a7551f63 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 24 Oct 2019 12:50:26 +0200
+Subject: [PATCH 6/7] lib: Add "Pen" device type
+
+So we can track the battery information for powered tablet pens, rather
+than labelling them as tablets.
+---
+ libupower-glib/up-device.c | 6 ++++--
+ libupower-glib/up-types.c  | 4 ++++
+ libupower-glib/up-types.h  | 1 +
+ src/linux/integration-test | 3 ++-
+ 4 files changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/libupower-glib/up-device.c b/libupower-glib/up-device.c
+index e21274d..01f752f 100644
+--- a/libupower-glib/up-device.c
++++ b/libupower-glib/up-device.c
+@@ -313,7 +313,8 @@ up_device_to_text (UpDevice *device)
+ 	     kind == UP_DEVICE_KIND_BATTERY ||
+ 	     kind == UP_DEVICE_KIND_MOUSE ||
+ 	     kind == UP_DEVICE_KIND_KEYBOARD ||
+-	     kind == UP_DEVICE_KIND_GAMING_INPUT) &&
++	     kind == UP_DEVICE_KIND_GAMING_INPUT ||
++	     kind == UP_DEVICE_KIND_PEN) &&
+ 	    !is_display)
+ 		g_string_append_printf (string, "    rechargeable:        %s\n", up_device_bool_to_string (up_exported_device_get_is_rechargeable (priv->proxy_device)));
+ 	if (kind == UP_DEVICE_KIND_BATTERY ||
+@@ -367,7 +368,8 @@ up_device_to_text (UpDevice *device)
+ 	    kind == UP_DEVICE_KIND_COMPUTER ||
+ 	    kind == UP_DEVICE_KIND_MEDIA_PLAYER ||
+ 	    kind == UP_DEVICE_KIND_UPS ||
+-	    kind == UP_DEVICE_KIND_GAMING_INPUT) {
++	    kind == UP_DEVICE_KIND_GAMING_INPUT ||
++	    kind == UP_DEVICE_KIND_PEN) {
+ 		if (battery_level == UP_DEVICE_LEVEL_NONE)
+ 			g_string_append_printf (string, "    percentage:          %g%%\n", up_exported_device_get_percentage (priv->proxy_device));
+ 		else
+diff --git a/libupower-glib/up-types.c b/libupower-glib/up-types.c
+index 525cd02..7cf9573 100644
+--- a/libupower-glib/up-types.c
++++ b/libupower-glib/up-types.c
+@@ -71,6 +71,8 @@ up_device_kind_to_string (UpDeviceKind type_enum)
+ 		return "computer";
+ 	case UP_DEVICE_KIND_GAMING_INPUT:
+ 		return "gaming-input";
++	case UP_DEVICE_KIND_PEN:
++		return "pen";
+ 	default:
+ 		return "unknown";
+ 	}
+@@ -113,6 +115,8 @@ up_device_kind_from_string (const gchar *type)
+ 		return UP_DEVICE_KIND_TABLET;
+ 	if (g_str_equal (type, "gaming-input"))
+ 		return UP_DEVICE_KIND_GAMING_INPUT;
++	if (g_str_equal (type, "pen"))
++		return UP_DEVICE_KIND_PEN;
+ 	return UP_DEVICE_KIND_UNKNOWN;
+ }
+ 
+diff --git a/libupower-glib/up-types.h b/libupower-glib/up-types.h
+index 079bccd..379d46c 100644
+--- a/libupower-glib/up-types.h
++++ b/libupower-glib/up-types.h
+@@ -49,6 +49,7 @@ typedef enum {
+ 	UP_DEVICE_KIND_TABLET,
+ 	UP_DEVICE_KIND_COMPUTER,
+ 	UP_DEVICE_KIND_GAMING_INPUT,
++	UP_DEVICE_KIND_PEN,
+ 	UP_DEVICE_KIND_LAST
+ } UpDeviceKind;
+ 
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 7098a67..e5c6c46 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -86,7 +86,8 @@ BATTERY_IFACE = 'org.bluez.Battery1'
+  UP_DEVICE_KIND_MEDIA_PLAYER,
+  UP_DEVICE_KIND_TABLET,
+  UP_DEVICE_KIND_COMPUTER,
+- UP_DEVICE_KIND_GAMING_INPUT) = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
++ UP_DEVICE_KIND_GAMING_INPUT,
++ UP_DEVICE_KIND_PEN) = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)
+ 
+ class Tests(dbusmock.DBusTestCase):
+     @classmethod
+-- 
+2.25.2
+

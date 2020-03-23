@@ -171,7 +171,6 @@ src_prepare() {
 	fi
 
 	eapply "${FILESDIR}"/${PN}-2.24.4-eglmesaext-include.patch # bug 699054 # https://bugs.webkit.org/show_bug.cgi?id=204108
-	eapply "${FILESDIR}"/${PN}-2.26.2-fix-arm-non-unified-build.patch # bug 704194
 	eapply "${FILESDIR}"/${PN}-2.26.3-fix-gtk-doc.patch # bug 704550 - retest without it once we can depend on >=gtk-doc-1.32
 	cmake-utils_src_prepare
 	gnome2_src_prepare

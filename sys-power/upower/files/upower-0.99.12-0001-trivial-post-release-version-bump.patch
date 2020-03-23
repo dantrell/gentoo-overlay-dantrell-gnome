@@ -1,7 +1,7 @@
 From c742d55725ea0ad88562094d187b0ecc0ac74b4f Mon Sep 17 00:00:00 2001
 From: Martin Pitt <martin@piware.de>
 Date: Tue, 3 Sep 2019 08:51:06 +0200
-Subject: [PATCH] trivial: post release version bump
+Subject: [PATCH 1/7] trivial: post release version bump
 
 ---
  configure.ac | 2 +-
@@ -21,5 +21,5 @@ index b3505e8..a96b794 100644
            [up_major_version.up_minor_version.up_micro_version])
  
 -- 
-2.23.0
+2.25.2
 

@@ -33,7 +33,7 @@ DEPEND="
 	>=dev-libs/gmime-2.6.17:2.6
 	>=app-crypt/libsecret-0.11[introspection,vala]
 	>=dev-libs/libxml2-2.7.8:2
-	>=app-crypt/gcr-3.10.1:0=[gtk,introspection,vala]
+	>=app-crypt/gcr-3.10.1:0=[gtk,introspection,vala(+)]
 	app-text/enchant:2=
 	>=dev-libs/folks-0.11:0
 	dev-libs/json-glib

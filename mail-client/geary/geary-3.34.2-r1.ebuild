@@ -55,7 +55,7 @@ BDEPEND="
 	$(vala_depend)
 	x11-libs/gtk+:3[introspection]
 	net-libs/webkit-gtk:4[introspection]
-	app-crypt/gcr:0[introspection,vala]
+	app-crypt/gcr:0[introspection,vala(+)]
 	dev-libs/libgee:0.8[introspection]
 	app-text/gspell[vala]
 	app-crypt/libsecret[introspection,vala]

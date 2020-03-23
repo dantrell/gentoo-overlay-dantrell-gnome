@@ -1,7 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-VALA_MIN_API_VERSION="0.28"
+VALA_MIN_API_VERSION="0.34"
+VALA_MAX_API_VERSION="0.46"
 
 inherit gnome.org gnome2-utils meson vala xdg
 
@@ -47,7 +48,7 @@ BDEPEND="
 	virtual/pkgconfig
 	net-libs/libsoup:2.4[vala]
 	media-libs/gexiv2[vala]
-	app-crypt/gcr[vala]
+	app-crypt/gcr[vala(+)]
 "
 
 src_prepare() {

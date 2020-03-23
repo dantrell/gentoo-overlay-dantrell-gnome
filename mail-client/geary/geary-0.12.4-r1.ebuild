@@ -17,7 +17,7 @@ KEYWORDS=""
 IUSE="nls"
 
 DEPEND="
-	>=app-crypt/gcr-3.10.1:0=[gtk,introspection,vala]
+	>=app-crypt/gcr-3.10.1:0=[gtk,introspection,vala(+)]
 	app-crypt/libsecret[vala]
 	app-text/iso-codes
 	dev-db/sqlite:3

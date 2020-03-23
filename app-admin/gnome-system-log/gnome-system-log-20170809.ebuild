@@ -20,13 +20,10 @@ COMMON_DEPEND="
 	>=x11-libs/gtk+-3.11.4:3
 	x11-libs/pango
 "
-# ${PN} was part of gnome-utils before 3.4
 RDEPEND="
 	${COMMON_DEPEND}
 	gnome-base/gsettings-desktop-schemas
-	!<gnome-extra/gnome-utils-3.4
 "
-
 DEPEND="
 	${COMMON_DEPEND}
 	app-text/yelp-tools

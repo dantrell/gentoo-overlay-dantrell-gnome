@@ -1,0 +1,51 @@
+From 8e6cb06ff68a283b9857d4d0e831d93c42521534 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 17 Oct 2019 16:36:58 +0200
+Subject: [PATCH 2/7] linux: Fix memory leak in Bluez backend
+
+g_dbus_proxy_get_cached_property() returns transfer full GVariants.
+---
+ src/linux/up-device-bluez.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
+
+diff --git a/src/linux/up-device-bluez.c b/src/linux/up-device-bluez.c
+index cd89529..5e595a9 100644
+--- a/src/linux/up-device-bluez.c
++++ b/src/linux/up-device-bluez.c
+@@ -71,9 +71,10 @@ up_device_bluez_coldplug (UpDevice *device)
+ 	GDBusProxy *proxy;
+ 	GError *error = NULL;
+ 	UpDeviceKind kind;
++	guint16 appearance;
+ 	const char *uuid;
+ 	const char *model;
+-	guint16 appearance;
++	GVariant *v;
+ 	guchar percentage;
+ 
+ 	/* Static device properties */
+@@ -93,10 +94,18 @@ up_device_bluez_coldplug (UpDevice *device)
+ 		return FALSE;
+ 	}
+ 
+-	appearance = g_variant_get_uint16 (g_dbus_proxy_get_cached_property (proxy, "Appearance"));
++	v = g_dbus_proxy_get_cached_property (proxy, "Appearance");
++	appearance = g_variant_get_uint16 (v);
+ 	kind = appearance_to_kind (appearance);
+-	uuid = g_variant_get_string (g_dbus_proxy_get_cached_property (proxy, "Address"), NULL);
+-	model = g_variant_get_string (g_dbus_proxy_get_cached_property (proxy, "Alias"), NULL);
++	g_variant_unref (v);
++
++	v = g_dbus_proxy_get_cached_property (proxy, "Address");
++	uuid = g_variant_get_string (v, NULL);
++	g_variant_unref (v);
++
++	v = g_dbus_proxy_get_cached_property (proxy, "Alias");
++	model = g_variant_get_string (v, NULL);
++	g_variant_unref (v);
+ 
+ 	/* hardcode some values */
+ 	g_object_set (device,
+-- 
+2.25.2
+

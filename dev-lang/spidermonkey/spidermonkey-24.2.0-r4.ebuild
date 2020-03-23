@@ -103,6 +103,7 @@ cross_make() {
 		RANLIB="${BUILD_RANLIB}" \
 		"$@"
 }
+
 src_compile() {
 	cd "${BUILDDIR}" || die
 	if tc-is-cross-compiler; then

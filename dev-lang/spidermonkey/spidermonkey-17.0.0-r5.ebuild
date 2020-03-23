@@ -16,7 +16,6 @@ SRC_URI="http://archive.mozilla.org/pub/js/${MY_PN}${PV}.tar.gz
 
 LICENSE="NPL-1.1"
 SLOT="17"
-# "MIPS, MacroAssembler is not supported" wrt #491294 for -mips
 KEYWORDS="*"
 
 IUSE="debug jit minimal static-libs test"
@@ -95,6 +94,7 @@ cross_make() {
 		RANLIB="${BUILD_RANLIB}" \
 		"$@"
 }
+
 src_compile() {
 	cd "${BUILDDIR}" || die
 	if tc-is-cross-compiler; then

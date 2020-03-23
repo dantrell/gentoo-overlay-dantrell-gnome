@@ -44,10 +44,6 @@ src_configure() {
 	meson_src_configure
 }
 
-src_test() {
-	virtx meson_src_test
-}
-
 src_install() {
 	meson_src_install
 
@@ -60,6 +56,10 @@ src_install() {
 	echo 'CONFIG_PROTECT_MASK="/etc/dconf"' >> 51dconf
 	echo 'GSETTINGS_BACKEND="dconf"' >> 51dconf
 	doenvd 51dconf
+}
+
+src_test() {
+	virtx meson_src_test
 }
 
 pkg_postinst() {

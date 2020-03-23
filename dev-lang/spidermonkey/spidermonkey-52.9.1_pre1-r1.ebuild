@@ -46,7 +46,7 @@ src_prepare() {
 		"${WORKDIR}"/${PN}/0008-tests-Skip-on-all-64-bit-archs.patch \
 		|| die
 
-	eapply "${WORKDIR}/${PN}"
+	eapply "${WORKDIR}"/${PN}
 	eapply "${FILESDIR}"/moz38-dont-hardcode-libc-soname.patch
 	eapply "${FILESDIR}"/${PN}-52.0-fix-alpha-bitness.patch
 	eapply "${FILESDIR}"/${PN}-52.0-gcc9-overflow.patch
@@ -100,6 +100,7 @@ cross_make() {
 		SHELL="${SHELL:-${EPREFIX}/bin/bash}" \
 		"$@"
 }
+
 src_compile() {
 	cd "${BUILDDIR}" || die
 	if tc-is-cross-compiler; then

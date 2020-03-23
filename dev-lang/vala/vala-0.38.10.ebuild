@@ -20,7 +20,6 @@ RDEPEND="
 	>=dev-libs/vala-common-${PV}
 "
 DEPEND="${RDEPEND}
-	!${CATEGORY}/${PN}:0
 	dev-libs/libxslt
 	sys-devel/flex
 	virtual/pkgconfig
@@ -28,7 +27,6 @@ DEPEND="${RDEPEND}
 	>=media-gfx/graphviz-2.16
 	test? (
 		dev-libs/dbus-glib
-		>=dev-libs/glib-2.40:2
 		dev-libs/gobject-introspection:= )
 "
 

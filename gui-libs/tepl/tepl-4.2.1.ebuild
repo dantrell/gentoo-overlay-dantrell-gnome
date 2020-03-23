@@ -9,7 +9,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Tepl"
 
 LICENSE="LGPL-2.1+"
 SLOT="4"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+introspection"
 
