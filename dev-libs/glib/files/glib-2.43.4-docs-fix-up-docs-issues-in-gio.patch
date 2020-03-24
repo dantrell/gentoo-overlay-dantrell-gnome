@@ -1,0 +1,65 @@
+From 74c22150cf4c2f8a9c7d7fae058a7fd589a94a27 Mon Sep 17 00:00:00 2001
+From: Xavier Claessens <xavier.claessens@collabora.com>
+Date: Thu, 5 Feb 2015 16:20:43 +0100
+Subject: docs: fix up docs issues in gio/
+
+---
+ docs/reference/gio/Makefile.am       |   2 +
+ docs/reference/gio/gio-sections.txt  |   1 +
+ gio/gnetworkmonitor.c                |  16 +++++
+ 4 files changed, 16 insertions(+), 0 deletions(-)
+
+diff --git a/docs/reference/gio/Makefile.am b/docs/reference/gio/Makefile.am
+index 47fdd3851..ee1173255 100644
+--- a/docs/reference/gio/Makefile.am
++++ b/docs/reference/gio/Makefile.am
+@@ -59,6 +59,7 @@ IGNORE_HFILES = \
+ 	gnetworkingprivate.h		\
+ 	gnetworkmonitorbase.h		\
+ 	gnetworkmonitornetlink.h	\
++	gnetworkmonitornm.h		\
+ 	gnotificationbackend.h		\
+ 	gnotification-private.h		\
+ 	gpollfilemonitor.h		\
+diff --git a/docs/reference/gio/gio-sections.txt b/docs/reference/gio/gio-sections.txt
+index 12689478d..4e5e907f3 100644
+--- a/docs/reference/gio/gio-sections.txt
++++ b/docs/reference/gio/gio-sections.txt
+@@ -3844,6 +3936,7 @@ GNetworkConnectivity
+ g_network_monitor_get_connectivity
+ <SUBSECTION Standard>
+ g_network_monitor_get_type
++G_TYPE_NETWORK_CONNECTIVITY
+ G_TYPE_NETWORK_MONITOR
+ G_NETWORK_MONITOR
+ G_IS_NETWORK_MONITOR
+diff --git a/gio/gnetworkmonitor.c b/gio/gnetworkmonitor.c
+index 65ffda394..b08de473a 100644
+--- a/gio/gnetworkmonitor.c
++++ b/gio/gnetworkmonitor.c
+@@ -48,6 +48,22 @@
+  * Since: 2.32
+  */
+ 
++/**
++ * GNetworkMonitorInterface:
++ * @g_iface: The parent interface.
++ * @network_changed: the virtual function pointer for the
++ *  GNetworkMonitor::network-changed signal.
++ * @can_reach: the virtual function pointer for g_network_monitor_can_reach()
++ * @can_reach_async: the virtual function pointer for
++ *  g_network_monitor_can_reach_async()
++ * @can_reach_finish: the virtual function pointer for
++ *  g_network_monitor_can_reach_finish()
++ *
++ * The virtual function table for #GNetworkMonitor.
++ *
++ * Since: 2.32
++ */
++
+ G_DEFINE_INTERFACE_WITH_CODE (GNetworkMonitor, g_network_monitor, G_TYPE_OBJECT,
+                               g_type_interface_add_prerequisite (g_define_type_id, G_TYPE_INITABLE);)
+ 
+-- 
+cgit v1.2.3
+

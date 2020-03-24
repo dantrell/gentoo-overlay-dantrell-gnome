@@ -1,0 +1,62 @@
+From f8da414d089057f63cb277af575675deb63536b0 Mon Sep 17 00:00:00 2001
+From: Dan Winship <danw@gnome.org>
+Date: Wed, 10 Dec 2014 18:39:21 +0100
+Subject: gio: fix the Since/AVAILABLE version on network connectivity stuff
+
+---
+ gio/gioenums.h        | 2 +-
+ gio/gnetworkmonitor.c | 4 ++--
+ gio/gnetworkmonitor.h | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/gio/gioenums.h b/gio/gioenums.h
+index 6176777a8..6b8ab728b 100644
+--- a/gio/gioenums.h
++++ b/gio/gioenums.h
+@@ -1834,7 +1834,7 @@ typedef enum {
+  *
+  * The host's network connectivity state, as reported by #GNetworkMonitor.
+  *
+- * Since: 2.42
++ * Since: 2.44
+  */
+ typedef enum {
+   G_NETWORK_CONNECTIVITY_LOCAL       = 1,
+diff --git a/gio/gnetworkmonitor.c b/gio/gnetworkmonitor.c
+index ae902b906..65ffda394 100644
+--- a/gio/gnetworkmonitor.c
++++ b/gio/gnetworkmonitor.c
+@@ -124,7 +124,7 @@ g_network_monitor_get_network_available (GNetworkMonitor *monitor)
+  *
+  * Return value: the network connectivity state
+  *
+- * Since: 2.42
++ * Since: 2.44
+  */
+ GNetworkConnectivity
+ g_network_monitor_get_connectivity (GNetworkMonitor *monitor)
+@@ -326,7 +326,7 @@ g_network_monitor_default_init (GNetworkMonitorInterface *iface)
+    * See g_network_monitor_get_connectivity() and
+    * #GNetworkConnectivity for more details.
+    *
+-   * Since: 2.42
++   * Since: 2.44
+    */
+   g_object_interface_install_property (iface,
+                                        g_param_spec_enum ("connectivity",
+diff --git a/gio/gnetworkmonitor.h b/gio/gnetworkmonitor.h
+index d9e0ad094..0a6a42cdb 100644
+--- a/gio/gnetworkmonitor.h
++++ b/gio/gnetworkmonitor.h
+@@ -72,7 +72,7 @@ GNetworkMonitor      *g_network_monitor_get_default           (void);
+ GLIB_AVAILABLE_IN_2_32
+ gboolean              g_network_monitor_get_network_available (GNetworkMonitor     *monitor);
+ 
+-GLIB_AVAILABLE_IN_2_42
++GLIB_AVAILABLE_IN_2_44
+ GNetworkConnectivity  g_network_monitor_get_connectivity      (GNetworkMonitor     *monitor);
+ 
+ GLIB_AVAILABLE_IN_2_32
+-- 
+cgit v1.2.3
+

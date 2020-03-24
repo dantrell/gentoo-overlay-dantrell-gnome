@@ -1,0 +1,44 @@
+diff '--exclude=.git' -urN a/gio/gioenumtypes.c b/gio/gioenumtypes.c
+--- a/gio/gioenumtypes.c	2015-02-25 21:12:31.000000000 -0600
++++ b/gio/gioenumtypes.c	2020-03-24 13:58:59.765210106 -0500
+@@ -1684,6 +1684,28 @@
+   return g_define_type_id__volatile;
+ }
+ 
++GType
++g_network_connectivity_get_type (void)
++{
++  static volatile gsize g_define_type_id__volatile = 0;
++
++  if (g_once_init_enter (&g_define_type_id__volatile))
++    {
++      static const GEnumValue values[] = {
++        { G_NETWORK_CONNECTIVITY_LOCAL, "G_NETWORK_CONNECTIVITY_LOCAL", "local" },
++        { G_NETWORK_CONNECTIVITY_LIMITED, "G_NETWORK_CONNECTIVITY_LIMITED", "limited" },
++        { G_NETWORK_CONNECTIVITY_PORTAL, "G_NETWORK_CONNECTIVITY_PORTAL", "portal" },
++        { G_NETWORK_CONNECTIVITY_FULL, "G_NETWORK_CONNECTIVITY_FULL", "full" },
++        { 0, NULL, NULL }
++      };
++      GType g_define_type_id =
++        g_enum_register_static (g_intern_static_string ("GNetworkConnectivity"), values);
++      g_once_init_leave (&g_define_type_id__volatile, g_define_type_id);
++    }
++
++  return g_define_type_id__volatile;
++}
++
+ /* enumerations from "gsettings.h" */
+ GType
+ g_settings_bind_flags_get_type (void)
+diff '--exclude=.git' -urN a/gio/gioenumtypes.h b/gio/gioenumtypes.h
+--- a/gio/gioenumtypes.h	2015-02-25 21:12:31.000000000 -0600
++++ b/gio/gioenumtypes.h	2020-03-24 13:58:39.153295825 -0500
+@@ -155,6 +155,8 @@
+ #define G_TYPE_SUBPROCESS_FLAGS (g_subprocess_flags_get_type ())
+ GLIB_AVAILABLE_IN_ALL GType g_notification_priority_get_type (void) G_GNUC_CONST;
+ #define G_TYPE_NOTIFICATION_PRIORITY (g_notification_priority_get_type ())
++GLIB_AVAILABLE_IN_ALL GType g_network_connectivity_get_type (void) G_GNUC_CONST;
++#define G_TYPE_NETWORK_CONNECTIVITY (g_network_connectivity_get_type ())
+ 
+ /* enumerations from "gsettings.h" */
+ GLIB_AVAILABLE_IN_ALL GType g_settings_bind_flags_get_type (void) G_GNUC_CONST;

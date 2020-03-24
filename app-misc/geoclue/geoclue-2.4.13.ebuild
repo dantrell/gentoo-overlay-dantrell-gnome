@@ -10,7 +10,7 @@ SRC_URI="https://gitlab.freedesktop.org/geoclue/${PN}/-/archive/${PV}/${P}.tar.b
 
 LICENSE="LGPL-2"
 SLOT="2.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+introspection modemmanager zeroconf"
 

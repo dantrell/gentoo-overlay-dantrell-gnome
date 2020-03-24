@@ -1,0 +1,269 @@
+From 8d08b821090d5394175c17f375a192bb3f824c0c Mon Sep 17 00:00:00 2001
+From: Dan Winship <danw@gnome.org>
+Date: Wed, 16 Apr 2014 10:39:12 -0400
+Subject: gio: add network connectivity state to GNetworkMonitor
+
+Add a property to GNetworkMonitor indicating the level of network
+connectivity: none/local, limited, stuck behind a portal, or full.
+
+The default implementation just returns none or full depending on the
+value of is-available.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=664562
+---
+ gio/gioenums.h              | 24 +++++++++++++++++++
+ gio/gnetworkmonitor.c       | 56 +++++++++++++++++++++++++++++++++++++++++++++
+ gio/gnetworkmonitor.h       | 35 +++++++++++++++-------------
+ gio/gnetworkmonitorbase.c   | 24 +++++++++++++------
+ gio/tests/network-monitor.c | 11 +++++++++
+ 5 files changed, 127 insertions(+), 23 deletions(-)
+
+diff --git a/gio/gioenums.h b/gio/gioenums.h
+index 488e04bc1..6176777a8 100644
+--- a/gio/gioenums.h
++++ b/gio/gioenums.h
+@@ -1819,6 +1819,30 @@ typedef enum {
+   G_NOTIFICATION_PRIORITY_URGENT
+ } GNotificationPriority;
+ 
++/**
++ * GNetworkConnectivity:
++ * @G_NETWORK_CONNECTIVITY_LOCAL: The host is not configured with a
++ *   route to the Internet; it may or may not be connected to a local
++ *   network.
++ * @G_NETWORK_CONNECTIVITY_LIMITED: The host is connected to a network, but
++ *   does not appear to be able to reach the full Internet, perhaps
++ *   due to upstream network problems.
++ * @G_NETWORK_CONNECTIVITY_PORTAL: The host is behind a captive portal and
++ *   cannot reach the full Internet.
++ * @G_NETWORK_CONNECTIVITY_FULL: The host is connected to a network, and
++ *   appears to be able to reach the full Internet.
++ *
++ * The host's network connectivity state, as reported by #GNetworkMonitor.
++ *
++ * Since: 2.42
++ */
++typedef enum {
++  G_NETWORK_CONNECTIVITY_LOCAL       = 1,
++  G_NETWORK_CONNECTIVITY_LIMITED     = 2,
++  G_NETWORK_CONNECTIVITY_PORTAL      = 3,
++  G_NETWORK_CONNECTIVITY_FULL        = 4
++} GNetworkConnectivity;
++
+ G_END_DECLS
+ 
+ #endif /* __GIO_ENUMS_H__ */
+diff --git a/gio/gnetworkmonitor.c b/gio/gnetworkmonitor.c
+index 79c7bd94f..ae902b906 100644
+--- a/gio/gnetworkmonitor.c
++++ b/gio/gnetworkmonitor.c
+@@ -98,6 +98,44 @@ g_network_monitor_get_network_available (GNetworkMonitor *monitor)
+   return available;
+ }
+ 
++/**
++ * g_network_monitor_get_connectivity:
++ * @monitor: the #GNetworkMonitor
++ *
++ * Gets a more detailed networking state than
++ * g_network_monitor_get_network_available().
++ *
++ * If #GNetworkMonitor:network-available is %FALSE, then the
++ * connectivity state will be %G_NETWORK_CONNECTIVITY_LOCAL.
++ *
++ * If #GNetworkMonitor:network-available is %TRUE, then the
++ * connectivity state will be %G_NETWORK_CONNECTIVITY_FULL (if there
++ * is full Internet connectivity), %G_NETWORK_CONNECTIVITY_LIMITED (if
++ * the host has a default route, but appears to be unable to actually
++ * reach the full Internet), or %G_NETWORK_CONNECTIVITY_PORTAL (if the
++ * host is trapped behind a "captive portal" that requires some sort
++ * of login or acknowledgement before allowing full Internet access).
++ *
++ * Note that in the case of %G_NETWORK_CONNECTIVITY_LIMITED and
++ * %G_NETWORK_CONNECTIVITY_PORTAL, it is possible that some sites are
++ * reachable but others are not. In this case, applications can
++ * attempt to connect to remote servers, but should gracefully fall
++ * back to their "offline" behavior if the connection attempt fails.
++ *
++ * Return value: the network connectivity state
++ *
++ * Since: 2.42
++ */
++GNetworkConnectivity
++g_network_monitor_get_connectivity (GNetworkMonitor *monitor)
++{
++  GNetworkConnectivity connectivity;
++
++  g_object_get (G_OBJECT (monitor), "connectivity", &connectivity, NULL);
++
++  return connectivity;
++}
++
+ /**
+  * g_network_monitor_can_reach:
+  * @monitor: a #GNetworkMonitor
+@@ -280,4 +318,22 @@ g_network_monitor_default_init (GNetworkMonitorInterface *iface)
+                                                              FALSE,
+                                                              G_PARAM_READABLE |
+                                                              G_PARAM_STATIC_STRINGS));
++
++  /**
++   * GNetworkMonitor:connectivity:
++   *
++   * More detailed information about the host's network connectivity.
++   * See g_network_monitor_get_connectivity() and
++   * #GNetworkConnectivity for more details.
++   *
++   * Since: 2.42
++   */
++  g_object_interface_install_property (iface,
++                                       g_param_spec_enum ("connectivity",
++                                                          P_("Network connectivity"),
++                                                          P_("Level of network connectivity"),
++                                                          G_TYPE_NETWORK_CONNECTIVITY,
++                                                          G_NETWORK_CONNECTIVITY_FULL,
++                                                          G_PARAM_READABLE |
++                                                          G_PARAM_STATIC_STRINGS));
+ }
+diff --git a/gio/gnetworkmonitor.h b/gio/gnetworkmonitor.h
+index d3c8cbe81..d9e0ad094 100644
+--- a/gio/gnetworkmonitor.h
++++ b/gio/gnetworkmonitor.h
+@@ -37,7 +37,7 @@ G_BEGIN_DECLS
+  */
+ #define G_NETWORK_MONITOR_EXTENSION_POINT_NAME "gio-network-monitor"
+ 
+-#define G_TYPE_NETWORK_MONITOR         (g_network_monitor_get_type ())
++#define G_TYPE_NETWORK_MONITOR             (g_network_monitor_get_type ())
+ #define G_NETWORK_MONITOR(o)               (G_TYPE_CHECK_INSTANCE_CAST ((o), G_TYPE_NETWORK_MONITOR, GNetworkMonitor))
+ #define G_IS_NETWORK_MONITOR(o)            (G_TYPE_CHECK_INSTANCE_TYPE ((o), G_TYPE_NETWORK_MONITOR))
+ #define G_NETWORK_MONITOR_GET_INTERFACE(o) (G_TYPE_INSTANCE_GET_INTERFACE ((o), G_TYPE_NETWORK_MONITOR, GNetworkMonitorInterface))
+@@ -65,28 +65,31 @@ struct _GNetworkMonitorInterface {
+ };
+ 
+ GLIB_AVAILABLE_IN_2_32
+-GType            g_network_monitor_get_type              (void) G_GNUC_CONST;
++GType                 g_network_monitor_get_type              (void) G_GNUC_CONST;
+ GLIB_AVAILABLE_IN_2_32
+-GNetworkMonitor *g_network_monitor_get_default           (void);
++GNetworkMonitor      *g_network_monitor_get_default           (void);
+ 
+ GLIB_AVAILABLE_IN_2_32
+-gboolean         g_network_monitor_get_network_available (GNetworkMonitor     *monitor);
++gboolean              g_network_monitor_get_network_available (GNetworkMonitor     *monitor);
++
++GLIB_AVAILABLE_IN_2_42
++GNetworkConnectivity  g_network_monitor_get_connectivity      (GNetworkMonitor     *monitor);
+ 
+ GLIB_AVAILABLE_IN_2_32
+-gboolean         g_network_monitor_can_reach             (GNetworkMonitor     *monitor,
+-							  GSocketConnectable  *connectable,
+-							  GCancellable        *cancellable,
+-							  GError             **error);
++gboolean              g_network_monitor_can_reach             (GNetworkMonitor     *monitor,
++                                                               GSocketConnectable  *connectable,
++                                                               GCancellable        *cancellable,
++                                                               GError             **error);
+ GLIB_AVAILABLE_IN_2_32
+-void             g_network_monitor_can_reach_async       (GNetworkMonitor     *monitor,
+-							  GSocketConnectable  *connectable,
+-							  GCancellable        *cancellable,
+-							  GAsyncReadyCallback  callback,
+-							  gpointer             user_data);
++void                  g_network_monitor_can_reach_async       (GNetworkMonitor     *monitor,
++                                                               GSocketConnectable  *connectable,
++                                                               GCancellable        *cancellable,
++                                                               GAsyncReadyCallback  callback,
++                                                               gpointer             user_data);
+ GLIB_AVAILABLE_IN_2_32
+-gboolean         g_network_monitor_can_reach_finish      (GNetworkMonitor     *monitor,
+-							  GAsyncResult        *result,
+-							  GError             **error);
++gboolean              g_network_monitor_can_reach_finish      (GNetworkMonitor     *monitor,
++                                                               GAsyncResult        *result,
++                                                               GError             **error);
+ 
+ G_END_DECLS
+ 
+diff --git a/gio/gnetworkmonitorbase.c b/gio/gnetworkmonitorbase.c
+index ead9e6436..f0af80405 100644
+--- a/gio/gnetworkmonitorbase.c
++++ b/gio/gnetworkmonitorbase.c
+@@ -38,7 +38,8 @@ enum
+ {
+   PROP_0,
+ 
+-  PROP_NETWORK_AVAILABLE
++  PROP_NETWORK_AVAILABLE,
++  PROP_CONNECTIVITY
+ };
+ 
+ struct _GNetworkMonitorBasePrivate
+@@ -114,12 +115,20 @@ g_network_monitor_base_get_property (GObject    *object,
+ 
+   switch (prop_id)
+     {
+-      case PROP_NETWORK_AVAILABLE:
+-        g_value_set_boolean (value, monitor->priv->is_available);
+-        break;
+-
+-      default:
+-        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
++    case PROP_NETWORK_AVAILABLE:
++      g_value_set_boolean (value, monitor->priv->is_available);
++      break;
++
++    case PROP_CONNECTIVITY:
++      g_value_set_enum (value,
++                        monitor->priv->is_available ?
++                        G_NETWORK_CONNECTIVITY_FULL :
++                        G_NETWORK_CONNECTIVITY_LOCAL);
++      break;
++
++    default:
++      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
++      break;
+     }
+ 
+ }
+@@ -151,6 +160,7 @@ g_network_monitor_base_class_init (GNetworkMonitorBaseClass *monitor_class)
+   gobject_class->finalize     = g_network_monitor_base_finalize;
+ 
+   g_object_class_override_property (gobject_class, PROP_NETWORK_AVAILABLE, "network-available");
++  g_object_class_override_property (gobject_class, PROP_CONNECTIVITY, "connectivity");
+ }
+ 
+ static gboolean
+diff --git a/gio/tests/network-monitor.c b/gio/tests/network-monitor.c
+index 08d6008df..04f75f1ad 100644
+--- a/gio/tests/network-monitor.c
++++ b/gio/tests/network-monitor.c
+@@ -491,6 +491,14 @@ watch_network_changed (GNetworkMonitor *monitor,
+   g_print ("Network is %s\n", available ? "up" : "down");
+ }
+ 
++static void
++watch_connectivity_changed (GNetworkMonitor *monitor,
++			    GParamSpec      *pspec,
++			    gpointer         user_data)
++{
++  g_print ("Connectivity is %d\n", g_network_monitor_get_connectivity (monitor));
++}
++
+ static void
+ do_watch_network (void)
+ {
+@@ -501,7 +509,10 @@ do_watch_network (void)
+ 
+   g_signal_connect (monitor, "network-changed",
+                     G_CALLBACK (watch_network_changed), NULL);
++  g_signal_connect (monitor, "notify::connectivity",
++                    G_CALLBACK (watch_connectivity_changed), NULL);
+   watch_network_changed (monitor, g_network_monitor_get_network_available (monitor), NULL);
++  watch_connectivity_changed (monitor, NULL, NULL);
+ 
+   loop = g_main_loop_new (NULL, FALSE);
+   g_main_loop_run (loop);
+-- 
+cgit v1.2.3
+

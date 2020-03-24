@@ -1,0 +1,24 @@
+From 53abf0dc7d22d8a150fdc6162ef212cb5aa87c2f Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Piotr=20Dr=C4=85g?= <piotrdrag@gmail.com>
+Date: Fri, 5 Dec 2014 23:04:04 +0100
+Subject: Updated POTFILES.in
+
+---
+ po/POTFILES.in | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/po/POTFILES.in b/po/POTFILES.in
+index 7b1b0fb42..a3917ef96 100644
+--- a/po/POTFILES.in
++++ b/po/POTFILES.in
+@@ -79,6 +79,7 @@ gio/gnetworkaddress.c
+ gio/gnetworkmonitorbase.c
+ gio/gnetworkmonitor.c
+ gio/gnetworkmonitornetlink.c
++gio/gnetworkmonitornm.c
+ gio/gnetworkservice.c
+ gio/goutputstream.c
+ gio/gpermission.c
+-- 
+cgit v1.2.3
+

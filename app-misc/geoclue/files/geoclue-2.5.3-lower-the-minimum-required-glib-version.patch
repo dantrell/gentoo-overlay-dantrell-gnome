@@ -1,0 +1,16 @@
+diff '--exclude=.git' -urN a/meson.build b/meson.build
+--- a/meson.build	2019-05-16 09:21:43.000000000 -0500
++++ b/meson.build	2020-03-24 11:39:14.596697361 -0500
+@@ -41,9 +41,9 @@
+ gnome = import('gnome')
+ cc = meson.get_compiler('c')
+ 
+-base_deps = [ dependency('glib-2.0', version: '>= 2.44.0'),
+-              dependency('gio-2.0', version: '>= 2.44.0'),
+-              dependency('gio-unix-2.0', version: '>= 2.44.0') ]
++base_deps = [ dependency('glib-2.0', version: '>= 2.42.0'),
++              dependency('gio-2.0', version: '>= 2.42.0'),
++              dependency('gio-unix-2.0', version: '>= 2.42.0') ]
+ libm = cc.find_library('m', required: false)
+ if libm.found()
+     base_deps += [ libm ]

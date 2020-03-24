@@ -1,0 +1,25 @@
+From 169eae47e519068a0afa2ec44b24b884214d79ec Mon Sep 17 00:00:00 2001
+From: Matthias Clasen <mclasen@redhat.com>
+Date: Mon, 15 Dec 2014 13:14:01 -0500
+Subject: gio: Add missing symbols to docs
+
+---
+ docs/reference/gio/gio-sections.txt | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/docs/reference/gio/gio-sections.txt b/docs/reference/gio/gio-sections.txt
+index fbaac6ba0..e7330bf12 100644
+--- a/docs/reference/gio/gio-sections.txt
++++ b/docs/reference/gio/gio-sections.txt
+@@ -3831,6 +3837,8 @@ g_network_monitor_get_network_available
+ g_network_monitor_can_reach
+ g_network_monitor_can_reach_async
+ g_network_monitor_can_reach_finish
++GNetworkConnectivity
++g_network_monitor_get_connectivity
+ <SUBSECTION Standard>
+ g_network_monitor_get_type
+ G_TYPE_NETWORK_MONITOR
+-- 
+cgit v1.2.3
+

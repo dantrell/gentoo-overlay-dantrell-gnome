@@ -121,7 +121,7 @@
 ~gnome-extra/gnome-user-share-3.34.0::dantrell-gnome-3-34
 ~gnome-extra/gnome-weather-3.34.0::dantrell-gnome-3-34
 ~gnome-extra/gucharmap-12.0.1::dantrell-gnome
-~gnome-extra/libgsf-1.14.46::dantrell-gnome
+~gnome-extra/libgsf-1.14.47::dantrell-gnome
 ~gnome-extra/mousetweaks-3.32.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
 ~gnome-extra/nm-applet-1.8.25::dantrell-gnome

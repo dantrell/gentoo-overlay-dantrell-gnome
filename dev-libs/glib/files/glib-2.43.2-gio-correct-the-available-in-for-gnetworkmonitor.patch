@@ -1,0 +1,46 @@
+From ed68d80e61b60833c15b69e57117e7f267757632 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 4 Dec 2014 12:27:23 +0100
+Subject: gio: Correct the "available in" for GNetworkMonitor
+
+They were marked as available in all versions when the main interface
+was actually added in glib 2.32.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=664562
+---
+ gio/gnetworkmonitor.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/gio/gnetworkmonitor.h b/gio/gnetworkmonitor.h
+index 9cbb3c2a8..d3c8cbe81 100644
+--- a/gio/gnetworkmonitor.h
++++ b/gio/gnetworkmonitor.h
+@@ -69,21 +69,21 @@ GType            g_network_monitor_get_type              (void) G_GNUC_CONST;
+ GLIB_AVAILABLE_IN_2_32
+ GNetworkMonitor *g_network_monitor_get_default           (void);
+ 
+-GLIB_AVAILABLE_IN_ALL
++GLIB_AVAILABLE_IN_2_32
+ gboolean         g_network_monitor_get_network_available (GNetworkMonitor     *monitor);
+ 
+-GLIB_AVAILABLE_IN_ALL
++GLIB_AVAILABLE_IN_2_32
+ gboolean         g_network_monitor_can_reach             (GNetworkMonitor     *monitor,
+ 							  GSocketConnectable  *connectable,
+ 							  GCancellable        *cancellable,
+ 							  GError             **error);
+-GLIB_AVAILABLE_IN_ALL
++GLIB_AVAILABLE_IN_2_32
+ void             g_network_monitor_can_reach_async       (GNetworkMonitor     *monitor,
+ 							  GSocketConnectable  *connectable,
+ 							  GCancellable        *cancellable,
+ 							  GAsyncReadyCallback  callback,
+ 							  gpointer             user_data);
+-GLIB_AVAILABLE_IN_ALL
++GLIB_AVAILABLE_IN_2_32
+ gboolean         g_network_monitor_can_reach_finish      (GNetworkMonitor     *monitor,
+ 							  GAsyncResult        *result,
+ 							  GError             **error);
+-- 
+cgit v1.2.3
+
