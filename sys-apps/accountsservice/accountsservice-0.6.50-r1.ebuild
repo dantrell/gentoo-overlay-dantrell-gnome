@@ -10,7 +10,7 @@ SRC_URI="https://www.freedesktop.org/software/${PN}/${P}.tar.xz"
 
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="ck consolekit doc elogind +introspection selinux systemd"
 REQUIRED_USE="?? ( ck consolekit elogind systemd )"

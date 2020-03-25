@@ -1,0 +1,221 @@
+diff '--exclude=.git' -urN a/src/debug/timestamp.cpp b/src/debug/timestamp.cpp
+--- a/src/debug/timestamp.cpp	2019-01-14 22:29:27.000000000 -0600
++++ b/src/debug/timestamp.cpp	2020-03-25 04:55:01.797814566 -0500
+@@ -21,9 +21,8 @@
+ 
+ Util::ptr_shared<char> timestamp() {
+     Util::ptr_shared<char> result;
+-    GTimeVal timestamp;
+-    g_get_current_time(&timestamp);
+-    gchar *value = g_strdup_printf( "%d.%06d", static_cast<gint>(timestamp.tv_sec), static_cast<gint>(timestamp.tv_usec) );
++    gint64 micr = g_get_monotonic_time();
++    gchar *value = g_strdup_printf("%.6f", (gdouble)micr / 1000000.0);
+     result = Util::share_string(value);
+     g_free(value);
+     return result;
+diff '--exclude=.git' -urN a/src/display/drawing-shape.cpp b/src/display/drawing-shape.cpp
+--- a/src/display/drawing-shape.cpp	2019-01-14 22:29:27.000000000 -0600
++++ b/src/display/drawing-shape.cpp	2020-03-25 04:55:01.797814566 -0500
+@@ -322,8 +322,8 @@
+         // fully transparent, no pick unless outline mode
+         return NULL;
+ 
+-    GTimeVal tstart, tfinish;
+-    g_get_current_time (&tstart);
++
++    gint64 tstart = g_get_monotonic_time();
+ 
+     double width;
+     if (pick_as_clip) {
+@@ -356,10 +356,9 @@
+         pathv_matrix_point_bbox_wind_distance(_curve->get_pathvector(), _ctm, p, NULL, needfill? &wind : NULL, &dist, 0.5, NULL);
+     }
+ 
+-    g_get_current_time (&tfinish);
+-    glong this_pick = (tfinish.tv_sec - tstart.tv_sec) * 1000000 + (tfinish.tv_usec - tstart.tv_usec);
++    gint64 tfinish = g_get_monotonic_time();
++    gint64 this_pick = tfinish - tstart;
+     //g_print ("pick time %lu\n", this_pick);
+-
+     if (this_pick > 10000) { // slow picking, remember to skip several new picks
+         _repick_after = this_pick / 5000;
+     }
+diff '--exclude=.git' -urN a/src/display/sp-canvas.cpp b/src/display/sp-canvas.cpp
+--- a/src/display/sp-canvas.cpp	2019-01-14 22:29:27.000000000 -0600
++++ b/src/display/sp-canvas.cpp	2020-03-25 04:58:21.431854073 -0500
+@@ -1616,18 +1616,15 @@
+ 
+ struct PaintRectSetup {
+     Geom::IntRect big_rect;
+-    GTimeVal start_time;
++    gint64 start_time;
+     int max_pixels;
+     Geom::Point mouse_loc;
+ };
+ 
+ int SPCanvas::paintRectInternal(PaintRectSetup const *setup, Geom::IntRect const &this_rect)
+ {
+-    GTimeVal now;
+-    g_get_current_time (&now);
+-
+-    glong elapsed = (now.tv_sec - setup->start_time.tv_sec) * 1000000
+-        + (now.tv_usec - setup->start_time.tv_usec);
++    gint64 now = g_get_monotonic_time();
++    gint64 elapsed = now - setup->start_time;
+ 
+     // Allow only very fast buffers to be run together;
+     // as soon as the total redraw time exceeds 1ms, cancel;
+@@ -1784,8 +1781,7 @@
+     }
+ 
+     // Start the clock
+-    g_get_current_time(&(setup.start_time));
+-
++    setup.start_time = g_get_monotonic_time();
+     // Go
+     return paintRectInternal(&setup, paint_rect);
+ }
+diff '--exclude=.git' -urN a/src/extension/timer.cpp b/src/extension/timer.cpp
+--- a/src/extension/timer.cpp	2019-01-14 22:29:27.000000000 -0600
++++ b/src/extension/timer.cpp	2020-03-25 04:55:01.797814566 -0500
+@@ -46,8 +46,7 @@
+         timer_list->next = this;
+     }
+ 
+-    expiration.assign_current_time();
+-    expiration += timeout;
++    expiration = Glib::DateTime::create_now_utc().add_seconds(timeout);
+     
+     if (!timer_started) {
+         Glib::signal_timeout().connect(sigc::ptr_fun(&timer_func), timeout * 1000 / TIMER_SCALE_VALUE);
+@@ -105,14 +104,13 @@
+ void
+ ExpirationTimer::touch (void)
+ {
+-    Glib::TimeVal current;
+-    current.assign_current_time();
++    auto const current = Glib::DateTime::create_now_utc();
+ 
+-    long time_left = (long)(expiration.as_double() - current.as_double());
++    auto time_left = expiration.difference(current);
+     if (time_left < 0) time_left = 0;
+     time_left /= 2;
+ 
+-    expiration = current + timeout + time_left;
++    expiration = current.add(time_left).add_seconds(timeout);
+     return;
+ }
+ 
+@@ -125,9 +123,8 @@
+ {
+     if (locked > 0) return false;
+ 
+-    Glib::TimeVal current;
+-    current.assign_current_time();
+-    return expiration < current;
++    auto const current = Glib::DateTime::create_now_utc();
++    return expiration.difference(current) < 0;
+ }
+ 
+ // int idle_cnt = 0;
+diff '--exclude=.git' -urN a/src/extension/timer.h b/src/extension/timer.h
+--- a/src/extension/timer.h	2019-01-14 22:29:27.000000000 -0600
++++ b/src/extension/timer.h	2020-03-25 04:55:01.797814566 -0500
+@@ -15,7 +15,7 @@
+ 
+ #include <stddef.h>
+ #include <sigc++/sigc++.h>
+-#include <glibmm/timeval.h>
++#include <glibmm/datetime.h>
+ 
+ namespace Inkscape {
+ namespace Extension {
+@@ -27,7 +27,7 @@
+     static ExpirationTimer * timer_list;
+     /** \brief Which timer was on top when we started the idle loop */
+     static ExpirationTimer * idle_start;
+-    /** \brief What the current timeout is */
++    /** \brief What the current timeout is (in seconds) */
+     static long timeout;
+     /** \brief Has the timer been started? */
+     static bool timer_started;
+@@ -37,7 +37,7 @@
+     /** \brief Next entry in the list */
+     ExpirationTimer * next;
+     /** \brief When this timer expires */
+-    Glib::TimeVal expiration;
++    Glib::DateTime expiration;
+     /** \brief What extension this function relates to */
+     Extension * extension;
+ 
+diff '--exclude=.git' -urN a/src/selection-chemistry.cpp b/src/selection-chemistry.cpp
+--- a/src/selection-chemistry.cpp	2019-01-14 22:29:27.000000000 -0600
++++ b/src/selection-chemistry.cpp	2020-03-25 04:55:01.798814561 -0500
+@@ -3641,10 +3641,7 @@
+ 
+     // Generate a random value from the current time (you may create bitmap from the same object(s)
+     // multiple times, and this is done so that they don't clash)
+-    GTimeVal cu;
+-    g_get_current_time(&cu);
+-    guint current = (int) (cu.tv_sec * 1000000 + cu.tv_usec) % 1024;
+-
++    guint current = guint(g_get_monotonic_time() % 1024);
+     // Create the filename.
+     gchar *const basename = g_strdup_printf("%s-%s-%u.png",
+                                             document->getName(),
+diff '--exclude=.git' -urN a/src/splivarot.cpp b/src/splivarot.cpp
+--- a/src/splivarot.cpp	2019-01-14 22:29:27.000000000 -0600
++++ b/src/splivarot.cpp	2020-03-25 04:55:01.798814561 -0500
+@@ -2214,7 +2214,7 @@
+ 
+ 
+ // globals for keeping track of accelerated simplify
+-static double previousTime      = 0.0;
++static gint64 previous_time = 0;
+ static gdouble simplifyMultiply = 1.0;
+ 
+ void
+@@ -2226,13 +2226,9 @@
+     bool simplifyJustCoalesce = prefs->getBool("/options/simplifyjustcoalesce/value", 0);
+ 
+     //Get the current time
+-    GTimeVal currentTimeVal;
+-    g_get_current_time(&currentTimeVal);
+-    double currentTime = currentTimeVal.tv_sec * 1000000 +
+-                currentTimeVal.tv_usec;
+-
++    gint64 current_time = g_get_monotonic_time();
+     //Was the previous call to this function recent? (<0.5 sec)
+-    if (previousTime > 0.0 && currentTime - previousTime < 500000.0) {
++    if (previous_time > 0 && current_time - previous_time < 500000) {
+ 
+         // add to the threshold 1/2 of its original value
+         simplifyMultiply  += 0.5;
+@@ -2244,7 +2240,7 @@
+     }
+ 
+     //remember time for next call
+-    previousTime = currentTime;
++    previous_time = current_time;
+ 
+     //g_print("%g\n", simplify_threshold);
+ 
+diff '--exclude=.git' -urN a/src/ui/dialog/icon-preview.cpp b/src/ui/dialog/icon-preview.cpp
+--- a/src/ui/dialog/icon-preview.cpp	2019-01-14 22:29:27.000000000 -0600
++++ b/src/ui/dialog/icon-preview.cpp	2020-03-25 04:55:01.798814561 -0500
+@@ -286,11 +286,10 @@
+ static Glib::ustring getTimestr()
+ {
+     Glib::ustring str;
+-    GTimeVal now = {0, 0};
+-    g_get_current_time(&now);
+-    glong secs = now.tv_sec % 60;
+-    glong mins = (now.tv_sec / 60) % 60;
+-    gchar *ptr = g_strdup_printf(":%02ld:%02ld.%06ld", mins, secs, now.tv_usec);
++    gint64 micr = g_get_monotonic_time();
++    gint64 mins = ((int)round(micr / 60000000)) % 60;
++    gdouble dsecs = micr / 1000000;
++    gchar *ptr = g_strdup_printf(":%02u:%f", mins, dsecs);
+     str = ptr;
+     g_free(ptr);
+     ptr = 0;

@@ -120,6 +120,13 @@ pkg_pretend() {
 src_prepare() {
 	default
 
+	if has_version '>=dev-libs/glib-2.61.0'; then
+		# From Inkscape:
+		# 	https://gitlab.com/inkscape/inkscape/commit/9248a27415b51ae5674dd79d1738cf8f0549806f
+		# 	https://gitlab.com/inkscape/inkscape/commit/c719ad24d6a57681566e7751d74829bff19c025f
+		eapply "${FILESDIR}"/${PN}-0.92.4-move-from-deprecated-gtimeval.patch
+	fi
+
 	sed -i "s#@EPYTHON@#${EPYTHON}#" \
 		src/extension/implementation/script.cpp || die
 

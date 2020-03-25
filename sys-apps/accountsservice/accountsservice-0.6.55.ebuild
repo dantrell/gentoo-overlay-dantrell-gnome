@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-inherit autotools gnome2 systemd
+inherit meson systemd
 
 DESCRIPTION="D-Bus interfaces for querying and manipulating user account information"
 HOMEPAGE="https://www.freedesktop.org/wiki/Software/AccountsService/"
@@ -10,9 +10,9 @@ SRC_URI="https://www.freedesktop.org/software/${PN}/${P}.tar.xz"
 
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="ck consolekit doc elogind +introspection selinux systemd"
+IUSE="ck consolekit doc elogind gtk-doc +introspection selinux systemd"
 REQUIRED_USE="?? ( ck consolekit elogind systemd )"
 
 CDEPEND="
@@ -27,7 +27,7 @@ CDEPEND="
 DEPEND="${CDEPEND}
 	dev-libs/libxslt
 	dev-util/gdbus-codegen
-	>=dev-util/gtk-doc-am-1.15
+	gtk-doc? ( >=dev-util/gtk-doc-am-1.15 )
 	>=dev-util/intltool-0.40
 	sys-devel/gettext
 	virtual/pkgconfig
@@ -40,27 +40,22 @@ RDEPEND="${CDEPEND}
 	selinux? ( sec-policy/selinux-accountsd )
 "
 
-src_prepare() {
-	# From AccountsService:
-	# 	https://cgit.freedesktop.org/accountsservice/commit/?id=9fdd1d95ec094a0df6d8d3dd9c8f04fa8499b845
-	eapply -R "${FILESDIR}"/${PN}-0.6.46-configure-elogind-on-non-systemd-systems.patch
-
-	eapply "${FILESDIR}"/${PN}-0.6.35-gentoo-system-users.patch
-	eapply "${FILESDIR}"/${PN}-0.6.49-support-elogind.patch
-
-	eautoreconf
-	gnome2_src_prepare
-}
+PATCHES=(
+	"${FILESDIR}"/${PN}-0.6.35-gentoo-system-users.patch
+)
 
 src_configure() {
-	gnome2_src_configure \
-		--disable-static \
-		--disable-more-warnings \
-		--localstatedir="${EPREFIX}"/var \
-		--enable-admin-group="wheel" \
-		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)" \
-		$(use_enable doc docbook-docs) \
-		$(use_enable elogind) \
-		$(use_enable introspection) \
-		$(use_enable systemd)
+	local emesonargs=(
+		-Dsystemdsystemunitdir="$(systemd_get_systemunitdir)"
+
+		-Dadmin_group="wheel"
+
+		$(meson_use systemd)
+		$(meson_use elogind)
+
+		$(meson_use introspection)
+		$(meson_use doc docbook)
+		$(meson_use gtk-doc gtk_doc)
+	)
+	meson_src_configure
 }
