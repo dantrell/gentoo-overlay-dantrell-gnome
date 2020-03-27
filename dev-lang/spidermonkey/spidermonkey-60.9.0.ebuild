@@ -5,22 +5,20 @@ WANT_AUTOCONF="2.1"
 
 inherit autotools check-reqs toolchain-funcs pax-utils mozcoreconf-v5
 
-MY_PN="mozjs"
-MY_P="${MY_PN}-${PV/_rc/.rc}"
-MY_P="${MY_P/_pre/pre}"
 DESCRIPTION="Stand-alone JavaScript C++ library"
 HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"
-SRC_URI="http://ftp.gnome.org/pub/gnome/teams/releng/tarballs-needing-help/mozjs/mozjs-${PV}.tar.bz2"
+SRC_URI="https://archive.mozilla.org/pub/firefox/releases/${PV}esr/source/firefox-${PV}esr.source.tar.xz
+	https://dev.gentoo.org/~anarchy/mozilla/patchsets/${PN}-60.0-patches-04.tar.xz"
 
 LICENSE="NPL-1.1"
-SLOT="68/4.2"
-KEYWORDS="*"
+SLOT="60/9.0"
+KEYWORDS="~*"
 
 IUSE="debug +jit minimal +system-icu test"
 
 RESTRICT="!test? ( test ) ia64? ( test )"
 
-S="${WORKDIR}/${MY_P%.rc*}"
+S="${WORKDIR}/firefox-${PV}"
 BUILDDIR="${S}/jsobj"
 
 RDEPEND=">=dev-libs/nspr-4.13.1
@@ -43,6 +41,9 @@ pkg_setup() {
 }
 
 src_prepare() {
+	eapply "${WORKDIR}"/${PN}
+	eapply "${FILESDIR}"/${PN}-60.5.2-ia64-support.patch
+
 	eapply_user
 
 	if [[ ${CHOST} == *-freebsd* ]]; then
@@ -66,9 +67,8 @@ src_prepare() {
 src_configure() {
 	cd "${BUILDDIR}" || die
 
-	${S}/js/src/configure \
-		--prefix=/usr \
-		--libdir=/usr/$(get_libdir) \
+	ECONF_SOURCE="${S}/js/src" \
+	econf \
 		--disable-jemalloc \
 		--enable-readline \
 		--with-system-nspr \
@@ -77,12 +77,11 @@ src_configure() {
 		--with-intl-api \
 		$(use_with system-icu) \
 		$(use_enable debug) \
-		$(use_enable debug debug-symbols) \
 		$(use_enable jit ion) \
 		$(use_enable test tests) \
 		XARGS="/usr/bin/xargs" \
 		CONFIG_SHELL="${EPREFIX}/bin/bash" \
-		CC="${CC}" CXX="${CXX}" LD="${LD}" AR="${AR}"
+		CC="${CC}" CXX="${CXX}" LD="${LD}" AR="${AR}" RANLIB="${RANLIB}"
 }
 
 cross_make() {

@@ -5,22 +5,19 @@ WANT_AUTOCONF="2.1"
 
 inherit autotools check-reqs toolchain-funcs pax-utils mozcoreconf-v5
 
-MY_PN="mozjs"
-MY_P="${MY_PN}-${PV/_rc/.rc}"
-MY_P="${MY_P/_pre/pre}"
 DESCRIPTION="Stand-alone JavaScript C++ library"
 HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"
-SRC_URI="http://ftp.gnome.org/pub/gnome/teams/releng/tarballs-needing-help/mozjs/mozjs-${PV}.tar.bz2"
+SRC_URI="https://archive.mozilla.org/pub/firefox/releases/${PV}esr/source/firefox-${PV}esr.source.tar.xz"
 
 LICENSE="NPL-1.1"
-SLOT="68/4.2"
-KEYWORDS="*"
+SLOT="68/6.0"
+KEYWORDS="~*"
 
 IUSE="debug +jit minimal +system-icu test"
 
 RESTRICT="!test? ( test ) ia64? ( test )"
 
-S="${WORKDIR}/${MY_P%.rc*}"
+S="${WORKDIR}/firefox-${PV}"
 BUILDDIR="${S}/jsobj"
 
 RDEPEND=">=dev-libs/nspr-4.13.1

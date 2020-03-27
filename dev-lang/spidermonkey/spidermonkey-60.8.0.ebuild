@@ -15,7 +15,7 @@ SRC_URI="http://ftp.gnome.org/pub/gnome/teams/releng/tarballs-needing-help/mozjs
 
 LICENSE="NPL-1.1"
 SLOT="60/8.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="debug +jit minimal +system-icu test"
 

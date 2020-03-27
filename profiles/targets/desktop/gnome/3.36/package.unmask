@@ -80,12 +80,12 @@
 ~gnome-base/gnome-settings-daemon-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-shell-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gsettings-desktop-schemas-3.36.0::dantrell-gnome-3-36
-~gnome-base/gvfs-1.44.0::dantrell-gnome-3-36
+~gnome-base/gvfs-1.44.1::dantrell-gnome-3-36
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
 ~gnome-base/libgtop-2.40.0::dantrell-gnome
-~gnome-base/nautilus-3.36.0::dantrell-gnome-3-36
-~gnome-extra/evolution-data-server-3.36.0::dantrell-gnome-3-36
-~gnome-extra/evolution-ews-3.36.0::dantrell-gnome-3-36
+~gnome-base/nautilus-3.36.1::dantrell-gnome-3-36
+~gnome-extra/evolution-data-server-3.36.1::dantrell-gnome-3-36
+~gnome-extra/evolution-ews-3.36.1::dantrell-gnome-3-36
 ~gnome-extra/gnome-boxes-3.36.1::dantrell-gnome-3-36
 ~gnome-extra/gnome-calculator-3.36.0::dantrell-gnome-3-36
 ~gnome-extra/gnome-calendar-3.36.0::dantrell-gnome-3-36
@@ -106,7 +106,7 @@
 ~gnome-extra/yelp-3.36.0::dantrell-gnome-3-36
 ~gnome-extra/yelp-xsl-3.36.0::dantrell-gnome-3-36
 ~gnome-extra/zenity-3.32.0::dantrell-gnome
-~mail-client/evolution-3.36.0::dantrell-gnome-3-36
+~mail-client/evolution-3.36.1::dantrell-gnome-3-36
 ~media-fonts/cantarell-0.201::dantrell-gnome
 ~media-gfx/eog-3.36.0::dantrell-gnome-3-36
 ~media-gfx/gnome-screenshot-3.36.0::dantrell-gnome-3-36

@@ -16,7 +16,7 @@ SRC_URI="https://dev.gentoo.org/~axs/distfiles/${MY_P}.tar.bz2
 
 LICENSE="NPL-1.1"
 SLOT="60/5.2"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="debug +jit minimal +system-icu test"
 
