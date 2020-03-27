@@ -10,7 +10,6 @@
 		<flag name="fhs">Mount devices in /media instead of /run/media (for FHS compatibility)</flag>
 		<flag name="gptfdisk">Pull in <pkg>sys-apps/gptfdisk</pkg> for sgdisk command as used by partitioning functionality</flag>
 		<flag name="lvm">Add support for Logical Volume Management via <pkg>sys-fs/lvm2</pkg>.</flag>
-		<flag name="remote-access">Control whether connections from other clients over LAN are allowed</flag>
 		<flag name="systemd">Support <pkg>sys-apps/systemd</pkg>'s logind</flag>
 		<flag name="vdo">Enable Virtual Data Optimizer support.</flag>
 	</use>
