@@ -18,7 +18,7 @@
 ~app-misc/gnote-3.32.1::dantrell-gnome-3-32
 ~app-misc/tracker-2.2.2::dantrell-gnome-3-32
 ~app-misc/tracker-miners-2.2.2::dantrell-gnome-3-32
-~app-text/enchant-2.2.7::dantrell-gnome
+~app-text/enchant-2.2.8::dantrell-gnome
 ~app-text/evince-3.32.1::dantrell-gnome-3-32
 ~app-text/gspell-1.8.3::dantrell-gnome
 ~app-text/libgepub-0.6.0::dantrell-gnome
@@ -68,7 +68,7 @@
 ~games-board/iagno-3.32.0::dantrell-gnome-3-32
 ~games-board/tali-3.32.1::dantrell-gnome
 ~games-puzzle/atomix-3.32.1::dantrell-gnome-3-32
-~games-puzzle/five-or-more-3.32.1::dantrell-gnome
+~games-puzzle/five-or-more-3.32.2::dantrell-gnome
 ~games-puzzle/gnome2048-3.32.0::dantrell-gnome-3-32
 ~games-puzzle/gnome-klotski-3.32.0::dantrell-gnome-3-32
 ~games-puzzle/gnome-sudoku-3.32.0::dantrell-gnome-3-32

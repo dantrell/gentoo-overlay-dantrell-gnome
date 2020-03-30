@@ -30,11 +30,6 @@ BDEPEND="
 	virtual/pkgconfig
 "
 
-src_prepare() {
-	xdg_environment_reset
-	default
-}
-
 multilib_src_configure() {
 	# TODO: Do we want G_DISABLE_ASSERT as buildtype=release would do upstream?
 	local emesonargs=(
@@ -45,7 +40,7 @@ multilib_src_configure() {
 		$(meson_use cpu_flags_x86_sse2 sse2)
 		$(meson_use cpu_flags_arm_neon arm_neon)
 		$(meson_use test tests)
-		-Dbenchmarks=false
+		-Dinstalled_tests=false
 	)
 	meson_src_configure
 }

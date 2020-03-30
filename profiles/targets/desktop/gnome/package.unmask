@@ -6,6 +6,7 @@ dev-lang/vala:0.42::dantrell-gnome
 dev-lang/vala:0.44::dantrell-gnome
 dev-libs/libgames-support::dantrell-gnome
 gnome-extra/nautilus-sendto::dantrell-gnome
+media-fonts/symbola::gentoo
 media-video/pipewire::dantrell-gnome
 sys-apps/bubblewrap::dantrell-gnome
 sys-fs/fuse:3::gentoo

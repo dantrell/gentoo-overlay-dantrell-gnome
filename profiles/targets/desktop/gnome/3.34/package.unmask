@@ -17,7 +17,7 @@
 ~app-misc/gnote-3.34.2::dantrell-gnome-3-34
 ~app-misc/tracker-2.3.4::dantrell-gnome-3-34
 ~app-misc/tracker-miners-2.3.3::dantrell-gnome-3-34
-~app-text/enchant-2.2.7::dantrell-gnome
+~app-text/enchant-2.2.8::dantrell-gnome
 ~app-text/evince-3.34.2::dantrell-gnome-3-34
 ~app-text/gspell-1.8.3::dantrell-gnome
 ~app-text/libgepub-0.6.0::dantrell-gnome
@@ -29,7 +29,7 @@
 ~dev-libs/appstream-glib-0.7.17::dantrell-gnome
 ~dev-libs/atk-2.34.1::dantrell-gnome-3-34
 ~dev-libs/folks-0.13.2::dantrell-gnome
-~dev-libs/gjs-1.58.5::dantrell-gnome-3-34
+~dev-libs/gjs-1.58.6::dantrell-gnome-3-34
 ~dev-libs/glib-2.62.6::dantrell-gnome
 ~dev-libs/gmime-3.2.7::dantrell-gnome
 ~dev-libs/gobject-introspection-1.62.0::dantrell-gnome-3-34
@@ -65,7 +65,7 @@
 ~games-board/iagno-3.34.5::dantrell-gnome-3-34
 ~games-board/tali-3.32.1::dantrell-gnome
 ~games-puzzle/atomix-3.34.0::dantrell-gnome-3-34
-~games-puzzle/five-or-more-3.32.1::dantrell-gnome
+~games-puzzle/five-or-more-3.32.2::dantrell-gnome
 ~games-puzzle/gnome2048-3.34.5::dantrell-gnome-3-34
 ~games-puzzle/gnome-klotski-3.34.4::dantrell-gnome-3-34
 ~games-puzzle/gnome-sudoku-3.34.1::dantrell-gnome-3-34
@@ -146,7 +146,7 @@
 ~media-libs/libchamplain-0.12.20::dantrell-gnome
 ~media-libs/libmediaart-1.9.4::dantrell-gnome
 ~media-plugins/grilo-plugins-0.3.9::dantrell-gnome
-~media-sound/gnome-music-3.34.4::dantrell-gnome-3-34
+~media-sound/gnome-music-3.34.5::dantrell-gnome-3-34
 ~media-sound/gnome-sound-recorder-3.34.0::dantrell-gnome-3-34
 ~media-video/cheese-3.34.0::dantrell-gnome-3-34
 ~media-video/totem-3.34.1::dantrell-gnome-3-34
