@@ -69,7 +69,7 @@
 ~gnome-base/gnome-control-center-3.36.1::dantrell-gnome-3-36
 ~gnome-base/gnome-core-apps-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-core-libs-3.36.0::dantrell-gnome-3-36
-~gnome-base/gnome-desktop-3.36.0::dantrell-gnome-3-36
+~gnome-base/gnome-desktop-3.36.1::dantrell-gnome-3-36
 ~gnome-base/gnome-extra-apps-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-flashback-3.36.1::dantrell-gnome-3-36
 ~gnome-base/gnome-keyring-3.36.0::dantrell-gnome-3-36
@@ -78,15 +78,15 @@
 ~gnome-base/gnome-panel-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-session-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-settings-daemon-3.36.0::dantrell-gnome-3-36
-~gnome-base/gnome-shell-3.36.0::dantrell-gnome-3-36
+~gnome-base/gnome-shell-3.36.1::dantrell-gnome-3-36
 ~gnome-base/gsettings-desktop-schemas-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gvfs-1.44.1::dantrell-gnome-3-36
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
 ~gnome-base/libgtop-2.40.0::dantrell-gnome
-~gnome-base/nautilus-3.36.1::dantrell-gnome-3-36
+~gnome-base/nautilus-3.36.1.1::dantrell-gnome-3-36
 ~gnome-extra/evolution-data-server-3.36.1::dantrell-gnome-3-36
 ~gnome-extra/evolution-ews-3.36.1::dantrell-gnome-3-36
-~gnome-extra/gnome-boxes-3.36.1::dantrell-gnome-3-36
+~gnome-extra/gnome-boxes-3.36.2::dantrell-gnome-3-36
 ~gnome-extra/gnome-calculator-3.36.0::dantrell-gnome-3-36
 ~gnome-extra/gnome-calendar-3.36.0::dantrell-gnome-3-36
 ~gnome-extra/gnome-clocks-3.36.0::dantrell-gnome-3-36
@@ -95,7 +95,7 @@
 ~gnome-extra/gnome-packagekit-3.32.0::dantrell-gnome
 ~gnome-extra/gnome-power-manager-3.32.0::dantrell-gnome
 ~gnome-extra/gnome-recipes-2.0.2::dantrell-gnome
-~gnome-extra/gnome-shell-extensions-3.36.0::dantrell-gnome-3-36
+~gnome-extra/gnome-shell-extensions-3.36.1::dantrell-gnome-3-36
 ~gnome-extra/gnome-shell-frippery-3.36.0::dantrell-gnome-3-36
 ~gnome-extra/gnome-software-3.36.0::dantrell-gnome-3-36
 ~gnome-extra/gnome-user-docs-3.36.1::dantrell-gnome-3-36
@@ -122,7 +122,7 @@
 ~media-plugins/grilo-plugins-0.3.9::dantrell-gnome
 ~media-sound/gnome-music-3.36.1::dantrell-gnome-3-36
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
-~net-irc/polari-3.36.0::dantrell-gnome-3-36
+~net-irc/polari-3.36.1::dantrell-gnome-3-36
 ~net-libs/glib-networking-2.64.1::dantrell-gnome-3-36
 ~net-libs/gnome-online-accounts-3.36.0::dantrell-gnome-3-36
 ~net-libs/gssdp-1.2.2::dantrell-gnome

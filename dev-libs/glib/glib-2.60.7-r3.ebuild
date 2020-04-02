@@ -79,8 +79,13 @@ pkg_setup() {
 }
 
 src_prepare() {
-	eapply "${FILESDIR}"/${PV}-gdbus-fixes.patch #700538, included in 2.62.3+
-	eapply "${FILESDIR}"/CVE-2020-6750.patch
+	eapply "${FILESDIR}"/${PN}-2.60.7-gdbus-fixes.patch #700538, included in 2.62.3+
+
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/cc3cf6b8b2ad12d54f3474113f0ccfa7dcf66b7b (CVE-2020-6750)
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/2722620e3291b930a3a228100d7c0e07b69534e3 (CVE-2020-6750)
+	eapply "${FILESDIR}"/${PN}-2.63.4-gsocketclient-run-timeout-source-on-the-tasks-main-context.patch
+	eapply "${FILESDIR}"/${PN}-2.63.6-refactor-g-socket-client-connect-async.patch
 
 	if use test; then
 		# TODO: Review the test exclusions, especially now with meson

@@ -17,7 +17,7 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE="cdr dia dbus deprecated exif gnome imagemagick openmp postscript inkjar jpeg latex"
-IUSE+=" lcms nls spell static-libs visio wpg"
+IUSE+=" lcms nls spell static-libs visio wpg uniconvertor"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RESTRICT="test"
@@ -79,7 +79,7 @@ RDEPEND="${COMMON_DEPEND}
 			dev-python/numpy[${PYTHON_MULTI_USEDEP}]
 		)
 	')
-	media-gfx/uniconvertor
+	uniconvertor? ( media-gfx/uniconvertor )
 	dia? ( app-office/dia )
 	latex? (
 		media-gfx/pstoedit[plotutils]

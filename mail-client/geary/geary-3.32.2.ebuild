@@ -37,7 +37,7 @@ DEPEND="
 	app-text/enchant:2=
 	>=dev-libs/folks-0.11:0
 	dev-libs/json-glib
-	unwind? ( >=sys-libs/libunwind-1.1:7 )
+	unwind? ( >=sys-libs/libunwind-1.1:0 )
 "
 RDEPEND="${DEPEND}
 	gnome-base/dconf
