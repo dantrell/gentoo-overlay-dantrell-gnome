@@ -1,0 +1,30 @@
+From bf6a5651f74c829c56a7e58eefeea6abf5dc9de5 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Date: Wed, 8 Jan 2020 17:39:22 +0000
+Subject: [PATCH 13/15] meson: drop x11 min version back further for Ubuntu
+ 16.04
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index 525c41a..66d7ee3 100644
+--- a/meson.build
++++ b/meson.build
+@@ -65,7 +65,7 @@ libsasl_min_version = '2.1.26'
+ # gtk-vnc
+ gtk_min_version = '3.0.0'
+ cairo_min_version = '1.2.0'
+-x11_min_version = '1.6.4'
++x11_min_version = '1.6.0'
+ 
+ # gvncpule
+ libpulse_min_version = '10.0'
+-- 
+2.20.1
+

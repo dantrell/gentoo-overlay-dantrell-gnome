@@ -25,7 +25,7 @@ unset sp commit
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="audit doc elogind +launcher selinux systemd"
 REQUIRED_USE="

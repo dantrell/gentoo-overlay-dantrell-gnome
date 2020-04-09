@@ -71,7 +71,6 @@
 >=sys-apps/fwupd-0.8.0
 
 # Masked to freeze the state of GNOME
->=gnome-base/librsvg-2.41.0
 >=app-accessibility/accerciser-3.22.0
 >=app-accessibility/at-spi2-atk-2.18.0
 >=app-accessibility/at-spi2-core-2.18.0
@@ -91,6 +90,7 @@
 >=app-misc/gnote-3.18.0
 >=app-misc/tracker-1.6.0
 >=app-misc/tracker-miners-2.0.0
+>=app-office/gnome-todo-3.18.0
 >=app-text/evince-3.18.0
 >=app-text/gspell-0.2.0
 >=app-text/yelp-tools-3.18.0
@@ -177,6 +177,7 @@
 >=gnome-base/gsettings-desktop-schemas-3.18.0
 >=gnome-base/gvfs-1.26.0
 >=gnome-base/libgtop-2.36.0
+>=gnome-base/librsvg-2.41.0
 >=gnome-base/nautilus-3.18.0
 >=gnome-extra/california-0.5.0
 >=gnome-extra/evolution-data-server-3.18.0
@@ -199,7 +200,6 @@
 >=gnome-extra/gnome-shell-frippery-3.18.0
 >=gnome-extra/gnome-software-3.18.0
 >=gnome-extra/gnome-system-monitor-3.18.0
->=gnome-extra/gnome-todo-3.18.0
 >=gnome-extra/gnome-tweaks-3.18.0
 >=gnome-extra/gnome-user-docs-3.18.0
 >=gnome-extra/gnome-user-share-3.18.0

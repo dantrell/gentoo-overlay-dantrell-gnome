@@ -35,6 +35,7 @@ app-misc/geoclue::gentoo
 app-misc/iio-sensor-proxy::gentoo
 app-misc/tracker-miners::gentoo
 app-misc/tracker::gentoo
+app-office/gnome-todo::gentoo
 app-text/enchant::gentoo
 app-text/foliate::gentoo
 app-text/gnome-doc-utils::gentoo
@@ -125,6 +126,7 @@ games-puzzle/gnome2048::gentoo
 games-puzzle/hitori::gentoo
 games-puzzle/quadrapassel::gentoo
 gnome-base/dconf::gentoo
+gnome-base/gdm::gentoo
 gnome-base/gnome-common::gentoo
 gnome-base/gnome-desktop::gentoo
 gnome-base/gnome-keyring::gentoo
@@ -141,13 +143,14 @@ gnome-extra/california::gentoo
 gnome-extra/gnome-characters::gentoo
 gnome-extra/gnome-color-manager::gentoo
 gnome-extra/gnome-contacts::gentoo
+gnome-extra/gnome-documents::gentoo
 gnome-extra/gnome-dvb-daemon::gentoo
 gnome-extra/gnome-multi-writer::gentoo
 gnome-extra/gnome-packagekit::gentoo
 gnome-extra/gnome-power-manager::gentoo
 gnome-extra/gnome-recipes::gentoo
 gnome-extra/gnome-system-monitor::gentoo
-gnome-extra/gnome-todo::gentoo
+gnome-extra/gnome-tweaks::gentoo
 gnome-extra/gnome-user-share::gentoo
 gnome-extra/gnome-weather::gentoo
 gnome-extra/gtkhtml::gentoo
@@ -172,6 +175,7 @@ media-fonts/noto::gentoo
 media-gfx/eog-plugins::gentoo
 media-gfx/eog::gentoo
 media-gfx/gnome-font-viewer::gentoo
+media-gfx/gnome-photos::gentoo
 media-gfx/gnome-screenshot::gentoo
 media-gfx/gthumb::gentoo
 media-gfx/inkscape::gentoo
@@ -197,6 +201,7 @@ media-plugins/gst-plugins-libnice::gentoo
 media-sound/gnome-sound-recorder::gentoo
 media-sound/rhythmbox::gentoo
 media-sound/sound-juicer::gentoo
+media-video/cheese::gentoo
 media-video/gnome-mplayer::gentoo
 media-video/gnome-video-effects::gentoo
 media-video/pipewire::gentoo
@@ -247,6 +252,7 @@ net-wireless/bluez::gentoo
 net-wireless/gnome-bluetooth::gentoo
 sci-geosciences/geocode-glib::gentoo
 sys-apps/accountsservice::gentoo
+sys-apps/baobab::gentoo
 sys-apps/bubblewrap::gentoo
 sys-apps/dbus-broker::gentoo
 sys-apps/dbus::gentoo
@@ -263,6 +269,7 @@ sys-fs/udisks::gentoo
 sys-libs/libosinfo::gentoo
 sys-power/acpid::gentoo
 sys-power/upower::gentoo
+sys-process/gnome-usage::gentoo
 x11-libs/cairo::gentoo
 x11-libs/colord-gtk::gentoo
 x11-libs/gdk-pixbuf::gentoo

@@ -1,0 +1,62 @@
+From 8de814d2c3fc47cf63373b0bb4d1075c8ad2e412 Mon Sep 17 00:00:00 2001
+From: Danial Behzadi <dani.behzi@ubuntu.com>
+Date: Wed, 25 Sep 2019 07:33:02 +0000
+Subject: [PATCH 03/15] Add Persian translation
+
+---
+ po/LINGUAS |  1 +
+ po/fa.po   | 30 ++++++++++++++++++++++++++++++
+ 2 files changed, 31 insertions(+)
+ create mode 100644 po/fa.po
+
+diff --git a/po/LINGUAS b/po/LINGUAS
+index a09e56d..54d7927 100644
+--- a/po/LINGUAS
++++ b/po/LINGUAS
+@@ -10,6 +10,7 @@ en_GB
+ eo
+ es
+ eu
++fa
+ fr
+ fur
+ gd
+diff --git a/po/fa.po b/po/fa.po
+new file mode 100644
+index 0000000..8e315e7
+--- /dev/null
++++ b/po/fa.po
+@@ -0,0 +1,30 @@
++# Persian translation for gtk-vnc.
++# Copyright (C) 2019 gtk-vnc's COPYRIGHT HOLDER
++# This file is distributed under the same license as the gtk-vnc package.
++# Danial Behzadi <dani.behzi@ubuntu.com>, 2019.
++#
++msgid ""
++msgstr ""
++"Project-Id-Version: gtk-vnc master\n"
++"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gtk-vnc/issues\n"
++"POT-Creation-Date: 2019-08-22 13:42+0000\n"
++"PO-Revision-Date: 2019-09-24 13:01+0000\n"
++"Language-Team: Persian <fa@li.org>\n"
++"Language: fa\n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=UTF-8\n"
++"Content-Transfer-Encoding: 8bit\n"
++"Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
++"X-Generator: Poedit 2.2.1\n"
++
++#: src/vncdisplay.c:167
++msgid "Enables debug output"
++msgstr "خروجی اشکال‌زدا را به کار می‌اندازد"
++
++#: src/vncdisplay.c:3164
++msgid "GTK-VNC Options:"
++msgstr "گزینه‌های GTK-VNC:"
++
++#: src/vncdisplay.c:3164
++msgid "Show GTK-VNC Options"
++msgstr "نمایش گزینه‌های GTK-VNC"
+-- 
+2.20.1
+

@@ -1,0 +1,63 @@
+From 1c5fc428e6ac57f2e5985a14d76206c8569a292a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Date: Mon, 6 Jan 2020 17:06:48 +0000
+Subject: [PATCH 09/15] Avoid deprecation warnings from G_TYPE_VALUE_ARRAY
+ macro
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ src/vncconnection.c | 7 +++----
+ src/vncdisplay.c    | 2 +-
+ 2 files changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/src/vncconnection.c b/src/vncconnection.c
+index 47f04b3..c3069e3 100644
+--- a/src/vncconnection.c
++++ b/src/vncconnection.c
+@@ -5014,7 +5014,7 @@ static void vnc_connection_class_init(VncConnectionClass *klass)
+                       g_cclosure_marshal_VOID__BOXED,
+                       G_TYPE_NONE,
+                       1,
+-                      G_TYPE_VALUE_ARRAY);
++                      g_value_array_get_type());
+ 
+     signals[VNC_AUTH_CHOOSE_TYPE] =
+         g_signal_new ("vnc-auth-choose-type",
+@@ -5025,7 +5025,7 @@ static void vnc_connection_class_init(VncConnectionClass *klass)
+                       g_cclosure_marshal_VOID__BOXED,
+                       G_TYPE_NONE,
+                       1,
+-                      G_TYPE_VALUE_ARRAY);
++                      g_value_array_get_type());
+ 
+     signals[VNC_AUTH_CHOOSE_SUBTYPE] =
+         g_signal_new ("vnc-auth-choose-subtype",
+@@ -5037,8 +5037,7 @@ static void vnc_connection_class_init(VncConnectionClass *klass)
+                       G_TYPE_NONE,
+                       2,
+                       G_TYPE_UINT,
+-                      G_TYPE_VALUE_ARRAY);
+-
++                      g_value_array_get_type());
+ 
+     signals[VNC_CONNECTED] =
+         g_signal_new ("vnc-connected",
+diff --git a/src/vncdisplay.c b/src/vncdisplay.c
+index 777cf15..3995a03 100644
+--- a/src/vncdisplay.c
++++ b/src/vncdisplay.c
+@@ -2314,7 +2314,7 @@ static void vnc_display_class_init(VncDisplayClass *klass)
+                       g_cclosure_marshal_VOID__BOXED,
+                       G_TYPE_NONE,
+                       1,
+-                      G_TYPE_VALUE_ARRAY);
++                      g_value_array_get_type());
+ 
+ 
+     signals[VNC_POINTER_GRAB] =
+-- 
+2.20.1
+

@@ -1,0 +1,76 @@
+From 974c78f2ecab70986a83abc0d279d9d2d42c988c Mon Sep 17 00:00:00 2001
+From: Mart Raudsepp <leio@gentoo.org>
+Date: Sat, 4 Apr 2020 22:55:36 +0300
+Subject: [PATCH 15/15] meson: Make introspection building controllable
+
+The windows host checks are removed, as I don't think it's inherently
+impossible to build with introspection for windows, and if a
+particular windows build needs it disabled, it's controllable via
+the option now.
+Vala API build requires introspection - this is made explicit to
+not end up with missing vapi files, despite asking for them.
+---
+ meson.build       | 4 ++++
+ meson_options.txt | 1 +
+ src/meson.build   | 6 +++---
+ 3 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/meson.build b/meson.build
+index d34ca0c..79ebb2d 100644
+--- a/meson.build
++++ b/meson.build
+@@ -280,7 +280,11 @@ configure_file(
+ top_incdir = include_directories('.')
+ src_incdir = include_directories('src')
+ 
++with_gir = get_option('introspection')
+ with_vala = get_option('with-vala')
++if with_vala and not with_gir
++  error('Vala API requires GObject introspection (-Dintrospection=true)')
++endif
+ 
+ subdir('src')
+ subdir('tools')
+diff --git a/meson_options.txt b/meson_options.txt
+index 3f9b996..f180eab 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -1,3 +1,4 @@
++option('introspection', type: 'boolean', value: true, description: 'Enable introspection for this build')
+ option('pulseaudio', type: 'feature', value: 'auto', description: 'Build the pulseaudio bridge for VNC client connections')
+ option('sasl', type: 'feature', value: 'auto', description: 'Build with SASL support')
+ option('with-coroutine', type: 'string', value: 'auto', description: 'Build with coroutine backend: [auto, ucontext, gthread]')
+diff --git a/src/meson.build b/src/meson.build
+index 64f7439..461d8d2 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -135,7 +135,7 @@ gvnc_dep = declare_dependency(
+   include_directories: gvnc_inc,
+ )
+ 
+-if host_machine.system() != 'windows'
++if with_gir
+   gvnc_gir = gnome.generate_gir(
+     gvnc,
+     sources: gvnc_gir_sources,
+@@ -218,7 +218,7 @@ if libpulse_dep.found()
+     include_directories: gvncpulse_inc,
+   )
+ 
+-  if host_machine.system() != 'windows'
++  if with_gir
+     gvncpulse_gir = gnome.generate_gir(
+       gvncpulse,
+       sources: gvncpulse_sources,
+@@ -382,7 +382,7 @@ gtk_vnc_dep = declare_dependency(
+   include_directories: gtk_vnc_inc,
+ )
+ 
+-if host_machine.system() != 'windows'
++if with_gir
+   gtk_vnc_gir = gnome.generate_gir(
+     gtk_vnc,
+     sources: gtk_vnc_gir_sources,
+-- 
+2.20.1
+

@@ -1,0 +1,12 @@
+diff '--exclude=.git' -urN a/data/gdm.conf-custom.in b/data/gdm.conf-custom.in
+--- a/data/gdm.conf-custom.in	2018-08-24 12:21:27.000000000 -0500
++++ b/data/gdm.conf-custom.in	2018-09-24 19:14:39.492871050 -0500
+@@ -2,7 +2,7 @@
+ 
+ [daemon]
+ # Uncomment the line below to force the login screen to use Xorg
+-#WaylandEnable=false
++WaylandEnable=false
+ 
+ [security]
+ 

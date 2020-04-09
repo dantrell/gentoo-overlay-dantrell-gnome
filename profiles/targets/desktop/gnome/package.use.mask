@@ -5,7 +5,7 @@ dev-python/pycurl curl_ssl_gnutls
 dev-python/pycurl curl_ssl_libressl
 dev-python/pycurl curl_ssl_nss
 gnome-base/gnome-extra-apps flashback
-gnome-extra/gnome-todo libecal2
+app-office/gnome-todo libecal2
 media-libs/gegl:0 ffmpeg
 media-libs/gegl:0.3 ffmpeg
 net-libs/liboauth curl

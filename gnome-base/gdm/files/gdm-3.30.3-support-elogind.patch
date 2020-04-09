@@ -1,0 +1,163 @@
+diff '--exclude=.git' -urN a/common/gdm-common.c b/common/gdm-common.c
+--- a/common/gdm-common.c	2019-02-21 13:44:14.000000000 -0600
++++ b/common/gdm-common.c	2019-05-01 16:20:57.925240427 -0500
+@@ -36,7 +36,13 @@
+ 
+ #include "gdm-common.h"
+ 
++#ifdef WITH_ELOGIND
++#include <elogind/sd-login.h>
++#endif
++
++#ifdef WITH_SYSTEMD
+ #include <systemd/sd-login.h>
++#endif
+ 
+ #define GDM_DBUS_NAME                            "org.gnome.DisplayManager"
+ #define GDM_DBUS_LOCAL_DISPLAY_FACTORY_PATH      "/org/gnome/DisplayManager/LocalDisplayFactory"
+diff '--exclude=.git' -urN a/common/gdm-log.c b/common/gdm-log.c
+--- a/common/gdm-log.c	2019-02-21 13:44:14.000000000 -0600
++++ b/common/gdm-log.c	2019-05-01 16:20:57.925240427 -0500
+@@ -30,7 +30,9 @@
+ #include <unistd.h>
+ 
+ #include <syslog.h>
++#ifdef WITH_SYSTEMD
+ #include <systemd/sd-daemon.h>
++#endif
+ 
+ #include <glib.h>
+ #include <glib/gstdio.h>
+diff '--exclude=.git' -urN a/configure.ac b/configure.ac
+--- a/configure.ac	2019-02-26 15:12:24.000000000 -0600
++++ b/configure.ac	2019-05-01 16:20:57.926240423 -0500
+@@ -828,15 +828,38 @@
+ CPPFLAGS="$xinerama_save_cppflags"
+ 
+ dnl ---------------------------------------------------------------------------
++dnl - Check for elogind support
++dnl ---------------------------------------------------------------------------
++
++PKG_CHECK_MODULES(ELOGIND,
++                  [libelogind],
++                  [have_elogind=yes], [have_elogind=no])
++
++AC_SUBST(ELOGIND_CFLAGS)
++AC_SUBST(ELOGIND_LIBS)
++
++if test "x$have_elogind" != "xno" ; then
++        AC_DEFINE(WITH_ELOGIND, 1, [Define to enable elogind support])
++fi
++
++dnl ---------------------------------------------------------------------------
+ dnl - Check for systemd support
+ dnl ---------------------------------------------------------------------------
+ 
+ PKG_CHECK_MODULES(SYSTEMD,
+-                  [libsystemd])
++                  [libsystemd],
++                  [have_systemd=yes], [have_systemd=no])
+ 
+ AC_SUBST(SYSTEMD_CFLAGS)
+ AC_SUBST(SYSTEMD_LIBS)
+ 
++SYSTEMD_CFLAGS="$SYSTEMD_CFLAGS $ELOGIND_CFLAGS"
++SYSTEMD_LIBS="$SYSTEMD_LIBS $ELOGIND_LIBS"
++
++if test "x$have_systemd" != "xno" ; then
++        AC_DEFINE(WITH_SYSTEMD, 1, [Define to enable systemd support])
++fi
++
+ PKG_CHECK_MODULES(JOURNALD,
+                   [libsystemd],
+                   [have_journald=yes], [have_journald=no])
+diff '--exclude=.git' -urN a/daemon/gdm-local-display-factory.c b/daemon/gdm-local-display-factory.c
+--- a/daemon/gdm-local-display-factory.c	2019-02-26 14:58:40.000000000 -0600
++++ b/daemon/gdm-local-display-factory.c	2019-05-01 16:22:02.864966269 -0500
+@@ -28,7 +28,13 @@
+ #include <glib-object.h>
+ #include <gio/gio.h>
+ 
++#ifdef WITH_ELOGIND
++#include <elogind/sd-login.h>
++#endif
++
++#ifdef WITH_SYSTEMD
+ #include <systemd/sd-login.h>
++#endif
+ 
+ #include "gdm-common.h"
+ #include "gdm-manager.h"
+diff '--exclude=.git' -urN a/daemon/gdm-manager.c b/daemon/gdm-manager.c
+--- a/daemon/gdm-manager.c	2019-02-26 14:59:14.000000000 -0600
++++ b/daemon/gdm-manager.c	2019-05-01 16:20:57.926240423 -0500
+@@ -36,7 +36,13 @@
+ 
+ #include <act/act-user-manager.h>
+ 
++#ifdef WITH_ELOGIND
++#include <elogind/sd-login.h>
++#endif
++
++#ifdef WITH_SYSTEMD
+ #include <systemd/sd-login.h>
++#endif
+ 
+ #include "gdm-common.h"
+ 
+diff '--exclude=.git' -urN a/daemon/gdm-server.c b/daemon/gdm-server.c
+--- a/daemon/gdm-server.c	2019-02-26 14:58:40.000000000 -0600
++++ b/daemon/gdm-server.c	2019-05-01 16:20:57.926240423 -0500
+@@ -43,7 +43,9 @@
+ #include <linux/vt.h>
+ #endif
+ 
++#ifdef WITH_SYSTEMD
+ #include <systemd/sd-daemon.h>
++#endif
+ 
+ #ifdef ENABLE_SYSTEMD_JOURNAL
+ #include <systemd/sd-journal.h>
+diff '--exclude=.git' -urN a/daemon/gdm-session-worker-job.c b/daemon/gdm-session-worker-job.c
+--- a/daemon/gdm-session-worker-job.c	2019-02-26 14:58:40.000000000 -0600
++++ b/daemon/gdm-session-worker-job.c	2019-05-01 16:20:57.926240423 -0500
+@@ -36,7 +36,9 @@
+ #include <sys/prctl.h>
+ #endif
+ 
++#ifdef WITH_SYSTEMD
+ #include <systemd/sd-daemon.h>
++#endif
+ 
+ #ifdef ENABLE_SYSTEMD_JOURNAL
+ #include <systemd/sd-journal.h>
+diff '--exclude=.git' -urN a/daemon/gdm-session-worker.c b/daemon/gdm-session-worker.c
+--- a/daemon/gdm-session-worker.c	2019-02-26 14:58:40.000000000 -0600
++++ b/daemon/gdm-session-worker.c	2019-05-01 16:20:57.927240418 -0500
+@@ -49,7 +49,9 @@
+ 
+ #include <X11/Xauth.h>
+ 
++#ifdef WITH_SYSTEMD
+ #include <systemd/sd-daemon.h>
++#endif
+ 
+ #ifdef ENABLE_SYSTEMD_JOURNAL
+ #include <systemd/sd-journal.h>
+diff '--exclude=.git' -urN a/libgdm/gdm-user-switching.c b/libgdm/gdm-user-switching.c
+--- a/libgdm/gdm-user-switching.c	2019-02-21 13:44:14.000000000 -0600
++++ b/libgdm/gdm-user-switching.c	2019-05-01 16:20:57.927240418 -0500
+@@ -31,7 +31,13 @@
+ #include <glib-object.h>
+ #include <gio/gio.h>
+ 
++#ifdef WITH_ELOGIND
++#include <elogind/sd-login.h>
++#endif
++
++#ifdef WITH_SYSTEMD
+ #include <systemd/sd-login.h>
++#endif
+ 
+ #include "common/gdm-common.h"
+ #include "gdm-user-switching.h"

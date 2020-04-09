@@ -1,0 +1,113 @@
+From cbe443a8db3b7f09b2653d588c2ddd76d47fa496 Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Sun, 1 Dec 2019 14:07:30 -0800
+Subject: [PATCH] Move utility to get font name to sushi-font-loader
+
+We'll use this from sushi-font-widget as well.
+---
+ src/font-model.c        |  3 ++-
+ src/font-utils.c        | 11 +----------
+ src/font-utils.h        |  1 -
+ src/sushi-font-loader.c | 14 ++++++++++++++
+ src/sushi-font-loader.h |  3 +++
+ 5 files changed, 20 insertions(+), 12 deletions(-)
+
+diff --git a/src/font-model.c b/src/font-model.c
+index 658cba8..e66c401 100644
+--- a/src/font-model.c
++++ b/src/font-model.c
+@@ -33,6 +33,7 @@
+ 
+ #include "font-model.h"
+ #include "font-utils.h"
++#include "sushi-font-loader.h"
+ 
+ struct _FontViewModel
+ {
+@@ -137,7 +138,7 @@ font_view_model_has_face (FontViewModel *self,
+     g_autofree gchar *match_name = NULL;
+ 
+     n_items = g_list_model_get_n_items (G_LIST_MODEL (self->model));
+-    match_name = font_utils_get_font_name (face);
++    match_name = sushi_get_font_name (face, TRUE);
+ 
+     for (idx = 0; idx < n_items; idx++) {
+         FontViewModelItem *item = g_list_model_get_item (G_LIST_MODEL (self->model), idx);
+diff --git a/src/font-utils.c b/src/font-utils.c
+index 5a75fb3..6a41d26 100644
+--- a/src/font-utils.c
++++ b/src/font-utils.c
+@@ -22,15 +22,6 @@
+ 
+ #include "sushi-font-loader.h"
+ 
+-gchar *
+-font_utils_get_font_name (FT_Face face)
+-{
+-    if (g_strcmp0 (face->style_name, "Regular") == 0)
+-        return g_strdup (face->family_name);
+-
+-    return g_strconcat (face->family_name, ", ", face->style_name, NULL);
+-}
+-
+ gchar *
+ font_utils_get_font_name_for_file (FT_Library library,
+                                    GFile *file,
+@@ -49,7 +40,7 @@ font_utils_get_font_name_for_file (FT_Library library,
+         return NULL;
+     }
+ 
+-    name = font_utils_get_font_name (face);
++    name = sushi_get_font_name (face, TRUE);
+     FT_Done_Face (face);
+ 
+     return name;
+diff --git a/src/font-utils.h b/src/font-utils.h
+index 6f73bb4..1787bbb 100644
+--- a/src/font-utils.h
++++ b/src/font-utils.h
+@@ -25,7 +25,6 @@
+ #include FT_FREETYPE_H
+ #include <gio/gio.h>
+ 
+-gchar * font_utils_get_font_name (FT_Face face);
+ gchar * font_utils_get_font_name_for_file (FT_Library library,
+                                            GFile *file,
+                                            gint face_index);
+diff --git a/src/sushi-font-loader.c b/src/sushi-font-loader.c
+index f7cf1de..e7da560 100644
+--- a/src/sushi-font-loader.c
++++ b/src/sushi-font-loader.c
+@@ -172,3 +172,17 @@ sushi_new_ft_face_from_uri_finish (GAsyncResult *result,
+ 
+   return create_face_from_contents (job, contents, error);
+ }
++
++/**
++ * sushi_get_font_name: (skip)
++ *
++ */
++gchar *
++sushi_get_font_name (FT_Face face,
++                     gboolean short_form)
++{
++  if (short_form && g_strcmp0 (face->style_name, "Regular") == 0)
++    return g_strdup (face->family_name);
++
++  return g_strconcat (face->family_name, ", ", face->style_name, NULL);
++}
+diff --git a/src/sushi-font-loader.h b/src/sushi-font-loader.h
+index 82aab03..b078e4a 100644
+--- a/src/sushi-font-loader.h
++++ b/src/sushi-font-loader.h
+@@ -46,4 +46,7 @@ FT_Face sushi_new_ft_face_from_uri_finish (GAsyncResult *result,
+                                            gchar **contents,
+                                            GError **error);
+ 
++gchar * sushi_get_font_name (FT_Face face,
++                             gboolean short_form);
++
+ #endif /* __SUSHI_FONT_LOADER_H__ */
+-- 
+2.24.1
+

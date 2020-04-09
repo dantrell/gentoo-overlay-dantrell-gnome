@@ -1,0 +1,25 @@
+From 8089d86f30cb56fe2f720b6b4cfd9435d5cc3d92 Mon Sep 17 00:00:00 2001
+From: Niveditha Rau <niveditha.rau@oracle.com>
+Date: Wed, 23 Oct 2019 20:46:21 -0700
+Subject: [PATCH] update the minimum required glib version
+
+---
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index 3f3bcea..aec5596 100644
+--- a/meson.build
++++ b/meson.build
+@@ -22,7 +22,7 @@ desktopdir = join_paths(datadir, 'applications')
+ servicesdir = join_paths(datadir, 'dbus-1', 'services')
+ thumbnailerdir = join_paths(datadir, 'thumbnailers')
+ 
+-glib_req_version = '>= 2.35.1'
++glib_req_version = '>= 2.56.0'
+ gtk_req_version = '>= 3.20.0'
+ harfbuzz_req_version = '>= 0.9.9'
+ 
+-- 
+2.24.1
+

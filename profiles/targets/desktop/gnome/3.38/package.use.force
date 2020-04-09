@@ -1,4 +1,4 @@
 gnome-base/gnome-shell vanilla-gc
-gnome-extra/gnome-todo libecal2
+app-office/gnome-todo libecal2
 net-libs/glib-networking smartcard
 net-libs/gnutls pkcs11

@@ -1,0 +1,28 @@
+From 8588bc1c8321152ddc5086ca9b2c03a7f511e0d0 Mon Sep 17 00:00:00 2001
+From: Jan Tojnar <jtojnar@gmail.com>
+Date: Thu, 22 Aug 2019 15:10:32 +0200
+Subject: [PATCH 01/15] examples: fix dependencies
+
+Without this, I am getting:
+
+../examples/gvncviewer.c:34:10: fatal error: gio/gunixsocketaddress.h: No such file or directory
+ #include <gio/gunixsocketaddress.h>
+          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+ examples/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/examples/meson.build b/examples/meson.build
+index f8e8601..596e390 100644
+--- a/examples/meson.build
++++ b/examples/meson.build
+@@ -1,5 +1,5 @@
+ 
+-gvncviewer_deps = [gtk_vnc_dep]
++gvncviewer_deps = [gtk_vnc_dep, gio_unix_dep]
+ 
+ if libpulse_dep.found()
+   gvncviewer_deps += [gvncpulse_dep]
+-- 
+2.20.1
+

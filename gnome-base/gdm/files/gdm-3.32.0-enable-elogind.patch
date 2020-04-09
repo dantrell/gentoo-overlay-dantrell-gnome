@@ -1,0 +1,11 @@
+diff '--exclude=.git' -urN a/data/pam-exherbo/gdm-launch-environment.pam b/data/pam-exherbo/gdm-launch-environment.pam
+--- a/data/pam-exherbo/gdm-launch-environment.pam	2019-03-05 09:10:56.000000000 -0600
++++ b/data/pam-exherbo/gdm-launch-environment.pam	2019-04-11 21:38:04.142866945 -0500
+@@ -8,6 +8,7 @@
+ 
+ password    required    pam_deny.so
+ 
++-session    optional    pam_elogind.so
+ -session    optional    pam_systemd.so
+ session     optional    pam_keyinit.so force revoke
+ session     required    pam_succeed_if.so audit quiet_success user = gdm

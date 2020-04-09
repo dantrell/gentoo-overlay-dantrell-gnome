@@ -1,0 +1,101 @@
+From 94377d8716d3b4c7e78d763ac074fa937415fb44 Mon Sep 17 00:00:00 2001
+From: Tom Schoonjans <Tom.Schoonjans@diamond.ac.uk>
+Date: Wed, 7 Aug 2019 20:56:47 +0100
+Subject: [PATCH 02/15] build: implement some macOS specific fixes
+
+* Add some CPPFLAGS
+* Ensure -Wl,--no-undefined is only used when supported, which is not
+the case on macOS
+* Add darwin_versions for correct versioning
+---
+ meson.build        | 2 +-
+ src/continuation.h | 4 ++++
+ src/meson.build    | 9 ++++++---
+ 3 files changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/meson.build b/meson.build
+index 1115056..737c47a 100644
+--- a/meson.build
++++ b/meson.build
+@@ -7,7 +7,7 @@ project(
+     'c_std=gnu99',
+     'warning_level=1',
+   ],
+-  meson_version: '>= 0.46.0'
++  meson_version: '>= 0.48.0'
+ )
+ 
+ version_info = meson.project_version().split('.')
+diff --git a/src/continuation.h b/src/continuation.h
+index a416837..e00bffb 100644
+--- a/src/continuation.h
++++ b/src/continuation.h
+@@ -21,6 +21,10 @@
+ #ifndef _CONTINUATION_H_
+ #define _CONTINUATION_H_
+ 
++#ifdef __APPLE__
++  #define _XOPEN_SOURCE 600
++#endif
++
+ #include <ucontext.h>
+ #include <stddef.h>
+ 
+diff --git a/src/meson.build b/src/meson.build
+index 956f189..64f7439 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -89,7 +89,7 @@ else
+ endif
+ 
+ gvnc_link_args = []
+-if host_machine.system() != 'windows'
++if meson.get_compiler('c').has_link_argument('-Wl,--no-undefined')
+   gvnc_link_args += ['-Wl,--no-undefined']
+ endif
+ 
+@@ -123,6 +123,7 @@ gvnc = library(
+   include_directories: gvnc_inc,
+   link_args: gvnc_link_args,
+   version: '0.0.1',
++  darwin_versions: ['1.0', '1.1'],
+   soversion: '0',
+   install: true,
+ )
+@@ -178,7 +179,7 @@ if libpulse_dep.found()
+   ]
+ 
+   gvncpulse_link_args = []
+-  if host_machine.system() != 'windows'
++  if meson.get_compiler('c').has_link_argument('-Wl,--no-undefined')
+     gvncpulse_link_args += ['-Wl,--no-undefined']
+   endif
+ 
+@@ -206,6 +207,7 @@ if libpulse_dep.found()
+     include_directories: gvncpulse_inc,
+     link_args: gvncpulse_link_args,
+     version: '0.0.1',
++    darwin_versions: ['1.0', '1.1'],
+     soversion: '0',
+     install: true,
+   )
+@@ -337,7 +339,7 @@ endforeach
+ 
+ 
+ gtk_vnc_link_args = []
+-if host_machine.system() != 'windows'
++if meson.get_compiler('c').has_link_argument('-Wl,--no-undefined')
+   gtk_vnc_link_args += ['-Wl,--no-undefined']
+ endif
+ 
+@@ -369,6 +371,7 @@ gtk_vnc = library(
+   include_directories: gtk_vnc_inc,
+   link_args: gtk_vnc_link_args,
+   version: '0.0.2',
++  darwin_versions: ['1.0', '1.2'],
+   soversion: '0',
+   install: true,
+ )
+-- 
+2.20.1
+

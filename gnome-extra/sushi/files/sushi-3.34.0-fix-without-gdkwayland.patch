@@ -1,0 +1,17 @@
+diff '--exclude=.git' -urN a/src/libsushi/meson.build b/src/libsushi/meson.build
+--- a/src/libsushi/meson.build	2019-09-10 08:36:52.000000000 -0500
++++ b/src/libsushi/meson.build	2019-09-28 03:42:57.828636657 -0500
+@@ -1,13 +1,10 @@
+ config_data = configuration_data()
+ config_data.set10('HAVE_GTK_X11', gtk_x11_dep.found())
+-config_data.set10('HAVE_GTK_WAYLAND', gtk_wayland_dep.found())
+ configure_file(output: 'config.h', configuration: config_data)
+ 
+ externalwindow_sources = [
+   'externalwindow.c',
+   'externalwindow.h',
+-  'externalwindow-wayland.c',
+-  'externalwindow-wayland.h',
+   'externalwindow-x11.c',
+   'externalwindow-x11.h',
+ ]

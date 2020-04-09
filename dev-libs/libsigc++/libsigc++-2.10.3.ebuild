@@ -9,7 +9,7 @@ HOMEPAGE="http://libsigc.sourceforge.net/"
 
 LICENSE="LGPL-2.1+"
 SLOT="2/10"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="doc static-libs test"
 

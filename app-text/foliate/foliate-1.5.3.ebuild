@@ -6,7 +6,7 @@ inherit meson
 
 DESCRIPTION="Simple and modern eBook viewer"
 HOMEPAGE="https://johnfactotum.github.io/foliate/"
-SRC_URI="https://github.com/johnfactotum/foliate/archive/1.5.3.tar.gz"
+SRC_URI="https://github.com/johnfactotum/foliate/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"

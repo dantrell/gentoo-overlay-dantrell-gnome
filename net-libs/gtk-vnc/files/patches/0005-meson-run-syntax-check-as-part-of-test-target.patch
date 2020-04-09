@@ -1,0 +1,63 @@
+From 7d9a7ff50e9cf3847fe5fb3772cbe47ab729d233 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Date: Mon, 6 Jan 2020 16:22:49 +0000
+Subject: [PATCH 05/15] meson: run syntax-check as part of test target
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ build-aux/syntax-check | 5 +++++
+ meson.build            | 9 ++++++++-
+ prepare-release.sh     | 2 +-
+ 3 files changed, 14 insertions(+), 2 deletions(-)
+ create mode 100644 build-aux/syntax-check
+
+diff --git a/build-aux/syntax-check b/build-aux/syntax-check
+new file mode 100644
+index 0000000..65d6433
+--- /dev/null
++++ b/build-aux/syntax-check
+@@ -0,0 +1,5 @@
++#!/bin/sh
++
++cd $MESON_SOURCE_ROOT/build-aux
++
++make syntax-check
+diff --git a/meson.build b/meson.build
+index 7cec7fe..edee87e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -24,7 +24,14 @@ conf_data.set('version_micro', version_micro)
+ # ninja dist helper
+ meson.add_dist_script('build-aux/dist.sh', meson.source_root(), meson.build_root())
+ 
+-run_target('syntax-check', command: ['make', '-C', meson.source_root(), 'syntax-check'])
++test(
++    'syntax-check',
++    find_program('@0@/build-aux/syntax-check'.format(meson.source_root())),
++    suite: 'style',
++    env: [
++        'MESON_SOURCE_ROOT=@0@'.format(meson.source_root()),
++    ],
++)
+ 
+ pod2man = find_program('pod2man')
+ 
+diff --git a/prepare-release.sh b/prepare-release.sh
+index 43af2bb..31828bb 100755
+--- a/prepare-release.sh
++++ b/prepare-release.sh
+@@ -11,7 +11,7 @@ meson --prefix="$INSTALL_ROOT" build/native
+ 
+ ninja -C build/native install
+ 
+-ninja -C build/native syntax-check
++ninja -C build/native test
+ 
+ ninja -C build/native dist
+ 
+-- 
+2.20.1
+

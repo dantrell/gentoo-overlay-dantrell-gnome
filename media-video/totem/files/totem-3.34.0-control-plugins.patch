@@ -1,0 +1,73 @@
+diff '--exclude=.git' -urN a/meson_options.txt b/meson_options.txt
+--- a/meson_options.txt	2019-09-06 04:08:27.000000000 -0500
++++ b/meson_options.txt	2019-09-29 04:52:26.601439371 -0500
+@@ -1,4 +1,27 @@
+ option('enable-easy-codec-installation', type: 'combo', choices: ['yes', 'no', 'auto'], value: 'auto', description: 'Whether to enable easy codec installation support for GStreamer')
+ option('enable-python', type: 'combo', choices: ['yes', 'no', 'auto'], value: 'auto', description: 'Enable python support')
+-option('with-plugins', type: 'combo', choices: ['all', 'none', 'auto'], value: 'auto', description: 'Which Totem plugins to compile (default: auto; "all", "none" and "auto" are valid)')
++option('with-plugins', type: 'array', choices: [
++  'all',
++  'auto',
++  'apple-trailers',
++  'autoload-subtitles',
++  'brasero-disc-recorder',
++  'dbusservice',
++  'im-status',
++  'lirc',
++  'media-player-keys',
++  'open-directory',
++  'opensubtitles',
++  'properties',
++  'pythonconsole',
++  'recent',
++  'rotation',
++  'samplepython',
++  'save-file',
++  'screensaver',
++  'screenshot',
++  'skipto',
++  'variable-rate',
++  'vimeo',
++], value: ['auto'], description: 'Which Totem plugins to compile (default: auto; "all", "none" and "auto" are valid)')
+ option('enable-gtk-doc', type: 'boolean', value: false, description: 'use gtk-doc to build documentation')
+diff '--exclude=.git' -urN a/src/plugins/meson.build b/src/plugins/meson.build
+--- a/src/plugins/meson.build	2019-09-06 04:08:27.000000000 -0500
++++ b/src/plugins/meson.build	2019-09-29 04:49:16.166303846 -0500
+@@ -36,8 +36,8 @@
+ plugins = []
+ 
+ plugins_option = get_option('with-plugins')
+-if plugins_option != 'none'
+-  plugins += [
++if plugins_option.length() > 0
++  foreach plugin: [
+     'apple-trailers',
+     'autoload-subtitles',
+     'im-status',
+@@ -53,16 +53,23 @@
+     'variable-rate',
+     'vimeo'
+   ]
+-
+-  plugin_error = (plugins_option == 'all')
++    if plugins_option.contains('all') or plugins_option.contains('auto') or plugins_option.contains(plugin)
++      plugins += plugin
++    endif
++  endforeach
+ 
+   if have_python
+-    plugins += [
++    foreach plugin: [
+       'dbusservice',
+       'opensubtitles',
+       'pythonconsole',
+       'samplepython'
+     ]
++      if plugins_option.contains('all') or plugins_option.contains('auto') or plugins_option.contains(plugin)
++        plugins += plugin
++      endif
++    endforeach
++
+   endif
+ endif
+ 

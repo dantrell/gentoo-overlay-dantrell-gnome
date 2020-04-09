@@ -26,7 +26,7 @@ SRC_URI="https://github.com/bus1/dbus-broker/archive/v${PV}/${P}.tar.gz
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="audit doc elogind +launcher selinux systemd"
 REQUIRED_USE="

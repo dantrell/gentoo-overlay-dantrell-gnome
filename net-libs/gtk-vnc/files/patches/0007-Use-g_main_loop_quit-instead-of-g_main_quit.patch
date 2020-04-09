@@ -1,0 +1,52 @@
+From 56ad787966a382828f76339a44f0ba87b2f94c6a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Date: Mon, 6 Jan 2020 16:49:44 +0000
+Subject: [PATCH 07/15] Use g_main_loop_quit instead of g_main_quit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ src/vncconnectiontest.c | 2 +-
+ tools/gvnccapture.c     | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/vncconnectiontest.c b/src/vncconnectiontest.c
+index 06ff2a3..3185cc7 100644
+--- a/src/vncconnectiontest.c
++++ b/src/vncconnectiontest.c
+@@ -245,7 +245,7 @@ static void test_helper_disconnected(VncConnection *conn G_GNUC_UNUSED,
+                                      gpointer opaque)
+ {
+     struct GVncTest *test = opaque;
+-    g_main_quit(test->loop);
++    g_main_loop_quit(test->loop);
+ }
+ 
+ static void test_helper_error(VncConnection *conn G_GNUC_UNUSED,
+diff --git a/tools/gvnccapture.c b/tools/gvnccapture.c
+index 9bbf449..fe1bf5d 100644
+--- a/tools/gvnccapture.c
++++ b/tools/gvnccapture.c
+@@ -235,7 +235,7 @@ static void do_vnc_framebuffer_update(VncConnection *conn,
+                         capture->output);
+         }
+         vnc_connection_shutdown(conn);
+-        g_main_quit(capture->loop);
++        g_main_loop_quit(capture->loop);
+     }
+ }
+ 
+@@ -339,7 +339,7 @@ static void do_vnc_disconnected(VncConnection *conn G_GNUC_UNUSED,
+         else
+             g_print("Unable to connect to %s:%d\n", capture->host, capture->port - 5900);
+     }
+-    g_main_quit(capture->loop);
++    g_main_loop_quit(capture->loop);
+ }
+ 
+ static void do_vnc_auth_credential(VncConnection *conn, GValueArray *credList, gpointer opaque)
+-- 
+2.20.1
+

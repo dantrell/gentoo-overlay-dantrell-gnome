@@ -122,7 +122,7 @@
 ~gnome-extra/gnome-tweaks-3.32.0::dantrell-gnome-3-32
 ~gnome-extra/gnome-user-docs-3.32.3::dantrell-gnome-3-32
 ~gnome-extra/gnome-user-share-3.32.0.1::dantrell-gnome-3-32
-~gnome-extra/gnome-weather-3.32.2::dantrell-gnome-3-32
+~gnome-extra/gnome-weather-3.32.3::dantrell-gnome-3-32
 ~gnome-extra/gucharmap-12.0.1::dantrell-gnome
 ~gnome-extra/libgsf-1.14.47::dantrell-gnome
 ~gnome-extra/mousetweaks-3.32.0::dantrell-gnome
@@ -186,7 +186,7 @@
 ~x11-libs/libwnck-3.32.0::dantrell-gnome
 ~x11-libs/pango-1.42.4::dantrell-gnome
 ~x11-libs/vte-0.56.4::dantrell-gnome-3-32
-~x11-misc/gpaste-3.32.0::dantrell-gnome-3-32
+~x11-misc/gpaste-3.32.1::dantrell-gnome-3-32
 ~x11-terms/gnome-terminal-3.32.2::dantrell-gnome-3-32
 ~x11-themes/adwaita-icon-theme-3.32.0::dantrell-gnome-3-32
 ~x11-themes/gnome-backgrounds-3.32.0::dantrell-gnome-3-32

@@ -1,0 +1,76 @@
+From b99266a4fd90f91086a270b6afdd56447c8a61a8 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Date: Mon, 6 Jan 2020 17:07:34 +0000
+Subject: [PATCH 10/15] Use meson's built-in werror option
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ meson.build        | 7 -------
+ meson_options.txt  | 1 -
+ prepare-release.sh | 6 +++---
+ 3 files changed, 3 insertions(+), 11 deletions(-)
+
+diff --git a/meson.build b/meson.build
+index edee87e..d2b3c51 100644
+--- a/meson.build
++++ b/meson.build
+@@ -245,13 +245,6 @@ foreach cflag: check_cflags
+   endif
+ endforeach
+ 
+-werror_option = get_option('enable-werror')
+-if werror_option
+-  if cc.has_argument('-Werror')
+-    cflags += ['-Werror']
+-  endif
+-endif
+-
+ 
+ add_project_arguments(cflags, language: 'c')
+ 
+diff --git a/meson_options.txt b/meson_options.txt
+index 995d8c1..5f3b21c 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -1,4 +1,3 @@
+-option('enable-werror', type: 'boolean',  value: false, description: 'Enable -Werror flag')
+ option('with-coroutine', type: 'string', value: 'auto', description: 'Build with coroutine backend: [auto, ucontext, gthread]')
+ option('with-tls-priority', type: 'string', value: 'NORMAL', description: 'Set default TLS priority string')
+ option('with-vala', type: 'boolean', value: true, description: 'Enable Vala bindings')
+diff --git a/prepare-release.sh b/prepare-release.sh
+index 31828bb..643c22d 100755
+--- a/prepare-release.sh
++++ b/prepare-release.sh
+@@ -7,7 +7,7 @@ rm -rf build vroot
+ 
+ INSTALL_ROOT=`pwd`/vroot
+ 
+-meson --prefix="$INSTALL_ROOT" build/native
++meson --prefix="$INSTALL_ROOT" build/native --werror
+ 
+ ninja -C build/native install
+ 
+@@ -22,7 +22,7 @@ rpmbuild --nodeps \
+ if test -x /usr/bin/i686-w64-mingw32-gcc && \
+    test -r /usr/share/mingw/toolchain-mingw32.meson ; then
+   meson build/win32 --prefix="$INSTALL_ROOT/i686-w64-mingw32/sys-root/mingw" \
+-              --cross-file="/usr/share/mingw/toolchain-mingw32.meson"
++              --cross-file="/usr/share/mingw/toolchain-mingw32.meson" --werror
+ 
+   ninja -C build/win32
+   ninja -C build/win32 install
+@@ -31,7 +31,7 @@ fi
+ if test -x /usr/bin/x86_64-w64-mingw32-gcc && \
+    test -r /usr/share/mingw/toolchain-mingw64.meson ; then
+   meson build/win64 --prefix="$INSTALL_ROOT/x86_64-w64-mingw32/sys-root/mingw" \
+-              --cross-file="/usr/share/mingw/toolchain-mingw64.meson"
++              --cross-file="/usr/share/mingw/toolchain-mingw64.meson" --werror
+ 
+   ninja -C build/win64
+   ninja -C build/win64 install
+-- 
+2.20.1
+

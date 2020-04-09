@@ -1,0 +1,29 @@
+From 423405a724645f1b205ca86d39397cfcb6fb1461 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Date: Tue, 7 Jan 2020 12:07:52 +0000
+Subject: [PATCH 12/15] Relax min x11 dep for Debian 9 portability
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index d2b3c51..525c41a 100644
+--- a/meson.build
++++ b/meson.build
+@@ -65,7 +65,7 @@ libsasl_min_version = '2.1.26'
+ # gtk-vnc
+ gtk_min_version = '3.0.0'
+ cairo_min_version = '1.2.0'
+-x11_min_version = '1.6.5'
++x11_min_version = '1.6.4'
+ 
+ # gvncpule
+ libpulse_min_version = '10.0'
+-- 
+2.20.1
+

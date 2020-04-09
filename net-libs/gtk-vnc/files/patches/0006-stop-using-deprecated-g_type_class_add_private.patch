@@ -1,0 +1,344 @@
+From 6baa7839edc3c01e9d3353781b4e14e89b519309 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Date: Mon, 6 Jan 2020 16:46:20 +0000
+Subject: [PATCH 06/15] stop using deprecated g_type_class_add_private
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ src/vncaudiopulse.c       | 21 +++++++--------------
+ src/vncbaseaudio.c        | 16 +++++-----------
+ src/vncbaseframebuffer.c  | 12 ++++--------
+ src/vnccairoframebuffer.c | 13 +++----------
+ src/vncconnection.c       | 14 +++-----------
+ src/vnccursor.c           | 12 +++---------
+ src/vncdisplay.c          | 13 ++++---------
+ 7 files changed, 29 insertions(+), 72 deletions(-)
+
+diff --git a/src/vncaudiopulse.c b/src/vncaudiopulse.c
+index 80982da..7406f7d 100644
+--- a/src/vncaudiopulse.c
++++ b/src/vncaudiopulse.c
+@@ -28,15 +28,12 @@
+ #include "vncaudiopulse.h"
+ #include "vncutil.h"
+ 
+-#define VNC_AUDIO_PULSE_GET_PRIVATE(obj)                                \
+-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), VNC_TYPE_AUDIO_PULSE, VncAudioPulsePrivate))
+-
+ struct _VncAudioPulsePrivate {
+     pa_simple *pa;
+ };
+ 
+ 
+-G_DEFINE_TYPE(VncAudioPulse, vnc_audio_pulse, VNC_TYPE_BASE_AUDIO);
++G_DEFINE_TYPE_WITH_PRIVATE(VncAudioPulse, vnc_audio_pulse, VNC_TYPE_BASE_AUDIO);
+ 
+ 
+ static gboolean vnc_audio_pulse_playback_start(VncAudio *audio,
+@@ -133,24 +130,20 @@ static void vnc_audio_pulse_class_init(VncAudioPulseClass *klass)
+     GObjectClass *object_class = G_OBJECT_CLASS (klass);
+ 
+     object_class->finalize = vnc_audio_pulse_finalize;
+-
+-    g_type_class_add_private(klass, sizeof(VncAudioPulsePrivate));
+ }
+ 
+ 
+-void vnc_audio_pulse_init(VncAudioPulse *fb)
++void vnc_audio_pulse_init(VncAudioPulse *audio)
+ {
+-    VncAudioPulsePrivate *priv;
+-
+-    priv = fb->priv = VNC_AUDIO_PULSE_GET_PRIVATE(fb);
++    VncAudioPulsePrivate *priv = vnc_audio_pulse_get_instance_private(audio);
+ 
+-    memset(priv, 0, sizeof(*priv));
++    audio->priv = priv;
+ 
+-    g_signal_connect(G_OBJECT(fb), "vnc-audio-playback-start",
++    g_signal_connect(G_OBJECT(audio), "vnc-audio-playback-start",
+                      G_CALLBACK(vnc_audio_pulse_playback_start), NULL);
+-    g_signal_connect(G_OBJECT(fb), "vnc-audio-playback-stop",
++    g_signal_connect(G_OBJECT(audio), "vnc-audio-playback-stop",
+                      G_CALLBACK(vnc_audio_pulse_playback_stop), NULL);
+-    g_signal_connect(G_OBJECT(fb), "vnc-audio-playback-data",
++    g_signal_connect(G_OBJECT(audio), "vnc-audio-playback-data",
+                      G_CALLBACK(vnc_audio_pulse_playback_data), NULL);
+ }
+ 
+diff --git a/src/vncbaseaudio.c b/src/vncbaseaudio.c
+index c1fb210..221fd82 100644
+--- a/src/vncbaseaudio.c
++++ b/src/vncbaseaudio.c
+@@ -26,9 +26,6 @@
+ #include "vncutil.h"
+ #include "coroutine.h"
+ 
+-#define VNC_BASE_AUDIO_GET_PRIVATE(obj)                                 \
+-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), VNC_TYPE_BASE_AUDIO, VncBaseAudioPrivate))
+-
+ struct _VncBaseAudioPrivate {
+     gboolean unused;
+ };
+@@ -38,7 +35,8 @@ static void vnc_base_audio_interface_init(gpointer g_iface,
+                                           gpointer iface_data);
+ 
+ G_DEFINE_TYPE_EXTENDED(VncBaseAudio, vnc_base_audio, G_TYPE_OBJECT, 0,
+-                       G_IMPLEMENT_INTERFACE(VNC_TYPE_AUDIO, vnc_base_audio_interface_init));
++                       G_IMPLEMENT_INTERFACE(VNC_TYPE_AUDIO, vnc_base_audio_interface_init)
++                       G_ADD_PRIVATE(VncBaseAudio));
+ 
+ 
+ static void vnc_base_audio_class_init(VncBaseAudioClass *klass)
+@@ -73,18 +71,14 @@ static void vnc_base_audio_class_init(VncBaseAudioClass *klass)
+                  G_TYPE_NONE,
+                  1,
+                  VNC_TYPE_AUDIO_SAMPLE);
+-
+-    g_type_class_add_private(klass, sizeof(VncBaseAudioPrivate));
+ }
+ 
+ 
+-void vnc_base_audio_init(VncBaseAudio *fb)
++void vnc_base_audio_init(VncBaseAudio *audio)
+ {
+-    VncBaseAudioPrivate *priv;
+-
+-    priv = fb->priv = VNC_BASE_AUDIO_GET_PRIVATE(fb);
++    VncBaseAudioPrivate *priv = vnc_base_audio_get_instance_private(audio);
+ 
+-    memset(priv, 0, sizeof(*priv));
++    audio->priv = priv;
+ }
+ 
+ 
+diff --git a/src/vncbaseframebuffer.c b/src/vncbaseframebuffer.c
+index 64344db..1acdd41 100644
+--- a/src/vncbaseframebuffer.c
++++ b/src/vncbaseframebuffer.c
+@@ -44,9 +44,6 @@ typedef void vnc_base_framebuffer_rgb24_blt_func(VncBaseFramebufferPrivate *priv
+                                                  guint16 width, guint16 height);
+ 
+ 
+-#define VNC_BASE_FRAMEBUFFER_GET_PRIVATE(obj)                           \
+-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), VNC_TYPE_BASE_FRAMEBUFFER, VncBaseFramebufferPrivate))
+-
+ struct _VncBaseFramebufferPrivate {
+     guint8 *buffer; /* Owned by caller, so no need to free */
+     guint16 width;
+@@ -85,7 +82,8 @@ static void vnc_base_framebuffer_interface_init (gpointer g_iface,
+                                                  gpointer iface_data);
+ 
+ G_DEFINE_TYPE_EXTENDED(VncBaseFramebuffer, vnc_base_framebuffer, G_TYPE_OBJECT, 0,
+-                       G_IMPLEMENT_INTERFACE(VNC_TYPE_FRAMEBUFFER, vnc_base_framebuffer_interface_init));
++                       G_IMPLEMENT_INTERFACE(VNC_TYPE_FRAMEBUFFER, vnc_base_framebuffer_interface_init)
++                       G_ADD_PRIVATE(VncBaseFramebuffer));
+ 
+ 
+ enum {
+@@ -312,16 +310,14 @@ static void vnc_base_framebuffer_class_init(VncBaseFramebufferClass *klass)
+                                                        G_PARAM_STATIC_NAME |
+                                                        G_PARAM_STATIC_NICK |
+                                                        G_PARAM_STATIC_BLURB));
+-
+-    g_type_class_add_private(klass, sizeof(VncBaseFramebufferPrivate));
+ }
+ 
+ 
+ void vnc_base_framebuffer_init(VncBaseFramebuffer *fb)
+ {
+-    VncBaseFramebufferPrivate *priv;
++    VncBaseFramebufferPrivate *priv = vnc_base_framebuffer_get_instance_private(fb);
+ 
+-    priv = fb->priv = VNC_BASE_FRAMEBUFFER_GET_PRIVATE(fb);
++    fb->priv = priv;
+ 
+     memset(priv, 0, sizeof(*priv));
+     priv->reinitRenderFuncs = TRUE;
+diff --git a/src/vnccairoframebuffer.c b/src/vnccairoframebuffer.c
+index 9ebe7db..5dd2311 100644
+--- a/src/vnccairoframebuffer.c
++++ b/src/vnccairoframebuffer.c
+@@ -27,15 +27,12 @@
+ #include "vnccairoframebuffer.h"
+ #include "vncutil.h"
+ 
+-#define VNC_CAIRO_FRAMEBUFFER_GET_PRIVATE(obj)                          \
+-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), VNC_TYPE_CAIRO_FRAMEBUFFER, VncCairoFramebufferPrivate))
+-
+ struct _VncCairoFramebufferPrivate {
+     cairo_surface_t *surface;
+ };
+ 
+ 
+-G_DEFINE_TYPE(VncCairoFramebuffer, vnc_cairo_framebuffer, VNC_TYPE_BASE_FRAMEBUFFER);
++G_DEFINE_TYPE_WITH_PRIVATE(VncCairoFramebuffer, vnc_cairo_framebuffer, VNC_TYPE_BASE_FRAMEBUFFER);
+ 
+ 
+ enum {
+@@ -110,18 +107,14 @@ static void vnc_cairo_framebuffer_class_init(VncCairoFramebufferClass *klass)
+                                                          G_PARAM_STATIC_NAME |
+                                                          G_PARAM_STATIC_NICK |
+                                                          G_PARAM_STATIC_BLURB));
+-
+-    g_type_class_add_private(klass, sizeof(VncCairoFramebufferPrivate));
+ }
+ 
+ 
+ void vnc_cairo_framebuffer_init(VncCairoFramebuffer *fb)
+ {
+-    VncCairoFramebufferPrivate *priv;
+-
+-    priv = fb->priv = VNC_CAIRO_FRAMEBUFFER_GET_PRIVATE(fb);
++    VncCairoFramebufferPrivate *priv = vnc_cairo_framebuffer_get_instance_private(fb);
+ 
+-    memset(priv, 0, sizeof(*priv));
++    fb->priv = priv;
+ }
+ 
+ 
+diff --git a/src/vncconnection.c b/src/vncconnection.c
+index c43861e..ff3582b 100644
+--- a/src/vncconnection.c
++++ b/src/vncconnection.c
+@@ -145,9 +145,6 @@ struct g_condition_wait_source
+     gpointer data;
+ };
+ 
+-#define VNC_CONNECTION_GET_PRIVATE(obj)                                 \
+-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), VNC_TYPE_CONNECTION, VncConnectionPrivate))
+-
+ 
+ struct _VncConnectionPrivate
+ {
+@@ -249,7 +246,7 @@ struct _VncConnectionPrivate
+     guint audio_timer;
+ };
+ 
+-G_DEFINE_TYPE(VncConnection, vnc_connection, G_TYPE_OBJECT);
++G_DEFINE_TYPE_WITH_PRIVATE(VncConnection, vnc_connection, G_TYPE_OBJECT);
+ 
+ 
+ enum {
+@@ -5082,21 +5079,16 @@ static void vnc_connection_class_init(VncConnectionClass *klass)
+                       G_TYPE_NONE,
+                       1,
+                       G_TYPE_STRING);
+-
+-
+-    g_type_class_add_private(klass, sizeof(VncConnectionPrivate));
+ }
+ 
+ 
+ static void vnc_connection_init(VncConnection *conn)
+ {
+-    VncConnectionPrivate *priv;
++    VncConnectionPrivate *priv = vnc_connection_get_instance_private(conn);
+ 
+     VNC_DEBUG("Init VncConnection=%p", conn);
+ 
+-    priv = conn->priv = VNC_CONNECTION_GET_PRIVATE(conn);
+-
+-    memset(priv, 0, sizeof(*priv));
++    conn->priv = priv;
+ 
+     priv->fd = -1;
+     priv->auth_type = VNC_CONNECTION_AUTH_INVALID;
+diff --git a/src/vnccursor.c b/src/vnccursor.c
+index 4dd188f..3ee81cb 100644
+--- a/src/vnccursor.c
++++ b/src/vnccursor.c
+@@ -25,9 +25,6 @@
+ 
+ #include <string.h>
+ 
+-#define VNC_CURSOR_GET_PRIVATE(obj)                                     \
+-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), VNC_TYPE_CURSOR, VncCursorPrivate))
+-
+ struct _VncCursorPrivate
+ {
+     guint8 *data;
+@@ -37,7 +34,7 @@ struct _VncCursorPrivate
+     guint16 height;
+ };
+ 
+-G_DEFINE_TYPE(VncCursor, vnc_cursor, G_TYPE_OBJECT)
++G_DEFINE_TYPE_WITH_PRIVATE(VncCursor, vnc_cursor, G_TYPE_OBJECT)
+ 
+ /* Properties */
+ enum
+@@ -225,16 +222,13 @@ static void vnc_cursor_class_init(VncCursorClass *klass)
+                                                      G_PARAM_STATIC_NAME |
+                                                      G_PARAM_STATIC_NICK |
+                                                      G_PARAM_STATIC_BLURB));
+-
+-    g_type_class_add_private(klass, sizeof(VncCursorPrivate));
+ }
+ 
+ static void vnc_cursor_init(VncCursor *cursor)
+ {
+-    VncCursorPrivate *priv;
++    VncCursorPrivate *priv = vnc_cursor_get_instance_private(cursor);
+ 
+-    priv = cursor->priv = VNC_CURSOR_GET_PRIVATE(cursor);
+-    memset(priv, 0, sizeof(VncCursorPrivate));
++    cursor->priv = priv;
+ }
+ 
+ 
+diff --git a/src/vncdisplay.c b/src/vncdisplay.c
+index 9fe6afd..777cf15 100644
+--- a/src/vncdisplay.c
++++ b/src/vncdisplay.c
+@@ -48,9 +48,6 @@
+ #endif
+ #endif
+ 
+-#define VNC_DISPLAY_GET_PRIVATE(obj)                                    \
+-    (G_TYPE_INSTANCE_GET_PRIVATE((obj), VNC_TYPE_DISPLAY, VncDisplayPrivate))
+-
+ struct _VncDisplayPrivate
+ {
+     GdkCursor *null_cursor;
+@@ -98,7 +95,7 @@ struct _VncDisplayPrivate
+ #endif
+ };
+ 
+-G_DEFINE_TYPE(VncDisplay, vnc_display, GTK_TYPE_DRAWING_AREA)
++G_DEFINE_TYPE_WITH_PRIVATE(VncDisplay, vnc_display, GTK_TYPE_DRAWING_AREA)
+ 
+ /* Properties */
+ enum
+@@ -2423,14 +2420,12 @@ static void vnc_display_class_init(VncDisplayClass *klass)
+                      g_cclosure_marshal_VOID__VOID,
+                      G_TYPE_NONE,
+                      0);
+-
+-    g_type_class_add_private(klass, sizeof(VncDisplayPrivate));
+ }
+ 
+ static void vnc_display_init(VncDisplay *display)
+ {
+     GtkWidget *widget = GTK_WIDGET(display);
+-    VncDisplayPrivate *priv;
++    VncDisplayPrivate *priv = vnc_display_get_instance_private(display);
+ 
+     gtk_widget_set_can_focus (widget, TRUE);
+ 
+@@ -2453,8 +2448,8 @@ static void vnc_display_init(VncDisplay *display)
+      */
+     gtk_widget_set_double_buffered(widget, TRUE);
+ 
+-    priv = display->priv = VNC_DISPLAY_GET_PRIVATE(display);
+-    memset(priv, 0, sizeof(VncDisplayPrivate));
++    display->priv = priv;
++
+     priv->last_x = -1;
+     priv->last_y = -1;
+     priv->absolute = TRUE;
+-- 
+2.20.1
+

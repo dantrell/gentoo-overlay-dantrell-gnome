@@ -1,5 +1,5 @@
-# Masked to test on GNOME 3.36 first
->=net-libs/webkit-gtk-2.28.0
+# Masked to test on GNOME 3.38 first
+>=net-libs/webkit-gtk-2.30.0
 
 # Requires GLib 2.59 (or greater)
 >=x11-libs/pango-1.44.0
@@ -39,6 +39,7 @@
 >=app-misc/gnote-3.28.0
 >=app-misc/tracker-2.1.0
 >=app-misc/tracker-miners-2.1.0
+>=app-office/gnome-todo-3.28.0
 >=app-text/evince-3.28.0
 >=app-text/gspell-1.6.0
 >=app-text/yelp-tools-3.28.0
@@ -148,7 +149,6 @@
 >=gnome-extra/gnome-shell-frippery-3.28.0
 >=gnome-extra/gnome-software-3.28.0
 >=gnome-extra/gnome-system-monitor-3.28.0
->=gnome-extra/gnome-todo-3.28.0
 >=gnome-extra/gnome-tweaks-3.28.0
 >=gnome-extra/gnome-user-docs-3.28.0
 >=gnome-extra/gnome-user-share-3.28.0

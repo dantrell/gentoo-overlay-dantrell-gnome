@@ -36,5 +36,6 @@ x11-libs/cairo::dantrell-gnome ~*
 x11-libs/gtk+::dantrell-gnome ~*
 x11-libs/libdrm::gentoo ~*
 <media-libs/mesa-19::gentoo ~*
+<net-libs/webkit-gtk-2.29.0::dantrell-gnome ~*
 >=net-fs/sshfs-3::gentoo ~*
 >=sys-fs/fuse-common-3::gentoo ~*

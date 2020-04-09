@@ -1,0 +1,28 @@
+From 5cd78602d3d4c8355869151875fc317e8bcd5f08 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jonas=20=C3=85dahl?= <jadahl@gmail.com>
+Date: Thu, 6 Sep 2018 10:14:08 -0400
+Subject: [PATCH] data: disable wayland for proprietary nvidia machines
+
+At the moment GLX applications don't work well when the
+proprietary nvidia driver is used with a wayland session.
+
+For now, disable wayland on that hardware, and users who
+want to opt in can just edit the udev rule.
+(or add their own that overrides it)
+---
+ data/61-gdm.rules.in | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/data/61-gdm.rules.in b/data/61-gdm.rules.in
+index c9f6110d..ad5b87d4 100644
+--- a/data/61-gdm.rules.in
++++ b/data/61-gdm.rules.in
+@@ -2,3 +2,5 @@
+ ATTR{vendor}=="0x1013", ATTR{device}=="0x00b8", ATTR{subsystem_vendor}=="0x1af4", ATTR{subsystem_device}=="0x1100", RUN+="@libexecdir@/gdm-disable-wayland"
+ # disable Wayland on Hi1710 chipsets
+ ATTR{vendor}=="0x19e5", ATTR{device}=="0x1711", RUN+="@libexecdir@/gdm-disable-wayland"
++# disable Wayland when using the proprietary nvidia driver
++DRIVER=="nvidia", RUN+="@libexecdir@/gdm-disable-wayland"
+-- 
+2.18.1
+

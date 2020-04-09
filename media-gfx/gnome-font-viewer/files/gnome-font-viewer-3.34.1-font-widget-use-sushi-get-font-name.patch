@@ -1,0 +1,27 @@
+From 4d548988b61aad297219aa5ebfc68158b6d05b18 Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Sun, 1 Dec 2019 14:09:22 -0800
+Subject: [PATCH] font-widget: use sushi_get_font_name()
+
+Instead of repeating the same code.
+---
+ src/sushi-font-widget.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/src/sushi-font-widget.c b/src/sushi-font-widget.c
+index 144a3d6..ac1fcd4 100644
+--- a/src/sushi-font-widget.c
++++ b/src/sushi-font-widget.c
+@@ -378,8 +378,7 @@ build_strings_for_face (SushiFontWidget *self)
+     self->sample_string = random_string_from_available_chars (self->face, 36);
+ 
+   g_free (self->font_name);
+-  self->font_name = g_strconcat (self->face->family_name, " ",
+-                                 self->face->style_name, NULL);
++  self->font_name = sushi_get_font_name (self->face, FALSE);
+ }
+ 
+ static gint *
+-- 
+2.24.1
+

@@ -1,0 +1,67 @@
+From ef7a561595e89ff3f7527f8f672462beaf192268 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Date: Mon, 6 Jan 2020 17:45:09 +0000
+Subject: [PATCH 11/15] Use a proper cond variable for accessing port from
+ server thread
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This avoids tickling the mutex deadlock detector on FreeBSD 12
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ src/vncconnectiontest.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
+
+diff --git a/src/vncconnectiontest.c b/src/vncconnectiontest.c
+index 3185cc7..530e160 100644
+--- a/src/vncconnectiontest.c
++++ b/src/vncconnectiontest.c
+@@ -31,7 +31,8 @@ static gboolean debug;
+ static gboolean allowfail;
+ 
+ struct GVncTest {
+-    GMutex lock;
++    GMutex portlock;
++    GCond portcond;
+     GMutex clock;
+     GCond cond;
+     int port;
+@@ -115,8 +116,10 @@ static gpointer test_helper_server(gpointer opaque)
+ 
+     server = g_socket_listener_new();
+ 
++    g_mutex_lock(&data->portlock);
+     data->port = g_socket_listener_add_any_inet_port(server, NULL, NULL);
+-    g_mutex_unlock(&data->lock);
++    g_mutex_unlock(&data->portlock);
++    g_cond_signal(&data->portcond);
+ 
+     client = g_socket_listener_accept(server, NULL, NULL, NULL);
+ 
+@@ -537,15 +540,18 @@ static void test_validation(void (*test_func)(GInputStream *, GOutputStream *))
+     test = g_new0(struct GVncTest, 1);
+     test->test_func = test_func;
+ 
+-    g_mutex_init(&test->lock);
++    g_mutex_init(&test->portlock);
++    g_cond_init(&test->portcond);
+     g_mutex_init(&test->clock);
+     g_cond_init(&test->cond);
+-    g_mutex_lock(&test->lock);
+ 
+     th = g_thread_new("rre-server", test_helper_server, test);
+ 
+-    g_mutex_lock(&test->lock);
++    g_mutex_lock(&test->portlock);
++    while (test->port == 0)
++        g_cond_wait(&test->portcond, &test->portlock);
+     port = g_strdup_printf("%d", test->port);
++    g_mutex_unlock(&test->portlock);
+ 
+     test->conn = vnc_connection_new();
+ 
+-- 
+2.20.1
+

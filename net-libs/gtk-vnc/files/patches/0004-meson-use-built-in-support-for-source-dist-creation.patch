@@ -1,0 +1,133 @@
+From 95fbd2925ba54268415190e1069b1a9c0192611e Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Date: Mon, 6 Jan 2020 16:17:32 +0000
+Subject: [PATCH 04/15] meson: use built-in support for source dist creation
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ build-aux/dist.sh   | 13 +++++++++++++
+ build-aux/make-dist | 37 -------------------------------------
+ meson.build         |  5 ++++-
+ prepare-release.sh  |  8 ++++----
+ 4 files changed, 21 insertions(+), 42 deletions(-)
+ create mode 100644 build-aux/dist.sh
+ delete mode 100755 build-aux/make-dist
+
+diff --git a/build-aux/dist.sh b/build-aux/dist.sh
+new file mode 100644
+index 0000000..b886a3c
+--- /dev/null
++++ b/build-aux/dist.sh
+@@ -0,0 +1,13 @@
++#!/bin/sh
++
++SOURCE_ROOT=$1
++BUILD_ROOT=$2
++
++$SOURCE_ROOT/build-aux/gitlog-to-changelog > $MESON_DIST_ROOT/ChangeLog
++
++# Only gtk-vnc.spec is put into the tarball,
++# otherwise rpmbuild -ta $tarball.tar.gz would fail
++cp $BUILD_ROOT/gtk-vnc.spec $MESON_DIST_ROOT/
++
++out="`git log --pretty=format:'%aN <%aE>' | sort -u`"
++perl -p -e "s/#authorslist#// and print '$out'" < $SOURCE_ROOT/AUTHORS.in > $MESON_DIST_ROOT/AUTHORS
+diff --git a/build-aux/make-dist b/build-aux/make-dist
+deleted file mode 100755
+index 63b869e..0000000
+--- a/build-aux/make-dist
++++ /dev/null
+@@ -1,37 +0,0 @@
+-#!/bin/sh
+-
+-set -e
+-
+-BUILDDIR=$1
+-
+-test -z "$BUILDDIR" && BUILDDIR=build
+-
+-VERSION=`grep 'version:' meson.build  | head -1 | awk '{print $2}' | sed -e "s/'//g" -e "s/,//"`
+-DISTNAME=gtk-vnc-$VERSION
+-DISTDIR=$BUILDDIR/$DISTNAME
+-
+-rm -rf $DISTDIR
+-mkdir -p $DISTDIR
+-
+-git clone --shared . $DISTDIR
+-rm -rf $DISTDIR/.git
+-
+-for p in subprojects/*
+-do
+-    git clone --shared $p $DISTDIR/$p
+-    rm -rf $DISTDIR/$p/.git
+-done
+-
+-build-aux/gitlog-to-changelog > $DISTDIR/ChangeLog
+-
+-out="`git log --pretty=format:'   %aN <%aE>' | sort -u`"
+-perl -p -e "s/#authorslist#// and print '$out'" < AUTHORS.in > $DISTDIR/AUTHORS
+-rm -f $DISTDIR/AUTHORS.in
+-
+-perl -p -e "s/\@VERSION\@/$VERSION/" gtk-vnc.spec.in > $DISTDIR/gtk-vnc.spec
+-
+-cd $BUILDDIR
+-tar Jcf $DISTNAME.tar.xz $DISTNAME/
+-rm -rf $DISTNAME
+-
+-echo "Created $DISTDIR.tar.xz"
+diff --git a/meson.build b/meson.build
+index 737c47a..7cec7fe 100644
+--- a/meson.build
++++ b/meson.build
+@@ -7,7 +7,7 @@ project(
+     'c_std=gnu99',
+     'warning_level=1',
+   ],
+-  meson_version: '>= 0.48.0'
++  meson_version: '>= 0.49.0'
+ )
+ 
+ version_info = meson.project_version().split('.')
+@@ -21,6 +21,9 @@ conf_data.set('version_major', version_major)
+ conf_data.set('version_minor', version_minor)
+ conf_data.set('version_micro', version_micro)
+ 
++# ninja dist helper
++meson.add_dist_script('build-aux/dist.sh', meson.source_root(), meson.build_root())
++
+ run_target('syntax-check', command: ['make', '-C', meson.source_root(), 'syntax-check'])
+ 
+ pod2man = find_program('pod2man')
+diff --git a/prepare-release.sh b/prepare-release.sh
+index 9297c4a..43af2bb 100755
+--- a/prepare-release.sh
++++ b/prepare-release.sh
+@@ -13,11 +13,11 @@ ninja -C build/native install
+ 
+ ninja -C build/native syntax-check
+ 
+-build-aux/make-dist build/
++ninja -C build/native dist
+ 
+ rpmbuild --nodeps \
+-   --define "_sourcedir `pwd`/build" \
+-   -ta --clean build/gtk-vnc*.tar.xz
++   --define "_sourcedir `pwd`/build/native/meson-dist/" \
++   -ba --clean build/native/gtk-vnc.spec
+ 
+ if test -x /usr/bin/i686-w64-mingw32-gcc && \
+    test -r /usr/share/mingw/toolchain-mingw32.meson ; then
+@@ -44,6 +44,6 @@ if test -x /usr/bin/i686-w64-mingw32-gcc && \
+    test -f /usr/bin/rpmbuild; then
+ 
+    rpmbuild --nodeps \
+-       --define "_sourcedir `pwd`/build" \
++       --define "_sourcedir `pwd`/build/native/meson-dist/" \
+        -ba --clean build/native/mingw-gtk-vnc.spec
+ fi
+-- 
+2.20.1
+

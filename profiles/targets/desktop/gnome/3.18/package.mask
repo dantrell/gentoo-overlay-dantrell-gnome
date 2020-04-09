@@ -77,6 +77,7 @@
 >=app-misc/gnote-3.20.0
 >=app-misc/tracker-1.8.0
 >=app-misc/tracker-miners-2.0.0
+>=app-office/gnome-todo-3.20.0
 >=app-text/evince-3.20.0
 >=app-text/gspell-0.2.0
 >=app-text/yelp-tools-3.20.0
@@ -186,7 +187,6 @@
 >=gnome-extra/gnome-shell-frippery-3.20.0
 >=gnome-extra/gnome-software-3.20.0
 >=gnome-extra/gnome-system-monitor-3.20.0
->=gnome-extra/gnome-todo-3.20.0
 >=gnome-extra/gnome-tweaks-3.20.0
 >=gnome-extra/gnome-user-docs-3.20.0
 >=gnome-extra/gnome-user-share-3.20.0

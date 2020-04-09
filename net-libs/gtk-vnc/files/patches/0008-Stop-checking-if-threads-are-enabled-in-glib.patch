@@ -1,0 +1,37 @@
+From 7e586f398317465c8bb1deea028231ed6be60ce8 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Date: Mon, 6 Jan 2020 16:51:36 +0000
+Subject: [PATCH 08/15] Stop checking if threads are enabled in glib
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Threading is unconditionally enabled these days.
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ src/vncconnection.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/src/vncconnection.c b/src/vncconnection.c
+index ff3582b..47f04b3 100644
+--- a/src/vncconnection.c
++++ b/src/vncconnection.c
+@@ -1276,12 +1276,10 @@ static gboolean vnc_connection_tls_initialize(void)
+     if (tlsinitialized)
+         return TRUE;
+ 
+-    if (g_thread_supported()) {
+ #ifdef VNC_INIT_GCRYPT_THREADING
+-        gcry_control(GCRYCTL_SET_THREAD_CBS, &gvnc_thread_impl);
++    gcry_control(GCRYCTL_SET_THREAD_CBS, &gvnc_thread_impl);
+ #endif /* VNC_INIT_GCRYPT_THREADING */
+-        gcry_check_version(NULL);
+-    }
++    gcry_check_version(NULL);
+ 
+     if (gnutls_global_init () < 0)
+         return FALSE;
+-- 
+2.20.1
+
