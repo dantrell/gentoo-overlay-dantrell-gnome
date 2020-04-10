@@ -4,14 +4,18 @@ EAPI="7"
 
 DESCRIPTION="Unicode data from unicode.org"
 HOMEPAGE="https://www.unicode.org/ucd/"
-SRC_URI="https://www.unicode.org/Public/zipped/${PV}/UCD.zip -> ${P}-UCD.zip
-	https://www.unicode.org/Public/zipped/${PV}/Unihan.zip -> ${P}-Unihan.zip"
+SRC_URI="
+	https://www.unicode.org/Public/zipped/${PV}/UCD.zip -> ${P}-UCD.zip mirror://mirthil/${PN}/${P}-UCD.zip
+	https://www.unicode.org/Public/zipped/${PV}/Unihan.zip -> ${P}-Unihan.zip mirror://mirthil/${PN}/${P}-Unihan.zip
+"
 
 LICENSE="unicode"
 SLOT="0"
 KEYWORDS="~*"
 
 IUSE=""
+
+RESTRICT="mirror"
 
 DEPEND="app-arch/unzip"
 RDEPEND=""

@@ -10,7 +10,7 @@ HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2+"
 SLOT="3/24" # From WebKit: http://trac.webkit.org/changeset/195811
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="aqua broadway cloudprint colord cups examples gtk-doc +introspection test vim-syntax wayland X xinerama"
 REQUIRED_USE="
