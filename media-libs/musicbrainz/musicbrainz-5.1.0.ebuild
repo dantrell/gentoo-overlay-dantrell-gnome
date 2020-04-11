@@ -26,6 +26,12 @@ DEPEND="${RDEPEND}
 
 S="${WORKDIR}/lib${P}"
 
+PATCHES=(
+	# From MusicBrainz:
+	# 	https://github.com/metabrainz/libmusicbrainz/commit/36262d60fe92fe7a2c9bfb40e736bfcd29a6c3bd
+	"${FILESDIR}"/${PN}-5.1.0-src-cmakelists-txt-do-not-use-wildcards-for-dependencies.patch
+)
+
 src_prepare() {
 	use test || cmake_comment_add_subdirectory tests
 	cmake-utils_src_prepare

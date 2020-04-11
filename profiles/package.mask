@@ -220,6 +220,7 @@ net-libs/gupnp-igd::gentoo
 net-libs/gupnp::gentoo
 net-libs/libnice::gentoo
 net-libs/libpsl::gentoo
+net-libs/libsignal-protocol-c::gentoo
 net-libs/libzapojit::gentoo
 net-libs/phodav::gentoo
 net-libs/rest::gentoo
