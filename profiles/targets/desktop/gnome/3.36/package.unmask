@@ -91,7 +91,7 @@
 ~gnome-extra/evolution-ews-3.36.1::dantrell-gnome-3-36
 ~gnome-extra/gnome-boxes-3.36.2::dantrell-gnome-3-36
 ~gnome-extra/gnome-calculator-3.36.0::dantrell-gnome-3-36
-~gnome-extra/gnome-calendar-3.36.0::dantrell-gnome-3-36
+~gnome-extra/gnome-calendar-3.36.1::dantrell-gnome-3-36
 ~gnome-extra/gnome-clocks-3.36.0::dantrell-gnome-3-36
 ~gnome-extra/gnome-contacts-3.36::dantrell-gnome-3-36
 ~gnome-extra/gnome-getting-started-docs-3.36.1::dantrell-gnome-3-36
@@ -135,7 +135,7 @@
 ~media-video/totem-3.34.1::dantrell-gnome
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
 ~net-irc/polari-3.36.1::dantrell-gnome-3-36
-~net-libs/glib-networking-2.64.1::dantrell-gnome-3-36
+~net-libs/glib-networking-2.64.2::dantrell-gnome-3-36
 ~net-libs/gnome-online-accounts-3.36.0::dantrell-gnome-3-36
 ~net-libs/gssdp-1.2.2::dantrell-gnome
 ~net-libs/gtk-vnc-1.0.0::dantrell-gnome
@@ -144,7 +144,7 @@
 ~net-libs/libsoup-gnome-2.70.0::dantrell-gnome-3-36
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome
-~net-libs/webkit-gtk-2.28.0::dantrell-gnome
+~net-libs/webkit-gtk-2.28.1::dantrell-gnome
 ~net-misc/gnome-online-miners-3.34.0::dantrell-gnome
 ~net-misc/rygel-0.38.3::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.34.1::dantrell-gnome
@@ -162,7 +162,7 @@
 ~x11-misc/gpaste-3.36.3::dantrell-gnome-3-36
 ~x11-terms/gnome-terminal-3.36.0.1::dantrell-gnome-3-36
 ~x11-terms/gnome-terminal-3.36.1.1::dantrell-gnome-3-36
-~x11-themes/adwaita-icon-theme-3.36.0::dantrell-gnome-3-36
+~x11-themes/adwaita-icon-theme-3.36.1::dantrell-gnome-3-36
 ~x11-themes/gnome-backgrounds-3.36.0::dantrell-gnome-3-36
 ~x11-themes/gnome-themes-extra-3.28::dantrell-gnome
 ~x11-wm/metacity-3.36.1::dantrell-gnome-3-36

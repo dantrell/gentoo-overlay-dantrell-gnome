@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
+
 PYTHON_COMPAT=( python{3_6,3_7,3_8} )
 
 inherit multilib-minimal python-any-r1
@@ -22,12 +23,8 @@ RDEPEND="
 		net-dns/libidn2:=[${MULTILIB_USEDEP}]
 	)
 "
-
-DEPEND="
-	${RDEPEND}
-"
-BDEPEND="
-	${PYTHON_DEPS}
+DEPEND="${RDEPEND}"
+BDEPEND="${PYTHON_DEPS}
 	dev-util/gtk-doc-am
 	sys-devel/gettext
 	virtual/pkgconfig
