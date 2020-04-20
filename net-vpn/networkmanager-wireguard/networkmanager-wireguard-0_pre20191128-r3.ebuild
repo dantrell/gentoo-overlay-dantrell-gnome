@@ -19,13 +19,14 @@ IUSE="+glib +gtk +nls"
 REQUIRED_USE="glib? ( gtk )"
 
 RDEPEND="
-	net-misc/networkmanager:=[resolvconf]
+	>=net-misc/networkmanager-1.7.0:=[resolvconf]
 	net-vpn/wireguard-tools[wg-quick]
-	glib? ( dev-libs/glib )
+	>=dev-libs/glib-2.32:2
 	gtk? (
-		app-crypt/libsecret
+		>=x11-libs/gtk+-3.4:3
 		gnome-extra/nm-applet[gtk]
-		x11-libs/gtk+:3
+		<net-misc/networkmanager-1.19:=
+		>=app-crypt/libsecret-0.18
 	)
 "
 

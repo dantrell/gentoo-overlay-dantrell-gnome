@@ -13,7 +13,7 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="dbus gstaudio gstvideo gtk3 +introspection lz4 mjpeg policykit pulseaudio sasl smartcard static-libs usbredir vala webdav libressl"
+IUSE="dbus gstaudio gstvideo gtk3 +introspection libressl lz4 mjpeg policykit pulseaudio sasl smartcard static-libs usbredir vala webdav"
 REQUIRED_USE="?? ( pulseaudio gstaudio )"
 
 # TODO:

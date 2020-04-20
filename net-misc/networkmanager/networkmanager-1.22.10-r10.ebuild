@@ -15,11 +15,11 @@ SLOT="0" # add subslot if libnm-util.so.2 or libnm-glib.so.4 bumps soname versio
 KEYWORDS=""
 
 IUSE="audit bluetooth +concheck connection-sharing consolekit +dhclient dhcpcd "
-IUSE+="debug doc elogind examples +gnutls introspection iwd json kernel_linux "
+IUSE+="debug elogind examples +gnutls gtk-doc introspection iwd json kernel_linux "
 IUSE+="libpsl lto modemmanager nss ofono ovs +policykit ppp resolvconf selinux "
 IUSE+="syslog systemd teamd test +tools vala wext +wifi"
 REQUIRED_USE="
-	doc? ( introspection )
+	gtk-doc? ( introspection )
 	iwd? ( wifi )
 	vala? ( introspection )
 	^^ ( gnutls nss )
@@ -47,7 +47,6 @@ DEPEND="
 	consolekit? ( sys-auth/consolekit )
 	dhclient? ( net-misc/dhcp[client] )
 	dhcpcd? ( net-misc/dhcpcd )
-	doc? ( dev-util/gtk-doc )
 	elogind? ( sys-auth/elogind )
 	gnutls? (
 		dev-libs/libgcrypt:0=
@@ -90,6 +89,8 @@ RDEPEND="${DEPEND}
 	)
 "
 BDEPEND="dev-util/intltool
+	gtk-doc? ( dev-util/gtk-doc
+		app-text/docbook-xml-dtd:4.1.2 )
 	sys-devel/gettext
 	virtual/pkgconfig
 	introspection? (
@@ -219,7 +220,7 @@ src_configure() {
 
 		$(meson_use introspection)
 		$(meson_use vala vapi)
-		$(meson_use doc docs)
+		$(meson_use gtk-doc docs)
 		# $(meson_use debug more_asserts)
 		-D more_asserts=0
 		$(meson_use debug more_logging)

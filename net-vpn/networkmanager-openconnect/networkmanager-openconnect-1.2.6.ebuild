@@ -32,10 +32,6 @@ DEPEND="${RDEPEND}
 "
 
 src_configure() {
-	# We cannot drop libnm-glib support yet (--without-libnm-glib)
-	# because gnome-shell wasn't ported yet:
-	# https://bugzilla.redhat.com/show_bug.cgi?id=1394977
-	# https://bugzilla.redhat.com/show_bug.cgi?id=1398425
 	gnome2_src_configure \
 		--disable-more-warnings \
 		--disable-static \

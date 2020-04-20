@@ -2,20 +2,19 @@
 
 EAPI="7"
 
-GCONF_DEBUG="no"
 VALA_USE_DEPEND="vapigen"
 
-inherit autotools desktop eutils xdg-utils vala readme.gentoo-r1
+inherit desktop eutils meson readme.gentoo-r1 vala xdg-utils
 
 DESCRIPTION="Set of GObject and Gtk objects for connecting to Spice servers and a client GUI"
 HOMEPAGE="https://www.spice-space.org https://cgit.freedesktop.org/spice/spice-gtk/"
-SRC_URI="https://www.spice-space.org/download/gtk/${P}.tar.bz2"
+SRC_URI="https://www.spice-space.org/download/gtk/${P}.tar.xz"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="+gtk3 +introspection libressl lz4 mjpeg policykit pulseaudio sasl smartcard static-libs usbredir vala webdav"
+IUSE="+gtk3 +introspection libressl lz4 mjpeg policykit pulseaudio sasl smartcard usbredir vala webdav"
 
 # TODO:
 # * check if sys-freebsd/freebsd-lib (from virtual/acl) provides acl/libacl.h
@@ -36,7 +35,9 @@ RDEPEND="
 	!libressl? ( dev-libs/openssl:0= )
 	libressl? ( dev-libs/libressl:0= )
 	lz4? ( app-arch/lz4 )
-	pulseaudio? ( media-sound/pulseaudio[glib] )
+	pulseaudio? (
+		media-plugins/gst-plugins-pulse:1.0
+	)
 	sasl? ( dev-libs/cyrus-sasl )
 	smartcard? ( app-emulation/qemu[smartcard] )
 	usbredir? (
@@ -62,7 +63,7 @@ RDEPEND="${RDEPEND}
 	x86? ( x11-libs/libva:= )
 "
 DEPEND="${RDEPEND}
-	>=app-emulation/spice-protocol-0.14.0
+	>=app-emulation/spice-protocol-0.14.1
 	dev-perl/Text-CSV
 	>=dev-util/gtk-doc-am-1.14
 	>=dev-util/intltool-0.40.0
@@ -71,68 +72,40 @@ DEPEND="${RDEPEND}
 	vala? ( $(vala_depend) )
 "
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-0.37-adjust-to-window-scaling.patch
-)
-
 src_prepare() {
 	# bug 558558
 	export GIT_CEILING_DIRECTORIES="${WORKDIR}"
 
 	default
 
-	eautoreconf
-
 	use vala && vala_src_prepare
 }
 
 src_configure() {
-	# Prevent sandbox violations, bug #581836
-	# https://bugzilla.gnome.org/show_bug.cgi?id=744134
-	# https://bugzilla.gnome.org/show_bug.cgi?id=744135
-	addpredict /dev
+	local emesonargs=(
+		$(meson_feature gtk3 gtk)
+		$(meson_feature introspection)
+		$(meson_use mjpeg builtin-mjpeg)
+		$(meson_feature policykit polkit)
+		$(meson_feature pulseaudio pulse)
+		$(meson_feature lz4)
+		$(meson_feature sasl)
+		$(meson_feature smartcard)
+		$(meson_feature usbredir)
+		$(meson_feature vala vapi)
+		$(meson_feature webdav)
+	)
 
-	# Clean up environment, bug #586642
-	xdg_environment_reset
+	if use usbredir; then
+		emesonargs+=( -D "usb-acl-helper-dir=/usr/libexec" )
+		emesonargs+=( -D "usb-ids-path=/usr/share/misc/usb.ids" )
+	fi
 
-	local myconf
-	myconf="
-		$(use_with gtk3 gtk 3.0)
-		$(use_enable introspection)
-		$(use_enable mjpeg builtin-mjpeg)
-		$(use_enable policykit polkit)
-		$(use_enable pulseaudio pulse)
-		$(use_with sasl)
-		$(use_enable smartcard)
-		$(use_enable static-libs static)
-		$(use_enable usbredir)
-		$(use_with usbredir usb-acl-helper-dir /usr/libexec)
-		$(use_with usbredir usb-ids-path /usr/share/misc/usb.ids)
-		$(use_enable vala)
-		$(use_enable webdav)
-		--disable-celt051
-		--disable-gtk-doc
-		--disable-maintainer-mode
-		--disable-werror
-		--enable-pie"
-
-	econf ${myconf}
-}
-
-src_compile() {
-	# Prevent sandbox violations, bug #581836
-	# https://bugzilla.gnome.org/show_bug.cgi?id=744134
-	# https://bugzilla.gnome.org/show_bug.cgi?id=744135
-	addpredict /dev
-
-	default
+	meson_src_configure
 }
 
 src_install() {
-	default
-
-	# Remove .la files if they're not needed
-	use static-libs || find "${D}" -name '*.la' -delete || die
+	meson_src_install
 
 	make_desktop_entry spicy Spicy "utilities-terminal" "Network;RemoteAccess;"
 	readme.gentoo_create_doc

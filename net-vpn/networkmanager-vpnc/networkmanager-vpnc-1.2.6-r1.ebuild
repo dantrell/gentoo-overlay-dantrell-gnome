@@ -22,9 +22,9 @@ RDEPEND="
 	>=dev-libs/glib-2.32:2
 	>=net-vpn/vpnc-0.5.3_p550
 	gtk? (
-		>=app-crypt/libsecret-0.18
-		>=gnome-extra/nm-applet-1.2.0[gtk]
 		>=x11-libs/gtk+-3.4:3
+		>=gnome-extra/nm-applet-1.2.0[gtk]
+		>=app-crypt/libsecret-0.18
 	)
 "
 DEPEND="${RDEPEND}

@@ -24,18 +24,18 @@ RDEPEND="
 	glib? ( gnome-extra/nm-applet[gtk] )
 "
 
-DEPEND="
-	${RDEPEND}
-	dev-util/intltool
-"
+DEPEND="${RDEPEND}"
 
-BDEPEND="virtual/pkgconfig"
+BDEPEND="
+	dev-util/intltool
+	virtual/pkgconfig
+"
 
 S="${WORKDIR}/${MY_P}"
 
 src_configure() {
 	local myeconfargs=(
-		# Don't enable all warnings, as	some are treated as errors and the compilation will fail
+		# Don't enable all warnings, as some are treated as errors and the compilation will fail
 		--disable-more-warnings
 		--disable-static
 		$(usex glib '' --without-libnm-glib)

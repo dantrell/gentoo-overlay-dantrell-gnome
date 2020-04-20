@@ -219,6 +219,7 @@ net-libs/gtk-vnc::gentoo
 net-libs/gupnp-igd::gentoo
 net-libs/gupnp::gentoo
 net-libs/libnice::gentoo
+net-libs/libnma::gentoo
 net-libs/libpsl::gentoo
 net-libs/libsignal-protocol-c::gentoo
 net-libs/libzapojit::gentoo

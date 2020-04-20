@@ -15,7 +15,7 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="+gtk3 +introspection lz4 mjpeg policykit pulseaudio sasl smartcard static-libs usbredir vala webdav libressl"
+IUSE="+gtk3 +introspection libressl lz4 mjpeg policykit pulseaudio sasl smartcard static-libs usbredir vala webdav"
 
 # TODO:
 # * check if sys-freebsd/freebsd-lib (from virtual/acl) provides acl/libacl.h
@@ -46,8 +46,8 @@ RDEPEND="
 		policykit? (
 			sys-apps/acl
 			>=sys-auth/polkit-0.110-r1
-			!~sys-auth/polkit-0.111 )
 		)
+	)
 	webdav? (
 		net-libs/phodav:2.0
 		>=net-libs/libsoup-2.49.91 )

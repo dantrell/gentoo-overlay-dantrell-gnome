@@ -3,6 +3,7 @@
 EAPI="7"
 
 PYTHON_COMPAT=( python{3_6,3_7,3_8} )
+
 DISTUTILS_USE_SETUPTOOLS=no
 
 inherit distutils-r1
@@ -17,13 +18,8 @@ KEYWORDS="*"
 
 IUSE="examples"
 
-RDEPEND="
-	net-print/cups
-"
-DEPEND="
-	dev-python/setuptools[${PYTHON_USEDEP}]
-	${RDEPEND}
-"
+RDEPEND="net-print/cups"
+DEPEND="${RDEPEND}"
 
 python_install_all() {
 	if use examples; then

@@ -93,7 +93,7 @@
 ~gnome-extra/gnome-calculator-3.36.0::dantrell-gnome-3-36
 ~gnome-extra/gnome-calendar-3.36.1::dantrell-gnome-3-36
 ~gnome-extra/gnome-clocks-3.36.0::dantrell-gnome-3-36
-~gnome-extra/gnome-contacts-3.36::dantrell-gnome-3-36
+~gnome-extra/gnome-contacts-3.36.1::dantrell-gnome-3-36
 ~gnome-extra/gnome-getting-started-docs-3.36.1::dantrell-gnome-3-36
 ~gnome-extra/gnome-packagekit-3.32.0::dantrell-gnome
 ~gnome-extra/gnome-power-manager-3.32.0::dantrell-gnome
