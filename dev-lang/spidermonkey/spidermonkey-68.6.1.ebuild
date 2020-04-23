@@ -10,7 +10,7 @@ HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey
 SRC_URI="https://archive.mozilla.org/pub/firefox/releases/${PV}esr/source/firefox-${PV}esr.source.tar.xz"
 
 LICENSE="NPL-1.1"
-SLOT="68/6.0"
+SLOT="68/6.1"
 KEYWORDS="~*"
 
 IUSE="debug +jit minimal +system-icu test"

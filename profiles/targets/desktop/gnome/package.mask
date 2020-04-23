@@ -1,3 +1,6 @@
+# Poppler >=0.86.0 masked for testing
+>=app-text/texlive-core-2020-r4
+
 # Regression in meson_options.txt default values
 #
 # Ref. https://bugs.freedesktop.org/show_bug.cgi?id=103162

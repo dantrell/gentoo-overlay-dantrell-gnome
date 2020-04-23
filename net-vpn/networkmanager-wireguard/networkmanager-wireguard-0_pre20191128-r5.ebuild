@@ -42,6 +42,8 @@ BDEPEND="
 
 S="${WORKDIR}/${MY_PN}-${EGIT_COMMIT}"
 
+PATCHES="${FILESDIR}"/${PN}-0_pre20191128-change-appdata-path.patch
+
 src_prepare() {
 	default
 

@@ -128,7 +128,6 @@ games-puzzle/quadrapassel::gentoo
 gnome-base/dconf::gentoo
 gnome-base/gdm::gentoo
 gnome-base/gnome-common::gentoo
-gnome-base/gnome-desktop::gentoo
 gnome-base/gnome-keyring::gentoo
 gnome-base/gnome-menus::gentoo
 gnome-base/gnome-shell-common::gentoo
