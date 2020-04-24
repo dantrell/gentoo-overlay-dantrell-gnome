@@ -9,10 +9,10 @@ HOMEPAGE="https://pipewire.org/"
 SRC_URI="https://github.com/PipeWire/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="LGPL-2.1+"
-SLOT="0/0.2"
-KEYWORDS="*"
+SLOT="0/0.3"
+KEYWORDS="~*"
 
-IUSE="bluetooth doc ffmpeg libav gstreamer sdl systemd vaapi X"
+IUSE="alsa bluetooth doc examples ffmpeg jack libav pulseaudio gstreamer sdl systemd test vaapi vulkan X"
 
 BDEPEND="
 	app-doc/xmltoman
@@ -37,6 +37,7 @@ DEPEND="
 	sdl? ( media-libs/libsdl2 )
 	systemd? ( sys-apps/systemd )
 	vaapi? ( x11-libs/libva )
+	vulkan? ( media-libs/vulkan-loader )
 	X? ( x11-libs/libX11 )
 "
 RDEPEND="${DEPEND}"
@@ -61,10 +62,20 @@ src_prepare() {
 
 src_configure() {
 	local emesonargs=(
-		-Dman=true
 		$(meson_use doc docs)
-		$(meson_feature gstreamer)
+		$(meson_use examples)
+		-Dman=true
+		$(meson_use test tests)
+		$(meson_use gstreamer)
 		$(meson_use systemd)
+		$(meson_use alsa pipewire-alsa)
+		$(meson_use jack pipewire-jack)
+		$(meson_use pulseaudio pipewire-pulseaudio)
+		$(meson_use alsa)
+		$(meson_use bluetooth bluez5)
+		$(meson_use ffmpeg)
+		$(meson_use jack)
+		$(meson_use vulkan)
 	)
 	meson_src_configure
 }
