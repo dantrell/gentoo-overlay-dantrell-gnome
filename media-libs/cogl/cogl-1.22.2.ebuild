@@ -79,20 +79,20 @@ src_configure() {
 	gnome2_src_configure \
 		--disable-examples-install \
 		--disable-maintainer-flags \
-		--enable-cairo             \
-		--enable-deprecated        \
-		--enable-gdk-pixbuf        \
-		--enable-gl                \
-		--enable-glib              \
-		--enable-glx               \
-		--disable-profile          \
-		--with-default-driver=gl   \
-		$(use_enable debug)        \
-		$(use_enable doc gtk-doc)  \
-		$(use_enable gles2)        \
+		--enable-cairo \
+		--enable-deprecated \
+		--enable-gdk-pixbuf \
+		--enable-gl \
+		--enable-glib \
+		--enable-glx \
+		--disable-profile \
+		--with-default-driver=gl \
+		$(use_enable debug) \
+		$(use_enable doc gtk-doc) \
+		$(use_enable gles2) \
 		$(use_enable gles2 cogl-gles2) \
 		$(use_enable gles2 xlib-egl-platform) \
-		$(use_enable gstreamer cogl-gst)    \
+		$(use_enable gstreamer cogl-gst) \
 		$(use_enable introspection) \
 		$(use_enable pango cogl-pango) \
 		--disable-unit-tests \

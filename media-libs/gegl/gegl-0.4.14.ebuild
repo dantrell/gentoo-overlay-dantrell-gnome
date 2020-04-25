@@ -15,7 +15,7 @@ LICENSE="|| ( GPL-3+ LGPL-3 )"
 SLOT="0.4"
 KEYWORDS="*"
 
-IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection lcms lensfun libav openexr pdf raw sdl svg tiff umfpack vala v4l webp zlib"
+IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection lcms lensfun openexr pdf raw sdl svg tiff umfpack vala v4l webp zlib"
 REQUIRED_USE="
 	svg? ( cairo )
 	vala? ( introspection )
@@ -35,10 +35,7 @@ RDEPEND="
 	>=x11-libs/gdk-pixbuf-2.32:2
 	x11-libs/pango
 	cairo? ( >=x11-libs/cairo-1.12.2 )
-	ffmpeg? (
-		libav? ( media-video/libav:0= )
-		!libav? ( media-video/ffmpeg:0= )
-	)
+	ffmpeg? ( media-video/ffmpeg:0= )
 	introspection? ( >=dev-libs/gobject-introspection-1.32:= )
 	lcms? ( >=media-libs/lcms-2.8:2 )
 	lensfun? ( >=media-libs/lensfun-0.2.5 )

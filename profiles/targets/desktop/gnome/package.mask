@@ -50,6 +50,11 @@
 =dev-util/meson-0.49.0
 =dev-util/meson-0.50.0
 
+# Regression in multilib support
+#
+# Ref. https://bugs.gentoo.org/719382
+=dev-util/meson-0.54.0
+
 # Masked to prefer specific releases
 #
 # Ref. https://gitweb.gentoo.org/repo/gentoo.git/commit/?id=6b4c897174a7089836a3a221f38482594c5bc2b2
@@ -76,8 +81,6 @@
 =sys-apps/openrc-0.34.10
 
 # Masked to prefer stable releases
-#
-# Ref. https://forums.gentoo.org/viewtopic-t-1022050.html
 =media-libs/mesa-19.4.0_rc*
 =media-libs/mesa-20.0.0_rc*
 =media-libs/mesa-20.1.0_rc*

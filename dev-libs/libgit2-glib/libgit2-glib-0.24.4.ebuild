@@ -20,7 +20,7 @@ REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 # of changing their API in each release in ways that break libgit2-glib
 RDEPEND="
 	>=dev-libs/gobject-introspection-0.10.1:=
-	>=dev-libs/glib-2.44.0:2
+	>=dev-libs/glib-2.42.0:2
 	>=dev-libs/libgit2-0.24.0:0/24[ssh?]
 	python? (
 		${PYTHON_DEPS}
@@ -33,6 +33,10 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
+	# Lower the minimum required GLib version
+	sed -i configure \
+		-e 's/2.44.0/2.42.0/' || die
+
 	use vala && vala_src_prepare
 	gnome2_src_prepare
 }

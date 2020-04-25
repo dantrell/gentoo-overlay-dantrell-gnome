@@ -12,8 +12,8 @@ LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="cue exif ffmpeg gif gsf +gstreamer iptc +iso +jpeg libav +pdf +playlist raw +rss seccomp test +taglib +tiff upower +xml xmp xps"
-REQUIRED_USE="cue? ( gstreamer )" # cue is currently only supported via gstreamer, not ffmpeg/libav
+IUSE="cue exif ffmpeg gif gsf +gstreamer iptc +iso +jpeg +pdf +playlist raw +rss seccomp test +taglib +tiff upower +xml xmp xps"
+REQUIRED_USE="cue? ( gstreamer )" # cue is currently only supported via gstreamer, not ffmpeg
 
 RESTRICT="!test? ( test )"
 
@@ -26,9 +26,7 @@ RDEPEND="
 		media-libs/gst-plugins-base:1.0
 		media-plugins/gst-plugins-meta:1.0 )
 	!gstreamer? (
-		ffmpeg? (
-			libav? ( media-video/libav:0= )
-			!libav? ( media-video/ffmpeg:0= ) ) )
+		ffmpeg? ( media-video/ffmpeg:0= ) )
 
 	>=sys-apps/dbus-1.3.1
 	xmp? ( >=media-libs/exempi-2.1.0:= )

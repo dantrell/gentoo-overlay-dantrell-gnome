@@ -53,7 +53,7 @@
 ~games-arcade/gnome-robots-3.36.1::dantrell-gnome-3-36
 ~games-board/four-in-a-row-3.36.2::dantrell-gnome-3-36
 ~games-board/gnome-chess-3.36.0::dantrell-gnome-3-36
-~games-board/gnome-mahjongg-3.36.1::dantrell-gnome-3-36
+~games-board/gnome-mahjongg-3.36.2::dantrell-gnome-3-36
 ~games-board/gnome-mines-3.36.0::dantrell-gnome-3-36
 ~games-board/iagno-3.36.2::dantrell-gnome-3-36
 ~games-puzzle/five-or-more-3.32.2::dantrell-gnome
@@ -61,12 +61,12 @@
 ~games-puzzle/gnome-klotski-3.36.2::dantrell-gnome-3-36
 ~games-puzzle/gnome-sudoku-3.36.0::dantrell-gnome-3-36
 ~games-puzzle/gnome-taquin-3.36.2::dantrell-gnome-3-36
-~games-puzzle/gnome-tetravex-3.36.0::dantrell-gnome-3-36
+~games-puzzle/gnome-tetravex-3.36.2::dantrell-gnome-3-36
 ~games-puzzle/hitori-3.36.0::dantrell-gnome-3-36
 ~games-puzzle/lightsoff-3.36.0::dantrell-gnome-3-36
 ~games-puzzle/quadrapassel-3.36.0::dantrell-gnome-3-36
 ~gnome-base/dconf-0.36.0::dantrell-gnome
-~gnome-base/dconf-editor-3.36.0::dantrell-gnome-3-36
+~gnome-base/dconf-editor-3.36.2::dantrell-gnome-3-36
 ~gnome-base/gdm-3.34.1::dantrell-gnome
 ~gnome-base/gnome-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-control-center-3.36.1::dantrell-gnome-3-36
@@ -150,7 +150,7 @@
 ~net-misc/rygel-0.38.3::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.34.1::dantrell-gnome
 ~sci-geosciences/geocode-glib-3.26.2::dantrell-gnome
-~sci-geosciences/gnome-maps-3.36.1::dantrell-gnome-3-36
+~sci-geosciences/gnome-maps-3.36.2::dantrell-gnome-3-36
 ~sys-apps/baobab-3.34.0::dantrell-gnome
 ~sys-apps/gnome-disk-utility-3.36.1::dantrell-gnome-3-36
 ~www-client/epiphany-3.36.1::dantrell-gnome-3-36

@@ -12,7 +12,7 @@ LICENSE="LGPL-2.1+"
 SLOT="0/0.3"
 KEYWORDS="~*"
 
-IUSE="alsa bluetooth doc examples ffmpeg jack libav pulseaudio gstreamer sdl systemd test vaapi vulkan X"
+IUSE="alsa bluetooth doc examples ffmpeg gstreamer jack libav pulseaudio sdl systemd test vaapi vulkan X"
 
 BDEPEND="
 	app-doc/xmltoman
@@ -22,7 +22,7 @@ BDEPEND="
 	)
 "
 DEPEND="
-	media-libs/alsa-lib
+	alsa? ( media-libs/alsa-lib )
 	sys-apps/dbus
 	virtual/libudev
 	bluetooth? ( media-libs/sbc )
@@ -34,6 +34,8 @@ DEPEND="
 		media-libs/gstreamer:1.0
 		media-libs/gst-plugins-base:1.0
 	)
+	jack? ( media-sound/jack2 )
+	pulseaudio? ( media-sound/pulseaudio )
 	sdl? ( media-libs/libsdl2 )
 	systemd? ( sys-apps/systemd )
 	vaapi? ( x11-libs/libva )

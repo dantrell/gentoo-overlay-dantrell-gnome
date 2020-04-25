@@ -11,16 +11,15 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Libgit2-glib"
 
 LICENSE="LGPL-2+"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="gtk-doc python +ssh +vala"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
-# libgit2-glib is now compatible with SOVERSION 26..28 of libgit2.
 RDEPEND="
 	>=dev-libs/gobject-introspection-0.10.1:=
 	>=dev-libs/glib-2.42.0:2
-	<dev-libs/libgit2-0.29:0=[ssh?]
+	<dev-libs/libgit2-1:0=[ssh?]
 	>=dev-libs/libgit2-0.26.0:0
 	python? (
 		${PYTHON_DEPS}
@@ -33,6 +32,10 @@ BDEPEND="
 		app-text/docbook-xml-dtd:4.1.2 )
 	vala? ( $(vala_depend) )
 "
+
+PATCHES=(
+	"${FILESDIR}"/libgit2-glib-0.99.0.1-vapilink.patch
+)
 
 src_prepare() {
 	# Lower the minimum required GLib version

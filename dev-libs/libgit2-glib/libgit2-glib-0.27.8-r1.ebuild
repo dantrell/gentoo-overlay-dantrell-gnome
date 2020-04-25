@@ -19,7 +19,7 @@ REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 # libgit2-glib is now compatible with SOVERSION 26..28 of libgit2.
 RDEPEND="
 	>=dev-libs/gobject-introspection-0.10.1:=
-	>=dev-libs/glib-2.44.0:2
+	>=dev-libs/glib-2.42.0:2
 	<dev-libs/libgit2-0.29:0=[ssh?]
 	>=dev-libs/libgit2-0.26.0:0
 	gtk-doc? ( >=dev-util/gtk-doc-am-1.11 )
@@ -33,6 +33,10 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
+	# Lower the minimum required GLib version
+	sed -i meson.build \
+		-e 's/2.44.0/2.42.0/' || die
+
 	default
 	use vala && vala_src_prepare
 }

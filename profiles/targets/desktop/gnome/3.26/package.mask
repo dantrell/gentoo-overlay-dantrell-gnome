@@ -63,8 +63,8 @@
 >=dev-libs/libdazzle-3.28.0
 >=dev-libs/libgames-support-1.4.0
 >=dev-libs/libgdata-0.18.0
->=dev-libs/libgit2-0.27.0
->=dev-libs/libgit2-glib-0.27.0
+>=dev-libs/libgit2-1.1.0
+>=dev-libs/libgit2-glib-1.1.0
 >=dev-libs/libgusb-0.3.0
 >=dev-libs/libgweather-3.28.0
 >=dev-libs/libical-4.0.0

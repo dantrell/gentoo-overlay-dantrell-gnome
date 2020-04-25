@@ -7,7 +7,7 @@ PYTHON_COMPAT=( python{3_6,3_7,3_8} )
 inherit cmake python-any-r1
 
 DESCRIPTION="A linkable library for Git"
-HOMEPAGE="https://libgit2.org/"
+HOMEPAGE="https://libgit2.org"
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2-with-linking-exception"
@@ -15,6 +15,7 @@ SLOT="0/28"
 KEYWORDS="~*"
 
 IUSE="examples gssapi libressl +ssh test +threads trace"
+
 RESTRICT="!test? ( test )"
 
 RDEPEND="

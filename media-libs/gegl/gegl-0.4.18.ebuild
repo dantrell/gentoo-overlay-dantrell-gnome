@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python{3_6,3_7,3_8} )
 
+PYTHON_COMPAT=( python{3_6,3_7,3_8} )
 # vala and introspection support is broken, bug #468208
 VALA_USE_DEPEND=vapigen
 
@@ -16,7 +16,7 @@ LICENSE="|| ( GPL-3+ LGPL-3 )"
 SLOT="0.4"
 KEYWORDS="*"
 
-IUSE="cairo debug ffmpeg +introspection lcms lensfun libav openexr pdf raw sdl svg test tiff umfpack vala v4l webp"
+IUSE="cairo debug ffmpeg +introspection lcms lensfun openexr pdf raw sdl svg test tiff umfpack vala v4l webp"
 REQUIRED_USE="
 	svg? ( cairo )
 	test? ( introspection )
@@ -39,10 +39,7 @@ RDEPEND="
 	>=x11-libs/gdk-pixbuf-2.32:2
 	>=x11-libs/pango-1.38.0
 	cairo? ( >=x11-libs/cairo-1.12.2 )
-	ffmpeg? (
-		libav? ( media-video/libav:0= )
-		!libav? ( media-video/ffmpeg:0= )
-	)
+	ffmpeg? ( media-video/ffmpeg:0= )
 	introspection? ( >=dev-libs/gobject-introspection-1.32:= )
 	lcms? ( >=media-libs/lcms-2.8:2 )
 	lensfun? ( >=media-libs/lensfun-0.2.5 )
@@ -57,9 +54,7 @@ RDEPEND="
 	webp? ( >=media-libs/libwebp-0.5.0:= )
 "
 
-DEPEND="
-	${RDEPEND}
-"
+DEPEND="${RDEPEND}"
 
 BDEPEND="
 	dev-lang/perl
