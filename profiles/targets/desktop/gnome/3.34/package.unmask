@@ -1,4 +1,4 @@
-~app-accessibility/accerciser-3.34.4::dantrell-gnome-3-34
+~app-accessibility/accerciser-3.34.5::dantrell-gnome-3-34
 ~app-accessibility/at-spi2-atk-2.34.2::dantrell-gnome
 ~app-accessibility/at-spi2-core-2.34.0::dantrell-gnome-3-34
 ~app-accessibility/orca-3.34.2::dantrell-gnome-3-34
@@ -99,7 +99,7 @@
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
 ~gnome-base/libgtop-2.40.0::dantrell-gnome
 ~gnome-base/librsvg-2.46.4::dantrell-gnome
-~gnome-base/nautilus-3.34.2::dantrell-gnome-3-34
+~gnome-base/nautilus-3.34.3::dantrell-gnome-3-34
 ~gnome-extra/evolution-data-server-3.34.4::dantrell-gnome-3-34
 ~gnome-extra/evolution-ews-3.34.4::dantrell-gnome-3-34
 ~gnome-extra/gnome-boxes-3.34.4::dantrell-gnome-3-34
