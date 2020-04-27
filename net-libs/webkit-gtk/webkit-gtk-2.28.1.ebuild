@@ -15,7 +15,7 @@ SRC_URI="https://www.webkitgtk.org/releases/${MY_P}.tar.xz"
 
 LICENSE="LGPL-2+ BSD"
 SLOT="4/37" # soname version of libwebkit2gtk-4.0
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="aqua coverage deprecated +egl embedded +geolocation gles2 gnome-keyring +gstreamer gtk-doc +introspection +jit jpeg2k +jumbo-build libnotify +opengl seccomp spell wayland +webgl +X"
 # webgl needs gstreamer, bug #560612
@@ -167,7 +167,7 @@ src_prepare() {
 	if use deprecated; then
 		# From WebKit:
 		# 	https://bugs.webkit.org/show_bug.cgi?id=199094
-		eapply "${FILESDIR}"/${PN}-2.26.1-restore-preprocessor-guards.patch
+		eapply "${FILESDIR}"/${PN}-2.26.4-restore-preprocessor-guards.patch
 	fi
 
 	eapply "${FILESDIR}"/${PN}-2.24.4-eglmesaext-include.patch # bug 699054 # https://bugs.webkit.org/show_bug.cgi?id=204108

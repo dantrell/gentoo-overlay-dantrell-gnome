@@ -8,7 +8,7 @@ SRC_URI="https://github.com/AbiWord/enchant/releases/download/v${PV}/${P}.tar.gz
 
 LICENSE="LGPL-2.1"
 SLOT="2/2"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="aspell +hunspell static-libs test"
 REQUIRED_USE="|| ( hunspell aspell )"

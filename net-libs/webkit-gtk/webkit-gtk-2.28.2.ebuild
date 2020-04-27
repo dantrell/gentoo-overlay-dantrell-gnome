@@ -17,16 +17,15 @@ LICENSE="LGPL-2+ BSD"
 SLOT="4/37" # soname version of libwebkit2gtk-4.0
 KEYWORDS="*"
 
-IUSE="aqua coverage deprecated +egl embedded +geolocation gles2 gnome-keyring +gstreamer gtk-doc +introspection +jit jpeg2k +jumbo-build libnotify +opengl seccomp spell wayland +webgl +X"
+IUSE="aqua coverage deprecated +egl embedded +geolocation gles2-only gnome-keyring +gstreamer gtk-doc +introspection +jit jpeg2k +jumbo-build libnotify +opengl seccomp spell wayland +webgl +X"
 # webgl needs gstreamer, bug #560612
 # gstreamer with opengl/gles2 needs egl
 REQUIRED_USE="
 	geolocation? ( introspection )
-	gles2? ( egl !opengl )
+	gles2-only? ( egl !opengl )
 	gstreamer? ( opengl? ( egl ) )
 	opengl? ( webgl )
-	webgl? ( gstreamer
-		|| ( gles2 opengl ) )
+	webgl? ( gstreamer || ( gles2-only opengl ) )
 	wayland? ( egl )
 	|| ( aqua wayland X )
 "
@@ -37,7 +36,7 @@ RESTRICT="test"
 
 # Aqua support in gtk3 is untested
 # Dependencies found at Source/cmake/OptionsGTK.cmake
-# Missing OpenWebRTC checks and conditionals, but ENABLE_MEDIA_STREAM/ENABLE_WEB_RTC is experimental upstream (PRIVATE OFF)
+# Missing WebRTC support, but ENABLE_MEDIA_STREAM/ENABLE_WEB_RTC is experimental upstream (PRIVATE OFF)
 # >=gst-plugins-opus-1.14.4-r1 for opusparse (required by MSE)
 RDEPEND="
 	>=x11-libs/cairo-1.16.0:=[X?]
@@ -63,10 +62,11 @@ RDEPEND="
 	gnome-keyring? ( app-crypt/libsecret )
 	introspection? ( >=dev-libs/gobject-introspection-1.32.0:= )
 	dev-libs/libtasn1:=
-	spell? ( >=app-text/enchant-0.22:0= )
+	spell? ( >=app-text/enchant-0.22:2 )
 	gstreamer? (
 		>=media-libs/gstreamer-1.14:1.0
-		>=media-libs/gst-plugins-base-1.14:1.0[egl?,gles2?,opengl?]
+		>=media-libs/gst-plugins-base-1.14:1.0[egl?,opengl?]
+		gles2-only? ( media-libs/gst-plugins-base:1.0[gles2] )
 		>=media-plugins/gst-plugins-opus-1.14.4-r1:1.0
 		>=media-libs/gst-plugins-bad-1.14:1.0 )
 
@@ -86,8 +86,12 @@ RDEPEND="
 		>=gui-libs/libwpe-1.3.0:1.0
 		>=gui-libs/wpebackend-fdo-1.3.1:1.0
 	)
-	gles2? ( media-libs/mesa[gles2] )
+	gles2-only? ( media-libs/mesa[gles2] )
 	opengl? ( virtual/opengl )
+	wayland? (
+		dev-libs/wayland
+		>=dev-libs/wayland-protocols-1.12
+	)
 	webgl? (
 		x11-libs/libXcomposite
 		x11-libs/libXdamage )
@@ -98,7 +102,6 @@ RDEPEND="
 		sys-apps/xdg-dbus-proxy
 	)
 "
-
 # paxctl needed for bug #407085
 # Need real bison, not yacc
 DEPEND="${RDEPEND}
@@ -144,9 +147,9 @@ pkg_pretend() {
 		fi
 	fi
 
-	if ! use opengl && ! use gles2; then
+	if ! use opengl && ! use gles2-only; then
 		ewarn
-		ewarn "You are disabling OpenGL usage (USE=opengl or USE=gles) completely."
+		ewarn "You are disabling OpenGL usage (USE=opengl or USE=gles2-only) completely."
 		ewarn "This is an unsupported configuration meant for very specific embedded"
 		ewarn "use cases, where there truly is no GL possible (and even that use case"
 		ewarn "is very unlikely to come by). If you have GL (even software-only), you"
@@ -225,7 +228,7 @@ src_configure() {
 	# opengl needs to be explicetly handled, bug #576634
 
 	local opengl_enabled
-	if use opengl || use gles2; then
+	if use opengl || use gles2-only; then
 		opengl_enabled=ON
 	else
 		opengl_enabled=OFF
@@ -251,8 +254,8 @@ src_configure() {
 		-DENABLE_API_TESTS=$(usex test)
 		-DENABLE_GTKDOC=$(usex gtk-doc)
 		-DENABLE_GEOLOCATION=$(usex geolocation) # Runtime optional (talks over dbus service)
-		$(cmake-utils_use_find_package gles2 OpenGLES2)
-		-DENABLE_GLES2=$(usex gles2)
+		$(cmake-utils_use_find_package gles2-only OpenGLES2)
+		-DENABLE_GLES2=$(usex gles2-only)
 		-DENABLE_VIDEO=$(usex gstreamer)
 		-DENABLE_WEB_AUDIO=$(usex gstreamer)
 		-DENABLE_INTROSPECTION=$(usex introspection)
@@ -265,11 +268,11 @@ src_configure() {
 		-DENABLE_SPELLCHECK=$(usex spell)
 		-DENABLE_WAYLAND_TARGET=$(usex wayland)
 		-DUSE_WPE_RENDERER=$(usex embedded)
-		-DENABLE_WEBGL=$(usex webgl)
 		$(cmake-utils_use_find_package egl EGL)
 		$(cmake-utils_use_find_package opengl OpenGL)
 		-DENABLE_X11_TARGET=$(usex X)
 		-DENABLE_OPENGL=${opengl_enabled}
+		-DENABLE_WEBGL=$(usex webgl)
 		-DENABLE_BUBBLEWRAP_SANDBOX=$(usex seccomp)
 		-DBWRAP_EXECUTABLE="${EPREFIX}"/usr/bin/bwrap # If bubblewrap[suid] then portage makes it go-r and cmake find_program fails with that
 		-DENABLE_C_LOOP=${loop_c_enabled}

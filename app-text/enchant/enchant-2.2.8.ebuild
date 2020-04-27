@@ -8,7 +8,7 @@ SRC_URI="https://github.com/AbiWord/enchant/releases/download/v${PV}/${P}.tar.gz
 
 LICENSE="LGPL-2.1+"
 SLOT="2/2"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="aspell +hunspell"
 REQUIRED_USE="|| ( hunspell aspell )"
@@ -30,9 +30,11 @@ src_configure() {
 		--disable-static \
 		$(use_with aspell) \
 		$(use_with hunspell) \
-		--without-hspell \
 		--without-nuspell \
+		--without-hspell \
 		--without-voikko \
+		--without-applespell \
+		--without-zemberek \
 		--with-hunspell-dir="${EPREFIX}"/usr/share/hunspell/
 }
 

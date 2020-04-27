@@ -1,6 +1,6 @@
 #!/sbin/openrc-run
 # Copyright (c) 2008 Saleem Abdulrasool <compnerd@compnerd.org>
-# Copyright 2013-2017 Gentoo Foundation
+# Copyright 2013-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 description="NetworkManager daemon. The service is marked as started only \
@@ -10,6 +10,10 @@ depend() {
 	need dbus
 	use elogind
 	provide net
+}
+
+start_pre() {
+	checkpath -q -d -m 0755 /run/NetworkManager
 }
 
 start() {
@@ -42,7 +46,7 @@ stop() {
 
 	ebegin "Stopping NetworkManager"
 	local pidfile=/run/NetworkManager/NetworkManager.pid
-	if [ ! -e "${pidfile}" ] && [ -e /var/run/NetworkManager.pid ]; then 
+	if [ ! -e "${pidfile}" ] && [ -e /var/run/NetworkManager.pid ]; then
 		# Try stopping the pid file used by <0.9.7
 		pidfile=/var/run/NetworkManager.pid
 		start-stop-daemon --stop --quiet --pidfile "${pidfile}"

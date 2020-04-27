@@ -55,8 +55,8 @@ src_configure() {
 		--disable-lto
 		--disable-more-warnings
 		--disable-static
-		$(use_with glib libnm-glib)
 		$(use_with gtk gnome)
+		$(use_with glib libnm-glib)
 		$(use_enable nls)
 		--with-dist-version="Gentoo"
 	)

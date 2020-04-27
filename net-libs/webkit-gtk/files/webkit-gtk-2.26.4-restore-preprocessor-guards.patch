@@ -1,6 +1,6 @@
 diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/AXObjectCacheAtk.cpp b/Source/WebCore/accessibility/atk/AXObjectCacheAtk.cpp
 --- a/Source/WebCore/accessibility/atk/AXObjectCacheAtk.cpp	2019-08-28 06:46:30.000000000 -0500
-+++ b/Source/WebCore/accessibility/atk/AXObjectCacheAtk.cpp	2019-09-30 22:47:34.991338292 -0500
++++ b/Source/WebCore/accessibility/atk/AXObjectCacheAtk.cpp	2020-04-27 09:11:33.507812609 -0500
 @@ -240,10 +240,13 @@
              propertyValues.property_name = "accessible-value";
  
@@ -28,7 +28,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/AXObjectCacheAtk.c
      case AXRequiredStatusChanged:
 diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessible.cpp b/Source/WebCore/accessibility/atk/WebKitAccessible.cpp
 --- a/Source/WebCore/accessibility/atk/WebKitAccessible.cpp	2019-08-28 06:46:30.000000000 -0500
-+++ b/Source/WebCore/accessibility/atk/WebKitAccessible.cpp	2019-10-01 00:36:07.034538063 -0500
++++ b/Source/WebCore/accessibility/atk/WebKitAccessible.cpp	2020-04-27 09:11:33.507812609 -0500
 @@ -589,9 +589,14 @@
      case AccessibilityRole::Unknown:
          return ATK_ROLE_UNKNOWN;
@@ -137,37 +137,29 @@ diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessible.c
      case AccessibilityRole::DescriptionList:
          return ATK_ROLE_DESCRIPTION_LIST;
      case AccessibilityRole::Term:
-@@ -802,27 +824,36 @@
+@@ -802,6 +824,8 @@
          return ATK_ROLE_DESCRIPTION_TERM;
      case AccessibilityRole::DescriptionListDetail:
          return ATK_ROLE_DESCRIPTION_VALUE;
 +#endif
++#if ATK_CHECK_VERSION(2, 16, 0)
      case AccessibilityRole::Deletion:
  #if ATK_CHECK_VERSION(2, 33, 3)
          return ATK_ROLE_CONTENT_DELETION;
--#else
-+#elif ATK_CHECK_VERSION(2, 15, 2)
-         return ATK_ROLE_STATIC;
-+#else
-+        return ATK_ROLE_UNKNOWN;
- #endif
-     case AccessibilityRole::Insertion:
- #if ATK_CHECK_VERSION(2, 33, 3)
-         return ATK_ROLE_CONTENT_INSERTION;
--#else
-+#elif ATK_CHECK_VERSION(2, 15, 2)
-         return ATK_ROLE_STATIC;
-+#else
-+        return ATK_ROLE_UNKNOWN;
- #endif
-+#if ATK_CHECK_VERSION(2, 15, 4)
-     case AccessibilityRole::Subscript:
+@@ -818,11 +842,21 @@
          return ATK_ROLE_SUBSCRIPT;
      case AccessibilityRole::Superscript:
          return ATK_ROLE_SUPERSCRIPT;
 +#endif
-+#if ATK_CHECK_VERSION(2, 15, 2)
      case AccessibilityRole::Inline:
++#if ATK_CHECK_VERSION(2, 15, 4)
++        if (coreObject->isSubscriptStyleGroup())
++            return ATK_ROLE_SUBSCRIPT;
++        if (coreObject->isSuperscriptStyleGroup())
++            return ATK_ROLE_SUPERSCRIPT;
++#endif
++#if ATK_CHECK_VERSION(2, 15, 2)
++        return ATK_ROLE_STATIC;
      case AccessibilityRole::SVGTextPath:
      case AccessibilityRole::SVGTSpan:
      case AccessibilityRole::Time:
@@ -176,7 +168,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessible.c
      default:
          return ATK_ROLE_UNKNOWN;
      }
-@@ -885,8 +916,10 @@
+@@ -885,8 +919,10 @@
      if (coreObject->isBusy())
          atk_state_set_add_state(stateSet, ATK_STATE_BUSY);
  
@@ -187,7 +179,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessible.c
  
      if (coreObject->isChecked())
          atk_state_set_add_state(stateSet, ATK_STATE_CHECKED);
-@@ -948,8 +981,10 @@
+@@ -948,8 +984,10 @@
      if (coreObject->isPressed())
          atk_state_set_add_state(stateSet, ATK_STATE_PRESSED);
  
@@ -198,7 +190,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessible.c
  
      if (coreObject->isRequired())
          atk_state_set_add_state(stateSet, ATK_STATE_REQUIRED);
-@@ -1095,7 +1130,9 @@
+@@ -1095,7 +1133,9 @@
      {reinterpret_cast<GInterfaceInitFunc>(reinterpret_cast<GCallback>(webkitAccessibleComponentInterfaceInit)), nullptr, nullptr},
      {reinterpret_cast<GInterfaceInitFunc>(reinterpret_cast<GCallback>(webkitAccessibleImageInterfaceInit)), nullptr, nullptr},
      {reinterpret_cast<GInterfaceInitFunc>(reinterpret_cast<GCallback>(webkitAccessibleTableInterfaceInit)), nullptr, nullptr},
@@ -208,7 +200,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessible.c
      {reinterpret_cast<GInterfaceInitFunc>(reinterpret_cast<GCallback>(webkitAccessibleHypertextInterfaceInit)), nullptr, nullptr},
      {reinterpret_cast<GInterfaceInitFunc>(reinterpret_cast<GCallback>(webkitAccessibleHyperlinkImplInterfaceInit)), nullptr, nullptr},
      {reinterpret_cast<GInterfaceInitFunc>(reinterpret_cast<GCallback>(webkitAccessibleDocumentInterfaceInit)), nullptr, nullptr},
-@@ -1110,7 +1147,9 @@
+@@ -1110,7 +1150,9 @@
      WAIComponent,
      WAIImage,
      WAITable,
@@ -218,7 +210,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessible.c
      WAIHypertext,
      WAIHyperlink,
      WAIDocument,
-@@ -1134,8 +1173,10 @@
+@@ -1134,8 +1176,10 @@
          return ATK_TYPE_IMAGE;
      case WAITable:
          return ATK_TYPE_TABLE;
@@ -229,7 +221,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessible.c
      case WAIHypertext:
          return ATK_TYPE_HYPERTEXT;
      case WAIHyperlink:
-@@ -1226,8 +1267,10 @@
+@@ -1226,8 +1270,10 @@
      if (coreObject->isTable())
          interfaceMask |= 1 << WAITable;
  
@@ -242,7 +234,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessible.c
      if (role == AccessibilityRole::WebArea)
 diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceTableCell.cpp b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceTableCell.cpp
 --- a/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceTableCell.cpp	2019-08-28 06:46:30.000000000 -0500
-+++ b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceTableCell.cpp	2019-09-30 22:55:39.697145583 -0500
++++ b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceTableCell.cpp	2020-04-27 09:11:33.507812609 -0500
 @@ -21,7 +21,7 @@
  #include "WebKitAccessibleInterfaceTableCell.h"
  
@@ -260,7 +252,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessibleIn
  #endif // ENABLE(ACCESSIBILITY)
 diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceTableCell.h b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceTableCell.h
 --- a/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceTableCell.h	2019-08-28 06:46:30.000000000 -0500
-+++ b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceTableCell.h	2019-09-30 22:47:34.991338292 -0500
++++ b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceTableCell.h	2020-04-27 09:11:33.507812609 -0500
 @@ -25,6 +25,8 @@
  
  #include <atk/atk.h>
@@ -272,7 +264,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessibleIn
  #endif // ENABLE(ACCESSIBILITY)
 diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceText.cpp b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceText.cpp
 --- a/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceText.cpp	2019-08-28 06:46:30.000000000 -0500
-+++ b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceText.cpp	2019-09-30 22:47:34.991338292 -0500
++++ b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceText.cpp	2020-04-27 09:11:33.508812604 -0500
 @@ -1207,6 +1207,7 @@
      return webkitAccessibleTextSetSelection(text, 0, offset, offset);
  }
@@ -302,7 +294,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessibleIn
  #endif
 diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceValue.cpp b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceValue.cpp
 --- a/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceValue.cpp	2019-08-28 06:46:30.000000000 -0500
-+++ b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceValue.cpp	2019-09-30 22:47:34.991338292 -0500
++++ b/Source/WebCore/accessibility/atk/WebKitAccessibleInterfaceValue.cpp	2020-04-27 09:11:33.508812604 -0500
 @@ -64,6 +64,7 @@
      return step < 1 ? 1 : step;
  }
@@ -335,7 +327,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/accessibility/atk/WebKitAccessibleIn
      iface->get_minimum_value = webkitAccessibleValueGetMinimumValue;
 diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.cpp b/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.cpp
 --- a/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.cpp	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.cpp	2019-09-30 22:47:34.991338292 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.cpp	2020-04-27 09:11:33.508812604 -0500
 @@ -43,6 +43,7 @@
      notifyTrackOfActiveChanged();
  }
@@ -354,7 +346,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/AudioTra
  {
 diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.h b/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.h
 --- a/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.h	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.h	2019-09-30 22:47:34.991338292 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/AudioTrackPrivateGStreamer.h	2020-04-27 09:11:33.508812604 -0500
 @@ -43,12 +43,14 @@
          return adoptRef(*new AudioTrackPrivateGStreamer(player, index, pad));
      }
@@ -382,7 +374,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/AudioTra
      WeakPtr<MediaPlayerPrivateGStreamer> m_player;
 diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.cpp b/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.cpp
 --- a/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.cpp	2019-09-23 03:23:57.000000000 -0500
-+++ b/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.cpp	2019-09-30 22:47:34.992338288 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.cpp	2020-04-27 09:11:33.508812604 -0500
 @@ -353,6 +353,7 @@
          gst_query_unref(ptr);
  }
@@ -401,7 +393,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/GRefPtrG
  {
 diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.h b/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.h
 --- a/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.h	2019-09-23 03:23:57.000000000 -0500
-+++ b/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.h	2019-09-30 22:47:34.992338288 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/GRefPtrGStreamer.h	2020-04-27 09:11:33.508812604 -0500
 @@ -111,6 +111,7 @@
  template<> WebKitWebSrc* refGPtr<WebKitWebSrc>(WebKitWebSrc* ptr);
  template<> void derefGPtr<WebKitWebSrc>(WebKitWebSrc* ptr);
@@ -420,7 +412,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/GRefPtrG
  template<> GRefPtr<GstGLDisplay> adoptGRef(GstGLDisplay* ptr);
 diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/GStreamerCommon.cpp b/Source/WebCore/platform/graphics/gstreamer/GStreamerCommon.cpp
 --- a/Source/WebCore/platform/graphics/gstreamer/GStreamerCommon.cpp	2019-09-23 03:43:37.000000000 -0500
-+++ b/Source/WebCore/platform/graphics/gstreamer/GStreamerCommon.cpp	2019-09-30 22:47:34.992338288 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/GStreamerCommon.cpp	2020-04-27 09:11:33.508812604 -0500
 @@ -43,7 +43,7 @@
  #include "WebKitMediaSourceGStreamer.h"
  #endif
@@ -444,7 +436,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/GStreame
  #if ENABLE(MEDIA_SOURCE)
 diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.cpp b/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.cpp
 --- a/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.cpp	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.cpp	2019-09-30 22:47:34.992338288 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.cpp	2020-04-27 09:11:33.508812604 -0500
 @@ -58,6 +58,7 @@
      notifyTrackOfStreamChanged();
  }
@@ -463,7 +455,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/InbandTe
  {
 diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.h b/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.h
 --- a/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.h	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.h	2019-09-30 22:47:34.992338288 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/InbandTextTrackPrivateGStreamer.h	2020-04-27 09:11:33.508812604 -0500
 @@ -44,10 +44,12 @@
          return adoptRef(*new InbandTextTrackPrivateGStreamer(index, pad));
      }
@@ -488,8 +480,8 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/InbandTe
      void streamChanged();
  
 diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp
---- a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp	2019-09-23 03:23:57.000000000 -0500
-+++ b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp	2019-09-30 22:47:34.992338288 -0500
+--- a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp	2020-01-22 04:34:10.000000000 -0600
++++ b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.cpp	2020-04-27 09:11:33.508812604 -0500
 @@ -53,7 +53,7 @@
  #include <wtf/text/CString.h>
  #include <wtf/text/StringConcatenateNumbers.h>
@@ -568,7 +560,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPla
  }
  
  void MediaPlayerPrivateGStreamer::videoChangedCallback(MediaPlayerPrivateGStreamer* player)
-@@ -1420,6 +1433,7 @@
+@@ -1416,6 +1429,7 @@
          gst_tag_list_unref(tags);
          break;
      }
@@ -576,7 +568,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPla
      case GST_MESSAGE_STREAMS_SELECTED: {
          GRefPtr<GstStreamCollection> collection;
          gst_message_parse_streams_selected(message, &collection.outPtr());
-@@ -1462,6 +1476,7 @@
+@@ -1458,6 +1472,7 @@
          }
          break;
      }
@@ -584,16 +576,16 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPla
      default:
          GST_DEBUG_OBJECT(pipeline(), "Unhandled GStreamer message type: %s", GST_MESSAGE_TYPE_NAME(message));
          break;
-@@ -1858,7 +1873,7 @@
+@@ -1854,7 +1869,7 @@
      if (WEBKIT_IS_WEB_SRC(m_source.get())) {
-         webKitWebSrcSetMediaPlayer(WEBKIT_WEB_SRC(m_source.get()), m_player);
+         webKitWebSrcSetMediaPlayer(WEBKIT_WEB_SRC_CAST(m_source.get()), m_player);
          g_signal_connect(GST_ELEMENT_PARENT(m_source.get()), "element-added", G_CALLBACK(uriDecodeBinElementAddedCallback), this);
 -#if ENABLE(MEDIA_STREAM)
 +#if ENABLE(MEDIA_STREAM) && GST_CHECK_VERSION(1, 10, 0)
      } else if (WEBKIT_IS_MEDIA_STREAM_SRC(sourceElement)) {
          auto stream = m_streamPrivate.get();
          ASSERT(stream);
-@@ -2097,6 +2112,7 @@
+@@ -2093,6 +2108,7 @@
  
  bool MediaPlayerPrivateGStreamer::handleSyncMessage(GstMessage* message)
  {
@@ -601,7 +593,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPla
      if (GST_MESSAGE_TYPE(message) == GST_MESSAGE_STREAM_COLLECTION && !m_isLegacyPlaybin) {
          GRefPtr<GstStreamCollection> collection;
          gst_message_parse_stream_collection(message, &collection.outPtr());
-@@ -2108,6 +2124,7 @@
+@@ -2104,6 +2120,7 @@
              });
          }
      }
@@ -609,7 +601,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPla
  
      return MediaPlayerPrivateGStreamerBase::handleSyncMessage(message);
  }
-@@ -2280,7 +2297,7 @@
+@@ -2276,7 +2293,7 @@
          return result;
  #endif
  
@@ -618,7 +610,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPla
      if (parameters.isMediaStream)
          return result;
  #endif
-@@ -2393,8 +2410,10 @@
+@@ -2389,8 +2406,10 @@
      // MSE doesn't support playbin3. Mediastream requires playbin3. Regular
      // playback can use playbin3 on-demand with the WEBKIT_GST_USE_PLAYBIN3
      // environment variable.
@@ -631,7 +623,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPla
          if (!g_strcmp0(GST_OBJECT_NAME(gst_element_get_factory(m_pipeline.get())), playbinName)) {
 diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.h b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.h
 --- a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.h	2019-09-23 03:23:57.000000000 -0500
-+++ b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.h	2019-09-30 22:47:34.992338288 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamer.h	2020-04-27 09:11:33.509812599 -0500
 @@ -185,8 +185,10 @@
      void setPlaybinURL(const URL& urlString);
      void loadFull(const String& url, const String& pipelineName);
@@ -668,8 +660,8 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPla
  
      uint64_t m_httpResponseTotalSize { 0 };
 diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp
---- a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp	2019-09-23 03:23:57.000000000 -0500
-+++ b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp	2019-09-30 22:47:34.992338288 -0500
+--- a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp	2020-01-22 04:07:07.000000000 -0600
++++ b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp	2020-04-27 09:11:33.509812599 -0500
 @@ -382,7 +382,7 @@
      if (!g_strcmp0(contextType, "gst.gl.app_context")) {
          GstContext* appContext = gst_context_new("gst.gl.app_context", TRUE);
@@ -679,7 +671,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPla
          gst_structure_set(structure, "context", GST_TYPE_GL_CONTEXT, gstGLContext(), nullptr);
  #else
          gst_structure_set(structure, "context", GST_GL_TYPE_CONTEXT, gstGLContext(), nullptr);
-@@ -1016,6 +1016,9 @@
+@@ -1019,6 +1019,9 @@
  #if USE(GSTREAMER_GL)
  GstElement* MediaPlayerPrivateGStreamerBase::createGLAppSink()
  {
@@ -689,7 +681,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPla
      GstElement* appsink = gst_element_factory_make("appsink", "webkit-gl-video-sink");
      if (!appsink)
          return nullptr;
-@@ -1052,6 +1055,9 @@
+@@ -1055,6 +1058,9 @@
  
  GstElement* MediaPlayerPrivateGStreamerBase::createVideoSinkGL()
  {
@@ -701,7 +693,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPla
      GstElement* upload = gst_element_factory_make("glupload", nullptr);
 diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.h b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.h
 --- a/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.h	2019-09-23 03:23:57.000000000 -0500
-+++ b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.h	2019-09-30 22:47:34.992338288 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.h	2020-04-27 09:11:33.509812599 -0500
 @@ -259,7 +259,9 @@
          TextChanged = 1 << 5,
  #endif
@@ -714,7 +706,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/MediaPla
      Ref<MainThreadNotifier<MainThreadNotification>> m_notifier;
 diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.cpp b/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.cpp
 --- a/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.cpp	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.cpp	2019-09-30 22:47:34.992338288 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.cpp	2020-04-27 09:11:33.509812599 -0500
 @@ -58,6 +58,7 @@
      tagsChanged();
  }
@@ -755,7 +747,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/TrackPri
  
 diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.h b/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.h
 --- a/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.h	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.h	2019-09-30 22:47:34.992338288 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/TrackPrivateBaseGStreamer.h	2020-04-27 09:11:33.509812599 -0500
 @@ -56,15 +56,18 @@
  
      void setIndex(int index) { m_index =  index; }
@@ -788,7 +780,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/TrackPri
      bool getLanguageCode(GstTagList* tags, AtomString& value);
 diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.cpp b/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.cpp
 --- a/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.cpp	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.cpp	2019-09-30 22:47:34.993338283 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.cpp	2020-04-27 09:11:33.509812599 -0500
 @@ -43,6 +43,7 @@
      notifyTrackOfActiveChanged();
  }
@@ -807,7 +799,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/VideoTra
  {
 diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.h b/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.h
 --- a/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.h	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.h	2019-09-30 22:47:34.993338283 -0500
++++ b/Source/WebCore/platform/graphics/gstreamer/VideoTrackPrivateGStreamer.h	2020-04-27 09:11:33.509812599 -0500
 @@ -43,13 +43,13 @@
      {
          return adoptRef(*new VideoTrackPrivateGStreamer(player, index, pad));
@@ -837,7 +829,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/graphics/gstreamer/VideoTra
  };
 diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/PlatformKeyboardEventGtk.cpp b/Source/WebCore/platform/gtk/PlatformKeyboardEventGtk.cpp
 --- a/Source/WebCore/platform/gtk/PlatformKeyboardEventGtk.cpp	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/gtk/PlatformKeyboardEventGtk.cpp	2019-09-30 22:47:34.993338283 -0500
++++ b/Source/WebCore/platform/gtk/PlatformKeyboardEventGtk.cpp	2020-04-27 09:11:33.509812599 -0500
 @@ -1323,7 +1323,11 @@
  
  static PlatformEvent::Type eventTypeForGdkKeyEvent(GdkEventKey* event)
@@ -852,7 +844,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/PlatformKeyboardEventGt
  static OptionSet<PlatformEvent::Modifier> modifiersForGdkKeyEvent(GdkEventKey* event)
 diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/PlatformMouseEventGtk.cpp b/Source/WebCore/platform/gtk/PlatformMouseEventGtk.cpp
 --- a/Source/WebCore/platform/gtk/PlatformMouseEventGtk.cpp	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/gtk/PlatformMouseEventGtk.cpp	2019-09-30 22:47:34.993338283 -0500
++++ b/Source/WebCore/platform/gtk/PlatformMouseEventGtk.cpp	2020-04-27 09:11:33.509812599 -0500
 @@ -66,7 +66,12 @@
      if (PlatformKeyboardEvent::modifiersContainCapsLock(state))
          m_modifiers.add(PlatformEvent::Modifier::CapsLockKey);
@@ -881,7 +873,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/PlatformMouseEventGtk.c
          m_type = PlatformEvent::MouseMoved;
 diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/PlatformScreenGtk.cpp b/Source/WebCore/platform/gtk/PlatformScreenGtk.cpp
 --- a/Source/WebCore/platform/gtk/PlatformScreenGtk.cpp	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/gtk/PlatformScreenGtk.cpp	2019-09-30 22:47:34.993338283 -0500
++++ b/Source/WebCore/platform/gtk/PlatformScreenGtk.cpp	2020-04-27 09:11:33.509812599 -0500
 @@ -140,6 +140,7 @@
  FloatRect screenRect(Widget*)
  {
@@ -1025,7 +1017,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/PlatformScreenGtk.cpp b
  #endif // ENABLE(TOUCH_EVENTS)
 diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/PlatformWheelEventGtk.cpp b/Source/WebCore/platform/gtk/PlatformWheelEventGtk.cpp
 --- a/Source/WebCore/platform/gtk/PlatformWheelEventGtk.cpp	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/gtk/PlatformWheelEventGtk.cpp	2019-09-30 22:52:49.583915720 -0500
++++ b/Source/WebCore/platform/gtk/PlatformWheelEventGtk.cpp	2020-04-27 09:11:33.509812599 -0500
 @@ -96,9 +96,15 @@
      m_wheelTicksY = m_deltaY;
  
@@ -1044,7 +1036,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/PlatformWheelEventGtk.c
      gdouble x, y, rootX, rootY;
 diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/RenderThemeGadget.cpp b/Source/WebCore/platform/gtk/RenderThemeGadget.cpp
 --- a/Source/WebCore/platform/gtk/RenderThemeGadget.cpp	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/gtk/RenderThemeGadget.cpp	2019-09-30 22:47:34.993338283 -0500
++++ b/Source/WebCore/platform/gtk/RenderThemeGadget.cpp	2020-04-27 09:11:33.510812594 -0500
 @@ -26,6 +26,8 @@
  #include "config.h"
  #include "RenderThemeGadget.h"
@@ -1062,7 +1054,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/RenderThemeGadget.cpp b
 +#endif // GTK_CHECK_VERSION(3, 20, 0)
 diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/RenderThemeGadget.h b/Source/WebCore/platform/gtk/RenderThemeGadget.h
 --- a/Source/WebCore/platform/gtk/RenderThemeGadget.h	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/gtk/RenderThemeGadget.h	2019-09-30 22:47:34.993338283 -0500
++++ b/Source/WebCore/platform/gtk/RenderThemeGadget.h	2020-04-27 09:11:33.510812594 -0500
 @@ -25,9 +25,12 @@
  
  #pragma once
@@ -1085,7 +1077,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/RenderThemeGadget.h b/S
 +#endif // GTK_CHECK_VERSION(3, 20, 0)
 diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/RenderThemeWidget.cpp b/Source/WebCore/platform/gtk/RenderThemeWidget.cpp
 --- a/Source/WebCore/platform/gtk/RenderThemeWidget.cpp	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/gtk/RenderThemeWidget.cpp	2019-09-30 22:47:34.993338283 -0500
++++ b/Source/WebCore/platform/gtk/RenderThemeWidget.cpp	2020-04-27 09:11:33.510812594 -0500
 @@ -26,6 +26,8 @@
  #include "config.h"
  #include "RenderThemeWidget.h"
@@ -1103,7 +1095,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/RenderThemeWidget.cpp b
 +#endif // GTK_CHECK_VERSION(3, 20, 0)
 diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/RenderThemeWidget.h b/Source/WebCore/platform/gtk/RenderThemeWidget.h
 --- a/Source/WebCore/platform/gtk/RenderThemeWidget.h	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/gtk/RenderThemeWidget.h	2019-09-30 22:47:34.993338283 -0500
++++ b/Source/WebCore/platform/gtk/RenderThemeWidget.h	2020-04-27 09:11:33.510812594 -0500
 @@ -27,6 +27,8 @@
  
  #include <gtk/gtk.h>
@@ -1121,7 +1113,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/RenderThemeWidget.h b/S
 +#endif // GTK_CHECK_VERSION(3, 20, 0)
 diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/ScrollbarThemeGtk.cpp b/Source/WebCore/platform/gtk/ScrollbarThemeGtk.cpp
 --- a/Source/WebCore/platform/gtk/ScrollbarThemeGtk.cpp	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/gtk/ScrollbarThemeGtk.cpp	2019-09-30 22:47:34.993338283 -0500
++++ b/Source/WebCore/platform/gtk/ScrollbarThemeGtk.cpp	2020-04-27 09:11:33.510812594 -0500
 @@ -53,8 +53,9 @@
  
  ScrollbarThemeGtk::ScrollbarThemeGtk()
@@ -1533,7 +1525,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/gtk/ScrollbarThemeGtk.cpp b
 +}
 diff '--exclude=.git' -urN a/Source/WebCore/platform/mediastream/gstreamer/GStreamerCapturer.cpp b/Source/WebCore/platform/mediastream/gstreamer/GStreamerCapturer.cpp
 --- a/Source/WebCore/platform/mediastream/gstreamer/GStreamerCapturer.cpp	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/mediastream/gstreamer/GStreamerCapturer.cpp	2019-09-30 22:47:34.993338283 -0500
++++ b/Source/WebCore/platform/mediastream/gstreamer/GStreamerCapturer.cpp	2020-04-27 09:11:33.510812594 -0500
 @@ -29,6 +29,8 @@
  #include <mutex>
  #include <webrtc/api/mediastreaminterface.h>
@@ -1551,7 +1543,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/mediastream/gstreamer/GStre
  #endif // ENABLE(VIDEO) && ENABLE(MEDIA_STREAM) && USE(LIBWEBRTC) && USE(GSTREAMER)
 diff '--exclude=.git' -urN a/Source/WebCore/platform/mediastream/gstreamer/GStreamerMediaStreamSource.cpp b/Source/WebCore/platform/mediastream/gstreamer/GStreamerMediaStreamSource.cpp
 --- a/Source/WebCore/platform/mediastream/gstreamer/GStreamerMediaStreamSource.cpp	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/mediastream/gstreamer/GStreamerMediaStreamSource.cpp	2019-09-30 22:47:34.993338283 -0500
++++ b/Source/WebCore/platform/mediastream/gstreamer/GStreamerMediaStreamSource.cpp	2020-04-27 09:11:33.510812594 -0500
 @@ -34,6 +34,8 @@
  #include <gst/app/gstappsrc.h>
  #include <gst/base/gstflowcombiner.h>
@@ -1570,7 +1562,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/mediastream/gstreamer/GStre
  #endif // ENABLE(VIDEO) && ENABLE(MEDIA_STREAM) && USE(LIBWEBRTC)
 diff '--exclude=.git' -urN a/Source/WebCore/platform/network/soup/ResourceRequest.h b/Source/WebCore/platform/network/soup/ResourceRequest.h
 --- a/Source/WebCore/platform/network/soup/ResourceRequest.h	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/platform/network/soup/ResourceRequest.h	2019-09-30 22:47:34.994338279 -0500
++++ b/Source/WebCore/platform/network/soup/ResourceRequest.h	2020-04-27 09:11:33.510812594 -0500
 @@ -168,6 +168,8 @@
      return true;
  }
@@ -1590,7 +1582,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/network/soup/ResourceReques
  
 diff '--exclude=.git' -urN a/Source/WebCore/platform/network/soup/SoupNetworkSession.cpp b/Source/WebCore/platform/network/soup/SoupNetworkSession.cpp
 --- a/Source/WebCore/platform/network/soup/SoupNetworkSession.cpp	2019-08-28 06:54:06.000000000 -0500
-+++ b/Source/WebCore/platform/network/soup/SoupNetworkSession.cpp	2019-09-30 22:51:07.930375646 -0500
++++ b/Source/WebCore/platform/network/soup/SoupNetworkSession.cpp	2020-04-27 09:11:33.510812594 -0500
 @@ -139,11 +139,15 @@
      if (!initialAcceptLanguages().isNull())
          setAcceptLanguages(initialAcceptLanguages());
@@ -1608,9 +1600,9 @@ diff '--exclude=.git' -urN a/Source/WebCore/platform/network/soup/SoupNetworkSes
      if (proxySettings().mode != SoupNetworkProxySettings::Mode::Default)
          setupProxy();
 diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Source/WebCore/rendering/RenderThemeGtk.cpp
---- a/Source/WebCore/rendering/RenderThemeGtk.cpp	2019-08-28 06:46:31.000000000 -0500
-+++ b/Source/WebCore/rendering/RenderThemeGtk.cpp	2019-09-30 22:47:34.994338279 -0500
-@@ -164,9 +164,137 @@
+--- a/Source/WebCore/rendering/RenderThemeGtk.cpp	2020-01-29 04:30:41.000000000 -0600
++++ b/Source/WebCore/rendering/RenderThemeGtk.cpp	2020-04-27 09:11:33.511812588 -0500
+@@ -148,9 +148,137 @@
  #if ENABLE(VIDEO)
      MediaButton,
  #endif
@@ -1748,7 +1740,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
  #if ENABLE(VIDEO)
  static bool nodeHasPseudo(Node& node, const char* pseudo)
  {
-@@ -226,6 +354,7 @@
+@@ -210,6 +338,7 @@
      return RenderTheme::baselinePosition(box);
  }
  
@@ -1756,7 +1748,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
  void RenderThemeGtk::adjustRepaintRect(const RenderObject&, FloatRect&)
  {
  }
-@@ -289,6 +418,82 @@
+@@ -273,6 +402,82 @@
  
      return static_cast<GtkStateFlags>(stateFlags);
  }
@@ -1839,7 +1831,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
  
  void RenderThemeGtk::adjustButtonStyle(StyleResolver&, RenderStyle& style, const Element*) const
  {
-@@ -310,6 +515,7 @@
+@@ -294,6 +499,7 @@
      }
  }
  
@@ -1847,7 +1839,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
  static void setToggleSize(RenderThemePart themePart, RenderStyle& style)
  {
      ASSERT(themePart == CheckButton || themePart == RadioButton);
-@@ -354,6 +560,75 @@
+@@ -338,6 +544,75 @@
      if (theme->isFocused(renderObject))
          toggleWidget.button().renderFocus(paintInfo.context().platformContext()->cr(), rect);
  }
@@ -1923,7 +1915,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
  
  void RenderThemeGtk::setCheckboxSize(RenderStyle& style) const
  {
-@@ -377,6 +652,7 @@
+@@ -361,6 +636,7 @@
      return false;
  }
  
@@ -1931,7 +1923,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
  bool RenderThemeGtk::paintButton(const RenderObject& renderObject, const PaintInfo& paintInfo, const IntRect& rect)
  {
      auto& buttonWidget = static_cast<RenderThemeButton&>(RenderThemeWidget::getOrCreate(isDefault(renderObject) ? RenderThemeWidget::Type::ButtonDefault : RenderThemeWidget::Type::Button));
-@@ -386,14 +662,99 @@
+@@ -370,14 +646,99 @@
          buttonWidget.button().renderFocus(paintInfo.context().platformContext()->cr(), rect);
      return false;
  }
@@ -2031,7 +2023,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
  }
  
  void RenderThemeGtk::adjustMenuListStyle(StyleResolver&, RenderStyle& style, const Element* element) const
-@@ -413,6 +774,7 @@
+@@ -397,6 +758,7 @@
      adjustMenuListStyle(styleResolver, style, e);
  }
  
@@ -2039,7 +2031,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
  /*
   * GtkComboBox gadgets tree
   *
-@@ -468,12 +830,104 @@
+@@ -452,12 +814,104 @@
  
      return false;
  }
@@ -2144,7 +2136,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
  static IntSize spinButtonSize()
  {
      auto& spinButtonWidget = static_cast<RenderThemeSpinButton&>(RenderThemeWidget::getOrCreate(RenderThemeWidget::Type::SpinButton));
-@@ -531,7 +985,42 @@
+@@ -515,7 +969,42 @@
      }
      return false;
  }
@@ -2152,7 +2144,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
 +void RenderThemeGtk::adjustTextFieldStyle(StyleResolver&, RenderStyle&, const Element*) const
 +{
 +}
-+
+ 
 +bool RenderThemeGtk::paintTextField(const RenderObject& renderObject, const PaintInfo& paintInfo, const FloatRect& rect)
 +{
 +    GRefPtr<GtkStyleContext> context = createStyleContext(Entry);
@@ -2182,12 +2174,12 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
 +    return false;
 +}
 +#endif
- 
++
 +#if GTK_CHECK_VERSION(3, 20, 0)
  static void adjustSearchFieldIconStyle(RenderThemePart themePart, RenderStyle& style)
  {
      ASSERT(themePart == EntryIconLeft || themePart == EntryIconRight);
-@@ -552,6 +1041,55 @@
+@@ -536,6 +1025,55 @@
      style.setWidth(Length(preferredSize.width(), Fixed));
      style.setHeight(Length(preferredSize.height(), Fixed));
  }
@@ -2243,7 +2235,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
  
  bool RenderThemeGtk::paintTextArea(const RenderObject& o, const PaintInfo& i, const FloatRect& r)
  {
-@@ -578,6 +1116,7 @@
+@@ -562,6 +1100,7 @@
      adjustSearchFieldIconStyle(EntryIconRight, style);
  }
  
@@ -2251,7 +2243,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
  static bool paintSearchFieldIcon(RenderThemeGtk* theme, RenderThemePart themePart, const RenderBox& renderObject, const PaintInfo& paintInfo, const IntRect& rect)
  {
      ASSERT(themePart == EntryIconLeft || themePart == EntryIconRight);
-@@ -604,6 +1143,72 @@
+@@ -588,6 +1127,72 @@
  {
      return paintSearchFieldIcon(this, EntryIconRight, renderObject, paintInfo, rect);
  }
@@ -2324,7 +2316,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
  
  #if ENABLE(DATALIST_ELEMENT)
  void RenderThemeGtk::adjustListButtonStyle(StyleResolver&, RenderStyle& style, const Element*) const
-@@ -661,6 +1266,7 @@
+@@ -645,6 +1250,7 @@
      style.setBoxShadow(nullptr);
  }
  
@@ -2332,7 +2324,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
  /*
   * GtkScale
   *
-@@ -788,7 +1394,98 @@
+@@ -772,7 +1378,98 @@
      slider.render(paintInfo.context().platformContext()->cr(), sliderRect);
      return false;
  }
@@ -2384,7 +2376,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
 +    ControlPart part = style.appearance();
 +    if (part != SliderThumbHorizontalPart && part != SliderThumbVerticalPart)
 +        return;
- 
++
 +    GRefPtr<GtkStyleContext> context = createStyleContext(Scale);
 +    gint sliderWidth, sliderLength;
 +    gtk_style_context_get_style(context.get(), "slider-width", &sliderWidth, "slider-length", &sliderLength, nullptr);
@@ -2426,12 +2418,12 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
 +    return false;
 +}
 +#endif
-+
+ 
 +#if GTK_CHECK_VERSION(3, 20, 0)
  IntRect RenderThemeGtk::progressBarRectForBounds(const RenderObject& renderObject, const IntRect& bounds) const
  {
      const auto& renderProgress = downcast<RenderProgress>(renderObject);
-@@ -811,7 +1508,49 @@
+@@ -795,7 +1492,49 @@
      progressBarWidget.progress().render(paintInfo.context().platformContext()->cr(), calculateProgressRect(renderObject, rect));
      return false;
  }
@@ -2481,7 +2473,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
  RenderTheme::InnerSpinButtonLayout RenderThemeGtk::innerSpinButtonLayout(const RenderObject& renderObject) const
  {
      return renderObject.style().direction() == TextDirection::RTL ? InnerSpinButtonLayout::HorizontalUpLeft : InnerSpinButtonLayout::HorizontalUpRight;
-@@ -848,6 +1587,114 @@
+@@ -832,6 +1571,114 @@
  
      return false;
  }
@@ -2596,7 +2588,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
  
  Seconds RenderThemeGtk::caretBlinkInterval() const
  {
-@@ -866,6 +1713,7 @@
+@@ -850,6 +1697,7 @@
  
  enum StyleColorType { StyleColorBackground, StyleColorForeground };
  
@@ -2604,7 +2596,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
  static Color styleColor(RenderThemePart themePart, GtkStateFlags state, StyleColorType colorType)
  {
      RenderThemeGadget* gadget = nullptr;
-@@ -894,6 +1742,20 @@
+@@ -878,6 +1726,20 @@
      gadget->setState(state);
      return colorType == StyleColorBackground ? gadget->backgroundColor() : gadget->color();
  }
@@ -2625,23 +2617,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
  
  Color RenderThemeGtk::platformActiveSelectionBackgroundColor(OptionSet<StyleColor::Options>) const
  {
-@@ -953,6 +1815,7 @@
-         return styleColor(Entry, GTK_STATE_FLAG_INSENSITIVE, StyleColorForeground);
-     case CSSValueWebkitControlBackground:
-         return styleColor(Entry, GTK_STATE_FLAG_ACTIVE, StyleColorBackground);
-+#if GTK_CHECK_VERSION(3, 20, 0)
-     case CSSValueWindow: {
-         // Only get window color from the theme in dark mode.
-         gboolean preferDarkTheme = FALSE;
-@@ -962,6 +1825,7 @@
-             return styleColor(Window, GTK_STATE_FLAG_ACTIVE, StyleColorBackground);
-         break;
-     }
-+#endif
-     default:
-         break;
-     }
-@@ -987,6 +1851,7 @@
+@@ -960,6 +1822,7 @@
  }
  #endif
  
@@ -2649,7 +2625,7 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
  bool RenderThemeGtk::paintMediaButton(const RenderObject& renderObject, GraphicsContext& graphicsContext, const IntRect& rect, const char* iconName)
  {
      auto& iconWidget = static_cast<RenderThemeIcon&>(RenderThemeWidget::getOrCreate(RenderThemeWidget::Type::Icon));
-@@ -996,6 +1861,17 @@
+@@ -969,6 +1832,17 @@
      icon.setIconName(iconName);
      return !icon.render(graphicsContext.platformContext()->cr(), rect);
  }
@@ -2667,9 +2643,21 @@ diff '--exclude=.git' -urN a/Source/WebCore/rendering/RenderThemeGtk.cpp b/Sourc
  
  bool RenderThemeGtk::hasOwnDisabledStateHandlingFor(ControlPart part) const
  {
+diff '--exclude=.git' -urN a/Source/WebKit/NetworkProcess/WebSocketTask.h b/Source/WebKit/NetworkProcess/WebSocketTask.h
+--- a/Source/WebKit/NetworkProcess/WebSocketTask.h	2019-08-28 06:46:32.000000000 -0500
++++ b/Source/WebKit/NetworkProcess/WebSocketTask.h	2020-04-27 09:11:33.511812588 -0500
+@@ -27,8 +27,6 @@
+ 
+ #if PLATFORM(COCOA) && HAVE(NSURLSESSION_WEBSOCKET)
+ #include "WebSocketTaskCocoa.h"
+-#elif USE(SOUP)
+-#include "WebSocketTaskSoup.h"
+ #else
+ 
+ namespace WebKit {
 diff '--exclude=.git' -urN a/Source/WebKit/NetworkProcess/soup/NetworkDataTaskSoup.cpp b/Source/WebKit/NetworkProcess/soup/NetworkDataTaskSoup.cpp
---- a/Source/WebKit/NetworkProcess/soup/NetworkDataTaskSoup.cpp	2019-08-28 06:46:32.000000000 -0500
-+++ b/Source/WebKit/NetworkProcess/soup/NetworkDataTaskSoup.cpp	2019-09-30 22:47:34.994338279 -0500
+--- a/Source/WebKit/NetworkProcess/soup/NetworkDataTaskSoup.cpp	2020-01-22 04:27:10.000000000 -0600
++++ b/Source/WebKit/NetworkProcess/soup/NetworkDataTaskSoup.cpp	2020-04-27 09:16:46.463248246 -0500
 @@ -166,7 +166,10 @@
          soup_message_headers_set_content_length(soupMessage->request_headers, 0);
  
@@ -2688,12 +2676,12 @@ diff '--exclude=.git' -urN a/Source/WebKit/NetworkProcess/soup/NetworkDataTaskSo
 +#if SOUP_CHECK_VERSION(2, 49, 91)
      g_signal_connect(m_soupMessage.get(), "starting", G_CALLBACK(startingCallback), this);
 +#else
-+    g_signal_connect(static_cast<NetworkSessionSoup&>(m_session.get()).soupSession(), "request-started", G_CALLBACK(requestStartedCallback), this);
++    g_signal_connect(static_cast<NetworkSessionSoup&>(*m_session).soupSession(), "request-started",  G_CALLBACK(authenticateCallback), this);
 +#endif
  }
  
  void NetworkDataTaskSoup::clearRequest()
-@@ -929,7 +936,13 @@
+@@ -940,7 +947,13 @@
  
      GUniqueOutPtr<GError> error;
      gsize bytesWritten;
@@ -2707,7 +2695,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/NetworkProcess/soup/NetworkDataTaskSo
      if (error)
          task->didFailDownload(downloadDestinationError(task->m_response, error->message));
      else
-@@ -939,8 +952,31 @@
+@@ -950,8 +963,31 @@
  void NetworkDataTaskSoup::writeDownload()
  {
      RefPtr<NetworkDataTaskSoup> protectedThis(this);
@@ -2739,7 +2727,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/NetworkProcess/soup/NetworkDataTaskSo
  }
  
  void NetworkDataTaskSoup::didWriteDownload(gsize bytesWritten)
-@@ -1063,6 +1099,7 @@
+@@ -1074,6 +1110,7 @@
      }
  }
  
@@ -2747,7 +2735,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/NetworkProcess/soup/NetworkDataTaskSo
  void NetworkDataTaskSoup::startingCallback(SoupMessage* soupMessage, NetworkDataTaskSoup* task)
  {
      if (task->state() == State::Canceling || task->state() == State::Completed || !task->m_client)
-@@ -1071,6 +1108,19 @@
+@@ -1082,6 +1119,19 @@
      ASSERT(task->m_soupMessage.get() == soupMessage);
      task->didStartRequest();
  }
@@ -2769,7 +2757,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/NetworkProcess/soup/NetworkDataTaskSo
  bool NetworkDataTaskSoup::shouldAllowHSTSPolicySetting() const
 diff '--exclude=.git' -urN a/Source/WebKit/Shared/gtk/WebEventFactory.cpp b/Source/WebKit/Shared/gtk/WebEventFactory.cpp
 --- a/Source/WebKit/Shared/gtk/WebEventFactory.cpp	2019-08-28 06:46:32.000000000 -0500
-+++ b/Source/WebKit/Shared/gtk/WebEventFactory.cpp	2019-09-30 22:47:34.994338279 -0500
++++ b/Source/WebKit/Shared/gtk/WebEventFactory.cpp	2020-04-27 09:11:33.511812588 -0500
 @@ -72,7 +72,11 @@
  static inline WebMouseEvent::Button buttonForEvent(const GdkEvent* event)
  {
@@ -2839,8 +2827,8 @@ diff '--exclude=.git' -urN a/Source/WebKit/Shared/gtk/WebEventFactory.cpp b/Sour
      case GDK_TOUCH_BEGIN:
          type = WebEvent::TouchStart;
 diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/PageClientImpl.cpp b/Source/WebKit/UIProcess/API/gtk/PageClientImpl.cpp
---- a/Source/WebKit/UIProcess/API/gtk/PageClientImpl.cpp	2019-08-28 06:46:32.000000000 -0500
-+++ b/Source/WebKit/UIProcess/API/gtk/PageClientImpl.cpp	2019-09-30 22:47:34.995338274 -0500
+--- a/Source/WebKit/UIProcess/API/gtk/PageClientImpl.cpp	2020-01-29 04:30:42.000000000 -0600
++++ b/Source/WebKit/UIProcess/API/gtk/PageClientImpl.cpp	2020-04-27 09:11:33.511812588 -0500
 @@ -384,12 +384,14 @@
  {
      const GdkEvent* touchEvent = event.nativeEvent();
@@ -2857,8 +2845,8 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/PageClientImpl.cpp 
      if (wasEventHandled)
          return;
 diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.cpp b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.cpp
---- a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.cpp	2019-09-23 03:17:18.000000000 -0500
-+++ b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.cpp	2019-09-30 22:47:34.995338274 -0500
+--- a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.cpp	2020-01-29 04:30:41.000000000 -0600
++++ b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.cpp	2020-04-27 09:11:33.511812588 -0500
 @@ -79,6 +79,10 @@
  #include <gdk/gdkx.h>
  #endif
@@ -2893,7 +2881,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.c
      std::unique_ptr<ViewGestureController> viewGestureController;
      bool isBackForwardNavigationGestureEnabled { false };
  
-@@ -413,7 +422,9 @@
+@@ -418,7 +427,9 @@
          | GDK_BUTTON2_MOTION_MASK
          | GDK_BUTTON3_MOTION_MASK
          | GDK_TOUCH_MASK;
@@ -2903,7 +2891,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.c
  
      gint attributesMask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL;
  
-@@ -817,7 +828,11 @@
+@@ -822,7 +833,11 @@
      ASSERT(!priv->dialog);
  
      int clickCount = 0;
@@ -2915,7 +2903,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.c
      switch (eventType) {
      case GDK_BUTTON_PRESS:
      case GDK_2BUTTON_PRESS:
-@@ -1048,7 +1063,11 @@
+@@ -1053,7 +1068,11 @@
  static void webkitWebViewBaseGetTouchPointsForEvent(WebKitWebViewBase* webViewBase, GdkEvent* event, Vector<WebPlatformTouchPoint>& touchPoints)
  {
      WebKitWebViewBasePrivate* priv = webViewBase->priv;
@@ -2927,7 +2915,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.c
      bool touchEnd = (type == GDK_TOUCH_END) || (type == GDK_TOUCH_CANCEL);
      touchPoints.reserveInitialCapacity(touchEnd ? priv->touchEvents.size() + 1 : priv->touchEvents.size());
  
-@@ -1071,7 +1090,11 @@
+@@ -1076,7 +1095,11 @@
      GdkEvent* touchEvent = reinterpret_cast<GdkEvent*>(event);
      uint32_t sequence = GPOINTER_TO_UINT(gdk_event_get_event_sequence(touchEvent));
  
@@ -2939,7 +2927,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.c
      switch (type) {
      case GDK_TOUCH_BEGIN: {
          ASSERT(!priv->touchEvents.contains(sequence));
-@@ -1103,6 +1126,7 @@
+@@ -1108,6 +1131,7 @@
  }
  #endif // ENABLE(TOUCH_EVENTS)
  
@@ -2947,7 +2935,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.c
  class TouchGestureController final : public GestureControllerClient {
      WTF_MAKE_FAST_ALLOCATED;
  
-@@ -1125,7 +1149,11 @@
+@@ -1130,7 +1154,11 @@
          scrollEvent->scroll.delta_x = delta.x();
          scrollEvent->scroll.delta_y = delta.y();
          scrollEvent->scroll.state = event->state;
@@ -2959,7 +2947,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.c
          scrollEvent->scroll.window = event->window ? GDK_WINDOW(g_object_ref(event->window)) : nullptr;
          auto* touchEvent = reinterpret_cast<GdkEvent*>(event);
          gdk_event_set_screen(scrollEvent.get(), gdk_event_get_screen(touchEvent));
-@@ -1229,6 +1257,7 @@
+@@ -1234,6 +1262,7 @@
          priv->gestureController = makeUnique<GestureController>(GTK_WIDGET(webViewBase), makeUnique<TouchGestureController>(webViewBase));
      return *priv->gestureController;
  }
@@ -2967,7 +2955,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.c
  
  void webkitWebViewBaseSetEnableBackForwardNavigationGesture(WebKitWebViewBase* webViewBase, bool enabled)
  {
-@@ -1309,8 +1338,15 @@
+@@ -1314,8 +1343,15 @@
  
  static gboolean webkitWebViewBaseEvent(GtkWidget* widget, GdkEvent* event)
  {
@@ -2983,7 +2971,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.c
      return GDK_EVENT_PROPAGATE;
  }
  
-@@ -1463,10 +1499,12 @@
+@@ -1468,10 +1504,12 @@
      return webkitWebViewBase->priv->pageProxy.get();
  }
  
@@ -2996,7 +2984,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.c
  
  void webkitWebViewBaseCreateWebPage(WebKitWebViewBase* webkitWebViewBase, Ref<API::PageConfiguration>&& configuration)
  {
-@@ -1478,9 +1516,11 @@
+@@ -1483,9 +1521,11 @@
  
      priv->inputMethodFilter.setPage(priv->pageProxy.get());
  
@@ -3008,7 +2996,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.c
  }
  
  void webkitWebViewBaseSetTooltipText(WebKitWebViewBase* webViewBase, const char* tooltip)
-@@ -1736,11 +1776,16 @@
+@@ -1741,11 +1781,16 @@
  
      IntSize size = page->viewSize();
  
@@ -3027,7 +3015,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBase.c
      webkitWebViewBaseDraw(GTK_WIDGET(webkitWebViewBase), cr.get());
 diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBasePrivate.h b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBasePrivate.h
 --- a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBasePrivate.h	2019-08-28 06:46:32.000000000 -0500
-+++ b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBasePrivate.h	2019-09-30 22:47:34.995338274 -0500
++++ b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBasePrivate.h	2020-04-27 09:11:33.512812583 -0500
 @@ -80,7 +80,9 @@
  WebKit::DragAndDropHandler& webkitWebViewBaseDragAndDropHandler(WebKitWebViewBase*);
  #endif
@@ -3040,7 +3028,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewBasePr
  
 diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewDialog.cpp b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewDialog.cpp
 --- a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewDialog.cpp	2019-08-28 06:46:32.000000000 -0500
-+++ b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewDialog.cpp	2019-09-30 22:47:34.995338274 -0500
++++ b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewDialog.cpp	2020-04-27 09:11:33.512812583 -0500
 @@ -24,6 +24,9 @@
  #include <wtf/glib/WTFGType.h>
  
@@ -3094,7 +3082,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewDialog
  }
 diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewGtk.cpp b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewGtk.cpp
 --- a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewGtk.cpp	2019-08-28 06:46:32.000000000 -0500
-+++ b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewGtk.cpp	2019-09-30 22:47:34.995338274 -0500
++++ b/Source/WebKit/UIProcess/API/gtk/WebKitWebViewGtk.cpp	2020-04-27 09:11:33.512812583 -0500
 @@ -62,7 +62,11 @@
      } else
          webkit_file_chooser_request_cancel(adoptedRequest.get());
@@ -3142,9 +3130,9 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/API/gtk/WebKitWebViewGtk.cp
      return TRUE;
  }
 diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/Automation/gtk/WebAutomationSessionGtk.cpp b/Source/WebKit/UIProcess/Automation/gtk/WebAutomationSessionGtk.cpp
---- a/Source/WebKit/UIProcess/Automation/gtk/WebAutomationSessionGtk.cpp	2019-08-28 06:46:32.000000000 -0500
-+++ b/Source/WebKit/UIProcess/Automation/gtk/WebAutomationSessionGtk.cpp	2019-09-30 22:47:34.995338274 -0500
-@@ -75,7 +75,11 @@
+--- a/Source/WebKit/UIProcess/Automation/gtk/WebAutomationSessionGtk.cpp	2019-11-06 02:09:10.000000000 -0600
++++ b/Source/WebKit/UIProcess/Automation/gtk/WebAutomationSessionGtk.cpp	2020-04-27 09:11:33.512812583 -0500
+@@ -76,7 +76,11 @@
      event->button.axes = 0;
      event->button.state = state;
      event->button.button = button;
@@ -3156,7 +3144,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/Automation/gtk/WebAutomatio
      int xRoot, yRoot;
      gdk_window_get_root_coords(gtk_widget_get_window(widget), location.x(), location.y(), &xRoot, &yRoot);
      event->button.x_root = xRoot;
-@@ -93,7 +97,11 @@
+@@ -94,7 +98,11 @@
      event->motion.y = location.y();
      event->motion.axes = 0;
      event->motion.state = state;
@@ -3168,7 +3156,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/Automation/gtk/WebAutomatio
      int xRoot, yRoot;
      gdk_window_get_root_coords(gtk_widget_get_window(widget), location.x(), location.y(), &xRoot, &yRoot);
      event->motion.x_root = xRoot;
-@@ -143,7 +151,11 @@
+@@ -146,7 +154,11 @@
      event->key.window = gtk_widget_get_window(widget);
      g_object_ref(event->key.window);
  
@@ -3181,8 +3169,8 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/Automation/gtk/WebAutomatio
  
      // When synthesizing an event, an invalid hardware_keycode value can cause it to be badly processed by GTK+.
 diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/WebPageProxy.h b/Source/WebKit/UIProcess/WebPageProxy.h
---- a/Source/WebKit/UIProcess/WebPageProxy.h	2019-09-23 03:32:47.000000000 -0500
-+++ b/Source/WebKit/UIProcess/WebPageProxy.h	2019-09-30 22:47:34.995338274 -0500
+--- a/Source/WebKit/UIProcess/WebPageProxy.h	2020-01-29 04:30:41.000000000 -0600
++++ b/Source/WebKit/UIProcess/WebPageProxy.h	2020-04-27 09:11:33.512812583 -0500
 @@ -753,9 +753,13 @@
      void setComposition(const String& text, Vector<WebCore::CompositionUnderline> underlines, uint64_t selectionStart, uint64_t selectionEnd, uint64_t replacementRangeStart, uint64_t replacementRangeEnd);
      void confirmComposition(const String& compositionString, int64_t selectionStart, int64_t selectionLength);
@@ -3199,7 +3187,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/WebPageProxy.h b/Source/Web
  
 diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/AcceleratedBackingStoreWayland.cpp b/Source/WebKit/UIProcess/gtk/AcceleratedBackingStoreWayland.cpp
 --- a/Source/WebKit/UIProcess/gtk/AcceleratedBackingStoreWayland.cpp	2019-09-23 03:17:18.000000000 -0500
-+++ b/Source/WebKit/UIProcess/gtk/AcceleratedBackingStoreWayland.cpp	2019-09-30 22:47:34.995338274 -0500
++++ b/Source/WebKit/UIProcess/gtk/AcceleratedBackingStoreWayland.cpp	2020-04-27 09:11:33.512812583 -0500
 @@ -144,8 +144,10 @@
      WaylandCompositor::singleton().unregisterWebPage(m_webPage);
  #endif
@@ -3257,7 +3245,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/AcceleratedBackingStore
  
 diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/AcceleratedBackingStoreWayland.h b/Source/WebKit/UIProcess/gtk/AcceleratedBackingStoreWayland.h
 --- a/Source/WebKit/UIProcess/gtk/AcceleratedBackingStoreWayland.h	2019-09-23 03:17:18.000000000 -0500
-+++ b/Source/WebKit/UIProcess/gtk/AcceleratedBackingStoreWayland.h	2019-09-30 22:47:34.995338274 -0500
++++ b/Source/WebKit/UIProcess/gtk/AcceleratedBackingStoreWayland.h	2020-04-27 09:11:33.512812583 -0500
 @@ -75,7 +75,9 @@
  
      RefPtr<cairo_surface_t> m_surface;
@@ -3270,7 +3258,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/AcceleratedBackingStore
  #if USE(WPE_RENDERER)
 diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/DragAndDropHandler.cpp b/Source/WebKit/UIProcess/gtk/DragAndDropHandler.cpp
 --- a/Source/WebKit/UIProcess/gtk/DragAndDropHandler.cpp	2019-08-28 06:46:32.000000000 -0500
-+++ b/Source/WebKit/UIProcess/gtk/DragAndDropHandler.cpp	2019-09-30 22:47:34.996338269 -0500
++++ b/Source/WebKit/UIProcess/gtk/DragAndDropHandler.cpp	2020-04-27 09:11:33.512812583 -0500
 @@ -106,6 +106,7 @@
  
  void DragAndDropHandler::startDrag(Ref<SelectionData>&& selection, DragOperation dragOperation, RefPtr<ShareableBitmap>&& dragImage)
@@ -3339,7 +3327,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/DragAndDropHandler.cpp 
      int x = 0, y = 0;
 diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/DragAndDropHandler.h b/Source/WebKit/UIProcess/gtk/DragAndDropHandler.h
 --- a/Source/WebKit/UIProcess/gtk/DragAndDropHandler.h	2019-08-28 06:46:32.000000000 -0500
-+++ b/Source/WebKit/UIProcess/gtk/DragAndDropHandler.h	2019-09-30 22:47:34.996338269 -0500
++++ b/Source/WebKit/UIProcess/gtk/DragAndDropHandler.h	2020-04-27 09:11:33.512812583 -0500
 @@ -80,8 +80,15 @@
  
      WebPageProxy& m_page;
@@ -3358,7 +3346,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/DragAndDropHandler.h b/
  } // namespace WebKit
 diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/GestureController.cpp b/Source/WebKit/UIProcess/gtk/GestureController.cpp
 --- a/Source/WebKit/UIProcess/gtk/GestureController.cpp	2019-08-28 06:46:32.000000000 -0500
-+++ b/Source/WebKit/UIProcess/gtk/GestureController.cpp	2019-09-30 22:47:34.996338269 -0500
++++ b/Source/WebKit/UIProcess/gtk/GestureController.cpp	2020-04-27 09:11:33.512812583 -0500
 @@ -26,6 +26,8 @@
  #include "config.h"
  #include "GestureController.h"
@@ -3388,7 +3376,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/GestureController.cpp b
 +#endif // HAVE(GTK_GESTURES)
 diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/GestureController.h b/Source/WebKit/UIProcess/gtk/GestureController.h
 --- a/Source/WebKit/UIProcess/gtk/GestureController.h	2019-08-28 06:46:32.000000000 -0500
-+++ b/Source/WebKit/UIProcess/gtk/GestureController.h	2019-09-30 22:47:34.996338269 -0500
++++ b/Source/WebKit/UIProcess/gtk/GestureController.h	2020-04-27 09:11:33.513812578 -0500
 @@ -25,6 +25,8 @@
  
  #pragma once
@@ -3406,7 +3394,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/GestureController.h b/S
 +#endif // HAVE(GTK_GESTURES)
 diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/InputMethodFilter.cpp b/Source/WebKit/UIProcess/gtk/InputMethodFilter.cpp
 --- a/Source/WebKit/UIProcess/gtk/InputMethodFilter.cpp	2019-08-30 07:17:09.000000000 -0500
-+++ b/Source/WebKit/UIProcess/gtk/InputMethodFilter.cpp	2019-09-30 22:47:34.996338269 -0500
++++ b/Source/WebKit/UIProcess/gtk/InputMethodFilter.cpp	2020-04-27 09:11:33.513812578 -0500
 @@ -200,8 +200,11 @@
      m_justSentFakeKeyUp = false;
      guint keyval;
@@ -3446,7 +3434,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/InputMethodFilter.cpp b
  
 diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/ViewGestureControllerGtk.cpp b/Source/WebKit/UIProcess/gtk/ViewGestureControllerGtk.cpp
 --- a/Source/WebKit/UIProcess/gtk/ViewGestureControllerGtk.cpp	2019-08-28 06:46:32.000000000 -0500
-+++ b/Source/WebKit/UIProcess/gtk/ViewGestureControllerGtk.cpp	2019-09-30 22:47:34.996338269 -0500
++++ b/Source/WebKit/UIProcess/gtk/ViewGestureControllerGtk.cpp	2020-04-27 09:11:33.513812578 -0500
 @@ -54,7 +54,11 @@
  
  static bool isEventStop(GdkEventScroll* event)
@@ -3471,7 +3459,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/ViewGestureControllerGt
      gdk_event_set_device(event.get(), gdk_device_manager_get_client_pointer(gdk_display_get_device_manager(gdk_window_get_display(window))));
 diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/WebContextMenuProxyGtk.cpp b/Source/WebKit/UIProcess/gtk/WebContextMenuProxyGtk.cpp
 --- a/Source/WebKit/UIProcess/gtk/WebContextMenuProxyGtk.cpp	2019-08-28 06:46:32.000000000 -0500
-+++ b/Source/WebKit/UIProcess/gtk/WebContextMenuProxyGtk.cpp	2019-09-30 22:47:34.996338269 -0500
++++ b/Source/WebKit/UIProcess/gtk/WebContextMenuProxyGtk.cpp	2020-04-27 09:11:33.513812578 -0500
 @@ -67,7 +67,11 @@
      GRefPtr<GMenuItem> gMenuItem;
      GAction* action = menuItem.gAction();
@@ -3506,7 +3494,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/WebContextMenuProxyGtk.
  
 diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/WebKitInspectorWindow.cpp b/Source/WebKit/UIProcess/gtk/WebKitInspectorWindow.cpp
 --- a/Source/WebKit/UIProcess/gtk/WebKitInspectorWindow.cpp	2019-08-28 06:46:32.000000000 -0500
-+++ b/Source/WebKit/UIProcess/gtk/WebKitInspectorWindow.cpp	2019-09-30 22:47:34.996338269 -0500
++++ b/Source/WebKit/UIProcess/gtk/WebKitInspectorWindow.cpp	2020-04-27 09:11:33.513812578 -0500
 @@ -35,7 +35,9 @@
  struct _WebKitInspectorWindow {
      GtkWindow parent;
@@ -3549,8 +3537,8 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/WebKitInspectorWindow.c
  }
 +
 diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/WebPageProxyGtk.cpp b/Source/WebKit/UIProcess/gtk/WebPageProxyGtk.cpp
---- a/Source/WebKit/UIProcess/gtk/WebPageProxyGtk.cpp	2019-08-28 06:46:32.000000000 -0500
-+++ b/Source/WebKit/UIProcess/gtk/WebPageProxyGtk.cpp	2019-09-30 22:47:34.996338269 -0500
+--- a/Source/WebKit/UIProcess/gtk/WebPageProxyGtk.cpp	2020-01-29 04:30:41.000000000 -0600
++++ b/Source/WebKit/UIProcess/gtk/WebPageProxyGtk.cpp	2020-04-27 09:11:33.513812578 -0500
 @@ -151,10 +151,12 @@
      webkitWebViewBaseSetInputMethodState(WEBKIT_WEB_VIEW_BASE(viewWidget()), enabled);
  }
@@ -3566,7 +3554,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/WebPageProxyGtk.cpp b/S
  {
 diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/WebPopupMenuProxyGtk.cpp b/Source/WebKit/UIProcess/gtk/WebPopupMenuProxyGtk.cpp
 --- a/Source/WebKit/UIProcess/gtk/WebPopupMenuProxyGtk.cpp	2019-08-28 06:46:32.000000000 -0500
-+++ b/Source/WebKit/UIProcess/gtk/WebPopupMenuProxyGtk.cpp	2019-09-30 22:47:34.996338269 -0500
++++ b/Source/WebKit/UIProcess/gtk/WebPopupMenuProxyGtk.cpp	2020-04-27 09:11:33.513812578 -0500
 @@ -253,9 +253,16 @@
          return;
  
@@ -3628,8 +3616,8 @@ diff '--exclude=.git' -urN a/Source/WebKit/UIProcess/gtk/WebPopupMenuProxyGtk.cp
          gtk_window_set_attached_to(GTK_WINDOW(m_popup), nullptr);
          m_device = nullptr;
 diff '--exclude=.git' -urN a/Source/WebKit/WebProcess/WebPage/WebPage.h b/Source/WebKit/WebProcess/WebPage/WebPage.h
---- a/Source/WebKit/WebProcess/WebPage/WebPage.h	2019-08-28 06:46:33.000000000 -0500
-+++ b/Source/WebKit/WebProcess/WebPage/WebPage.h	2019-09-30 22:47:34.996338269 -0500
+--- a/Source/WebKit/WebProcess/WebPage/WebPage.h	2020-01-29 04:30:41.000000000 -0600
++++ b/Source/WebKit/WebProcess/WebPage/WebPage.h	2020-04-27 09:11:33.513812578 -0500
 @@ -775,7 +775,9 @@
  
      void collapseSelectionInFrame(WebCore::FrameIdentifier);
@@ -3638,25 +3626,24 @@ diff '--exclude=.git' -urN a/Source/WebKit/WebProcess/WebPage/WebPage.h b/Source
  
 +#if PLATFORM (GTK) && HAVE(GTK_GESTURES)
      void getCenterForZoomGesture(const WebCore::IntPoint& centerInViewCoordinates, CompletionHandler<void(WebCore::IntPoint&&)>&&);
- #endif
  
+     void themeDidChange(String&&);
 diff '--exclude=.git' -urN a/Source/WebKit/WebProcess/WebPage/WebPage.messages.in b/Source/WebKit/WebProcess/WebPage/WebPage.messages.in
---- a/Source/WebKit/WebProcess/WebPage/WebPage.messages.in	2019-08-28 06:46:33.000000000 -0500
-+++ b/Source/WebKit/WebProcess/WebPage/WebPage.messages.in	2019-09-30 22:49:58.336690371 -0500
+--- a/Source/WebKit/WebProcess/WebPage/WebPage.messages.in	2020-01-29 04:30:41.000000000 -0600
++++ b/Source/WebKit/WebProcess/WebPage/WebPage.messages.in	2020-04-27 09:11:33.513812578 -0500
 @@ -413,7 +413,9 @@
      CancelComposition()
  
      CollapseSelectionInFrame(WebCore::FrameIdentifier frameID)
--
 +#endif
-+ 
+ 
 +#if PLATFORM (GTK) && HAVE(GTK_GESTURES)
      GetCenterForZoomGesture(WebCore::IntPoint centerInViewCoordinates) -> (WebCore::IntPoint center) Synchronous
  #endif
  
 diff '--exclude=.git' -urN a/Source/WebKit/WebProcess/WebPage/gtk/WebPageGtk.cpp b/Source/WebKit/WebProcess/WebPage/gtk/WebPageGtk.cpp
---- a/Source/WebKit/WebProcess/WebPage/gtk/WebPageGtk.cpp	2019-08-28 06:46:33.000000000 -0500
-+++ b/Source/WebKit/WebProcess/WebPage/gtk/WebPageGtk.cpp	2019-09-30 22:47:34.997338265 -0500
+--- a/Source/WebKit/WebProcess/WebPage/gtk/WebPageGtk.cpp	2020-01-29 04:30:41.000000000 -0600
++++ b/Source/WebKit/WebProcess/WebPage/gtk/WebPageGtk.cpp	2020-04-27 09:11:33.513812578 -0500
 @@ -166,6 +166,7 @@
      return WebCore::standardUserAgentForURL(url);
  }
@@ -3675,7 +3662,7 @@ diff '--exclude=.git' -urN a/Source/WebKit/WebProcess/WebPage/gtk/WebPageGtk.cpp
  {
 diff '--exclude=.git' -urN a/Source/cmake/FindGTK3.cmake b/Source/cmake/FindGTK3.cmake
 --- a/Source/cmake/FindGTK3.cmake	2019-08-28 06:46:33.000000000 -0500
-+++ b/Source/cmake/FindGTK3.cmake	2019-09-30 22:47:34.997338265 -0500
++++ b/Source/cmake/FindGTK3.cmake	2020-04-27 09:11:33.514812573 -0500
 @@ -4,6 +4,7 @@
  #  GTK3_FOUND - system has GTK+ 3.
  #  GTK3_INCLUDE_DIRS - the GTK+ 3. include directories
@@ -3699,7 +3686,7 @@ diff '--exclude=.git' -urN a/Source/cmake/FindGTK3.cmake b/Source/cmake/FindGTK3
  include(FindPackageHandleStandardArgs)
 diff '--exclude=.git' -urN a/Source/cmake/GStreamerChecks.cmake b/Source/cmake/GStreamerChecks.cmake
 --- a/Source/cmake/GStreamerChecks.cmake	2019-09-23 03:23:57.000000000 -0500
-+++ b/Source/cmake/GStreamerChecks.cmake	2019-09-30 22:47:34.997338265 -0500
++++ b/Source/cmake/GStreamerChecks.cmake	2020-04-27 09:11:33.514812573 -0500
 @@ -10,7 +10,7 @@
          SET_AND_EXPOSE_TO_BUILD(USE_WEBAUDIO_GSTREAMER TRUE)
      endif ()
@@ -3758,8 +3745,8 @@ diff '--exclude=.git' -urN a/Source/cmake/GStreamerChecks.cmake b/Source/cmake/G
      SET_AND_EXPOSE_TO_BUILD(USE_LIBWEBRTC FALSE)
      SET_AND_EXPOSE_TO_BUILD(WEBRTC_WEBKIT_BUILD FALSE)
 diff '--exclude=.git' -urN a/Source/cmake/OptionsGTK.cmake b/Source/cmake/OptionsGTK.cmake
---- a/Source/cmake/OptionsGTK.cmake	2019-09-23 05:15:25.000000000 -0500
-+++ b/Source/cmake/OptionsGTK.cmake	2019-09-30 22:47:34.997338265 -0500
+--- a/Source/cmake/OptionsGTK.cmake	2020-02-14 03:46:05.000000000 -0600
++++ b/Source/cmake/OptionsGTK.cmake	2020-04-27 09:11:33.514812573 -0500
 @@ -17,23 +17,22 @@
  set(INTROSPECTION_INSTALL_GIRDIR "${CMAKE_INSTALL_FULL_DATADIR}/gir-1.0")
  set(INTROSPECTION_INSTALL_TYPELIBDIR "${LIB_INSTALL_DIR}/girepository-1.0")
@@ -3816,13 +3803,12 @@ diff '--exclude=.git' -urN a/Source/cmake/OptionsGTK.cmake b/Source/cmake/Option
  # changing the value of the option.
  WEBKIT_OPTION_DEFAULT_PORT_VALUE(ENABLE_ACCELERATED_2D_CANVAS PUBLIC OFF)
  WEBKIT_OPTION_DEFAULT_PORT_VALUE(ENABLE_ASYNC_SCROLLING PRIVATE OFF)
-@@ -194,9 +193,13 @@
+@@ -194,8 +193,12 @@
  set(GDK_LIBRARIES ${GDK3_LIBRARIES})
  set(GDK_INCLUDE_DIRS ${GDK3_INCLUDE_DIRS})
  
 +SET_AND_EXPOSE_TO_BUILD(HAVE_GTK_GESTURES ${GTK3_SUPPORTS_GESTURES})
  SET_AND_EXPOSE_TO_BUILD(HAVE_GTK_UNIX_PRINTING ${GTKUnixPrint_FOUND})
- SET_AND_EXPOSE_TO_BUILD(HAVE_OS_DARK_MODE_SUPPORT 1)
  
 +set(glib_components gio gio-unix gobject gthread gmodule)
 +find_package(GLIB 2.36 REQUIRED COMPONENTS ${glib_components})
@@ -3830,7 +3816,7 @@ diff '--exclude=.git' -urN a/Source/cmake/OptionsGTK.cmake b/Source/cmake/Option
  if (USE_WPE_RENDERER)
      find_package(WPE 1.3.0)
      if (NOT WPE_FOUND)
-@@ -252,6 +255,14 @@
+@@ -251,6 +254,14 @@
  endif ()
  
  if (ENABLE_WEBDRIVER)
@@ -3845,7 +3831,7 @@ diff '--exclude=.git' -urN a/Source/cmake/OptionsGTK.cmake b/Source/cmake/Option
      SET_AND_EXPOSE_TO_BUILD(ENABLE_WEBDRIVER_KEYBOARD_INTERACTIONS ON)
      SET_AND_EXPOSE_TO_BUILD(ENABLE_WEBDRIVER_MOUSE_INTERACTIONS ON)
      SET_AND_EXPOSE_TO_BUILD(ENABLE_WEBDRIVER_TOUCH_INTERACTIONS OFF)
-@@ -303,13 +314,13 @@
+@@ -302,13 +313,13 @@
  
  if (ENABLE_QUARTZ_TARGET)
      if (NOT GTK3_SUPPORTS_QUARTZ)
@@ -3861,7 +3847,7 @@ diff '--exclude=.git' -urN a/Source/cmake/OptionsGTK.cmake b/Source/cmake/Option
      endif ()
  
      find_package(X11 REQUIRED)
-@@ -326,7 +337,11 @@
+@@ -325,7 +336,11 @@
  
  if (ENABLE_WAYLAND_TARGET)
      if (NOT GTK3_SUPPORTS_WAYLAND)
@@ -3876,7 +3862,7 @@ diff '--exclude=.git' -urN a/Source/cmake/OptionsGTK.cmake b/Source/cmake/Option
      if (NOT EGL_FOUND)
 diff '--exclude=.git' -urN a/Tools/MiniBrowser/gtk/BrowserTab.c b/Tools/MiniBrowser/gtk/BrowserTab.c
 --- a/Tools/MiniBrowser/gtk/BrowserTab.c	2019-08-28 06:46:33.000000000 -0500
-+++ b/Tools/MiniBrowser/gtk/BrowserTab.c	2019-09-30 22:47:34.997338265 -0500
++++ b/Tools/MiniBrowser/gtk/BrowserTab.c	2020-04-27 09:11:33.514812573 -0500
 @@ -279,6 +279,7 @@
      return TRUE;
  }
@@ -3905,7 +3891,7 @@ diff '--exclude=.git' -urN a/Tools/MiniBrowser/gtk/BrowserTab.c b/Tools/MiniBrow
      g_signal_connect(inspector, "open-window", G_CALLBACK(inspectorOpenedInWindow), tab);
 diff '--exclude=.git' -urN a/Tools/TestWebKitAPI/Tests/WebKitGLib/TestResources.cpp b/Tools/TestWebKitAPI/Tests/WebKitGLib/TestResources.cpp
 --- a/Tools/TestWebKitAPI/Tests/WebKitGLib/TestResources.cpp	2019-08-28 06:46:33.000000000 -0500
-+++ b/Tools/TestWebKitAPI/Tests/WebKitGLib/TestResources.cpp	2019-09-30 22:47:34.997338265 -0500
++++ b/Tools/TestWebKitAPI/Tests/WebKitGLib/TestResources.cpp	2020-04-27 09:11:33.514812573 -0500
 @@ -751,6 +751,7 @@
      unsigned m_resourcesToStartPending;
  };
@@ -3934,7 +3920,7 @@ diff '--exclude=.git' -urN a/Tools/TestWebKitAPI/Tests/WebKitGLib/TestResources.
  void afterAll()
 diff '--exclude=.git' -urN a/Tools/TestWebKitAPI/Tests/WebKitGLib/TestSSL.cpp b/Tools/TestWebKitAPI/Tests/WebKitGLib/TestSSL.cpp
 --- a/Tools/TestWebKitAPI/Tests/WebKitGLib/TestSSL.cpp	2019-08-28 06:46:33.000000000 -0500
-+++ b/Tools/TestWebKitAPI/Tests/WebKitGLib/TestSSL.cpp	2019-09-30 22:47:34.997338265 -0500
++++ b/Tools/TestWebKitAPI/Tests/WebKitGLib/TestSSL.cpp	2020-04-27 09:11:33.514812573 -0500
 @@ -339,6 +339,7 @@
      assertIfSSLRequestProcessed = false;
  }
@@ -3963,7 +3949,7 @@ diff '--exclude=.git' -urN a/Tools/TestWebKitAPI/Tests/WebKitGLib/TestSSL.cpp b/
  void afterAll()
 diff '--exclude=.git' -urN a/Tools/TestWebKitAPI/glib/WebKitGLib/WebKitTestServer.cpp b/Tools/TestWebKitAPI/glib/WebKitGLib/WebKitTestServer.cpp
 --- a/Tools/TestWebKitAPI/glib/WebKitGLib/WebKitTestServer.cpp	2019-08-28 06:46:33.000000000 -0500
-+++ b/Tools/TestWebKitAPI/glib/WebKitGLib/WebKitTestServer.cpp	2019-09-30 22:47:34.997338265 -0500
++++ b/Tools/TestWebKitAPI/glib/WebKitGLib/WebKitTestServer.cpp	2020-04-27 09:11:33.514812573 -0500
 @@ -53,8 +53,10 @@
  WebKitTestServer::~WebKitTestServer()
  {

@@ -14,7 +14,6 @@ KEYWORDS="~*"
 
 IUSE="ayatana doc gtk +introspection lto +modemmanager selinux teamd test wwan"
 
-# TODO
 RESTRICT="test"
 
 DEPEND="

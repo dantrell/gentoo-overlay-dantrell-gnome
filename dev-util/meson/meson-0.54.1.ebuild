@@ -12,7 +12,7 @@ SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS=""
 
 IUSE="test"
 RESTRICT="!test? ( test )"
@@ -29,10 +29,6 @@ DEPEND="
 "
 
 python_prepare_all() {
-	local PATCHES=(
-		"${FILESDIR}"/${PN}-0.52.1-test_pkgconfig_gen_deps.patch
-	)
-
 	# ASAN and sandbox both want control over LD_PRELOAD
 	# https://bugs.gentoo.org/673016
 	sed -i -e 's/test_generate_gir_with_address_sanitizer/_&/' run_unittests.py || die

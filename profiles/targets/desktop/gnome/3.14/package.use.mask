@@ -1,1 +1,2 @@
 media-libs/gst-plugins-bad gtk
+net-libs/webkit-gtk seccomp

@@ -9,7 +9,7 @@ HOMEPAGE="https://gitlab.gnome.org/GNOME/libnotify"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="gtk-doc +introspection test"
 
@@ -23,11 +23,11 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	app-text/docbook-xsl-ns-stylesheets
-	dev-libs/libxslt
 	>=dev-libs/gobject-introspection-common-1.32
 	virtual/man
 	virtual/pkgconfig
+	app-text/docbook-xsl-ns-stylesheets
+	dev-libs/libxslt
 	gtk-doc? ( dev-util/gtk-doc
 		app-text/docbook-xml-dtd:4.1.2 )
 	test? ( x11-libs/gtk+:3[${MULTILIB_USEDEP}] )

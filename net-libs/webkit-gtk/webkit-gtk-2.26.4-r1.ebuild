@@ -167,7 +167,7 @@ src_prepare() {
 	if use deprecated; then
 		# From WebKit:
 		# 	https://bugs.webkit.org/show_bug.cgi?id=199094
-		eapply "${FILESDIR}"/${PN}-2.26.1-restore-preprocessor-guards.patch
+		eapply "${FILESDIR}"/${PN}-2.26.4-restore-preprocessor-guards.patch
 	fi
 
 	eapply "${FILESDIR}"/${PN}-2.24.4-eglmesaext-include.patch # bug 699054 # https://bugs.webkit.org/show_bug.cgi?id=204108

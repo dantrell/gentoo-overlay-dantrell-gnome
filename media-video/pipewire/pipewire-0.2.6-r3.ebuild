@@ -12,7 +12,7 @@ LICENSE="LGPL-2.1+"
 SLOT="0/0.2"
 KEYWORDS="*"
 
-IUSE="bluetooth doc ffmpeg libav gstreamer sdl systemd vaapi X"
+IUSE="bluetooth doc ffmpeg gstreamer sdl systemd vaapi X"
 
 BDEPEND="
 	app-doc/xmltoman
@@ -26,10 +26,7 @@ DEPEND="
 	sys-apps/dbus
 	virtual/libudev
 	bluetooth? ( media-libs/sbc )
-	ffmpeg? (
-		!libav? ( media-video/ffmpeg:= )
-		libav? ( media-video/libav:= )
-	)
+	ffmpeg? ( media-video/ffmpeg:= )
 	gstreamer? (
 		media-libs/gstreamer:1.0
 		media-libs/gst-plugins-base:1.0
