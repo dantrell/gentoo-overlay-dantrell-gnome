@@ -33,7 +33,7 @@
 ~dev-libs/appstream-glib-0.7.17::dantrell-gnome
 ~dev-libs/atk-2.34.1::dantrell-gnome-3-34
 ~dev-libs/folks-0.13.2::dantrell-gnome
-~dev-libs/gjs-1.58.6::dantrell-gnome-3-34
+~dev-libs/gjs-1.58.7::dantrell-gnome-3-34
 ~dev-libs/glib-2.62.6::dantrell-gnome
 ~dev-libs/gmime-3.2.7::dantrell-gnome
 ~dev-libs/gobject-introspection-1.62.0::dantrell-gnome-3-34
@@ -137,7 +137,7 @@
 ~media-gfx/gnome-font-viewer-3.34.0::dantrell-gnome
 ~media-gfx/gnome-photos-3.34.1::dantrell-gnome
 ~media-gfx/gnome-screenshot-3.34.0::dantrell-gnome-3-34
-~media-gfx/simple-scan-3.34.4::dantrell-gnome-3-34
+~media-gfx/simple-scan-3.34.6::dantrell-gnome-3-34
 ~media-libs/clutter-1.26.4::dantrell-gnome
 ~media-libs/clutter-gst-3.0.27::dantrell-gnome
 ~media-libs/clutter-gtk-1.8.4::dantrell-gnome

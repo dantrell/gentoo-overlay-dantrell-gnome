@@ -25,7 +25,7 @@
 ~dev-lang/vala-0.48.5::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.17::dantrell-gnome
 ~dev-libs/atk-2.35.1::dantrell-gnome-3-36
-~dev-libs/gjs-1.64.1::dantrell-gnome-3-36
+~dev-libs/gjs-1.64.2::dantrell-gnome-3-36
 ~dev-libs/glib-2.64.2::dantrell-gnome
 ~dev-libs/gmime-3.2.7::dantrell-gnome
 ~dev-libs/gobject-introspection-1.64.1::dantrell-gnome-3-36
@@ -86,6 +86,7 @@
 ~gnome-base/gvfs-1.44.1::dantrell-gnome-3-36
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
 ~gnome-base/libgtop-2.40.0::dantrell-gnome
+~gnome-base/librsvg-2.48.4::dantrell-gnome
 ~gnome-base/nautilus-3.36.1.1::dantrell-gnome-3-36
 ~gnome-base/nautilus-3.36.2::dantrell-gnome-3-36
 ~gnome-extra/evolution-data-server-3.36.2::dantrell-gnome-3-36
@@ -102,6 +103,7 @@
 ~gnome-extra/gnome-shell-extensions-3.36.1::dantrell-gnome-3-36
 ~gnome-extra/gnome-shell-frippery-3.36.0::dantrell-gnome-3-36
 ~gnome-extra/gnome-software-3.36.0::dantrell-gnome-3-36
+~gnome-extra/gnome-system-monitor-3.36.0::dantrell-gnome-3-36
 ~gnome-extra/gnome-tweaks-3.34.0::dantrell-gnome
 ~gnome-extra/gnome-user-docs-3.36.2::dantrell-gnome-3-36
 ~gnome-extra/gnome-user-share-3.34.0::dantrell-gnome
@@ -120,7 +122,7 @@
 ~media-gfx/gnome-font-viewer-3.34.0::dantrell-gnome
 ~media-gfx/gnome-photos-3.34.1::dantrell-gnome
 ~media-gfx/gnome-screenshot-3.36.0::dantrell-gnome-3-36
-~media-gfx/simple-scan-3.36.1::dantrell-gnome-3-36
+~media-gfx/simple-scan-3.36.2::dantrell-gnome-3-36
 ~media-libs/clutter-1.26.4::dantrell-gnome
 ~media-libs/clutter-gst-3.0.27::dantrell-gnome
 ~media-libs/clutter-gtk-1.8.4::dantrell-gnome
