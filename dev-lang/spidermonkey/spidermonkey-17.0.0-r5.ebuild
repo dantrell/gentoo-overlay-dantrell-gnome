@@ -9,7 +9,8 @@ inherit toolchain-funcs multilib python-any-r1 versionator pax-utils
 
 MY_PN="mozjs"
 MY_P="${MY_PN}${PV}"
-DESCRIPTION="Stand-alone JavaScript C library"
+
+DESCRIPTION="Mozilla's JavaScript engine written in C and C++"
 HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"
 SRC_URI="http://archive.mozilla.org/pub/js/${MY_PN}${PV}.tar.gz
 	https://dev.gentoo.org/~axs/distfiles/${PN}-slot17-patches-01.tar.xz"
@@ -23,9 +24,6 @@ REQUIRED_USE="debug? ( jit )"
 
 RESTRICT="!test? ( test ) ia64? ( test )"
 
-S="${WORKDIR}/${MY_P}"
-BUILDDIR="${S}/js/src"
-
 RDEPEND=">=dev-libs/nspr-4.9.4
 	dev-libs/libffi
 	sys-libs/readline:0=
@@ -34,6 +32,9 @@ DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
 	app-arch/zip
 	virtual/pkgconfig"
+
+S="${WORKDIR}/${MY_P}"
+MOZJS_BUILDDIR="${S}/js/src"
 
 pkg_setup() {
 	if [[ ${MERGE_TYPE} != "binary" ]]; then
@@ -55,16 +56,16 @@ src_prepare() {
 	default
 
 	# Remove obsolete jsuword bug #506160
-	sed -i -e '/jsuword/d' "${BUILDDIR}"/jsval.h || die "sed failed"
+	sed -i -e '/jsuword/d' "${MOZJS_BUILDDIR}"/jsval.h || die "sed failed"
 
 	if [[ ${CHOST} == *-freebsd* ]]; then
 		# Don't try to be smart, this does not work in cross-compile anyway
-		ln -sfn "${BUILDDIR}/config/Linux_All.mk" "${S}/config/$(uname -s)$(uname -r).mk" || die
+		ln -sfn "${MOZJS_BUILDDIR}/config/Linux_All.mk" "${S}/config/$(uname -s)$(uname -r).mk" || die
 	fi
 }
 
 src_configure() {
-	cd "${BUILDDIR}" || die
+	cd "${MOZJS_BUILDDIR}" || die
 
 	CC="$(tc-getCC)" CXX="$(tc-getCXX)" \
 	AR="$(tc-getAR)" RANLIB="$(tc-getRANLIB)" \
@@ -96,7 +97,7 @@ cross_make() {
 }
 
 src_compile() {
-	cd "${BUILDDIR}" || die
+	cd "${MOZJS_BUILDDIR}" || die
 	if tc-is-cross-compiler; then
 		tc-export_build_env BUILD_{AR,CC,CXX,RANLIB}
 		cross_make host_jsoplengen host_jskwgen
@@ -118,12 +119,12 @@ src_compile() {
 }
 
 src_test() {
-	cd "${BUILDDIR}/jsapi-tests" || die
+	cd "${MOZJS_BUILDDIR}/jsapi-tests" || die
 	emake check
 }
 
 src_install() {
-	cd "${BUILDDIR}" || die
+	cd "${MOZJS_BUILDDIR}" || die
 	default
 
 	if ! use minimal; then

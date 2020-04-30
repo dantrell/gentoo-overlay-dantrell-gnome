@@ -9,7 +9,8 @@ MY_PN="mozjs"
 MY_P="${MY_PN}-${PV/_rc/.rc}"
 MY_P="${MY_P/_pre/pre}"
 MY_P="${MY_P%_p[0-9]*}"
-DESCRIPTION="Stand-alone JavaScript C++ library"
+
+DESCRIPTION="Mozilla's JavaScript engine written in C and C++"
 HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"
 SRC_URI="https://dev.gentoo.org/~axs/distfiles/${MY_P}.tar.bz2
 	https://dev.gentoo.org/~anarchy/mozilla/patchsets/${PN}-60.0-patches-04.tar.xz"
@@ -22,15 +23,15 @@ IUSE="debug +jit minimal +system-icu test"
 
 RESTRICT="!test? ( test ) ia64? ( test )"
 
-S="${WORKDIR}/${MY_P%.rc*}"
-BUILDDIR="${S}/jsobj"
-
 RDEPEND=">=dev-libs/nspr-4.13.1
 	dev-libs/libffi
 	sys-libs/readline:0=
 	>=sys-libs/zlib-1.2.3:=
 	system-icu? ( >=dev-libs/icu-59.1:= )"
 DEPEND="${RDEPEND}"
+
+S="${WORKDIR}/${MY_P%.rc*}"
+MOZJS_BUILDDIR="${S}/jsobj"
 
 pkg_pretend() {
 	CHECKREQS_DISK_BUILD="2G"
@@ -53,7 +54,7 @@ src_prepare() {
 
 	if [[ ${CHOST} == *-freebsd* ]]; then
 		# Don't try to be smart, this does not work in cross-compile anyway
-		ln -sfn "${BUILDDIR}/config/Linux_All.mk" "${S}/config/$(uname -s)$(uname -r).mk" || die
+		ln -sfn "${MOZJS_BUILDDIR}/config/Linux_All.mk" "${S}/config/$(uname -s)$(uname -r).mk" || die
 	fi
 
 	cd "${S}"/js/src || die
@@ -66,11 +67,11 @@ src_prepare() {
 	# there is a default config.cache that messes everything up
 	rm -f "${S}"/js/src/config.cache || die
 
-	mkdir -p "${BUILDDIR}" || die
+	mkdir -p "${MOZJS_BUILDDIR}" || die
 }
 
 src_configure() {
-	cd "${BUILDDIR}" || die
+	cd "${MOZJS_BUILDDIR}" || die
 
 	ECONF_SOURCE="${S}/js/src" \
 	econf \
@@ -101,7 +102,7 @@ cross_make() {
 }
 
 src_compile() {
-	cd "${BUILDDIR}" || die
+	cd "${MOZJS_BUILDDIR}" || die
 	if tc-is-cross-compiler; then
 		tc-export_build_env BUILD_{AR,CC,CXX,RANLIB}
 		cross_make \
@@ -134,12 +135,12 @@ src_compile() {
 }
 
 src_test() {
-	cd "${BUILDDIR}/js/src/jsapi-tests" || die
+	cd "${MOZJS_BUILDDIR}/js/src/jsapi-tests" || die
 	./jsapi-tests || die
 }
 
 src_install() {
-	cd "${BUILDDIR}" || die
+	cd "${MOZJS_BUILDDIR}" || die
 	emake DESTDIR="${D}" install
 
 	if ! use minimal; then

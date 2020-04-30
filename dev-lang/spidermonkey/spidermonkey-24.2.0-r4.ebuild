@@ -9,7 +9,8 @@ inherit autotools toolchain-funcs multilib python-any-r1 versionator pax-utils
 
 MY_PN="mozjs"
 MY_P="${MY_PN}-${PV/_/.}"
-DESCRIPTION="Stand-alone JavaScript C library"
+
+DESCRIPTION="Mozilla's JavaScript engine written in C and C++"
 HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"
 SRC_URI="https://archive.mozilla.org/pub/js/${MY_P}.tar.bz2
 	https://dev.gentoo.org/~axs/distfiles/${PN}-slot24-patches-01.tar.xz"
@@ -22,9 +23,6 @@ IUSE="debug icu jit minimal static-libs +system-icu test"
 
 RESTRICT="!test? ( test ) ia64? ( test )"
 
-S="${WORKDIR}/${MY_P%.rc*}"
-BUILDDIR="${S}/js/src"
-
 RDEPEND=">=dev-libs/nspr-4.9.4
 	dev-libs/libffi
 	sys-libs/readline:0=
@@ -34,6 +32,9 @@ DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
 	app-arch/zip
 	virtual/pkgconfig"
+
+S="${WORKDIR}/${MY_P%.rc*}"
+MOZJS_BUILDDIR="${S}/js/src"
 
 PATCHES=(
 	"${WORKDIR}"/sm24/${PN}-${SLOT}-system-icu.patch
@@ -56,16 +57,16 @@ src_prepare() {
 
 	if [[ ${CHOST} == *-freebsd* ]]; then
 		# Don't try to be smart, this does not work in cross-compile anyway
-		ln -sfn "${BUILDDIR}/config/Linux_All.mk" "${S}/config/$(uname -s)$(uname -r).mk" || die
+		ln -sfn "${MOZJS_BUILDDIR}/config/Linux_All.mk" "${S}/config/$(uname -s)$(uname -r).mk" || die
 	fi
 
-	cd "${BUILDDIR}" || die
+	cd "${MOZJS_BUILDDIR}" || die
 	eautoconf
 }
 
 src_configure() {
 	export SHELL=/bin/sh
-	cd "${BUILDDIR}" || die
+	cd "${MOZJS_BUILDDIR}" || die
 
 	local myopts=""
 	if use icu; then # make sure system-icu flag only affects icu-enabled build
@@ -105,7 +106,7 @@ cross_make() {
 }
 
 src_compile() {
-	cd "${BUILDDIR}" || die
+	cd "${MOZJS_BUILDDIR}" || die
 	if tc-is-cross-compiler; then
 		tc-export_build_env BUILD_{AR,CC,CXX,RANLIB}
 		cross_make \
@@ -136,12 +137,12 @@ src_compile() {
 }
 
 src_test() {
-	cd "${BUILDDIR}/jsapi-tests" || die
+	cd "${MOZJS_BUILDDIR}/jsapi-tests" || die
 	emake check
 }
 
 src_install() {
-	cd "${BUILDDIR}" || die
+	cd "${MOZJS_BUILDDIR}" || die
 	default
 
 	if ! use minimal; then

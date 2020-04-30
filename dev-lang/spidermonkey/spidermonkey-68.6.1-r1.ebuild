@@ -1,42 +1,90 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 WANT_AUTOCONF="2.1"
 
-inherit autotools check-reqs toolchain-funcs pax-utils mozcoreconf-v5
+inherit autotools check-reqs pax-utils toolchain-funcs
 
-DESCRIPTION="Stand-alone JavaScript C++ library"
+MY_PN="mozjs"
+MY_MAJOR=$(ver_cut 1)
+
+DESCRIPTION="Mozilla's JavaScript engine written in C and C++"
 HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"
 SRC_URI="https://archive.mozilla.org/pub/firefox/releases/${PV}esr/source/firefox-${PV}esr.source.tar.xz"
 
-LICENSE="NPL-1.1"
+LICENSE="MPL-2.0"
 SLOT="68/6.1"
 KEYWORDS="~*"
 
-IUSE="debug +jit minimal +system-icu test"
+IUSE="clang debug +jit minimal +system-icu test"
 
 RESTRICT="!test? ( test ) ia64? ( test )"
 
-S="${WORKDIR}/firefox-${PV}"
-BUILDDIR="${S}/jsobj"
-
-RDEPEND=">=dev-libs/nspr-4.13.1
+BDEPEND="dev-lang/python:2.7"
+DEPEND="
+	system-icu? ( >=dev-libs/icu-59.1:= )
+	>=dev-libs/nspr-4.13.1
 	dev-libs/libffi
 	sys-libs/readline:0=
 	>=sys-libs/zlib-1.2.3:=
-	system-icu? ( >=dev-libs/icu-59.1:= )"
-DEPEND="${RDEPEND}"
+	|| (
+		(
+			sys-devel/clang:10
+			!clang? ( sys-devel/llvm:10 )
+			clang? (
+				=sys-devel/lld-10*
+				sys-devel/llvm:10[gold]
+			)
+		)
+		(
+			sys-devel/clang:9
+			!clang? ( sys-devel/llvm:9 )
+			clang? (
+				=sys-devel/lld-9*
+				sys-devel/llvm:9[gold]
+			)
+		)
+		(
+			sys-devel/clang:8
+			!clang? ( sys-devel/llvm:8 )
+			clang? (
+				=sys-devel/lld-8*
+				sys-devel/llvm:8[gold]
+			)
+		)
+		(
+			sys-devel/clang:7
+			!clang? ( sys-devel/llvm:7 )
+			clang? (
+				=sys-devel/lld-7*
+				sys-devel/llvm:7[gold]
+			)
+		)
+	)
+"
+RDEPEND="${DEPEND}"
+
+S="${WORKDIR}/firefox-${PV}"
+MOZJS_BUILDDIR="${S}/jsobj"
 
 pkg_pretend() {
-	CHECKREQS_DISK_BUILD="2G"
+	if use test ; then
+		CHECKREQS_DISK_BUILD="6G"
+	else
+		CHECKREQS_DISK_BUILD="5G"
+	fi
 
-	check-reqs_pkg_setup
+	check-reqs_pkg_pretend
 }
 
 pkg_setup() {
-	[[ ${MERGE_TYPE} == "binary" ]] || \
-		moz_pkgsetup
-	export SHELL="${EPREFIX}/bin/bash"
+	if use test ; then
+		CHECKREQS_DISK_BUILD="6G"
+	else
+		CHECKREQS_DISK_BUILD="5G"
+	fi
+
+	check-reqs_pkg_setup
 }
 
 src_prepare() {
@@ -44,7 +92,7 @@ src_prepare() {
 
 	if [[ ${CHOST} == *-freebsd* ]]; then
 		# Don't try to be smart, this does not work in cross-compile anyway
-		ln -sfn "${BUILDDIR}/config/Linux_All.mk" "${S}/config/$(uname -s)$(uname -r).mk" || die
+		ln -sfn "${MOZJS_BUILDDIR}/config/Linux_All.mk" "${S}/config/$(uname -s)$(uname -r).mk" || die
 	fi
 
 	cd "${S}"/js/src || die
@@ -57,11 +105,11 @@ src_prepare() {
 	# there is a default config.cache that messes everything up
 	rm -f "${S}"/js/src/config.cache || die
 
-	mkdir -p "${BUILDDIR}" || die
+	mkdir -p "${MOZJS_BUILDDIR}" || die
 }
 
 src_configure() {
-	cd "${BUILDDIR}" || die
+	cd "${MOZJS_BUILDDIR}" || die
 
 	${S}/js/src/configure \
 		--prefix=/usr \
@@ -94,7 +142,7 @@ cross_make() {
 }
 
 src_compile() {
-	cd "${BUILDDIR}" || die
+	cd "${MOZJS_BUILDDIR}" || die
 	if tc-is-cross-compiler; then
 		tc-export_build_env BUILD_{AR,CC,CXX,RANLIB}
 		cross_make \
@@ -127,13 +175,32 @@ src_compile() {
 }
 
 src_test() {
-	cd "${BUILDDIR}/js/src/jsapi-tests" || die
+	cd "${MOZJS_BUILDDIR}/js/src/jsapi-tests" || die
 	./jsapi-tests || die
 }
 
 src_install() {
-	cd "${BUILDDIR}" || die
-	emake DESTDIR="${D}" install
+	cd "${MOZJS_BUILDDIR}" || die
+	default
+
+	# fix soname links
+	pushd "${ED}"/usr/$(get_libdir) &>/dev/null || die
+	mv lib${MY_PN}-${MY_MAJOR}.so lib${MY_PN}-${MY_MAJOR}.so.0.0.0 || die
+	ln -s lib${MY_PN}-${MY_MAJOR}.so.0.0.0 lib${MY_PN}-${MY_MAJOR}.so.0 || die
+	ln -s lib${MY_PN}-${MY_MAJOR}.so.0 lib${MY_PN}-${MY_MAJOR}.so || die
+	popd &>/dev/null || die
+
+	# remove unneeded files
+	rm \
+		"${ED}"/usr/bin/js${MY_MAJOR}-config \
+		"${ED}"/usr/$(get_libdir)/libjs_static.ajs \
+		|| die
+
+	# fix permissions
+	chmod -x \
+		"${ED}"/usr/$(get_libdir)/pkgconfig/*.pc \
+		"${ED}"/usr/include/mozjs-${MY_MAJOR}/js-config.h \
+		|| die
 
 	if ! use minimal; then
 		if use jit; then

@@ -11,7 +11,8 @@ MY_PN="js"
 TARBALL_PV="$(replace_all_version_separators '' $(get_version_component_range 1-3))"
 MY_P="${MY_PN}-${PV}"
 TARBALL_P="${MY_PN}${TARBALL_PV}-1.0.0"
-DESCRIPTION="Stand-alone JavaScript C library"
+
+DESCRIPTION="Mozilla's JavaScript engine written in C and C++"
 HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"
 SRC_URI="https://archive.mozilla.org/pub/js/${TARBALL_P}.tar.gz
 	https://dev.gentoo.org/~axs/distfiles/${PN}-slot0-patches-02.tar.xz"
@@ -24,9 +25,6 @@ IUSE="debug minimal static-libs test"
 
 RESTRICT="!test? ( test )"
 
-S="${WORKDIR}/${MY_P}"
-BUILDDIR="${S}/js/src"
-
 RDEPEND=">=dev-libs/nspr-4.7.0
 	sys-libs/readline:0=
 	x64-macos? ( dev-libs/jemalloc )"
@@ -34,6 +32,9 @@ DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
 	app-arch/zip
 	virtual/pkgconfig"
+
+S="${WORKDIR}/${MY_P}"
+MOZJS_BUILDDIR="${S}/js/src"
 
 PATCHES=(
 	# https://bugzilla.mozilla.org/show_bug.cgi?id=628723#c43
@@ -66,7 +67,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-1.8.5-LTO.patch
 )
 
-HTML_DOCS=( ${BUILDDIR}/README.html )
+HTML_DOCS=( ${MOZJS_BUILDDIR}/README.html )
 
 pkg_setup() {
 	if [[ ${MERGE_TYPE} != "binary" ]]; then
@@ -79,15 +80,15 @@ src_prepare() {
 
 	default
 
-	cd "${BUILDDIR}" || die
+	cd "${MOZJS_BUILDDIR}" || die
 	eautoconf
 
 	# remove options that are not correct from js-config
-	sed '/lib-filenames/d' -i "${BUILDDIR}"/js-config.in || die "failed to remove invalid option from js-config"
+	sed '/lib-filenames/d' -i "${MOZJS_BUILDDIR}"/js-config.in || die "failed to remove invalid option from js-config"
 }
 
 src_configure() {
-	cd "${BUILDDIR}" || die
+	cd "${MOZJS_BUILDDIR}" || die
 
 	CC="$(tc-getCC)" CXX="$(tc-getCXX)" \
 	AR="$(tc-getAR)" RANLIB="$(tc-getRANLIB)" \
@@ -119,7 +120,7 @@ cross_make() {
 }
 
 src_compile() {
-	cd "${BUILDDIR}" || die
+	cd "${MOZJS_BUILDDIR}" || die
 	if tc-is-cross-compiler; then
 		tc-export_build_env BUILD_{AR,CC,CXX,RANLIB}
 		cross_make jscpucfg host_jsoplengen host_jskwgen
@@ -143,14 +144,14 @@ src_compile() {
 }
 
 src_test() {
-	cd "${BUILDDIR}/jsapi-tests" || die
+	cd "${MOZJS_BUILDDIR}/jsapi-tests" || die
 	# for bug 415791
 	pax-mark mr jsapi-tests
 	emake check
 }
 
 src_install() {
-	cd "${BUILDDIR}" || die
+	cd "${MOZJS_BUILDDIR}" || die
 	emake DESTDIR="${D}" install
 	# bug 437520 , exclude js shell for small systems
 	if ! use minimal ; then

@@ -22,6 +22,7 @@
 ~app-text/libgxps-0.3.1::dantrell-gnome
 ~app-text/yelp-tools-3.32.2::dantrell-gnome
 ~dev-cpp/cairomm-1.12.2::dantrell-gnome
+~dev-cpp/mm-common-1.0.0::dantrell-gnome
 ~dev-lang/vala-0.48.5::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.17::dantrell-gnome
 ~dev-libs/atk-2.35.1::dantrell-gnome-3-36
@@ -72,17 +73,17 @@
 ~gnome-base/gnome-control-center-3.36.1::dantrell-gnome-3-36
 ~gnome-base/gnome-core-apps-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-core-libs-3.36.0::dantrell-gnome-3-36
-~gnome-base/gnome-desktop-3.36.1::dantrell-gnome-3-36
+~gnome-base/gnome-desktop-3.36.2::dantrell-gnome-3-36
 ~gnome-base/gnome-extra-apps-3.36.0::dantrell-gnome-3-36
-~gnome-base/gnome-flashback-3.36.1::dantrell-gnome-3-36
+~gnome-base/gnome-flashback-3.36.2::dantrell-gnome-3-36
 ~gnome-base/gnome-keyring-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-light-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-menus-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-panel-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-session-3.36.0::dantrell-gnome-3-36
-~gnome-base/gnome-settings-daemon-3.36.0::dantrell-gnome-3-36
-~gnome-base/gnome-shell-3.36.1::dantrell-gnome-3-36
-~gnome-base/gsettings-desktop-schemas-3.36.0::dantrell-gnome-3-36
+~gnome-base/gnome-settings-daemon-3.36.1::dantrell-gnome-3-36
+~gnome-base/gnome-shell-3.36.2::dantrell-gnome-3-36
+~gnome-base/gsettings-desktop-schemas-3.36.1::dantrell-gnome-3-36
 ~gnome-base/gvfs-1.44.1::dantrell-gnome-3-36
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
 ~gnome-base/libgtop-2.40.0::dantrell-gnome
@@ -100,7 +101,7 @@
 ~gnome-extra/gnome-packagekit-3.32.0::dantrell-gnome
 ~gnome-extra/gnome-power-manager-3.32.0::dantrell-gnome
 ~gnome-extra/gnome-recipes-2.0.2::dantrell-gnome
-~gnome-extra/gnome-shell-extensions-3.36.1::dantrell-gnome-3-36
+~gnome-extra/gnome-shell-extensions-3.36.2::dantrell-gnome-3-36
 ~gnome-extra/gnome-shell-frippery-3.36.0::dantrell-gnome-3-36
 ~gnome-extra/gnome-software-3.36.0::dantrell-gnome-3-36
 ~gnome-extra/gnome-system-monitor-3.36.0::dantrell-gnome-3-36
@@ -137,7 +138,7 @@
 ~media-video/gnome-video-effects-0.5.0::dantrell-gnome
 ~media-video/totem-3.34.1::dantrell-gnome
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
-~net-irc/polari-3.36.1::dantrell-gnome-3-36
+~net-irc/polari-3.36.2::dantrell-gnome-3-36
 ~net-libs/glib-networking-2.64.2::dantrell-gnome-3-36
 ~net-libs/gnome-online-accounts-3.36.0::dantrell-gnome-3-36
 ~net-libs/gssdp-1.2.2::dantrell-gnome
@@ -169,5 +170,5 @@
 ~x11-themes/gnome-backgrounds-3.36.0::dantrell-gnome-3-36
 ~x11-themes/gnome-themes-extra-3.28::dantrell-gnome
 ~x11-wm/metacity-3.36.1::dantrell-gnome-3-36
-~x11-wm/mutter-3.36.0::dantrell-gnome-3-36
 ~x11-wm/mutter-3.36.1::dantrell-gnome-3-36
+~x11-wm/mutter-3.36.2::dantrell-gnome-3-36
