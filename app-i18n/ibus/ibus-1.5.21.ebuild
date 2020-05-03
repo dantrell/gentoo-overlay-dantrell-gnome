@@ -72,6 +72,12 @@ DEPEND="${CDEPEND}
 	nls? ( sys-devel/gettext )
 	unicode? ( app-i18n/unicode-data )"
 
+PATCHES=(
+	# From IBus:
+	# 	https://github.com/ibus/ibus/commit/8ce25208c3f4adfd290a032c6aa739d2b7580eb1
+	"${FILESDIR}"/${PN}-1.5.23-src-use-wayland-display-on-wayland-sessions-to-make-up-ibus-socket-name.patch
+)
+
 src_prepare() {
 	vala_src_prepare --ignore-use
 	sed -i "/UCD_DIR=/s/\$with_emoji_annotation_dir/\$with_ucd_dir/" configure.ac

@@ -5,8 +5,8 @@ EAPI="7"
 inherit autotools bash-completion-r1 linux-info
 
 DESCRIPTION="Unprivileged sandboxing tool, namespaces-powered chroot-like solution"
-HOMEPAGE="https://github.com/projectatomic/bubblewrap"
-SRC_URI="https://github.com/projectatomic/${PN}/releases/download/v${PV}/${P}.tar.xz"
+HOMEPAGE="https://github.com/containers/bubblewrap/"
+SRC_URI="https://github.com/containers/${PN}/releases/download/v${PV}/${P}.tar.xz"
 
 LICENSE="LGPL-2+"
 SLOT="0"
@@ -18,19 +18,22 @@ REQUIRED_USE="
 	?? ( caps suid )
 "
 
-DEPEND="
-	>=app-shells/bash-completion-2
-	dev-libs/libxslt
+# tests require root priviledge
+RESTRICT="test"
+
+RDEPEND="
 	sys-libs/libseccomp
 	caps? ( sys-libs/libcap )
-	man? ( dev-libs/libxslt )
 	selinux? ( >=sys-libs/libselinux-2.1.9 )
 	sudo? ( app-admin/sudo )
 "
-RDEPEND="${DEPEND}"
-
-# tests require root priviledge
-RESTRICT="test"
+DEPEND="${RDEPEND}
+	>=app-shells/bash-completion-2
+	app-text/docbook-xml-dtd:4.3
+	app-text/docbook-xsl-stylesheets
+	man? ( dev-libs/libxslt )
+	virtual/pkgconfig
+"
 
 pkg_setup() {
 	if [[ ${MERGE_TYPE} != buildonly ]]; then

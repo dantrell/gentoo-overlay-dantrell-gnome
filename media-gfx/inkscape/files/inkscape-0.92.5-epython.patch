@@ -1,0 +1,12 @@
+diff '--exclude=.git' -urN a/src/extension/implementation/script.cpp b/src/extension/implementation/script.cpp
+--- a/src/extension/implementation/script.cpp	2020-04-09 16:37:16.000000000 -0500
++++ b/src/extension/implementation/script.cpp	2020-05-02 02:37:39.627605401 -0500
+@@ -88,7 +88,7 @@
+         {"python", "python-interpreter", "pythonw" },
+ #else
+         {"perl",   "perl-interpreter",   "perl"   },
+-        {"python", "python-interpreter", "python" },
++        {"python", "python-interpreter", "@EPYTHON@" },
+ #endif
+         {"ruby",   "ruby-interpreter",   "ruby"   },
+         {"shell",  "shell-interpreter",  "sh"     },

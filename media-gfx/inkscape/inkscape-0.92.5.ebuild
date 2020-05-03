@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python{3_6,3_7,3_8} )
 PYTHON_REQ_USE="xml"
 
 inherit autotools flag-o-matic gnome2-utils xdg toolchain-funcs python-single-r1
@@ -14,7 +14,7 @@ SRC_URI="https://inkscape.global.ssl.fastly.net/media/resources/file/${P}.tar.bz
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS=""
 
 IUSE="cdr dia dbus deprecated exif gnome imagemagick openmp postscript inkjar jpeg latex"
 IUSE+=" lcms nls spell static-libs visio wpg uniconvertor"
@@ -101,12 +101,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-0.92.1-desktop.patch
 	"${FILESDIR}"/${PN}-0.91_pre3-exif.patch
 	"${FILESDIR}"/${PN}-0.91_pre3-sk-man.patch
-	"${FILESDIR}"/${PN}-0.48.4-epython.patch
-	"${FILESDIR}"/${PN}-0.92.4-poppler-0.76.0.patch #684246
-	"${FILESDIR}"/${PN}-0.92.4-poppler-0.82.0.patch
-	# From Inkscape:
-	# 	https://gitlab.com/inkscape/inkscape/commit/51351358a62acb6887eab49bc0dc4a7a3d18c17a
-	"${FILESDIR}"/${PN}-0.92.4-poppler-0.83.0.patch
+	"${FILESDIR}"/${PN}-0.92.5-epython.patch
 )
 
 S="${WORKDIR}/${MY_P}"

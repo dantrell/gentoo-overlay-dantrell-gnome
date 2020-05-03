@@ -70,12 +70,12 @@
 ~gnome-base/dconf-editor-3.36.2::dantrell-gnome-3-36
 ~gnome-base/gdm-3.34.1::dantrell-gnome
 ~gnome-base/gnome-3.36.0::dantrell-gnome-3-36
-~gnome-base/gnome-control-center-3.36.1::dantrell-gnome-3-36
+~gnome-base/gnome-control-center-3.36.2::dantrell-gnome-3-36
 ~gnome-base/gnome-core-apps-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-core-libs-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-desktop-3.36.2::dantrell-gnome-3-36
 ~gnome-base/gnome-extra-apps-3.36.0::dantrell-gnome-3-36
-~gnome-base/gnome-flashback-3.36.2::dantrell-gnome-3-36
+~gnome-base/gnome-flashback-3.36.3::dantrell-gnome-3-36
 ~gnome-base/gnome-keyring-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-light-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-menus-3.36.0::dantrell-gnome-3-36

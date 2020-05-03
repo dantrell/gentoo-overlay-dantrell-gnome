@@ -94,8 +94,8 @@
 
 # Masked to freeze the state of GNOME
 >=app-accessibility/accerciser-3.22.0
->=app-accessibility/at-spi2-atk-2.16.0
->=app-accessibility/at-spi2-core-2.16.0
+>=app-accessibility/at-spi2-atk-2.28.0
+>=app-accessibility/at-spi2-core-2.28.0
 >=app-accessibility/orca-3.16.0
 >=app-arch/file-roller-3.16.0
 >=app-arch/gcab-1.0
@@ -124,7 +124,7 @@
 >=dev-cpp/libxmlpp-3.1.0
 >=dev-cpp/pangomm-2.38.0
 >=dev-libs/appstream-glib-0.5.1
->=dev-libs/atk-2.16.0
+>=dev-libs/atk-2.28.0
 >=dev-libs/folks-0.12.0
 >=dev-libs/gdl-3.16.0
 >=dev-libs/gjs-1.43.0
@@ -145,7 +145,7 @@
 >=dev-libs/libsigc++-2.6.0
 >=dev-libs/libunistring-0.10.0
 >=dev-libs/totem-pl-parser-3.26.0
->=dev-python/pyatspi-2.16.0
+>=dev-python/pyatspi-2.28.0
 >=dev-python/pygobject-3.16.0
 >=dev-util/anjuta-3.16.0
 >=dev-util/devhelp-3.16.0
