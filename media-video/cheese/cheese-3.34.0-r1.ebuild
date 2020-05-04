@@ -9,7 +9,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Cheese"
 
 LICENSE="GPL-2+"
 SLOT="0/8" # subslot = libcheese soname version
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="gtk-doc +introspection test"
 
@@ -23,9 +23,9 @@ DEPEND="
 	>=dev-libs/glib-2.39.90:2
 	>=gnome-base/gnome-desktop-2.91.6:3=
 	>=media-libs/gstreamer-1.4:1.0[introspection?]
-	>=media-libs/gst-plugins-base-1.4:1.0[introspection?,ogg,pango,theora,vorbis,X]
+	>=media-libs/gst-plugins-base-1.4:1.0[ogg,pango,theora,vorbis]
 	>=media-libs/gst-plugins-bad-1.4:1.0
-	>=x11-libs/gtk+-3.13.4:3[introspection?]
+	>=x11-libs/gtk+-3.13.4:3
 	>=media-libs/libcanberra-0.26[gtk3]
 	x11-libs/libX11
 	sys-apps/dbus
@@ -55,32 +55,28 @@ BDEPEND="
 	$(vala_depend)
 "
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-3.34.0-buildfix.patch
+	"${FILESDIR}"/${PN}-3.34.0-help-No-more-menu-bars-in-3.34-UI.patch
+)
+
 src_prepare() {
 	xdg_src_prepare
 	vala_src_prepare
 }
 
 src_configure() {
-	# Prevent sandbox violations when we need write access to
-	# /dev/dri/card* in its init phase, bug #358755
-	for card in /dev/dri/card* ; do
-		addpredict "${card}"
-	done
-
-	# Prevent sandbox violations when we need write access to
-	# /dev/dri/render* in its init phase, bug #358755
-	for render in /dev/dri/render* ; do
-		addpredict "${render}"
-	done
-
 	local emesonargs=(
 		$(meson_use test tests)
 		$(meson_use introspection)
 		$(meson_use gtk-doc gtk_doc)
-		-D man=false
+		-D man=true
 	)
 
 	meson_src_configure
+
+	# Hack: version.xml is not generated if gtk-doc is not enabled
+	echo ${PV} > docs/reference/version.xml
 }
 
 src_test() {
