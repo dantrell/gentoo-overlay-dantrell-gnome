@@ -3,16 +3,18 @@
 EAPI="7"
 
 DESCRIPTION="UTS #51 Unicode Emoji"
-HOMEPAGE="https://unicode.org/emoji/"
-BASE_URI="https://unicode.org/Public/${PN#*-}/${PV}"
-SRC_URI="
-	${BASE_URI}/${PN#*-}-sequences.txt -> ${PN}-sequences-${PV}.txt
-	${BASE_URI}/${PN#*-}-test.txt -> ${PN}-test-${PV}.txt
-	${BASE_URI}/${PN#*-}-zwj-sequences.txt -> ${PN}-zwj-sequences-${PV}.txt"
+HOMEPAGE="https://unicode.org/emoji/techindex.html"
+DATA_URI="https://unicode.org/Public/${PN#*-}/${PV}"
+UCD_URI="https://unicode.org/Public/${PV}.0/ucd/${PN#*-}"
+SRC_URI="${DATA_URI}/${PN#*-}-sequences.txt -> ${PN}-sequences-${PV}.txt
+	${DATA_URI}/${PN#*-}-test.txt -> ${PN}-test-${PV}.txt
+	${DATA_URI}/${PN#*-}-zwj-sequences.txt -> ${PN}-zwj-sequences-${PV}.txt
+	${UCD_URI}/${PN#*-}-data.txt -> ${PN}-data-${PV}.txt
+	${UCD_URI}/${PN#*-}-variation-sequences.txt -> ${PN}-variation-sequences-${PV}.txt"
 
 LICENSE="unicode"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE=""
 
@@ -26,11 +28,9 @@ src_unpack() {
 }
 
 src_install() {
-	insinto /usr/share/unicode/emoji
-	local source_file target_file
-	for source_file in ${A}; do
-		target_file="${source_file#${PN%-*}-}"
-		target_file="${target_file%-${PV}.txt}.txt"
-		newins "${DISTDIR}/${source_file}" "${target_file}"
+	local a
+	insinto /usr/share/${PN/-//}
+	for a in ${A}; do
+		newins "${DISTDIR}"/${a} $(echo ${a} | sed "s/${PN%-*}-\(.*\)-${PV}/\1/")
 	done
 }

@@ -55,6 +55,7 @@ MULTILIB_WRAPPED_HEADERS=(
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.19.7-disable-libintl.patch #564168
 	"${FILESDIR}"/${PN}-0.20-parallel_install.patch #685530
+	"${FILESDIR}"/${PN}-0.21_rc1-avoid_eautomake.patch
 )
 
 QA_SONAME_NO_SYMLINK=".*/preloadable_libintl.so"

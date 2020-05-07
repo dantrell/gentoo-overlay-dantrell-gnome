@@ -15,8 +15,6 @@ KEYWORDS="~*"
 
 IUSE=""
 
-RESTRICT="mirror"
-
 DEPEND="app-arch/unzip"
 RDEPEND=""
 

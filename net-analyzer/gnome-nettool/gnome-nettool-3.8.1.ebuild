@@ -26,8 +26,7 @@ RDEPEND="${COMMON_DEPEND}
 	|| (
 		net-misc/iputils
 		net-analyzer/tcptraceroute
-		net-analyzer/traceroute
-		sys-freebsd/freebsd-usbin )
+		net-analyzer/traceroute )
 	net-analyzer/nmap
 	net-dns/bind-tools
 	userland_GNU? ( net-misc/netkit-fingerd net-misc/whois )
