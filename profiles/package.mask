@@ -271,12 +271,14 @@ sys-libs/libosinfo::gentoo
 sys-power/acpid::gentoo
 sys-power/upower::gentoo
 sys-process/gnome-usage::gentoo
+x11-base/xorg-proto::gentoo
 x11-libs/cairo::gentoo
 x11-libs/colord-gtk::gentoo
 x11-libs/gdk-pixbuf::gentoo
 x11-libs/gtef::gentoo
 x11-libs/gtk+::gentoo
 x11-libs/gtksourceview::gentoo
+x11-libs/libXxf86misc::gentoo
 x11-libs/libcryptui::gentoo
 x11-libs/libfm::gentoo
 x11-libs/libnotify::gentoo

@@ -13,7 +13,7 @@ SRC_URI="https://gitlab.com/inkscape/inkscape/-/archive/${PN^^}_$(ver_rs 1-2 "_"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="cdr dbus dia exif graphicsmagick imagemagick inkjar jemalloc jpeg lcms nls
 openmp postscript spell static-libs svg2 visio wpg"
@@ -50,7 +50,7 @@ COMMON_DEPEND="${PYTHON_DEPS}
 	sci-libs/gsl:=
 	x11-libs/libX11
 	>=x11-libs/pango-1.37.2
-	x11-libs/gtk+:3
+	>=x11-libs/gtk+-3.22
 	$(python_gen_cond_dep '
 		dev-python/lxml[${PYTHON_MULTI_USEDEP}]
 		media-gfx/scour[${PYTHON_MULTI_USEDEP}]

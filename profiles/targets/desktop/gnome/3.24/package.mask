@@ -23,6 +23,7 @@
 # Requires GLib 2.54 (or greater)
 >=dev-libs/appstream-0.12.0
 >=mail-client/geary-0.13.0
+>=media-gfx/inkscape-1.0
 >=net-vpn/networkmanager-wireguard-9999
 
 # Masked to freeze the state of GNOME
@@ -204,6 +205,7 @@
 >=sys-apps/gnome-disk-utility-3.26.0
 >=sys-process/gnome-usage-3.28.0
 >=www-client/epiphany-3.26.0
+>=x11-base/xorg-proto-2020.0
 >=x11-libs/gdk-pixbuf-2.38.0
 >=x11-libs/gnome-pty-helper-0.50.0
 >=x11-libs/gtksourceview-3.26.0

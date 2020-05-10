@@ -17,7 +17,7 @@ LICENSE="LGPL-2+ BSD"
 SLOT="4/37" # soname version of libwebkit2gtk-4.0
 KEYWORDS="*"
 
-IUSE="aqua coverage deprecated +egl embedded +geolocation gles2-only gnome-keyring +gstreamer gtk-doc +introspection +jit jpeg2k +jumbo-build libnotify +opengl seccomp spell wayland +webgl +X"
+IUSE="aqua deprecated +egl embedded +geolocation gles2-only gnome-keyring +gstreamer gtk-doc +introspection +jit jpeg2k +jumbo-build libnotify +opengl seccomp spell wayland +webgl +X"
 # webgl needs gstreamer, bug #560612
 # gstreamer with opengl/gles2 needs egl
 REQUIRED_USE="
@@ -65,7 +65,7 @@ RDEPEND="
 	spell? ( >=app-text/enchant-0.22:2 )
 	gstreamer? (
 		>=media-libs/gstreamer-1.14:1.0
-		>=media-libs/gst-plugins-base-1.14:1.0[egl?,opengl?]
+		>=media-libs/gst-plugins-base-1.14:1.0[egl?,opengl?,X?]
 		gles2-only? ( media-libs/gst-plugins-base:1.0[gles2] )
 		>=media-plugins/gst-plugins-opus-1.14.4-r1:1.0
 		>=media-libs/gst-plugins-bad-1.14:1.0 )
@@ -175,6 +175,10 @@ src_prepare() {
 
 	eapply "${FILESDIR}"/${PN}-2.24.4-eglmesaext-include.patch # bug 699054 # https://bugs.webkit.org/show_bug.cgi?id=204108
 	eapply "${FILESDIR}"/${PN}-2.26.3-fix-gtk-doc.patch # bug 704550 - retest without it once we can depend on >=gtk-doc-1.32
+	eapply "${FILESDIR}"/${PN}-2.28.2-fix-yelp-desktopless-build.patch
+	eapply "${FILESDIR}"/${PN}-2.28.2-use-gst-audiointerleave.patch
+	eapply "${FILESDIR}"/${PN}-2.28.2-fix-ppc64-JSC.patch
+	eapply "${FILESDIR}"/${PN}-2.28.2-opengl-without-X-fixes.patch
 	cmake-utils_src_prepare
 	gnome2_src_prepare
 }

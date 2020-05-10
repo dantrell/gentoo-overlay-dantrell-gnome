@@ -9,5 +9,6 @@ gnome-extra/nautilus-sendto::dantrell-gnome
 media-fonts/symbola::gentoo
 media-video/pipewire::dantrell-gnome
 sys-apps/bubblewrap::dantrell-gnome
+x11-libs/libXxf86misc::dantrell-gnome
 x11-libs/xpyb::dantrell-gnome
 x11-themes/gnome-icon-theme-extras::dantrell-gnome
