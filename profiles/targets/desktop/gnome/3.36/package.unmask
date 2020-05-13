@@ -13,7 +13,7 @@
 ~app-editors/gnome-latex-3.32.0::dantrell-gnome
 ~app-misc/bijiben-3.36.1::dantrell-gnome-3-36
 ~app-misc/geoclue-2.4.8::dantrell-gnome
-~app-misc/gnote-3.36.0::dantrell-gnome-3-36
+~app-misc/gnote-3.36.1::dantrell-gnome-3-36
 ~app-misc/tracker-2.3.4::dantrell-gnome
 ~app-misc/tracker-miners-2.3.3::dantrell-gnome
 ~app-text/enchant-2.2.8::dantrell-gnome
@@ -95,7 +95,7 @@
 ~gnome-extra/gnome-boxes-3.36.3::dantrell-gnome-3-36
 ~gnome-extra/gnome-calculator-3.36.0::dantrell-gnome-3-36
 ~gnome-extra/gnome-calendar-3.36.1::dantrell-gnome-3-36
-~gnome-extra/gnome-clocks-3.36.0::dantrell-gnome-3-36
+~gnome-extra/gnome-clocks-3.36.2::dantrell-gnome-3-36
 ~gnome-extra/gnome-contacts-3.36.1::dantrell-gnome-3-36
 ~gnome-extra/gnome-getting-started-docs-3.36.2::dantrell-gnome-3-36
 ~gnome-extra/gnome-packagekit-3.32.0::dantrell-gnome

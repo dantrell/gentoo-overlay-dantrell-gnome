@@ -52,3 +52,9 @@ RDEPEND="
 	!x11-proto/xf86rushproto"
 
 S="${WORKDIR}/${MY_P}"
+
+PATCHES=(
+	# From X.Org:
+	# 	https://gitlab.freedesktop.org/xorg/proto/xorgproto/-/commit/15329c5a0d3a5d9a8eddf0bed38c3b62c7fc7965
+	"${FILESDIR}"/${PN}-2020.1-xf86keysym-add-xf86xk-fullscreen.patch
+)

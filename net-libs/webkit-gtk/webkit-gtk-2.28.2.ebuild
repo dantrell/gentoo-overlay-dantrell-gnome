@@ -179,6 +179,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-2.28.2-use-gst-audiointerleave.patch
 	eapply "${FILESDIR}"/${PN}-2.28.2-fix-ppc64-JSC.patch
 	eapply "${FILESDIR}"/${PN}-2.28.2-opengl-without-X-fixes.patch
+	eapply "${FILESDIR}"/${PN}-2.28.2-non-jumbo-fix.patch
 	cmake-utils_src_prepare
 	gnome2_src_prepare
 }

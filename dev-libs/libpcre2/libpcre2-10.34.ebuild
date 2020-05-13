@@ -24,7 +24,7 @@ fi
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="bzip2 +jit libedit pcre16 pcre32 +readline +recursion-limit static-libs unicode zlib"
 REQUIRED_USE="?? ( libedit readline )"
