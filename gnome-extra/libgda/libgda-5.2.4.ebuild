@@ -8,7 +8,7 @@ VALA_USE_DEPEND="vapigen"
 inherit autotools db-use flag-o-matic gnome2 java-pkg-opt-2 python-single-r1 vala
 
 DESCRIPTION="GNOME database access library"
-HOMEPAGE="http://www.gnome-db.org/"
+HOMEPAGE="https://www.gnome-db.org/"
 
 LICENSE="GPL-2+ LGPL-2+"
 SLOT="5/4" # subslot = libgda-5.0 soname version

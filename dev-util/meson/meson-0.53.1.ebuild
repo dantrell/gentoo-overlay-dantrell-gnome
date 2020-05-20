@@ -7,7 +7,7 @@ DISTUTILS_USE_SETUPTOOLS="rdepend"
 inherit distutils-r1 toolchain-funcs
 
 DESCRIPTION="Open source build system"
-HOMEPAGE="http://mesonbuild.com/"
+HOMEPAGE="https://mesonbuild.com/"
 SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 
 LICENSE="Apache-2.0"

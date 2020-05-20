@@ -67,6 +67,7 @@ src_configure() {
 		$(meson_use udev)
 		-Dinstall-apport-hook=false
 		$(meson_use opencv face-detection)
+		-Dfatal_warnings=false
 	)
 	meson_src_configure
 }
