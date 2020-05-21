@@ -40,10 +40,19 @@ RDEPEND="
 	tiff? ( media-libs/tiff:0 )
 	zeroconf? ( net-dns/avahi[dbus] )
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	dev-util/gdbus-codegen
+	>=sys-devel/gettext-0.18.3
+	virtual/pkgconfig
 	test? ( media-fonts/dejavu )
 "
+
+PATCHES=(
+	# From OpenPrinting:
+	# 	https://github.com/OpenPrinting/cups-filters/commit/e6c5025df307d3e8c79c3cd801780e4570f8607e
+	"${FILESDIR}"/${PN}-1.26.2-foomatic-rip-fix-compilation-with-fno-common.patch
+)
 
 src_prepare() {
 	default
@@ -69,7 +78,6 @@ src_configure() {
 		$(use_enable pclm)
 		$(use_enable pdf mutool)
 		$(use_enable postscript ghostscript)
-		$(use_enable postscript ijs)
 		$(use_enable static-libs static)
 		$(use_enable zeroconf avahi)
 		$(use_with jpeg)

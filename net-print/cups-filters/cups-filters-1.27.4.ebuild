@@ -4,7 +4,7 @@ EAPI="7"
 
 GENTOO_DEPEND_ON_PERL=no
 
-inherit perl-module systemd flag-o-matic
+inherit autotools perl-module systemd flag-o-matic
 
 DESCRIPTION="Cups filters"
 HOMEPAGE="https://wiki.linuxfoundation.org/openprinting/cups-filters"
@@ -12,9 +12,9 @@ SRC_URI="http://www.openprinting.org/download/${PN}/${P}.tar.xz"
 
 LICENSE="MIT GPL-2"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="dbus +foomatic ipp_autosetup jpeg ldap pclm pdf perl png +postscript static-libs test tiff zeroconf"
+IUSE="dbus +foomatic jpeg ldap pclm pdf perl png +postscript static-libs test tiff zeroconf"
 
 RESTRICT="!test? ( test )"
 
@@ -40,13 +40,21 @@ RDEPEND="
 	tiff? ( media-libs/tiff:0 )
 	zeroconf? ( net-dns/avahi[dbus] )
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	dev-util/gdbus-codegen
+	>=sys-devel/gettext-0.18.3
+	virtual/pkgconfig
 	test? ( media-fonts/dejavu )
 "
 
 src_prepare() {
 	default
+
+	if ! use test ; then
+		eapply "${FILESDIR}"/${PN}-1.27.4-make-missing-testfont-non-fatal.patch
+		eautoreconf
+	fi
 
 	# Bug #626800
 	append-cxxflags -std=c++11
@@ -64,12 +72,10 @@ src_configure() {
 		--without-php
 		$(use_enable dbus)
 		$(use_enable foomatic)
-		$(use_enable ipp_autosetup auto-setup-driverless)
 		$(use_enable ldap)
 		$(use_enable pclm)
 		$(use_enable pdf mutool)
 		$(use_enable postscript ghostscript)
-		$(use_enable postscript ijs)
 		$(use_enable static-libs static)
 		$(use_enable zeroconf avahi)
 		$(use_with jpeg)
