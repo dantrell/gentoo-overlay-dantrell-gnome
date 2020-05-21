@@ -135,7 +135,7 @@
 ~media-fonts/cantarell-0.111::dantrell-gnome
 ~media-gfx/eog-3.34.2::dantrell-gnome-3-34
 ~media-gfx/gnome-font-viewer-3.34.0::dantrell-gnome
-~media-gfx/gnome-photos-3.34.1::dantrell-gnome
+~media-gfx/gnome-photos-3.34.2::dantrell-gnome
 ~media-gfx/gnome-screenshot-3.34.0::dantrell-gnome-3-34
 ~media-gfx/simple-scan-3.34.6::dantrell-gnome-3-34
 ~media-libs/clutter-1.26.4::dantrell-gnome
