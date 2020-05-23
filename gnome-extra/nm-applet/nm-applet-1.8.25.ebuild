@@ -12,7 +12,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="ayatana doc gtk +introspection lto +modemmanager selinux teamd test wwan"
+IUSE="appindicator doc gtk +introspection lto +modemmanager selinux teamd test wwan"
 
 RESTRICT="test"
 
@@ -24,7 +24,7 @@ DEPEND="
 	net-misc/networkmanager:=
 	x11-libs/gtk+:3[introspection?]
 	x11-libs/libnotify
-	ayatana? (
+	appindicator? (
 		dev-libs/libappindicator:3
 		dev-libs/libdbusmenu
 	)
@@ -44,7 +44,7 @@ src_configure() {
 	local emesonargs=(
 		$(meson_use gtk libnm_gtk)
 		-Dlibnma_gtk4=false
-		-Dappindicator=$(usex ayatana yes no)
+		-Dappindicator=$(usex appindicator yes no)
 		$(meson_use wwan)
 		$(meson_use selinux)
 		$(meson_use teamd team)

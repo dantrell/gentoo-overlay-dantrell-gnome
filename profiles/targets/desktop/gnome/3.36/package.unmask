@@ -103,7 +103,7 @@
 ~gnome-extra/gnome-recipes-2.0.2::dantrell-gnome
 ~gnome-extra/gnome-shell-extensions-3.36.2::dantrell-gnome-3-36
 ~gnome-extra/gnome-shell-frippery-3.36.0::dantrell-gnome-3-36
-~gnome-extra/gnome-software-3.36.0::dantrell-gnome-3-36
+~gnome-extra/gnome-software-3.36.1::dantrell-gnome-3-36
 ~gnome-extra/gnome-system-monitor-3.36.0::dantrell-gnome-3-36
 ~gnome-extra/gnome-tweaks-3.34.0::dantrell-gnome
 ~gnome-extra/gnome-user-docs-3.36.2::dantrell-gnome-3-36

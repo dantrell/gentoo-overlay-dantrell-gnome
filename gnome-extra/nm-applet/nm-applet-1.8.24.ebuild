@@ -14,7 +14,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="ayatana gcr gtk +introspection +modemmanager selinux teamd"
+IUSE="appindicator gcr gtk +introspection +modemmanager selinux teamd"
 
 RDEPEND="
 	>=app-crypt/libsecret-0.18
@@ -31,7 +31,7 @@ RDEPEND="
 	>=net-misc/networkmanager-1.7:=[introspection?,modemmanager?,teamd?]
 	net-misc/mobile-broadband-provider-info
 
-	ayatana? (
+	appindicator? (
 		dev-libs/libappindicator:3
 		>=dev-libs/libdbusmenu-16.04.0 )
 	gtk? ( <net-misc/networkmanager-1.19:= )
@@ -56,7 +56,7 @@ PATCHES=(
 
 src_configure() {
 	local myconf=(
-		--with-appindicator=$(usex ayatana ubuntu no)
+		--with-appindicator=$(usex appindicator ubuntu no)
 		$(use_with gtk libnm-gtk)
 		--without-libnma-gtk4
 		--disable-lto

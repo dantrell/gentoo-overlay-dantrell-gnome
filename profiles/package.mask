@@ -171,6 +171,7 @@ mail-client/geary::gentoo
 media-fonts/cantarell::gentoo
 media-fonts/croscorefonts::gentoo
 media-fonts/noto::gentoo
+media-fonts/symbola::gentoo
 media-gfx/eog-plugins::gentoo
 media-gfx/eog::gentoo
 media-gfx/gnome-font-viewer::gentoo
