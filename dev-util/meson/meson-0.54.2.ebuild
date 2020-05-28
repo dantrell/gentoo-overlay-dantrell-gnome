@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python{3_6,3_7,3_8} )
+PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 DISTUTILS_USE_SETUPTOOLS="rdepend"
 
 inherit distutils-r1 toolchain-funcs
@@ -28,14 +28,28 @@ DEPEND="
 	)
 "
 
-python_prepare_all() {
-	# ASAN and sandbox both want control over LD_PRELOAD
-	# https://bugs.gentoo.org/673016
-	sed -i -e 's/test_generate_gir_with_address_sanitizer/_&/' run_unittests.py || die
+PATCHES=(
+	"${FILESDIR}"/${PN}-0.54.2-multilib-clang.patch
+)
 
-	# ASAN is unsupported on some targets
-	# https://bugs.gentoo.org/692822
-	sed -i -e 's/test_pch_with_address_sanitizer/_&/' run_unittests.py || die
+python_prepare_all() {
+	local disable_unittests=(
+		# ASAN and sandbox both want control over LD_PRELOAD
+		# https://bugs.gentoo.org/673016
+		-e 's/test_generate_gir_with_address_sanitizer/_&/'
+
+		# ASAN is unsupported on some targets
+		# https://bugs.gentoo.org/692822
+		-e 's/test_pch_with_address_sanitizer/_&/'
+
+		# https://github.com/mesonbuild/meson/issues/7203
+		-e 's/test_templates/_&/'
+
+		# Broken due to python2 wrapper
+		-e 's/test_python_module/_&/'
+	)
+
+	sed -i "${disable_unittests[@]}" run_unittests.py || die
 
 	# Broken due to python2 script created by python_wrapper_setup
 	rm -r "test cases/frameworks/1 boost" || die

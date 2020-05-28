@@ -92,7 +92,7 @@
 ~gnome-base/nautilus-3.36.2::dantrell-gnome-3-36
 ~gnome-extra/evolution-data-server-3.36.2::dantrell-gnome-3-36
 ~gnome-extra/evolution-ews-3.36.2::dantrell-gnome-3-36
-~gnome-extra/gnome-boxes-3.36.3::dantrell-gnome-3-36
+~gnome-extra/gnome-boxes-3.36.4::dantrell-gnome-3-36
 ~gnome-extra/gnome-calculator-3.36.0::dantrell-gnome-3-36
 ~gnome-extra/gnome-calendar-3.36.1::dantrell-gnome-3-36
 ~gnome-extra/gnome-clocks-3.36.2::dantrell-gnome-3-36

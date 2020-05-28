@@ -14,6 +14,8 @@ KEYWORDS="~*"
 
 IUSE="alsa bluetooth doc examples ffmpeg gstreamer jack pulseaudio sdl systemd test vaapi vulkan X"
 
+RESTRICT="!test? ( test )"
+
 BDEPEND="
 	app-doc/xmltoman
 	doc? (
