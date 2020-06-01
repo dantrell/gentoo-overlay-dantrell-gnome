@@ -7,12 +7,12 @@ inherit font
 DESCRIPTION="Google's font family that aims to support all the world's languages (plus Arimo, Cousine & Tinos)"
 HOMEPAGE="https://www.google.com/get/noto/ https://github.com/googlei18n/noto-fonts"
 
-COMMIT="1c9f53362889d4468fd1193b76c397c208d81da8"
+COMMIT="49313785484cd4d1f4c0329ee3a8801f158f5ba1"
 SRC_URI="https://github.com/googlei18n/noto-fonts/archive/${COMMIT}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="OFL-1.1"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="cjk emoji extra minimal +ttf"
 
@@ -95,7 +95,7 @@ src_install() {
 	cp "${S}"/hinted/Cousine/* "${S}"/staging/ || die
 	cp "${S}"/hinted/Tinos/* "${S}"/staging/ || die
 
-	# The 20200308 snapshot has 100 empty hinted ttf files in phaseIII.
+	# The 20200521 snapshot has 100 empty hinted ttf files in phaseIII.
 	#
 	# To avoid issues, we start with phaseII as the base and overwrite
 	# with valid phaseIII versions where applicable.
