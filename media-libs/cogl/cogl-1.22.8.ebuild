@@ -10,7 +10,7 @@ HOMEPAGE="https://www.cogl3d.org/"
 
 LICENSE="MIT BSD"
 SLOT="1.0/20" # subslot = .so version
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="doc debug examples gles2 gstreamer +introspection +pango wayland"
 
@@ -50,10 +50,6 @@ DEPEND="${COMMON_DEPEND}
 	>=sys-devel/gettext-0.19
 	virtual/pkgconfig
 "
-
-PATCHES=(
-	"${FILESDIR}"/${PN}-1.22.2-eglmesaext-include.patch
-)
 
 src_prepare() {
 	# Do not build examples

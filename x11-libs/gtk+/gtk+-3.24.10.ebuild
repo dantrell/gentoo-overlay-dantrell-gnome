@@ -5,7 +5,7 @@ GNOME2_LA_PUNT="yes"
 
 inherit autotools flag-o-matic gnome2 multilib virtualx multilib-minimal
 
-DESCRIPTION="Gimp ToolKit +"
+DESCRIPTION="The GTK Project (formerly GTK+, The GIMP Toolkit)"
 HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2+"

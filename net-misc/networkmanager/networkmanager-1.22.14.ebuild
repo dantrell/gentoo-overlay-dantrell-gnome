@@ -13,7 +13,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
 
 LICENSE="GPL-2+"
 SLOT="0" # add subslot if libnm-util.so.2 or libnm-glib.so.4 bumps soname version
-KEYWORDS="*"
+KEYWORDS=""
 
 IUSE="audit bluetooth ck connection-sharing consolekit +dhclient dhcpcd doc elogind gnutls +introspection iwd json kernel_linux +nss +modemmanager ncurses ofono ovs policykit +ppp resolvconf selinux systemd teamd test vala +vanilla +wext +wifi"
 REQUIRED_USE="
@@ -56,7 +56,8 @@ COMMON_DEPEND="
 	elogind? ( >=sys-auth/elogind-219 )
 	introspection? ( >=dev-libs/gobject-introspection-0.10.3:= )
 	json? ( >=dev-libs/jansson-2.5[${MULTILIB_USEDEP}] )
-	modemmanager? ( >=net-misc/modemmanager-0.7.991:0= )
+	modemmanager? ( >=net-misc/modemmanager-0.7.991:0=
+		net-misc/mobile-broadband-provider-info )
 	ncurses? ( >=dev-libs/newt-0.52.15 )
 	nss? ( >=dev-libs/nss-3.11:=[${MULTILIB_USEDEP}] )
 	!nss? ( gnutls? (
@@ -113,11 +114,6 @@ DEPEND="${COMMON_DEPEND}
 			dev-python/pygobject:3[${PYTHON_USEDEP}]')
 	)
 "
-
-PATCHES=(
-	"${FILESDIR}"/${PN}-1.21.2.data-fix-the-id-net-driver-udev-rule.patch
-	"${FILESDIR}"/${PN}-1.18.4-iwd1-compat.patch # included in 1.21.3+
-)
 
 python_check_deps() {
 	if use introspection; then
@@ -196,6 +192,7 @@ multilib_src_configure() {
 		--with-iptables=/sbin/iptables
 		--with-ebpf=yes
 		$(multilib_native_enable concheck)
+		--with-nm-cloud-setup=$(multilib_is_native_abi && echo yes || echo no)
 		--with-crypto=$(usex nss nss gnutls)
 		--with-session-tracking=$(multilib_native_usex systemd systemd $(multilib_native_usex elogind elogind $(multilib_native_usex consolekit consolekit no)))
 		--with-suspend-resume=$(multilib_native_usex systemd systemd $(multilib_native_usex elogind elogind $(multilib_native_usex consolekit consolekit upower)))

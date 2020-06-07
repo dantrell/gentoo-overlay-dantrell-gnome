@@ -14,7 +14,7 @@ SRC_URI="http://download.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.xz"
 
 LICENSE="|| ( GPL-3+ LGPL-3 )"
 SLOT="0.4"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="cairo debug ffmpeg introspection lcms lensfun openexr pdf raw sdl svg test tiff umfpack vala v4l webp"
 REQUIRED_USE="
@@ -65,8 +65,6 @@ BDEPEND="
 	test? ( $(python_gen_any_dep '>=dev-python/pygobject-3.2:3[${PYTHON_USEDEP}]') )
 	vala? ( $(vala_depend) )
 "
-
-DOCS=( AUTHORS docs/ChangeLog docs/NEWS.txt )
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.4.18-drop-failing-tests.patch
