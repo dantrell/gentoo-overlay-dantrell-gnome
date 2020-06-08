@@ -10,7 +10,7 @@ SRC_URI="https://gitlab.gnome.org/GNOME/network-manager-applet/-/archive/${PV}-d
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS=""
 
 IUSE="appindicator doc gtk +introspection lto +modemmanager selinux teamd test wwan"
 
