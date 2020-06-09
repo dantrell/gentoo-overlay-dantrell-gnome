@@ -21,7 +21,7 @@ RDEPEND="
 	>=sys-libs/pam-${MIN_PAM_REQ}
 	ck? ( <sys-auth/consolekit-0.9[pam] )
 	consolekit? ( >=sys-auth/consolekit-0.9[pam] )
-	cracklib? ( sys-libs/pam[cracklib] )
+	cracklib? ( sys-libs/pam[cracklib(+)] )
 	elogind? ( sys-auth/elogind[pam] )
 	mktemp? ( sys-auth/pam_mktemp )
 	pam_krb5? (
