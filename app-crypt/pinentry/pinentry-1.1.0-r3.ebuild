@@ -46,6 +46,7 @@ BDEPEND="
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.0.0-make-icon-work-under-Plasma-Wayland.patch
 	"${FILESDIR}"/${PN}-0.8.2-ncurses.patch
+	"${FILESDIR}"/${PN}-1.0.0-AR.patch
 )
 
 src_prepare() {

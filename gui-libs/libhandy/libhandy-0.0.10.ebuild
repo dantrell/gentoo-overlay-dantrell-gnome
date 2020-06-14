@@ -30,7 +30,7 @@ DEPEND="${RDEPEND}
 	dev-libs/libxml2:2
 	gtk-doc? ( dev-util/gtk-doc )
 	>=sys-devel/gettext-0.19.8
-	virtual/pkgconfig[${MULTILIB_USEDEP}]
+	virtual/pkgconfig
 "
 
 S="${WORKDIR}/${PN}-v${PV}"

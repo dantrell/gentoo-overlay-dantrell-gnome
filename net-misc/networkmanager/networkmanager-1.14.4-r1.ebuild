@@ -98,7 +98,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-util/intltool-0.40
 	>=sys-devel/gettext-0.17
 	>=sys-kernel/linux-headers-2.6.29
-	virtual/pkgconfig[${MULTILIB_USEDEP}]
+	virtual/pkgconfig
 	!doc? ( dev-util/gtk-doc-am )
 	doc? ( dev-util/gtk-doc )
 	introspection? (

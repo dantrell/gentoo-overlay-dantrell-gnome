@@ -6,12 +6,14 @@ app-emulation/qemu usbredir
 app-emulation/spice smartcard
 app-misc/tracker gstreamer
 app-text/ghostscript-gpl cups
+app-text/gtkspell vala
 app-text/poppler cairo
 app-text/xmlto text
 dev-cpp/cairomm X
 dev-cpp/gtkmm X
 dev-libs/boehm-gc threads
 dev-libs/folks eds
+dev-libs/libdazzle vala
 dev-libs/libgit2 ssh
 dev-libs/libgit2 threads
 dev-libs/libgit2-glib ssh

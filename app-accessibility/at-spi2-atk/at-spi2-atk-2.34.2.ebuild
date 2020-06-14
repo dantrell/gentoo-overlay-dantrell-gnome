@@ -23,7 +23,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	virtual/pkgconfig[${MULTILIB_USEDEP}]
+	virtual/pkgconfig
 	test? ( >=dev-libs/libxml2-2.9.1 )
 "
 

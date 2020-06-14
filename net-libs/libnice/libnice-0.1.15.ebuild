@@ -26,7 +26,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	dev-util/glib-utils
 	>=dev-util/gtk-doc-am-1.10
-	>=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}]
+	virtual/pkgconfig
 "
 
 PATCHES=( "${FILESDIR}"/${PN}-0.1.15-libressl.patch ) # https://gitlab.freedesktop.org/libnice/libnice/merge_requests/50

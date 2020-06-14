@@ -23,7 +23,7 @@ RDEPEND="
 	>=app-accessibility/at-spi2-core-2.25.3[${MULTILIB_USEDEP}]
 "
 DEPEND="${RDEPEND}
-	virtual/pkgconfig[${MULTILIB_USEDEP}]
+	virtual/pkgconfig
 	test? ( >=dev-libs/libxml2-2.9.1 )
 "
 

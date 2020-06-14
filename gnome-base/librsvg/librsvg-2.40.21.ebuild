@@ -40,7 +40,7 @@ DEPEND="${RDEPEND}
 	dev-libs/gobject-introspection-common
 	dev-libs/vala-common
 	>=dev-util/gtk-doc-am-1.13
-	>=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}]
+	virtual/pkgconfig
 "
 # >=gtk-doc-am-1.13, gobject-introspection-common, vala-common needed by eautoreconf
 

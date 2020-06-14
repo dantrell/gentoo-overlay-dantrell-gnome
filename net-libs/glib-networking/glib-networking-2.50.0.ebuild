@@ -29,7 +29,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	>=sys-devel/gettext-0.19.4
-	>=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}]
+	virtual/pkgconfig
 	test? ( sys-apps/dbus[X] )
 "
 # eautoreconf needs >=sys-devel/autoconf-2.65:2.5
