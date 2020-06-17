@@ -74,6 +74,7 @@
 ~gnome-base/gnome-core-apps-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-core-libs-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-desktop-3.36.2::dantrell-gnome-3-36
+~gnome-base/gnome-desktop-3.36.3.1::dantrell-gnome-3-36
 ~gnome-base/gnome-extra-apps-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-flashback-3.36.3::dantrell-gnome-3-36
 ~gnome-base/gnome-keyring-3.36.0::dantrell-gnome-3-36

@@ -8,20 +8,19 @@ SRC_URI="https://github.com/gentoo/pambase/archive/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="caps ck consolekit +cracklib debug elogind minimal mktemp +nullok pam_krb5 pam_ssh passwdqc securetty selinux +sha512 systemd"
+IUSE="caps ck consolekit debug elogind minimal mktemp +nullok pam_krb5 pam_ssh +passwdqc securetty selinux +sha512 systemd"
 REQUIRED_USE="?? ( ck consolekit elogind systemd )"
 
 RESTRICT="binchecks"
 
-MIN_PAM_REQ=1.1.3
+MIN_PAM_REQ=1.4.0
 
 RDEPEND="
 	>=sys-libs/pam-${MIN_PAM_REQ}
 	ck? ( <sys-auth/consolekit-0.9[pam] )
 	consolekit? ( >=sys-auth/consolekit-0.9[pam] )
-	cracklib? ( sys-libs/pam[cracklib(+)] )
 	elogind? ( sys-auth/elogind[pam] )
 	mktemp? ( sys-auth/pam_mktemp )
 	pam_krb5? (
@@ -30,7 +29,7 @@ RDEPEND="
 	)
 	caps? ( sys-libs/libcap[pam] )
 	pam_ssh? ( sys-auth/pam_ssh )
-	passwdqc? ( sys-auth/pam_passwdqc )
+	passwdqc? ( sys-auth/passwdqc )
 	selinux? ( sys-libs/pam[selinux] )
 	sha512? ( >=sys-libs/pam-${MIN_PAM_REQ} )
 	systemd? ( sys-apps/systemd[pam] )
@@ -71,7 +70,6 @@ src_compile() {
 		GIT=true \
 		$(use_var debug) \
 		$(use_var LIBCAP caps) \
-		$(use_var cracklib) \
 		$(use_var passwdqc) \
 		"${myconf[@]}" \
 		$(use_var selinux) \
