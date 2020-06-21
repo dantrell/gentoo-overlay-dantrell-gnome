@@ -19,7 +19,7 @@ fi
 LICENSE="GPL-2+ LGPL-2.1"
 # SUBSLOT based on SONAME of libsensors.so
 SLOT="0/5.0.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="contrib sensord static-libs"
 
@@ -132,7 +132,7 @@ multilib_src_compile() {
 
 multilib_src_install() {
 	emake \
-		DESTDIR="${D}" \
+		DESTDIR="${ED}" \
 		PREFIX="/usr" \
 		MANDIR="/usr/share/man" \
 		ETCDIR="/etc" \

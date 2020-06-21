@@ -7,11 +7,11 @@ inherit autotools git-r3
 DESCRIPTION="IIO accelerometer sensor to input device proxy"
 HOMEPAGE="https://developer.gnome.org/iio-sensor-proxy/1.0/"
 EGIT_REPO_URI="https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/"
-EGIT_COMMIT="ba7a80dc933216ea96a72bbe7a6dbb06752a6493"
+EGIT_COMMIT="b802147fd99f92692e91bfce92ce4131167642cf"
 
 LICENSE="Unlicense"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="elogind systemd"
 REQUIRED_USE="
