@@ -145,9 +145,9 @@
 ~net-irc/polari-3.36.3::dantrell-gnome-3-36
 ~net-libs/glib-networking-2.64.3::dantrell-gnome-3-36
 ~net-libs/gnome-online-accounts-3.36.0::dantrell-gnome-3-36
-~net-libs/gssdp-1.2.2::dantrell-gnome
+~net-libs/gssdp-1.2.3::dantrell-gnome
 ~net-libs/gtk-vnc-1.0.0::dantrell-gnome
-~net-libs/gupnp-1.2.2::dantrell-gnome
+~net-libs/gupnp-1.2.3::dantrell-gnome
 ~net-libs/libnma-1.8.28::dantrell-gnome
 ~net-libs/libsoup-2.70.0::dantrell-gnome-3-36
 ~net-libs/libsoup-gnome-2.70.0::dantrell-gnome-3-36
