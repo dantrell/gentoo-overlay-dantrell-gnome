@@ -43,10 +43,6 @@ BDEPEND="
 	)
 "
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-1.2.2-build-manpage.patch # https://gitlab.gnome.org/GNOME/gupnp/merge_requests/5
-)
-
 src_prepare() {
 	use introspection && vala_src_prepare
 	xdg_src_prepare

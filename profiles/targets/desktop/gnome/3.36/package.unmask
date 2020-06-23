@@ -148,7 +148,7 @@
 ~net-libs/gssdp-1.2.3::dantrell-gnome
 ~net-libs/gtk-vnc-1.0.0::dantrell-gnome
 ~net-libs/gupnp-1.2.3::dantrell-gnome
-~net-libs/libnma-1.8.28::dantrell-gnome
+~net-libs/libnma-1.8.30::dantrell-gnome
 ~net-libs/libsoup-2.70.0::dantrell-gnome-3-36
 ~net-libs/libsoup-gnome-2.70.0::dantrell-gnome-3-36
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
