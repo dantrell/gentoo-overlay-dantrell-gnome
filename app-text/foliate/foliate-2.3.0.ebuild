@@ -11,13 +11,17 @@ SRC_URI="https://github.com/johnfactotum/foliate/archive/${PV}.tar.gz -> ${P}.ta
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="python"
 
 RDEPEND="
+	app-misc/tracker
 	app-text/gspell
+	app-text/iso-codes
 	dev-libs/gjs
+	gui-libs/libhandy
+	net-libs/libsoup
 	net-libs/webkit-gtk
 "
 DEPEND="

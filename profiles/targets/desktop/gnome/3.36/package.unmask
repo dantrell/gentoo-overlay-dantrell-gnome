@@ -14,7 +14,7 @@
 ~app-editors/gnome-latex-3.32.0::dantrell-gnome
 ~app-misc/bijiben-3.36.1::dantrell-gnome-3-36
 ~app-misc/geoclue-2.4.8::dantrell-gnome
-~app-misc/gnote-3.36.1::dantrell-gnome-3-36
+~app-misc/gnote-3.36.2::dantrell-gnome-3-36
 ~app-misc/tracker-2.3.4::dantrell-gnome
 ~app-misc/tracker-miners-2.3.3::dantrell-gnome
 ~app-text/enchant-2.2.8::dantrell-gnome
@@ -46,7 +46,7 @@
 ~dev-python/pygobject-3.36.1::dantrell-gnome-3-36
 ~dev-util/devhelp-3.36.2::dantrell-gnome-3-36
 ~dev-util/gdbus-codegen-2.64.3::dantrell-gnome
-~dev-util/gnome-builder-3.36.0::dantrell-gnome-3-36
+~dev-util/gnome-builder-3.36.1::dantrell-gnome-3-36
 ~dev-util/gnome-devel-docs-3.32.1::dantrell-gnome
 ~dev-util/gtk-doc-1.32::dantrell-gnome
 ~dev-util/sysprof-3.36.0::dantrell-gnome-3-36
@@ -159,10 +159,11 @@
 ~net-wireless/gnome-bluetooth-3.34.1::dantrell-gnome
 ~sci-geosciences/geocode-glib-3.26.2::dantrell-gnome
 ~sci-geosciences/gnome-maps-3.36.2::dantrell-gnome-3-36
-~sys-apps/baobab-3.34.0::dantrell-gnome
+~sys-apps/baobab-3.34.1::dantrell-gnome
 ~sys-apps/gnome-disk-utility-3.36.1::dantrell-gnome-3-36
 ~www-client/epiphany-3.36.2::dantrell-gnome-3-36
 ~x11-libs/gdk-pixbuf-2.40.0::dantrell-gnome
+~x11-libs/gtksourceview-4.6.1::dantrell-gnome
 ~x11-libs/gtk+-3.24.5::dantrell-gnome
 ~x11-libs/libnotify-0.7.9::dantrell-gnome
 ~x11-libs/libwnck-3.36.0::dantrell-gnome-3-36
