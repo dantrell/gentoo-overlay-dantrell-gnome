@@ -2,6 +2,8 @@
 
 EAPI="7"
 
+inherit toolchain-funcs
+
 DESCRIPTION="PAM base configuration files"
 HOMEPAGE="https://github.com/gentoo/pambase"
 SRC_URI="https://dev.gentoo.org/~vapier/dist/${P}.tar.xz"
@@ -77,6 +79,7 @@ src_compile() {
 
 	emake \
 		GIT=true \
+		CPP="$(tc-getPROG CPP cpp)" \
 		$(use_var debug) \
 		$(use_var cracklib) \
 		$(use_var passwdqc) \

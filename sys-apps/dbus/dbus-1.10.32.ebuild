@@ -1,9 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="6"
 PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 
-inherit autotools flag-o-matic linux-info python-any-r1 readme.gentoo-r1 systemd virtualx multilib-minimal
+inherit autotools linux-info flag-o-matic python-any-r1 readme.gentoo-r1 systemd virtualx multilib-minimal
 
 DESCRIPTION="A message bus system, a simple way for applications to talk to each other"
 HOMEPAGE="https://dbus.freedesktop.org/"
@@ -11,11 +11,12 @@ SRC_URI="https://dbus.freedesktop.org/releases/dbus/${P}.tar.gz"
 
 LICENSE="|| ( AFL-2.1 GPL-2 )"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="debug doc elogind kernel_linux selinux static-libs systemd test user-session X"
+IUSE="debug doc elogind selinux static-libs systemd test user-session X"
 REQUIRED_USE="
 	?? ( elogind systemd )
+	test? ( debug )
 "
 
 RESTRICT="!test? ( test )"
@@ -24,12 +25,11 @@ BDEPEND="
 	acct-user/messagebus
 	app-text/xmlto
 	app-text/docbook-xml-dtd:4.4
-	sys-devel/autoconf-archive
 	virtual/pkgconfig
 	doc? ( app-doc/doxygen )
 "
 COMMON_DEPEND="
-	>=dev-libs/expat-2.1.0
+	>=dev-libs/expat-2
 	elogind? ( sys-auth/elogind )
 	selinux? ( sys-libs/libselinux )
 	systemd? ( sys-apps/systemd:0= )
@@ -39,10 +39,9 @@ COMMON_DEPEND="
 	)
 "
 DEPEND="${COMMON_DEPEND}
-	dev-libs/expat
 	test? (
 		${PYTHON_DEPS}
-		>=dev-libs/glib-2.40:2
+		>=dev-libs/glib-2.36:2
 	)
 "
 RDEPEND="${COMMON_DEPEND}
@@ -60,7 +59,6 @@ TBD="${WORKDIR}/${P}-tests-build"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-enable-elogind.patch
-	"${FILESDIR}"/${PN}-daemon-optional.patch # bug #653136
 )
 
 pkg_setup() {
@@ -81,22 +79,8 @@ src_prepare() {
 
 	default
 
-	if [[ ${CHOST} == *-solaris* ]]; then
-		# fix standards conflict, due to gcc being c99 by default nowadays
-		sed -i \
-			-e 's/_XOPEN_SOURCE=500/_XOPEN_SOURCE=600/' \
-			configure.ac || die
-	fi
-
 	# required for bug 263909, cross-compile so don't remove eautoreconf
 	eautoreconf
-}
-
-src_configure() {
-	local rundir=$(usex kernel_linux /run /var/run)
-	sed -e "s;@rundir@;${EPREFIX}${rundir};g" "${FILESDIR}"/dbus.initd.in \
-		> "${T}"/dbus.initd || die
-	multilib-minimal_src_configure
 }
 
 multilib_src_configure() {
@@ -132,8 +116,8 @@ multilib_src_configure() {
 		--disable-modular-tests
 		$(use_enable debug stats)
 		--with-session-socket-dir="${EPREFIX}"/tmp
-		--with-system-pid-file="${EPREFIX}${rundir}"/dbus.pid
-		--with-system-socket="${EPREFIX}${rundir}"/dbus/system_bus_socket
+		--with-system-pid-file="${EPREFIX}"/var/run/dbus.pid
+		--with-system-socket="${EPREFIX}"/var/run/dbus/system_bus_socket
 		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
 		--with-dbus-user=messagebus
 		$(use_with X x)
@@ -157,12 +141,15 @@ multilib_src_configure() {
 			--disable-doxygen-docs
 		)
 		myconf+=(
-			--disable-daemon
 			--disable-selinux
 			--disable-libaudit
 			--disable-elogind
 			--disable-systemd
 			--without-x
+
+			# expat is used for the daemon only
+			# fake the check for multilib library build
+			ac_cv_lib_expat_XML_ParserCreate_MM=yes
 		)
 	fi
 
@@ -176,7 +163,6 @@ multilib_src_configure() {
 			$(use_enable test asserts)
 			$(use_enable test checks)
 			$(use_enable test embedded-tests)
-			$(use_enable test stats)
 			$(has_version dev-libs/dbus-glib && echo --enable-modular-tests)
 		)
 		einfo "Running configure in ${TBD}"
@@ -218,7 +204,7 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
-	newinitd "${T}"/dbus.initd dbus
+	newinitd "${FILESDIR}"/dbus.initd-r1 dbus
 
 	if use X; then
 		# dbus X session script (#77504)
@@ -236,7 +222,7 @@ multilib_src_install_all() {
 	# let the init script create the /var/run/dbus directory
 	rm -rf "${ED}"/var/run
 
-	dodoc AUTHORS ChangeLog NEWS README doc/TODO
+	dodoc AUTHORS ChangeLog HACKING NEWS README doc/TODO
 	readme.gentoo_create_doc
 
 	find "${ED}" -name '*.la' -delete || die
@@ -270,5 +256,17 @@ pkg_postinst() {
 		elog "specified and refused to start otherwise, then export the"
 		elog "the following to your environment:"
 		elog " DBUS_SESSION_BUS_ADDRESS=\"launchd:env=DBUS_LAUNCHD_SESSION_BUS_SOCKET\""
+	fi
+
+	if use user-session; then
+		ewarn "You have enabled user-session. Please note this can cause"
+		ewarn "bogus behaviors in several dbus consumers that are not prepared"
+		ewarn "for this dbus activation method yet."
+		ewarn
+		ewarn "See the following link for background on this change:"
+		ewarn "https://lists.freedesktop.org/archives/systemd-devel/2015-January/027711.html"
+		ewarn
+		ewarn "Known issues are tracked here:"
+		ewarn "https://bugs.gentoo.org/576028"
 	fi
 }

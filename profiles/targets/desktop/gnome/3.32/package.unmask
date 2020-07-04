@@ -169,7 +169,7 @@
 ~net-libs/rest-0.8.1::dantrell-gnome
 ~net-libs/webkit-gtk-2.24.4::dantrell-gnome
 ~net-misc/gnome-online-miners-3.30.0::dantrell-gnome
-~net-misc/rygel-0.38.3::dantrell-gnome
+~net-misc/rygel-0.38.4::dantrell-gnome
 ~net-misc/vino-3.22.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.32.1::dantrell-gnome-3-32
 ~sci-geosciences/geocode-glib-3.26.2::dantrell-gnome

@@ -73,6 +73,8 @@ src_prepare() {
 src_configure() {
 	cd "${MOZJS_BUILDDIR}" || die
 
+	tc-export AR RANLIB
+
 	ECONF_SOURCE="${S}/js/src" \
 	econf \
 		--disable-jemalloc \
@@ -81,6 +83,7 @@ src_configure() {
 		--with-system-zlib \
 		--disable-optimize \
 		--with-intl-api \
+		--with-toolchain-prefix="${CHOST}-" \
 		$(use_with system-icu) \
 		$(use_enable debug) \
 		$(use_enable jit ion) \

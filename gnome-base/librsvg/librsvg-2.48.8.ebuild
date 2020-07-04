@@ -39,8 +39,7 @@ DEPEND="${RDEPEND}
 	>=virtual/rust-1.39.0[${MULTILIB_USEDEP}]
 	dev-libs/gobject-introspection-common
 	dev-libs/vala-common
-	>=dev-util/gtk-doc-am-1.13
-	virtual/pkgconfig
+	>=virtual/pkgconfig-0-r1
 	gtk-doc? ( >=dev-util/gtk-doc-1.13 )
 "
 # >=gtk-doc-am-1.13, gobject-introspection-common, vala-common needed by eautoreconf

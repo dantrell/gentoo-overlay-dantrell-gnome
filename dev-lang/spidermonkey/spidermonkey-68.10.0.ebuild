@@ -24,7 +24,7 @@ SRC_URI+="
 	${PATCH_URIS[@]}"
 
 LICENSE="MPL-2.0"
-SLOT="68/9.0"
+SLOT="68/10.0"
 KEYWORDS="~*"
 
 IUSE="clang debug +jit minimal +system-icu test"
@@ -34,7 +34,7 @@ RESTRICT="!test? ( test ) ia64? ( test )"
 BDEPEND="dev-lang/python:2.7"
 DEPEND="
 	system-icu? ( >=dev-libs/icu-63.1:= )
-	>=dev-libs/nspr-4.13.1
+	>=dev-libs/nspr-4.21
 	dev-libs/libffi
 	sys-libs/readline:0=
 	>=sys-libs/zlib-1.2.3:=
@@ -128,6 +128,8 @@ src_configure() {
 	cd "${MOZJS_BUILDDIR}" || die
 
 	${S}/js/src/configure \
+		--host="${CBUILD:-${CHOST}}" \
+		--target="${CHOST}" \
 		--prefix=/usr \
 		--libdir=/usr/$(get_libdir) \
 		--disable-jemalloc \
@@ -136,6 +138,7 @@ src_configure() {
 		--with-system-zlib \
 		--disable-optimize \
 		--with-intl-api \
+		--with-toolchain-prefix="${CHOST}-" \
 		$(use_with system-icu) \
 		$(use_enable debug) \
 		$(use_enable debug debug-symbols) \
