@@ -1,4 +1,4 @@
-~app-accessibility/accerciser-3.34.5::dantrell-gnome-3-34
+~app-accessibility/accerciser-3.34.6::dantrell-gnome-3-34
 ~app-accessibility/at-spi2-atk-2.34.2::dantrell-gnome
 ~app-accessibility/at-spi2-core-2.34.0::dantrell-gnome-3-34
 ~app-accessibility/orca-3.34.2::dantrell-gnome-3-34
@@ -60,7 +60,7 @@
 ~dev-util/gtk-doc-1.32::dantrell-gnome
 ~dev-util/sysprof-3.34.1::dantrell-gnome-3-34
 ~dev-vcs/gitg-3.32.1::dantrell-gnome
-~games-arcade/gnome-nibbles-3.34.2::dantrell-gnome-3-34
+~games-arcade/gnome-nibbles-3.34.3::dantrell-gnome-3-34
 ~games-arcade/gnome-robots-3.34.1::dantrell-gnome-3-34
 ~games-board/four-in-a-row-3.34.4::dantrell-gnome-3-34
 ~games-board/gnome-chess-3.34.0::dantrell-gnome-3-34
