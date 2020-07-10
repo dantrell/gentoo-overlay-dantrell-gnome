@@ -57,7 +57,7 @@ multilib_src_configure() {
 		GPG_ERROR_CONFIG="${EROOT}/usr/bin/${CHOST}-gpg-error-config"
 	)
 	ECONF_SOURCE="${S}" econf "${myeconfargs[@]}" \
-		$("${S}/configure" --help | grep -- '--without-.*-prefix' | sed -e 's/^ *\([^ ]*\) .*/\1/g')
+		$("${S}/configure" --help | grep -o -- '--without-.*-prefix')
 }
 
 multilib_src_compile() {
@@ -72,5 +72,5 @@ multilib_src_install() {
 
 multilib_src_install_all() {
 	default
-	find "${D}" -name '*.la' -delete || die
+	find "${D}" -type f -name '*.la' -delete || die
 }
