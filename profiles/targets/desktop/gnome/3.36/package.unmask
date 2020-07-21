@@ -162,7 +162,7 @@
 ~sci-geosciences/geocode-glib-3.26.2::dantrell-gnome
 ~sci-geosciences/gnome-maps-3.36.4::dantrell-gnome-3-36
 ~sys-apps/baobab-3.34.1::dantrell-gnome
-~sys-apps/gnome-disk-utility-3.36.1::dantrell-gnome-3-36
+~sys-apps/gnome-disk-utility-3.36.3::dantrell-gnome-3-36
 ~www-client/epiphany-3.36.3::dantrell-gnome-3-36
 ~x11-libs/gdk-pixbuf-2.40.0::dantrell-gnome
 ~x11-libs/gtksourceview-4.6.1::dantrell-gnome

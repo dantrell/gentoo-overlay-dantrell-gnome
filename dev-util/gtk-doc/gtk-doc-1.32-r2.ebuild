@@ -10,7 +10,7 @@ HOMEPAGE="https://www.gtk.org/gtk-doc/"
 
 LICENSE="GPL-2 FDL-1.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="debug doc emacs"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
@@ -49,6 +49,9 @@ pkg_setup() {
 src_prepare() {
 	# Remove global Emacs keybindings, bug #184588
 	eapply "${FILESDIR}"/${PN}-1.8-emacs-keybindings.patch
+	# Fix dev-libs/glib[gtk-doc] doc generation tests by fixing stuff surrounding deprecations
+	# https://gitlab.gnome.org/GNOME/glib/-/merge_requests/1488
+	eapply "${FILESDIR}"/${PN}-1.32-deprecation-parse-fixes.patch
 
 	gnome2_src_prepare
 }

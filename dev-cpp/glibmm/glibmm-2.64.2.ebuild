@@ -23,12 +23,21 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 BDEPEND="
 	virtual/pkgconfig
-	doc? ( app-doc/doxygen )
 	>=dev-cpp/mm-common-1.0.0
+	sys-devel/m4
+	dev-lang/perl
+	doc? (
+		app-doc/doxygen
+		dev-libs/libxslt
+		media-gfx/graphviz
+	)
 "
 
 src_prepare() {
 	default
+
+	# giomm_tls_client requires FEATURES=-network-sandbox and glib-networking rdep
+	sed -i -e '/giomm_tls_client/d' tests/meson.build || die
 
 	if ! use test; then
 		sed -i -e "/^subdir('tests')/d" meson.build || die

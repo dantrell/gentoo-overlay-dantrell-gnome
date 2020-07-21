@@ -177,6 +177,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-2.26.3-fix-gtk-doc.patch # bug 704550 - retest without it once we can depend on >=gtk-doc-1.32
 	eapply "${FILESDIR}"/${PN}-2.28.2-opengl-without-X-fixes.patch
 	eapply "${FILESDIR}"/${PN}-2.28.2-non-jumbo-fix.patch
+	eapply "${FILESDIR}"/${PN}-2.28.3-non-jumbo-fix2.patch
 	cmake-utils_src_prepare
 	gnome2_src_prepare
 }

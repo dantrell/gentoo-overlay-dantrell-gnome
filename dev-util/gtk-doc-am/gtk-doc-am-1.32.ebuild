@@ -10,7 +10,7 @@ HOMEPAGE="https://www.gtk.org/gtk-doc/"
 
 LICENSE="GPL-2 FDL-1.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 RDEPEND=""
 DEPEND="${RDEPEND}
