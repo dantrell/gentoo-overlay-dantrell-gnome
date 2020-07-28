@@ -20,7 +20,6 @@ RDEPEND="
 	upnp? ( >=net-libs/gupnp-igd-0.2.4:=[${MULTILIB_USEDEP}] )
 "
 DEPEND="${RDEPEND}
-	dev-util/glib-utils
 	dev-util/gtk-doc-am
 	virtual/pkgconfig
 "

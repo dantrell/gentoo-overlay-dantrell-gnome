@@ -129,7 +129,6 @@ src_prepare() {
 
 	xdg_src_prepare
 	gnome2_environment_reset
-	# TODO: python_name sedding for correct python shebang? Might be relevant mainly for glib-utils only
 }
 
 multilib_src_configure() {

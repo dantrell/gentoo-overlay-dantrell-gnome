@@ -4,3 +4,4 @@ media-libs/clutter-gst X
 media-libs/gegl jpeg
 media-libs/gegl png
 media-libs/gst-plugins-bad egl
+>=www-client/chromium-84.0.4147.68 ozone

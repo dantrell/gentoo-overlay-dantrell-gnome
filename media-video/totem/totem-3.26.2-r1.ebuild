@@ -11,7 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Videos"
 
 LICENSE="GPL-2+ LGPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="cdr doc +introspection lirc nautilus +python test +vala vanilla-thumbnailer"
 # see bug #359379
@@ -96,26 +96,17 @@ src_prepare() {
 }
 
 src_configure() {
+	# Prevent sandbox violations when we need write access to
+	# /dev/dri/card* in its init phase, bug #358755
 	for card in /dev/dri/card* ; do
 		addpredict "${card}"
 	done
 
+	# Prevent sandbox violations when we need write access to
+	# /dev/dri/render* in its init phase, bug #358755
 	for render in /dev/dri/render* ; do
 		addpredict "${render}"
 	done
-
-	# Disabled: sample-python, sample-vala, zeitgeist-dp
-	# brasero-disc-recorder and gromit require gtk+[X], but totem itself does
-	# for now still too, so no point in optionality based on that yet.
-	local plugins="apple-trailers,autoload-subtitles"
-	plugins+=",im-status,gromit,media-player-keys,ontop"
-	plugins+=",properties,recent,screensaver,screenshot"
-	plugins+=",skipto,variable-rate,vimeo"
-	use cdr && plugins+=",brasero-disc-recorder"
-	use lirc && plugins+=",lirc"
-	use nautilus && plugins+=",save-file"
-	use python && plugins+=",dbusservice,pythonconsole,opensubtitles"
-	use vala && plugins+=",rotation"
 
 	local emesonargs=(
 		-D enable-easy-codec-installation=yes
@@ -132,6 +123,6 @@ src_configure() {
 src_install() {
 	meson_src_install
 	if use python ; then
-		python_optimize "${ED}"usr/$(get_libdir)/totem/plugins/
+		python_optimize "${ED}"/usr/$(get_libdir)/totem/plugins/
 	fi
 }

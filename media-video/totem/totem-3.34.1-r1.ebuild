@@ -64,7 +64,6 @@ BDEPEND="
 	dev-lang/perl
 	gtk-doc? ( >=dev-util/gtk-doc-1.14
 		app-text/docbook-xml-dtd:4.5 )
-	dev-util/glib-utils
 	dev-util/itstool
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
@@ -110,7 +109,7 @@ src_configure() {
 	local emesonargs=(
 		-Denable-easy-codec-installation=yes
 		-Denable-python=$(usex python yes no)
-		-Dwith-plugins=all # in 3.34.1 only builtin and python plugins are left, and python is extra controlled by enable-python
+		-Dwith-plugins=all
 		$(meson_use gtk-doc enable-gtk-doc)
 		-Dgst-inspect=false
 	)
