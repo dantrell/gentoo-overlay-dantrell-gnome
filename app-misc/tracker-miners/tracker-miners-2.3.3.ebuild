@@ -54,6 +54,7 @@ RDEPEND="
 	app-arch/gzip
 "
 DEPEND="${RDEPEND}
+	dev-util/gdbus-codegen
 
 	>=dev-util/intltool-0.40.0
 	>=sys-devel/gettext-0.19.8

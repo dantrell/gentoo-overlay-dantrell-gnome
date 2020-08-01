@@ -10,7 +10,7 @@ SRC_URI="https://www.freedesktop.org/software/${PN}/releases/${P}.tar.gz"
 
 LICENSE="LGPL-2"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS=""
 
 IUSE="ck consolekit elogind examples gtk +introspection jit kde nls pam selinux systemd test"
 REQUIRED_USE="?? ( ck consolekit elogind systemd )"
@@ -30,7 +30,7 @@ BDEPEND="
 	introspection? ( dev-libs/gobject-introspection:= )
 "
 DEPEND="
-	dev-lang/spidermonkey:60[-debug]
+	dev-lang/spidermonkey:68[-debug]
 	dev-libs/glib:2
 	dev-libs/expat
 	elogind? ( sys-auth/elogind )
@@ -117,8 +117,8 @@ src_install() {
 	default
 
 	if use examples; then
-		insinto /usr/share/doc/${PF}/examples
-		doins src/examples/{*.c,*.policy*}
+		docinto examples
+		dodoc src/examples/{*.c,*.policy*}
 	fi
 
 	diropts -m 0700 -o polkitd
