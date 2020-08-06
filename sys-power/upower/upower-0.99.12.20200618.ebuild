@@ -11,7 +11,7 @@ SRC_URI="https://${PN}.freedesktop.org/releases/${PN}-0.99.3.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0/3" # based on SONAME of libupower-glib.so
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="ck doc integration-test +introspection ios kernel_FreeBSD kernel_linux selinux"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
@@ -390,6 +390,17 @@ src_prepare() {
 		eapply "${FILESDIR}"/${PN}-0.99.12-0006-lib-add-pen-device-type.patch
 		eapply "${FILESDIR}"/${PN}-0.99.12-0007-linux-detect-bluetooth-pens.patch
 	fi
+
+	eapply "${FILESDIR}"/${PN}-0.99.12-0008-linux-identify-keyboard-pointing-device-combos-as-ke.patch
+
+	if ! use ck; then
+		eapply "${FILESDIR}"/${PN}-0.99.12-0009-tests-add-a-keyboard-mouse-combo-device-test.patch
+	fi
+
+	eapply "${FILESDIR}"/${PN}-0.99.12-0010-linux-add-support-for-iphone-xr-xs-models.patch
+	eapply "${FILESDIR}"/${PN}-0.99.12-0011-build-use-a-newer-libplist-if-available.patch
+	eapply "${FILESDIR}"/${PN}-0.99.12-0012-ci-force-building-with-libplist.patch
+	eapply "${FILESDIR}"/${PN}-0.99.12-0013-linux-fix-umockdev-link-in-test.patch
 
 	if use ck; then
 		# From Funtoo:

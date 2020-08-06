@@ -1,0 +1,25 @@
+From 6ff9ee702e649f0c57d7b49b012f27f32f336290 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 18 Jun 2020 16:13:18 +0200
+Subject: [PATCH 13/13] linux: Fix umockdev link in test
+
+---
+ src/linux/integration-test | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index bfab3c5..b8364c8 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -39,7 +39,7 @@ try:
+     gi.require_version('UMockdev', '1.0')
+     from gi.repository import UMockdev
+ except ImportError:
+-    sys.stderr.write('Skipping tests, umockdev not available (https://launchpad.net/umockdev/)\n')
++    sys.stderr.write('Skipping tests, umockdev not available (https://github.com/martinpitt/umockdev)\n')
+     sys.exit(0)
+ 
+ try:
+-- 
+2.28.0
+

@@ -10,7 +10,7 @@ SRC_URI="https://www.freedesktop.org/software/${PN}/releases/${P}.tar.gz"
 
 LICENSE="LGPL-2"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="ck consolekit elogind examples gtk +introspection jit kde nls pam selinux systemd test"
 REQUIRED_USE="?? ( ck consolekit elogind systemd )"
@@ -78,7 +78,7 @@ src_prepare() {
 
 	# From Gentoo:
 	# 	https://bugs.gentoo.org/598615
-	eapply "${FILESDIR}"/${PN}-0.115-elogind.patch
+	eapply "${FILESDIR}"/${PN}-0.117-elogind.patch
 
 	# Fix cross-building, bug #590764, elogind patch, bug #598615
 	eautoreconf

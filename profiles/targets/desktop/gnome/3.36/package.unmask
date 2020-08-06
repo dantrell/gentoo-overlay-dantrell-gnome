@@ -1,4 +1,4 @@
-~app-accessibility/accerciser-3.36.2::dantrell-gnome-3-36
+~app-accessibility/accerciser-3.36.3::dantrell-gnome-3-36
 ~app-accessibility/at-spi2-atk-2.34.2::dantrell-gnome
 ~app-accessibility/at-spi2-core-2.36.0::dantrell-gnome-3-36
 ~app-accessibility/orca-3.36.3::dantrell-gnome-3-36
@@ -56,7 +56,7 @@
 ~games-board/four-in-a-row-3.36.4::dantrell-gnome-3-36
 ~games-board/gnome-chess-3.36.1::dantrell-gnome-3-36
 ~games-board/gnome-mahjongg-3.36.2::dantrell-gnome-3-36
-~games-board/gnome-mines-3.36.0::dantrell-gnome-3-36
+~games-board/gnome-mines-3.36.1::dantrell-gnome-3-36
 ~games-board/iagno-3.36.4::dantrell-gnome-3-36
 ~games-puzzle/five-or-more-3.32.2::dantrell-gnome
 ~games-puzzle/gnome2048-3.36.0::dantrell-gnome-3-36

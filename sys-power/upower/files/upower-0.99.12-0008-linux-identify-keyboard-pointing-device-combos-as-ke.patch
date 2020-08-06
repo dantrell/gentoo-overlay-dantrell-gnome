@@ -1,0 +1,46 @@
+From e0b8354e9cf53a271e66a7ba44fd567daeac2416 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 5 May 2020 16:07:31 +0200
+Subject: [PATCH 08/13] linux: Identify keyboard/pointing device combos as
+ keyboards
+
+Rather than using the type of the first sibling device we find, which is
+usually the pointing device portion, make sure that keyboard/pointing
+device combo devices are identified as keyboards.
+---
+ src/linux/up-device-supply.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index d7e4423..9302119 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -888,7 +888,7 @@ up_device_supply_get_sibling_with_subsystem (GUdevDevice *device,
+ 	class[0] = subsystem;
+ 	client = g_udev_client_new (class);
+ 	devices = g_udev_client_query_by_subsystem (client, subsystem);
+-	for (l = devices; l != NULL && sibling == NULL; l = l->next) {
++	for (l = devices; l != NULL; l = l->next) {
+ 		GUdevDevice *d = l->data;
+ 		GUdevDevice *p;
+ 		const char *p_path;
+@@ -897,8 +897,14 @@ up_device_supply_get_sibling_with_subsystem (GUdevDevice *device,
+ 		if (!p)
+ 			continue;
+ 		p_path = g_udev_device_get_sysfs_path (p);
+-		if (g_strcmp0 (p_path, parent_path) == 0)
+-			sibling = g_object_ref (d);
++		if (g_strcmp0 (p_path, parent_path) == 0) {
++			if (sibling != NULL &&
++			    g_udev_device_get_property_as_boolean (d, "ID_INPUT_KEYBOARD")) {
++				g_clear_object (&sibling);
++			}
++			if (sibling == NULL)
++				sibling = g_object_ref (d);
++		}
+ 
+ 		g_object_unref (p);
+ 	}
+-- 
+2.28.0
+
