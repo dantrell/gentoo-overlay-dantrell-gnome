@@ -94,9 +94,9 @@
 ~gnome-base/nautilus-3.36.1.1::dantrell-gnome-3-36
 ~gnome-base/nautilus-3.36.2::dantrell-gnome-3-36
 ~gnome-base/nautilus-3.36.3::dantrell-gnome-3-36
-~gnome-extra/evolution-data-server-3.36.4::dantrell-gnome-3-36
-~gnome-extra/evolution-ews-3.36.4::dantrell-gnome-3-36
-~gnome-extra/gnome-boxes-3.36.5::dantrell-gnome-3-36
+~gnome-extra/evolution-data-server-3.36.5::dantrell-gnome-3-36
+~gnome-extra/evolution-ews-3.36.5::dantrell-gnome-3-36
+~gnome-extra/gnome-boxes-3.36.6::dantrell-gnome-3-36
 ~gnome-extra/gnome-calculator-3.36.0::dantrell-gnome-3-36
 ~gnome-extra/gnome-calendar-3.36.2::dantrell-gnome-3-36
 ~gnome-extra/gnome-clocks-3.36.2::dantrell-gnome-3-36
@@ -123,7 +123,7 @@
 ~gnome-extra/yelp-xsl-3.36.0::dantrell-gnome-3-36
 ~gnome-extra/zenity-3.32.0::dantrell-gnome
 ~gui-libs/tepl-4.4.0::dantrell-gnome
-~mail-client/evolution-3.36.4::dantrell-gnome-3-36
+~mail-client/evolution-3.36.5::dantrell-gnome-3-36
 ~media-fonts/cantarell-0.201::dantrell-gnome
 ~media-gfx/eog-3.36.3::dantrell-gnome-3-36
 ~media-gfx/gnome-font-viewer-3.34.0::dantrell-gnome
@@ -163,7 +163,7 @@
 ~sci-geosciences/gnome-maps-3.36.4::dantrell-gnome-3-36
 ~sys-apps/baobab-3.34.1::dantrell-gnome
 ~sys-apps/gnome-disk-utility-3.36.3::dantrell-gnome-3-36
-~www-client/epiphany-3.36.3::dantrell-gnome-3-36
+~www-client/epiphany-3.36.4::dantrell-gnome-3-36
 ~x11-libs/gdk-pixbuf-2.40.0::dantrell-gnome
 ~x11-libs/gtksourceview-4.6.1::dantrell-gnome
 ~x11-libs/gtk+-3.24.5::dantrell-gnome
