@@ -1,10 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-PYTHON_COMPAT=( python2_7 )
+EAPI="7"
+PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 VALA_USE_DEPEND="vapigen"
 
-inherit autotools gnome2-utils python-any-r1 vala vcs-snapshot virtualx xdg-utils
+inherit autotools gnome2-utils python-any-r1 vala vcs-snapshot virtualx xdg
 
 DESCRIPTION="An easy to use virtual keyboard toolkit"
 HOMEPAGE="https://github.com/ueno/eekboard"
@@ -31,21 +31,23 @@ RDEPEND="app-accessibility/at-spi2-core
 	libcanberra? ( media-libs/libcanberra[gtk3(+)] )
 	vala? ( $(vala_depend) )
 	xtest? ( x11-libs/libXtst )"
-DEPEND="${RDEPEND}
-	${PYTHON_DEPS}
+DEPEND="${RDEPEND}"
+BDEPEND="${PYTHON_DEPS}
 	dev-util/gtk-doc
 	dev-util/gtk-doc-am
 	dev-util/intltool
 	sys-devel/gettext
 	virtual/pkgconfig"
 
-PATCHES=( "${FILESDIR}"/${PN}-vala.patch )
+PATCHES=(
+	"${FILESDIR}"/${PN}-python-3.patch
+	"${FILESDIR}"/${PN}-vala.patch
+)
 
 src_prepare() {
 	use vala && vala_src_prepare
 	default
 	eautoreconf
-	xdg_environment_reset
 }
 
 src_configure() {
@@ -68,16 +70,16 @@ src_test() {
 }
 
 pkg_preinst() {
-	gnome2_icon_savelist
+	xdg_pkg_preinst
 	gnome2_schemas_savelist
 }
 
 pkg_postinst() {
-	gnome2_icon_cache_update
+	xdg_pkg_postinst
 	gnome2_schemas_update
 }
 
 pkg_postrm() {
-	gnome2_icon_cache_update
+	xdg_pkg_postrm
 	gnome2_schemas_update
 }

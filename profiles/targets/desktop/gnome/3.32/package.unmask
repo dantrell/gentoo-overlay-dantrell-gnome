@@ -160,7 +160,7 @@
 ~net-libs/gnome-online-accounts-3.32.1::dantrell-gnome-3-32
 ~net-libs/gssdp-1.2.3::dantrell-gnome
 ~net-libs/gtk-vnc-0.9.0::dantrell-gnome
-~net-libs/gupnp-1.2.3::dantrell-gnome
+~net-libs/gupnp-1.2.4::dantrell-gnome
 ~net-libs/libsoup-2.66.2::dantrell-gnome-3-32
 ~net-libs/libsoup-2.66.3::dantrell-gnome-3-32
 ~net-libs/libsoup-2.66.4::dantrell-gnome-3-32

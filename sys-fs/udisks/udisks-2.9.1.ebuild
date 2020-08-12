@@ -10,13 +10,14 @@ SRC_URI="https://github.com/storaged-project/udisks/releases/download/${P}/${P}.
 
 LICENSE="LGPL-2+ GPL-2+"
 SLOT="2"
-KEYWORDS="~*"
+KEYWORDS="*"
 
-IUSE="acl +daemon debug elogind fhs +introspection lvm nls selinux systemd vdo"
+IUSE="acl +daemon debug elogind fhs +introspection lvm nls selinux systemd vdo zram"
 REQUIRED_USE="
 	?? ( elogind systemd )
 	elogind? ( daemon )
 	systemd? ( daemon )
+	zram? ( systemd )
 "
 
 COMMON_DEPEND="
@@ -33,6 +34,7 @@ COMMON_DEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-1.30:= )
 	lvm? ( sys-fs/lvm2 )
 	systemd? ( >=sys-apps/systemd-209 )
+	zram? ( >=sys-libs/libblockdev-2.24[kbd] )
 "
 # util-linux -> mount, umount, swapon, swapoff (see also #403073)
 RDEPEND="${COMMON_DEPEND}
@@ -95,6 +97,7 @@ src_configure() {
 		$(use_enable lvm lvmcache)
 		$(use_enable nls)
 		$(use_enable vdo)
+		$(use_enable zram)
 	)
 	econf "${myeconfargs[@]}"
 }
