@@ -13,7 +13,7 @@
 ~app-editors/gedit-plugins-3.36.2::dantrell-gnome-3-36
 ~app-editors/ghex-3.18.4::dantrell-gnome
 ~app-editors/gnome-latex-3.32.0::dantrell-gnome
-~app-misc/bijiben-3.36.2::dantrell-gnome-3-36
+~app-misc/bijiben-3.36.3::dantrell-gnome-3-36
 ~app-misc/geoclue-2.4.8::dantrell-gnome
 ~app-misc/gnote-3.36.2::dantrell-gnome-3-36
 ~app-misc/tracker-2.3.4::dantrell-gnome
@@ -67,7 +67,7 @@
 ~games-puzzle/gnome-tetravex-3.36.4::dantrell-gnome-3-36
 ~games-puzzle/hitori-3.36.0::dantrell-gnome-3-36
 ~games-puzzle/lightsoff-3.36.0::dantrell-gnome-3-36
-~games-puzzle/quadrapassel-3.36.04::dantrell-gnome-3-36
+~games-puzzle/quadrapassel-3.36.05::dantrell-gnome-3-36
 ~gnome-base/dconf-0.36.0::dantrell-gnome
 ~gnome-base/dconf-editor-3.36.4::dantrell-gnome-3-36
 ~gnome-base/gnome-3.36.0::dantrell-gnome-3-36

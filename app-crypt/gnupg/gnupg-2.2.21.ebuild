@@ -51,6 +51,7 @@ DOCS=(
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-2.1.20-gpgscm-Use-shorter-socket-path-lengts-to-improve-tes.patch
+	"${FILESDIR}"/${PN}-2.2.20-fix-dirmngr-for-non-ipv6-enabled-hosts.patch
 )
 
 src_prepare() {
@@ -73,11 +74,6 @@ src_configure() {
 		# bug #649598
 		append-cppflags -I"${EPREFIX}/usr/include/libusb-1.0"
 	fi
-
-	# Remove when https://dev.gnupg.org/T4831 gets released.
-	[[ $PV != 2.2.19 ]] && die "Check if -fcommon workaround is still needed."
-	# Workaround gcc-10 build failure (bug #705884).
-	append-cflags -fcommon
 
 	if use elibc_SunOS || use elibc_AIX; then
 		myconf+=( --disable-symcryptrun )
