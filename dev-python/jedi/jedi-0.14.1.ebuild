@@ -13,7 +13,7 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
 
-RDEPEND="dev-python/parso[${PYTHON_USEDEP}]"
+RDEPEND="<dev-python/parso-0.8[${PYTHON_USEDEP}]"
 
 distutils_enable_tests pytest
 distutils_enable_sphinx docs

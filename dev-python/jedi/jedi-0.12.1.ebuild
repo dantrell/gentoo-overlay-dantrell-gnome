@@ -17,7 +17,7 @@ IUSE="doc test"
 
 RESTRICT="!test? ( test )"
 
-RDEPEND=">=dev-python/parso-0.3.1[${PYTHON_USEDEP}]"
+RDEPEND="<dev-python/parso-0.8[${PYTHON_USEDEP}]"
 DEPEND="
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	doc? ( dev-python/sphinx )

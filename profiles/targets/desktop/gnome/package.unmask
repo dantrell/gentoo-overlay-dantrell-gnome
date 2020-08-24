@@ -5,6 +5,7 @@ dev-lang/vala:0.40::dantrell-gnome
 dev-lang/vala:0.42::dantrell-gnome
 dev-lang/vala:0.44::dantrell-gnome
 dev-libs/libgames-support::dantrell-gnome
+dev-python/pygtk::dantrell-gnome
 gnome-extra/nautilus-sendto::dantrell-gnome
 media-fonts/symbola::gentoo
 media-video/pipewire::dantrell-gnome

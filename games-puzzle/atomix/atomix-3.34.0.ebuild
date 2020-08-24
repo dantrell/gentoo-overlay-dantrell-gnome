@@ -2,25 +2,24 @@
 
 EAPI="6"
 
-inherit gnome2 meson
+inherit gnome.org meson xdg
 
 DESCRIPTION="Build molecules, from simple inorganic to extremely complex organic ones"
-HOMEPAGE="http://ftp.gnome.org/pub/GNOME/sources/atomix/"
+HOMEPAGE="https://wiki.gnome.org/Apps/Atomix"
 
-LICENSE="GPL-2"
+LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
 IUSE=""
 
 RDEPEND="
-	>=dev-libs/glib-2.36:2
-	>=x11-libs/gdk-pixbuf-2.0.5:2
 	>=x11-libs/gtk+-3.10:3
+	>=x11-libs/gdk-pixbuf-2.0.5:2
+	>=dev-libs/glib-2.36.0:2
+	dev-libs/libgnome-games-support:=
 "
 DEPEND="${RDEPEND}
-	dev-libs/appstream-glib
-	>=dev-util/intltool-0.40
-	sys-devel/gettext
+	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 "

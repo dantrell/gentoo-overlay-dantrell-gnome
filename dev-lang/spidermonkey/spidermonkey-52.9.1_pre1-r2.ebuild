@@ -12,7 +12,7 @@ MY_P="${MY_P/_pre/pre}"
 DESCRIPTION="Mozilla's JavaScript engine written in C and C++"
 HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"
 SRC_URI="http://ftp.mozilla.org/pub/spidermonkey/prereleases/52/pre1/mozjs-52.9.1pre1.tar.bz2 -> ${MY_P}.tar.bz2
-	https://dev.gentoo.org/~axs/distfiles/${PN}-52.0-patches-0.tar.xz"
+	https://dev.gentoo.org/~whissi/dist/mozilla/${PN}-52.0-patches-1.tar.xz"
 
 LICENSE="NPL-1.1"
 SLOT="52"
@@ -75,6 +75,8 @@ src_prepare() {
 src_configure() {
 	cd "${MOZJS_BUILDDIR}" || die
 
+	tc-export AR RANLIB
+
 	ECONF_SOURCE="${S}/js/src" \
 	econf \
 		--enable-jemalloc \
@@ -82,6 +84,7 @@ src_configure() {
 		--with-system-nspr \
 		--disable-optimize \
 		--with-intl-api \
+		--with-toolchain-prefix="${CHOST}-" \
 		$(use_with system-icu) \
 		$(use_enable debug) \
 		$(use_enable test tests) \

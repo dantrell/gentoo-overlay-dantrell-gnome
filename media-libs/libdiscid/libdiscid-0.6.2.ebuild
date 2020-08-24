@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 DESCRIPTION="Client library to create MusicBrainz enabled tagging applications"
 HOMEPAGE="http://musicbrainz.org/doc/libdiscid"
@@ -10,8 +10,14 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="static-libs"
-
 src_configure() {
-	econf $(use_enable static-libs static)
+	econf --disable-static
+}
+
+src_install() {
+	default
+	dodoc examples/discid.c
+
+	# no static archives
+	find "${D}" -name '*.la' -delete || die
 }

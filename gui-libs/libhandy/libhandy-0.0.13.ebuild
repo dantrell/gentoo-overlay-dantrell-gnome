@@ -37,6 +37,10 @@ BDEPEND="
 
 S="${WORKDIR}/${MY_P}"
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-0.0.13-glade3.36-compat{1,2}.patch
+)
+
 src_prepare() {
 	use vala && vala_src_prepare
 	xdg_src_prepare

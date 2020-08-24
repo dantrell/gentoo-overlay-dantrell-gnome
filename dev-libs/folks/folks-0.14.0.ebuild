@@ -2,18 +2,22 @@
 
 EAPI="7"
 VALA_USE_DEPEND="vapigen"
+VALA_MAX_API_VERSION="0.48"
+PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 
-inherit gnome.org gnome2-utils meson vala xdg
+inherit gnome.org gnome2-utils meson python-any-r1 vala xdg
 
 DESCRIPTION="Library for aggregating people from multiple sources"
 HOMEPAGE="https://wiki.gnome.org/Projects/Folks"
 
 LICENSE="LGPL-2.1+"
 SLOT="0/25" # subslot = libfolks soname version
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="bluetooth eds +telepathy tracker utils"
+IUSE="bluetooth eds +telepathy test tracker utils"
 REQUIRED_USE="bluetooth? ( eds )"
+
+RESTRICT="!test? ( test )"
 
 DEPEND="
 	>=dev-libs/glib-2.44:2
@@ -38,20 +42,34 @@ BDEPEND="
 	>=dev-util/meson-0.51
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
-	bluetooth? ( dev-python/dbusmock )
 	$(vala_depend)
 	telepathy? ( net-libs/telepathy-glib[vala] )
 	eds? ( gnome-extra/evolution-data-server[vala] )
+	test? ( sys-apps/dbus
+		${PYTHON_DEPS}
+		bluetooth? ( $(python_gen_any_dep 'dev-python/dbusmock[${PYTHON_USEDEP}]') )
+	)
 "
 
 PATCHES=(
-	# Alternative to https://gitlab.gnome.org/GNOME/folks/issues/119 as tests are commented out in 0.13.1 release
-	"${FILESDIR}"/${PN}-0.13.1-meson-0.53-compat.patch
+	"${FILESDIR}"/${PN}-0.14.0-conditional-tests.patch
 )
+
+python_check_deps() {
+	if use test && use bluetooth; then
+		has_version "dev-python/dbusmock[${PYTHON_USEDEP}]"
+	fi
+}
+
+pkg_setup() {
+	use test && use bluetooth && python-any-r1_pkg_setup
+}
 
 src_prepare() {
 	vala_src_prepare
 	xdg_src_prepare
+	# TODO: All tracker tests fail with SIGTRAP for some reason - investigate
+	sed -e '/subdir.*tracker/d' -i tests/meson.build || die
 }
 
 src_configure() {
@@ -64,6 +82,7 @@ src_configure() {
 		-Dzeitgeist=false # last rited package
 		-Dimport_tool=true
 		$(meson_use utils inspect_tool)
+		$(meson_use test tests)
 		-Dinstalled_tests=false
 		-Ddocs=false # Needs find_program sedding to specific version; only dev docs, don't bother
 	)
