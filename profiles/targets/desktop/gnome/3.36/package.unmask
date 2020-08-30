@@ -16,8 +16,8 @@
 ~app-misc/bijiben-3.36.3::dantrell-gnome-3-36
 ~app-misc/geoclue-2.4.8::dantrell-gnome
 ~app-misc/gnote-3.36.2::dantrell-gnome-3-36
-~app-misc/tracker-2.3.4::dantrell-gnome
-~app-misc/tracker-miners-2.3.3::dantrell-gnome
+~app-misc/tracker-2.3.5::dantrell-gnome
+~app-misc/tracker-miners-2.3.4::dantrell-gnome
 ~app-text/enchant-2.2.8::dantrell-gnome
 ~app-text/evince-3.36.7::dantrell-gnome-3-36
 ~app-text/gspell-1.8.3::dantrell-gnome

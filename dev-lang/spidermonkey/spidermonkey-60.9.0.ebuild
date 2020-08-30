@@ -12,7 +12,7 @@ SRC_URI="https://archive.mozilla.org/pub/firefox/releases/${PV}esr/source/firefo
 
 LICENSE="NPL-1.1"
 SLOT="60/9.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="debug +jit minimal +system-icu test"
 
@@ -139,10 +139,10 @@ src_install() {
 
 	if ! use minimal; then
 		if use jit; then
-			pax-mark m "${ED}"usr/bin/js${SLOT}
+			pax-mark m "${ED}"usr/bin/js${SLOT%/*}
 		fi
 	else
-		rm -f "${ED}"usr/bin/js${SLOT}
+		rm -f "${ED}"usr/bin/js${SLOT%/*}
 	fi
 
 	# We can't actually disable building of static libraries

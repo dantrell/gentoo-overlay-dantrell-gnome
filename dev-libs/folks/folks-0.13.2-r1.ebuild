@@ -44,11 +44,6 @@ BDEPEND="
 	eds? ( gnome-extra/evolution-data-server[vala] )
 "
 
-PATCHES=(
-	# Alternative to https://gitlab.gnome.org/GNOME/folks/issues/119 as tests are commented out in 0.13.1 release
-	"${FILESDIR}"/${PN}-0.13.1-meson-0.53-compat.patch
-)
-
 src_prepare() {
 	vala_src_prepare
 	xdg_src_prepare

@@ -1,0 +1,96 @@
+diff '--exclude=.git' -urN a/memory/mozjemalloc/jemalloc.c b/memory/mozjemalloc/jemalloc.c
+--- a/memory/mozjemalloc/jemalloc.c	2016-04-14 12:55:17.000000000 -0500
++++ b/memory/mozjemalloc/jemalloc.c	2020-08-30 16:44:16.630028313 -0500
+@@ -326,7 +326,7 @@
+ #include <sys/time.h>
+ #include <sys/types.h>
+ #if !defined(MOZ_MEMORY_SOLARIS) && !defined(MOZ_MEMORY_ANDROID)
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #endif
+ #include <sys/uio.h>
+ #ifndef MOZ_MEMORY
+diff '--exclude=.git' -urN a/mozglue/misc/TimeStamp_darwin.cpp b/mozglue/misc/TimeStamp_darwin.cpp
+--- a/mozglue/misc/TimeStamp_darwin.cpp	2016-04-14 12:55:21.000000000 -0500
++++ b/mozglue/misc/TimeStamp_darwin.cpp	2020-08-30 16:44:16.635028292 -0500
+@@ -18,7 +18,7 @@
+ 
+ #include <mach/mach_time.h>
+ #include <sys/time.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #include <time.h>
+ #include <unistd.h>
+ 
+diff '--exclude=.git' -urN a/mozglue/misc/TimeStamp_posix.cpp b/mozglue/misc/TimeStamp_posix.cpp
+--- a/mozglue/misc/TimeStamp_posix.cpp	2016-04-14 12:55:21.000000000 -0500
++++ b/mozglue/misc/TimeStamp_posix.cpp	2020-08-30 16:44:16.635028292 -0500
+@@ -21,7 +21,7 @@
+ #if defined(__DragonFly__) || defined(__FreeBSD__) \
+     || defined(__NetBSD__) || defined(__OpenBSD__)
+ #include <sys/param.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #endif
+ 
+ #if defined(__DragonFly__) || defined(__FreeBSD__)
+diff '--exclude=.git' -urN a/nsprpub/pr/src/misc/prsystem.c b/nsprpub/pr/src/misc/prsystem.c
+--- a/nsprpub/pr/src/misc/prsystem.c	2015-04-28 23:54:03.000000000 -0500
++++ b/nsprpub/pr/src/misc/prsystem.c	2020-08-30 16:44:16.636028288 -0500
+@@ -27,7 +27,7 @@
+     || defined(OPENBSD) || defined(DRAGONFLY) || defined(DARWIN)
+ #define _PR_HAVE_SYSCTL
+ #include <sys/param.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #endif
+ 
+ #if defined(DARWIN)
+diff '--exclude=.git' -urN a/python/psutil/psutil/_psutil_bsd.c b/python/psutil/psutil/_psutil_bsd.c
+--- a/python/psutil/psutil/_psutil_bsd.c	2016-04-14 12:55:22.000000000 -0500
++++ b/python/psutil/psutil/_psutil_bsd.c	2020-08-30 16:44:16.637028284 -0500
+@@ -16,7 +16,7 @@
+ #include <fcntl.h>
+ #include <paths.h>
+ #include <sys/types.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #include <sys/param.h>
+ #include <sys/user.h>
+ #include <sys/proc.h>
+diff '--exclude=.git' -urN a/python/psutil/psutil/_psutil_osx.c b/python/psutil/psutil/_psutil_osx.c
+--- a/python/psutil/psutil/_psutil_osx.c	2016-04-14 12:55:22.000000000 -0500
++++ b/python/psutil/psutil/_psutil_osx.c	2020-08-30 16:44:16.638028280 -0500
+@@ -13,7 +13,7 @@
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <utmpx.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #include <sys/vmmeter.h>
+ #include <libproc.h>
+ #include <sys/proc_info.h>
+diff '--exclude=.git' -urN a/python/psutil/psutil/arch/bsd/process_info.c b/python/psutil/psutil/arch/bsd/process_info.c
+--- a/python/psutil/psutil/arch/bsd/process_info.c	2016-04-14 12:55:22.000000000 -0500
++++ b/python/psutil/psutil/arch/bsd/process_info.c	2020-08-30 16:44:16.639028275 -0500
+@@ -15,7 +15,7 @@
+ #include <stdio.h>
+ #include <string.h>
+ #include <sys/types.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #include <sys/param.h>
+ #include <sys/user.h>
+ #include <sys/proc.h>
+diff '--exclude=.git' -urN a/python/psutil/psutil/arch/osx/process_info.c b/python/psutil/psutil/arch/osx/process_info.c
+--- a/python/psutil/psutil/arch/osx/process_info.c	2016-04-14 12:55:22.000000000 -0500
++++ b/python/psutil/psutil/arch/osx/process_info.c	2020-08-30 16:44:16.640028271 -0500
+@@ -16,7 +16,7 @@
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <signal.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #include <libproc.h>
+ 
+ #include "process_info.h"

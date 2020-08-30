@@ -26,7 +26,7 @@ SRC_URI+="
 
 LICENSE="MPL-2.0"
 SLOT="68/11.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="clang debug +jit minimal +system-icu test"
 
@@ -224,10 +224,10 @@ src_install() {
 
 	if ! use minimal; then
 		if use jit; then
-			pax-mark m "${ED}"usr/bin/js${SLOT}
+			pax-mark m "${ED}"usr/bin/js${SLOT%/*}
 		fi
 	else
-		rm -f "${ED}"usr/bin/js${SLOT}
+		rm -f "${ED}"usr/bin/js${SLOT%/*}
 	fi
 
 	# We can't actually disable building of static libraries

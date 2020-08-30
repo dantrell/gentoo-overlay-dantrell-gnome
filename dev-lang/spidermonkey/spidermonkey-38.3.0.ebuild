@@ -132,14 +132,15 @@ src_install() {
 	cd "${MOZJS_BUILDDIR}" || die
 	emake DESTDIR="${D}" install
 
-	mv "${ED}"usr/bin/js-config{,${SLOT}} || die
-	mv "${ED}"usr/bin/js{,${SLOT}} || die
+	mv "${ED}"usr/bin/js-config{,${SLOT%/*}} || die
+	mv "${ED}"usr/bin/js{,${SLOT%/*}} || die
+
 	if ! use minimal; then
 		if use jit; then
-			pax-mark m "${ED}"usr/bin/js${SLOT}
+			pax-mark m "${ED}"usr/bin/js${SLOT%/*}
 		fi
 	else
-		rm -f "${ED}"/usr/bin/js${SLOT}
+		rm -f "${ED}"/usr/bin/js${SLOT%/*}
 	fi
 
 	if ! use static-libs; then

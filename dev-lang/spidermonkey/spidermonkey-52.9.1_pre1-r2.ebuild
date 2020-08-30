@@ -150,9 +150,9 @@ src_install() {
 	emake DESTDIR="${D}" install
 
 	if ! use minimal; then
-		pax-mark m "${ED}"usr/bin/js${SLOT}
+		pax-mark m "${ED}"usr/bin/js${SLOT%/*}
 	else
-		rm -f "${ED}"usr/bin/js${SLOT}
+		rm -f "${ED}"usr/bin/js${SLOT%/*}
 	fi
 
 	# We can't actually disable building of static libraries

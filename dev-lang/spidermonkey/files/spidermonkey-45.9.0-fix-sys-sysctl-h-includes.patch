@@ -1,0 +1,315 @@
+diff '--exclude=.git' -urN a/db/sqlite3/src/sqlite3.c b/db/sqlite3/src/sqlite3.c
+--- a/db/sqlite3/src/sqlite3.c	2016-05-12 12:09:55.000000000 -0500
++++ b/db/sqlite3/src/sqlite3.c	2020-08-30 16:42:17.467523060 -0500
+@@ -17829,7 +17829,7 @@
+ ** Use the zone allocator available on apple products unless the
+ ** SQLITE_WITHOUT_ZONEMALLOC symbol is defined.
+ */
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #include <malloc/malloc.h>
+ #include <libkern/OSAtomic.h>
+ static malloc_zone_t* _sqliteZone_;
+diff '--exclude=.git' -urN a/dom/media/GraphDriver.cpp b/dom/media/GraphDriver.cpp
+--- a/dom/media/GraphDriver.cpp	2017-03-10 18:18:46.000000000 -0600
++++ b/dom/media/GraphDriver.cpp	2020-08-30 16:42:17.587522561 -0500
+@@ -8,7 +8,7 @@
+ #include "CubebUtils.h"
+ 
+ #ifdef XP_MACOSX
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #endif
+ 
+ extern mozilla::LazyLogModule gMediaStreamGraphLog;
+diff '--exclude=.git' -urN a/dom/media/systemservices/LoadMonitor.cpp b/dom/media/systemservices/LoadMonitor.cpp
+--- a/dom/media/systemservices/LoadMonitor.cpp	2016-05-12 12:10:02.000000000 -0500
++++ b/dom/media/systemservices/LoadMonitor.cpp	2020-08-30 16:42:17.589522553 -0500
+@@ -39,7 +39,7 @@
+ 
+ #if defined(__DragonFly__) || defined(__FreeBSD__) \
+  || defined(__NetBSD__) || defined(__OpenBSD__)
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ # if defined(__OpenBSD__)
+ #define KERN_CP_TIME KERN_CPTIME
+ # endif
+diff '--exclude=.git' -urN a/gfx/cairo/libpixman/src/pixman-cpu.c b/gfx/cairo/libpixman/src/pixman-cpu.c
+--- a/gfx/cairo/libpixman/src/pixman-cpu.c	2016-05-12 12:09:51.000000000 -0500
++++ b/gfx/cairo/libpixman/src/pixman-cpu.c	2020-08-30 16:42:17.590522549 -0500
+@@ -47,7 +47,7 @@
+ static volatile pixman_bool_t have_vmx = TRUE;
+ 
+ #ifdef __APPLE__
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ 
+ static pixman_bool_t
+ pixman_have_vmx (void)
+@@ -68,7 +68,7 @@
+ 
+ #elif defined (__OpenBSD__)
+ #include <sys/param.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #include <machine/cpu.h>
+ 
+ static pixman_bool_t
+diff '--exclude=.git' -urN a/gfx/cairo/libpixman/src/pixman-ppc.c b/gfx/cairo/libpixman/src/pixman-ppc.c
+--- a/gfx/cairo/libpixman/src/pixman-ppc.c	2016-05-12 12:09:51.000000000 -0500
++++ b/gfx/cairo/libpixman/src/pixman-ppc.c	2020-08-30 16:42:17.590522549 -0500
+@@ -32,7 +32,7 @@
+  * across function calls causing SIGILL on cpus without Altivec/vmx.
+  */
+ #ifdef __APPLE__
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ 
+ static pixman_bool_t
+ pixman_have_vmx (void)
+@@ -50,7 +50,7 @@
+ 
+ #elif defined (__OpenBSD__)
+ #include <sys/param.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #include <machine/cpu.h>
+ 
+ static pixman_bool_t
+diff '--exclude=.git' -urN a/gfx/qcms/transform.c b/gfx/qcms/transform.c
+--- a/gfx/qcms/transform.c	2016-05-12 12:09:51.000000000 -0500
++++ b/gfx/qcms/transform.c	2020-08-30 16:42:17.591522545 -0500
+@@ -82,7 +82,7 @@
+ 	return (available != 0 ? true : false);
+ }
+ #elif defined(__APPLE__) && defined(__MACH__)
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ 
+ /**
+  * rip-off from ffmpeg AltiVec detection code.
+diff '--exclude=.git' -urN a/ipc/chromium/src/third_party/libevent/arc4random.c b/ipc/chromium/src/third_party/libevent/arc4random.c
+--- a/ipc/chromium/src/third_party/libevent/arc4random.c	2016-05-12 12:09:56.000000000 -0500
++++ b/ipc/chromium/src/third_party/libevent/arc4random.c	2020-08-30 16:42:17.592522541 -0500
+@@ -59,7 +59,7 @@
+ #include <sys/param.h>
+ #include <sys/time.h>
+ #ifdef _EVENT_HAVE_SYS_SYSCTL_H
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #endif
+ #endif
+ #include <limits.h>
+diff '--exclude=.git' -urN a/media/libav/libavutil/cpu.c b/media/libav/libavutil/cpu.c
+--- a/media/libav/libavutil/cpu.c	2016-05-12 12:09:56.000000000 -0500
++++ b/media/libav/libavutil/cpu.c	2020-08-30 16:42:17.593522536 -0500
+@@ -36,7 +36,7 @@
+ #include <sys/param.h>
+ #endif
+ #include <sys/types.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #endif
+ #if HAVE_SYSCONF
+ #include <unistd.h>
+diff '--exclude=.git' -urN a/memory/mozjemalloc/jemalloc.c b/memory/mozjemalloc/jemalloc.c
+--- a/memory/mozjemalloc/jemalloc.c	2016-05-12 12:10:00.000000000 -0500
++++ b/memory/mozjemalloc/jemalloc.c	2020-08-30 16:42:17.594522532 -0500
+@@ -326,7 +326,7 @@
+ #include <sys/time.h>
+ #include <sys/types.h>
+ #if !defined(MOZ_MEMORY_SOLARIS) && !defined(MOZ_MEMORY_ANDROID)
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #endif
+ #include <sys/uio.h>
+ #ifndef MOZ_MEMORY
+diff '--exclude=.git' -urN a/mozglue/misc/TimeStamp_darwin.cpp b/mozglue/misc/TimeStamp_darwin.cpp
+--- a/mozglue/misc/TimeStamp_darwin.cpp	2016-05-12 12:10:04.000000000 -0500
++++ b/mozglue/misc/TimeStamp_darwin.cpp	2020-08-30 16:42:17.599522511 -0500
+@@ -18,7 +18,7 @@
+ 
+ #include <mach/mach_time.h>
+ #include <sys/time.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #include <time.h>
+ #include <unistd.h>
+ 
+diff '--exclude=.git' -urN a/mozglue/misc/TimeStamp_posix.cpp b/mozglue/misc/TimeStamp_posix.cpp
+--- a/mozglue/misc/TimeStamp_posix.cpp	2016-05-12 12:10:04.000000000 -0500
++++ b/mozglue/misc/TimeStamp_posix.cpp	2020-08-30 16:42:17.599522511 -0500
+@@ -21,7 +21,7 @@
+ #if defined(__DragonFly__) || defined(__FreeBSD__) \
+     || defined(__NetBSD__) || defined(__OpenBSD__)
+ #include <sys/param.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #endif
+ 
+ #if defined(__DragonFly__) || defined(__FreeBSD__)
+diff '--exclude=.git' -urN a/netwerk/sctp/src/netinet/sctp_sysctl.c b/netwerk/sctp/src/netinet/sctp_sysctl.c
+--- a/netwerk/sctp/src/netinet/sctp_sysctl.c	2016-05-12 12:10:04.000000000 -0500
++++ b/netwerk/sctp/src/netinet/sctp_sysctl.c	2020-08-30 16:42:17.600522507 -0500
+@@ -44,7 +44,7 @@
+ #include <netinet/sctp_output.h>
+ #ifdef __FreeBSD__
+ #include <sys/smp.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #endif
+ #if defined(__APPLE__)
+ #include <netinet/sctp_bsd_addr.h>
+diff '--exclude=.git' -urN a/nsprpub/pr/src/misc/prsystem.c b/nsprpub/pr/src/misc/prsystem.c
+--- a/nsprpub/pr/src/misc/prsystem.c	2016-05-12 12:10:05.000000000 -0500
++++ b/nsprpub/pr/src/misc/prsystem.c	2020-08-30 16:42:17.601522503 -0500
+@@ -27,7 +27,7 @@
+     || defined(OPENBSD) || defined(DRAGONFLY) || defined(DARWIN)
+ #define _PR_HAVE_SYSCTL
+ #include <sys/param.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #endif
+ 
+ #if defined(DARWIN)
+diff '--exclude=.git' -urN a/python/psutil/psutil/_psutil_bsd.c b/python/psutil/psutil/_psutil_bsd.c
+--- a/python/psutil/psutil/_psutil_bsd.c	2016-05-12 12:10:07.000000000 -0500
++++ b/python/psutil/psutil/_psutil_bsd.c	2020-08-30 16:42:17.602522499 -0500
+@@ -16,7 +16,7 @@
+ #include <fcntl.h>
+ #include <paths.h>
+ #include <sys/types.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #include <sys/param.h>
+ #include <sys/user.h>
+ #include <sys/proc.h>
+diff '--exclude=.git' -urN a/python/psutil/psutil/_psutil_osx.c b/python/psutil/psutil/_psutil_osx.c
+--- a/python/psutil/psutil/_psutil_osx.c	2016-05-12 12:10:07.000000000 -0500
++++ b/python/psutil/psutil/_psutil_osx.c	2020-08-30 16:42:17.604522491 -0500
+@@ -13,7 +13,7 @@
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <utmpx.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #include <sys/vmmeter.h>
+ #include <libproc.h>
+ #include <sys/proc_info.h>
+diff '--exclude=.git' -urN a/python/psutil/psutil/arch/bsd/process_info.c b/python/psutil/psutil/arch/bsd/process_info.c
+--- a/python/psutil/psutil/arch/bsd/process_info.c	2016-05-12 12:10:07.000000000 -0500
++++ b/python/psutil/psutil/arch/bsd/process_info.c	2020-08-30 16:42:17.605522487 -0500
+@@ -15,7 +15,7 @@
+ #include <stdio.h>
+ #include <string.h>
+ #include <sys/types.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #include <sys/param.h>
+ #include <sys/user.h>
+ #include <sys/proc.h>
+diff '--exclude=.git' -urN a/python/psutil/psutil/arch/osx/process_info.c b/python/psutil/psutil/arch/osx/process_info.c
+--- a/python/psutil/psutil/arch/osx/process_info.c	2016-05-12 12:10:07.000000000 -0500
++++ b/python/psutil/psutil/arch/osx/process_info.c	2020-08-30 16:42:17.605522487 -0500
+@@ -16,7 +16,7 @@
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <signal.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #include <libproc.h>
+ 
+ #include "process_info.h"
+diff '--exclude=.git' -urN a/security/nss/lib/sqlite/sqlite3.c b/security/nss/lib/sqlite/sqlite3.c
+--- a/security/nss/lib/sqlite/sqlite3.c	2016-05-12 12:09:52.000000000 -0500
++++ b/security/nss/lib/sqlite/sqlite3.c	2020-08-30 16:42:17.629522387 -0500
+@@ -15494,7 +15494,7 @@
+ ** Use the zone allocator available on apple products unless the
+ ** SQLITE_WITHOUT_ZONEMALLOC symbol is defined.
+ */
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #include <malloc/malloc.h>
+ #include <libkern/OSAtomic.h>
+ static malloc_zone_t* _sqliteZone_;
+diff '--exclude=.git' -urN a/toolkit/xre/MacQuirks.h b/toolkit/xre/MacQuirks.h
+--- a/toolkit/xre/MacQuirks.h	2016-05-12 12:10:07.000000000 -0500
++++ b/toolkit/xre/MacQuirks.h	2020-08-30 16:42:17.724521993 -0500
+@@ -8,7 +8,7 @@
+ #define MacQuirks_h__
+ 
+ #include <sys/types.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #include "CoreFoundation/CoreFoundation.h"
+ #include "CoreServices/CoreServices.h"
+ #include "Carbon/Carbon.h"
+diff '--exclude=.git' -urN a/toolkit/xre/nsAppRunner.cpp b/toolkit/xre/nsAppRunner.cpp
+--- a/toolkit/xre/nsAppRunner.cpp	2016-10-31 19:18:24.000000000 -0500
++++ b/toolkit/xre/nsAppRunner.cpp	2020-08-30 16:42:17.725521988 -0500
+@@ -41,7 +41,7 @@
+ #include "MacAutoreleasePool.h"
+ // these are needed for sysctl
+ #include <sys/types.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #endif
+ 
+ #include "prmem.h"
+diff '--exclude=.git' -urN a/tools/power/rapl.cpp b/tools/power/rapl.cpp
+--- a/tools/power/rapl.cpp	2016-05-12 12:10:07.000000000 -0500
++++ b/tools/power/rapl.cpp	2020-08-30 16:42:17.728521976 -0500
+@@ -104,7 +104,7 @@
+ // earliest OS X version this code will work with is 10.9.0 (xnu-2422.1.72).
+ 
+ #include <sys/types.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ 
+ // OS X has four kinds of system calls:
+ //
+diff '--exclude=.git' -urN a/xpcom/base/nsDebugImpl.cpp b/xpcom/base/nsDebugImpl.cpp
+--- a/xpcom/base/nsDebugImpl.cpp	2016-05-12 12:10:08.000000000 -0500
++++ b/xpcom/base/nsDebugImpl.cpp	2020-08-30 16:42:17.729521972 -0500
+@@ -47,7 +47,7 @@
+ #include <stdbool.h>
+ #include <unistd.h>
+ #include <sys/param.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #endif
+ 
+ #if defined(__OpenBSD__)
+diff '--exclude=.git' -urN a/xpcom/base/nsMemoryReporterManager.cpp b/xpcom/base/nsMemoryReporterManager.cpp
+--- a/xpcom/base/nsMemoryReporterManager.cpp	2016-05-12 12:10:08.000000000 -0500
++++ b/xpcom/base/nsMemoryReporterManager.cpp	2020-08-30 16:42:17.730521968 -0500
+@@ -178,7 +178,7 @@
+     || defined(__FreeBSD_kernel__)
+ 
+ #include <sys/param.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #if defined(__DragonFly__) || defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+ #include <sys/user.h>
+ #endif
+@@ -400,7 +400,7 @@
+ #include <mach/mach_vm.h>
+ #include <mach/shared_region.h>
+ #include <mach/task.h>
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ 
+ static bool
+ GetTaskBasicInfo(struct task_basic_info* aTi)
+diff '--exclude=.git' -urN a/xpcom/base/nsSystemInfo.cpp b/xpcom/base/nsSystemInfo.cpp
+--- a/xpcom/base/nsSystemInfo.cpp	2016-05-12 12:10:08.000000000 -0500
++++ b/xpcom/base/nsSystemInfo.cpp	2020-08-30 16:42:17.733521955 -0500
+@@ -59,7 +59,7 @@
+ #endif
+ 
+ #ifdef XP_MACOSX
+-#include <sys/sysctl.h>
++#include <linux/sysctl.h>
+ #endif
+ 
+ #if defined(XP_LINUX) && defined(MOZ_SANDBOX)

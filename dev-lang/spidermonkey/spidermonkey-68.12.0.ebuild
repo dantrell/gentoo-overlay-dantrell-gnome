@@ -12,8 +12,20 @@ DESCRIPTION="Mozilla's JavaScript engine written in C and C++"
 HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"
 SRC_URI="https://archive.mozilla.org/pub/firefox/releases/${PV}esr/source/firefox-${PV}esr.source.tar.xz"
 
+# Patch version
+FIREFOX_PATCHSET="firefox-68.0-patches-15"
+SPIDERMONKEY_PATCHSET="${PN}-68.6.0-patches-03"
+
+PATCH_URIS=(
+	https://dev.gentoo.org/~{anarchy,whissi,polynomial-c,axs}/mozilla/patchsets/${FIREFOX_PATCHSET}.tar.xz
+	https://dev.gentoo.org/~{whissi,polynomial-c,axs}/mozilla/patchsets/${SPIDERMONKEY_PATCHSET}.tar.xz
+)
+
+SRC_URI+="
+	${PATCH_URIS[@]}"
+
 LICENSE="MPL-2.0"
-SLOT="68/6.1"
+SLOT="68/12.0"
 KEYWORDS="~*"
 
 IUSE="clang debug +jit minimal +system-icu test"
@@ -22,8 +34,8 @@ RESTRICT="!test? ( test ) ia64? ( test )"
 
 BDEPEND="dev-lang/python:2.7"
 DEPEND="
-	system-icu? ( >=dev-libs/icu-59.1:= )
-	>=dev-libs/nspr-4.13.1
+	system-icu? ( >=dev-libs/icu-63.1:= )
+	>=dev-libs/nspr-4.21
 	dev-libs/libffi
 	sys-libs/readline:0=
 	>=sys-libs/zlib-1.2.3:=
@@ -88,6 +100,12 @@ pkg_setup() {
 }
 
 src_prepare() {
+	rm "${WORKDIR}"/firefox/2013_avoid_noinline_on_GCC_with_skcms.patch
+	rm "${WORKDIR}"/firefox/2015_fix_cssparser.patch
+	rm "${WORKDIR}"/firefox/2016_set_CARGO_PROFILE_RELEASE_LTO.patch
+	eapply "${WORKDIR}"/firefox
+	eapply "${WORKDIR}"/spidermonkey-patches
+
 	eapply_user
 
 	if [[ ${CHOST} == *-freebsd* ]]; then
@@ -112,6 +130,8 @@ src_configure() {
 	cd "${MOZJS_BUILDDIR}" || die
 
 	${S}/js/src/configure \
+		--host="${CBUILD:-${CHOST}}" \
+		--target="${CHOST}" \
 		--prefix=/usr \
 		--libdir=/usr/$(get_libdir) \
 		--disable-jemalloc \
@@ -120,6 +140,7 @@ src_configure() {
 		--with-system-zlib \
 		--disable-optimize \
 		--with-intl-api \
+		--with-toolchain-prefix="${CHOST}-" \
 		$(use_with system-icu) \
 		$(use_enable debug) \
 		$(use_enable debug debug-symbols) \
@@ -204,10 +225,10 @@ src_install() {
 
 	if ! use minimal; then
 		if use jit; then
-			pax-mark m "${ED}"usr/bin/js${SLOT}
+			pax-mark m "${ED}"usr/bin/js${SLOT%/*}
 		fi
 	else
-		rm -f "${ED}"usr/bin/js${SLOT}
+		rm -f "${ED}"usr/bin/js${SLOT%/*}
 	fi
 
 	# We can't actually disable building of static libraries

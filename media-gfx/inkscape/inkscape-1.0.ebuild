@@ -102,6 +102,10 @@ DEPEND="${COMMON_DEPEND}
 
 S="${WORKDIR}"/${PN}-${PN^^}_$(ver_rs 1-2 "_")
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-1.0-fix-missing-atomic-include.patch
+)
+
 pkg_pretend() {
 	if [[ ${MERGE_TYPE} != binary ]] && use openmp; then
 		tc-has-openmp || die "Please switch to an openmp compatible compiler"

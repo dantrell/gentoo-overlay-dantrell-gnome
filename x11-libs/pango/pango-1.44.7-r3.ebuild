@@ -10,7 +10,7 @@ SRC_URI="http://ftp.gnome.org/pub/GNOME/sources/pango/$(ver_cut 1-2)/${P}.tar.xz
 
 LICENSE="LGPL-2+ FTL"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 # X USE flag is simply a stub until all revdeps have been adjusted to use X(+)
 IUSE="gtk-doc +introspection test +X"

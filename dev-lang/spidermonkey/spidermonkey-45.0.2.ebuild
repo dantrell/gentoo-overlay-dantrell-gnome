@@ -14,7 +14,7 @@ SRC_URI="https://archive.mozilla.org/pub/${PN}/releases/${PV}/${MY_P}.tar.bz2
 	https://dev.gentoo.org/~axs/distfiles/${PN}-slot45-patches-01.tar.xz"
 
 LICENSE="NPL-1.1"
-SLOT="45"
+SLOT="45/0.2"
 KEYWORDS="*"
 
 IUSE="debug +jit minimal static-libs +system-icu test"
@@ -38,15 +38,17 @@ pkg_setup() {
 }
 
 src_prepare() {
-	eapply "${WORKDIR}"/sm45/${PN}-38-jsapi-tests.patch \
-		"${WORKDIR}"/sm45/mozjs45-1266366.patch \
-		"${WORKDIR}"/sm45/mozjs38-pkg-config-version.patch \
-		"${WORKDIR}"/sm45/mozilla_configure_regexp_esr.patch \
-		"${WORKDIR}"/sm45/${PN}-${SLOT}-dont-symlink-non-objfiles.patch \
-		"${FILESDIR}"/moz38-dont-hardcode-libc-soname.patch
+	eapply "${WORKDIR}"/sm45/${PN}-38-jsapi-tests.patch
+	eapply "${WORKDIR}"/sm45/mozjs45-1266366.patch
+	eapply "${WORKDIR}"/sm45/mozjs38-pkg-config-version.patch
+	eapply "${WORKDIR}"/sm45/mozilla_configure_regexp_esr.patch
+	eapply "${WORKDIR}"/sm45/${PN}-${SLOT%/*}-dont-symlink-non-objfiles.patch
+	eapply "${FILESDIR}"/moz38-dont-hardcode-libc-soname.patch
 
 	# apply relevant (modified) patches from gentoo's firefox-45 patchset
 	eapply "${WORKDIR}"/sm45/ff45
+
+	eapply "${FILESDIR}"/spidermonkey-45.0.2-fix-sys-sysctl-h-includes.patch
 
 	eapply_user
 
@@ -133,14 +135,15 @@ src_install() {
 	emake DESTDIR="${D}" install
 
 	# re-slot due to upstream stripping out most of the slotting
-	mv "${ED}"usr/bin/js-config{,${SLOT}} || die
-	mv "${ED}"usr/bin/js{,${SLOT}} || die
+	mv "${ED}"usr/bin/js-config{,${SLOT%/*}} || die
+	mv "${ED}"usr/bin/js{,${SLOT%/*}} || die
+
 	if ! use minimal; then
 		if use jit; then
-			pax-mark m "${ED}"usr/bin/js${SLOT}
+			pax-mark m "${ED}"usr/bin/js${SLOT%/*}
 		fi
 	else
-		rm -f "${ED}"usr/bin/js${SLOT}
+		rm -f "${ED}"usr/bin/js${SLOT%/*}
 	fi
 
 	if ! use static-libs; then

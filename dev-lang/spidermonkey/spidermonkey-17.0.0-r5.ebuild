@@ -44,8 +44,8 @@ pkg_setup() {
 }
 
 PATCHES=(
-	"${WORKDIR}"/sm17/${PN}-${SLOT}-js-config-shebang.patch
-	"${WORKDIR}"/sm17/${PN}-${SLOT}-ia64-mmap.patch
+	"${WORKDIR}"/sm17/${PN}-${SLOT%/*}-js-config-shebang.patch
+	"${WORKDIR}"/sm17/${PN}-${SLOT%/*}-ia64-mmap.patch
 	"${WORKDIR}"/sm17/${PN}-17.0.0-fix-file-permissions.patch
 	"${WORKDIR}"/sm17/${PN}-17-clang.patch
 	"${FILESDIR}"/${PN}-perl-defined-array-check.patch
@@ -130,10 +130,10 @@ src_install() {
 
 	if ! use minimal; then
 		if use jit; then
-			pax-mark m "${ED}/usr/bin/js${SLOT}" || die
+			pax-mark m "${ED}/usr/bin/js${SLOT%/*}" || die
 		fi
 	else
-		rm -f "${ED}/usr/bin/js${SLOT}" || die
+		rm -f "${ED}/usr/bin/js${SLOT%/*}" || die
 	fi
 
 	if ! use static-libs; then

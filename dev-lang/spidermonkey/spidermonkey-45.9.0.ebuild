@@ -3,42 +3,57 @@
 EAPI="6"
 WANT_AUTOCONF="2.1"
 
-inherit autotools toolchain-funcs pax-utils mozcoreconf-v5
-
-MY_PN="mozjs"
-MY_P="${MY_PN}-${PV/_rc/.rc}"
-MY_P="${MY_P/_pre/pre}"
+inherit autotools check-reqs toolchain-funcs pax-utils mozcoreconf-v4
 
 DESCRIPTION="Mozilla's JavaScript engine written in C and C++"
 HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"
-SRC_URI="http://ftp.mozilla.org/pub/spidermonkey/prereleases/60/pre3/mozjs-60.1.1pre3.tar.bz2 -> ${MY_P}.tar.bz2
-	https://dev.gentoo.org/~axs/distfiles/${PN}-60.0-patches-02.tar.xz"
+SRC_URI="https://archive.mozilla.org/pub/firefox/releases/${PV}esr/source/firefox-${PV}esr.source.tar.xz
+	https://dev.gentoo.org/~axs/distfiles/${PN}-slot45-patches-01.tar.xz"
 
 LICENSE="NPL-1.1"
-SLOT="60/1.1"
-KEYWORDS="*"
+SLOT="45/9.0"
+KEYWORDS="~*"
 
-IUSE="debug minimal +system-icu test"
+IUSE="debug +jit minimal static-libs +system-icu test"
 
 RESTRICT="!test? ( test ) ia64? ( test )"
 
-RDEPEND=">=dev-libs/nspr-4.13.1
+RDEPEND=">=dev-libs/nspr-4.10.10
 	dev-libs/libffi
 	sys-libs/readline:0=
-	>=sys-libs/zlib-1.2.3
-	system-icu? ( >=dev-libs/icu-58.1:= )"
+	>=sys-libs/zlib-1.2.3:=
+	system-icu? ( >=dev-libs/icu-51.1:= )"
 DEPEND="${RDEPEND}"
 
-S="${WORKDIR}/${MY_P%.rc*}"
-MOZJS_BUILDDIR="${S}/jsobj"
+S="${WORKDIR}/firefox-${PV}esr"
+MOZJS_BUILDDIR="${S}/js/src"
+
+pkg_pretend() {
+	CHECKREQS_DISK_BUILD="2G"
+
+	check-reqs_pkg_setup
+}
 
 pkg_setup() {
 	[[ ${MERGE_TYPE} == "binary" ]] || \
 		moz_pkgsetup
+	export SHELL="${EPREFIX}/bin/bash"
 }
 
 src_prepare() {
-	eapply "${WORKDIR}"/${PN}
+	eapply "${WORKDIR}"/sm45/${PN}-38-jsapi-tests.patch
+	#~eapply "${WORKDIR}"/sm45/mozjs45-1266366.patch
+	eapply "${WORKDIR}"/sm45/mozjs38-pkg-config-version.patch
+	#~eapply "${WORKDIR}"/sm45/mozilla_configure_regexp_esr.patch
+	eapply "${WORKDIR}"/sm45/${PN}-${SLOT%/*}-dont-symlink-non-objfiles.patch
+	eapply "${FILESDIR}"/moz38-dont-hardcode-libc-soname.patch
+
+	# apply relevant (modified) patches from gentoo's firefox-45 patchset
+	#~rm "${WORKDIR}"/sm45/ff45/8008_nonejit_x86_fix_based_on_bug1253216.patch
+	rm "${WORKDIR}"/sm45/ff45/8014_ia64_js.patch
+	eapply "${WORKDIR}"/sm45/ff45
+
+	eapply "${FILESDIR}"/spidermonkey-45.9.0-fix-sys-sysctl-h-includes.patch
 
 	eapply_user
 
@@ -48,8 +63,10 @@ src_prepare() {
 	fi
 
 	cd "${S}"/js/src || die
-	eautoconf old-configure.in
 	eautoconf
+
+	# remove options that are not correct from js-config
+	sed '/lib-filenames/d' -i "${S}"/js/src/js-config.in || die "failed to remove invalid option from js-config"
 
 	# there is a default config.cache that messes everything up
 	rm -f "${S}"/js/src/config.cache || die
@@ -58,21 +75,23 @@ src_prepare() {
 }
 
 src_configure() {
+	export SHELL="${SHELL:-${EPREFIX}/bin/bash}"
 	cd "${MOZJS_BUILDDIR}" || die
 
-	ECONF_SOURCE="${S}/js/src" \
 	econf \
-		--disable-jemalloc \
+		--enable-jemalloc \
 		--enable-readline \
+		--enable-threadsafe \
 		--with-system-nspr \
+		--enable-system-ffi \
 		--disable-optimize \
 		--with-intl-api \
 		$(use_with system-icu) \
 		$(use_enable debug) \
-		$(use_enable test tests) \
-		XARGS="/usr/bin/xargs" \
-		SHELL="${SHELL:-${EPREFIX}/bin/bash}" \
-		CC="${CC}" CXX="${CXX}" LD="${LD}" AR="${AR}" RANLIB="${RANLIB}"
+		$(use_enable jit yarr-jit) \
+		$(use_enable jit ion) \
+		$(use_enable static-libs static) \
+		$(use_enable test tests)
 }
 
 cross_make() {
@@ -128,13 +147,21 @@ src_install() {
 	cd "${MOZJS_BUILDDIR}" || die
 	emake DESTDIR="${D}" install
 
+	# re-slot due to upstream stripping out most of the slotting
+	mv "${ED}"usr/bin/js-config{,${SLOT%/*}} || die
+	mv "${ED}"usr/bin/js{,${SLOT%/*}} || die
+
 	if ! use minimal; then
-		pax-mark m "${ED}"usr/bin/js${SLOT}
+		if use jit; then
+			pax-mark m "${ED}"usr/bin/js${SLOT%/*}
+		fi
 	else
-		rm -f "${ED}"usr/bin/js${SLOT}
+		rm -f "${ED}"usr/bin/js${SLOT%/*}
 	fi
 
-	# We can't actually disable building of static libraries
-	# They're used by the tests and in a few other places
-	find "${D}" -iname '*.a' -o -iname '*.ajs' -delete || die
+	if ! use static-libs; then
+		# We can't actually disable building of static libraries
+		# They're used by the tests and in a few other places
+		find "${D}" -iname '*.a' -o -iname '*.ajs' -delete || die
+	fi
 }

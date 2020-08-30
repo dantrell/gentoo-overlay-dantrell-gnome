@@ -37,9 +37,9 @@ S="${WORKDIR}/${MY_P%.rc*}"
 MOZJS_BUILDDIR="${S}/js/src"
 
 PATCHES=(
-	"${WORKDIR}"/sm24/${PN}-${SLOT}-system-icu.patch
+	"${WORKDIR}"/sm24/${PN}-${SLOT%/*}-system-icu.patch
 	"${WORKDIR}"/sm24/${PN}-24.2.0-fix-file-permissions.patch
-	"${WORKDIR}"/sm24/${PN}-${SLOT}-upward-growing-stack.patch
+	"${WORKDIR}"/sm24/${PN}-${SLOT%/*}-upward-growing-stack.patch
 	"${FILESDIR}"/${PN}-perl-defined-array-check.patch
 	"${WORKDIR}"/sm24/${PN}-17-fix_pointer_dereference.patch
 	"${FILESDIR}"/${PN}-24.2.0-update-common-python-code.patch
@@ -147,10 +147,10 @@ src_install() {
 
 	if ! use minimal; then
 		if use jit; then
-			pax-mark m "${ED}/usr/bin/js${SLOT}" || die
+			pax-mark m "${ED}/usr/bin/js${SLOT%/*}" || die
 		fi
 	else
-		rm -f "${ED}/usr/bin/js${SLOT}" || die
+		rm -f "${ED}/usr/bin/js${SLOT%/*}" || die
 	fi
 
 	if ! use static-libs; then

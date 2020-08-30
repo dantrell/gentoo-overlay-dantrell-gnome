@@ -1,11 +1,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-inherit gnome2 meson multilib-minimal toolchain-funcs
+inherit gnome2-utils meson multilib-minimal toolchain-funcs xdg
 
 DESCRIPTION="Internationalized text layout and rendering library"
 HOMEPAGE="https://www.pango.org/"
+SRC_URI="http://ftp.gnome.org/pub/GNOME/sources/pango/$(ver_cut 1-2)/${P}.tar.xz"
 
 LICENSE="LGPL-2+ FTL"
 SLOT="0"
@@ -19,7 +20,7 @@ RESTRICT="!test? ( test )"
 RDEPEND="
 	>=dev-libs/fribidi-0.19.7[${MULTILIB_USEDEP}]
 	>=dev-libs/glib-2.59.2:2[${MULTILIB_USEDEP}]
-	>=media-libs/fontconfig-2.11.91:1.0=[${MULTILIB_USEDEP}]
+	>=media-libs/fontconfig-2.12.92:1.0=[${MULTILIB_USEDEP}]
 	>=media-libs/freetype-2.5.0.1:2=[${MULTILIB_USEDEP}]
 	>=media-libs/harfbuzz-2.0:=[glib(+),truetype(+),${MULTILIB_USEDEP}]
 	>=x11-libs/cairo-1.12.10:=[X,${MULTILIB_USEDEP}]
@@ -46,7 +47,8 @@ PATCHES=(
 )
 
 src_prepare() {
-	gnome2_src_prepare
+	xdg_src_prepare
+	gnome2_environment_reset
 }
 
 multilib_src_configure() {
@@ -70,4 +72,9 @@ multilib_src_install() {
 
 multilib_src_test() {
 	meson_src_test
+}
+
+pkg_postinst() {
+	xdg_pkg_postinst
+	gnome2_schemas_update
 }
