@@ -55,5 +55,5 @@ src_install() {
 	meson_src_install
 
 	insinto /usr/share/${PN}-4.0/language-specs
-	newins "${FILESDIR}"/gentoo.lang/2.0.lang gentoo.lang || die
+	newins "${FILESDIR}"/gentoo.lang/4.6.lang gentoo.lang || die
 }

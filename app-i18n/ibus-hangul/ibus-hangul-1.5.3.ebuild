@@ -11,7 +11,7 @@ SRC_URI="https://github.com/libhangul/${PN}/releases/download/${PV}/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="nls"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"

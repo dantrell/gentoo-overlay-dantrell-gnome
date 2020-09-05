@@ -17,10 +17,9 @@ KEYWORDS="*"
 IUSE="bzip2 doc ldap nls readline selinux +smartcard ssl tofu tools usb user-socket wks-server"
 
 # Existence of executables is checked during configuration.
-DEPEND="!app-crypt/dirmngr
-	>=dev-libs/libassuan-2.5.0
+DEPEND=">=dev-libs/libassuan-2.5.0
 	>=dev-libs/libgcrypt-1.7.3
-	>=dev-libs/libgpg-error-1.28
+	>=dev-libs/libgpg-error-1.29
 	>=dev-libs/libksba-1.3.4
 	>=dev-libs/npth-1.2
 	>=net-misc/curl-7.10
@@ -67,7 +66,30 @@ src_prepare() {
 }
 
 src_configure() {
-	local myconf=()
+	local myconf=(
+		$(use_enable bzip2)
+		$(use_enable nls)
+		$(use_enable smartcard scdaemon)
+		$(use_enable ssl gnutls)
+		$(use_enable tofu)
+		$(use smartcard && use_enable usb ccid-driver || echo '--disable-ccid-driver')
+		$(use_enable wks-server wks-tools)
+		$(use_with ldap)
+		$(use_with readline)
+		--with-mailprog=/usr/libexec/sendmail
+		--disable-ntbtls
+		--enable-all-tests
+		--enable-gpg
+		--enable-gpgsm
+		--enable-large-secmem
+		CC_FOR_BUILD="$(tc-getBUILD_CC)"
+		GPG_ERROR_CONFIG="${EROOT}/usr/bin/${CHOST}-gpg-error-config"
+		KSBA_CONFIG="${EROOT}/usr/bin/ksba-config"
+		LIBASSUAN_CONFIG="${EROOT}/usr/bin/libassuan-config"
+		LIBGCRYPT_CONFIG="${EROOT}/usr/bin/${CHOST}-libgcrypt-config"
+		NPTH_CONFIG="${EROOT}/usr/bin/npth-config"
+		$("${S}/configure" --help | grep -o -- '--without-.*-prefix')
+	)
 
 	if use prefix && use usb; then
 		# bug #649598
@@ -98,30 +120,7 @@ src_configure() {
 	# the build where the install guide previously make the user chose the
 	# logger & mta early in the install.
 
-	econf \
-		"${myconf[@]}" \
-		$(use_enable bzip2) \
-		$(use_enable nls) \
-		$(use_enable smartcard scdaemon) \
-		$(use_enable ssl gnutls) \
-		$(use_enable tofu) \
-		$(use smartcard && use_enable usb ccid-driver || echo '--disable-ccid-driver') \
-		$(use_enable wks-server wks-tools) \
-		$(use_with ldap) \
-		$(use_with readline) \
-		--with-mailprog=/usr/libexec/sendmail \
-		--disable-ntbtls \
-		--enable-all-tests \
-		--enable-gpg \
-		--enable-gpgsm \
-		--enable-large-secmem \
-		CC_FOR_BUILD="$(tc-getBUILD_CC)" \
-		GPG_ERROR_CONFIG="${EROOT}/usr/bin/${CHOST}-gpg-error-config" \
-		KSBA_CONFIG="${EROOT}/usr/bin/ksba-config" \
-		LIBASSUAN_CONFIG="${EROOT}/usr/bin/libassuan-config" \
-		LIBGCRYPT_CONFIG="${EROOT}/usr/bin/${CHOST}-libgcrypt-config" \
-		NPTH_CONFIG="${EROOT}/usr/bin/npth-config" \
-		$("${S}/configure" --help | grep -- '--without-.*-prefix' | sed -e 's/^ *\([^ ]*\) .*/\1/g')
+	econf "${myconf[@]}"
 }
 
 src_compile() {

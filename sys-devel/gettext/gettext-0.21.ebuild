@@ -14,7 +14,7 @@ SRC_URI="mirror://gnu/${PN}/${P}.tar.gz"
 # so put that license behind USE=cxx.
 LICENSE="GPL-3+ cxx? ( LGPL-2.1+ )"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="acl -cvs +cxx doc emacs git java ncurses nls openmp static-libs"
 

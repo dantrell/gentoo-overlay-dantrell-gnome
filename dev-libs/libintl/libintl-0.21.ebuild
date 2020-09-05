@@ -14,7 +14,7 @@ SRC_URI="mirror://gnu/gettext/${MY_P}.tar.gz"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="static-libs +threads"
 
