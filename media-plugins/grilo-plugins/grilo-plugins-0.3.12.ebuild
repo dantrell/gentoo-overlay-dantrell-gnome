@@ -23,7 +23,7 @@ RDEPEND="
 	>=media-libs/grilo-0.3.10:${SLOT}=[network,playlist]
 	freebox? (
 		net-dns/avahi[dbus] )
-	>=dev-libs/gom-0.3.2-r1
+	>=dev-libs/gom-0.4
 	chromaprint? (
 		media-libs/gstreamer:1.0
 		media-libs/gst-plugins-base:1.0

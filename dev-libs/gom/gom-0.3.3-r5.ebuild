@@ -11,7 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Gom"
 
 LICENSE="LGPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gtk-doc +introspection test"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
