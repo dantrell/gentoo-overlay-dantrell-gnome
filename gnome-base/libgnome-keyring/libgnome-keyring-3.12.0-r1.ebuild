@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="yes"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 VALA_USE_DEPEND="vapigen"
 VALA_MAX_API_VERSION="0.40"
@@ -11,13 +10,14 @@ inherit gnome2 vala multilib-minimal
 DESCRIPTION="Compatibility library for accessing secrets"
 HOMEPAGE="https://wiki.gnome.org/Projects/GnomeKeyring"
 
-LICENSE="LGPL-2+ GPL-2+"
+LICENSE="LGPL-2+ GPL-2+" # tests are GPL-2
 SLOT="0"
 KEYWORDS="*"
 
 IUSE="debug +introspection vala"
 REQUIRED_USE="vala? ( introspection )"
 
+# tests need python2
 RESTRICT="test"
 
 RDEPEND="
@@ -47,6 +47,7 @@ src_prepare() {
 
 multilib_src_configure() {
 	ECONF_SOURCE="${S}" gnome2_src_configure \
+		$(usex debug --enable-debug=yes ' ') \
 		$(multilib_native_use_enable vala)
 
 	if multilib_is_native_abi; then

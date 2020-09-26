@@ -12,7 +12,7 @@ SRC_URI="http://www.openprinting.org/download/${PN}/${P}.tar.xz"
 
 LICENSE="MIT GPL-2"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="dbus +foomatic jpeg ldap pclm pdf perl png +postscript static-libs test tiff zeroconf"
 
@@ -49,12 +49,16 @@ BDEPEND="
 "
 
 src_prepare() {
+	local need_eautoreconf=
+
 	default
 
 	if ! use test ; then
-		eapply "${FILESDIR}"/${PN}-1.27.4-make-missing-testfont-non-fatal.patch
-		eautoreconf
+		eapply "${FILESDIR}"/${PN}-1.28.2-make-missing-testfont-non-fatal.patch
+		need_eautoreconf=yes
 	fi
+
+	[[ -n ${need_eautoreconf} ]] && eautoreconf
 
 	# Bug #626800
 	append-cxxflags -std=c++11

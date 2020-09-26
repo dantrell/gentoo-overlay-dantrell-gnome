@@ -8,7 +8,7 @@ PYTHON_COMPAT=( python2_7 )
 inherit autotools eutils gnome2 python-r1 virtualx
 
 DESCRIPTION="Python bindings for GObject Introspection"
-HOMEPAGE="https://wiki.gnome.org/Projects/PyGObject"
+HOMEPAGE="https://wiki.gnome.org/Projects/PyGObject/OldIndex"
 
 LICENSE="LGPL-2.1+"
 SLOT="2"

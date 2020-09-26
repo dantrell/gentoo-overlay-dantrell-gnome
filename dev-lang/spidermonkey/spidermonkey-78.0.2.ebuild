@@ -25,8 +25,8 @@ SRC_URI+="
 	${PATCH_URIS[@]}"
 
 LICENSE="MPL-2.0"
-SLOT="68/12.0"
-KEYWORDS="*"
+SLOT="78/0.2"
+KEYWORDS=""
 
 IUSE="clang debug +jit minimal +system-icu test"
 

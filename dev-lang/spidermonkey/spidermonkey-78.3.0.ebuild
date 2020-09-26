@@ -13,8 +13,8 @@ HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey
 SRC_URI="https://archive.mozilla.org/pub/firefox/releases/${PV}esr/source/firefox-${PV}esr.source.tar.xz"
 
 # Patch version
-FIREFOX_PATCHSET="firefox-68.0-patches-15"
-SPIDERMONKEY_PATCHSET="${PN}-68.6.0-patches-03"
+FIREFOX_PATCHSET="firefox-78.0-patches-05"
+SPIDERMONKEY_PATCHSET="${PN}-78-patches-01"
 
 PATCH_URIS=(
 	https://dev.gentoo.org/~{anarchy,whissi,polynomial-c,axs}/mozilla/patchsets/${FIREFOX_PATCHSET}.tar.xz
@@ -25,8 +25,8 @@ SRC_URI+="
 	${PATCH_URIS[@]}"
 
 LICENSE="MPL-2.0"
-SLOT="68/12.0"
-KEYWORDS="*"
+SLOT="78/2.0"
+KEYWORDS=""
 
 IUSE="clang debug +jit minimal +system-icu test"
 
@@ -34,8 +34,8 @@ RESTRICT="!test? ( test ) ia64? ( test )"
 
 BDEPEND="dev-lang/python:2.7"
 DEPEND="
-	system-icu? ( >=dev-libs/icu-63.1:= )
-	>=dev-libs/nspr-4.21
+	system-icu? ( >=dev-libs/icu-67.1:= )
+	>=dev-libs/nspr-4.25
 	dev-libs/libffi
 	sys-libs/readline:0=
 	>=sys-libs/zlib-1.2.3:=
@@ -56,22 +56,6 @@ DEPEND="
 				sys-devel/llvm:9[gold]
 			)
 		)
-		(
-			sys-devel/clang:8
-			!clang? ( sys-devel/llvm:8 )
-			clang? (
-				=sys-devel/lld-8*
-				sys-devel/llvm:8[gold]
-			)
-		)
-		(
-			sys-devel/clang:7
-			!clang? ( sys-devel/llvm:7 )
-			clang? (
-				=sys-devel/lld-7*
-				sys-devel/llvm:7[gold]
-			)
-		)
 	)
 "
 RDEPEND="${DEPEND}"
@@ -81,9 +65,9 @@ MOZJS_BUILDDIR="${S}/jsobj"
 
 pkg_pretend() {
 	if use test ; then
-		CHECKREQS_DISK_BUILD="6G"
+		CHECKREQS_DISK_BUILD="6400M"
 	else
-		CHECKREQS_DISK_BUILD="5G"
+		CHECKREQS_DISK_BUILD="5600M"
 	fi
 
 	check-reqs_pkg_pretend
@@ -91,9 +75,9 @@ pkg_pretend() {
 
 pkg_setup() {
 	if use test ; then
-		CHECKREQS_DISK_BUILD="6G"
+		CHECKREQS_DISK_BUILD="6400M"
 	else
-		CHECKREQS_DISK_BUILD="5G"
+		CHECKREQS_DISK_BUILD="5600M"
 	fi
 
 	check-reqs_pkg_setup

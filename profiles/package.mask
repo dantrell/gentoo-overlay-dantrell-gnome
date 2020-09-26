@@ -90,6 +90,7 @@ dev-libs/npth::gentoo
 dev-libs/qqwing::gentoo
 dev-libs/totem-pl-parser::gentoo
 dev-libs/vala-common::gentoo
+dev-python/dbus-python::gentoo
 dev-python/jedi::gentoo
 dev-python/pyatspi::gentoo
 dev-python/pycairo::gentoo

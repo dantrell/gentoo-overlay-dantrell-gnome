@@ -12,11 +12,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="caps emacs gnome-keyring fltk gtk ncurses qt5 static"
-REQUIRED_USE="
-	gtk? ( !static )
-	qt5? ( !static )
-"
+IUSE="caps emacs gnome-keyring fltk gtk ncurses qt5"
 
 DEPEND="
 	app-eselect/eselect-pinentry
@@ -33,7 +29,6 @@ DEPEND="
 		dev-qt/qtgui:5
 		dev-qt/qtwidgets:5
 	)
-	static? ( >=sys-libs/ncurses-5.7-r5:0=[static-libs,-gpm] )
 "
 RDEPEND="${DEPEND}
 	gnome-keyring? ( app-crypt/gcr )
@@ -55,7 +50,6 @@ src_prepare() {
 }
 
 src_configure() {
-	use static && append-ldflags -static
 	[[ "$(gcc-major-version)" -ge 5 ]] && append-cxxflags -std=gnu++11
 
 	export QTLIB="$(qt5_get_libdir)"

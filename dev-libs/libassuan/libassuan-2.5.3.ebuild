@@ -12,8 +12,6 @@ LICENSE="GPL-3 LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="static-libs"
-
 RDEPEND=">=dev-libs/libgpg-error-1.8"
 DEPEND="${RDEPEND}"
 
@@ -34,7 +32,7 @@ src_prepare() {
 
 src_configure() {
 	local myeconfargs=(
-		$(use_enable static-libs static)
+		--disable-static
 		GPG_ERROR_CONFIG="${EROOT}/usr/bin/${CHOST}-gpg-error-config"
 		$("${S}/configure" --help | grep -o -- '--without-.*-prefix')
 	)

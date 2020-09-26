@@ -16,7 +16,10 @@ KEYWORDS="*"
 
 IUSE="debug +jit minimal +system-icu test"
 
-RESTRICT="!test? ( test ) ia64? ( test )"
+# Disable tests:
+# Version is dead and most issues are related to the use of
+# system's ICU.
+RESTRICT="test"
 
 RDEPEND=">=dev-libs/nspr-4.13.1
 	dev-libs/libffi

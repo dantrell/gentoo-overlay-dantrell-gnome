@@ -9,7 +9,7 @@ HOMEPAGE="https://gitlab.gnome.org/aplazas/libmanette"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="+introspection +udev +vala"
 REQUIRED_USE="vala? ( introspection )"
