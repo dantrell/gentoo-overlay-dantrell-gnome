@@ -12,9 +12,9 @@ HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
-IUSE="gtk"
+IUSE="gtk +legacy"
 
 RDEPEND="
 	>=net-misc/networkmanager-1.2:=
@@ -23,7 +23,8 @@ RDEPEND="
 	>=net-vpn/openfortivpn-1.2.0
 	gtk? (
 		>=app-crypt/libsecret-0.18
-		>=gnome-extra/nm-applet-1.2.0[gtk]
+		legacy? ( >=gnome-extra/nm-applet-1.2.0[gtk] )
+		!legacy? ( >=net-libs/libnma-1.2.0 )
 		>=x11-libs/gtk+-3.4:3
 	)
 "
@@ -38,5 +39,6 @@ src_configure() {
 		--disable-static \
 		--with-dist-version=Gentoo \
 		--localstatedir=/var \
-		$(use_with gtk gnome)
+		$(use_with gtk gnome) \
+		$(use_with legacy libnm-glib)
 }

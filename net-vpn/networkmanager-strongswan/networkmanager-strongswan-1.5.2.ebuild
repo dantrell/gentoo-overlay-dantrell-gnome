@@ -13,17 +13,17 @@ SRC_URI="https://download.strongswan.org/${MY_PN}/${MY_P}.tar.bz2"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
-IUSE="+glib"
+IUSE="+legacy"
 
 RDEPEND="
 	app-crypt/libsecret
-	gnome-extra/nm-applet
+	legacy? ( gnome-extra/nm-applet[gtk] )
+	!legacy? ( >=net-libs/libnma-1.1.0 )
 	net-misc/networkmanager:=[resolvconf]
 	>=net-vpn/strongswan-5.8.3[networkmanager]
 	x11-libs/gtk+:3
-	glib? ( gnome-extra/nm-applet[gtk] )
 "
 
 DEPEND="${RDEPEND}"
@@ -46,7 +46,7 @@ src_configure() {
 		# Don't enable all warnings, as some are treated as errors and the compilation will fail
 		--disable-more-warnings
 		--disable-static
-		$(usex glib '' --without-libnm-glib)
+		$(use_with legacy libnm-glib)
 	)
 
 	econf "${myeconfargs[@]}"

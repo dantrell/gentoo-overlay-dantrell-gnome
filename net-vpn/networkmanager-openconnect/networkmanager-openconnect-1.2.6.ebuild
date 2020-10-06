@@ -12,7 +12,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="gtk"
+IUSE="gtk +legacy"
 
 RDEPEND="
 	>=net-misc/networkmanager-1.2:=
@@ -35,6 +35,7 @@ src_configure() {
 	gnome2_src_configure \
 		--disable-more-warnings \
 		--disable-static \
+		$(use_with legacy libnm-glib) \
 		$(use_with gtk gnome) \
 		$(use_with gtk authdlg)
 }

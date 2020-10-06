@@ -43,8 +43,8 @@ src_prepare() {
 
 multilib_src_configure() {
 	local emesonargs=(
-		-D profiling=false
-		-D static=false
+		-Dprofiling=false
+		-Dstatic=false
 		$(meson_feature introspection)
 		$(meson_use vala vapi)
 		$(meson_use gtk-doc gtk_doc)
@@ -75,14 +75,14 @@ multilib_src_install() {
 		addwrite /usr/share/gir-1.0
 		addwrite /usr/share/vala/vapi
 
-		rm -f /usr/include/libhandy-*/handy.h
-		rm -f /usr/include/libhandy-*/hdy-*.h
-		rm -f /usr/lib*/girepository-1.0/Handy-*typelib
-		rm -f /usr/lib*/libhandy-*.so
-		rm -f /usr/lib*/libhandy-*.so.0
-		rm -f /usr/lib*/pkgconfig/libhandy-*.pc
+		rm -f /usr/include/libhandy-0.0/handy.h
+		rm -f /usr/include/libhandy-0.0/hdy-*.h
+		rm -f /usr/lib*/girepository-1.0/Handy-0.0.typelib
+		rm -f /usr/lib*/libhandy-0.0.so
+		rm -f /usr/lib*/libhandy-0.0.so.0
+		rm -f /usr/lib*/pkgconfig/libhandy-0.0.pc
 		rm -f /usr/share/gir-1.0/Handy-0.0.gir
-		rm -f /usr/share/vala/vapi/libhandy-*.deps
-		rm -f /usr/share/vala/vapi/libhandy-*.vapi
+		rm -f /usr/share/vala/vapi/libhandy-0.0.deps
+		rm -f /usr/share/vala/vapi/libhandy-0.0.vapi
 	fi
 }

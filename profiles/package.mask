@@ -59,6 +59,7 @@ dev-lang/spidermonkey::gentoo
 dev-lang/vala::gentoo
 dev-libs/appstream-glib::gentoo
 dev-libs/appstream::gentoo
+dev-libs/atk::gentoo
 dev-libs/eekboard::gentoo
 dev-libs/folks::gentoo
 dev-libs/gdl::gentoo
@@ -117,6 +118,7 @@ games-arcade/gnome-robots::gentoo
 games-board/aisleriot::gentoo
 games-board/four-in-a-row::gentoo
 games-board/gnome-mahjongg::gentoo
+games-board/gnome-mines::gentoo
 games-board/iagno::gentoo
 games-board/tali::gentoo
 games-puzzle/atomix::gentoo
@@ -132,6 +134,7 @@ gnome-base/gdm::gentoo
 gnome-base/gnome-common::gentoo
 gnome-base/gnome-keyring::gentoo
 gnome-base/gnome-menus::gentoo
+gnome-base/gnome-panel::gentoo
 gnome-base/gnome-shell-common::gentoo
 gnome-base/gsettings-desktop-schemas::gentoo
 gnome-base/libgnome-keyring::gentoo
@@ -146,6 +149,7 @@ gnome-extra/gnome-color-manager::gentoo
 gnome-extra/gnome-contacts::gentoo
 gnome-extra/gnome-documents::gentoo
 gnome-extra/gnome-dvb-daemon::gentoo
+gnome-extra/gnome-getting-started-docs::gentoo
 gnome-extra/gnome-multi-writer::gentoo
 gnome-extra/gnome-packagekit::gentoo
 gnome-extra/gnome-power-manager::gentoo

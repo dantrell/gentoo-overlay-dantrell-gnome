@@ -13,15 +13,16 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="gtk"
+IUSE="gtk +legacy"
 
 RDEPEND="
-	>=dev-libs/dbus-glib-0.74
+	>=dev-libs/glib-2.32:2
 	net-misc/sstp-client
 	>=net-misc/networkmanager-1.1.0:=
 	net-dialup/ppp:=
 	gtk? (
 		>=x11-libs/gtk+-3.4:3
+		!legacy? ( >=net-libs/libnma-1.1.0 )
 		app-crypt/libsecret
 	)
 "
@@ -42,7 +43,8 @@ src_configure() {
 		--disable-static \
 		--with-dist-version=Gentoo \
 		--with-pppd-plugin-dir="${EPREFIX}/usr/$(get_libdir)/pppd/${PPPD_VERSION}" \
-		 $(use_with gtk gnome)
+		$(use_with gtk gnome) \
+		$(use_with legacy libnm-glib)
 }
 
 src_install() {

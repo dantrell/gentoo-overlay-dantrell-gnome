@@ -14,6 +14,7 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE="test"
+
 RESTRICT="!test? ( test )"
 
 RDEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"

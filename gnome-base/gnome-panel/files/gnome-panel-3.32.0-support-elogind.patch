@@ -1,0 +1,12 @@
+diff '--exclude=.git' -urN a/configure.ac b/configure.ac
+--- a/configure.ac	2019-05-05 05:55:30.000000000 -0500
++++ b/configure.ac	2019-05-17 22:38:45.253080534 -0500
+@@ -169,7 +169,7 @@
+   gio-unix-2.0 >= $GLIB_REQUIRED
+   gtk+-3.0 >= $GTK_REQUIRED
+   libgnome-menu-3.0 >= $LIBGNOME_MENU_REQUIRED
+-  libsystemd >= $LIBSYSTEMD_REQUIRED
++  libelogind >= $LIBSYSTEMD_REQUIRED
+ ])
+ 
+ PKG_CHECK_MODULES([NOTIFICATION_AREA], [

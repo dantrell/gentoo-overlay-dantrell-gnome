@@ -21,7 +21,6 @@ media-libs/graphene::dantrell-gnome ~*
 media-libs/grilo:0.3::dantrell-gnome **
 media-plugins/grilo-plugins:0.3::dantrell-gnome **
 media-video/pipewire::dantrell-gnome ~*
-net-misc/networkmanager::dantrell-gnome ~*
 sys-apps/bubblewrap::dantrell-gnome ~*
 sys-apps/osinfo-db-tools::dantrell-gnome ~*
 sys-apps/osinfo-db::dantrell-gnome ~*

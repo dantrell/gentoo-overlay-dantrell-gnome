@@ -15,8 +15,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="+glib +gtk +nls"
-REQUIRED_USE="glib? ( gtk )"
+IUSE="+gtk +legacy +nls"
 
 RDEPEND="
 	>=net-misc/networkmanager-1.7.0:=[resolvconf]
@@ -24,8 +23,11 @@ RDEPEND="
 	>=dev-libs/glib-2.32:2
 	gtk? (
 		>=x11-libs/gtk+-3.4:3
-		gnome-extra/nm-applet[gtk]
-		<net-misc/networkmanager-1.19:=
+		legacy? (
+			gnome-extra/nm-applet[gtk]
+			<net-misc/networkmanager-1.19:=
+		)
+		!legacy? ( >=net-libs/libnma-1.7.0 )
 		>=app-crypt/libsecret-0.18
 	)
 "
@@ -56,7 +58,7 @@ src_configure() {
 		--disable-more-warnings
 		--disable-static
 		$(use_with gtk gnome)
-		$(use_with glib libnm-glib)
+		$(use_with legacy libnm-glib)
 		$(use_enable nls)
 		--with-dist-version="Gentoo"
 	)

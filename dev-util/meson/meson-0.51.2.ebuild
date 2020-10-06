@@ -15,6 +15,7 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE="test"
+
 RESTRICT="!test? ( test )"
 
 DEPEND="

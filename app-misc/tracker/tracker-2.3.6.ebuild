@@ -11,7 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Tracker"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0/2.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 #RESTRICT="!test? ( test )"
 IUSE="gtk-doc +miners networkmanager stemmer"

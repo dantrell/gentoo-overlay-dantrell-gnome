@@ -177,14 +177,11 @@ multilib_src_configure() {
 		--disable-more-warnings
 		--disable-static
 		--localstatedir=/var
+		--with-runstatedir=/run
 		--disable-lto
-		--disable-config-plugin-ibft
 		--disable-qt
 		--without-netconfig
 		--with-dbus-sys-dir=/etc/dbus-1/system.d
-		# We need --with-libnm-glib (and dbus-glib dep) as reverse deps are
-		# still not ready for removing that lib, bug #665338
-		--with-libnm-glib
 		$(multilib_native_with nmcli)
 		--with-udev-dir="$(get_udevdir)"
 		--with-config-plugins-default=keyfile
@@ -196,6 +193,7 @@ multilib_src_configure() {
 		--with-suspend-resume=$(multilib_native_usex systemd systemd $(multilib_native_usex elogind elogind $(multilib_native_usex consolekit consolekit upower)))
 		$(multilib_native_use_with audit libaudit)
 		$(multilib_native_use_enable bluetooth bluez5-dun)
+		--without-dhcpcanon
 		$(use_with dhclient)
 		$(use_with dhcpcd)
 		$(multilib_native_use_enable introspection)
@@ -221,6 +219,15 @@ multilib_src_configure() {
 		$(multilib_native_use_enable wifi)
 	)
 
+	# NM since version 1.20 defaults to the internal DHCP client
+	if use dhclient; then
+		myconf+=( --with-config-dhcp-default=dhclient )
+	elif use dhcpcd; then
+		myconf+=( --with-config-dhcp-default=dhcpcd )
+	else
+		myconf+=( --with-config-dhcp-default=internal )
+	fi
+
 	# Same hack as net-dialup/pptpd to get proper plugin dir for ppp, bug #519986
 	if use ppp; then
 		local PPPD_VER=`best_version net-dialup/ppp`
@@ -239,7 +246,7 @@ multilib_src_configure() {
 		ln -s "${S}/man" man || die
 	fi
 
-	ECONF_SOURCE=${S} runstatedir="/run" gnome2_src_configure "${myconf[@]}"
+	ECONF_SOURCE=${S} gnome2_src_configure "${myconf[@]}"
 }
 
 multilib_src_compile() {
@@ -248,9 +255,6 @@ multilib_src_compile() {
 	else
 		local targets=(
 			libnm/libnm.la
-			libnm-util/libnm-util.la
-			libnm-glib/libnm-glib.la
-			libnm-glib/libnm-glib-vpn.la
 		)
 		emake "${targets[@]}"
 	fi
@@ -272,14 +276,7 @@ multilib_src_install() {
 	else
 		local targets=(
 			install-libLTLIBRARIES
-			install-libdeprecatedHEADERS
-			install-libnm_glib_libnmvpnHEADERS
-			install-libnm_glib_libnmincludeHEADERS
-			install-libnm_util_libnm_util_includeHEADERS
 			install-libnmincludeHEADERS
-			install-nodist_libnm_glib_libnmincludeHEADERS
-			install-nodist_libnm_glib_libnmvpnHEADERS
-			install-nodist_libnm_util_libnm_util_includeHEADERS
 			install-nodist_libnmincludeHEADERS
 			install-pkgconfigDATA
 		)

@@ -208,6 +208,7 @@
 >=gnome-extra/gnome-weather-3.18.0
 >=gnome-extra/nautilus-sendto-3.8.6
 >=gnome-extra/nautilus-tracker-tags-1.6.0
+>=gnome-extra/nm-applet-1.16.0
 >=gnome-extra/sushi-3.18.0
 >=gnome-extra/yelp-3.18.0
 >=gnome-extra/yelp-xsl-3.18.0

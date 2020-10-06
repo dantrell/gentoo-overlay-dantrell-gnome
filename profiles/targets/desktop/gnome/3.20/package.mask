@@ -181,6 +181,7 @@
 >=gnome-extra/gnome-user-share-3.22.0
 >=gnome-extra/gnome-weather-3.22.0
 >=gnome-extra/nautilus-tracker-tags-1.10.0
+>=gnome-extra/nm-applet-1.16.0
 >=gnome-extra/sushi-3.21.0
 >=gnome-extra/yelp-3.22.0
 >=gnome-extra/yelp-xsl-3.22.0
@@ -230,7 +231,7 @@
 >=www-client/epiphany-3.22.0
 >=x11-base/xorg-proto-2020.0
 >=x11-libs/gdk-pixbuf-2.38.0
->=x11-libs/gnome-pty-helper-0.46.0
+>=x11-libs/gnome-pty-helper-0.42.0
 >=x11-libs/gtksourceview-3.22.0
 >=x11-libs/gtk+-3.22.0
 >=x11-libs/libwnck-3.22.0

@@ -10,9 +10,9 @@ HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
-IUSE="gtk test"
+IUSE="gtk +legacy test"
 
 RESTRICT="!test? ( test )"
 
@@ -22,7 +22,8 @@ RDEPEND="
 	>=net-vpn/openvpn-2.1
 	gtk? (
 		>=app-crypt/libsecret-0.18
-		>=gnome-extra/nm-applet-1.7.0[gtk]
+		legacy? ( >=gnome-extra/nm-applet-1.7.0[gtk] )
+		!legacy? ( >=net-libs/libnma-1.7.0 )
 		>=x11-libs/gtk+-3.4:3
 	)
 "
@@ -54,5 +55,6 @@ src_configure() {
 		--disable-more-warnings \
 		--disable-static \
 		--with-dist-version=Gentoo \
-		$(use_with gtk gnome)
+		$(use_with gtk gnome) \
+		$(use_with legacy libnm-glib)
 }

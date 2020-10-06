@@ -1,11 +1,11 @@
 app-crypt/gpgme python
+app-office/gnome-todo libecal2
 dev-lang/spidermonkey system-icu
 dev-python/pycairo doc
 dev-python/pycurl curl_ssl_gnutls
 dev-python/pycurl curl_ssl_libressl
 dev-python/pycurl curl_ssl_nss
 gnome-base/gnome-extra-apps flashback
-app-office/gnome-todo libecal2
 media-libs/gegl:0 ffmpeg
 media-libs/gegl:0.3 ffmpeg
 net-libs/liboauth curl

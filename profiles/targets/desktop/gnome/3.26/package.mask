@@ -1,4 +1,4 @@
-# Masked to test on GNOME 3.38 first
+# Masked to test on GNOME 3.40 first
 >=net-libs/webkit-gtk-2.30.0
 
 # Requires GLib 2.59 (or greater)
@@ -33,7 +33,7 @@
 >=app-editors/gedit-3.28.0
 >=app-editors/gedit-plugins-3.28.0
 >=app-editors/ghex-3.28.0
->=app-editors/latexila-3.28.0
+>=app-editors/gnome-latex-3.28.0
 >=app-misc/bijiben-3.28.0
 >=app-misc/geoclue-2.6.0
 >=app-misc/gnote-3.28.0
@@ -154,6 +154,7 @@
 >=gnome-extra/gnome-user-share-3.28.0
 >=gnome-extra/gnome-weather-3.28.0
 >=gnome-extra/nautilus-tracker-tags-2.0.0
+>=gnome-extra/nm-applet-1.16.0
 >=gnome-extra/sushi-3.28.0
 >=gnome-extra/yelp-3.28.0
 >=gnome-extra/yelp-xsl-3.28.0
@@ -202,7 +203,7 @@
 >=www-client/epiphany-3.28.0
 >=x11-base/xorg-proto-2020.0
 >=x11-libs/gdk-pixbuf-2.38.0
->=x11-libs/gnome-pty-helper-0.52.0
+>=x11-libs/gnome-pty-helper-0.42.0
 >=x11-libs/gtksourceview-3.28.0
 >=x11-libs/gtk+-3.24.0
 >=x11-libs/libwnck-3.28.0

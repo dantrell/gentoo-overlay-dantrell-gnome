@@ -8,8 +8,8 @@ DESCRIPTION="Library for code common to Gnome games"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/libgnome-games-support"
 
 LICENSE="LGPL-3+"
-SLOT="1/2"
-KEYWORDS="~*"
+SLOT="1/3"
+KEYWORDS="*"
 
 IUSE=""
 
@@ -18,7 +18,7 @@ RDEPEND="
 	>=dev-libs/glib-2.40:2
 	>=x11-libs/gtk+-3.19.2:3
 "
-DEPEND="${DEPEND}
+DEPEND="${RDEPEND}
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 "

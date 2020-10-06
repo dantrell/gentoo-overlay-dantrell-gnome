@@ -39,8 +39,6 @@
 =sys-apps/openrc-0.34.10
 
 # Masked to prefer stable releases
-=media-libs/mesa-19.4.0_rc*
-=media-libs/mesa-20.0.0_rc*
 =media-libs/mesa-20.1.0_rc*
 =media-libs/mesa-20.2.0_rc*
 =media-libs/mesa-20.3.0_rc*

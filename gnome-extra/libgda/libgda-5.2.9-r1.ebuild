@@ -144,5 +144,7 @@ pkg_preinst() {
 src_install() {
 	gnome2_src_install
 	# Use new location
-	mv "${ED}"/usr/share/appdata "${ED}"/usr/share/metainfo || die
+	if use gtk; then
+		mv "${ED}"/usr/share/appdata "${ED}"/usr/share/metainfo || die
+	fi
 }

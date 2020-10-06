@@ -15,7 +15,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="gtk static-libs"
+IUSE="gtk +legacy static-libs"
 
 RDEPEND="
 	>=net-misc/networkmanager-1.2:=[ppp]
@@ -30,7 +30,8 @@ RDEPEND="
 	gtk? (
 		x11-libs/gtk+:3
 		app-crypt/libsecret
-		gnome-extra/nm-applet[gtk]
+		legacy? ( gnome-extra/nm-applet[gtk] )
+		!legacy? ( gnome-extra/nm-applet )
 	)"
 
 BDEPEND="${RDEPEND}

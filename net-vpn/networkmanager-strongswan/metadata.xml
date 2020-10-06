@@ -6,6 +6,6 @@
 		<name>Conrad Kostecki</name>
 	</maintainer>
 	<use>
-		<flag name="glib">Enable libnm-glib compatibility.</flag>
+		<flag name="legacy">Enable libnm-glib compatibility.</flag>
 	</use>
 </pkgmetadata>

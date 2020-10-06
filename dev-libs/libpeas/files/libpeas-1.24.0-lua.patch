@@ -1,0 +1,69 @@
+diff '--exclude=.git' -urN a/meson.build b/meson.build
+--- a/meson.build	2019-10-28 12:24:28.000000000 -0500
++++ b/meson.build	2020-10-05 02:47:47.650692387 -0500
+@@ -115,13 +115,33 @@
+ 
+ python2_dep = dependency('python2', version: python2_req, required: false)
+ pygobject_dep = dependency('pygobject-3.0', version: pygobject_req, required: false)
+-lua51_dep = dependency('lua5.1', version: lua_req, required: false)
+-lua51_lgi_dep = dependency('lua5.1-lgi', version: lua_lgi_req, required: false)
+-luajit_dep = dependency('luajit', version: luajit_req, required: false)
+-
+-luajit_prg = find_program('luajit', required: false)
++lua51_dep = dependency('lua', version: lua_req, required: get_option('lua51'))
++luajit_dep = dependency('luajit', version: luajit_req, required: get_option('luajit'))
++lua_lgi_found = false
++lua_lgi_ver = 'not found'
++lua51_prg = find_program('lua', required: get_option('lua51'))
++luajit_prg = find_program('luajit', required: get_option('luajit'))
+ xmllint_prg = find_program('xmllint', required: false)
+ 
++if (luajit_dep.found() and luajit_prg.found()) or (lua51_dep.found() and lua51_prg.found())
++    if luajit_prg.found()
++        lua_prg = luajit_prg
++    else
++        lua_prg = lua51_prg
++    endif
++    lua_lgi_check = run_command(lua_prg, ['-e', 'print(require("lgi")._VERSION)'])
++    if lua_lgi_check.returncode() == 0
++        lua_lgi_ver = lua_lgi_check.stdout().strip()
++        if lua_lgi_ver.version_compare(lua_lgi_req)
++            lua51_lgi_dep = declare_dependency(version: lua_lgi_ver)
++            lua_lgi_found = true
++        endif
++    else
++        error('lua support requested but lua-lgi not found')
++    endif
++    message('lua-lgi version: ' + lua_lgi_ver)
++endif
++
+ module_suffix = []
+ if build_machine.system() == 'darwin'
+   config_h.set('OS_OSX', 1)
+@@ -187,11 +207,7 @@
+   generate_gir = false
+ endif
+ 
+-build_lua51_loader = get_option('lua51')
+-lua51_found = lua51_dep.found() and lua51_lgi_dep.found()
+-if build_lua51_loader and not lua51_found
+-  build_lua51_loader = false
+-endif
++build_lua51_loader = (luajit_dep.found() or lua51_dep.found()) and lua_lgi_found
+ 
+ build_python2_loader = get_option('python2')
+ python2_found = python2_dep.found() and pygobject_dep.found()
+diff '--exclude=.git' -urN a/meson_options.txt b/meson_options.txt
+--- a/meson_options.txt	2019-10-28 12:24:28.000000000 -0500
++++ b/meson_options.txt	2020-10-05 02:42:42.009153995 -0500
+@@ -1,6 +1,9 @@
+ option('lua51',
+-       type: 'boolean', value: true,
++       type: 'feature', value: 'enabled',
+        description: 'Enable Lua 5.1 support (requires lua-lgi)')
++option('luajit',
++       type: 'feature', value: 'disabled',
++       description: 'Use LuaJIT for Lua 5.1 support (requires lua-lgi)')
+ 
+ option('python2',
+        type: 'boolean', value: false,

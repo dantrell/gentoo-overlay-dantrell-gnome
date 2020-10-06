@@ -12,7 +12,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="gtk"
+IUSE="gtk +legacy"
 
 RDEPEND="
 	>=dev-libs/glib-2.32:2
@@ -21,7 +21,8 @@ RDEPEND="
 	net-vpn/libreswan
 	gtk? (
 		app-crypt/libsecret
-		>=gnome-extra/nm-applet-1.2.0[gtk]
+		legacy? ( >=gnome-extra/nm-applet-1.2.0[gtk] )
+		!legacy? ( >=gnome-extra/nm-applet-1.2.0 )
 		>=x11-libs/gtk+-3.4:3
 	)
 	!net-vpn/networkmanager-openswan
