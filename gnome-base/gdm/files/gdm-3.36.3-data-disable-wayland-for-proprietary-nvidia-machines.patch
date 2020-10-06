@@ -1,0 +1,8 @@
+diff '--exclude=.git' -urN a/data/61-gdm.rules.in b/data/61-gdm.rules.in
+--- a/data/61-gdm.rules.in	2020-07-13 15:36:07.000000000 -0500
++++ b/data/61-gdm.rules.in	2020-10-06 10:13:42.709593725 -0500
+@@ -1,4 +1,2 @@
+ # disable Wayland on Hi1710 chipsets
+ ATTR{vendor}=="0x19e5", ATTR{device}=="0x1711", RUN+="@libexecdir@/gdm-disable-wayland"
+-# disable Wayland when using the proprietary nvidia driver
+-DRIVER=="nvidia", RUN+="@libexecdir@/gdm-disable-wayland"

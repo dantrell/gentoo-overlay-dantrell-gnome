@@ -145,7 +145,7 @@ src_prepare() {
 	else
 		# From GNOME:
 		# 	https://gitlab.gnome.org/GNOME/gdm/commit/5cd78602d3d4c8355869151875fc317e8bcd5f08
-		eapply -R "${FILESDIR}"/${PN}-3.30.1-data-disable-wayland-for-proprietary-nvidia-machines.patch
+		eapply "${FILESDIR}"/${PN}-3.36.3-data-disable-wayland-for-proprietary-nvidia-machines.patch
 	fi
 
 	# Wait for DRM device before trying to start it, bug #613222
