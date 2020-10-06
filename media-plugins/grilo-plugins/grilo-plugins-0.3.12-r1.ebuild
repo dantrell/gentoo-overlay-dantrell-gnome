@@ -100,6 +100,7 @@ src_configure() {
 		-Denable-thetvdb=$(usex thetvdb yes no)
 		-Denable-tmdb=yes
 		-Denable-tracker=$(usex tracker yes no)
+		-Denable-tracker3=no
 		-Denable-vimeo=yes
 		-Denable-youtube=$(usex youtube yes no)
 		-Dgoa=$(usex gnome-online-accounts enabled disabled)
