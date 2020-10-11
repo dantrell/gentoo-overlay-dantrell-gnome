@@ -15,7 +15,6 @@ gnome-base/libgtop::dantrell-gnome ~*
 gnome-base/librsvg::dantrell-gnome ~*
 gui-libs/libhandy::dantrell-gnome ~*
 gui-libs/tepl::dantrell-gnome ~*
-mail-client/geary::dantrell-gnome ~*
 mail-client/geary::dantrell-gnome **
 media-libs/graphene::dantrell-gnome ~*
 media-libs/grilo:0.3::dantrell-gnome **
