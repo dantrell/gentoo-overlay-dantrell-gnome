@@ -16,7 +16,7 @@ HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey
 SRC_URI="https://archive.mozilla.org/pub/firefox/releases/${PV}esr/source/firefox-${PV}esr.source.tar.xz"
 
 # Patch version
-FIREFOX_PATCHSET="firefox-esr-78-patches-02.tar.xz"
+FIREFOX_PATCHSET="firefox-esr-78-patches-03.tar.xz"
 SPIDERMONKEY_PATCHSET="spidermonkey-78-patches-01.tar.xz"
 
 PATCH_URIS=(
@@ -29,7 +29,7 @@ SRC_URI+="
 
 LICENSE="MPL-2.0"
 SLOT="78/3.1"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="debug +jit minimal test"
 

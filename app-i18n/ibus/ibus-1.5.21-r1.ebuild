@@ -118,6 +118,7 @@ src_configure() {
 		)
 	else
 		python_conf+=( --disable-setup )
+		python_conf+=( --disable-python2 )
 	fi
 
 	econf \

@@ -1,10 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
+VALA_MIN_API_VERSION="0.40"
+VALA_MAX_API_VERSION="0.44"
 VALA_USE_DEPEND="vapigen"
-VALA_MIN_API_VERSION="0.34"
-VALA_MAX_API_VERSION="0.36"
 
 inherit autotools bash-completion-r1 gnome2-utils python-r1 vala virtualx xdg-utils
 
@@ -14,14 +14,13 @@ SRC_URI="https://github.com/${PN}/${PN}/releases/download/${PV}/${P}.tar.gz"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS=""
 
-IUSE="+X +emoji gconf +gtk +gtk2 +gtk3 +introspection kde +libnotify nls +python test +unicode vala wayland"
+IUSE="+X +emoji +gtk +gtk2 +gtk3 +introspection kde nls +python test +unicode vala wayland"
 REQUIRED_USE="emoji? ( gtk )
 	gtk2? ( gtk )
 	gtk3? ( gtk )
 	kde? ( gtk )
-	libnotify? ( gtk )
 	python? (
 		${PYTHON_REQUIRED_USE}
 		introspection
@@ -40,7 +39,6 @@ CDEPEND="app-text/iso-codes
 		x11-libs/libX11
 		!gtk3? ( x11-libs/gtk+:2 )
 	)
-	gconf? ( gnome-base/gconf:2 )
 	gtk? (
 		x11-libs/libX11
 		x11-libs/libXi
@@ -49,7 +47,6 @@ CDEPEND="app-text/iso-codes
 	)
 	introspection? ( dev-libs/gobject-introspection:= )
 	kde? ( dev-qt/qtgui:5 )
-	libnotify? ( x11-libs/libnotify )
 	nls? ( virtual/libintl )
 	python? (
 		${PYTHON_DEPS}
@@ -67,7 +64,6 @@ RDEPEND="${CDEPEND}
 	)"
 DEPEND="${CDEPEND}
 	$(vala_depend)
-	dev-util/intltool
 	virtual/pkgconfig
 	emoji? (
 		app-i18n/unicode-cldr
@@ -75,8 +71,6 @@ DEPEND="${CDEPEND}
 	)
 	nls? ( sys-devel/gettext )
 	unicode? ( app-i18n/unicode-data )"
-
-PATCHES=( "${FILESDIR}"/${P}-gdk-wayland.patch )
 
 src_prepare() {
 	vala_src_prepare --ignore-use
@@ -92,9 +86,7 @@ src_prepare() {
 	if ! use kde; then
 		touch ui/gtk3/panel.vala
 	fi
-	if ! use libnotify; then
-		touch ui/gtk3/panel.vala
-	fi
+
 	# for multiple Python implementations
 	sed -i "s/^\(PYGOBJECT_DIR =\).*/\1/" bindings/Makefile.am
 	# fix for parallel install
@@ -128,13 +120,11 @@ src_configure() {
 		$(use_enable emoji emoji-dict) \
 		$(use_with emoji unicode-emoji-dir "${unicodedir}"/emoji) \
 		$(use_with emoji emoji-annotation-dir "${unicodedir}"/cldr/common/annotations) \
-		$(use_enable gconf) \
 		$(use_enable gtk ui) \
 		$(use_enable gtk2) \
 		$(use_enable gtk3) \
 		$(use_enable introspection) \
 		$(use_enable kde appindicator) \
-		$(use_enable libnotify) \
 		$(use_enable nls) \
 		$(use_enable test tests) \
 		$(use_enable unicode unicode-dict) \
@@ -145,6 +135,7 @@ src_configure() {
 }
 
 src_test() {
+	unset DBUS_SESSION_BUS_ADDRESS
 	virtx emake -j1 check
 }
 
@@ -158,6 +149,8 @@ src_install() {
 				pyoverridesdir="$(${EPYTHON} -c 'import gi; print(gi._overridesdir)')" \
 				DESTDIR="${D}" \
 				install
+
+			python_optimize
 		}
 		python_foreach_impl python_install
 	fi
@@ -168,17 +161,15 @@ src_install() {
 
 	insinto /etc/X11/xinit/xinput.d
 	newins xinput-${PN} ${PN}.conf
-}
 
-pkg_preinst() {
-	use gconf && gnome2_gconf_savelist
+	# Undo compression of man page
+	find "${ED}"/usr/share/man -type f -name '*.gz' -exec gzip -d {} \; || die
 }
 
 pkg_postinst() {
-	use gconf && gnome2_gconf_install
 	use gtk2 && gnome2_query_immodules_gtk2
 	use gtk3 && gnome2_query_immodules_gtk3
-	gnome2_icon_cache_update
+	xdg_icon_cache_update
 	gnome2_schemas_update
 	dconf update
 }
@@ -186,6 +177,6 @@ pkg_postinst() {
 pkg_postrm() {
 	use gtk2 && gnome2_query_immodules_gtk2
 	use gtk3 && gnome2_query_immodules_gtk3
-	gnome2_icon_cache_update
+	xdg_icon_cache_update
 	gnome2_schemas_update
 }

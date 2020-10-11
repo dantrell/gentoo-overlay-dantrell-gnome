@@ -275,6 +275,7 @@ sys-auth/polkit::gentoo
 sys-devel/gettext::gentoo
 sys-fs/udisks::gentoo
 sys-libs/libosinfo::gentoo
+sys-libs/pam::gentoo
 sys-power/acpid::gentoo
 sys-power/upower::gentoo
 sys-process/gnome-usage::gentoo

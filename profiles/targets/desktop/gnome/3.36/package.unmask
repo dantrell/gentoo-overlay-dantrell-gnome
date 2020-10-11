@@ -82,6 +82,7 @@
 ~gnome-base/gnome-desktop-3.36.4::dantrell-gnome-3-36
 ~gnome-base/gnome-desktop-3.36.5::dantrell-gnome-3-36
 ~gnome-base/gnome-desktop-3.36.6::dantrell-gnome-3-36
+~gnome-base/gnome-desktop-3.36.7::dantrell-gnome-3-36
 ~gnome-base/gnome-extra-apps-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-flashback-3.36.4::dantrell-gnome-3-36
 ~gnome-base/gnome-light-3.36.0::dantrell-gnome-3-36
@@ -91,6 +92,7 @@
 ~gnome-base/gnome-shell-3.36.4::dantrell-gnome-3-36
 ~gnome-base/gnome-shell-3.36.5::dantrell-gnome-3-36
 ~gnome-base/gnome-shell-3.36.6::dantrell-gnome-3-36
+~gnome-base/gnome-shell-3.36.7::dantrell-gnome-3-36
 ~gnome-base/gsettings-desktop-schemas-3.36.1::dantrell-gnome-3-36
 ~gnome-base/gvfs-1.44.1::dantrell-gnome-3-36
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
@@ -112,7 +114,7 @@
 ~gnome-extra/gnome-packagekit-3.32.0::dantrell-gnome
 ~gnome-extra/gnome-power-manager-3.32.0::dantrell-gnome
 ~gnome-extra/gnome-recipes-2.0.2::dantrell-gnome
-~gnome-extra/gnome-shell-extensions-3.36.3::dantrell-gnome-3-36
+~gnome-extra/gnome-shell-extensions-3.36.7::dantrell-gnome-3-36
 ~gnome-extra/gnome-shell-frippery-3.36.1::dantrell-gnome-3-36
 ~gnome-extra/gnome-software-3.36.1::dantrell-gnome-3-36
 ~gnome-extra/gnome-system-monitor-3.36.1::dantrell-gnome-3-36
@@ -167,7 +169,7 @@
 ~net-misc/rygel-0.38.4::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.34.3::dantrell-gnome
 ~sci-geosciences/geocode-glib-3.26.2::dantrell-gnome
-~sci-geosciences/gnome-maps-3.36.4::dantrell-gnome-3-36
+~sci-geosciences/gnome-maps-3.36.4.1::dantrell-gnome-3-36
 ~sys-apps/baobab-3.34.1::dantrell-gnome
 ~sys-apps/gnome-disk-utility-3.36.3::dantrell-gnome-3-36
 ~www-client/epiphany-3.36.4::dantrell-gnome-3-36
@@ -192,3 +194,4 @@
 ~x11-wm/mutter-3.36.4::dantrell-gnome-3-36
 ~x11-wm/mutter-3.36.5::dantrell-gnome-3-36
 ~x11-wm/mutter-3.36.6::dantrell-gnome-3-36
+~x11-wm/mutter-3.36.7::dantrell-gnome-3-36

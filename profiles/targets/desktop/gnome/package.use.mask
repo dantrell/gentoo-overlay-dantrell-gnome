@@ -1,4 +1,5 @@
 app-crypt/gpgme python
+app-i18n/ibus vala
 app-office/gnome-todo libecal2
 dev-lang/spidermonkey system-icu
 dev-python/pycairo doc

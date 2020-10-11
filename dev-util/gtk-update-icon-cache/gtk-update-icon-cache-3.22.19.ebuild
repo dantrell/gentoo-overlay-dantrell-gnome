@@ -20,6 +20,7 @@ RESTRICT="mirror"
 RDEPEND="
 	>=dev-libs/glib-2.49.4:2
 	>=x11-libs/gdk-pixbuf-2.30:2
+	!<x11-libs/gtk+-3.22.0:3
 "
 DEPEND="${RDEPEND}
 	>=sys-devel/gettext-0.19.7

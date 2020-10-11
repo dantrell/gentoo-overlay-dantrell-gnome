@@ -31,7 +31,7 @@
 ~dev-libs/appstream-glib-0.7.17::dantrell-gnome
 ~dev-libs/atk-2.36.0::dantrell-gnome-3-38
 ~dev-libs/folks-0.14.0::dantrell-gnome
-~dev-libs/gjs-1.66.0::dantrell-gnome-3-38
+~dev-libs/gjs-1.66.1::dantrell-gnome-3-38
 ~dev-libs/glib-2.66.1::dantrell-gnome
 ~dev-libs/gmime-3.2.7::dantrell-gnome
 ~dev-libs/gobject-introspection-1.66.1::dantrell-gnome-3-38
@@ -52,7 +52,6 @@
 ~dev-util/gdbus-codegen-2.64.6::dantrell-gnome
 ~dev-util/gnome-builder-3.38.0::dantrell-gnome-3-38
 ~dev-util/gnome-devel-docs-3.32.1::dantrell-gnome
-~dev-util/gtk-doc-1.32::dantrell-gnome
 ~dev-util/sysprof-3.38.0::dantrell-gnome-3-38
 ~dev-vcs/gitg-3.32.1::dantrell-gnome
 ~games-arcade/gnome-nibbles-3.38.1::dantrell-gnome-3-38
@@ -84,7 +83,7 @@
 ~gnome-base/gnome-flashback-3.37.3::dantrell-gnome-3-38
 ~gnome-base/gnome-light-3.38.0::dantrell-gnome-3-38
 ~gnome-base/gnome-session-3.38.0::dantrell-gnome-3-38
-~gnome-base/gnome-settings-daemon-3.38.0::dantrell-gnome-3-38
+~gnome-base/gnome-settings-daemon-3.38.1::dantrell-gnome-3-38
 ~gnome-base/gnome-shell-3.38.1::dantrell-gnome-3-38
 ~gnome-base/gsettings-desktop-schemas-3.38.0::dantrell-gnome-3-38
 ~gnome-base/gvfs-1.46.1::dantrell-gnome-3-38
@@ -94,6 +93,7 @@
 ~gnome-extra/evolution-data-server-3.38.1::dantrell-gnome-3-38
 ~gnome-extra/evolution-ews-3.38.1::dantrell-gnome-3-38
 ~gnome-extra/gnome-boxes-3.38.0::dantrell-gnome-3-38
+~gnome-extra/gnome-boxes-3.38.1::dantrell-gnome-3-38
 ~gnome-extra/gnome-calculator-3.38.1::dantrell-gnome-3-38
 ~gnome-extra/gnome-calendar-3.38.1::dantrell-gnome-3-38
 ~gnome-extra/gnome-clocks-3.38.0::dantrell-gnome-3-38
@@ -153,15 +153,17 @@
 ~net-misc/gnome-online-miners-3.34.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.34.3::dantrell-gnome
 ~sci-geosciences/geocode-glib-3.26.2::dantrell-gnome
-~sci-geosciences/gnome-maps-3.38.1::dantrell-gnome-3-38
+~sci-geosciences/gnome-maps-3.38.1.1::dantrell-gnome-3-38
 ~sys-apps/gnome-disk-utility-3.38.0::dantrell-gnome-3-38
 ~www-client/epiphany-3.38.0::dantrell-gnome-3-38
+~www-client/epiphany-3.38.1::dantrell-gnome-3-38
 ~x11-libs/gdk-pixbuf-2.40.0::dantrell-gnome
 ~x11-libs/gtk+-3.24.5::dantrell-gnome
 ~x11-libs/libnotify-0.7.9::dantrell-gnome
 ~x11-libs/libwnck-3.36.0::dantrell-gnome
 ~x11-libs/pango-1.46.2::dantrell-gnome
 ~x11-libs/vte-0.62.0::dantrell-gnome-3-38
+~x11-libs/vte-0.62.1::dantrell-gnome-3-38
 ~x11-misc/gpaste-3.38.2::dantrell-gnome-3-38
 ~x11-terms/gnome-terminal-3.38.0::dantrell-gnome-3-38
 ~x11-themes/adwaita-icon-theme-3.38.0::dantrell-gnome-3-38
