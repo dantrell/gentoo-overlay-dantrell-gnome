@@ -104,6 +104,7 @@
 ~gnome-extra/gnome-power-manager-3.32.0::dantrell-gnome
 ~gnome-extra/gnome-recipes-2.0.2::dantrell-gnome
 ~gnome-extra/gnome-shell-extensions-3.38.1::dantrell-gnome-3-38
+~gnome-extra/gnome-shell-frippery-3.38.0::dantrell-gnome-3-38
 ~gnome-extra/gnome-software-3.38.0::dantrell-gnome-3-38
 ~gnome-extra/gnome-system-monitor-3.38.0::dantrell-gnome-3-38
 ~gnome-extra/gnome-tweaks-3.34.0::dantrell-gnome
@@ -163,7 +164,6 @@
 ~x11-libs/libwnck-3.36.0::dantrell-gnome
 ~x11-libs/pango-1.46.2::dantrell-gnome
 ~x11-libs/vte-0.62.0::dantrell-gnome-3-38
-~x11-libs/vte-0.62.1::dantrell-gnome-3-38
 ~x11-misc/gpaste-3.38.2::dantrell-gnome-3-38
 ~x11-terms/gnome-terminal-3.38.0::dantrell-gnome-3-38
 ~x11-themes/adwaita-icon-theme-3.38.0::dantrell-gnome-3-38

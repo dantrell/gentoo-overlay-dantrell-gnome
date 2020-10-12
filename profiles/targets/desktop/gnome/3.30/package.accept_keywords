@@ -8,7 +8,6 @@ dev-libs/libical::dantrell-gnome ~*
 dev-libs/wayland-protocols::gentoo ~*
 gnome-base/libgtop::dantrell-gnome ~*
 gui-libs/tepl::dantrell-gnome ~*
-mail-client/geary::dantrell-gnome **
 sys-apps/bubblewrap::dantrell-gnome ~*
 sys-apps/osinfo-db-tools::dantrell-gnome ~*
 sys-apps/osinfo-db::dantrell-gnome ~*
@@ -18,4 +17,5 @@ sys-libs/libosinfo::dantrell-gnome ~*
 sys-power/upower::dantrell-gnome ~*
 x11-libs/cairo::dantrell-gnome ~*
 x11-libs/libdrm::gentoo ~*
+<mail-client/geary-0.13.0::dantrell-gnome **
 <media-libs/mesa-19::gentoo ~*
