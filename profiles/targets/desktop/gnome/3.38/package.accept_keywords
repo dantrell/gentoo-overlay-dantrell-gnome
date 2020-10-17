@@ -14,9 +14,12 @@ dev-libs/appstream-glib::dantrell-gnome ~*
 dev-libs/json-glib::dantrell-gnome ~*
 dev-libs/libgee::dantrell-gnome ~*
 dev-libs/libical::dantrell-gnome ~*
+dev-libs/totem-pl-parser::dantrell-gnome ~*
 dev-libs/wayland-protocols::gentoo ~*
+gnome-base/gdm::dantrell-gnome ~*
 gnome-base/libgtop::dantrell-gnome ~*
 gnome-base/librsvg::dantrell-gnome ~*
+gnome-extra/gnome-tweaks::dantrell-gnome **
 gui-libs/libhandy::dantrell-gnome ~*
 gui-libs/tepl::dantrell-gnome ~*
 mail-client/geary::dantrell-gnome ~*

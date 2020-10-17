@@ -43,7 +43,7 @@ RDEPEND="
 	thetvdb? (
 		app-arch/libarchive
 		dev-libs/libxml2 )
-	tracker? ( >=app-misc/tracker-0.10.5:= )
+	tracker? ( >=app-misc/tracker-0.10.5:0= )
 	youtube? (
 		>=dev-libs/libgdata-0.9.1:=
 		>=dev-libs/totem-pl-parser-3.4.1 )

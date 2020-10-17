@@ -1,5 +1,5 @@
 gentoo:arch/amd64/lib32
 dantrell-gnome:releases/13.0
 gentoo:targets/desktop/plasma
-dantrell-gnome-3-34:default/linux/amd64/13.0/desktop/gnome/3.34/extended
+dantrell-gnome-3-36:default/linux/amd64/13.0/desktop/gnome/3.36/extended
 ../../../..

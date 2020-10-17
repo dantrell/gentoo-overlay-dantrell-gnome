@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Tweaks"
 
 LICENSE="GPL-3+ CC0-1.0"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS=""
 
 IUSE=""
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
@@ -27,7 +27,7 @@ RDEPEND="${DEPEND}
 	>=dev-libs/glib-2.58:2
 	>=x11-libs/gtk+-3.12:3[introspection]
 	>=gnome-base/gnome-desktop-3.30:3[introspection]
-	gui-libs/libhandy:0.0[introspection]
+	gui-libs/libhandy:1.0[introspection]
 	net-libs/libsoup:2.4[introspection]
 	x11-libs/libnotify[introspection]
 
@@ -39,10 +39,15 @@ BDEPEND=">=sys-devel/gettext-0.19.8"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.28.1-gentoo-cursor-themes.patch # Add contents of Gentoo's cursor theme directory to cursor theme list
+	"${FILESDIR}"/${PN}-3.34.0-fix-python.patch
+
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/gnome-tweaks/-/merge_requests/60
+	"${FILESDIR}"/${PN}-3.34.0-port-to-libhandy-1.patch
 )
 
 src_install() {
 	meson_src_install
-	python_fix_shebang "${ED}"/usr/bin/
 	python_optimize
+	python_fix_shebang "${ED}"/usr/bin/
 }

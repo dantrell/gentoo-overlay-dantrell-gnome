@@ -16,7 +16,7 @@ KEYWORDS="*"
 IUSE="python"
 
 RDEPEND="
-	app-misc/tracker
+	app-misc/tracker:0
 	app-text/gspell
 	dev-libs/gjs
 	gui-libs/libhandy

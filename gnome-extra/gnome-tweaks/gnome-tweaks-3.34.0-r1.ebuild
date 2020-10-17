@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Tweaks"
 
 LICENSE="GPL-3+ CC0-1.0"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE=""
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
@@ -39,10 +39,11 @@ BDEPEND=">=sys-devel/gettext-0.19.8"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.28.1-gentoo-cursor-themes.patch # Add contents of Gentoo's cursor theme directory to cursor theme list
+	"${FILESDIR}"/${PN}-3.34.0-fix-python.patch
 )
 
 src_install() {
 	meson_src_install
-	python_fix_shebang "${ED}"/usr/bin/
 	python_optimize
+	python_fix_shebang "${ED}"/usr/bin/
 }

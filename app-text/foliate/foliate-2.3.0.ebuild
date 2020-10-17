@@ -16,7 +16,7 @@ KEYWORDS="~*"
 IUSE="python"
 
 RDEPEND="
-	app-misc/tracker
+	app-misc/tracker:0
 	app-text/gspell
 	app-text/iso-codes
 	dev-libs/gjs

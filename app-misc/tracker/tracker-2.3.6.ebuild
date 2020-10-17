@@ -43,7 +43,7 @@ BDEPEND="
 	virtual/pkgconfig
 	${PYTHON_DEPS}
 "
-PDEPEND="miners? ( >=app-misc/tracker-miners-${PV_SERIES} )"
+PDEPEND="miners? ( >=app-misc/tracker-miners-${PV_SERIES}:0 )"
 
 function inotify_enabled() {
 	if linux_config_exists; then
