@@ -1,89 +1,101 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
+
+# Patch version
+FIREFOX_PATCHSET="firefox-78esr-patches-04.tar.xz"
+SPIDERMONKEY_PATCHSET="spidermonkey-78-patches-02.tar.xz"
+
+PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
+
 WANT_AUTOCONF="2.1"
 
-inherit autotools check-reqs pax-utils toolchain-funcs
+inherit autotools check-reqs flag-o-matic multiprocessing pax-utils python-any-r1 toolchain-funcs
 
 MY_PN="mozjs"
+MY_PV="${PV/_pre*}" # Handle Gentoo pre-releases
+
 MY_MAJOR=$(ver_cut 1)
+
+MOZ_ESR=yes
+
+MOZ_PV=${PV}
+MOZ_PV_SUFFIX=
+if [[ ${PV} =~ (_(alpha|beta|rc).*)$ ]] ; then
+	MOZ_PV_SUFFIX=${BASH_REMATCH[1]}
+
+	# Convert the ebuild version to the upstream Mozilla version
+	MOZ_PV="${MOZ_PV/_alpha/a}" # Handle alpha for SRC_URI
+	MOZ_PV="${MOZ_PV/_beta/b}"  # Handle beta for SRC_URI
+	MOZ_PV="${MOZ_PV%%_rc*}"    # Handle rc for SRC_URI
+fi
+
+if [[ -n ${MOZ_ESR} ]] ; then
+	# ESR releases have slightly different version numbers
+	MOZ_PV="${MOZ_PV}esr"
+fi
+
+MOZ_PN="firefox"
+MOZ_P="${MOZ_PN}-${MOZ_PV}"
+MOZ_PV_DISTFILES="${MOZ_PV}${MOZ_PV_SUFFIX}"
+MOZ_P_DISTFILES="${MOZ_PN}-${MOZ_PV_DISTFILES}"
+
+MOZ_SRC_BASE_URI="https://archive.mozilla.org/pub/${MOZ_PN}/releases/${MOZ_PV}"
+
+if [[ ${PV} == *_rc* ]] ; then
+	MOZ_SRC_BASE_URI="https://archive.mozilla.org/pub/${MOZ_PN}/candidates/${MOZ_PV}-candidates/build${PV##*_rc}"
+fi
+
+PATCH_URIS=(
+	https://dev.gentoo.org/~{whissi,polynomial-c,axs}/mozilla/patchsets/${FIREFOX_PATCHSET}
+	https://dev.gentoo.org/~{whissi,polynomial-c,axs}/mozilla/patchsets/${SPIDERMONKEY_PATCHSET}
+)
+
+SRC_URI="${MOZ_SRC_BASE_URI}/source/${MOZ_P}.source.tar.xz -> ${MOZ_P_DISTFILES}.source.tar.xz
+	${PATCH_URIS[@]}"
 
 DESCRIPTION="Mozilla's JavaScript engine written in C and C++"
 HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"
-SRC_URI="https://archive.mozilla.org/pub/firefox/releases/${PV}esr/source/firefox-${PV}esr.source.tar.xz"
-
-# Patch version
-FIREFOX_PATCHSET="firefox-68.0-patches-15"
-SPIDERMONKEY_PATCHSET="${PN}-68.6.0-patches-04"
-
-PATCH_URIS=(
-	https://dev.gentoo.org/~{anarchy,whissi,polynomial-c,axs}/mozilla/patchsets/${FIREFOX_PATCHSET}.tar.xz
-	https://dev.gentoo.org/~{whissi,polynomial-c,axs}/mozilla/patchsets/${SPIDERMONKEY_PATCHSET}.tar.xz
-)
-
-SRC_URI+="
-	${PATCH_URIS[@]}"
 
 LICENSE="MPL-2.0"
-SLOT="68/12.0"
-KEYWORDS="*"
+SLOT="78/4.0"
+KEYWORDS="~*"
 
-IUSE="clang debug +jit minimal +system-icu test"
+IUSE="debug +jit minimal test"
 
-RESTRICT="!test? ( test ) ia64? ( test )"
+RESTRICT="!test? ( test )"
 
-BDEPEND="dev-lang/python:2.7"
-DEPEND="
-	system-icu? ( >=dev-libs/icu-63.1:= )
-	>=dev-libs/nspr-4.21
-	dev-libs/libffi
+BDEPEND="${PYTHON_DEPS}
+	sys-devel/llvm
+	>=virtual/rust-1.41.0
+	virtual/pkgconfig"
+
+CDEPEND=">=dev-libs/icu-67.1:=
+	>=dev-libs/nspr-4.25
 	sys-libs/readline:0=
-	>=sys-libs/zlib-1.2.3:=
-	|| (
-		(
-			sys-devel/clang:10
-			!clang? ( sys-devel/llvm:10 )
-			clang? (
-				=sys-devel/lld-10*
-				sys-devel/llvm:10[gold]
-			)
-		)
-		(
-			sys-devel/clang:9
-			!clang? ( sys-devel/llvm:9 )
-			clang? (
-				=sys-devel/lld-9*
-				sys-devel/llvm:9[gold]
-			)
-		)
-		(
-			sys-devel/clang:8
-			!clang? ( sys-devel/llvm:8 )
-			clang? (
-				=sys-devel/lld-8*
-				sys-devel/llvm:8[gold]
-			)
-		)
-		(
-			sys-devel/clang:7
-			!clang? ( sys-devel/llvm:7 )
-			clang? (
-				=sys-devel/lld-7*
-				sys-devel/llvm:7[gold]
-			)
-		)
-	)
-"
-RDEPEND="${DEPEND}"
+	>=sys-libs/zlib-1.2.3"
+
+DEPEND="${CDEPEND}
+	test? (
+		$(python_gen_any_dep 'dev-python/six[${PYTHON_USEDEP}]')
+	)"
+
+RDEPEND="${CDEPEND}"
 
 S="${WORKDIR}/firefox-${PV}"
 MOZJS_BUILDDIR="${S}/jsobj"
 
+python_check_deps() {
+	if use test ; then
+		has_version "dev-python/six[${PYTHON_USEDEP}]"
+	fi
+}
+
 pkg_pretend() {
 	if use test ; then
-		CHECKREQS_DISK_BUILD="6G"
+		CHECKREQS_DISK_BUILD="6400M"
 	else
-		CHECKREQS_DISK_BUILD="5G"
+		CHECKREQS_DISK_BUILD="5600M"
 	fi
 
 	check-reqs_pkg_pretend
@@ -91,19 +103,18 @@ pkg_pretend() {
 
 pkg_setup() {
 	if use test ; then
-		CHECKREQS_DISK_BUILD="6G"
+		CHECKREQS_DISK_BUILD="6400M"
 	else
-		CHECKREQS_DISK_BUILD="5G"
+		CHECKREQS_DISK_BUILD="5600M"
 	fi
 
 	check-reqs_pkg_setup
+
+	python-any-r1_pkg_setup
 }
 
 src_prepare() {
-	rm "${WORKDIR}"/firefox/2013_avoid_noinline_on_GCC_with_skcms.patch
-	rm "${WORKDIR}"/firefox/2015_fix_cssparser.patch
-	rm "${WORKDIR}"/firefox/2016_set_CARGO_PROFILE_RELEASE_LTO.patch
-	eapply "${WORKDIR}"/firefox
+	eapply "${WORKDIR}"/firefox-patches
 	eapply "${WORKDIR}"/spidermonkey-patches
 
 	eapply_user
@@ -135,16 +146,17 @@ src_configure() {
 		--prefix=/usr \
 		--libdir=/usr/$(get_libdir) \
 		--disable-jemalloc \
+		--disable-optimize \
+		--disable-strip \
 		--enable-readline \
+		--enable-shared-js \
+		--with-intl-api \
+		--with-system-icu \
 		--with-system-nspr \
 		--with-system-zlib \
-		--disable-optimize \
-		--with-intl-api \
 		--with-toolchain-prefix="${CHOST}-" \
-		$(use_with system-icu) \
 		$(use_enable debug) \
-		$(use_enable debug debug-symbols) \
-		$(use_enable jit ion) \
+		$(use_enable jit) \
 		$(use_enable test tests) \
 		XARGS="/usr/bin/xargs" \
 		CONFIG_SHELL="${EPREFIX}/bin/bash" \

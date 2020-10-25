@@ -32,7 +32,7 @@
 ~dev-libs/atk-2.36.0::dantrell-gnome-3-38
 ~dev-libs/folks-0.14.0::dantrell-gnome
 ~dev-libs/gjs-1.66.1::dantrell-gnome-3-38
-~dev-libs/glib-2.66.1::dantrell-gnome
+~dev-libs/glib-2.66.2::dantrell-gnome
 ~dev-libs/gmime-3.2.7::dantrell-gnome
 ~dev-libs/gobject-introspection-1.66.1::dantrell-gnome-3-38
 ~dev-libs/gobject-introspection-common-1.66.1::dantrell-gnome-3-38

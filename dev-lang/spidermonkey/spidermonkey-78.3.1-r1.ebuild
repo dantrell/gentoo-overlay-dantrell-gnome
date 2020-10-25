@@ -29,7 +29,7 @@ SRC_URI+="
 
 LICENSE="MPL-2.0"
 SLOT="78/3.1"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="debug +jit minimal test"
 
