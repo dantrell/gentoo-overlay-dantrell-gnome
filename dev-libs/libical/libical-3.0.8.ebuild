@@ -43,6 +43,7 @@ RDEPEND="${COMMON_DEPEND}
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.0.4-tests.patch
 	"${FILESDIR}"/${PN}-3.0.5-pkgconfig-libdir.patch
+	"${FILESDIR}"/${PN}-3.0.8-icu-68.patch # pending upstream PR #448, bug #751928
 )
 
 pkg_setup() {
