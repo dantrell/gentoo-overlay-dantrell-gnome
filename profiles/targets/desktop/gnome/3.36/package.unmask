@@ -26,7 +26,7 @@
 ~dev-cpp/cairomm-1.12.2::dantrell-gnome
 ~dev-cpp/mm-common-1.0.2::dantrell-gnome
 ~dev-lang/vala-0.48.11::dantrell-gnome
-~dev-libs/appstream-glib-0.7.17::dantrell-gnome
+~dev-libs/appstream-glib-0.7.18::dantrell-gnome
 ~dev-libs/atk-2.35.1::dantrell-gnome-3-36
 ~dev-libs/folks-0.14.0::dantrell-gnome
 ~dev-libs/gjs-1.64.4::dantrell-gnome-3-36
@@ -73,7 +73,7 @@
 ~games-puzzle/quadrapassel-3.36.05::dantrell-gnome-3-36
 ~gnome-base/dconf-0.36.0::dantrell-gnome
 ~gnome-base/dconf-editor-3.36.7::dantrell-gnome-3-36
-~gnome-base/gdm-3.36.3::dantrell-gnome
+~gnome-base/gdm-3.36.4::dantrell-gnome
 ~gnome-base/gnome-3.36.0::dantrell-gnome-3-36
 ~gnome-base/gnome-control-center-3.36.4::dantrell-gnome-3-36
 ~gnome-base/gnome-core-apps-3.36.0::dantrell-gnome-3-36
@@ -97,7 +97,7 @@
 ~gnome-base/gvfs-1.44.1::dantrell-gnome-3-36
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
 ~gnome-base/libgtop-2.40.0::dantrell-gnome
-~gnome-base/librsvg-2.48.8::dantrell-gnome
+~gnome-base/librsvg-2.48.9::dantrell-gnome
 ~gnome-base/nautilus-3.36.1.1::dantrell-gnome-3-36
 ~gnome-base/nautilus-3.36.2::dantrell-gnome-3-36
 ~gnome-base/nautilus-3.36.3::dantrell-gnome-3-36

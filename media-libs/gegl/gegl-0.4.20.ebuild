@@ -9,7 +9,7 @@ VALA_USE_DEPEND=vapigen
 inherit meson gnome2-utils python-any-r1 vala
 
 DESCRIPTION="A graph based image processing framework"
-HOMEPAGE="http://www.gegl.org/"
+HOMEPAGE="https://gegl.org/"
 SRC_URI="http://download.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.xz"
 
 LICENSE="|| ( GPL-3+ LGPL-3 )"

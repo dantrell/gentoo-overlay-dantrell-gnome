@@ -28,7 +28,6 @@ RDEPEND="${DEPEND}
 "
 BDEPEND="
 	>=dev-util/meson-0.49.0
-	!net-wireless/bluez-gnome
 	dev-libs/libxml2:2
 	dev-util/gdbus-codegen
 	gtk-doc? ( >=dev-util/gtk-doc-1.9 )

@@ -9,13 +9,13 @@ inherit cmake-utils git-r3 gnome2-utils vala xdg-utils
 DESCRIPTION="Modern Jabber/XMPP Client using GTK+/Vala"
 HOMEPAGE="https://dino.im"
 EGIT_REPO_URI="https://github.com/dino/dino"
-EGIT_COMMIT="7b58c1596aa13a7ef0dd7897e25f9a80c5929a07"
+EGIT_COMMIT="dba63b14737d9415bb189235065efb80676e2b17"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="+gpg +http +omemo"
+IUSE="+gpg +http +omemo +notification-sound"
 
 RDEPEND="
 	dev-db/sqlite:3
@@ -34,6 +34,7 @@ RDEPEND="
 		dev-libs/libgcrypt:0
 		media-gfx/qrencode
 	)
+	notification-sound? ( media-libs/libcanberra:0[sound] )
 "
 DEPEND="
 	$(vala_depend)
@@ -52,7 +53,11 @@ src_configure() {
 		$(usex omemo "" "omemo")
 		$(usex http  "" "http-files")
 	)
+	local enabled_plugins=(
+		$(usex notification-sound "notification-sound" "")
+	)
 	local mycmakeargs+=(
+		"-DENABLED_PLUGINS=$(local IFS=";"; echo "${enabled_plugins[*]}")"
 		"-DDISABLED_PLUGINS=$(local IFS=";"; echo "${disabled_plugins[*]}")"
 		"-DVALA_EXECUTABLE=${VALAC}"
 	)

@@ -8,7 +8,7 @@ VALA_USE_DEPEND=vapigen
 inherit autotools gnome2-utils vala
 
 DESCRIPTION="A graph based image processing framework"
-HOMEPAGE="http://www.gegl.org/"
+HOMEPAGE="https://gegl.org/"
 SRC_URI="http://download.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.bz2"
 
 LICENSE="|| ( GPL-3+ LGPL-3 )"

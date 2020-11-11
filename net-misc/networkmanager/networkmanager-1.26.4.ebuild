@@ -115,6 +115,8 @@ DEPEND="${COMMON_DEPEND}
 	)
 "
 
+PATCHES=( "${FILESDIR}"/${PN}-1.26.4-iwd-fixes-pr640.patch )
+
 python_check_deps() {
 	if use introspection; then
 		has_version "dev-python/pygobject:3[${PYTHON_USEDEP}]" || return
@@ -171,6 +173,11 @@ src_prepare() {
 
 	use vala && vala_src_prepare
 	gnome2_src_prepare
+
+	sed -i \
+		-e 's#/usr/bin/sed#/bin/sed#' \
+		data/84-nm-drivers.rules \
+		|| die
 }
 
 multilib_src_configure() {

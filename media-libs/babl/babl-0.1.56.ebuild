@@ -5,8 +5,8 @@ EAPI="7"
 inherit autotools
 
 DESCRIPTION="A dynamic, any to any, pixel format conversion library"
-HOMEPAGE="http://www.gegl.org/babl/"
-SRC_URI="http://ftp.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.bz2"
+HOMEPAGE="https://gegl.org/babl/"
+SRC_URI="https://ftp.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.bz2"
 
 LICENSE="LGPL-3"
 SLOT="0"

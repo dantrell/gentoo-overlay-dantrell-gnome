@@ -12,7 +12,7 @@ LICENSE="LGPL-2.1+"
 SLOT="2/66"
 KEYWORDS="*"
 
-IUSE="dbus debug elibc_glibc fam gtk-doc kernel_linux +mime selinux static-libs systemtap test xattr"
+IUSE="dbus debug elibc_glibc fam gtk-doc kernel_linux +mime selinux static-libs sysprof systemtap test xattr"
 
 RESTRICT="!test? ( test )"
 
@@ -20,6 +20,9 @@ RESTRICT="!test? ( test )"
 # the check is automagic in gio/meson.build. gresource is not a multilib tool
 # right now, thus it doesn't matter if non-native ABI libelf exists or not
 # (non-native binary is overwritten, it doesn't matter if libelf was linked to).
+# * elfutils (via libelf) does not build on Windows. gresources are not embedded
+# within ELF binaries on that platform anyway and inspecting ELF binaries from
+# other platforms is not that useful so exclude the dependency in this case.
 # * Technically static-libs is needed on zlib, util-linux and perhaps more, but
 # these are used by GIO, which glib[static-libs] consumers don't really seem
 # to need at all, thus not imposing the deps for now and once some consumers
@@ -36,10 +39,12 @@ RDEPEND="
 	kernel_linux? ( >=sys-apps/util-linux-2.23[${MULTILIB_USEDEP}] )
 	selinux? ( >=sys-libs/libselinux-2.2.2-r5[${MULTILIB_USEDEP}] )
 	xattr? ( !elibc_glibc? ( >=sys-apps/attr-2.4.47-r1[${MULTILIB_USEDEP}] ) )
-	virtual/libelf:0=
+	!kernel_Winnt? ( virtual/libelf:0= )
 	fam? ( >=virtual/fam-0-r1[${MULTILIB_USEDEP}] )
 "
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	sysprof? ( >=dev-util/sysprof-capture-3.38:4[${MULTILIB_USEDEP}] )
+"
 # libxml2 used for optional tests that get automatically skipped
 BDEPEND="
 	app-text/docbook-xsl-stylesheets
@@ -160,6 +165,7 @@ multilib_src_configure() {
 		-Dman=true
 		$(meson_use systemtap dtrace)
 		$(meson_use systemtap)
+		$(meson_feature sysprof)
 		-Dgtk_doc=$(multilib_native_usex gtk-doc true false)
 		$(meson_use fam)
 		-Dinstalled_tests=false

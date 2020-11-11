@@ -10,7 +10,7 @@ WANT_AUTOMAKE=1.11  # see bug 471990, comment 3
 inherit versionator gnome2-utils autotools #vala
 
 DESCRIPTION="A graph based image processing framework"
-HOMEPAGE="http://www.gegl.org/"
+HOMEPAGE="https://gegl.org/"
 SRC_URI="https://download.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.bz2"
 
 LICENSE="|| ( GPL-3 LGPL-3 )"

@@ -12,7 +12,7 @@ LICENSE="CC0-1.0 LGPL-2.1+ public-domain"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="+acl debug doc +pam +policykit selinux"
+IUSE="+acl audit debug doc +pam +policykit selinux"
 
 BDEPEND="
 	app-text/docbook-xml-dtd:4.2
@@ -23,6 +23,7 @@ BDEPEND="
 	virtual/pkgconfig
 "
 DEPEND="
+	audit? ( sys-process/audit )
 	sys-apps/util-linux
 	sys-libs/libcap
 	virtual/libudev:=
@@ -80,6 +81,7 @@ src_configure() {
 		-Ddefault-hierarchy=${cgroupmode}
 		-Ddefault-kill-user-processes=false
 		-Dacl=$(usex acl true false)
+		-Daudit=$(usex audit true false)
 		--buildtype $(usex debug debug release)
 		-Dhtml=$(usex doc auto false)
 		-Dpam=$(usex pam true false)
