@@ -10,7 +10,7 @@ inherit meson gnome2-utils python-any-r1 vala
 
 DESCRIPTION="A graph based image processing framework"
 HOMEPAGE="https://gegl.org/"
-SRC_URI="http://download.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.xz"
+SRC_URI="https://download.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.xz"
 
 LICENSE="|| ( GPL-3+ LGPL-3 )"
 SLOT="0.4"

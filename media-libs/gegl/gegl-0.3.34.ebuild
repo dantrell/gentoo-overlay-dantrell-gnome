@@ -9,7 +9,7 @@ inherit autotools eutils gnome2-utils ltprune vala versionator
 
 DESCRIPTION="A graph based image processing framework"
 HOMEPAGE="https://gegl.org/"
-SRC_URI="http://download.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.bz2"
+SRC_URI="https://download.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.bz2"
 
 LICENSE="|| ( GPL-3 LGPL-3 )"
 SLOT="0.3"

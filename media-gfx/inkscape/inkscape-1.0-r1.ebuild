@@ -13,7 +13,7 @@ SRC_URI="https://gitlab.com/inkscape/inkscape/-/archive/${PN^^}_$(ver_rs 1-2 "_"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="cdr dbus dia exif graphicsmagick imagemagick inkjar jemalloc jpeg lcms
 openmp postscript spell static-libs svg2 visio wpg"
@@ -27,7 +27,7 @@ BDEPEND="
 	virtual/pkgconfig
 "
 COMMON_DEPEND="${PYTHON_DEPS}
-	<app-text/poppler-20.0
+	<app-text/poppler-21.0
 	>=app-text/poppler-0.57.0:=[cairo]
 	>=dev-cpp/cairomm-1.12
 	>=dev-cpp/glibmm-2.54.1
