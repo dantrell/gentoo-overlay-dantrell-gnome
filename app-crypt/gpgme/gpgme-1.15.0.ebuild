@@ -13,14 +13,14 @@ SRC_URI="mirror://gnupg/gpgme/${P}.tar.bz2"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="1/11" # subslot = soname major version
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="common-lisp static-libs +cxx python qt5"
 REQUIRED_USE="qt5? ( cxx ) python? ( ${PYTHON_REQUIRED_USE} )"
 
 RDEPEND=">=app-crypt/gnupg-2
 	>=dev-libs/libassuan-2.5.3:=
-	>=dev-libs/libgpg-error-1.29:=
+	>=dev-libs/libgpg-error-1.36:=
 	python? ( ${PYTHON_DEPS} )
 	qt5? ( dev-qt/qtcore:5 )"
 	#doc? ( app-doc/doxygen[dot] )
@@ -100,7 +100,7 @@ src_test() {
 src_install() {
 	default
 	do_python
-	find "${D}" -name '*.la' -delete || die
+	find "${ED}" -type f -name '*.la' -delete || die
 
 	# backward compatibility for gentoo
 	# in the past we had slots

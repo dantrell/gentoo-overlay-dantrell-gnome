@@ -40,7 +40,9 @@ src_prepare() {
 }
 
 src_configure() {
-	econf --enable-ucs4
+	econf \
+		--enable-ucs4 \
+		--disable-static
 }
 
 src_compile() {
@@ -70,4 +72,6 @@ src_install() {
 	DOCS=( README AUTHORS NEWS ChangeLog doc/liblouis.txt )
 	HTML_DOCS=( doc/liblouis.html )
 	default
+
+	find "${ED}" -name '*.la' -delete || die
 }
