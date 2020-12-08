@@ -1,7 +1,7 @@
 ~app-accessibility/accerciser-3.38.0::dantrell-gnome-3-38
 ~app-accessibility/at-spi2-atk-2.38.0::dantrell-gnome-3-38
 ~app-accessibility/at-spi2-core-2.38.0::dantrell-gnome-3-38
-~app-accessibility/orca-3.38.0::dantrell-gnome-3-38
+~app-accessibility/orca-3.38.1::dantrell-gnome-3-38
 ~app-arch/file-roller-3.38.0::dantrell-gnome-3-38
 ~app-arch/gcab-1.4::dantrell-gnome
 ~app-arch/gnome-autoar-0.2.4::dantrell-gnome
@@ -52,12 +52,13 @@
 ~dev-util/gdbus-codegen-2.64.6::dantrell-gnome
 ~dev-util/gnome-builder-3.38.1::dantrell-gnome-3-38
 ~dev-util/gnome-devel-docs-3.32.1::dantrell-gnome
+~dev-util/gtk-doc-1.33.1::dantrell-gnome
 ~dev-util/sysprof-3.38.1::dantrell-gnome-3-38
 ~dev-vcs/gitg-3.32.1::dantrell-gnome
 ~games-arcade/gnome-nibbles-3.38.2::dantrell-gnome-3-38
 ~games-arcade/gnome-robots-3.38.0::dantrell-gnome-3-38
 ~games-board/four-in-a-row-3.38.1::dantrell-gnome-3-38
-~games-board/gnome-chess-3.38.0::dantrell-gnome-3-38
+~games-board/gnome-chess-3.38.1::dantrell-gnome-3-38
 ~games-board/gnome-mahjongg-3.38.2::dantrell-gnome-3-38
 ~games-board/iagno-3.38.1::dantrell-gnome-3-38
 ~games-board/tali-3.38.0::dantrell-gnome-3-38
@@ -87,6 +88,7 @@
 ~gnome-base/gnome-session-3.38.0::dantrell-gnome-3-38
 ~gnome-base/gnome-settings-daemon-3.38.1::dantrell-gnome-3-38
 ~gnome-base/gnome-shell-3.38.1::dantrell-gnome-3-38
+~gnome-base/gnome-shell-3.38.2::dantrell-gnome-3-38
 ~gnome-base/gsettings-desktop-schemas-3.38.0::dantrell-gnome-3-38
 ~gnome-base/gvfs-1.46.1::dantrell-gnome-3-38
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
@@ -108,6 +110,7 @@
 ~gnome-extra/gnome-power-manager-3.32.0::dantrell-gnome
 ~gnome-extra/gnome-recipes-2.0.2::dantrell-gnome
 ~gnome-extra/gnome-shell-extensions-3.38.1::dantrell-gnome-3-38
+~gnome-extra/gnome-shell-extensions-3.38.2::dantrell-gnome-3-38
 ~gnome-extra/gnome-shell-frippery-3.38.0::dantrell-gnome-3-38
 ~gnome-extra/gnome-software-3.38.0::dantrell-gnome-3-38
 ~gnome-extra/gnome-system-monitor-3.38.0::dantrell-gnome-3-38
@@ -130,7 +133,7 @@
 ~media-gfx/eog-3.38.1::dantrell-gnome-3-38
 ~media-gfx/gnome-font-viewer-3.34.0::dantrell-gnome
 ~media-gfx/gnome-screenshot-3.38.0::dantrell-gnome-3-38
-~media-gfx/simple-scan-3.38.1::dantrell-gnome-3-38
+~media-gfx/simple-scan-3.38.2::dantrell-gnome-3-38
 ~media-libs/clutter-1.26.4::dantrell-gnome
 ~media-libs/clutter-gst-3.0.27::dantrell-gnome
 ~media-libs/clutter-gtk-1.8.4::dantrell-gnome
@@ -162,6 +165,7 @@
 ~sys-apps/gnome-disk-utility-3.38.0::dantrell-gnome-3-38
 ~www-client/epiphany-3.38.0::dantrell-gnome-3-38
 ~www-client/epiphany-3.38.1::dantrell-gnome-3-38
+~www-client/epiphany-3.38.2::dantrell-gnome-3-38
 ~x11-libs/gdk-pixbuf-2.40.0::dantrell-gnome
 ~x11-libs/gtk+-3.24.5::dantrell-gnome
 ~x11-libs/libnotify-0.7.9::dantrell-gnome
@@ -169,8 +173,10 @@
 ~x11-libs/pango-1.46.2::dantrell-gnome
 ~x11-libs/vte-0.62.0::dantrell-gnome-3-38
 ~x11-misc/gpaste-3.38.2::dantrell-gnome-3-38
+~x11-misc/gpaste-3.38.3::dantrell-gnome-3-38
 ~x11-terms/gnome-terminal-3.38.0::dantrell-gnome-3-38
 ~x11-themes/adwaita-icon-theme-3.38.0::dantrell-gnome-3-38
 ~x11-themes/gnome-backgrounds-3.38.0::dantrell-gnome-3-38
 ~x11-wm/metacity-3.37.1::dantrell-gnome-3-38
 ~x11-wm/mutter-3.38.1::dantrell-gnome-3-38
+~x11-wm/mutter-3.38.2::dantrell-gnome-3-38

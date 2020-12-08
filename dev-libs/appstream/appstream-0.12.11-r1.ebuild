@@ -14,7 +14,7 @@ SLOT="0/4"
 KEYWORDS=""
 
 IUSE="apt doc +introspection qt5 test"
-RESTRICT="!test? ( test )"
+RESTRICT="test" # bug 691962
 
 BDEPEND="
 	dev-libs/appstream-glib

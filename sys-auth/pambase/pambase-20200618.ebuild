@@ -10,7 +10,7 @@ SRC_URI="https://github.com/gentoo/pambase/archive/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="caps ck consolekit debug elogind minimal mktemp +nullok pam_krb5 pam_ssh +passwdqc securetty selinux +sha512 systemd"
 REQUIRED_USE="?? ( ck consolekit elogind systemd )"
