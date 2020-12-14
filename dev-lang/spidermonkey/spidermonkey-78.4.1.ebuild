@@ -59,7 +59,7 @@ HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey
 
 LICENSE="MPL-2.0"
 SLOT="78/4.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="debug +jit minimal test"
 

@@ -190,6 +190,10 @@ src_configure() {
 	# Arches without JIT support also need this to really disable it in all places
 	use jit || append-cppflags -DENABLE_JIT=0 -DENABLE_YARR_JIT=0 -DENABLE_ASSEMBLER=0 -DENABLE_C_LOOP=1
 
+	# Ensure backward compatibility with >= ICU 68
+	# http://linuxfromscratch.org/blfs/view/svn/x/webkitgtk.html (Version 2020-12-13)
+	append-cppflags -DU_DEFINE_FALSE_AND_TRUE=1
+
 	# It does not compile on alpha without this in LDFLAGS
 	# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=648761
 	use alpha && append-ldflags "-Wl,--no-relax"

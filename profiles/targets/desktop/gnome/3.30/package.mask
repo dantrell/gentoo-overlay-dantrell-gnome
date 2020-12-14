@@ -1,5 +1,5 @@
 # Masked to test on GNOME 3.40 first
->=net-libs/webkit-gtk-2.30.0
+>=net-libs/webkit-gtk-2.32.0
 
 # Masked to test on GNOME 3.34 first
 >=x11-libs/pango-1.44.0
