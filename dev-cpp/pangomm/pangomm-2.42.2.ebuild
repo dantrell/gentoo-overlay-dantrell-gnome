@@ -9,7 +9,7 @@ HOMEPAGE="https://www.gtkmm.org"
 
 LICENSE="LGPL-2.1+"
 SLOT="1.4"
-KEYWORDS="~*"
+KEYWORDS=""
 
 IUSE="doc"
 
