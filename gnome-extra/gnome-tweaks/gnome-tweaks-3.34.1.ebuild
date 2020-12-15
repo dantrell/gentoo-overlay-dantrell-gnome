@@ -39,7 +39,7 @@ BDEPEND=">=sys-devel/gettext-0.19.8"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.28.1-gentoo-cursor-themes.patch # Add contents of Gentoo's cursor theme directory to cursor theme list
-	"${FILESDIR}"/${PN}-3.34.0-fix-python.patch
+	"${FILESDIR}"/${PN}-3.34.1-fix-python.patch
 )
 
 src_install() {

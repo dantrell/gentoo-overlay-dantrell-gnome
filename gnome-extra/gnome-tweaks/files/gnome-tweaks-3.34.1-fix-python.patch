@@ -1,0 +1,56 @@
+diff '--exclude=.git' -urN a/gtweak/meson.build b/gtweak/meson.build
+--- a/gtweak/meson.build	2020-12-09 15:26:17.000000000 -0600
++++ b/gtweak/meson.build	2020-12-14 21:36:22.131859431 -0600
+@@ -11,7 +11,6 @@
+   input: 'defs.py.in',
+   output: 'defs.py',
+   configuration: defs_conf,
+-  install: true,
+   install_dir: gtweakdir
+ )
+ 
+@@ -46,5 +45,5 @@
+   'tweaks/tweak_wacom.py',
+ ]
+ 
+-install_data(shell_sources, install_dir: gtweakdir)
+-install_data(tweak_sources, install_dir: gtweakdir + '/tweaks')
++python3.install_sources(shell_sources, subdir: 'gtweak')
++python3.install_sources(tweak_sources, subdir: join_paths('gtweak', 'tweaks'))
+diff '--exclude=.git' -urN a/meson.build b/meson.build
+--- a/meson.build	2020-12-09 15:26:17.000000000 -0600
++++ b/meson.build	2020-12-14 21:36:22.131859431 -0600
+@@ -1,11 +1,16 @@
+ project('gnome-tweaks',
+   version: '3.34.1',
+-  meson_version: '>= 0.40.0'
++  meson_version: '>= 0.46.0'
+ )
+ 
+ gnome = import('gnome')
+ i18n = import('i18n')
+-python3 = import('python3')
++pymod = import('python')
++python3 = pymod.find_installation('python3')
++
++if not python3.found()
++    error('No valid python3 installation found')
++endif
+ 
+ prefix = get_option('prefix')
+ 
+@@ -13,13 +18,12 @@
+ datadir = join_paths(prefix, get_option('datadir'))
+ libexecdir = join_paths(prefix, get_option('libexecdir'))
+ localedir = join_paths(prefix, get_option('localedir'))
+-pythondir = join_paths(prefix, python3.sysconfig_path('purelib'))
+ 
+ pkgdatadir = join_paths(datadir, meson.project_name())
+ 
+ appdatadir = join_paths(datadir, 'metainfo')
+ desktopdir = join_paths(datadir, 'applications')
+-gtweakdir = join_paths(pythondir, 'gtweak')
++gtweakdir = python3.get_install_dir(subdir: 'gtweak')
+ icondir = join_paths(datadir, 'icons', 'hicolor')
+ schemadir = join_paths(datadir, 'glib-2.0', 'schemas')
+ 
