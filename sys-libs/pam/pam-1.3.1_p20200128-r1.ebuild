@@ -14,7 +14,7 @@ LICENSE="|| ( BSD GPL-2 )"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="audit berkdb +cracklib debug nis +pie selinux static-libs"
+IUSE="audit berkdb +cracklib debug nis selinux static-libs"
 
 BDEPEND="app-text/docbook-xml-dtd:4.1.2
 	app-text/docbook-xml-dtd:4.3
@@ -64,6 +64,7 @@ multilib_src_configure() {
 		--enable-securedir="${EPREFIX}"/$(get_libdir)/security
 		--libdir="${EPREFIX}"/usr/$(get_libdir)
 		--exec-prefix="${EPREFIX}"
+		--enable-pie
 		--disable-prelude
 		--enable-doc
 		$(use_enable audit)
@@ -71,7 +72,6 @@ multilib_src_configure() {
 		$(use_enable cracklib)
 		$(use_enable debug)
 		$(use_enable nis)
-		$(use_enable pie)
 		$(use_enable selinux)
 		$(use_enable static-libs static)
 		--enable-isadir='.' #464016
