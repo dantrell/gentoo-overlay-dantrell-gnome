@@ -1,7 +1,7 @@
 ~app-accessibility/accerciser-3.38.0::dantrell-gnome-3-38
 ~app-accessibility/at-spi2-atk-2.38.0::dantrell-gnome-3-38
 ~app-accessibility/at-spi2-core-2.38.0::dantrell-gnome-3-38
-~app-accessibility/orca-3.38.1::dantrell-gnome-3-38
+~app-accessibility/orca-3.38.2::dantrell-gnome-3-38
 ~app-arch/file-roller-3.38.0::dantrell-gnome-3-38
 ~app-arch/gcab-1.4::dantrell-gnome
 ~app-arch/gnome-autoar-0.2.4::dantrell-gnome
@@ -126,7 +126,7 @@
 ~gnome-extra/yelp-3.38.2::dantrell-gnome-3-38
 ~gnome-extra/yelp-xsl-3.38.2::dantrell-gnome-3-38
 ~gnome-extra/zenity-3.32.0::dantrell-gnome
-~gui-libs/libhandy-1.0.2::dantrell-gnome
+~gui-libs/libhandy-1.0.3::dantrell-gnome
 ~mail-client/evolution-3.38.2::dantrell-gnome-3-38
 ~mail-client/geary-3.36.3.1::dantrell-gnome
 ~media-fonts/cantarell-0.201::dantrell-gnome

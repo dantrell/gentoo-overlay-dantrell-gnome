@@ -44,7 +44,7 @@ RDEPEND="${COMMON_DEPEND}
 	!libburn? (
 		app-cdr/cdrdao
 		app-cdr/dvd+rw-tools
-		virtual/cdrtools )
+		app-cdr/cdrtools )
 	packagekit? ( app-admin/packagekit-base )
 "
 DEPEND="${COMMON_DEPEND}
