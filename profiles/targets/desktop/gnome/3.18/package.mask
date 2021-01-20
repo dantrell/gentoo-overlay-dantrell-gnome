@@ -50,7 +50,9 @@
 >=media-plugins/gst-plugins-libnice-0.1.15
 >=media-sound/pasystray-0.6.0
 >=net-im/empathy-3.12.14
+>=net-libs/libmbim-1.22.0
 >=net-libs/libnice-0.1.15
+>=net-libs/libqmi-1.24.0
 >=www-client/midori-6.0
 >=x11-misc/colord-1.4.0
 

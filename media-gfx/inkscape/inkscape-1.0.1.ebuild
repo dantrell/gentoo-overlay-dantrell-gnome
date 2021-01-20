@@ -27,7 +27,7 @@ BDEPEND="
 	virtual/pkgconfig
 "
 COMMON_DEPEND="${PYTHON_DEPS}
-	<app-text/poppler-21.0
+	<app-text/poppler-22.0
 	>=app-text/poppler-0.57.0:=[cairo]
 	>=dev-cpp/cairomm-1.12
 	>=dev-cpp/glibmm-2.54.1
@@ -88,10 +88,7 @@ COMMON_DEPEND="${PYTHON_DEPS}
 # on that.
 RDEPEND="${COMMON_DEPEND}
 	$(python_gen_cond_dep '
-		|| (
-			dev-python/numpy-python2[${PYTHON_MULTI_USEDEP}]
-			dev-python/numpy[${PYTHON_MULTI_USEDEP}]
-		)
+		dev-python/numpy[${PYTHON_MULTI_USEDEP}]
 	')
 	dia? ( app-office/dia )
 	postscript? ( app-text/ghostscript-gpl )
@@ -157,4 +154,7 @@ src_install() {
 	if [[ -e "${extdir}" ]] && [[ -n $(find "${extdir}" -mindepth 1) ]]; then
 		python_optimize "${ED}"/usr/share/${PN}/extensions
 	fi
+
+	# Empty directory causes sandbox issues, see bug #761915
+	rm -r "${ED}/usr/share/inkscape/fonts" || die "Failed to remove fonts directory."
 }

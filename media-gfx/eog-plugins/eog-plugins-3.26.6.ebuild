@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-GNOME2_LA_PUNT="yes"
+EAPI="7"
 PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 
 inherit gnome2 python-single-r1
@@ -42,9 +41,8 @@ RDEPEND="
 		x11-libs/gtk+:3[introspection]
 		x11-libs/pango[introspection] )
 "
-# libxml2 required for glib-compile-resources
-DEPEND="${RDEPEND}
-	dev-libs/libxml2:2
+DEPEND="${RDEPEND}"
+BDEPEND="
 	>=sys-devel/gettext-0.19.7
 	virtual/pkgconfig
 "

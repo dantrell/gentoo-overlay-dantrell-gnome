@@ -12,7 +12,7 @@ LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="common-lisp nls"
+IUSE="common-lisp nls static-libs"
 
 RDEPEND="nls? ( >=virtual/libintl-0-r1[${MULTILIB_USEDEP}] )"
 DEPEND="${RDEPEND}"
@@ -44,7 +44,8 @@ multilib_src_configure() {
 		$(multilib_is_native_abi || echo --disable-languages)
 		$(use_enable common-lisp languages)
 		$(use_enable nls)
-		--disable-static
+		# required for sys-power/suspend[crypt], bug 751568
+		$(use_enable static-libs static)
 		--enable-threads
 		CC_FOR_BUILD="$(tc-getBUILD_CC)"
 		$("${S}/configure" --help | grep -o -- '--without-.*-prefix')

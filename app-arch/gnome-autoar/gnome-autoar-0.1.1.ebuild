@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit gnome2
 
@@ -19,7 +19,8 @@ RDEPEND="
 	gtk? ( >=x11-libs/gtk+-3.2:3 )
 	introspection? ( >=dev-libs/gobject-introspection-1.30.0:= )
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	>=dev-util/gtk-doc-am-1.14
 	gnome-base/gnome-common
 	virtual/pkgconfig

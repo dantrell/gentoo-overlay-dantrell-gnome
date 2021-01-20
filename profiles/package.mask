@@ -224,9 +224,11 @@ net-libs/gssdp::gentoo
 net-libs/gtk-vnc::gentoo
 net-libs/gupnp-igd::gentoo
 net-libs/gupnp::gentoo
+net-libs/libmbim::gentoo
 net-libs/libnice::gentoo
 net-libs/libnma::gentoo
 net-libs/libpsl::gentoo
+net-libs/libqmi::gentoo
 net-libs/libsignal-protocol-c::gentoo
 net-libs/libzapojit::gentoo
 net-libs/phodav::gentoo
@@ -277,6 +279,8 @@ sys-fs/udisks::gentoo
 sys-libs/libosinfo::gentoo
 sys-libs/pam::gentoo
 sys-power/acpid::gentoo
+sys-power/pm-quirks::gentoo
+sys-power/pm-utils::gentoo
 sys-power/upower::gentoo
 sys-process/gnome-usage::gentoo
 x11-base/xorg-proto::gentoo

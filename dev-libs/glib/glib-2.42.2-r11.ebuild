@@ -24,7 +24,7 @@ SRC_URI="${SRC_URI}
 
 LICENSE="LGPL-2.1+"
 SLOT="2/42"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="dbus fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
 REQUIRED_USE="

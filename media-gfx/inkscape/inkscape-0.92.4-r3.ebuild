@@ -23,7 +23,7 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 RESTRICT="test"
 
 COMMON_DEPEND="${PYTHON_DEPS}
-	<app-text/poppler-21.0
+	<app-text/poppler-22.0
 	>=app-text/poppler-0.26.0:=[cairo]
 	>=dev-cpp/glibmm-2.28
 	>=dev-cpp/gtkmm-2.18.0:2.4
@@ -74,10 +74,7 @@ COMMON_DEPEND="${PYTHON_DEPS}
 # on that.
 RDEPEND="${COMMON_DEPEND}
 	$(python_gen_cond_dep '
-		|| (
-			dev-python/numpy-python2[${PYTHON_MULTI_USEDEP}]
-			dev-python/numpy[${PYTHON_MULTI_USEDEP}]
-		)
+		dev-python/numpy-python2[${PYTHON_MULTI_USEDEP}]
 	')
 	uniconvertor? ( media-gfx/uniconvertor )
 	dia? ( app-office/dia )

@@ -10,7 +10,7 @@ HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2.1+"
 SLOT="2/66"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="dbus debug elibc_glibc fam gtk-doc kernel_linux +mime selinux static-libs sysprof systemtap test xattr"
 
@@ -43,7 +43,7 @@ RDEPEND="
 	fam? ( >=virtual/fam-0-r1[${MULTILIB_USEDEP}] )
 "
 DEPEND="${RDEPEND}
-	sysprof? ( >=dev-util/sysprof-capture-3.38:4[${MULTILIB_USEDEP}] )
+	sysprof? ( >=dev-util/sysprof-3.38:4[${MULTILIB_USEDEP}] )
 "
 # libxml2 used for optional tests that get automatically skipped
 BDEPEND="

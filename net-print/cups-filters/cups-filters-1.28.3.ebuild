@@ -12,7 +12,7 @@ SRC_URI="http://www.openprinting.org/download/${PN}/${P}.tar.xz"
 
 LICENSE="MIT GPL-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="dbus +foomatic jpeg ldap pclm pdf perl png +postscript static-libs test tiff zeroconf"
 

@@ -43,7 +43,7 @@ COMMON_DEPEND="
 	colord? ( >=x11-misc/colord-0.1.9:0=[${MULTILIB_USEDEP}] )
 	cups? ( >=net-print/cups-2.0[${MULTILIB_USEDEP}] )
 	introspection? ( >=dev-libs/gobject-introspection-1.39:= )
-	sysprof? ( >=dev-util/sysprof-capture-3.33.2:3[${MULTILIB_USEDEP}] )
+	sysprof? ( >=dev-util/sysprof-3.33.2:3[${MULTILIB_USEDEP}] )
 	wayland? (
 		>=dev-libs/wayland-1.14.91[${MULTILIB_USEDEP}]
 		>=dev-libs/wayland-protocols-1.17

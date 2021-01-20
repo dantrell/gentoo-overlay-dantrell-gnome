@@ -13,7 +13,7 @@ SRC_URI="https://github.com/OpenPrinting/${PN}/releases/download/v${PV}/${P}.tar
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gnome-keyring policykit"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"

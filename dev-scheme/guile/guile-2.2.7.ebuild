@@ -29,7 +29,10 @@ BDEPEND="
 	sys-devel/libtool
 	sys-devel/gettext"
 
-PATCHES=( "${FILESDIR}"/${PN}-2.2.3-gentoo-sandbox.patch )
+PATCHES=(
+	"${FILESDIR}"/${PN}-2.2.3-gentoo-sandbox.patch
+	"${FILESDIR}"/${PN}-2.2.7-stack-up.patch
+)
 
 src_configure() {
 	# Seems to have issues with -Os, switch to -O2
