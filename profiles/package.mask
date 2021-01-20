@@ -129,6 +129,7 @@ games-puzzle/gnome-tetravex::gentoo
 games-puzzle/gnome2048::gentoo
 games-puzzle/hitori::gentoo
 games-puzzle/quadrapassel::gentoo
+games-puzzle/swell-foop::gentoo
 gnome-base/dconf::gentoo
 gnome-base/gdm::gentoo
 gnome-base/gnome-common::gentoo

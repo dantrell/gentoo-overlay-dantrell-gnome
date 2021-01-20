@@ -78,7 +78,7 @@
 ~games-puzzle/hitori-3.34.0::dantrell-gnome-3-34
 ~games-puzzle/lightsoff-3.34.0::dantrell-gnome-3-34
 ~games-puzzle/quadrapassel-3.34.1::dantrell-gnome-3-34
-~games-puzzle/swell-foop-3.34.1::dantrell-gnome-3-34
+~games-puzzle/swell-foop-3.34.1::dantrell-gnome
 ~gnome-base/dconf-0.34.0::dantrell-gnome
 ~gnome-base/dconf-editor-3.34.4::dantrell-gnome-3-34
 ~gnome-base/gdm-3.34.1::dantrell-gnome
