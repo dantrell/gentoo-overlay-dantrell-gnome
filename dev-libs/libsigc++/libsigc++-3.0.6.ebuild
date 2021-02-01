@@ -9,8 +9,8 @@ HOMEPAGE="https://libsigcplusplus.github.io/libsigcplusplus/
 	https://github.com/libsigcplusplus/libsigcplusplus"
 
 LICENSE="LGPL-2.1+"
-SLOT="2/10"
-KEYWORDS="~*"
+SLOT="3/0"
+KEYWORDS=""
 
 IUSE="doc static-libs test"
 

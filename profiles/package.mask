@@ -55,6 +55,8 @@ dev-cpp/gtksourceviewmm::gentoo
 dev-cpp/libxmlpp::gentoo
 dev-cpp/mm-common::gentoo
 dev-cpp/pangomm::gentoo
+dev-lang/python-exec-conf::gentoo
+dev-lang/python-exec::gentoo
 dev-lang/spidermonkey::gentoo
 dev-lang/vala::gentoo
 dev-libs/appstream-glib::gentoo

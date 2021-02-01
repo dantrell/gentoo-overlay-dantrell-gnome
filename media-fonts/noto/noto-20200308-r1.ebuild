@@ -5,10 +5,10 @@ EAPI="7"
 inherit font
 
 DESCRIPTION="Google's font family that aims to support all the world's languages (plus Arimo, Cousine & Tinos)"
-HOMEPAGE="https://www.google.com/get/noto/ https://github.com/googlei18n/noto-fonts"
+HOMEPAGE="https://www.google.com/get/noto/ https://github.com/googlefonts/noto-fonts"
 
 COMMIT="1c9f53362889d4468fd1193b76c397c208d81da8"
-SRC_URI="https://github.com/googlei18n/noto-fonts/archive/${COMMIT}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/googlefonts/noto-fonts/archive/${COMMIT}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="OFL-1.1"
 SLOT="0"
@@ -67,7 +67,7 @@ FONT_CONF=(
 #
 # In addition, they also maintain the Arimo, Cousine & Tinos font sets:
 #
-# 	https://github.com/googlei18n/noto-fonts/pull/400
+# 	https://github.com/googlefonts/noto-fonts/pull/400
 src_install() {
 	if ! use ttf; then
 		FONT_SUFFIX="${FONT_SUFFIX} otf"

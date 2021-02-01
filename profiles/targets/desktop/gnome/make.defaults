@@ -11,3 +11,7 @@ USE="${USE} nautilus"
 USE="${USE} policykit"
 USE="${USE} pulseaudio"
 USE="${USE} tracker"
+
+BOOTSTRAP_USE="${BOOTSTRAP_USE} python_targets_python2_7"
+
+PYTHON_TARGETS="${PYTHON_TARGETS} python2_7"

@@ -12,7 +12,7 @@ LICENSE="LGPL-2.1 MIT"
 SLOT="0/20" # subslot = soname major version
 KEYWORDS=""
 
-IUSE="doc o-flag-munging static-libs"
+IUSE="+asm cpu_flags_arm_neon cpu_flags_x86_aes cpu_flags_x86_avx cpu_flags_x86_avx2 cpu_flags_x86_padlock cpu_flags_x86_sha cpu_flags_x86_sse4_1 doc o-flag-munging static-libs"
 
 RDEPEND=">=dev-libs/libgpg-error-1.25[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"
@@ -21,6 +21,7 @@ BDEPEND="doc? ( virtual/texi2dvi )"
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.6.1-uscore.patch
 	"${FILESDIR}"/${PN}-multilib-syspath.patch
+	"${FILESDIR}"/${PN}-1.9.1-fix-no-asm-on-amd64-x86.patch
 )
 
 MULTILIB_CHOST_TOOLS=(
@@ -41,7 +42,15 @@ multilib_src_configure() {
 	fi
 	local myeconfargs=(
 		CC_FOR_BUILD="$(tc-getBUILD_CC)"
+
 		--enable-noexecstack
+		$(use_enable cpu_flags_arm_neon neon-support)
+		$(use_enable cpu_flags_x86_aes aesni-support)
+		$(use_enable cpu_flags_x86_avx avx-support)
+		$(use_enable cpu_flags_x86_avx2 avx2-support)
+		$(use_enable cpu_flags_x86_padlock padlock-support)
+		$(use_enable cpu_flags_x86_sha shaext-support)
+		$(use_enable cpu_flags_x86_sse4_1 sse41-support)
 		# required for sys-power/suspend[crypt], bug 751568
 		$(use_enable static-libs static)
 		$(use_enable o-flag-munging O-flag-munging)
@@ -54,6 +63,8 @@ multilib_src_configure() {
 		# causes bus-errors on sparc64-solaris
 		$([[ ${CHOST} == *86*-darwin* ]] && echo "--disable-asm")
 		$([[ ${CHOST} == sparcv9-*-solaris* ]] && echo "--disable-asm")
+
+		$(use asm || echo "--disable-asm")
 
 		GPG_ERROR_CONFIG="${EROOT}/usr/bin/${CHOST}-gpg-error-config"
 	)
@@ -73,5 +84,5 @@ multilib_src_install() {
 
 multilib_src_install_all() {
 	default
-	find "${D}" -type f -name '*.la' -delete || die
+	find "${ED}" -type f -name '*.la' -delete || die
 }
