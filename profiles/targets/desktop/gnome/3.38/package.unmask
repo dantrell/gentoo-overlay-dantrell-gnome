@@ -54,6 +54,7 @@
 ~dev-util/devhelp-3.38.1::dantrell-gnome-3-38
 ~dev-util/gdbus-codegen-2.64.6::dantrell-gnome
 ~dev-util/gnome-builder-3.38.1::dantrell-gnome-3-38
+~dev-util/gnome-builder-3.38.2::dantrell-gnome-3-38
 ~dev-util/gnome-devel-docs-3.32.1::dantrell-gnome
 ~dev-util/gtk-doc-1.33.1::dantrell-gnome
 ~dev-util/sysprof-3.38.1::dantrell-gnome-3-38

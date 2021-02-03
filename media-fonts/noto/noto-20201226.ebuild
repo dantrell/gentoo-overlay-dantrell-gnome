@@ -78,10 +78,6 @@ src_install() {
 			rm "${S}"/{hinted,unhinted}/ttf/Noto*/Noto*Condensed*.ttf || die
 			rm "${S}"/{hinted,unhinted}/ttf/Noto*/Noto*Extra*.ttf || die
 			rm "${S}"/{hinted,unhinted}/ttf/Noto*/Noto*SemiBold*.ttf || die
-
-			rm "${S}"/{hinted,unhinted}/ttf/Noto*/Noto*Condensed*.ttf || die
-			rm "${S}"/{hinted,unhinted}/ttf/Noto*/Noto*Extra*.ttf || die
-			rm "${S}"/{hinted,unhinted}/ttf/Noto*/Noto*SemiBold*.ttf || die
 		else
 			rm "${S}"/unhinted/otf/Noto*/Noto*Condensed*.otf || die
 			rm "${S}"/unhinted/otf/Noto*/Noto*Extra*.otf || die
@@ -105,12 +101,6 @@ src_install() {
 			cp "${S}"/hinted/ttf/NotoSerif/* "${S}"/staging/ || die
 
 			find "${S}"/hinted/ttf/* -type f -size 0 -delete || die
-
-			cp "${S}"/hinted/ttf/NotoSansDisplay/*.ttf "${S}"/staging/ || die
-			cp "${S}"/hinted/ttf/NotoSansMono/*.ttf "${S}"/staging/ || die
-			cp "${S}"/hinted/ttf/NotoSans/*.ttf "${S}"/staging/ || die
-			cp "${S}"/hinted/ttf/NotoSerifDisplay/*.ttf "${S}"/staging/ || die
-			cp "${S}"/hinted/ttf/NotoSerif/*.ttf "${S}"/staging/ || die
 		else
 			cp "${S}"/unhinted/otf/NotoMusic/* "${S}"/staging/ || die
 			cp "${S}"/unhinted/otf/NotoSansDisplay/* "${S}"/staging/ || die
@@ -118,16 +108,18 @@ src_install() {
 			cp "${S}"/unhinted/otf/NotoSans/* "${S}"/staging/ || die
 			cp "${S}"/unhinted/otf/NotoSerifDisplay/* "${S}"/staging/ || die
 			cp "${S}"/unhinted/otf/NotoSerif/* "${S}"/staging/ || die
+
+			find "${S}"/unhinted/otf/* -type f -size 0 -delete || die
 		fi
 	else
 		if use ttf; then
-			cp "${S}"/hinted/*/*.ttf "${S}"/staging/ || die
+			cp "${S}"/hinted/ttf/*/*.ttf "${S}"/staging/ || die
 
 			find "${S}"/hinted/ttf/* -type f -size 0 -delete || die
-
-			cp "${S}"/hinted/ttf/*/*.ttf "${S}"/staging/ || die
 		else
 			cp "${S}"/unhinted/otf/*/*.otf "${S}"/staging/ || die
+
+			find "${S}"/unhinted/otf/* -type f -size 0 -delete || die
 		fi
 	fi
 
