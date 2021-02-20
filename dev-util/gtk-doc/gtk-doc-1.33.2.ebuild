@@ -12,7 +12,7 @@ LICENSE="GPL-2 FDL-1.1"
 SLOT="0"
 KEYWORDS=""
 
-IUSE="doc emacs test"
+IUSE="emacs test"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RESTRICT="!test? ( test )"
@@ -40,6 +40,7 @@ DEPEND="${RDEPEND}
 "
 BDEPEND="
 	~dev-util/gtk-doc-am-${PV}
+	dev-util/itstool
 	virtual/pkgconfig
 "
 
@@ -65,8 +66,10 @@ src_prepare() {
 
 src_configure() {
 	local emesonargs=(
+		-Dautotools_support=true
+		-Dcmake_support=true
+		-Dyelp_manual=true
 		$(meson_use test tests)
-		$(meson_use doc yelp_manual)
 	)
 	meson_src_configure
 }

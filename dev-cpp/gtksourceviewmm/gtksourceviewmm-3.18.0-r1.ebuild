@@ -18,8 +18,8 @@ RDEPEND="
 	>=dev-cpp/gtkmm-3.18.0:3.0
 	>=x11-libs/gtksourceview-3.18.0:3.0
 
-	dev-cpp/atkmm
-	dev-cpp/cairomm
+	dev-cpp/atkmm:0
+	dev-cpp/cairomm:0
 	dev-cpp/pangomm:1.4
 "
 DEPEND="${RDEPEND}

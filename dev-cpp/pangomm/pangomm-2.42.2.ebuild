@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-inherit gnome2 multilib-minimal
+inherit gnome.org meson multilib-minimal
 
 DESCRIPTION="C++ interface for pango"
 HOMEPAGE="https://www.gtkmm.org"
@@ -13,29 +13,37 @@ KEYWORDS=""
 
 IUSE="doc"
 
-COMMON_DEPEND="
+DEPEND="
+	>=dev-cpp/cairomm-1.2.2:0[doc?,${MULTILIB_USEDEP}]
+	>=dev-cpp/glibmm-2.48.0:2[doc?,${MULTILIB_USEDEP}]
+	dev-libs/libsigc++:2[doc?,${MULTILIB_USEDEP}]
 	>=x11-libs/pango-1.41.0[${MULTILIB_USEDEP}]
-	>=dev-cpp/glibmm-2.48.0:2[${MULTILIB_USEDEP}]
-	>=dev-cpp/cairomm-1.12.0[${MULTILIB_USEDEP}]
-	dev-libs/libsigc++:2=[${MULTILIB_USEDEP}]
-	>=dev-libs/libsigc++-2.3.2:2[${MULTILIB_USEDEP}]
 "
-DEPEND="${COMMON_DEPEND}
+RDEPEND="${DEPEND}"
+BDEPEND="
 	virtual/pkgconfig
 	doc? (
-		media-gfx/graphviz
+		app-doc/doxygen[dot]
+		dev-lang/perl
 		dev-libs/libxslt
-		app-doc/doxygen )
-"
-RDEPEND="${COMMON_DEPEND}
-	!<dev-cpp/gtkmm-2.13:2.4
+	)
 "
 
 multilib_src_configure() {
-	ECONF_SOURCE="${S}" gnome2_src_configure \
-		$(multilib_native_use_enable doc documentation)
+	local emesonargs=(
+		-Dbuild-documentation=$(multilib_native_usex doc true false)
+	)
+	meson_src_configure
+}
+
+multilib_src_compile() {
+	meson_src_compile
 }
 
 multilib_src_install() {
-	gnome2_src_install
+	meson_src_install
+}
+
+multilib_src_test() {
+	meson_src_test
 }

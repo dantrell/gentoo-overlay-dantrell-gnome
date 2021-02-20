@@ -3,16 +3,17 @@
 EAPI="7"
 PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 
-inherit flag-o-matic gnome.org gnome2-utils linux-info meson multilib multilib-minimal python-any-r1 toolchain-funcs xdg
+inherit flag-o-matic gnome.org gnome2-utils linux-info meson multilib multilib-minimal python-single-r1 toolchain-funcs xdg
 
 DESCRIPTION="The GLib library of C routines"
 HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2.1+"
 SLOT="2/66"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="dbus debug elibc_glibc fam gtk-doc kernel_linux +mime selinux static-libs sysprof systemtap test xattr"
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RESTRICT="!test? ( test )"
 
@@ -83,7 +84,7 @@ pkg_setup() {
 		fi
 		linux-info_pkg_setup
 	fi
-	python-any-r1_pkg_setup
+	python-single-r1_pkg_setup
 }
 
 src_prepare() {

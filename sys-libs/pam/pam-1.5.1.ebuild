@@ -59,11 +59,10 @@ multilib_src_configure() {
 	local myconf=(
 		CC_FOR_BUILD="$(tc-getBUILD_CC)"
 		--with-db-uniquename=-$(db_findver sys-libs/db)
-		--with-xml-catalog="${EPREFIX}"/etc/xml/catalog
-		--enable-securedir="${EPREFIX}"/$(get_libdir)/security
-		--includedir="${EPREFIX}"/usr/include/security
-		--libdir="${EPREFIX}"/usr/$(get_libdir)
-		--exec-prefix="${EPREFIX}"
+		--with-xml-catalog=/etc/xml/catalog
+		--enable-securedir=/$(get_libdir)/security
+		--includedir=/usr/include/security
+		--libdir=/usr/$(get_libdir)
 		--enable-pie
 		--enable-unix
 		--disable-prelude
@@ -82,12 +81,12 @@ multilib_src_configure() {
 }
 
 multilib_src_compile() {
-	emake sepermitlockdir="${EPREFIX}/run/sepermit"
+	emake sepermitlockdir="/run/sepermit"
 }
 
 multilib_src_install() {
 	emake DESTDIR="${D}" install \
-		sepermitlockdir="${EPREFIX}/run/sepermit"
+		sepermitlockdir="/run/sepermit"
 
 	gen_usr_ldscript -a pam pam_misc pamc
 }

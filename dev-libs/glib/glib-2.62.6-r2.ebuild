@@ -3,16 +3,17 @@
 EAPI="7"
 PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 
-inherit flag-o-matic gnome.org gnome2-utils linux-info meson multilib multilib-minimal python-any-r1 toolchain-funcs xdg
+inherit flag-o-matic gnome.org gnome2-utils linux-info meson multilib multilib-minimal python-single-r1 toolchain-funcs xdg
 
 DESCRIPTION="The GLib library of C routines"
 HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2.1+"
-SLOT="2/64"
+SLOT="2/62"
 KEYWORDS="*"
 
 IUSE="dbus debug elibc_glibc fam gtk-doc kernel_linux +mime selinux static-libs systemtap test xattr"
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RESTRICT="!test? ( test )"
 
@@ -65,10 +66,6 @@ MULTILIB_CHOST_TOOLS=(
 	/usr/bin/gio-querymodules$(get_exeext)
 )
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-2.64.1-mark-gdbus-server-auth-test-flaky.patch
-)
-
 pkg_setup() {
 	if use kernel_linux ; then
 		CONFIG_CHECK="~INOTIFY_USER"
@@ -78,7 +75,7 @@ pkg_setup() {
 		fi
 		linux-info_pkg_setup
 	fi
-	python-any-r1_pkg_setup
+	python-single-r1_pkg_setup
 }
 
 src_prepare() {
@@ -155,7 +152,7 @@ multilib_src_configure() {
 		-Ddefault_library=$(usex static-libs both shared)
 		$(meson_feature selinux)
 		$(meson_use xattr)
-		-Dlibmount=enabled # only used if host_system == 'linux'
+		-Dlibmount=true # only used if host_system == 'linux'
 		-Dinternal_pcre=false
 		-Dman=true
 		$(meson_use systemtap dtrace)

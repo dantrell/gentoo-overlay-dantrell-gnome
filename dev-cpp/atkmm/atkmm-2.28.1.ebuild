@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-inherit gnome2 multilib-minimal
+inherit gnome.org meson multilib-minimal
 
 DESCRIPTION="C++ interface for the ATK library"
 HOMEPAGE="https://www.gtkmm.org"
@@ -13,24 +13,36 @@ KEYWORDS=""
 
 IUSE="doc"
 
-COMMON_DEPEND="
+DEPEND="
 	>=dev-cpp/glibmm-2.46.2:2[doc?,${MULTILIB_USEDEP}]
 	>=dev-libs/atk-2.18.0[${MULTILIB_USEDEP}]
-	dev-libs/libsigc++:2=[${MULTILIB_USEDEP}]
-	>=dev-libs/libsigc++-2.3.2:2[${MULTILIB_USEDEP}]
+	>=dev-libs/libsigc++-2.3.2:2[doc?,${MULTILIB_USEDEP}]
 "
-RDEPEND="${COMMON_DEPEND}
-	!<dev-cpp/gtkmm-2.22.0
-"
-DEPEND="${COMMON_DEPEND}
+RDEPEND="${DEPEND}"
+BDEPEND="
 	virtual/pkgconfig
+	doc? (
+		app-doc/doxygen[dot]
+		dev-lang/perl
+		dev-libs/libxslt
+	)
 "
 
 multilib_src_configure() {
-	ECONF_SOURCE="${S}" gnome2_src_configure \
-		$(multilib_native_use_enable doc documentation)
+	local emesonargs=(
+		-Dbuild-documentation=$(multilib_native_usex doc true false)
+	)
+	meson_src_configure
+}
+
+multilib_src_compile() {
+	meson_src_compile
 }
 
 multilib_src_install() {
-	gnome2_src_install
+	meson_src_install
+}
+
+multilib_src_test() {
+	meson_src_test
 }

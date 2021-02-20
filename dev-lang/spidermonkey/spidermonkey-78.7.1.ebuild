@@ -3,7 +3,7 @@
 EAPI="7"
 
 # Patch version
-FIREFOX_PATCHSET="firefox-78esr-patches-07.tar.xz"
+FIREFOX_PATCHSET="firefox-78esr-patches-09.tar.xz"
 SPIDERMONKEY_PATCHSET="spidermonkey-78-patches-03.tar.xz"
 
 PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
@@ -58,7 +58,7 @@ DESCRIPTION="Mozilla's JavaScript engine written in C and C++"
 HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"
 
 LICENSE="MPL-2.0"
-SLOT="78/6.0"
+SLOT="78/7.1"
 KEYWORDS="*"
 
 IUSE="debug +jit minimal test"

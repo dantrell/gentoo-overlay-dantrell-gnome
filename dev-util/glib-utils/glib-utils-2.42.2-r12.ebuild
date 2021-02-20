@@ -2,10 +2,10 @@
 
 EAPI="6"
 
-DESCRIPTION="GDBus code and documentation generator"
+DESCRIPTION="Build utilities for GLib using projects"
 
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS=""
 
 IUSE=""
 

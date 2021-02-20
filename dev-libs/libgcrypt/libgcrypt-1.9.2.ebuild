@@ -19,9 +19,7 @@ DEPEND="${RDEPEND}"
 BDEPEND="doc? ( virtual/texi2dvi )"
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-1.6.1-uscore.patch
 	"${FILESDIR}"/${PN}-multilib-syspath.patch
-	"${FILESDIR}"/${PN}-1.9.1-fix-no-asm-on-amd64-x86.patch
 )
 
 MULTILIB_CHOST_TOOLS=(
@@ -66,7 +64,7 @@ multilib_src_configure() {
 
 		$(use asm || echo "--disable-asm")
 
-		GPG_ERROR_CONFIG="${EROOT}/usr/bin/${CHOST}-gpg-error-config"
+		GPG_ERROR_CONFIG="${ESYSROOT}/usr/bin/${CHOST}-gpg-error-config"
 	)
 	ECONF_SOURCE="${S}" econf "${myeconfargs[@]}" \
 		$("${S}/configure" --help | grep -o -- '--without-.*-prefix')

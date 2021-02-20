@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/DocumentationProject/GtkDoc"
 
 LICENSE="GPL-2 FDL-1.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 RDEPEND="!<dev-util/gtk-doc-${GNOME_ORG_PVP}"
 PDEPEND="virtual/pkgconfig"

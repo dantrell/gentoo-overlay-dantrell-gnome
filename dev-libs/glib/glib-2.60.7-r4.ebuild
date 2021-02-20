@@ -3,16 +3,17 @@
 EAPI="7"
 PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 
-inherit flag-o-matic gnome.org gnome2-utils linux-info meson multilib multilib-minimal python-any-r1 toolchain-funcs xdg
+inherit flag-o-matic gnome.org gnome2-utils linux-info meson multilib multilib-minimal python-single-r1 toolchain-funcs xdg
 
 DESCRIPTION="The GLib library of C routines"
 HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2.1+"
-SLOT="2/62"
-KEYWORDS="~*"
+SLOT="2/60"
+KEYWORDS="*"
 
 IUSE="dbus debug elibc_glibc fam gtk-doc kernel_linux +mime selinux static-libs systemtap test xattr"
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RESTRICT="!test? ( test )"
 
@@ -53,7 +54,6 @@ BDEPEND="
 	test? ( >=sys-apps/dbus-1.2.14 )
 	virtual/pkgconfig
 "
-# TODO: >=dev-util/gdbus-codegen-${PV} test dep once we modify gio/tests/meson.build to use external gdbus-codegen
 
 PDEPEND="
 	dbus? ( gnome-base/dconf )
@@ -75,10 +75,18 @@ pkg_setup() {
 		fi
 		linux-info_pkg_setup
 	fi
-	python-any-r1_pkg_setup
+	python-single-r1_pkg_setup
 }
 
 src_prepare() {
+	eapply "${FILESDIR}"/${PN}-2.60.7-gdbus-fixes.patch #700538, included in 2.62.3+
+
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/cc3cf6b8b2ad12d54f3474113f0ccfa7dcf66b7b (CVE-2020-6750)
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/2722620e3291b930a3a228100d7c0e07b69534e3 (CVE-2020-6750)
+	eapply "${FILESDIR}"/${PN}-2.63.4-gsocketclient-run-timeout-source-on-the-tasks-main-context.patch
+	eapply "${FILESDIR}"/${PN}-2.63.6-refactor-g-socket-client-connect-async.patch
+
 	if use test; then
 		# TODO: Review the test exclusions, especially now with meson
 		# Disable tests requiring dev-util/desktop-file-utils when not installed, bug #286629, upstream bug #629163
@@ -161,7 +169,6 @@ multilib_src_configure() {
 		$(meson_use fam)
 		-Dinstalled_tests=false
 		-Dnls=enabled
-		-Doss_fuzz=disabled
 	)
 	meson_src_configure
 }
