@@ -24,7 +24,7 @@ SRC_URI="${SRC_URI}
 
 LICENSE="LGPL-2.1+"
 SLOT="2/42"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="dbus fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
 REQUIRED_USE="
@@ -226,9 +226,13 @@ src_prepare() {
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/e668796c5a90a19bce0ff893794817af6aad4dc2
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/aa68b3d6d6f6d6c51e753b26b0fdc67b0eeefa17
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/0110f2a810cfd638a0a6525deb69aeec7a0f0cab
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/433fc9475d351f3529bea0ea18a443eb5ec7f3dc
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/6fffce2588b19e5c80915cc9f713fc51d6dd3879
 	epatch "${FILESDIR}"/${PN}-2.43.4-add-new-api-g-steal-pointer.patch
 	epatch "${FILESDIR}"/${PN}-2.43.4-tests-add-a-test-case-for-g-steal-pointer.patch
 	epatch "${FILESDIR}"/${PN}-2.43.4-g-steal-pointer-make-it-c-clean.patch
+	epatch "${FILESDIR}"/${PN}-2.43.4-gmem-h-gthread-h-include-glib-gutils-h.patch
+	epatch "${FILESDIR}"/${PN}-2.43.92-docs-clean-up-a-few-glib-issues.patch
 
 	# From glib-2.44.1.tar.xz:
 	# 	Prevent build failure due to missing (generated) declarations

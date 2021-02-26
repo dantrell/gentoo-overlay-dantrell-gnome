@@ -12,7 +12,7 @@ SRC_URI="https://github.com/dino/dino/releases/download/v${PV}/${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+gpg +http +omemo"
 

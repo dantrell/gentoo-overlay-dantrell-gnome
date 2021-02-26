@@ -70,7 +70,7 @@
 ~games-puzzle/gnome-tetravex-3.36.8::dantrell-gnome-3-36
 ~games-puzzle/hitori-3.36.0::dantrell-gnome-3-36
 ~games-puzzle/lightsoff-3.36.0::dantrell-gnome-3-36
-~games-puzzle/quadrapassel-3.36.7::dantrell-gnome-3-36
+~games-puzzle/quadrapassel-3.36.10::dantrell-gnome-3-36
 ~gnome-base/dconf-0.36.0::dantrell-gnome
 ~gnome-base/dconf-editor-3.36.7::dantrell-gnome-3-36
 ~gnome-base/gdm-3.36.4::dantrell-gnome

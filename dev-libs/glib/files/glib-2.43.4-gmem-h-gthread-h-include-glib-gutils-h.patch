@@ -1,0 +1,46 @@
+From 433fc9475d351f3529bea0ea18a443eb5ec7f3dc Mon Sep 17 00:00:00 2001
+From: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date: Mon, 9 Feb 2015 15:42:01 +0800
+Subject: gmem.h, gthread.h: Include glib/gutils.h
+
+gmem.h and gthread.h made use of the inline keyword, that is not available
+on all compilers in C-mode, causing builds to break on such compilers.
+
+Include glib/gutils.h which handles the inline issue, in place of
+glib/gtypes.h if applicable, which is included quite early on by
+glib/gutils.h.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=744190
+---
+ glib/gmem.h    | 2 +-
+ glib/gthread.h | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/glib/gmem.h b/glib/gmem.h
+index 8358f8601..b28604756 100644
+--- a/glib/gmem.h
++++ b/glib/gmem.h
+@@ -29,7 +29,7 @@
+ #error "Only <glib.h> can be included directly."
+ #endif
+ 
+-#include <glib/gtypes.h>
++#include <glib/gutils.h>
+ 
+ G_BEGIN_DECLS
+ 
+diff --git a/glib/gthread.h b/glib/gthread.h
+index d7b1f5884..7d20cdb4a 100644
+--- a/glib/gthread.h
++++ b/glib/gthread.h
+@@ -31,6 +31,7 @@
+ 
+ #include <glib/gatomic.h>
+ #include <glib/gerror.h>
++#include <glib/gutils.h>
+ 
+ G_BEGIN_DECLS
+ 
+-- 
+cgit v1.2.3
+

@@ -1,0 +1,28 @@
+From 6fffce2588b19e5c80915cc9f713fc51d6dd3879 Mon Sep 17 00:00:00 2001
+From: Ryan Lortie <desrt@desrt.ca>
+Date: Thu, 12 Mar 2015 17:24:05 -0400
+Subject: docs: clean up a few glib issues
+
+Fix a few typical problems, and also stop wrapping the inline definition
+of g_steal_pointer in parens, since it is not necessary and it confuses
+gtk-doc.
+---
+ glib/gmem.h                           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/glib/gmem.h b/glib/gmem.h
+index b28604756..10fee07c7 100644
+--- a/glib/gmem.h
++++ b/glib/gmem.h
+@@ -181,7 +181,7 @@ gpointer g_try_realloc_n  (gpointer	 mem,
+  * Since: 2.44
+  */
+ static inline gpointer
+-(g_steal_pointer) (gpointer pp)
++g_steal_pointer (gpointer pp)
+ {
+   gpointer *ptr = (gpointer *) pp;
+   gpointer ref;
+-- 
+cgit v1.2.3
+
