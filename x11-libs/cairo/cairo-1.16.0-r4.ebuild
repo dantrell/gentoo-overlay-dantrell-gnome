@@ -10,7 +10,7 @@ SRC_URI="https://www.cairographics.org/releases/${P}.tar.xz"
 
 LICENSE="|| ( LGPL-2.1 MPL-1.1 )"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="X aqua debug gles2-only +glib opengl static-libs +svg utils valgrind"
 

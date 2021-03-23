@@ -10,7 +10,7 @@ HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2.1+"
 SLOT="2/66"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="dbus debug elibc_glibc fam gtk-doc kernel_linux +mime selinux static-libs sysprof systemtap test xattr"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"

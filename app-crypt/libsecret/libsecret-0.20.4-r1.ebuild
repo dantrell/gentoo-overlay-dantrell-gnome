@@ -14,7 +14,10 @@ SLOT="0"
 KEYWORDS=""
 
 IUSE="+crypt gtk-doc +introspection test +vala"
-REQUIRED_USE="vala? ( introspection )"
+REQUIRED_USE="
+	vala? ( introspection )
+	gtk-doc? ( crypt )
+"
 
 RESTRICT="!test? ( test )"
 

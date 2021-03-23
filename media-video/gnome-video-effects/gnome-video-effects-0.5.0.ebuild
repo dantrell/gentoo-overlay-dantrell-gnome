@@ -11,15 +11,12 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE=""
-
 # This ebuild does not install any binaries
 RESTRICT="binchecks strip"
 
+DEPEND=""
 RDEPEND=""
-DEPEND="${RDEPEND}"
 BDEPEND="
-	>=dev-util/meson-0.50.0
-	>=sys-devel/gettext-0.19.8
-	virtual/pkgconfig
+	>=dev-util/intltool-0.40.0
+	>=sys-devel/gettext-0.17
 "

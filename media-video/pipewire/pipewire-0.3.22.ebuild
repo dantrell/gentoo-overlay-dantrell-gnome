@@ -10,7 +10,7 @@ SRC_URI="https://github.com/PipeWire/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="LGPL-2.1+"
 SLOT="0/0.3"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="bluetooth debug doc ffmpeg gstreamer jack sdl sndfile systemd test vulkan X"
 

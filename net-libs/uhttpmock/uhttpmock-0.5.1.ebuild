@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="yes"
+EAPI="7"
 VALA_USE_DEPEND="vapigen"
 
 inherit gnome2 vala
@@ -23,9 +22,11 @@ RDEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-0.9.7:= )
 "
 DEPEND="${RDEPEND}
+	vala? ( $(vala_depend) )
+"
+BDEPEND="
 	>=dev-util/gtk-doc-am-1.14
 	virtual/pkgconfig
-	vala? ( $(vala_depend) )
 "
 
 src_prepare() {

@@ -4,7 +4,7 @@ EAPI="6"
 
 inherit gnome2
 
-DESCRIPTION="Library for code common to Gnome games"
+DESCRIPTION="Library for code common to GNOME games"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/libgnome-games-support"
 
 LICENSE="LGPL-3+"

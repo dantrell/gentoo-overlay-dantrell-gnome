@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 VALA_USE_DEPEND="vapigen"
@@ -28,11 +28,13 @@ RDEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-1.30:= )
 "
 DEPEND="${RDEPEND}
+	vala? ( $(vala_depend) )
+"
+BDEPEND="
 	${PYTHON_DEPS}
 	dev-libs/libxslt
 	dev-util/gtk-doc-am
 	virtual/pkgconfig
-	vala? ( $(vala_depend) )
 "
 # See bug 504744 for reference
 PDEPEND="
@@ -55,6 +57,7 @@ src_configure() {
 }
 
 src_test() {
+	unset DBUS_SESSION_BUS_ADDRESS
 	# Needs dbus for tests (auto-launched)
 	virtx emake -j1 check
 }

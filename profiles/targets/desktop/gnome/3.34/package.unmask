@@ -21,7 +21,7 @@
 ~app-text/evince-3.34.2::dantrell-gnome-3-34
 ~app-text/gspell-1.8.4::dantrell-gnome
 ~app-text/libgepub-0.6.0::dantrell-gnome
-~app-text/libgxps-0.3.1::dantrell-gnome
+~app-text/libgxps-0.3.2::dantrell-gnome
 ~app-text/yelp-tools-3.32.2::dantrell-gnome
 ~dev-cpp/atkmm-2.28.0::dantrell-gnome
 ~dev-cpp/cairomm-1.12.2::dantrell-gnome
@@ -44,7 +44,7 @@
 ~dev-libs/libcroco-0.6.13::dantrell-gnome
 ~dev-libs/libdazzle-3.34.1::dantrell-gnome-3-34
 ~dev-libs/libgdata-0.17.9::dantrell-gnome
-~dev-libs/libgee-0.20.3::dantrell-gnome
+~dev-libs/libgee-0.20.4::dantrell-gnome
 ~dev-libs/libgnome-games-support-1.4.4::dantrell-gnome
 ~dev-libs/libgweather-3.34.0::dantrell-gnome-3-34
 ~dev-libs/libical-3.0.9::dantrell-gnome

@@ -12,7 +12,7 @@ SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="test"
 
@@ -72,6 +72,9 @@ python_test() {
 
 		# test_cross_file_system_paths
 		unset XDG_DATA_HOME
+
+		# 'test cases/unit/73 summary' expects 80 columns
+		export COLUMNS=80
 
 		${EPYTHON} -u run_tests.py
 	) || die "Testing failed with ${EPYTHON}"

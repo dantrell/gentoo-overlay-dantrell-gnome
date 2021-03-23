@@ -19,7 +19,7 @@ REQUIRED_USE="vala? ( introspection )"
 RDEPEND="
 	>=dev-libs/glib-2.50.0:2[${MULTILIB_USEDEP}]
 	>=media-libs/freetype-2.8.0[${MULTILIB_USEDEP}]
-	>=x11-libs/cairo-1.16.0[${MULTILIB_USEDEP}]
+	>=x11-libs/cairo-1.16.0[glib,${MULTILIB_USEDEP}]
 	>=x11-libs/pango-1.38.0[${MULTILIB_USEDEP}]
 	>=media-libs/harfbuzz-2.0:=[${MULTILIB_USEDEP}]
 	>=dev-libs/libxml2-2.9.0:2[${MULTILIB_USEDEP}]

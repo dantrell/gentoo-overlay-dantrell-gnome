@@ -5,7 +5,7 @@ VALA_MIN_API_VERSION="0.40"
 
 inherit gnome.org meson vala xdg
 
-DESCRIPTION="Library for code common to Gnome games"
+DESCRIPTION="Library for code common to GNOME games"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/libgnome-games-support"
 
 LICENSE="LGPL-3+"
