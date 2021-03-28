@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 
 MY_PN="${PN/s/S}"
 
@@ -18,14 +18,14 @@ IUSE="doc"
 
 RESTRICT="mirror bindist"
 
-DEPEND="app-arch/unzip"
-RDEPEND=""
+BDEPEND="app-arch/unzip"
 
 S="${WORKDIR}"
 FONT_S="${S}"
 FONT_SUFFIX="ttf"
 
 src_prepare() {
+	default
 	if use doc; then
 		DOCS="${MY_PN}.pdf"
 	fi

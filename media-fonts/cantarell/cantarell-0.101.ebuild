@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 GNOME_ORG_MODULE="${PN}-fonts"
 
 inherit font gnome.org meson
@@ -17,10 +17,10 @@ IUSE=""
 # This ebuild does not install any binaries
 RESTRICT="binchecks strip"
 
-RDEPEND="media-libs/fontconfig"
 # appstream-glib provided .loc and .its files required by gettext msgfmt for translation of .metainfo.xml
-DEPEND="
+BDEPEND="
 	dev-libs/appstream-glib
+	media-libs/fontconfig
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 "
@@ -46,6 +46,6 @@ src_configure() {
 }
 
 src_install() {
-	meson_src_install
 	font_src_install
+	meson_src_install
 }

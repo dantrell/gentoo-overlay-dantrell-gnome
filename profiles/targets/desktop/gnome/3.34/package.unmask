@@ -168,7 +168,7 @@
 ~net-misc/gnome-online-miners-3.34.0::dantrell-gnome
 ~net-misc/rygel-0.38.4::dantrell-gnome
 ~net-misc/vino-3.22.0::dantrell-gnome
-~net-wireless/gnome-bluetooth-3.34.3::dantrell-gnome
+~net-wireless/gnome-bluetooth-3.34.5::dantrell-gnome
 ~sci-geosciences/geocode-glib-3.26.2::dantrell-gnome
 ~sci-geosciences/gnome-maps-3.34.3::dantrell-gnome-3-34
 ~sys-apps/baobab-3.34.1::dantrell-gnome

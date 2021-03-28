@@ -12,11 +12,11 @@ LICENSE="GPL-2 FDL-1.1"
 SLOT="0"
 KEYWORDS=""
 
-RDEPEND="!<dev-util/gtk-doc-${GNOME_ORG_PVP}"
-PDEPEND="virtual/pkgconfig"
-
 # This ebuild doesn't even compile anything, causing tests to fail when updating (bug #316071)
 RESTRICT="test"
+
+RDEPEND="!<dev-util/gtk-doc-${GNOME_ORG_PVP}"
+PDEPEND="virtual/pkgconfig"
 
 src_configure() {
 	:

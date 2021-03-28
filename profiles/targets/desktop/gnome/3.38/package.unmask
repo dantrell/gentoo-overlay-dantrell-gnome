@@ -69,6 +69,7 @@
 ~games-board/tali-3.38.3::dantrell-gnome-3-38
 ~games-puzzle/five-or-more-3.32.2::dantrell-gnome
 ~games-puzzle/gnome2048-3.38.0::dantrell-gnome-3-38
+~games-puzzle/gnome2048-3.38.2::dantrell-gnome-3-38
 ~games-puzzle/gnome-klotski-3.38.2::dantrell-gnome-3-38
 ~games-puzzle/gnome-sudoku-3.38.0::dantrell-gnome-3-38
 ~games-puzzle/gnome-taquin-3.38.1::dantrell-gnome-3-38
@@ -78,7 +79,7 @@
 ~games-puzzle/quadrapassel-3.38.1::dantrell-gnome-3-38
 ~games-puzzle/quadrapassel-3.38::dantrell-gnome-3-38
 ~gnome-base/dconf-0.38.0::dantrell-gnome
-~gnome-base/dconf-editor-3.38.2::dantrell-gnome-3-38
+~gnome-base/dconf-editor-3.38.3::dantrell-gnome-3-38
 ~gnome-base/gnome-3.38.0::dantrell-gnome-3-38
 ~gnome-base/gnome-control-center-3.38.5::dantrell-gnome-3-38
 ~gnome-base/gnome-core-apps-3.38.0::dantrell-gnome-3-38
@@ -88,6 +89,7 @@
 ~gnome-base/gnome-desktop-3.38.2::dantrell-gnome-3-38
 ~gnome-base/gnome-desktop-3.38.3::dantrell-gnome-3-38
 ~gnome-base/gnome-desktop-3.38.4::dantrell-gnome-3-38
+~gnome-base/gnome-desktop-3.38.5::dantrell-gnome-3-38
 ~gnome-base/gnome-extra-apps-3.38.0::dantrell-gnome-3-38
 ~gnome-base/gnome-flashback-3.37.3::dantrell-gnome-3-38
 ~gnome-base/gnome-light-3.38.0::dantrell-gnome-3-38
@@ -149,7 +151,7 @@
 ~media-libs/libchamplain-0.12.20::dantrell-gnome
 ~media-libs/libmediaart-1.9.4::dantrell-gnome
 ~media-plugins/grilo-plugins-0.3.9::dantrell-gnome
-~media-sound/gnome-music-3.38.2::dantrell-gnome-3-38
+~media-sound/gnome-music-3.38.3::dantrell-gnome-3-38
 ~media-video/gnome-video-effects-0.5.0::dantrell-gnome
 ~media-video/totem-3.38.0::dantrell-gnome-3-38
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
@@ -165,7 +167,7 @@
 ~net-libs/rest-0.8.1::dantrell-gnome
 ~net-libs/webkit-gtk-2.28.4::dantrell-gnome
 ~net-misc/gnome-online-miners-3.34.0::dantrell-gnome
-~net-wireless/gnome-bluetooth-3.34.3::dantrell-gnome
+~net-wireless/gnome-bluetooth-3.34.5::dantrell-gnome
 ~sci-geosciences/geocode-glib-3.26.2::dantrell-gnome
 ~sci-geosciences/gnome-maps-3.38.4::dantrell-gnome-3-38
 ~sys-apps/gnome-disk-utility-3.38.2::dantrell-gnome-3-38

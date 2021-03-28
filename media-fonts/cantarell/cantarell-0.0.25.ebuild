@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 GNOME_ORG_MODULE="${PN}-fonts"
 
 inherit font gnome.org
@@ -17,8 +17,10 @@ IUSE=""
 # This ebuild does not install any binaries
 RESTRICT="binchecks strip"
 
-RDEPEND="media-libs/fontconfig"
-DEPEND="virtual/pkgconfig"
+BDEPEND="
+	media-libs/fontconfig
+	virtual/pkgconfig
+"
 
 # Font eclass settings
 FONT_CONF=("${S}/fontconfig/31-cantarell.conf")

@@ -38,7 +38,7 @@ BDEPEND="
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.32.1-meson-tweaks.patch # Provide introspection optionality and don't build tests that aren't ran automatically
 	"${FILESDIR}"/${PN}-3.36.1-tests-locale.patch # Don't fail tests when a locale is not present, https://gitlab.gnome.org/GNOME/libgweather/-/merge_requests/58
-	"${FILESDIR}"/${PN}-3.36.1-autoskip-network-test.patch
+	"${FILESDIR}"/${PN}-3.36.2-autoskip-network-test.patch
 )
 
 src_prepare() {

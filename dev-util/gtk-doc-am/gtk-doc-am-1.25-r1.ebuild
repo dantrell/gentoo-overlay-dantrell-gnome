@@ -12,14 +12,14 @@ LICENSE="GPL-2 FDL-1.1"
 SLOT="0"
 KEYWORDS="*"
 
+# This ebuild doesn't even compile anything, causing tests to fail when updating (bug #316071)
+RESTRICT="test"
+
 RDEPEND=">=dev-lang/perl-5.18"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	!<dev-util/gtk-doc-${GNOME_ORG_PVP}
 "
-
-# This ebuild doesn't even compile anything, causing tests to fail when updating (bug #316071)
-RESTRICT="test"
 
 src_configure() {
 	# Duplicate autoconf checks so we don't have to call configure
