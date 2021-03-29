@@ -1,9 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
+PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 VALA_USE_DEPEND="vapigen"
 
-inherit gnome.org gnome2-utils meson vala xdg
+inherit gnome.org gnome2-utils meson python-any-r1 vala xdg
 
 DESCRIPTION="Location and timezone database and weather-lookup library"
 HOMEPAGE="https://wiki.gnome.org/Projects/LibGWeather"
@@ -32,6 +33,7 @@ BDEPEND="
 		app-text/docbook-xml-dtd:4.3 )
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
+	${PYTHON_DEPS}
 	$(vala_depend)
 "
 
@@ -40,6 +42,10 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-3.36.1-tests-locale.patch # Don't fail tests when a locale is not present, https://gitlab.gnome.org/GNOME/libgweather/-/merge_requests/58
 	"${FILESDIR}"/${PN}-3.36.2-autoskip-network-test.patch
 )
+
+pkg_setup() {
+	python-any-r1_pkg_setup
+}
 
 src_prepare() {
 	xdg_src_prepare

@@ -11,7 +11,9 @@
 ~app-crypt/seahorse-3.37.2::dantrell-gnome-3-38
 ~app-dicts/gnome-dictionary-3.26.1::dantrell-gnome
 ~app-editors/gedit-3.38.1::dantrell-gnome-3-38
+~app-editors/gedit-3.38.2::dantrell-gnome-3-38
 ~app-editors/gedit-plugins-3.38.1::dantrell-gnome-3-38
+~app-editors/gedit-plugins-3.38.2::dantrell-gnome-3-38
 ~app-editors/ghex-3.18.4::dantrell-gnome
 ~app-editors/gnome-latex-3.38.0::dantrell-gnome-3-38
 ~app-misc/bijiben-3.38.0::dantrell-gnome-3-38
@@ -63,6 +65,7 @@
 ~games-board/four-in-a-row-3.38.1::dantrell-gnome-3-38
 ~games-board/gnome-chess-3.38.1::dantrell-gnome-3-38
 ~games-board/gnome-mahjongg-3.38.2::dantrell-gnome-3-38
+~games-board/gnome-mahjongg-3.38.3::dantrell-gnome-3-38
 ~games-board/iagno-3.38.1::dantrell-gnome-3-38
 ~games-board/tali-3.38.0::dantrell-gnome-3-38
 ~games-board/tali-3.38.2::dantrell-gnome-3-38
