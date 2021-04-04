@@ -13,7 +13,7 @@ EGIT_COMMIT="73f012133ab7ba26e2279ddcb988873bdfd19663"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+gpg +http +omemo +notification-sound"
 

@@ -4,11 +4,12 @@ EAPI="6"
 CMAKE_MAKEFILE_GENERATOR="ninja"
 VALA_MIN_API_VERSION="0.34"
 
-inherit cmake-utils gnome2-utils vala xdg-utils
+inherit cmake-utils git-r3 gnome2-utils vala xdg-utils
 
 DESCRIPTION="Modern Jabber/XMPP Client using GTK+/Vala"
 HOMEPAGE="https://dino.im"
-SRC_URI="https://github.com/dino/dino/releases/download/v${PV}/${P}.tar.gz"
+EGIT_REPO_URI="https://github.com/dino/dino"
+EGIT_COMMIT="45c0ac410433089cf973854c146b6b22df4a1a1c"
 
 LICENSE="GPL-3"
 SLOT="0"

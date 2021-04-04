@@ -12,9 +12,9 @@ SRC_URI="http://www.openprinting.org/download/${PN}/${P}.tar.xz"
 
 LICENSE="MIT GPL-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
-IUSE="dbus +foomatic jpeg ldap pclm pdf perl png +postscript static-libs test tiff zeroconf"
+IUSE="dbus +foomatic jpeg ldap pclm pdf perl png +postscript test tiff zeroconf"
 
 RESTRICT="!test? ( test )"
 
@@ -74,13 +74,13 @@ src_configure() {
 		--with-pdftops=pdftops
 		--with-rcdir=no
 		--without-php
+		--disable-static
 		$(use_enable dbus)
 		$(use_enable foomatic)
 		$(use_enable ldap)
 		$(use_enable pclm)
 		$(use_enable pdf mutool)
 		$(use_enable postscript ghostscript)
-		$(use_enable static-libs static)
 		$(use_enable zeroconf avahi)
 		$(use_with jpeg)
 		$(use_with png)
@@ -93,21 +93,25 @@ src_compile() {
 	default
 
 	if use perl; then
-		pushd "${S}/scripting/perl" > /dev/null
+		pushd "${S}/scripting/perl" > /dev/null || die
 		perl-module_src_configure
 		perl-module_src_compile
-		popd > /dev/null
+		popd > /dev/null || die
 	fi
+}
+
+src_test() {
+	emake check
 }
 
 src_install() {
 	default
 
 	if use perl; then
-		pushd "${S}/scripting/perl" > /dev/null
+		pushd "${S}/scripting/perl" > /dev/null || die
 		perl-module_src_install
 		perl_delete_localpod
-		popd > /dev/null
+		popd > /dev/null || die
 	fi
 
 	if use postscript; then
@@ -127,10 +131,6 @@ src_install() {
 
 	doinitd "${T}"/cups-browsed
 	systemd_dounit "${S}/utils/cups-browsed.service"
-}
-
-src_test() {
-	emake check
 }
 
 pkg_postinst() {

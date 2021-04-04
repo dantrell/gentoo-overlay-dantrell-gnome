@@ -67,7 +67,7 @@ BDEPEND="
 "
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-0.3.12-meson-goa.patch # Support controlling g-o-a dep via 'goa' meson_options
+	"${FILESDIR}"/${PN}-0.3.13-meson-goa.patch # Support controlling g-o-a dep via 'goa' meson_options
 )
 
 src_prepare() {
