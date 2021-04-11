@@ -2,7 +2,7 @@
 
 EAPI="7"
 
-inherit flag-o-matic systemd toolchain-funcs
+inherit autotools flag-o-matic systemd toolchain-funcs
 
 MY_P="${P/_/-}"
 
@@ -12,15 +12,15 @@ SRC_URI="mirror://gnupg/gnupg/${MY_P}.tar.bz2"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="bzip2 doc ldap nls readline selinux +smartcard ssl tofu tools usb user-socket wks-server"
+IUSE="bzip2 doc ldap nls readline selinux +smartcard sqlite ssl tofu tools usb user-socket wks-server"
+REQUIRED_USE="tofu? ( sqlite )"
 
 # Existence of executables is checked during configuration.
-DEPEND="!app-crypt/dirmngr
-	>=dev-libs/libassuan-2.5.0
-	>=dev-libs/libgcrypt-1.7.3
-	>=dev-libs/libgpg-error-1.28
+DEPEND=">=dev-libs/libassuan-2.5.0
+	>=dev-libs/libgcrypt-1.9.1
+	>=dev-libs/libgpg-error-1.29
 	>=dev-libs/libksba-1.3.4
 	>=dev-libs/npth-1.2
 	>=net-misc/curl-7.10
@@ -28,9 +28,10 @@ DEPEND="!app-crypt/dirmngr
 	ldap? ( net-nds/openldap )
 	readline? ( sys-libs/readline:0= )
 	smartcard? ( usb? ( virtual/libusb:1 ) )
+	sqlite? ( >=dev-db/sqlite-3.27 )
 	ssl? ( >=net-libs/gnutls-3.0:0= )
 	sys-libs/zlib
-	tofu? ( >=dev-db/sqlite-3.7 )"
+"
 
 RDEPEND="${DEPEND}
 	app-crypt/pinentry
@@ -51,11 +52,13 @@ DOCS=(
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-2.1.20-gpgscm-Use-shorter-socket-path-lengts-to-improve-tes.patch
-	"${FILESDIR}"/${PN}-2.2.20-fix-dirmngr-for-non-ipv6-enabled-hosts.patch
+	"${FILESDIR}"/${PN}-2.3.0-sqlite_check.patch
 )
 
 src_prepare() {
 	default
+
+	eautoreconf
 
 	# Inject SSH_AUTH_SOCK into user's sessions after enabling gpg-agent-ssh.socket in systemctl --user mode,
 	# idea borrowed from libdbus, see
@@ -68,17 +71,34 @@ src_prepare() {
 }
 
 src_configure() {
-	local myconf=()
+	local myconf=(
+		$(use_enable bzip2)
+		$(use_enable nls)
+		$(use_enable smartcard scdaemon)
+		$(use_enable sqlite)
+		$(use_enable ssl gnutls)
+		$(use_enable tofu)
+		$(use smartcard && use_enable usb ccid-driver || echo '--disable-ccid-driver')
+		$(use_enable wks-server wks-tools)
+		$(use_with ldap)
+		$(use_with readline)
+		--with-mailprog=/usr/libexec/sendmail
+		--disable-ntbtls
+		--enable-all-tests
+		--enable-gpgsm
+		--enable-large-secmem
+		CC_FOR_BUILD="$(tc-getBUILD_CC)"
+		GPG_ERROR_CONFIG="${ESYSROOT}/usr/bin/${CHOST}-gpg-error-config"
+		KSBA_CONFIG="${ESYSROOT}/usr/bin/ksba-config"
+		LIBASSUAN_CONFIG="${ESYSROOT}/usr/bin/libassuan-config"
+		LIBGCRYPT_CONFIG="${ESYSROOT}/usr/bin/${CHOST}-libgcrypt-config"
+		NPTH_CONFIG="${ESYSROOT}/usr/bin/npth-config"
+		$("${S}/configure" --help | grep -o -- '--without-.*-prefix')
+	)
 
 	if use prefix && use usb; then
 		# bug #649598
 		append-cppflags -I"${EPREFIX}/usr/include/libusb-1.0"
-	fi
-
-	if use elibc_SunOS || use elibc_AIX; then
-		myconf+=( --disable-symcryptrun )
-	else
-		myconf+=( --enable-symcryptrun )
 	fi
 
 	#bug 663142
@@ -99,30 +119,7 @@ src_configure() {
 	# the build where the install guide previously make the user chose the
 	# logger & mta early in the install.
 
-	econf \
-		"${myconf[@]}" \
-		$(use_enable bzip2) \
-		$(use_enable nls) \
-		$(use_enable smartcard scdaemon) \
-		$(use_enable ssl gnutls) \
-		$(use_enable tofu) \
-		$(use smartcard && use_enable usb ccid-driver || echo '--disable-ccid-driver') \
-		$(use_enable wks-server wks-tools) \
-		$(use_with ldap) \
-		$(use_with readline) \
-		--with-mailprog=/usr/libexec/sendmail \
-		--disable-ntbtls \
-		--enable-all-tests \
-		--enable-gpg \
-		--enable-gpgsm \
-		--enable-large-secmem \
-		CC_FOR_BUILD="$(tc-getBUILD_CC)" \
-		GPG_ERROR_CONFIG="${EROOT}/usr/bin/${CHOST}-gpg-error-config" \
-		KSBA_CONFIG="${EROOT}/usr/bin/ksba-config" \
-		LIBASSUAN_CONFIG="${EROOT}/usr/bin/libassuan-config" \
-		LIBGCRYPT_CONFIG="${EROOT}/usr/bin/${CHOST}-libgcrypt-config" \
-		NPTH_CONFIG="${EROOT}/usr/bin/npth-config" \
-		$("${S}/configure" --help | grep -- '--without-.*-prefix' | sed -e 's/^ *\([^ ]*\) .*/\1/g')
+	econf "${myconf[@]}"
 }
 
 src_compile() {
@@ -143,7 +140,7 @@ src_install() {
 	use tools &&
 		dobin \
 			tools/{convert-from-106,gpg-check-pattern} \
-			tools/{gpg-zip,gpgconf,gpgsplit,lspgpot,mail-signed-keys} \
+			tools/{gpgconf,gpgsplit,lspgpot,mail-signed-keys} \
 			tools/make-dns-cert
 
 	dosym gpg /usr/bin/gpg2
@@ -157,10 +154,4 @@ src_install() {
 	use doc && dodoc doc/gnupg.html/* doc/*.png
 
 	systemd_douserunit doc/examples/systemd-user/*.{service,socket}
-}
-
-pkg_postinst() {
-	elog "See https://wiki.gentoo.org/wiki/GnuPG for documentation on gnupg"
-	elog
-	elog "If you wish to use 'gpg-wks-client --send', you must install an MTA!"
 }

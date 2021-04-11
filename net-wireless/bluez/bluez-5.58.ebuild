@@ -11,7 +11,7 @@ SRC_URI="https://www.kernel.org/pub/linux/bluetooth/${P}.tar.xz"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0/3"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="btpclient cups doc debug deprecated extra-tools experimental +mesh midi +obex +readline selinux systemd test test-programs +udev user-session"
 # Since this release all remaining extra-tools need readline support, but this could
@@ -38,10 +38,10 @@ BDEPEND="
 DEPEND="
 	>=dev-libs/glib-2.28:2[${MULTILIB_USEDEP}]
 	>=sys-apps/hwids-20121202.2
-	btpclient? ( >=dev-libs/ell-0.28 )
+	btpclient? ( >=dev-libs/ell-0.39 )
 	cups? ( net-print/cups:= )
 	mesh? (
-		>=dev-libs/ell-0.28
+		>=dev-libs/ell-0.39
 		>=dev-libs/json-c-0.13:=
 		sys-libs/readline:0=
 	)
@@ -111,13 +111,14 @@ src_prepare() {
 		eapply "${FILESDIR}"/${PN}-0001-Allow-using-obexd-without-systemd-in-the-user-session-r2.patch
 	fi
 
+	eautoreconf
+
 	if use cups; then
+		# Only not .am to not need to run eautoreconf only because of this
 		sed -i \
 			-e "s:cupsdir = \$(libdir)/cups:cupsdir = $(cups-config --serverbin):" \
 			Makefile.{in,tools} || die
 	fi
-
-	eautoreconf
 
 	multilib_copy_sources
 }
@@ -242,7 +243,7 @@ multilib_src_install_all() {
 	# We need to ensure obexd can be spawned automatically by systemd
 	# when user-session is enabled:
 	# http://marc.info/?l=linux-bluetooth&m=148096094716386&w=2
-	# https://bugs.gentoo.org/577842
+	# https://bugs.gentoo.org/show_bug.cgi?id=577842
 	# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=804908
 	# https://bugs.archlinux.org/task/45816
 	# https://bugzilla.redhat.com/show_bug.cgi?id=1318441
@@ -267,7 +268,8 @@ multilib_src_install_all() {
 	sed -i 's/#\[Policy\]$/\[Policy\]/; s/#AutoEnable=false/AutoEnable=true/' src/main.conf || die
 	doins src/main.conf
 
-	newinitd "${FILESDIR}"/bluetooth-init.d-r4 bluetooth
+	newinitd "${FILESDIR}"/bluetooth-init.d-r5 bluetooth
+	newconfd "${FILESDIR}"/bluetooth-conf.d bluetooth
 
 	einstalldocs
 	use doc && dodoc doc/*.txt
@@ -279,14 +281,6 @@ multilib_src_install_all() {
 		uncompress and copy them to ~/.config/meshctl to use them."
 		readme.gentoo_create_doc
 	fi
-
-	# From Fedora:
-	# Scripts for automatically btattach-ing serial ports connected to Broadcom HCIs
-	# as found on some Atom based x86 hardware
-	udev_dorules "${FILESDIR}"/69-btattach-bcm.rules
-	systemd_newunit "${FILESDIR}"/btattach-bcm_at.service "btattach-bcm@.service"
-	exeinto /usr/libexec/bluetooth
-	doexe "${FILESDIR}"/btattach-bcm-service.sh
 }
 
 pkg_postinst() {

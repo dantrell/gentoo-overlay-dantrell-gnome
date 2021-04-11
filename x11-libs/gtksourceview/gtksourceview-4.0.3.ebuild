@@ -5,7 +5,7 @@ VALA_USE_DEPEND="vapigen"
 
 inherit gnome2 vala virtualx
 
-DESCRIPTION="A text widget implementing syntax highlighting and other features"
+DESCRIPTION="Text widget implementing syntax highlighting and other features"
 HOMEPAGE="https://wiki.gnome.org/Projects/GtkSourceView"
 
 LICENSE="GPL-2+ LGPL-2.1+"
