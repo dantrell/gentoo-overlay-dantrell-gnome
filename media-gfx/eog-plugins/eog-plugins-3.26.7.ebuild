@@ -61,3 +61,9 @@ src_configure() {
 		$(use_enable python) \
 		--with-plugins=${plugins}
 }
+
+src_install() {
+	default
+	mv "${ED}"/usr/share/{appdata,metainfo}
+	find "${ED}" -type f -name "*.la" -delete || die
+}

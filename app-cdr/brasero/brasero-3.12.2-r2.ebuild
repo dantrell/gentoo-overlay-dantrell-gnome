@@ -74,3 +74,9 @@ src_configure() {
 		$(use_enable playlist) \
 		$(use_enable tracker search)
 }
+
+src_install() {
+	default
+	mv "${ED}"/usr/share/{appdata,metainfo} || die
+	find "${ED}" -type f -name "*.la" -delete || die
+}

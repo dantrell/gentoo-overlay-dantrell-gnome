@@ -29,16 +29,17 @@ COMMON_DEPEND="
 	>=dev-libs/fribidi-0.19.7[${MULTILIB_USEDEP}]
 	>=dev-libs/glib-2.57.2:2[${MULTILIB_USEDEP}]
 	media-libs/fontconfig[${MULTILIB_USEDEP}]
+	>=media-libs/harfbuzz-0.9:=
 	>=media-libs/libepoxy-1.4[X(+)?,${MULTILIB_USEDEP}]
+	virtual/libintl[${MULTILIB_USEDEP}]
 	>=x11-libs/cairo-1.14[aqua?,glib,svg,X?,${MULTILIB_USEDEP}]
 	>=x11-libs/gdk-pixbuf-2.30:2[introspection?,${MULTILIB_USEDEP}]
 	>=x11-libs/pango-1.41.0[introspection?,${MULTILIB_USEDEP}]
-	>=media-libs/harfbuzz-0.9:=
 	x11-misc/shared-mime-info
 
 	cloudprint? (
-		>=net-libs/rest-0.7[${MULTILIB_USEDEP}]
 		>=dev-libs/json-glib-1.0[${MULTILIB_USEDEP}]
+		>=net-libs/rest-0.7[${MULTILIB_USEDEP}]
 	)
 	colord? ( >=x11-misc/colord-0.1.9:0=[${MULTILIB_USEDEP}] )
 	cups? ( >=net-print/cups-2.0[${MULTILIB_USEDEP}] )
@@ -54,21 +55,20 @@ COMMON_DEPEND="
 		>=app-accessibility/at-spi2-atk-2.15.1[${MULTILIB_USEDEP}]
 		media-libs/mesa[X(+),${MULTILIB_USEDEP}]
 		x11-libs/libX11[${MULTILIB_USEDEP}]
-		>=x11-libs/libXi-1.3[${MULTILIB_USEDEP}]
-		x11-libs/libXext[${MULTILIB_USEDEP}]
-		>=x11-libs/libXrandr-1.5[${MULTILIB_USEDEP}]
-		x11-libs/libXcursor[${MULTILIB_USEDEP}]
-		x11-libs/libXfixes[${MULTILIB_USEDEP}]
 		x11-libs/libXcomposite[${MULTILIB_USEDEP}]
+		x11-libs/libXcursor[${MULTILIB_USEDEP}]
 		x11-libs/libXdamage[${MULTILIB_USEDEP}]
+		x11-libs/libXext[${MULTILIB_USEDEP}]
+		x11-libs/libXfixes[${MULTILIB_USEDEP}]
+		>=x11-libs/libXi-1.3[${MULTILIB_USEDEP}]
+		>=x11-libs/libXrandr-1.5[${MULTILIB_USEDEP}]
 		xinerama? ( x11-libs/libXinerama[${MULTILIB_USEDEP}] )
 	)
 "
 DEPEND="${COMMON_DEPEND}
-	>=sys-devel/gettext-0.19.7[${MULTILIB_USEDEP}]
 	test? (
-		media-fonts/font-misc-misc
 		media-fonts/font-cursor-misc
+		media-fonts/font-misc-misc
 	)
 	X? ( x11-base/xorg-proto )
 "
@@ -76,7 +76,6 @@ DEPEND="${COMMON_DEPEND}
 # gtk+-3.3.18 breaks scrolling in <=x11-libs/vte-0.31.0:2.90
 RDEPEND="${COMMON_DEPEND}
 	>=dev-util/gtk-update-icon-cache-3
-	!<gnome-base/gail-1000
 	!<x11-libs/vte-0.31.0:2.90
 "
 # librsvg for svg icons (PDEPEND to avoid circular dep), bug #547710
@@ -92,7 +91,9 @@ BDEPEND="
 	dev-libs/libxslt
 	>=dev-util/gdbus-codegen-2.48
 	>=dev-util/gtk-doc-am-1.20
+	>=sys-devel/gettext-0.19.7
 	virtual/pkgconfig
+	x11-libs/gdk-pixbuf:2
 	gtk-doc? (
 		app-text/docbook-xml-dtd:4.3
 		>=dev-util/gtk-doc-1.20

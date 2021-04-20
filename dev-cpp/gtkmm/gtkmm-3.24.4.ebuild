@@ -2,7 +2,9 @@
 
 EAPI="7"
 
-inherit gnome.org meson multilib-minimal virtualx
+PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
+
+inherit gnome.org meson multilib-minimal python-any-r1 virtualx
 
 DESCRIPTION="C++ interface for GTK+"
 HOMEPAGE="https://www.gtkmm.org"
@@ -34,6 +36,7 @@ BDEPEND="
 		dev-lang/perl
 		dev-libs/libxslt
 	)
+	${PYTHON_DEPS}
 "
 
 multilib_src_configure() {

@@ -26,8 +26,10 @@ DEPEND="${RDEPEND}"
 # Python is only needed with USE=introspection or FEATURES=test, but not bothering with conditional python_setup, as meson uses it too anyway
 BDEPEND="
 	${PYTHON_DEPS}
-	doc? ( dev-util/gtk-doc
-		app-text/docbook-xml-dtd:4.3 )
+	doc? (
+		dev-util/gtk-doc
+		app-text/docbook-xml-dtd:4.3
+	)
 	virtual/pkgconfig
 "
 
@@ -36,7 +38,7 @@ multilib_src_configure() {
 	local emesonargs=(
 		-Dgtk_doc=$(multilib_native_usex doc true false)
 		-Dgobject_types=true
-		-Dintrospection=$(multilib_native_usex introspection true false)
+		-Dintrospection=$(multilib_native_usex introspection enabled disabled)
 		-Dgcc_vector=true # if built-in support tests fail, it'll just not enable vector intrinsics; unfortunately this probably means disabled on clang too, due to it claiming to be <gcc-4.9
 		$(meson_use cpu_flags_x86_sse2 sse2)
 		$(meson_use cpu_flags_arm_neon arm_neon)

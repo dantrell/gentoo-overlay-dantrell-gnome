@@ -2,8 +2,6 @@
 
 EAPI="7"
 
-inherit multilib
-
 DESCRIPTION="Qualcomm MSM (Mobile Station Modem) Interface (QMI) modem protocol library"
 HOMEPAGE="https://www.freedesktop.org/wiki/Software/libqmi/ https://gitlab.freedesktop.org/mobile-broadband/libqmi"
 SRC_URI="https://www.freedesktop.org/software/libqmi/${P}.tar.xz"

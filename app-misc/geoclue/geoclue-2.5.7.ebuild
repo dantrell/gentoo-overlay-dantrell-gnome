@@ -1,9 +1,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
+PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
+PYTHON_REQ_USE="xml(+)"
 VALA_USE_DEPEND="vapigen"
 
-inherit meson systemd vala xdg
+inherit meson python-any-r1 systemd vala xdg
 
 DESCRIPTION="A location information D-Bus service"
 HOMEPAGE="https://gitlab.freedesktop.org/geoclue/geoclue/wikis/home"
@@ -30,6 +32,7 @@ RDEPEND="${DEPEND}
 	sys-apps/dbus
 "
 BDEPEND="
+	${PYTHON_DEPS}
 	dev-util/gdbus-codegen
 	gtk-doc? (
 		app-text/docbook-xml-dtd:4.1.2

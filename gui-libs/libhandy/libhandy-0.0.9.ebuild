@@ -5,7 +5,7 @@ VALA_USE_DEPEND="vapigen"
 
 inherit meson multilib-minimal vala virtualx
 
-DESCRIPTION="Library with GTK widgets for mobile phones"
+DESCRIPTION="Building blocks for modern adaptive GNOME apps"
 HOMEPAGE="https://source.puri.sm/Librem5/libhandy/"
 SRC_URI="https://source.puri.sm/Librem5/${PN}/-/archive/v${PV}/${PN}-v${PV}.tar.gz -> ${P}.tar.gz"
 

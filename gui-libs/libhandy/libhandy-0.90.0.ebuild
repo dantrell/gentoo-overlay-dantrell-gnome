@@ -4,7 +4,7 @@ EAPI="7"
 
 inherit meson xdg vala virtualx
 
-DESCRIPTION="Library with GTK widgets for mobile phones"
+DESCRIPTION="Building blocks for modern adaptive GNOME apps"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/libhandy"
 SRC_URI="https://gitlab.gnome.org/GNOME/libhandy/-/archive/${PV}/${P}.tar.bz2"
 

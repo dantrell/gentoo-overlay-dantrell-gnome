@@ -34,7 +34,7 @@ DEPEND="${RDEPEND}
 multilib_src_configure() {
 	# gnome support only adds dependency on obsolete libsoup-gnome
 	# https://bugzilla.gnome.org/show_bug.cgi?id=758166
-	ECONF_SOURCE=${S} \
+	ECONF_SOURCE="${S}" \
 	gnome2_src_configure \
 		--disable-static \
 		--disable-gcov \

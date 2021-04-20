@@ -3,7 +3,7 @@
 EAPI="5"
 GCONF_DEBUG="yes"
 
-inherit eutils gnome2
+inherit gnome2
 
 DESCRIPTION="Graphical front-ends to various networking command-line"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-nettool"

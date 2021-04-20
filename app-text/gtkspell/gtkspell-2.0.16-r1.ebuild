@@ -2,8 +2,6 @@
 
 EAPI="7"
 
-inherit eutils
-
 DESCRIPTION="Spell checking widget for GTK"
 HOMEPAGE="http://gtkspell.sourceforge.net/"
 # gtkspell doesn't use sourceforge mirroring system it seems.
@@ -11,7 +9,7 @@ SRC_URI="http://${PN}.sourceforge.net/download/${P}.tar.gz"
 
 LICENSE="GPL-2+"
 SLOT="2"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gtk-doc"
 

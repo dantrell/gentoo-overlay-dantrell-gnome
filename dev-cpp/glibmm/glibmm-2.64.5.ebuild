@@ -1,8 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
+PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 
-inherit gnome.org meson multilib-minimal
+inherit gnome.org meson multilib-minimal python-any-r1
 
 DESCRIPTION="C++ interface for glib2"
 HOMEPAGE="https://www.gtkmm.org"
@@ -22,6 +23,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
+	${PYTHON_DEPS}
 	virtual/pkgconfig
 	>=dev-cpp/mm-common-1.0.0
 	sys-devel/m4

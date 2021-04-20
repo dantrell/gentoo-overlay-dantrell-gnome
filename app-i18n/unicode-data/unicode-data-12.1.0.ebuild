@@ -11,10 +11,7 @@ LICENSE="unicode"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE=""
-
-DEPEND="app-arch/unzip"
-RDEPEND=""
+BDEPEND="app-arch/unzip"
 
 S="${WORKDIR}"
 

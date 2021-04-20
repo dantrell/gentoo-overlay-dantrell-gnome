@@ -2,7 +2,7 @@
 
 EAPI="5"
 
-inherit autotools elisp-common eutils flag-o-matic
+inherit epatch autotools flag-o-matic elisp-common
 
 DESCRIPTION="GNU Ubiquitous Intelligent Language for Extensions"
 HOMEPAGE="https://www.gnu.org/software/guile/"

@@ -1,8 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
+PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 
-inherit gnome.org gnome2-utils meson xdg
+inherit gnome.org gnome2-utils meson python-any-r1 xdg
 
 DESCRIPTION="Image viewer and browser for Gnome"
 HOMEPAGE="https://wiki.gnome.org/Apps/gthumb"
@@ -19,22 +20,28 @@ RDEPEND="
 	exif? ( >=media-gfx/exiv2-0.21:= )
 	slideshow? (
 		>=media-libs/clutter-1.12.0:1.0
-		>=media-libs/clutter-gtk-1:1.0 )
+		>=media-libs/clutter-gtk-1:1.0
+	)
 	gstreamer? (
 		media-libs/gstreamer:1.0
 		media-libs/gst-plugins-base:1.0
-		media-plugins/gst-plugins-gtk:1.0 )
+		media-plugins/gst-plugins-gtk:1.0
+	)
 	raw? ( >=media-libs/libraw-0.14:= )
-	http? ( >=net-libs/libsoup-2.42.0:2.4
+	http? (
+		>=net-libs/libsoup-2.42.0:2.4
 		>=dev-libs/json-glib-0.15.0
-		>=net-libs/webkit-gtk-1.10.0:4 )
+		>=net-libs/webkit-gtk-1.10.0:4
+	)
 	gnome-keyring? ( >=app-crypt/libsecret-0.11 )
 	cdr? ( >=app-cdr/brasero-3.2.0 )
 	svg? ( >=gnome-base/librsvg-2.34:2 )
 	webp? ( >=media-libs/libwebp-0.2.0:= )
 	lcms? ( >=media-libs/lcms-2.6:2 )
-	colord? ( >=x11-misc/colord-1.3
-		>=media-libs/lcms-2.6:2 )
+	colord? (
+		>=x11-misc/colord-1.3
+		>=media-libs/lcms-2.6:2
+	)
 
 	sys-libs/zlib
 	virtual/jpeg:0=
@@ -44,6 +51,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
+	${PYTHON_DEPS}
 	dev-util/itstool
 	sys-devel/bison
 	sys-devel/flex

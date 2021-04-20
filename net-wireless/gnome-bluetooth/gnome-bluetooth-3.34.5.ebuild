@@ -1,8 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
+PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 
-inherit gnome.org gnome2-utils meson udev xdg
+inherit gnome.org gnome2-utils meson python-any-r1 udev xdg
 
 DESCRIPTION="Bluetooth graphical utilities integrated with GNOME"
 HOMEPAGE="https://wiki.gnome.org/Projects/GnomeBluetooth"
@@ -11,10 +12,12 @@ LICENSE="GPL-2+ LGPL-2.1+ FDL-1.1+"
 SLOT="2/13" # subslot = libgnome-bluetooth soname version
 KEYWORDS="*"
 
-IUSE="gtk-doc +introspection"
+IUSE="gtk-doc +introspection test"
+
+RESTRICT="!test? ( test )"
 
 DEPEND="
-	>=dev-libs/glib-2.38:2
+	>=dev-libs/glib-2.44:2
 	>=x11-libs/gtk+-3.12:3[introspection?]
 	media-libs/libcanberra[gtk3]
 	>=x11-libs/libnotify-0.7.0
@@ -27,12 +30,28 @@ RDEPEND="${DEPEND}
 	>=net-wireless/bluez-5
 "
 BDEPEND="
-	>=dev-util/meson-0.49.0
 	dev-libs/libxml2:2
 	dev-util/gdbus-codegen
 	gtk-doc? ( >=dev-util/gtk-doc-1.9 )
 	virtual/pkgconfig
+	test? (
+		$(python_gen_any_dep '
+			dev-python/dbusmock[${PYTHON_USEDEP}]
+			dev-python/dbus-python[${PYTHON_USEDEP}]
+		')
+	)
 "
+
+python_check_deps() {
+	if use test; then
+		has_version -b "dev-python/dbusmock[${PYTHON_USEDEP}]" && \
+		has_version -b "dev-python/dbus-python[${PYTHON_USEDEP}]"
+	fi
+}
+
+pkg_setup() {
+	use test && python-any-r1_pkg_setup
+}
 
 src_configure() {
 	local emesonargs=(

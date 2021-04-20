@@ -13,7 +13,7 @@ SRC_URI="https://github.com/liblouis/liblouis/releases/download/v${PV}/${P}.tar.
 
 LICENSE="LGPL-2.1+"
 SLOT="0/20"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="python test"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"

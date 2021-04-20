@@ -99,7 +99,7 @@
 ~gnome-base/gvfs-1.42.2::dantrell-gnome-3-34
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
 ~gnome-base/libgtop-2.40.0::dantrell-gnome
-~gnome-base/librsvg-2.46.4::dantrell-gnome
+~gnome-base/librsvg-2.46.5::dantrell-gnome
 ~gnome-base/nautilus-3.34.3::dantrell-gnome-3-34
 ~gnome-extra/evolution-data-server-3.34.4::dantrell-gnome-3-34
 ~gnome-extra/evolution-ews-3.34.4::dantrell-gnome-3-34

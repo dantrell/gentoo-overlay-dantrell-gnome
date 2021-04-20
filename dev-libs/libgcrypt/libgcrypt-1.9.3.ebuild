@@ -10,7 +10,7 @@ SRC_URI="mirror://gnupg/${PN}/${P}.tar.bz2"
 
 LICENSE="LGPL-2.1 MIT"
 SLOT="0/20" # subslot = soname major version
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+asm cpu_flags_arm_neon cpu_flags_x86_aes cpu_flags_x86_avx cpu_flags_x86_avx2 cpu_flags_x86_padlock cpu_flags_x86_sha cpu_flags_x86_sse4_1 doc o-flag-munging static-libs"
 
@@ -19,9 +19,7 @@ DEPEND="${RDEPEND}"
 BDEPEND="doc? ( virtual/texi2dvi )"
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-1.6.1-uscore.patch
 	"${FILESDIR}"/${PN}-multilib-syspath.patch
-	"${FILESDIR}"/${PN}-1.9.1-fix-no-asm-on-amd64-x86.patch
 )
 
 MULTILIB_CHOST_TOOLS=(
@@ -66,7 +64,7 @@ multilib_src_configure() {
 
 		$(use asm || echo "--disable-asm")
 
-		GPG_ERROR_CONFIG="${EROOT}/usr/bin/${CHOST}-gpg-error-config"
+		GPG_ERROR_CONFIG="${ESYSROOT}/usr/bin/${CHOST}-gpg-error-config"
 	)
 	ECONF_SOURCE="${S}" econf "${myeconfargs[@]}" \
 		$("${S}/configure" --help | grep -o -- '--without-.*-prefix')

@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit gnome2
 
@@ -17,9 +17,8 @@ RDEPEND="
 	>=dev-libs/glib-2.12:2
 	introspection? ( >=dev-libs/gobject-introspection-0.9.6:= )
 "
-DEPEND="${RDEPEND}
-	virtual/pkgconfig
-"
+DEPEND="${RDEPEND}"
+BDEPEND="virtual/pkgconfig"
 
 src_configure() {
 	gnome2_src_configure \

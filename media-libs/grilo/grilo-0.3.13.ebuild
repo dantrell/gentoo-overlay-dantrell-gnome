@@ -21,7 +21,7 @@ RESTRICT="!test? ( test )"
 
 # oauth could be optional if meson is patched - used for flickr oauth in grilo-test-ui tool
 RDEPEND="
-	>=dev-libs/glib-2.44:2
+	>=dev-libs/glib-2.58:2
 	dev-libs/libxml2:2
 	network? ( >=net-libs/libsoup-2.41.3:2.4[introspection?] )
 	playlist? ( >=dev-libs/totem-pl-parser-3.4.1 )
@@ -29,7 +29,8 @@ RDEPEND="
 
 	gtk? (
 		net-libs/liboauth
-		>=x11-libs/gtk+-3.14:3 )
+		>=x11-libs/gtk+-3.14:3
+	)
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
@@ -37,7 +38,8 @@ BDEPEND="
 	virtual/pkgconfig
 	gtk-doc? (
 		>=dev-util/gtk-doc-1.10
-		app-text/docbook-xml-dtd:4.3 )
+		app-text/docbook-xml-dtd:4.3
+	)
 	${PYTHON_DEPS}
 	test? ( sys-apps/dbus )
 	vala? ( $(vala_depend) )

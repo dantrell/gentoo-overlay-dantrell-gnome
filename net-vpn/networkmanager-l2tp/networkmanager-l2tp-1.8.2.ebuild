@@ -5,7 +5,7 @@ EAPI="7"
 MY_PN="NetworkManager-l2tp"
 MY_P="${MY_PN}-${PV}"
 
-inherit eutils gnome.org autotools
+inherit gnome.org autotools
 
 DESCRIPTION="NetworkManager L2TP plugin"
 HOMEPAGE="https://github.com/nm-l2tp/network-manager-l2tp"

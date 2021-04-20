@@ -6,7 +6,7 @@ inherit meson xdg vala virtualx
 
 MY_P="${PN}-v${PV}"
 
-DESCRIPTION="Library with GTK widgets for mobile phones"
+DESCRIPTION="Building blocks for modern adaptive GNOME apps"
 HOMEPAGE="https://source.puri.sm/Librem5/libhandy/"
 SRC_URI="https://source.puri.sm/Librem5/libhandy/-/archive/v${PV}/${MY_P}.tar.bz2"
 

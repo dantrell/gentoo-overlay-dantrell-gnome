@@ -11,7 +11,7 @@ SRC_URI="mirror://sourceforge/project/${PN}/${PV}/${MY_P}.tar.xz"
 
 LICENSE="GPL-2+"
 SLOT="3/0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+introspection vala"
 REQUIRED_USE="vala? ( introspection )"

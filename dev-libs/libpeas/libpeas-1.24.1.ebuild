@@ -10,7 +10,7 @@ HOMEPAGE="https://developer.gnome.org/libpeas/stable/"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="glade +gtk gtk-doc lua luajit +python vala"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"

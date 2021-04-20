@@ -3,7 +3,7 @@
 EAPI="7"
 VALA_USE_DEPEND="vapigen"
 
-inherit bash-completion-r1 toolchain-funcs check-reqs gnome2-utils systemd udev vala meson multilib-minimal
+inherit bash-completion-r1 meson multilib-minimal systemd udev vala
 
 DESCRIPTION="System service to accurately color manage input and output devices"
 HOMEPAGE="https://www.freedesktop.org/software/colord/"
@@ -13,47 +13,42 @@ LICENSE="GPL-2+"
 SLOT="0/2" # subslot = libcolord soname version
 KEYWORDS=""
 
-# We prefer policykit enabled by default, bug #448058
-IUSE="argyllcms examples extra-print-profiles +gusb +introspection +policykit scanner systemd +udev vala"
+IUSE="gtk-doc argyllcms examples extra-print-profiles +introspection scanner systemd test +udev vala"
 REQUIRED_USE="
-	gusb? ( udev )
 	scanner? ( udev )
 	vala? ( introspection )
 "
 
-# FIXME: needs pre-installed dbus service files
-RESTRICT="test"
+RESTRICT="!test? ( test ) test" # Tests try to read and write files in /tmp
 
 DEPEND="
-	dev-db/sqlite:3=[${MULTILIB_USEDEP}]
-	>=dev-libs/glib-2.46.0:2[${MULTILIB_USEDEP}]
+	>=dev-libs/glib-2.58.0:2[${MULTILIB_USEDEP}]
 	>=media-libs/lcms-2.6:2=[${MULTILIB_USEDEP}]
-	argyllcms? ( media-gfx/argyllcms )
-	gusb? ( >=dev-libs/libgusb-0.2.7[introspection?,${MULTILIB_USEDEP}] )
-	introspection? ( >=dev-libs/gobject-introspection-0.9.8:= )
-	policykit? ( >=sys-auth/polkit-0.104 )
-	scanner? (
-		media-gfx/sane-backends
-		sys-apps/dbus
-	)
-	systemd? ( >=sys-apps/systemd-44:0= )
+	dev-db/sqlite:3=[${MULTILIB_USEDEP}]
+	>=dev-libs/libgusb-0.2.7[${MULTILIB_USEDEP}]
 	udev? (
 		dev-libs/libgudev:=[${MULTILIB_USEDEP}]
 		virtual/libudev:=[${MULTILIB_USEDEP}]
 		virtual/udev
 	)
+	systemd? ( >=sys-apps/systemd-44:0= )
+	scanner? (
+		media-gfx/sane-backends
+		sys-apps/dbus
+	)
+	>=sys-auth/polkit-0.104
+	argyllcms? ( media-gfx/argyllcms )
+	introspection? ( >=dev-libs/gobject-introspection-0.9.8:= )
 "
 RDEPEND="${DEPEND}
 	acct-group/colord
 	acct-user/colord
-	!<=media-gfx/colorhug-client-0.1.13
-	!media-gfx/shared-color-profiles
 "
 BDEPEND="
 	acct-group/colord
 	acct-user/colord
+	app-text/docbook-xsl-ns-stylesheets
 	dev-libs/libxslt
-	>=dev-util/gtk-doc-am-1.9
 	>=dev-util/intltool-0.35
 	>=sys-devel/gettext-0.17
 	virtual/pkgconfig
@@ -66,44 +61,60 @@ BDEPEND="${BDEPEND}
 	media-libs/lcms
 "
 
-# According to upstream comment in colord.spec.in, building the extra print
-# profiles requires >=4G of memory
-CHECKREQS_MEMORY="4G"
-
-pkg_pretend() {
-	use extra-print-profiles && check-reqs_pkg_pretend
-}
-
-pkg_setup() {
-	use extra-print-profiles && check-reqs_pkg_setup
-}
+PATCHES=(
+	"${FILESDIR}"/${PN}-1.4.5-tests-Don-t-use-exact-floating-point-comparisons.patch
+	"${FILESDIR}"/${PN}-1.4.5-build-Fix-building-without-vapi.patch
+)
 
 src_prepare() {
-	eapply_user
-	xdg_src_prepare
-	gnome2_environment_reset
+	default
+	use vala && vala_src_prepare
+
+	# Test requires a running session
+	# https://github.com/hughsie/colord/issues/94
+	sed -i -e "/test('colord-test-daemon'/d" lib/colord/meson.build || die
+
+	# Adapt to Gentoo paths
+	sed -i \
+		-e "s|find_program('spotread'|find_program('argyll-spotread'|" \
+		-e "s|find_program('colprof'|find_program('argyll-colprof'|" \
+		meson.build || die
+
+	# meson gnome.generate_vapi properly handles VAPIGEN and other vala
+	# environment variables. It is counter-productive to check for an
+	# unversioned vapigen, as that breaks versioned VAPIGEN usages.
+	sed -i -e "/find_program('vapigen')/d" meson.build || die
 }
 
 multilib_src_configure() {
 	local emesonargs=(
 		-Ddaemon=$(multilib_is_native_abi && echo true || echo false)
+		-Dexamples=false
 		-Dbash_completion=false
-		-Dsession_example=false
+		$(meson_use udev udev_rules)
+		-Dsystemd=$(multilib_native_usex systemd true false)
 		-Dlibcolordcompat=true
-		-Ddaemon_user=colord
-		-Dinstalled_tests=false
-		-Dtests=false
 		-Dargyllcms_sensor=$(multilib_native_usex argyllcms true false)
-		-Dprint_profiles=$(multilib_native_usex extra-print-profiles true false)
 		-Dreverse=false
 		-Dsane=$(multilib_native_usex scanner true false)
-		-Dsystemd=$(multilib_native_usex systemd true false)
-		-Dudev_rules=$(multilib_native_usex udev true false)
-		-Dvapi=$(multilib_native_usex vala  true false)
-		-Ddocs=false
+		-Dvapi=$(multilib_native_usex vala true false)
+		-Dprint_profiles=$(multilib_native_usex extra-print-profiles true false)
+		$(meson_use test tests)
+		-Dinstalled_tests=false
+		-Ddaemon_user=colord
+		-Dman=true
+		$(meson_use gtk-doc docs)
+		--localstatedir="${EPREFIX}"/var
 	)
-
 	meson_src_configure
+}
+
+multilib_src_compile() {
+	meson_src_compile
+}
+
+multilib_src_test() {
+	meson_src_test
 }
 
 multilib_src_install() {
@@ -111,8 +122,6 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
-	einstalldocs
-
 	newbashcomp data/colormgr colormgr
 
 	# Ensure config and profile directories exist and /var/lib/colord/*

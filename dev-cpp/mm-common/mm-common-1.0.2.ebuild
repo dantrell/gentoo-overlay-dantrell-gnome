@@ -2,7 +2,9 @@
 
 EAPI="7"
 
-inherit gnome.org meson
+PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
+
+inherit gnome.org python-any-r1 meson
 
 DESCRIPTION="Build infrastructure and utilities for GNOME C++ bindings"
 HOMEPAGE="https://www.gtkmm.org/"
@@ -11,10 +13,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE=""
-
-RDEPEND=""
-DEPEND=""
+BDEPEND="${PYTHON_DEPS}"
 
 src_prepare() {
 	default

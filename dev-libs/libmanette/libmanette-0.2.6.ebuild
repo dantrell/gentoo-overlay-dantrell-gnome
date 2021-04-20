@@ -11,8 +11,10 @@ LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="+introspection +udev +vala"
+IUSE="gtk-doc +introspection +udev +vala test"
 REQUIRED_USE="vala? ( introspection )"
+
+RESTRICT="!test? ( test )"
 
 RDEPEND="
 	>=dev-libs/glib-2.50:2
@@ -32,9 +34,13 @@ src_prepare() {
 
 src_configure() {
 	local emesonargs=(
-		$(meson_feature udev gudev)
+		-Ddemos=false
+		$(meson_use test build-tests)
+		-Dinstall-tests=false
+		$(meson_use gtk-doc doc)
 		$(meson_use introspection)
 		$(meson_use vala vapi)
+		$(meson_feature udev gudev)
 	)
 	meson_src_configure
 }
