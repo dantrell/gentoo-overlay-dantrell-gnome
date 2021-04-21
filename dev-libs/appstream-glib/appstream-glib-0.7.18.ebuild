@@ -10,7 +10,7 @@ SRC_URI="https://people.freedesktop.org/~hughsient/${PN}/releases/${P}.tar.xz"
 
 LICENSE="LGPL-2.1+"
 SLOT="0/8" # soname version
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gtk-doc fonts +introspection stemmer"
 

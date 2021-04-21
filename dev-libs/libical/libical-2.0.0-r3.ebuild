@@ -10,7 +10,7 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="|| ( MPL-1.0 LGPL-2.1 )"
 SLOT="0/2"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="doc examples static-libs"
 

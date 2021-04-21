@@ -10,7 +10,7 @@ HOMEPAGE="https://gitlab.gnome.org/GNOME/libgtop"
 
 LICENSE="GPL-2+"
 SLOT="2/11" # libgtop soname version
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+introspection"
 

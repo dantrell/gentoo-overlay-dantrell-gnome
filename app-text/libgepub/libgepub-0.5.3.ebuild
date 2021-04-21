@@ -9,7 +9,7 @@ HOMEPAGE="https://gitlab.gnome.org/GNOME/libgepub"
 
 LICENSE="LGPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+introspection"
 

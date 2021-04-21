@@ -9,12 +9,12 @@ HOMEPAGE="https://wiki.gnome.org/Projects/JsonGlib"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS=""
 
 IUSE="gtk-doc +introspection"
 
 RDEPEND="
-	>=dev-libs/glib-2.44.0:2[${MULTILIB_USEDEP}]
+	>=dev-libs/glib-2.54.0:2[${MULTILIB_USEDEP}]
 	introspection? ( >=dev-libs/gobject-introspection-0.9.5:= )
 "
 DEPEND="${RDEPEND}"
@@ -38,9 +38,9 @@ src_prepare() {
 
 multilib_src_configure() {
 	local emesonargs=(
-		-Ddisable_introspection=$(multilib_native_usex introspection false true)
-		-Denable-gtk-doc=$(multilib_native_usex gtk-doc true false)
-		-Denable-man=true
+		-Dintrospection=$(multilib_native_usex introspection enabled disabled)
+		-Dgtk_doc=$(multilib_native_usex gtk-doc enabled disabled)
+		-Dman=true
 	)
 	meson_src_configure
 }

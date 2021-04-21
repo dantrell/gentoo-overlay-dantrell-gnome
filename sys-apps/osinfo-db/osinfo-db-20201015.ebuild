@@ -10,10 +10,9 @@ S="${WORKDIR}"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="*"
 
 BDEPEND="sys-apps/osinfo-db-tools"
-
 # we don't depend on intltool here, contrary to README, as the tarball already
 # contains the processed results with translations in XML files
 

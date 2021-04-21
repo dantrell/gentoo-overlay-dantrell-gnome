@@ -9,8 +9,8 @@ HOMEPAGE="https://gitlab.gnome.org/GNOME/libhandy"
 SRC_URI="https://gitlab.gnome.org/GNOME/libhandy/-/archive/${PV}/${P}.tar.bz2"
 
 LICENSE="LGPL-2.1+"
-SLOT="1.0/0"
-KEYWORDS="~*"
+SLOT="1"
+KEYWORDS="*"
 
 IUSE="examples glade gtk-doc +introspection test +vala"
 REQUIRED_USE="vala? ( introspection )"
@@ -18,6 +18,8 @@ REQUIRED_USE="vala? ( introspection )"
 RESTRICT="!test? ( test )"
 
 RDEPEND="
+	!gui-libs/libhandy:1.0
+
 	>=dev-libs/glib-2.44:2
 	>=x11-libs/gtk+-3.24.1:3[introspection?]
 	glade? ( dev-util/glade:3.10= )

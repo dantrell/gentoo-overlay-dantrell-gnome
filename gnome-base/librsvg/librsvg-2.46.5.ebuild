@@ -11,7 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/LibRsvg"
 
 LICENSE="LGPL-2+"
 SLOT="2"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="debug gtk-doc +introspection tools vala"
 REQUIRED_USE="vala? ( introspection )"

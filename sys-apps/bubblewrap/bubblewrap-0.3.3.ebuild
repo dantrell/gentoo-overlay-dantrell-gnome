@@ -26,7 +26,8 @@ RDEPEND="
 	selinux? ( >=sys-libs/libselinux-2.1.9 )
 	sudo? ( app-admin/sudo )
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	>=app-shells/bash-completion-2
 	app-text/docbook-xml-dtd:4.3
 	app-text/docbook-xsl-stylesheets

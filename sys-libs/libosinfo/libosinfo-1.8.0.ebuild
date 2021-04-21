@@ -11,7 +11,7 @@ SRC_URI="https://releases.pagure.org/libosinfo/${P}.tar.xz"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gtk-doc +introspection +vala test"
 REQUIRED_USE="vala? ( introspection )"

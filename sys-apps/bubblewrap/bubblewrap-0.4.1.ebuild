@@ -10,7 +10,7 @@ SRC_URI="https://github.com/containers/${PN}/releases/download/v${PV}/${P}.tar.x
 
 LICENSE="LGPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+man +namespaces selinux sudo +suid"
 REQUIRED_USE="

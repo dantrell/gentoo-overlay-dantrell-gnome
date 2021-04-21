@@ -1,12 +1,4 @@
-dev-libs/fribidi::gentoo ~*
-dev-libs/libgudev::gentoo ~*
-dev-util/meson::dantrell-gnome ~*
 games-board/crafty::gentoo ~*
 games-board/sjeng::gentoo ~*
 media-fonts/crosextrafonts-caladea::gentoo ~*
 media-fonts/crosextrafonts-carlito::gentoo ~*
-media-gfx/scour::gentoo ~*
-media-libs/libopenraw::gentoo ~*
-virtual/libgudev::gentoo ~*
-<media-libs/grilo-0.4.0::dantrell-gnome ~*
-<media-plugins/grilo-plugins-0.3.10::dantrell-gnome ~*

@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-
 PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 
 inherit xdg-utils meson multilib-minimal python-any-r1
@@ -12,7 +11,7 @@ SRC_URI="https://github.com/ebassi/graphene/releases/download/${PV}/${P}.tar.xz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="cpu_flags_arm_neon cpu_flags_x86_sse2 doc +introspection test"
 

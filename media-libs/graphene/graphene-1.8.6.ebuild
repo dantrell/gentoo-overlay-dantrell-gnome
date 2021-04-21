@@ -25,8 +25,10 @@ DEPEND="${RDEPEND}"
 # Python is only needed with USE=introspection or FEATURES=test, but not bothering with conditional python_setup, as meson uses it too anyway
 BDEPEND="
 	${PYTHON_DEPS}
-	doc? ( dev-util/gtk-doc
-		app-text/docbook-xml-dtd:4.3 )
+	doc? (
+		dev-util/gtk-doc
+		app-text/docbook-xml-dtd:4.3
+	)
 	virtual/pkgconfig
 "
 

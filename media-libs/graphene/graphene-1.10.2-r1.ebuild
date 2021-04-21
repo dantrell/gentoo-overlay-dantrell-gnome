@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-
 PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 
 inherit xdg-utils meson multilib-minimal python-any-r1
@@ -26,8 +25,10 @@ DEPEND="${RDEPEND}"
 # Python is only needed with USE=introspection or FEATURES=test, but not bothering with conditional python_setup, as meson uses it too anyway
 BDEPEND="
 	${PYTHON_DEPS}
-	doc? ( dev-util/gtk-doc
-		app-text/docbook-xml-dtd:4.3 )
+	doc? (
+		dev-util/gtk-doc
+		app-text/docbook-xml-dtd:4.3
+	)
 	virtual/pkgconfig
 "
 

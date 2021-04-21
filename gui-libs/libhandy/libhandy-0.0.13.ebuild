@@ -12,7 +12,7 @@ SRC_URI="https://source.puri.sm/Librem5/libhandy/-/archive/v${PV}/${MY_P}.tar.bz
 
 LICENSE="LGPL-2.1+"
 SLOT="0.0/0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="examples glade gtk-doc +introspection test +vala"
 REQUIRED_USE="vala? ( introspection )"

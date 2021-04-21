@@ -11,24 +11,23 @@ DESCRIPTION="Library for aggregating people from multiple sources"
 HOMEPAGE="https://wiki.gnome.org/Projects/Folks"
 
 LICENSE="LGPL-2.1+"
-SLOT="0/25" # subslot = libfolks soname version
-KEYWORDS="*"
+SLOT="0/26" # subslot = libfolks soname version
+KEYWORDS=""
 
-IUSE="bluetooth eds +telepathy test tracker utils"
+IUSE="bluetooth eds +telepathy test utils"
 REQUIRED_USE="bluetooth? ( eds )"
 
 RESTRICT="!test? ( test )"
 
 DEPEND="
-	>=dev-libs/glib-2.44:2
+	>=dev-libs/glib-2.58:2
 	>=dev-libs/libgee-0.10:0.8[introspection]
 	>=dev-libs/gobject-introspection-1.54:=
 	telepathy? (
 		>=net-libs/telepathy-glib-0.19.9
 		dev-libs/dbus-glib
 	)
-	tracker? ( app-misc/tracker:0/2.0 )
-	eds? ( >=gnome-extra/evolution-data-server-3.33.2:= )
+	eds? ( >=gnome-extra/evolution-data-server-3.38:= )
 	dev-libs/libxml2:2
 	utils? ( sys-libs/readline:0= )
 "
@@ -39,21 +38,17 @@ RDEPEND="${DEPEND}
 	telepathy? ( net-im/telepathy-mission-control )
 "
 BDEPEND="
-	>=dev-util/meson-0.51
+	${PYTHON_DEPS}
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	$(vala_depend)
 	telepathy? ( net-libs/telepathy-glib[vala] )
 	eds? ( gnome-extra/evolution-data-server[vala] )
-	test? ( sys-apps/dbus
-		${PYTHON_DEPS}
+	test? (
+		sys-apps/dbus
 		bluetooth? ( $(python_gen_any_dep 'dev-python/dbusmock[${PYTHON_USEDEP}]') )
 	)
 "
-
-PATCHES=(
-	"${FILESDIR}"/${PN}-0.14.0-conditional-tests.patch
-)
 
 python_check_deps() {
 	if use test && use bluetooth; then
@@ -61,15 +56,9 @@ python_check_deps() {
 	fi
 }
 
-pkg_setup() {
-	use test && use bluetooth && python-any-r1_pkg_setup
-}
-
 src_prepare() {
 	vala_src_prepare
 	xdg_src_prepare
-	# TODO: All tracker tests fail with SIGTRAP for some reason - investigate
-	sed -e '/subdir.*tracker/d' -i tests/meson.build || die
 }
 
 src_configure() {
@@ -78,7 +67,6 @@ src_configure() {
 		$(meson_use eds eds_backend)
 		$(meson_use eds ofono_backend)
 		$(meson_use telepathy telepathy_backend)
-		$(meson_use tracker tracker_backend)
 		-Dzeitgeist=false # last rited package
 		-Dimport_tool=true
 		$(meson_use utils inspect_tool)
