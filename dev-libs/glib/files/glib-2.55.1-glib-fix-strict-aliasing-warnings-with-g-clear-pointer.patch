@@ -1,0 +1,52 @@
+From 97d24b93ab05762ec53785b5ec1c68e8d660b054 Mon Sep 17 00:00:00 2001
+From: Philip Withnall <withnall@endlessm.com>
+Date: Thu, 21 Dec 2017 17:47:29 +0000
+Subject: glib: Fix strict-aliasing warnings with g_clear_pointer()
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+gpointer* cannot be aliased with arbitrary types. In order to fix
+-Wstrict-aliasing=2 warnings with the g_clear_pointer() macro, we need
+to cast through char*, which is allowed to alias with anything.
+
+Even if we don’t make GLib strict-aliasing safe, it’s important to
+ensure this macro is safe, since it could be used from projects which do
+compile with -fstrict-aliasing.
+
+Signed-off-by: Philip Withnall <withnall@endlessm.com>
+
+https://bugzilla.gnome.org/show_bug.cgi?id=791622
+---
+ glib/gmem.h | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/glib/gmem.h b/glib/gmem.h
+index 462d49ed3..9530512d0 100644
+--- a/glib/gmem.h
++++ b/glib/gmem.h
+@@ -113,16 +113,17 @@ gpointer g_try_realloc_n  (gpointer	 mem,
+ #define g_clear_pointer(pp, destroy) \
+   G_STMT_START {                                                               \
+     G_STATIC_ASSERT (sizeof *(pp) == sizeof (gpointer));                       \
+-    /* Only one access, please */                                              \
+-    gpointer *_pp = (gpointer *) (pp);                                         \
++    /* Only one access, please; work around type aliasing */                   \
++    union { char *in; gpointer *out; } _pp;                                    \
+     gpointer _p;                                                               \
+     /* This assignment is needed to avoid a gcc warning */                     \
+     GDestroyNotify _destroy = (GDestroyNotify) (destroy);                      \
+                                                                                \
+-    _p = *_pp;                                                                 \
++    _pp.in = (char *) (pp);                                                    \
++    _p = *_pp.out;                                                             \
+     if (_p) 								       \
+       { 								       \
+-        *_pp = NULL;							       \
++        *_pp.out = NULL;                                                       \
+         _destroy (_p);                                                         \
+       }                                                                        \
+   } G_STMT_END
+-- 
+cgit v1.2.3
+

@@ -4,18 +4,14 @@
 # adding new dependencies end up making stage3 to grow. Every addition needs
 # then to be think very closely.
 
-EAPI="5"
+EAPI="6"
 PYTHON_COMPAT=( python2_7 )
-# Building with --disable-debug highly unrecommended.  It will build glib in
-# an unusable form as it disables some commonly used API.  Please do not
-# convert this to the use_enable form, as it results in a broken build.
-GCONF_DEBUG="yes"
 # Completely useless with or without USE static-libs, people need to use
 # pkg-config
 GNOME2_LA_PUNT="yes"
 
-inherit autotools bash-completion-r1 gnome2 libtool epatch epunt-cxx flag-o-matic multilib \
-	pax-utils python-r1 toolchain-funcs versionator virtualx linux-info multilib-minimal
+inherit autotools bash-completion-r1 epunt-cxx flag-o-matic gnome2 libtool linux-info \
+	multilib multilib-minimal pax-utils python-r1 toolchain-funcs versionator virtualx
 
 DESCRIPTION="The GLib library of C routines"
 HOMEPAGE="https://www.gtk.org/"
@@ -26,7 +22,7 @@ LICENSE="LGPL-2.1+"
 SLOT="2/42"
 KEYWORDS="*"
 
-IUSE="dbus fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
+IUSE="dbus debug fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
 REQUIRED_USE="
 	utils? ( ${PYTHON_REQUIRED_USE} )
 	test? ( ${PYTHON_REQUIRED_USE} )
@@ -166,45 +162,45 @@ src_prepare() {
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/0550708ca7b615ab9e0df96ded43d18653f33ac2
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/3ffed912c19c5c24b7302d2ff12f82a6167f1c30
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/9348af3651afbd554fec35e556cda8add48bd9f8
-	epatch "${FILESDIR}"/${PN}-2.43.0-add-version-macros-for-2-44.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gtype-add-type-declaration-macros-for-headers.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-g-declare-derived-type-allow-forward-declarations.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gsettings-add-g-settings-schema-key-get-name.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gsettings-add-g-settings-schema-list-children.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-add-glistmodel.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-giotypefuncs-test-tweak-get-type-regexp.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-g-declare-final-type-trivial-fix-in-docs-comment.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-declare-type-ignore-deprecations-in-inlines.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-macros-add-support-for-gnuc-cleanup-attribute.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-glib-add-support-for-g-auto-and-g-autoptr.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gobject-add-support-for-g-auto-and-g-autoptr.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-g-declare-type-add-auto-cleanup-support.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gio-add-support-for-g-auto-and-g-autoptr.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gobject-gtype-h-make-up-for-missing.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-docs-link-the-glistmodel-docs-from-the-index.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-fix-g-define-auto-cleanup-free-func-on-non-gcc.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-glistmodel-h-fix-glistmodelinterface-define.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gmacros-h-add-private-macro-glib-define-autoptr-chainup.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gtype-h-fix-build-on-non-gcc.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gliststore-add-sorted-insert-function.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-tests-add-test-for-gliststore-inserted-sort.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-docs-fix-typos-in-g-declare-type.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-gliststore-fix-preconditions-in-insert-sorted.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-doc-fix-glistmodel-gliststore.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-doc-fix-g-auto-and-g-autoptr-typo.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-add-g-declare-interface.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-glistmodel-use-g-declare-interface.patch
-	epatch "${FILESDIR}"/${PN}-2.43.91-add-g-autofree.patch
-	epatch "${FILESDIR}"/${PN}-2.43.91-autocleanups-remove-g-autoptrgchar.patch
-	epatch "${FILESDIR}"/${PN}-2.43.91-tests-add-many-autoptr-tests.patch
-	epatch "${FILESDIR}"/${PN}-2.46.0-doc-small-clarification-in-g-autoptr.patch
-	epatch "${FILESDIR}"/${PN}-2.46.1-doc-g-autoptrgchar-has-been-replaced-by-g-autofree.patch
+	eapply "${FILESDIR}"/${PN}-2.43.0-add-version-macros-for-2-44.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-gtype-add-type-declaration-macros-for-headers.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-g-declare-derived-type-allow-forward-declarations.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-gsettings-add-g-settings-schema-key-get-name.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-gsettings-add-g-settings-schema-list-children.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-add-glistmodel.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-giotypefuncs-test-tweak-get-type-regexp.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-g-declare-final-type-trivial-fix-in-docs-comment.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-declare-type-ignore-deprecations-in-inlines.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-macros-add-support-for-gnuc-cleanup-attribute.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-glib-add-support-for-g-auto-and-g-autoptr.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-gobject-add-support-for-g-auto-and-g-autoptr.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-g-declare-type-add-auto-cleanup-support.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-gio-add-support-for-g-auto-and-g-autoptr.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-gobject-gtype-h-make-up-for-missing.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-docs-link-the-glistmodel-docs-from-the-index.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-fix-g-define-auto-cleanup-free-func-on-non-gcc.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-glistmodel-h-fix-glistmodelinterface-define.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-gmacros-h-add-private-macro-glib-define-autoptr-chainup.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-gtype-h-fix-build-on-non-gcc.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-gliststore-add-sorted-insert-function.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-tests-add-test-for-gliststore-inserted-sort.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-docs-fix-typos-in-g-declare-type.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-gliststore-fix-preconditions-in-insert-sorted.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-doc-fix-glistmodel-gliststore.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-doc-fix-g-auto-and-g-autoptr-typo.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-add-g-declare-interface.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-glistmodel-use-g-declare-interface.patch
+	eapply "${FILESDIR}"/${PN}-2.43.91-add-g-autofree.patch
+	eapply "${FILESDIR}"/${PN}-2.43.91-autocleanups-remove-g-autoptrgchar.patch
+	eapply "${FILESDIR}"/${PN}-2.43.91-tests-add-many-autoptr-tests.patch
+	eapply "${FILESDIR}"/${PN}-2.46.0-doc-small-clarification-in-g-autoptr.patch
+	eapply "${FILESDIR}"/${PN}-2.46.1-doc-g-autoptrgchar-has-been-replaced-by-g-autofree.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/71944b1bfd2cff57e889b806d001458dce6fa2b5
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/7f2f4ab12df6ddb501900846896f496520871d16
-	epatch "${FILESDIR}"/${PN}-2.43.2-gstrfuncs-add-g-strv-contains.patch
-	epatch "${FILESDIR}"/${PN}-2.43.2-use-the-new-g-strv-contains.patch
+	eapply "${FILESDIR}"/${PN}-2.43.2-gstrfuncs-add-g-strv-contains.patch
+	eapply "${FILESDIR}"/${PN}-2.43.2-use-the-new-g-strv-contains.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/ed68d80e61b60833c15b69e57117e7f267757632
@@ -214,27 +210,27 @@ src_prepare() {
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/f8da414d089057f63cb277af575675deb63536b0
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/169eae47e519068a0afa2ec44b24b884214d79ec
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/74c22150cf4c2f8a9c7d7fae058a7fd589a94a27
-	epatch "${FILESDIR}"/${PN}-2.43.2-gio-correct-the-available-in-for-gnetworkmonitor.patch
-	epatch "${FILESDIR}"/${PN}-2.43.2-gio-add-network-connectivity-state-to-gnetworkmonitor.patch
-	epatch "${FILESDIR}"/${PN}-2.43.2-gio-add-gnetworkmonitor-impl-based-on-networkmanager.patch
-	epatch "${FILESDIR}"/${PN}-2.43.2-updated-potfiles-in.patch
-	epatch "${FILESDIR}"/${PN}-2.43.2-gio-fix-the-since-available-version-on-network-connectivity-stuff.patch
-	epatch "${FILESDIR}"/${PN}-2.43.2-gio-add-missing-symbols-to-docs.patch
-	epatch "${FILESDIR}"/${PN}-2.43.4-docs-fix-up-docs-issues-in-gio.patch
+	eapply "${FILESDIR}"/${PN}-2.43.2-gio-correct-the-available-in-for-gnetworkmonitor.patch
+	eapply "${FILESDIR}"/${PN}-2.43.2-gio-add-network-connectivity-state-to-gnetworkmonitor.patch
+	eapply "${FILESDIR}"/${PN}-2.43.2-gio-add-gnetworkmonitor-impl-based-on-networkmanager.patch
+	eapply "${FILESDIR}"/${PN}-2.43.2-updated-potfiles-in.patch
+	eapply "${FILESDIR}"/${PN}-2.43.2-gio-fix-the-since-available-version-on-network-connectivity-stuff.patch
+	eapply "${FILESDIR}"/${PN}-2.43.2-gio-add-missing-symbols-to-docs.patch
+	eapply "${FILESDIR}"/${PN}-2.43.4-docs-fix-up-docs-issues-in-gio.patch
 
 	# From glib-2.44.1.tar.xz:
 	# 	Prevent build failure due to missing (generated) declarations
-	epatch "${FILESDIR}"/${PN}-2.44.1-gio-gioenumtypes-network-connectivity-stuff.patch
+	eapply "${FILESDIR}"/${PN}-2.44.1-gio-gioenumtypes-network-connectivity-stuff.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/ed4a742946374f7ee3c46b93eb943c95f04ec4c4
-	epatch "${FILESDIR}"/${PN}-2.43.92-http-proxy-support.patch
+	eapply "${FILESDIR}"/${PN}-2.43.92-http-proxy-support.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/d0219f25970c740ac1a8965754868d54bcd90eeb
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/7dd9ffbcfff3561d2d1bcd247c052e4c4399623f
-	epatch "${FILESDIR}"/${PN}-2.47.2-glib-add-bounds-checked-unsigned-int-arithmetic.patch
-	epatch "${FILESDIR}"/${PN}-2.47.2-tests-test-bounds-checked-int-arithmetic.patch
+	eapply "${FILESDIR}"/${PN}-2.47.2-glib-add-bounds-checked-unsigned-int-arithmetic.patch
+	eapply "${FILESDIR}"/${PN}-2.47.2-tests-test-bounds-checked-int-arithmetic.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/1a2a689deacaac32b351ae97b00d8c35a6499cf6
@@ -245,22 +241,22 @@ src_prepare() {
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/db2367e8782d7a39fc3e93d13f6a16f10cad04c2
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/ba12fbf8f8861e634def9fc0fb5e9ea603269803
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/f2fb877ef796c543f8ca166c7e05a434f163faf7
-	epatch "${FILESDIR}"/${PN}-2.43.2-doc-glib-fix-all-undocumented-unused-undeclared-symbols.patch
-	epatch "${FILESDIR}"/${PN}-2.45.1-gversionmacros-add-2-46-version-macros.patch
-	epatch "${FILESDIR}"/${PN}-2.47.1-glib-add-2-48-availibity-macros.patch
-	epatch "${FILESDIR}"/${PN}-2.47.2-gtrashstack-uninline-and-deprecate.patch
-	epatch "${FILESDIR}"/${PN}-2.47.2-gutils-clean-up-bit-funcs-inlining-mess.patch
-	epatch "${FILESDIR}"/${PN}-2.47.2-glib-clean-up-the-inline-mess-once-and-for-all.patch
-	epatch "${FILESDIR}"/${PN}-2.47.3-gutils-g-bit-inlines-add-visibility-macros.patch
-	epatch "${FILESDIR}"/${PN}-2.47.4-glibconfig-h-win32-in-remove-g-can-inline.patch
+	eapply "${FILESDIR}"/${PN}-2.43.2-doc-glib-fix-all-undocumented-unused-undeclared-symbols.patch
+	eapply "${FILESDIR}"/${PN}-2.45.1-gversionmacros-add-2-46-version-macros.patch
+	eapply "${FILESDIR}"/${PN}-2.47.1-glib-add-2-48-availibity-macros.patch
+	eapply "${FILESDIR}"/${PN}-2.47.2-gtrashstack-uninline-and-deprecate.patch
+	eapply "${FILESDIR}"/${PN}-2.47.2-gutils-clean-up-bit-funcs-inlining-mess.patch
+	eapply "${FILESDIR}"/${PN}-2.47.2-glib-clean-up-the-inline-mess-once-and-for-all.patch
+	eapply "${FILESDIR}"/${PN}-2.47.3-gutils-g-bit-inlines-add-visibility-macros.patch
+	eapply "${FILESDIR}"/${PN}-2.47.4-glibconfig-h-win32-in-remove-g-can-inline.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/ec6971b864a3faffadd0bf4a87c7c1b47697fc83
-	epatch "${FILESDIR}"/${PN}-2.47.4-gtypes-h-move-g-static-assert-to-function-scope.patch
+	eapply "${FILESDIR}"/${PN}-2.47.4-gtypes-h-move-g-static-assert-to-function-scope.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/aead1c046dd39748cca449b55ec300ba5f025365
-	epatch "${FILESDIR}"/${PN}-2.47.92-gvariant-text-fix-scan-of-positional-parameters.patch
+	eapply "${FILESDIR}"/${PN}-2.47.92-gvariant-text-fix-scan-of-positional-parameters.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/f9d9f9c056d96eccbb75dcbdef2b58f6d2a3edea
@@ -275,18 +271,18 @@ src_prepare() {
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/8e8f4e6486c1578ae15d63835acd06f237324a6d
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/c79c234c352ff748056a30da6d4a49de0d2f878d
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/359b27d441a4dd701260d041e633e7241c314627
-	epatch "${FILESDIR}"/${PN}-2.47.1-update-to-unicode-8-0.patch
-	epatch "${FILESDIR}"/${PN}-2.47.1-update-unicode-test-data-for-unicode-8.patch
-	epatch "${FILESDIR}"/${PN}-2.47.4-trivial-doc-comment-fix.patch
-	epatch "${FILESDIR}"/${PN}-2.50.1-unicode-update-break-mappings.patch
-	epatch "${FILESDIR}"/${PN}-2.50.1-unicode-update-to-unicode-9-0-0.patch
-	epatch "${FILESDIR}"/${PN}-2.50.1-unicode-update-test-data-files-for-unicode-9-0-0.patch
-	epatch "${FILESDIR}"/${PN}-2.50.1-unicode-fix-ordering-in-iso15924-tags-to-match-gunicodescript-enum.patch
-	epatch "${FILESDIR}"/${PN}-2.53.4-unicode-update-to-unicode-10-0-0.patch
-	epatch "${FILESDIR}"/${PN}-2.53.4-unicode-update-test-data-files-for-unicode-10-0-0.patch
-	epatch "${FILESDIR}"/${PN}-2.55.0-docs-fix-various-minor-syntax-errors-in-gtk-doc-comments.patch
-	epatch "${FILESDIR}"/${PN}-2.57.2-unicode-update-to-unicode-11-0-0.patch
-	epatch "${FILESDIR}"/${PN}-2.57.2-unicode-update-test-data-files-for-unicode-11-0-0.patch
+	eapply "${FILESDIR}"/${PN}-2.47.1-update-to-unicode-8-0.patch
+	eapply "${FILESDIR}"/${PN}-2.47.1-update-unicode-test-data-for-unicode-8.patch
+	eapply "${FILESDIR}"/${PN}-2.47.4-trivial-doc-comment-fix.patch
+	eapply "${FILESDIR}"/${PN}-2.50.1-unicode-update-break-mappings.patch
+	eapply "${FILESDIR}"/${PN}-2.50.1-unicode-update-to-unicode-9-0-0.patch
+	eapply "${FILESDIR}"/${PN}-2.50.1-unicode-update-test-data-files-for-unicode-9-0-0.patch
+	eapply "${FILESDIR}"/${PN}-2.50.1-unicode-fix-ordering-in-iso15924-tags-to-match-gunicodescript-enum.patch
+	eapply "${FILESDIR}"/${PN}-2.53.4-unicode-update-to-unicode-10-0-0.patch
+	eapply "${FILESDIR}"/${PN}-2.53.4-unicode-update-test-data-files-for-unicode-10-0-0.patch
+	eapply "${FILESDIR}"/${PN}-2.55.0-docs-fix-various-minor-syntax-errors-in-gtk-doc-comments.patch
+	eapply "${FILESDIR}"/${PN}-2.57.2-unicode-update-to-unicode-11-0-0.patch
+	eapply "${FILESDIR}"/${PN}-2.57.2-unicode-update-test-data-files-for-unicode-11-0-0.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/e4aaae4ed689669a8530d0b79d4523eeb12554ad
@@ -294,23 +290,23 @@ src_prepare() {
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/aebcb15a9b9881b3a06c7db1a9674e6cc1b77e84
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/4fe89b0437db0a4997d548929eec07b8c579fff2
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/e8222c334318a2fce87a32bcd321580623eb00be
-	epatch "${FILESDIR}"/${PN}-2.49.1-glib-add-2-50-availibity-macros.patch
-	epatch "${FILESDIR}"/${PN}-2.51.0-add-version-macros-for-2-52.patch
-	epatch "${FILESDIR}"/${PN}-2.53.0-gversionmacros-add-version-macros-for-glib-2-54.patch
-	epatch "${FILESDIR}"/${PN}-2.53.2-gstrfuncs-add-replacement-for-string-to-number-functions.patch
-	epatch "${FILESDIR}"/${PN}-2.53.2-gstrfuncs-fix-translation-issues.patch
+	eapply "${FILESDIR}"/${PN}-2.49.1-glib-add-2-50-availibity-macros.patch
+	eapply "${FILESDIR}"/${PN}-2.51.0-add-version-macros-for-2-52.patch
+	eapply "${FILESDIR}"/${PN}-2.53.0-gversionmacros-add-version-macros-for-glib-2-54.patch
+	eapply "${FILESDIR}"/${PN}-2.53.2-gstrfuncs-add-replacement-for-string-to-number-functions.patch
+	eapply "${FILESDIR}"/${PN}-2.53.2-gstrfuncs-fix-translation-issues.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/merge_requests/411
 	# 	https://www.openwall.com/lists/oss-security/2018/10/23/5
-	epatch "${FILESDIR}"/${PN}-2.42.2-various-gvariant-gmarkup-and-gdbus-fuzzing-fixes.patch
+	eapply "${FILESDIR}"/${PN}-2.42.2-various-gvariant-gmarkup-and-gdbus-fuzzing-fixes.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174 (CVE-2019-12450)
-	epatch "${FILESDIR}"/${PN}-2.61.1-gfile-limit-access-to-files-when-copying.patch
+	eapply "${FILESDIR}"/${PN}-2.61.1-gfile-limit-access-to-files-when-copying.patch
 
 	# gdbus-codegen is a separate package
-	epatch "${FILESDIR}"/${PN}-2.40.0-external-gdbus-codegen.patch
+	eapply "${FILESDIR}"/${PN}-2.40.0-external-gdbus-codegen.patch
 
 	# Leave python shebang alone - handled by python_replicate_script
 	# We could call python_setup and give configure a valid --with-python
@@ -326,8 +322,6 @@ src_prepare() {
 	# m4_copy: won't overwrite defined macro: glib_DEFUN
 	sed -e "s/m4_copy/m4_copy_force/" \
 		-i m4macros/glib-gettext.m4 || die
-
-	epatch_user
 
 	# Also needed to prevent cross-compile failures, see bug #267603
 	eautoreconf
@@ -360,6 +354,7 @@ multilib_src_configure() {
 	# Always use internal libpcre, bug #254659
 	# libelf used only by the gresource bin
 	ECONF_SOURCE="${S}" gnome2_src_configure ${myconf} \
+		$(usex debug --enable-debug=yes ' ') \
 		$(use_enable xattr) \
 		$(use_enable fam) \
 		$(use_enable selinux) \
@@ -386,7 +381,7 @@ multilib_src_test() {
 	export G_DBUS_COOKIE_SHA1_KEYRING_DIR="${T}/temp"
 	export LC_TIME=C # bug #411967
 	unset GSETTINGS_BACKEND # bug #596380
-	python_export_best
+	python_setup
 
 	# Related test is a bit nitpicking
 	mkdir "$G_DBUS_COOKIE_SHA1_KEYRING_DIR"
@@ -399,7 +394,7 @@ multilib_src_test() {
 	fi
 
 	# Need X for dbus-launch session X11 initialization
-	Xemake check
+	virtx emake check
 }
 
 multilib_src_install() {
@@ -407,7 +402,6 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
-	DOCS="AUTHORS ChangeLog* NEWS* README"
 	einstalldocs
 
 	if use utils ; then

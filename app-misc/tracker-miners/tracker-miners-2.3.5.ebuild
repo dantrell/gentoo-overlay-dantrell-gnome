@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 
 inherit gnome.org gnome2-utils meson python-any-r1 systemd xdg
@@ -53,7 +53,8 @@ RDEPEND="
 	rss? ( >=net-libs/libgrss-0.7:0 )
 	app-arch/gzip
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	dev-util/gdbus-codegen
 
 	>=dev-util/intltool-0.40.0

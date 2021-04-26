@@ -54,7 +54,7 @@
 
 # Requires GLib 2.46 (or greater) and glibmm 2.50 (or greater)
 >=dev-db/mysql-connector-c++-7.0
->=dev-db/mysql-connector-c-7.0
+>=dev-db/mysql-connector-c-9.0
 >=dev-db/mysql-workbench-7.0
 
 # Requires GLib 2.46 (or greater)

@@ -4,18 +4,14 @@
 # adding new dependencies end up making stage3 to grow. Every addition needs
 # then to be think very closely.
 
-EAPI="5"
+EAPI="6"
 PYTHON_COMPAT=( python2_7 )
-# Building with --disable-debug highly unrecommended.  It will build glib in
-# an unusable form as it disables some commonly used API.  Please do not
-# convert this to the use_enable form, as it results in a broken build.
-GCONF_DEBUG="yes"
 # Completely useless with or without USE static-libs, people need to use
 # pkg-config
 GNOME2_LA_PUNT="yes"
 
-inherit autotools bash-completion-r1 gnome2 libtool epatch epunt-cxx flag-o-matic multilib \
-	pax-utils python-r1 toolchain-funcs versionator virtualx linux-info multilib-minimal
+inherit autotools bash-completion-r1 epunt-cxx flag-o-matic gnome2 libtool linux-info \
+	multilib multilib-minimal pax-utils python-r1 toolchain-funcs versionator virtualx
 
 DESCRIPTION="The GLib library of C routines"
 HOMEPAGE="https://www.gtk.org/"
@@ -26,7 +22,7 @@ LICENSE="LGPL-2.1+"
 SLOT="2/46"
 KEYWORDS="*"
 
-IUSE="dbus fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
+IUSE="dbus debug fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
 REQUIRED_USE="
 	utils? ( ${PYTHON_REQUIRED_USE} )
 	test? ( ${PYTHON_REQUIRED_USE} )
@@ -141,8 +137,8 @@ src_prepare() {
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/d0219f25970c740ac1a8965754868d54bcd90eeb
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/7dd9ffbcfff3561d2d1bcd247c052e4c4399623f
-	epatch "${FILESDIR}"/${PN}-2.47.2-glib-add-bounds-checked-unsigned-int-arithmetic.patch
-	epatch "${FILESDIR}"/${PN}-2.47.2-tests-test-bounds-checked-int-arithmetic.patch
+	eapply "${FILESDIR}"/${PN}-2.47.2-glib-add-bounds-checked-unsigned-int-arithmetic.patch
+	eapply "${FILESDIR}"/${PN}-2.47.2-tests-test-bounds-checked-int-arithmetic.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/b36b4941a634af096d21f906caae25ef35161166
@@ -151,24 +147,24 @@ src_prepare() {
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/db2367e8782d7a39fc3e93d13f6a16f10cad04c2
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/ba12fbf8f8861e634def9fc0fb5e9ea603269803
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/f2fb877ef796c543f8ca166c7e05a434f163faf7
-	epatch "${FILESDIR}"/${PN}-2.47.1-glib-add-2-48-availibity-macros.patch
-	epatch "${FILESDIR}"/${PN}-2.47.2-gtrashstack-uninline-and-deprecate.patch
-	epatch "${FILESDIR}"/${PN}-2.47.2-gutils-clean-up-bit-funcs-inlining-mess.patch
-	epatch "${FILESDIR}"/${PN}-2.47.2-glib-clean-up-the-inline-mess-once-and-for-all.patch
-	epatch "${FILESDIR}"/${PN}-2.47.3-gutils-g-bit-inlines-add-visibility-macros.patch
-	epatch "${FILESDIR}"/${PN}-2.47.4-glibconfig-h-win32-in-remove-g-can-inline.patch
+	eapply "${FILESDIR}"/${PN}-2.47.1-glib-add-2-48-availibity-macros.patch
+	eapply "${FILESDIR}"/${PN}-2.47.2-gtrashstack-uninline-and-deprecate.patch
+	eapply "${FILESDIR}"/${PN}-2.47.2-gutils-clean-up-bit-funcs-inlining-mess.patch
+	eapply "${FILESDIR}"/${PN}-2.47.2-glib-clean-up-the-inline-mess-once-and-for-all.patch
+	eapply "${FILESDIR}"/${PN}-2.47.3-gutils-g-bit-inlines-add-visibility-macros.patch
+	eapply "${FILESDIR}"/${PN}-2.47.4-glibconfig-h-win32-in-remove-g-can-inline.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/db641e32920ee8b553ab6f2d318aafa156e4390c
-	epatch "${FILESDIR}"/${PN}-2.47.4-gdbusproxy-fix-a-memory-leak-during-initialization.patch
+	eapply "${FILESDIR}"/${PN}-2.47.4-gdbusproxy-fix-a-memory-leak-during-initialization.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/ec6971b864a3faffadd0bf4a87c7c1b47697fc83
-	epatch "${FILESDIR}"/${PN}-2.47.4-gtypes-h-move-g-static-assert-to-function-scope.patch
+	eapply "${FILESDIR}"/${PN}-2.47.4-gtypes-h-move-g-static-assert-to-function-scope.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/aead1c046dd39748cca449b55ec300ba5f025365
-	epatch "${FILESDIR}"/${PN}-2.47.92-gvariant-text-fix-scan-of-positional-parameters.patch
+	eapply "${FILESDIR}"/${PN}-2.47.92-gvariant-text-fix-scan-of-positional-parameters.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/f9d9f9c056d96eccbb75dcbdef2b58f6d2a3edea
@@ -183,34 +179,34 @@ src_prepare() {
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/8e8f4e6486c1578ae15d63835acd06f237324a6d
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/c79c234c352ff748056a30da6d4a49de0d2f878d
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/359b27d441a4dd701260d041e633e7241c314627
-	epatch "${FILESDIR}"/${PN}-2.47.1-update-to-unicode-8-0.patch
-	epatch "${FILESDIR}"/${PN}-2.47.1-update-unicode-test-data-for-unicode-8.patch
-	epatch "${FILESDIR}"/${PN}-2.47.4-trivial-doc-comment-fix.patch
-	epatch "${FILESDIR}"/${PN}-2.50.1-unicode-update-break-mappings.patch
-	epatch "${FILESDIR}"/${PN}-2.50.1-unicode-update-to-unicode-9-0-0.patch
-	epatch "${FILESDIR}"/${PN}-2.50.1-unicode-update-test-data-files-for-unicode-9-0-0.patch
-	epatch "${FILESDIR}"/${PN}-2.50.1-unicode-fix-ordering-in-iso15924-tags-to-match-gunicodescript-enum.patch
-	epatch "${FILESDIR}"/${PN}-2.53.4-unicode-update-to-unicode-10-0-0.patch
-	epatch "${FILESDIR}"/${PN}-2.53.4-unicode-update-test-data-files-for-unicode-10-0-0.patch
-	epatch "${FILESDIR}"/${PN}-2.55.0-docs-fix-various-minor-syntax-errors-in-gtk-doc-comments.patch
-	epatch "${FILESDIR}"/${PN}-2.57.2-unicode-update-to-unicode-11-0-0.patch
-	epatch "${FILESDIR}"/${PN}-2.57.2-unicode-update-test-data-files-for-unicode-11-0-0.patch
+	eapply "${FILESDIR}"/${PN}-2.47.1-update-to-unicode-8-0.patch
+	eapply "${FILESDIR}"/${PN}-2.47.1-update-unicode-test-data-for-unicode-8.patch
+	eapply "${FILESDIR}"/${PN}-2.47.4-trivial-doc-comment-fix.patch
+	eapply "${FILESDIR}"/${PN}-2.50.1-unicode-update-break-mappings.patch
+	eapply "${FILESDIR}"/${PN}-2.50.1-unicode-update-to-unicode-9-0-0.patch
+	eapply "${FILESDIR}"/${PN}-2.50.1-unicode-update-test-data-files-for-unicode-9-0-0.patch
+	eapply "${FILESDIR}"/${PN}-2.50.1-unicode-fix-ordering-in-iso15924-tags-to-match-gunicodescript-enum.patch
+	eapply "${FILESDIR}"/${PN}-2.53.4-unicode-update-to-unicode-10-0-0.patch
+	eapply "${FILESDIR}"/${PN}-2.53.4-unicode-update-test-data-files-for-unicode-10-0-0.patch
+	eapply "${FILESDIR}"/${PN}-2.55.0-docs-fix-various-minor-syntax-errors-in-gtk-doc-comments.patch
+	eapply "${FILESDIR}"/${PN}-2.57.2-unicode-update-to-unicode-11-0-0.patch
+	eapply "${FILESDIR}"/${PN}-2.57.2-unicode-update-test-data-files-for-unicode-11-0-0.patch
 
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/merge_requests/411
 	# 	https://www.openwall.com/lists/oss-security/2018/10/23/5
-	epatch "${FILESDIR}"/${PN}-2.46.2-various-gvariant-gmarkup-and-gdbus-fuzzing-fixes.patch
+	eapply "${FILESDIR}"/${PN}-2.46.2-various-gvariant-gmarkup-and-gdbus-fuzzing-fixes.patch
 
 	# crash in Firefox when choosing default application, fixed in 2.48.1; bug #577686
-	epatch "${FILESDIR}"/${PN}-2.48.0-GContextSpecificGroup.patch
+	eapply "${FILESDIR}"/${PN}-2.48.0-GContextSpecificGroup.patch
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174 (CVE-2019-12450)
-	epatch "${FILESDIR}"/${PN}-2.61.1-gfile-limit-access-to-files-when-copying.patch
+	eapply "${FILESDIR}"/${PN}-2.61.1-gfile-limit-access-to-files-when-copying.patch
 
 	# gdbus-codegen is a separate package
-	epatch "${FILESDIR}"/${PN}-2.40.0-external-gdbus-codegen.patch
+	eapply "${FILESDIR}"/${PN}-2.40.0-external-gdbus-codegen.patch
 
 	# Leave python shebang alone - handled by python_replicate_script
 	# We could call python_setup and give configure a valid --with-python
@@ -222,8 +218,6 @@ src_prepare() {
 	# m4_copy: won't overwrite defined macro: glib_DEFUN
 	sed -e "s/m4_copy/m4_copy_force/" \
 		-i m4macros/glib-gettext.m4 || die
-
-	epatch_user
 
 	# Also needed to prevent cross-compile failures, see bug #267603
 	eautoreconf
@@ -269,6 +263,7 @@ multilib_src_configure() {
 	# Always use internal libpcre, bug #254659
 	# libelf used only by the gresource bin
 	ECONF_SOURCE="${S}" gnome2_src_configure ${myconf} \
+		$(usex debug --enable-debug=yes ' ') \
 		$(use_enable xattr) \
 		$(use_enable fam) \
 		$(use_enable selinux) \
@@ -295,7 +290,7 @@ multilib_src_test() {
 	export G_DBUS_COOKIE_SHA1_KEYRING_DIR="${T}/temp"
 	export LC_TIME=C # bug #411967
 	unset GSETTINGS_BACKEND # bug #596380
-	python_export_best
+	python_setup
 
 	# Related test is a bit nitpicking
 	mkdir "$G_DBUS_COOKIE_SHA1_KEYRING_DIR"
@@ -308,7 +303,7 @@ multilib_src_test() {
 	fi
 
 	# Need X for dbus-launch session X11 initialization
-	Xemake check
+	virtx emake check
 }
 
 multilib_src_install() {
@@ -317,7 +312,6 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
-	DOCS="AUTHORS ChangeLog* NEWS* README"
 	einstalldocs
 
 	if use utils ; then

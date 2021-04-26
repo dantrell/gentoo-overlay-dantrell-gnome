@@ -1,0 +1,53 @@
+From 4c621fb7eeadb389c22c8ad17f736c70d56ee3e0 Mon Sep 17 00:00:00 2001
+From: Iain Lane <iainl@gnome.org>
+Date: Wed, 11 Jul 2018 15:09:29 +0100
+Subject: gmacros: Add new private g_has_typeof to abstract __typeof__ checks
+
+We have this same check in a few places now, and we might as well
+abstract it out.
+
+Fixes #1440.
+---
+ glib/gmacros.h    | 12 ++++++++++++
+ glib/gmem.h       |  2 +-
+ 2 files changed, 13 insertions(+), 1 deletions(-)
+
+diff --git a/glib/gmacros.h b/glib/gmacros.h
+index cfeb9a00b..9b8ef0e89 100644
+--- a/glib/gmacros.h
++++ b/glib/gmacros.h
+@@ -110,6 +110,18 @@
+ #define G_GNUC_NULL_TERMINATED
+ #endif
+ 
++/*
++ * We can only use __typeof__ on GCC >= 4.8, and not when compiling C++. Since
++ * __typeof__ is used in a few places in GLib, provide a pre-processor symbol
++ * to factor the check out from callers.
++ *
++ * This symbol is private.
++ */
++#undef g_has_typeof
++#if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)) && !defined(__cplusplus)
++#define g_has_typeof
++#endif
++
+ /*
+  * Clang feature detection: http://clang.llvm.org/docs/LanguageExtensions.html
+  * These are not available on GCC, but since the pre-processor doesn't do
+diff --git a/glib/gmem.h b/glib/gmem.h
+index 302809478..1860d014f 100644
+--- a/glib/gmem.h
++++ b/glib/gmem.h
+@@ -110,7 +110,7 @@ gpointer g_try_realloc_n  (gpointer	 mem,
+ 			   gsize	 n_blocks,
+ 			   gsize	 n_block_bytes) G_GNUC_WARN_UNUSED_RESULT;
+ 
+-#if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)) && !defined(__cplusplus) && GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_58
++#if defined(g_has_typeof) && GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_58
+ #define g_clear_pointer(pp, destroy)                                           \
+   G_STMT_START {                                                               \
+     G_STATIC_ASSERT (sizeof *(pp) == sizeof (gpointer));                       \
+-- 
+cgit v1.2.3
+

@@ -160,7 +160,7 @@
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
 ~net-irc/polari-3.36.3::dantrell-gnome-3-36
 ~net-libs/glib-networking-2.64.3::dantrell-gnome-3-36
-~net-libs/gnome-online-accounts-3.36.0::dantrell-gnome-3-36
+~net-libs/gnome-online-accounts-3.36.1::dantrell-gnome-3-36
 ~net-libs/gssdp-1.2.3::dantrell-gnome
 ~net-libs/gtk-vnc-1.0.0::dantrell-gnome
 ~net-libs/gupnp-1.2.4::dantrell-gnome

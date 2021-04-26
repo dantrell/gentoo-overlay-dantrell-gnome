@@ -1,0 +1,85 @@
+From 2e9c31af11b7d2d18052d5bbcdc3611f2f7480f5 Mon Sep 17 00:00:00 2001
+From: Philip Withnall <withnall@endlessm.com>
+Date: Wed, 22 Aug 2018 14:47:52 +0100
+Subject: gmem: Only evaluate pointer argument to g_clear_pointer() once
+
+The new typeof() macro version of g_clear_pointer() was evaluating its
+pointer argument more than once, meaning any side effects would be
+evaluated multiple times.
+
+The existing (other) macro version of g_clear_pointer() was evaluating
+its argument exactly once. This mismatch could have confused people or
+lead to subtle bugs.
+
+See https://gitlab.gnome.org/GNOME/glib/issues/1494.
+
+Signed-off-by: Philip Withnall <withnall@endlessm.com>
+---
+ glib/gmem.h        |  5 +++--
+ glib/tests/utils.c | 27 +++++++++++++++++++++++++++
+ 2 files changed, 30 insertions(+), 2 deletions(-)
+
+diff --git a/glib/gmem.h b/glib/gmem.h
+index 1860d014f..81f8cdde3 100644
+--- a/glib/gmem.h
++++ b/glib/gmem.h
+@@ -114,8 +114,9 @@ gpointer g_try_realloc_n  (gpointer	 mem,
+ #define g_clear_pointer(pp, destroy)                                           \
+   G_STMT_START {                                                               \
+     G_STATIC_ASSERT (sizeof *(pp) == sizeof (gpointer));                       \
+-    __typeof__(*(pp)) _ptr = *(pp);                                            \
+-    *(pp) = NULL;                                                              \
++    __typeof__((pp)) _pp = (pp);                                               \
++    __typeof__(*(pp)) _ptr = *_pp;                                             \
++    *_pp = NULL;                                                               \
+     if (_ptr)                                                                  \
+       (destroy) (_ptr);                                                        \
+   } G_STMT_END
+diff --git a/glib/tests/utils.c b/glib/tests/utils.c
+index 95c6138e4..79bc08184 100644
+--- a/glib/tests/utils.c
++++ b/glib/tests/utils.c
+@@ -533,6 +533,32 @@ test_clear_pointer_cast (void)
+   g_assert_null (hash_table);
+ }
+ 
++/* Test that the macro version of g_clear_pointer() only evaluates its argument
++ * once, just like the function version would. */
++static void
++test_clear_pointer_side_effects (void)
++{
++  gchar **my_string_array, **i;
++
++  my_string_array = g_new0 (gchar*, 3);
++  my_string_array[0] = g_strdup ("hello");
++  my_string_array[1] = g_strdup ("there");
++  my_string_array[2] = NULL;
++
++  i = my_string_array;
++
++  g_clear_pointer (i++, g_free);
++
++  g_assert_true (i == &my_string_array[1]);
++  g_assert_null (my_string_array[0]);
++  g_assert_nonnull (my_string_array[1]);
++  g_assert_null (my_string_array[2]);
++
++  g_free (my_string_array[1]);
++  g_free (my_string_array[2]);
++  g_free (my_string_array);
++}
++
+ static int obj_count;
+ 
+ static void
+@@ -673,6 +699,7 @@ main (int   argc,
+   g_test_add_func ("/utils/specialdir/desktop", test_desktop_special_dir);
+   g_test_add_func ("/utils/clear-pointer", test_clear_pointer);
+   g_test_add_func ("/utils/clear-pointer-cast", test_clear_pointer_cast);
++  g_test_add_func ("/utils/clear-pointer/side-effects", test_clear_pointer_side_effects);
+   g_test_add_func ("/utils/take-pointer", test_take_pointer);
+   g_test_add_func ("/utils/clear-source", test_clear_source);
+   g_test_add_func ("/utils/misc-mem", test_misc_mem);
+-- 
+cgit v1.2.3
+

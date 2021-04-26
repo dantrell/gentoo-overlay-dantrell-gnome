@@ -1,0 +1,37 @@
+From ade324f6fa6274fd2a925b4c8f9cb0ee4956a27f Mon Sep 17 00:00:00 2001
+From: Philip Withnall <withnall@endlessm.com>
+Date: Thu, 21 Dec 2017 17:49:05 +0000
+Subject: build: Enable -fno-strict-aliasing
+
+GLib makes various assumptions about aliasing throughout its codebase,
+and compiling with -fstrict-aliasing has been demonstrated to cause
+problems (for example, bug #791622). Explicitly disable strict aliasing
+as a result.
+
+Signed-off-by: Philip Withnall <withnall@endlessm.com>
+---
+ configure.ac | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/configure.ac b/configure.ac
+index c0d29357d..b28dbfbe0 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -2630,6 +2630,14 @@ AS_IF([ test "x$use_gcov" = "xyes"], [
+   LDFLAGS="$LDFLAGS -lgcov"
+ ])
+ 
++dnl *******************************
++dnl *** Disable strict aliasing ***
++dnl *******************************
++dnl See https://bugzilla.gnome.org/show_bug.cgi?id=791622
++AS_IF([test "${GCC}" = "yes"],[
++  CFLAGS="$CFLAGS -fno-strict-aliasing"
++])
++
+ dnl ******************************
+ dnl *** output the whole stuff ***
+ dnl ******************************
+-- 
+cgit v1.2.3
+

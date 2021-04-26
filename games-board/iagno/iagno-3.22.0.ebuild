@@ -2,6 +2,7 @@
 
 EAPI="6"
 VALA_MIN_API_VERSION="0.28"
+VALA_MAX_API_VERSION="0.50"
 
 inherit gnome2 vala
 

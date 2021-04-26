@@ -224,11 +224,23 @@ src_prepare() {
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/0110f2a810cfd638a0a6525deb69aeec7a0f0cab
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/433fc9475d351f3529bea0ea18a443eb5ec7f3dc
 	# 	https://gitlab.gnome.org/GNOME/glib/commit/6fffce2588b19e5c80915cc9f713fc51d6dd3879
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/97d24b93ab05762ec53785b5ec1c68e8d660b054
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/ade324f6fa6274fd2a925b4c8f9cb0ee4956a27f
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/1a6be022600550272638e858a7fbef5e57ce45ba
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/f9a9902aac826ab4aecc25f6eb533a418a4fa559
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/4c621fb7eeadb389c22c8ad17f736c70d56ee3e0
+	# 	https://gitlab.gnome.org/GNOME/glib/commit/2e9c31af11b7d2d18052d5bbcdc3611f2f7480f5
 	eapply "${FILESDIR}"/${PN}-2.43.4-add-new-api-g-steal-pointer.patch
 	eapply "${FILESDIR}"/${PN}-2.43.4-tests-add-a-test-case-for-g-steal-pointer.patch
 	eapply "${FILESDIR}"/${PN}-2.43.4-g-steal-pointer-make-it-c-clean.patch
 	eapply "${FILESDIR}"/${PN}-2.43.4-gmem-h-gthread-h-include-glib-gutils-h.patch
 	eapply "${FILESDIR}"/${PN}-2.43.92-docs-clean-up-a-few-glib-issues.patch
+	eapply "${FILESDIR}"/${PN}-2.55.1-glib-fix-strict-aliasing-warnings-with-g-clear-pointer.patch
+	eapply "${FILESDIR}"/${PN}-2.55.1-build-enable-fno-strict-aliasing.patch
+	eapply "${FILESDIR}"/${PN}-2.57.2-gmem-h-use-typeof-in-g-steal-pointer-macro.patch
+	eapply "${FILESDIR}"/${PN}-2.57.2-gmem-h-use-typeof-in-the-g-clear-pointer-macro.patch
+	eapply "${FILESDIR}"/${PN}-2.57.2-gmacros-add-new-private-g-has-typeof-to-abstract-typeof-checks.patch
+	eapply "${FILESDIR}"/${PN}-2.57.3-gmem-only-evaluate-pointer-argument-to-g-clear-pointer-once.patch
 
 	# From glib-2.44.1.tar.xz:
 	# 	Prevent build failure due to missing (generated) declarations

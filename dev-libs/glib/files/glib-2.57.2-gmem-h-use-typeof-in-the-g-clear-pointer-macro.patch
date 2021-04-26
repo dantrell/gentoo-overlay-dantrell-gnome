@@ -1,0 +1,87 @@
+From f9a9902aac826ab4aecc25f6eb533a418a4fa559 Mon Sep 17 00:00:00 2001
+From: Iain Lane <iainl@gnome.org>
+Date: Tue, 10 Jul 2018 15:48:58 +0100
+Subject: gmem.h: Use __typeof__() in the g_clear_pointer() macro
+
+Type punning is used on the existing implementation, which hides errors
+such as:
+
+  GSList *list = NULL;
+  g_clear_pointer (&list, g_error_free);
+
+Let's use __typeof__ to cast the passed-in pointer before it's passed to
+the free function so it trips -Wincompatible-pointer-types if it's wrong.
+
+Fixes #1425
+---
+ glib/gmem.h        | 11 +++++++++++
+ glib/tests/utils.c | 17 +++++++++++++++++
+ 2 files changed, 28 insertions(+)
+
+diff --git a/glib/gmem.h b/glib/gmem.h
+index 5cccb045c..302809478 100644
+--- a/glib/gmem.h
++++ b/glib/gmem.h
+@@ -110,6 +110,16 @@ gpointer g_try_realloc_n  (gpointer	 mem,
+ 			   gsize	 n_blocks,
+ 			   gsize	 n_block_bytes) G_GNUC_WARN_UNUSED_RESULT;
+ 
++#if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)) && !defined(__cplusplus) && GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_58
++#define g_clear_pointer(pp, destroy)                                           \
++  G_STMT_START {                                                               \
++    G_STATIC_ASSERT (sizeof *(pp) == sizeof (gpointer));                       \
++    __typeof__(*(pp)) _ptr = *(pp);                                            \
++    *(pp) = NULL;                                                              \
++    if (_ptr)                                                                  \
++      (destroy) (_ptr);                                                        \
++  } G_STMT_END
++#else /* __GNUC__ */
+ #define g_clear_pointer(pp, destroy) \
+   G_STMT_START {                                                               \
+     G_STATIC_ASSERT (sizeof *(pp) == sizeof (gpointer));                       \
+@@ -127,6 +137,7 @@ gpointer g_try_realloc_n  (gpointer	 mem,
+         _destroy (_p);                                                         \
+       }                                                                        \
+   } G_STMT_END
++#endif /* __GNUC__ */
+ 
+ /**
+  * g_steal_pointer:
+diff --git a/glib/tests/utils.c b/glib/tests/utils.c
+index 7f8edd8da..95c6138e4 100644
+--- a/glib/tests/utils.c
++++ b/glib/tests/utils.c
+@@ -517,6 +517,22 @@ test_clear_pointer (void)
+   g_assert (a == NULL);
+ }
+ 
++/* Test that g_clear_pointer() works with a GDestroyNotify which contains a cast.
++ * See https://gitlab.gnome.org/GNOME/glib/issues/1425 */
++static void
++test_clear_pointer_cast (void)
++{
++  GHashTable *hash_table = NULL;
++
++  hash_table = g_hash_table_new (g_str_hash, g_str_equal);
++
++  g_assert_nonnull (hash_table);
++
++  g_clear_pointer (&hash_table, (void (*) (GHashTable *)) g_hash_table_destroy);
++
++  g_assert_null (hash_table);
++}
++
+ static int obj_count;
+ 
+ static void
+@@ -656,6 +672,7 @@ main (int   argc,
+   g_test_add_func ("/utils/specialdir", test_special_dir);
+   g_test_add_func ("/utils/specialdir/desktop", test_desktop_special_dir);
+   g_test_add_func ("/utils/clear-pointer", test_clear_pointer);
++  g_test_add_func ("/utils/clear-pointer-cast", test_clear_pointer_cast);
+   g_test_add_func ("/utils/take-pointer", test_take_pointer);
+   g_test_add_func ("/utils/clear-source", test_clear_source);
+   g_test_add_func ("/utils/misc-mem", test_misc_mem);
+-- 
+cgit v1.2.3
+

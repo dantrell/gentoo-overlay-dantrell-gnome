@@ -2,7 +2,7 @@
 
 EAPI="7"
 
-inherit meson xdg vala virtualx
+inherit gnome.org meson xdg vala virtualx
 
 DESCRIPTION="Building blocks for modern adaptive GNOME apps"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/libhandy"
@@ -27,12 +27,12 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	vala? ( $(vala_depend) )
 	dev-libs/libxml2:2
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	gtk-doc? ( dev-util/gtk-doc
 		app-text/docbook-xml-dtd:4.3 )
+	vala? ( $(vala_depend) )
 "
 
 src_prepare() {

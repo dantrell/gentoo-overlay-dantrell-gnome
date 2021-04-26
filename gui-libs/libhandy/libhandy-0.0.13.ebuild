@@ -2,7 +2,7 @@
 
 EAPI="7"
 
-inherit meson xdg vala virtualx
+inherit gnome.org meson xdg vala virtualx
 
 MY_P="${PN}-v${PV}"
 
@@ -27,18 +27,19 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	vala? ( $(vala_depend) )
 	dev-libs/libxml2:2
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	gtk-doc? ( dev-util/gtk-doc
 		app-text/docbook-xml-dtd:4.3 )
+	vala? ( $(vala_depend) )
 "
 
 S="${WORKDIR}/${MY_P}"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.0.13-glade3.36-compat{1,2}.patch
+	"${FILESDIR}"/${PN}-0.0.13-glade3.37-compat.patch
 )
 
 src_prepare() {
