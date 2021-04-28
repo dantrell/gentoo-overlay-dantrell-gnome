@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
-inherit cmake-utils multilib
+inherit cmake-utils
 
 DESCRIPTION="A linkable library for Git"
 HOMEPAGE="https://libgit2.org"
@@ -17,8 +17,8 @@ IUSE="examples gssapi libressl +ssh test +threads trace"
 RESTRICT="!test? ( test )"
 
 RDEPEND="
-	!libressl? ( dev-libs/openssl:0 )
-	libressl? ( dev-libs/libressl )
+	!libressl? ( dev-libs/openssl:0= )
+	libressl? ( dev-libs/libressl:0= )
 	sys-libs/zlib
 	net-libs/http-parser:=
 	gssapi? ( virtual/krb5 )
@@ -27,8 +27,6 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 "
-
-DOCS=( AUTHORS CONTRIBUTING.md CONVENTIONS.md README.md )
 
 src_prepare() {
 	# skip online tests
@@ -64,7 +62,7 @@ src_install() {
 	cmake-utils_src_install
 
 	if use examples ; then
-		egit_clean examples
+		find examples -name '.gitignore' -delete || die
 		dodoc -r examples
 		docompress -x /usr/share/doc/${PF}/examples
 	fi

@@ -23,7 +23,7 @@ RDEPEND="
 	>=gnome-base/libgtop-2.34.0:2
 "
 DEPEND="${RDEPEND}
-	${vala_depend}
+	$(vala_depend)
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 "

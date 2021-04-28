@@ -45,7 +45,7 @@ RDEPEND="${COMMON_DEPEND}
 	x11-themes/adwaita-icon-theme
 "
 DEPEND="${COMMON_DEPEND}
-	${vala_depend}
+	$(vala_depend)
 	app-text/docbook-xml-dtd:4.1.2
 	app-text/yelp-tools
 	>=dev-util/gtk-doc-am-1
