@@ -176,7 +176,7 @@
 ~sci-geosciences/geocode-glib-3.26.2::dantrell-gnome
 ~sci-geosciences/gnome-maps-3.38.4::dantrell-gnome-3-38
 ~sys-apps/gnome-disk-utility-3.38.2::dantrell-gnome-3-38
-~www-client/epiphany-3.38.3::dantrell-gnome-3-38
+~www-client/epiphany-3.38.4::dantrell-gnome-3-38
 ~x11-libs/gdk-pixbuf-2.40.0::dantrell-gnome
 ~x11-libs/gtk+-3.24.5::dantrell-gnome
 ~x11-libs/libnotify-0.7.9::dantrell-gnome
