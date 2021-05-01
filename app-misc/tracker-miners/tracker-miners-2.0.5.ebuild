@@ -16,7 +16,7 @@ KEYWORDS="*"
 IUSE=""
 
 RDEPEND="
-	>=app-misc/tracker-2:0
+	>=app-misc/tracker-2:0=
 "
 DEPEND="${RDEPEND}
 	${PYTHON_DEPS}

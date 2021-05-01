@@ -12,13 +12,12 @@ LICENSE="GPL-2-with-linking-exception"
 SLOT="0/24"
 KEYWORDS="*"
 
-IUSE="examples gssapi libressl +ssh test +threads trace"
+IUSE="examples gssapi +ssh test +threads trace"
 
 RESTRICT="!test? ( test )"
 
 RDEPEND="
-	!libressl? ( dev-libs/openssl:0= )
-	libressl? ( dev-libs/libressl:0= )
+	dev-libs/openssl:0=
 	sys-libs/zlib
 	net-libs/http-parser:=
 	gssapi? ( virtual/krb5 )

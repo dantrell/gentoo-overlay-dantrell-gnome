@@ -13,7 +13,7 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="libressl lz4 sasl smartcard static-libs gstreamer"
+IUSE="lz4 sasl smartcard static-libs gstreamer"
 
 # the libspice-server only uses the headers of libcacard
 RDEPEND="
@@ -23,8 +23,7 @@ RDEPEND="
 	sys-libs/zlib[static-libs(+)?]
 	virtual/jpeg:0=[static-libs(+)?]
 	>=x11-libs/pixman-0.17.7[static-libs(+)?]
-	!libressl? ( dev-libs/openssl:0=[static-libs(+)?] )
-	libressl? ( dev-libs/libressl:0=[static-libs(+)?] )
+	dev-libs/openssl:0=[static-libs(+)?]
 	lz4? ( app-arch/lz4:0=[static-libs(+)?] )
 	smartcard? ( >=app-emulation/libcacard-0.1.2 )
 	sasl? ( dev-libs/cyrus-sasl[static-libs(+)?] )

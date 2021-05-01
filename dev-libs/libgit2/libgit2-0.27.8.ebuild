@@ -14,13 +14,12 @@ LICENSE="GPL-2-with-linking-exception"
 SLOT="0/27"
 KEYWORDS="*"
 
-IUSE="+curl examples gssapi libressl +ssh test +threads trace"
+IUSE="+curl examples gssapi +ssh test +threads trace"
 
 RESTRICT="!test? ( test )"
 
 RDEPEND="
-	!libressl? ( dev-libs/openssl:0= )
-	libressl? ( dev-libs/libressl:0= )
+	dev-libs/openssl:0=
 	sys-libs/zlib
 	net-libs/http-parser:=
 	curl? (

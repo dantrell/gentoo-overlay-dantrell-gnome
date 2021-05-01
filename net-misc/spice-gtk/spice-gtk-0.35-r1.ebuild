@@ -13,15 +13,14 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="dbus gstaudio gstvideo gtk3 +introspection libressl lz4 mjpeg policykit pulseaudio sasl smartcard static-libs usbredir vala webdav"
+IUSE="dbus gstaudio gstvideo gtk3 +introspection lz4 mjpeg policykit pulseaudio sasl smartcard static-libs usbredir vala webdav"
 REQUIRED_USE="?? ( pulseaudio gstaudio )"
 
 # TODO:
 # * check if sys-freebsd/freebsd-lib (from virtual/acl) provides acl/libacl.h
 # * use external pnp.ids as soon as that means not pulling in gnome-desktop
 RDEPEND="
-	!libressl? ( dev-libs/openssl:0= )
-	libressl? ( dev-libs/libressl:0= )
+	dev-libs/openssl:0=
 	pulseaudio? ( media-sound/pulseaudio[glib] )
 	gstvideo? (
 		media-libs/gstreamer:1.0
