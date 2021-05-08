@@ -1,9 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 
-inherit eutils gnome2
+inherit gnome2
 
 DESCRIPTION="Library providing a virtual terminal emulator widget"
 HOMEPAGE="https://wiki.gnome.org/Apps/Terminal/VTE"
@@ -36,7 +35,7 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	# https://bugzilla.gnome.org/show_bug.cgi?id=663779
-	epatch "${FILESDIR}"/${PN}-0.30.1-alt-meta.patch
+	eapply "${FILESDIR}"/${PN}-0.30.1-alt-meta.patch
 	gnome2_src_prepare
 }
 
@@ -63,7 +62,6 @@ src_configure() {
 }
 
 src_install() {
-	DOCS="AUTHORS ChangeLog HACKING NEWS README"
 	gnome2_src_install
 	rm -v "${ED}usr/libexec/gnome-pty-helper" || die
 }

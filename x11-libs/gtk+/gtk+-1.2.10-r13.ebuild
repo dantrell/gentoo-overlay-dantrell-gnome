@@ -1,48 +1,51 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-
-GNOME_TARBALL_SUFFIX="gz"
+EAPI="7"
 GNOME2_LA_PUNT="yes"
+GNOME_TARBALL_SUFFIX="gz"
 
-inherit autotools eutils flag-o-matic gnome2 toolchain-funcs multilib-minimal
+inherit autotools flag-o-matic gnome2 toolchain-funcs multilib-minimal
 
 DESCRIPTION="The GTK Project (formerly GTK+, The GIMP Toolkit)"
 HOMEPAGE="https://www.gtk.org/"
-SRC_URI="${SRC_URI} http://www.ibiblio.org/gentoo/distfiles/gtk+-1.2.10-r8-gentoo.diff.bz2"
 
 LICENSE="LGPL-2.1+"
 SLOT="1"
 KEYWORDS="*"
 
-IUSE="nls debug"
+IUSE="+debug nls"
 
 # Supported languages and translated documentation
 # Be sure all languages are prefixed with a single space!
 MY_AVAILABLE_LINGUAS=" az ca cs da de el es et eu fi fr ga gl hr hu it ja ko lt nl nn no pl pt_BR pt ro ru sk sl sr sv tr uk vi"
 IUSE="${IUSE} ${MY_AVAILABLE_LINGUAS// / linguas_}"
 
-RDEPEND=">=dev-libs/glib-1.2.10-r6:1[${MULTILIB_USEDEP}]
+RDEPEND="
+	>=dev-libs/glib-1.2.10-r6:1[${MULTILIB_USEDEP}]
 	>=x11-libs/libX11-1.5.0-r1[${MULTILIB_USEDEP}]
 	>=x11-libs/libXext-1.3.1-r1[${MULTILIB_USEDEP}]
 	>=x11-libs/libXi-1.7.2[${MULTILIB_USEDEP}]
-	>=x11-libs/libXt-1.1.4[${MULTILIB_USEDEP}]"
-DEPEND="${RDEPEND}
+	>=x11-libs/libXt-1.1.4[${MULTILIB_USEDEP}]
+"
+DEPEND="${RDEPEND}"
+BDEPEND="
 	x11-base/xorg-proto
-	nls? ( sys-devel/gettext dev-util/intltool )"
+	nls? ( sys-devel/gettext dev-util/intltool )
+"
 
 MULTILIB_CHOST_TOOLS=(/usr/bin/gtk-config)
 
 src_prepare() {
 	append-cflags -std=gnu89
-	epatch "${FILESDIR}"/${P}-m4.patch
-	epatch "${FILESDIR}"/${P}-automake.patch
-	epatch "${FILESDIR}"/${P}-cleanup.patch
-	epatch "${DISTDIR}"/gtk+-1.2.10-r8-gentoo.diff.bz2
-	epatch "${FILESDIR}"/${PN}-1.2-locale_fix.patch
-	epatch "${FILESDIR}"/${P}-as-needed.patch
+	eapply "${FILESDIR}"/${PN}-1.2.10-m4.patch
+	eapply "${FILESDIR}"/${PN}-1.2.10-automake.patch
+	eapply "${FILESDIR}"/${PN}-1.2.10-cleanup.patch
+	eapply "${FILESDIR}"/${PN}-1.2.10-r8-gentoo.diff
+	eapply "${FILESDIR}"/${PN}-1.2-locale_fix.patch
+	eapply "${FILESDIR}"/${PN}-1.2.10-as-needed.patch
 	sed -i '/libtool.m4/,/AM_PROG_NM/d' acinclude.m4 #168198
-	epatch "${FILESDIR}"/${P}-automake-1.13.patch #467520
+	eapply "${FILESDIR}"/${PN}-1.2.10-automake-1.13.patch #467520
+	mv configure.in configure.ac || die #426262
 	eautoreconf
 	gnome2_src_prepare
 }
@@ -81,7 +84,8 @@ multilib_src_install_all() {
 	docinto docs
 	cd docs
 	dodoc *.txt *.gif text/*
-	dohtml -r html
+	docinto html
+	dodoc -r html/.
 
 	#install nice, clean-looking gtk+ style
 	insinto /usr/share/themes/Gentoo/gtk

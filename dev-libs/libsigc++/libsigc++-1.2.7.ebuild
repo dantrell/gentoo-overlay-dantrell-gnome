@@ -1,10 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="yes"
+EAPI="7"
 GNOME_TARBALL_SUFFIX="bz2"
 
-inherit autotools gnome2 eutils
+inherit autotools gnome2
 
 DESCRIPTION="Typesafe callback system for standard C++"
 HOMEPAGE="https://libsigcplusplus.github.io/libsigcplusplus/
@@ -17,11 +16,12 @@ KEYWORDS="*"
 IUSE=""
 
 RDEPEND=""
-DEPEND="sys-devel/m4"
+DEPEND="${RDEPEND}"
+BDEPEND="
+	sys-devel/m4
+"
 
 src_prepare() {
-	DOCS="AUTHORS ChangeLog FEATURES IDEAS README NEWS TODO"
-
 	# fixes bug #219041
 	sed -e 's:ACLOCAL_AMFLAGS = -I $(srcdir)/scripts:ACLOCAL_AMFLAGS = -I scripts:' \
 		-i Makefile.{in,am}
@@ -30,7 +30,7 @@ src_prepare() {
 	sed -e 's:AM_CONFIG_HEADER:AC_CONFIG_HEADERS:g' -i configure.in || die
 
 	# Fix duplicated file installation, bug #346949
-	epatch "${FILESDIR}"/${P}-fix-install.patch
+	eapply "${FILESDIR}"/${PN}-1.2.7-fix-install.patch
 
 	eautoreconf
 	gnome2_src_prepare

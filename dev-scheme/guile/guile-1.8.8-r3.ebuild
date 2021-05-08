@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
-inherit epatch autotools flag-o-matic elisp-common
+inherit autotools flag-o-matic elisp-common
 
 DESCRIPTION="GNU Ubiquitous Intelligent Language for Extensions"
 HOMEPAGE="https://www.gnu.org/software/guile/"
@@ -31,21 +31,20 @@ DEPEND="${RDEPEND}
 	sys-devel/libtool"
 
 src_prepare() {
-	epatch "${FILESDIR}"/${P}-fix_guile-config.patch \
-		"${FILESDIR}"/${P}-gcc46.patch \
-		"${FILESDIR}"/${P}-gcc5.patch \
-		"${FILESDIR}"/${P}-makeinfo-5.patch \
-		"${FILESDIR}"/${P}-gtexinfo-5.patch \
-		"${FILESDIR}"/${P}-readline.patch \
-		"${FILESDIR}"/${P}-tinfo.patch \
-		"${FILESDIR}"/${P}-sandbox.patch \
-		"${FILESDIR}"/${P}-mkdir-mask.patch \
-		"${FILESDIR}"/${PN}-1.8.8-texinfo-6.7.patch
+	eapply "${FILESDIR}"/${P}-fix_guile-config.patch
+	eapply "${FILESDIR}"/${P}-gcc46.patch
+	eapply "${FILESDIR}"/${P}-gcc5.patch
+	eapply "${FILESDIR}"/${P}-makeinfo-5.patch
+	eapply "${FILESDIR}"/${P}-gtexinfo-5.patch
+	eapply "${FILESDIR}"/${P}-readline.patch
+	eapply "${FILESDIR}"/${P}-tinfo.patch
+	eapply "${FILESDIR}"/${P}-sandbox.patch
+	eapply "${FILESDIR}"/${P}-mkdir-mask.patch
+	eapply "${FILESDIR}"/${PN}-1.8.8-texinfo-6.7.patch
 
-	sed \
-		-e "s/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/g" \
+	sed -e "s/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/g" \
 		-e "/AM_PROG_CC_STDC/d" \
-		-i guile-readline/configure.in
+		-i guile-readline/configure.in || die
 
 	epatch_user
 
@@ -84,13 +83,13 @@ src_configure() {
 		EMACS=no
 }
 
-src_compile()  {
+src_compile() {
 	emake
 
 	# Above we have disabled the build system's Emacs support;
 	# for USE=emacs we compile (and install) the files manually
 	if use emacs; then
-		cd emacs
+		cd emacs || die
 		elisp-compile *.el || die
 	fi
 }
@@ -123,7 +122,6 @@ src_install() {
 }
 
 pkg_postinst() {
-	[ "${EROOT}" == "/" ] && pkg_config
 	use emacs && elisp-site-regen
 }
 

@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-
+EAPI="7"
 GNOME_TARBALL_SUFFIX="bz2"
 PYTHON_COMPAT=( python2_7 )
 
@@ -12,7 +11,7 @@ HOMEPAGE="https://gitlab.gnome.org/Archive/pygtk"
 
 LICENSE="LGPL-2.1"
 SLOT="2"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="doc examples test"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
@@ -32,7 +31,8 @@ RDEPEND="${PYTHON_DEPS}
 	)
 	>=gnome-base/libglade-2.5:2.0
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	virtual/pkgconfig
 	doc? (
 		dev-libs/libxslt
@@ -48,7 +48,7 @@ PATCHES=(
 	# Fail when tests are failing, bug #391307
 	"${FILESDIR}"/${PN}-2.24.0-test-fail.patch
 	# Fix broken tests, https://bugzilla.gnome.org/show_bug.cgi?id=709304
-	"${FILESDIR}"/${P}-test_dialog.patch
+	"${FILESDIR}"/${PN}-2.24.0-test_dialog.patch
 	# Fix build on Darwin
 	"${FILESDIR}"/${PN}-2.24.0-quartz-objc.patch
 	# From GNOME:

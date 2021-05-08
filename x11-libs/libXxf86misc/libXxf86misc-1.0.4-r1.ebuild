@@ -6,7 +6,7 @@ inherit xorg-3
 
 DESCRIPTION="X.Org Xxf86misc library"
 
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 

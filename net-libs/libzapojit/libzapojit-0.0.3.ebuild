@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="7"
 
 inherit gnome2
 
@@ -12,7 +11,7 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="+introspection"
+IUSE="debug +introspection"
 
 RDEPEND="
 	>=dev-libs/glib-2.28:2
@@ -23,7 +22,8 @@ RDEPEND="
 
 	introspection? ( >=dev-libs/gobject-introspection-1.30.0:= )
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	>=dev-util/gtk-doc-am-1.11
 	>=dev-util/intltool-0.35.0
 	sys-devel/gettext
@@ -34,6 +34,7 @@ DEPEND="${RDEPEND}
 
 src_configure() {
 	gnome2_src_configure \
-		--disable-static \
-		$(use_enable introspection)
+		$(usex debug --enable-debug=yes ' ') \
+		$(use_enable introspection) \
+		--disable-static
 }

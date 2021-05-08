@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
-inherit autotools eutils linux-info ltprune pam systemd
+inherit autotools linux-info pam systemd
 
 MY_PN=ConsoleKit
 MY_P=${MY_PN}-${PV}
@@ -56,12 +56,15 @@ pkg_setup() {
 	fi
 }
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-cleanup_console_tags.patch
+	"${FILESDIR}"/${PN}-shutdown-reboot-without-policies.patch
+	"${FILESDIR}"/${PN}-udev-acl-install_to_usr.patch
+	"${FILESDIR}"/${PN}-0.4.5-polkit-automagic.patch
+)
+
 src_prepare() {
-	epatch \
-		"${FILESDIR}"/${PN}-cleanup_console_tags.patch \
-		"${FILESDIR}"/${PN}-shutdown-reboot-without-policies.patch \
-		"${FILESDIR}"/${PN}-udev-acl-install_to_usr.patch \
-		"${FILESDIR}"/${PN}-0.4.5-polkit-automagic.patch
+	default
 
 	if ! use systemd-units; then
 		sed -i -e '/SystemdService/d' data/org.freedesktop.ConsoleKit.service.in || die
@@ -73,7 +76,7 @@ src_prepare() {
 src_configure() {
 	local myconf
 	if use systemd-units; then
-		myconf="$(systemd_with_unitdir)"
+		myconf="--with-systemdsystemunitdir="$(systemd_get_systemunitdir)""
 	else
 		myconf="--with-systemdsystemunitdir=/tmp"
 	fi
@@ -116,7 +119,7 @@ src_install() {
 	exeinto /usr/lib/ConsoleKit/run-session.d
 	doexe "${FILESDIR}"/pam-foreground-compat.ck
 
-	prune_libtool_files --all # --all for pam_ck_connector.la
+	find "${ED}" -type f -name "*.la" -delete || die # for pam_ck_connector.la
 
 	use systemd-units || rm -rf "${ED}"/tmp
 

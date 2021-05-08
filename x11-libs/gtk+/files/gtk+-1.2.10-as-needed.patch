@@ -1,5 +1,5 @@
---- gtk+-1.2.10/acinclude.m4.orig	2006-05-24 23:23:51.000000000 -0700
-+++ gtk+-1.2.10/acinclude.m4	2006-05-24 23:23:19.000000000 -0700
+--- a/acinclude.m4	2006-05-24 23:23:51.000000000 -0700
++++ b/acinclude.m4	2006-05-24 23:23:19.000000000 -0700
 @@ -672,7 +672,7 @@
       AC_DEFINE(HAVE_STPCPY)
     fi
@@ -9,8 +9,8 @@
     AM_GTK_WITH_NLS
  
     if test "x$CATOBJEXT" != "x"; then
---- gtk+-1.2.10/gtk.m4.orig	2006-05-24 23:32:00.000000000 -0700
-+++ gtk+-1.2.10/gtk.m4	2006-05-24 23:36:16.000000000 -0700
+--- a/gtk.m4	2006-05-24 23:32:00.000000000 -0700
++++ b/gtk.m4	2006-05-24 23:36:16.000000000 -0700
 @@ -1,6 +1,11 @@
  # Configure paths for GTK+
  # Owen Taylor     97-11-3
@@ -24,8 +24,8 @@
  dnl AM_PATH_GTK([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND [, MODULES]]]])
  dnl Test for GTK, and define GTK_CFLAGS and GTK_LIBS
  dnl
---- gtk+-1.2.10/configure.in.orig	2006-05-25 05:45:06.000000000 -0700
-+++ gtk+-1.2.10/configure.in	2006-05-25 05:44:08.000000000 -0700
+--- a/configure.in	2006-05-25 05:45:06.000000000 -0700
++++ b/configure.in	2006-05-25 05:44:08.000000000 -0700
 @@ -1,6 +1,8 @@
 +builtin(include,gtk.m4)
 +
@@ -617,8 +617,8 @@
  
  .PHONY: files
  
---- gtk+-1.2.10/gtk/Makefile.am.orig	2006-05-25 07:40:45.000000000 -0700
-+++ gtk+-1.2.10/gtk/Makefile.am	2006-05-25 07:43:20.000000000 -0700
+--- a/gtk/Makefile.am	2006-05-25 07:40:45.000000000 -0700
++++ b/gtk/Makefile.am	2006-05-25 07:43:20.000000000 -0700
 @@ -27,13 +27,15 @@
  	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)	\
  	-release $(LT_RELEASE) 					\

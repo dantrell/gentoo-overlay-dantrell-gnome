@@ -140,12 +140,15 @@ gnome-base/gnome-menus::gentoo
 gnome-base/gnome-panel::gentoo
 gnome-base/gnome-shell-common::gentoo
 gnome-base/gsettings-desktop-schemas::gentoo
+gnome-base/libbonobo::gentoo
+gnome-base/libbonoboui::gentoo
 gnome-base/libgnome-keyring::gentoo
 gnome-base/libgnome::gentoo
 gnome-base/libgnomekbd::gentoo
 gnome-base/libgnomeui::gentoo
 gnome-base/libgtop::gentoo
 gnome-base/librsvg::gentoo
+gnome-base/orbit::gentoo
 gnome-extra/california::gentoo
 gnome-extra/gnome-characters::gentoo
 gnome-extra/gnome-color-manager::gentoo
@@ -295,6 +298,7 @@ x11-libs/gtk+::gentoo
 x11-libs/gtksourceview::gentoo
 x11-libs/libXxf86misc::gentoo
 x11-libs/libcryptui::gentoo
+x11-libs/libfm-extra::gentoo
 x11-libs/libfm::gentoo
 x11-libs/libnotify::gentoo
 x11-libs/libwnck::gentoo

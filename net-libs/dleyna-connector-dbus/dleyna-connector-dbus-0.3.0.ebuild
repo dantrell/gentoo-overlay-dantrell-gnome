@@ -20,7 +20,9 @@ RDEPEND="
 	>=sys-apps/dbus-1
 "
 DEPEND="${RDEPEND}"
-BDEPEND="virtual/pkgconfig"
+BDEPEND="
+	virtual/pkgconfig
+"
 
 src_prepare() {
 	default

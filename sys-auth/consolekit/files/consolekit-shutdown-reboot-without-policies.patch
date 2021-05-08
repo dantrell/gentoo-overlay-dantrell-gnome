@@ -6,8 +6,8 @@ Ck does NOTHING at the origin if its built without polkit or RBAC supports, exce
 display a warning using g_warning() (which does not make sense).
 The trick is to to call do_stop()/do_restart() in the #else directive :)
 
---- src/ck-manager.c
-+++ src/ck-manager.c
+--- a/src/ck-manager.c
++++ b/src/ck-manager.c
 @@ -1131,6 +1131,7 @@
          check_rbac_permissions (manager, context, RBAC_SHUTDOWN_KEY, do_restart);
  #else

@@ -22,10 +22,7 @@ RDEPEND="
 	dev-libs/openssl:0=
 	sys-libs/zlib
 	net-libs/http-parser:=
-	curl? (
-		!libressl? ( net-misc/curl:=[curl_ssl_openssl(-)] )
-		libressl? ( net-misc/curl:=[curl_ssl_libressl(-)] )
-	)
+	curl? ( net-misc/curl:=[curl_ssl_openssl(-)] )
 	gssapi? ( virtual/krb5 )
 	ssh? ( net-libs/libssh2 )
 "

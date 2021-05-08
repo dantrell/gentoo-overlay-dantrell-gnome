@@ -1,11 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 PYTHON_COMPAT=( python2_7 )
 
-inherit autotools eutils gnome2 python-r1 virtualx
+inherit autotools gnome2 python-r1 virtualx
 
 DESCRIPTION="Python bindings for GObject Introspection"
 HOMEPAGE="https://wiki.gnome.org/Projects/PyGObject/OldIndex"
@@ -36,16 +35,16 @@ RDEPEND="${COMMON_DEPEND}
 
 src_prepare() {
 	# Fix FHS compliance, see upstream bug #535524
-	epatch "${FILESDIR}"/${PN}-2.28.3-fix-codegen-location.patch
+	eapply "${FILESDIR}"/${PN}-2.28.3-fix-codegen-location.patch
 
 	# Do not build tests if unneeded, bug #226345
-	epatch "${FILESDIR}"/${PN}-2.28.3-make_check.patch
+	eapply "${FILESDIR}"/${PN}-2.28.3-make_check.patch
 
 	# Support installation for multiple Python versions, upstream bug #648292
-	epatch "${FILESDIR}"/${PN}-2.28.3-support_multiple_python_versions.patch
+	eapply "${FILESDIR}"/${PN}-2.28.3-support_multiple_python_versions.patch
 
 	# Disable introspection tests when we build with --disable-introspection
-	epatch "${FILESDIR}"/${PN}-2.28.6-tests-no-introspection.patch
+	eapply "${FILESDIR}"/${PN}-2.28.6-tests-no-introspection.patch
 
 	sed -i \
 		-e 's:AM_CONFIG_HEADER:AC_CONFIG_HEADERS:' \
@@ -67,15 +66,16 @@ src_prepare() {
 }
 
 src_configure() {
-	DOCS="AUTHORS ChangeLog* NEWS README"
 	# --disable-introspection and --disable-cairo because we use pygobject:3
 	# for introspection support
-	G2CONF="${G2CONF}
-		--disable-introspection
-		--disable-cairo
-		$(use_with libffi ffi)"
+	configuring() {
+		gnome2_src_configure \
+			--disable-introspection \
+			--disable-cairo \
+			$(use_with libffi ffi)
+	}
 
-	python_foreach_impl run_in_build_dir gnome2_src_configure
+	python_foreach_impl run_in_build_dir configuring
 }
 
 src_compile() {
@@ -84,7 +84,6 @@ src_compile() {
 
 # FIXME: With python multiple ABI support, tests return 1 even when they pass
 src_test() {
-	unset DBUS_SESSION_BUS_ADDRESS
 	export GIO_USE_VFS="local" # prevents odd issues with deleting ${T}/.gvfs
 
 	testing() {
@@ -101,6 +100,7 @@ src_install() {
 		local f prefixed_sitedir
 
 		gnome2_src_install
+		python_optimize
 
 		python_doscript pygobject-codegen-2.0
 

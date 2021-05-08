@@ -1,8 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-
-inherit ltprune
+EAPI="7"
 
 DESCRIPTION="Sudoku puzzle generator and solver"
 HOMEPAGE="https://qqwing.com"
@@ -14,5 +12,5 @@ KEYWORDS="*"
 
 src_install() {
 	default
-	prune_libtool_files
+	find "${ED}" -type f -name "*.la" -delete || die
 }

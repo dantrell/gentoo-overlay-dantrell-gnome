@@ -32,7 +32,7 @@
 ~dev-cpp/gtkmm-3.24.2::dantrell-gnome
 ~dev-cpp/mm-common-1.0.2::dantrell-gnome
 ~dev-cpp/pangomm-2.42.1::dantrell-gnome
-~dev-lang/vala-0.50.7::dantrell-gnome
+~dev-lang/vala-0.50.8::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.18::dantrell-gnome
 ~dev-libs/atk-2.36.0::dantrell-gnome-3-38
 ~dev-libs/folks-0.14.0::dantrell-gnome
@@ -85,7 +85,7 @@
 ~gnome-base/dconf-0.38.0::dantrell-gnome
 ~gnome-base/dconf-editor-3.38.3::dantrell-gnome-3-38
 ~gnome-base/gnome-3.38.0::dantrell-gnome-3-38
-~gnome-base/gnome-control-center-3.38.5::dantrell-gnome-3-38
+~gnome-base/gnome-control-center-3.38.6::dantrell-gnome-3-38
 ~gnome-base/gnome-core-apps-3.38.0::dantrell-gnome-3-38
 ~gnome-base/gnome-core-libs-3.38.0::dantrell-gnome-3-38
 ~gnome-base/gnome-desktop-3.38.0::dantrell-gnome-3-38
@@ -94,6 +94,7 @@
 ~gnome-base/gnome-desktop-3.38.3::dantrell-gnome-3-38
 ~gnome-base/gnome-desktop-3.38.4::dantrell-gnome-3-38
 ~gnome-base/gnome-desktop-3.38.5::dantrell-gnome-3-38
+~gnome-base/gnome-desktop-3.38.6::dantrell-gnome-3-38
 ~gnome-base/gnome-extra-apps-3.38.0::dantrell-gnome-3-38
 ~gnome-base/gnome-flashback-3.37.3::dantrell-gnome-3-38
 ~gnome-base/gnome-light-3.38.0::dantrell-gnome-3-38
@@ -142,7 +143,7 @@
 ~mail-client/evolution-3.38.4::dantrell-gnome-3-38
 ~mail-client/geary-3.36.3.1::dantrell-gnome
 ~media-fonts/cantarell-0.201::dantrell-gnome
-~media-gfx/eog-3.38.2::dantrell-gnome-3-38
+~media-gfx/eog-3.38.3::dantrell-gnome-3-38
 ~media-gfx/gnome-font-viewer-3.34.0::dantrell-gnome
 ~media-gfx/gnome-screenshot-3.38.0::dantrell-gnome-3-38
 ~media-gfx/simple-scan-3.38.2::dantrell-gnome-3-38
@@ -169,6 +170,7 @@
 ~net-libs/libnma-1.8.30::dantrell-gnome
 ~net-libs/libsoup-2.72.0::dantrell-gnome-3-38
 ~net-libs/libsoup-gnome-2.72.0::dantrell-gnome-3-38
+~net-libs/phodav-2.5::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome
 ~net-libs/webkit-gtk-2.28.4::dantrell-gnome
 ~net-misc/gnome-online-miners-3.34.0::dantrell-gnome

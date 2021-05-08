@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="7"
 
 inherit gnome2 multilib-minimal
 
@@ -21,7 +20,8 @@ RDEPEND="
 	>=dev-cpp/glibmm-2.16[${MULTILIB_USEDEP}]
 	>=dev-cpp/gtkmm-3.0[${MULTILIB_USEDEP}]
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	virtual/pkgconfig
 "
 

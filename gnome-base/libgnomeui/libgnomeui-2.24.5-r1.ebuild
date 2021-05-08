@@ -1,11 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="7"
 GNOME2_LA_PUNT="yes"
 GNOME_TARBALL_SUFFIX="bz2"
 
-inherit gnome2 eutils
+inherit gnome2
 
 DESCRIPTION="User Interface routines for Gnome"
 HOMEPAGE="https://library.gnome.org/devel/libgnomeui/stable/"
@@ -14,7 +13,7 @@ LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="test"
+IUSE="debug test"
 
 RESTRICT="!test? ( test )"
 
@@ -39,7 +38,8 @@ RDEPEND="
 	x11-libs/libICE
 	x11-libs/libSM
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	dev-util/gtk-doc-am
 	sys-devel/gettext
 	virtual/pkgconfig
@@ -54,7 +54,12 @@ src_prepare() {
 
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/libgnomeui/commit/30334c28794ef85d8973f4ed0779b5ceed6594f2
-	epatch "${FILESDIR}"/${PN}-2.24.5-gnome-scores-h-convert-to-utf-8.patch
+	eapply "${FILESDIR}"/${PN}-2.24.5-gnome-scores-h-convert-to-utf-8.patch
 
 	gnome2_src_prepare
+}
+
+src_configure() {
+	gnome2_src_configure \
+		$(usex debug --enable-debug=yes ' ')
 }

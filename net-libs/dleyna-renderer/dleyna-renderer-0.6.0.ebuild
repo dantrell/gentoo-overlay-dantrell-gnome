@@ -4,7 +4,7 @@ EAPI="7"
 
 inherit autotools
 
-DESCRIPTION="library implementing services that allow clients to discover and manipulate DLNA renderers"
+DESCRIPTION="A library to discover and manipulate DLNA renderers"
 HOMEPAGE="https://01.org/dleyna/"
 SRC_URI="https://01.org/sites/default/files/downloads/dleyna/${P}.tar_2.gz -> ${P}.tar.gz"
 

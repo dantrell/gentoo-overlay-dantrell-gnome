@@ -184,7 +184,6 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-2.57.2-unicode-update-to-unicode-11-0-0.patch
 	eapply "${FILESDIR}"/${PN}-2.57.2-unicode-update-test-data-files-for-unicode-11-0-0.patch
 
-
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/glib/merge_requests/411
 	# 	https://www.openwall.com/lists/oss-security/2018/10/23/5

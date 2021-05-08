@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="yes"
+EAPI="6"
 
 inherit gnome2
 
@@ -40,5 +39,6 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_configure() {
-	gnome2_src_configure $(use_enable debug)
+	gnome2_src_configure \
+		$(use_enable debug)
 }

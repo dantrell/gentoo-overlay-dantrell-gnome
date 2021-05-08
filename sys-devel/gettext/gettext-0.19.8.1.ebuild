@@ -2,9 +2,9 @@
 
 # Note: Keep version bumps in sync with dev-libs/libintl.
 
-EAPI="5"
+EAPI="7"
 
-inherit epatch epunt-cxx ltprune mono-env libtool java-pkg-opt-2 multilib-minimal
+inherit epunt-cxx mono-env libtool java-pkg-opt-2 multilib-minimal
 
 DESCRIPTION="GNU locale utilities"
 HOMEPAGE="https://www.gnu.org/software/gettext/"
@@ -43,6 +43,11 @@ MULTILIB_WRAPPED_HEADERS=(
 	/usr/include/gettext-po.h
 )
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-0.19.7-disable-libintl.patch #564168
+	"${FILESDIR}"/${PN}-0.19.8.1-format-security.patch
+)
+
 QA_SONAME_NO_SYMLINK=".*/preloadable_libintl.so"
 
 pkg_setup() {
@@ -53,8 +58,7 @@ pkg_setup() {
 src_prepare() {
 	java-pkg-opt-2_src_prepare
 
-	epatch "${FILESDIR}"/${PN}-0.19.7-disable-libintl.patch #564168
-	epatch "${FILESDIR}"/${PN}-0.19.8.1-format-security.patch
+	default
 
 	epunt_cxx
 	elibtoolize
@@ -93,7 +97,7 @@ multilib_src_configure() {
 		$(use_enable static-libs static)
 	)
 
-	local ECONF_SOURCE=${S}
+	local ECONF_SOURCE="${S}"
 	if ! multilib_is_native_abi ; then
 		# for non-native ABIs, we build runtime only
 		ECONF_SOURCE+=/gettext-runtime
@@ -113,28 +117,29 @@ multilib_src_install() {
 
 multilib_src_install_all() {
 	use nls || rm -r "${ED}"/usr/share/locale
-	use static-libs || prune_libtool_files --all
+	use static-libs || find "${ED}" -type f -name "*.la" -delete || die
 
 	rm -f "${ED}"/usr/share/locale/locale.alias "${ED}"/usr/lib/charset.alias
 
 	if use java ; then
 		java-pkg_dojar "${ED}"/usr/share/${PN}/*.jar
-		rm -f "${ED}"/usr/share/${PN}/*.jar
-		rm -f "${ED}"/usr/share/${PN}/*.class
+		rm "${ED}"/usr/share/${PN}/*.jar || die
+		rm "${ED}"/usr/share/${PN}/*.class || die
 		if use doc ; then
 			java-pkg_dojavadoc "${ED}"/usr/share/doc/${PF}/javadoc2
 			rm -rf "${ED}"/usr/share/doc/${PF}/javadoc2
 		fi
 	fi
 
+	dodoc AUTHORS ChangeLog NEWS README THANKS
+
 	if use doc ; then
-		dohtml "${ED}"/usr/share/doc/${PF}/*.html
+		docinto html
+		dodoc "${ED}"/usr/share/doc/${PF}/*.html
 	else
 		rm -rf "${ED}"/usr/share/doc/${PF}/{csharpdoc,examples,javadoc2,javadoc1}
 	fi
-	rm -f "${ED}"/usr/share/doc/${PF}/*.html
-
-	dodoc AUTHORS ChangeLog NEWS README THANKS
+	rm "${ED}"/usr/share/doc/${PF}/*.html || die
 }
 
 pkg_preinst() {

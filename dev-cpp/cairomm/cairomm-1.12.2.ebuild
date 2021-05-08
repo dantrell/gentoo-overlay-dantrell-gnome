@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="7"
 
 inherit gnome2 multilib-minimal
 
@@ -22,7 +21,8 @@ RDEPEND="
 	dev-libs/libsigc++:2=[${MULTILIB_USEDEP}]
 	>=dev-libs/libsigc++-2.5.1:2[${MULTILIB_USEDEP}]
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	virtual/pkgconfig
 	doc? (
 		app-doc/doxygen

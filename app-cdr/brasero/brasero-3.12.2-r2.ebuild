@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 GNOME2_LA_PUNT="yes"
 
 inherit gnome2
@@ -43,8 +43,9 @@ RDEPEND="${COMMON_DEPEND}
 	css? ( media-libs/libdvdcss:1.2 )
 	!libburn? (
 		app-cdr/cdrdao
+		app-cdr/cdrtools
 		app-cdr/dvd+rw-tools
-		app-cdr/cdrtools )
+	)
 	packagekit? ( app-admin/packagekit-base )
 "
 DEPEND="${COMMON_DEPEND}
@@ -76,7 +77,6 @@ src_configure() {
 }
 
 src_install() {
-	default
+	gnome2_src_install
 	mv "${ED}"/usr/share/{appdata,metainfo} || die
-	find "${ED}" -type f -name "*.la" -delete || die
 }

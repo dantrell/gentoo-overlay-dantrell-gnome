@@ -1,5 +1,5 @@
---- sigc++/Makefile.am.orig	2010-11-27 20:40:35.301189910 +0930
-+++ sigc++/Makefile.am	2010-11-27 20:40:46.871110361 +0930
+--- a/sigc++/Makefile.am	2010-11-27 20:40:35.301189910 +0930
++++ b/sigc++/Makefile.am	2010-11-27 20:40:46.871110361 +0930
 @@ -12,7 +12,7 @@
  sigc_built_h	= bind_return.h	\
  		  object_slot.h retype_return.h slot.h bind.h		\

@@ -43,7 +43,6 @@ BDEPEND="${PYTHON_DEPS}
 	')"
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-0.14.0-libressl_fix.patch
 	"${FILESDIR}"/${PN}-0.14.0-openssl1.1_fix.patch
 	"${FILESDIR}"/${PN}-0.14.0-fix-flexible-array-buffer-overflow.patch
 )

@@ -1,8 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-
-inherit eutils ltprune
+EAPI="7"
 
 DESCRIPTION="utility library for higher level dLeyna libraries"
 HOMEPAGE="https://01.org/dleyna/"
@@ -18,11 +16,12 @@ RDEPEND="
 	>=dev-libs/glib-2.28:2
 	>=net-libs/gupnp-0.20.5:0/4
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	virtual/pkgconfig
 "
 
 src_install() {
 	default
-	prune_libtool_files
+	find "${ED}" -name "*.la" -delete || die
 }

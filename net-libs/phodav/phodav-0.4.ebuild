@@ -1,8 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 
 inherit gnome2 systemd udev
@@ -20,19 +18,21 @@ RDEPEND="
 	dev-libs/glib:2
 	net-libs/libsoup:2.4
 	dev-libs/libxml2
-	zeroconf? ( net-dns/avahi[dbus] )"
+	zeroconf? ( net-dns/avahi[dbus] )
+"
 DEPEND="${RDEPEND}
-	>=dev-util/intltool-0.40.0
 	>=dev-util/gtk-doc-am-1.10
+	>=dev-util/intltool-0.40.0
 	sys-devel/gettext
-	virtual/pkgconfig"
+	virtual/pkgconfig
+"
 
 src_configure() {
 	gnome2_src_configure \
 		--disable-static \
 		$(use_with zeroconf avahi) \
 		--with-udevdir=$(get_udevdir) \
-		--with-systemdsystemunitdir=$(systemd_get_unitdir)
+		--with-systemdsystemunitdir=$(systemd_get_systemunitdir)
 
 	if ! use zeroconf ; then
 		sed -i -e 's|avahi-daemon.service||' data/spice-webdavd.service || die
@@ -49,6 +49,6 @@ src_install() {
 			rm -r "${D}$(systemd_get_systemunitdir)" || die
 		fi
 	else
-		rm -r "${D}"{/usr/sbin,$(get_udevdir),$(systemd_get_unitdir)} || die
+		rm -r "${D}"{/usr/sbin,$(get_udevdir),$(systemd_get_systemunitdir)} || die
 	fi
 }

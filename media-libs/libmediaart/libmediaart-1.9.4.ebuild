@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-
+EAPI="7"
 VALA_USE_DEPEND="vapigen"
 
 inherit autotools flag-o-matic gnome2 vala virtualx
@@ -25,7 +24,8 @@ RDEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-1.30:= )
 	qt5? ( dev-qt/qtgui:5 )
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	dev-libs/gobject-introspection-common
 	>=dev-util/gtk-doc-am-1.8
 	virtual/pkgconfig

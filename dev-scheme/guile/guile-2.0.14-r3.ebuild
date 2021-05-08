@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit autotools elisp-common flag-o-matic ltprune
+inherit autotools elisp-common flag-o-matic
 
 DESCRIPTION="GNU Ubiquitous Intelligent Language for Extensions"
 HOMEPAGE="https://www.gnu.org/software/guile/"
@@ -83,7 +83,6 @@ src_configure() {
 
 src_install() {
 	default
-	prune_libtool_files
 
 	if use doc; then
 		dodoc GUILE-VERSION HACKING
@@ -100,10 +99,11 @@ src_install() {
 
 	# Necessary for some dependencies
 	dosym libguile-2.0.so /usr/$(get_libdir)/libguile.so
+
+	find "${D}" -name '*.la' -delete || die
 }
 
 pkg_postinst() {
-	[[ "${EROOT}" == "/" ]] && pkg_config
 	use emacs && elisp-site-regen
 }
 

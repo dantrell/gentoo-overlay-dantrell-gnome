@@ -24,7 +24,8 @@ RDEPEND="
 	>=net-libs/gupnp-av-0.11.5
 	>=net-libs/libsoup-2.28.2:2.4
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	virtual/pkgconfig
 "
 

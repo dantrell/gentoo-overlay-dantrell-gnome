@@ -1,7 +1,7 @@
 http://bugs.gentoo.org/398049
 
---- tools/Makefile.am
-+++ tools/Makefile.am
+--- a/tools/Makefile.am
++++ b/tools/Makefile.am
 @@ -144,11 +144,10 @@
  	$(NULL)
  

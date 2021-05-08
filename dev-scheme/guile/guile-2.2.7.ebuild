@@ -10,7 +10,7 @@ LICENSE="LGPL-3+"
 SLOT="12/2.2-1" # libguile-2.2.so.1 => 2.2-1
 KEYWORDS=""
 
-IUSE="debug debug-malloc +deprecated +networking +nls +regex static-libs +threads" # upstream recommended +networking +nls
+IUSE="debug debug-malloc +deprecated +networking +nls +regex +threads" # upstream recommended +networking +nls
 REQUIRED_USE="regex" # workaround for bug 596322
 
 RESTRICT="strip"
@@ -47,12 +47,15 @@ src_configure() {
 	# 	https://bugs.gentoo.org/608190
 	replace-flags -ggdb[3-9] -ggdb2
 
+	# Seems to have issues with HPPA/PPC/SPARC
+	# 	https://bugs.gentoo.org/676468
+	mv prebuilt/32-bit-big-endian{,.broken} || die
+
 	econf \
 		--disable-error-on-warning \
 		--disable-rpath \
 		--disable-static \
 		--enable-posix \
-		--with-modules \
 		--without-libgmp-prefix \
 		--without-libiconv-prefix \
 		--without-libintl-prefix \
@@ -65,7 +68,6 @@ src_configure() {
 		$(use_enable networking) \
 		$(use_enable nls) \
 		$(use_enable regex) \
-		$(use_enable static-libs static) \
 		$(use_with threads)
 }
 

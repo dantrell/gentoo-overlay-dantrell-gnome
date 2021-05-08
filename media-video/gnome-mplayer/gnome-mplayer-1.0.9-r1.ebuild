@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
 inherit gnome2-utils xdg-utils
 
@@ -33,10 +33,8 @@ DEPEND="${COMMON_DEPEND}
 	sys-devel/gettext
 	virtual/pkgconfig"
 
-DOCS="ChangeLog README DOCS/*.txt DOCS/tech/*.txt"
-
 src_configure() {
-	# TODO: temporarily --disable-nemo only because it's untested and new feature in 1.0.9
+	# --disable-nemo only because it's untested and new feature in 1.0.9
 	econf \
 		--enable-gtk3 \
 		$(use_enable gnome nautilus) \

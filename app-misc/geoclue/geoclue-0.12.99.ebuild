@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 
-inherit autotools eutils ltprune
+inherit autotools
 
 DESCRIPTION="A geoinformation D-Bus service"
 HOMEPAGE="https://freedesktop.org/wiki/Software/GeoClue"
@@ -23,16 +23,19 @@ RDEPEND=">=dev-libs/dbus-glib-0.100
 	gtk? ( x11-libs/gtk+:2 )
 	networkmanager? ( net-misc/networkmanager:= )
 	skyhook? ( net-libs/libsoup )"
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	dev-util/gtk-doc-am
 	virtual/pkgconfig"
 
-src_prepare() {
-	epatch \
-		"${FILESDIR}"/${PN}-0.12.0_p20110307-use-flag.patch \
-		"${FILESDIR}"/${PN}-0.12.0_p20110307-use-fallback-mac.patch \
-		"${FILESDIR}"/${P}-gpsd.patch
+PATCHES=(
+	"${FILESDIR}"/${PN}-0.12.0_p20110307-use-flag.patch
+	"${FILESDIR}"/${PN}-0.12.0_p20110307-use-fallback-mac.patch
+	"${FILESDIR}"/${PN}-0.12.99-gpsd.patch
+)
 
+src_prepare() {
+	default
 	sed -i -e '/CFLAGS/s:-g ::' configure.ac || die #399177
 	sed -e "s/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/" -i configure.ac || die
 	eautoreconf
@@ -66,5 +69,5 @@ src_configure() {
 src_install() {
 	emake DESTDIR="${D}" install
 	use gtk && dobin test/.libs/geoclue-test-gui
-	prune_libtool_files
+	find "${ED}" -type f -name "*.la" -delete || die
 }

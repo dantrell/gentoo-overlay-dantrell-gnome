@@ -1,7 +1,7 @@
 pull in string prototypes
 
---- gdk/gdkinputcommon.h
-+++ gdk/gdkinputcommon.h
+--- a/gdk/gdkinputcommon.h
++++ b/gdk/gdkinputcommon.h
 @@ -24,6 +24,8 @@
   * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
   */

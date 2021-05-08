@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="7"
 
 inherit gnome2
 
@@ -24,7 +23,8 @@ RDEPEND="
 	x11-libs/libXfixes
 	x11-libs/libXcursor
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	>=dev-util/intltool-0.40
 	virtual/pkgconfig
 "

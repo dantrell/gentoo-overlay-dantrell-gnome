@@ -1,7 +1,7 @@
 http://bugs.freedesktop.org/show_bug.cgi?id=47587
 
---- configure.ac
-+++ configure.ac
+--- a/configure.ac
++++ b/configure.ac
 @@ -56,10 +56,21 @@
    gthread-2.0 >= $GLIB_REQUIRED_VERSION
  )

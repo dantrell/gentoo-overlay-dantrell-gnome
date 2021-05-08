@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 
 inherit autotools multilib vala xdg-utils
 
@@ -45,7 +45,7 @@ S="${WORKDIR}"/${MY_P}
 src_prepare() {
 	# Fix use after free bug, see
 	# https://github.com/lxde/libfm/pull/11/commits/9e3a809c6a8a5079f05e04edac9457d317822321
-	epatch "${FILESDIR}"/libfm-fix-use-after-free.diff
+	eapply "${FILESDIR}"/libfm-fix-use-after-free.diff
 
 	if ! use doc; then
 		sed -ie '/^SUBDIR.*=/s#docs##' "${S}"/Makefile.am || die "sed failed"
@@ -77,6 +77,8 @@ src_prepare() {
 	eautoreconf
 	rm -r autom4te.cache || die
 	use vala && export VALAC="$(type -p valac-$(vala_best_api_version))"
+
+	eapply_user
 }
 
 src_configure() {
@@ -119,8 +121,10 @@ pkg_preinst() {
 
 pkg_postinst() {
 	xdg_mimeinfo_database_update
+	xdg_desktop_database_update
 }
 
 pkg_postrm() {
 	xdg_mimeinfo_database_update
+	xdg_desktop_database_update
 }

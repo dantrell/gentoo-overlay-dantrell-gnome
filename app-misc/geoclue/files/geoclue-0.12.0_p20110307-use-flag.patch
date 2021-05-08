@@ -2,8 +2,8 @@ Add configure options for all providers except localnet.
 
 Patch by Kevin McCarthy <signals@gentoo.org>
 
---- configure.ac
-+++ configure.ac
+--- a/configure.ac
++++ b/configure.ac
 @@ -158,7 +158,71 @@
  AC_SUBST(CONNECTIVITY_LIBS)
  AC_SUBST(CONNECTIVITY_CFLAGS)

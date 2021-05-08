@@ -1,10 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 
-inherit eutils ltprune
-
-DESCRIPTION="library for implementing services that allow clients to discover, browse and manipulate DLNA Servers"
+DESCRIPTION="Service that allows to discover and manipulate DLNA Digital Media servers (DMS)"
 HOMEPAGE="https://01.org/dleyna/"
 SRC_URI="https://01.org/sites/default/files/downloads/dleyna/${P}.tar.gz"
 
@@ -24,17 +22,17 @@ RDEPEND="
 	>=net-libs/gupnp-av-0.11.5
 	>=net-libs/libsoup-2.28.2:2.4
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	virtual/pkgconfig
 "
 
-src_prepare() {
+PATCHES=(
 	# Fix build with recent gupnp, bug #597952
-	epatch "${FILESDIR}"/${P}-fix-references-to-GUPnPContextManager.patch
-	default
-}
+	"${FILESDIR}"/${PN}-0.5.0-fix-references-to-GUPnPContextManager.patch
+)
 
 src_install() {
 	default
-	prune_libtool_files
+	find "${ED}" -name "*.la" -delete || die
 }

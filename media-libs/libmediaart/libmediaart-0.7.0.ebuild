@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="7"
 VALA_USE_DEPEND="vapigen"
 
 inherit autotools gnome2 vala virtualx
@@ -26,14 +25,15 @@ RDEPEND="
 	qt4? ( dev-qt/qtgui:4 )
 	qt5? ( dev-qt/qtgui:5 )
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	>=dev-util/gtk-doc-am-1.8
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
 "
 
 src_prepare() {
-	epatch "${FILESDIR}"/${P}-qt5.patch #523122
+	eapply "${FILESDIR}"/${PN}-0.7.0-qt5.patch #523122
 
 	eautoreconf
 
@@ -60,5 +60,5 @@ src_configure() {
 }
 
 src_test() {
-	dbus-launch Xemake check #513502
+	dbus-launch virtx emake check #513502
 }

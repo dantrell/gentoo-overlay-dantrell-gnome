@@ -3,8 +3,8 @@ The NM-based code does not seem to work.
 
 Patch by Kevin McCarthy <signals@gentoo.org>
 
---- src/connectivity.c
-+++ src/connectivity.c
+--- a/src/connectivity.c
++++ b/src/connectivity.c
 @@ -218,7 +218,7 @@
  geoclue_connectivity_get_router_mac (GeoclueConnectivity *self)
  {

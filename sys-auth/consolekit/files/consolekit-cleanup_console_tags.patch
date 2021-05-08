@@ -1,8 +1,8 @@
 http://bugs.gentoo.org/257761
 http://patches.ubuntu.com/by-release/extracted/ubuntu/c/consolekit/
 
---- src/main.c
-+++ src/main.c
+--- a/src/main.c
++++ b/src/main.c
 @@ -148,6 +148,43 @@
          unlink (CONSOLE_KIT_PID_FILE);
  }

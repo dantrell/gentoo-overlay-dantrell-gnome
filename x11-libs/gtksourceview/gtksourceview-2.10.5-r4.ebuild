@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-
 GNOME_TARBALL_SUFFIX="bz2"
 
 inherit gnome2 virtualx
@@ -11,7 +10,7 @@ HOMEPAGE="https://www.gnome.org/"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="2.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 
