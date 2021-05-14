@@ -42,8 +42,7 @@ COMMON_DEPEND="
 # util-linux -> mount, umount, swapon, swapoff (see also #403073)
 RDEPEND="${COMMON_DEPEND}
 	>=sys-block/parted-3
-	virtual/eject
-	daemon? ( >=sys-apps/util-linux-2.30 )
+	>=sys-apps/util-linux-2.30
 	selinux? ( sec-policy/selinux-devicekit )
 "
 DEPEND="${COMMON_DEPEND}

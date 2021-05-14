@@ -16,7 +16,7 @@ IUSE="+css +introspection +libburn mp3 nautilus packagekit playlist test tracker
 
 RESTRICT="!test? ( test )"
 
-COMMON_DEPEND="
+DEPEND="
 	>=dev-libs/glib-2.29.14:2
 	>=x11-libs/gtk+-3:3[introspection?]
 	media-libs/gstreamer:1.0
@@ -36,7 +36,7 @@ COMMON_DEPEND="
 	playlist? ( >=dev-libs/totem-pl-parser-2.29.1:= )
 	tracker? ( >=app-misc/tracker-1:0= )
 "
-RDEPEND="${COMMON_DEPEND}
+RDEPEND="${DEPEND}
 	media-libs/gst-plugins-good:1.0
 	media-plugins/gst-plugins-meta:1.0[mp3?]
 	x11-themes/hicolor-icon-theme
@@ -48,7 +48,7 @@ RDEPEND="${COMMON_DEPEND}
 	)
 	packagekit? ( app-admin/packagekit-base )
 "
-DEPEND="${COMMON_DEPEND}
+BDEPEND="
 	>=dev-util/intltool-0.50
 	dev-util/itstool
 	>=dev-util/gtk-doc-am-1.12

@@ -6,7 +6,7 @@ GNOME2_LA_PUNT="yes"
 inherit gnome2 multilib-minimal
 
 DESCRIPTION="Generic Cascading Style Sheet (CSS) parsing and manipulation toolkit"
-HOMEPAGE="https://gitlab.gnome.org/GNOME/libcroco"
+HOMEPAGE="https://gitlab.gnome.org/Archive/libcroco"
 
 LICENSE="LGPL-2"
 SLOT="0.6"

@@ -32,7 +32,6 @@ COMMON_DEPEND="
 RDEPEND="${COMMON_DEPEND}
 	>=sys-apps/util-linux-2.20.1-r2
 	>=sys-block/parted-3
-	virtual/eject
 	cryptsetup? (
 		sys-fs/cryptsetup[udev(+)]
 		sys-fs/lvm2[udev(+)]

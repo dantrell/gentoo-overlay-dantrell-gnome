@@ -17,8 +17,9 @@ IUSE="doc debug test"
 RESTRICT="!test? ( test )"
 
 RDEPEND="
-	>=dev-libs/glib-2.63.0:2[${MULTILIB_USEDEP}]
+	dev-libs/libsigc++:3=[${MULTILIB_USEDEP}]
 	dev-libs/libsigc++:3[doc?,${MULTILIB_USEDEP}]
+	>=dev-libs/glib-2.63.0:2[${MULTILIB_USEDEP}]
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
@@ -27,7 +28,9 @@ BDEPEND="
 	doc? (
 		app-doc/doxygen[dot]
 		dev-lang/perl
+		dev-perl/XML-Parser
 		dev-libs/libxslt
+		media-gfx/graphviz
 	)
 "
 

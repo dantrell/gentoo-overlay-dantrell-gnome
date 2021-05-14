@@ -296,6 +296,7 @@ x11-libs/gdk-pixbuf::gentoo
 x11-libs/gtef::gentoo
 x11-libs/gtk+::gentoo
 x11-libs/gtksourceview::gentoo
+x11-libs/libXfixes::gentoo
 x11-libs/libXxf86misc::gentoo
 x11-libs/libcryptui::gentoo
 x11-libs/libfm-extra::gentoo

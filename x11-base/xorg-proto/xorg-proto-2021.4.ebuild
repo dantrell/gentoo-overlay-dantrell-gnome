@@ -1,11 +1,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
+PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 
 MY_PN="${PN/xorg-/xorg}"
 MY_P="${MY_PN}-${PV}"
 
-inherit meson
+inherit meson python-any-r1
 
 DESCRIPTION="X.Org combined protocol headers"
 HOMEPAGE="https://gitlab.freedesktop.org/xorg/proto/xorgproto"
@@ -13,11 +14,19 @@ SRC_URI="https://xorg.freedesktop.org/archive/individual/proto/${MY_P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE=""
+IUSE="test"
 
-DEPEND=""
+RESTRICT="!test? ( test )"
+
+DEPEND="
+	test? (
+		$(python_gen_any_dep '
+			dev-python/python-libevdev[${PYTHON_USEDEP}]
+		')
+	)
+"
 RDEPEND="
 	!<x11-proto/bigreqsproto-1.1.2-r1
 	!<x11-proto/compositeproto-0.4.2-r2
@@ -54,8 +63,16 @@ RDEPEND="
 
 S="${WORKDIR}/${MY_P}"
 
-PATCHES=(
-	# From X.Org:
-	# 	https://gitlab.freedesktop.org/xorg/proto/xorgproto/-/commit/15329c5a0d3a5d9a8eddf0bed38c3b62c7fc7965
-	"${FILESDIR}"/${PN}-2020.1-xf86keysym-add-xf86xk-fullscreen.patch
-)
+python_check_deps() {
+	has_version -b "dev-python/python-libevdev[${PYTHON_USEDEP}]"
+}
+
+pkg_setup() {
+	use test && python-any-r1_pkg_setup
+}
+
+src_install() {
+	meson_src_install
+
+	mv "${ED}"/usr/share/doc/{xorgproto,${P}} || die
+}

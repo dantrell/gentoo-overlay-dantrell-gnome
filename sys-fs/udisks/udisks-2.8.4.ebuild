@@ -32,7 +32,6 @@ COMMON_DEPEND="
 RDEPEND="${COMMON_DEPEND}
 	>=sys-apps/util-linux-2.30
 	>=sys-block/parted-3
-	virtual/eject
 	selinux? ( sec-policy/selinux-devicekit )
 "
 DEPEND="${COMMON_DEPEND}

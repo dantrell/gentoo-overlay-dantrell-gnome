@@ -1,12 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-CMAKE_MAKEFILE_GENERATOR="ninja"
+EAPI="7"
 PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
-USE_RUBY="ruby24 ruby25 ruby26 ruby27"
-CMAKE_MIN_VERSION=3.10
+USE_RUBY="ruby25 ruby26 ruby27"
 
-inherit check-reqs cmake-utils flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs virtualx
+inherit check-reqs cmake flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs virtualx
 
 MY_P="webkitgtk-${PV}"
 DESCRIPTION="Open source web browser engine"
@@ -17,7 +15,7 @@ LICENSE="LGPL-2+ BSD"
 SLOT="4/37" # soname version of libwebkit2gtk-4.0
 KEYWORDS="*"
 
-IUSE="aqua deprecated +egl embedded gamepad +geolocation gles2-only gnome-keyring +gstreamer gtk-doc +introspection +jit jpeg2k +jumbo-build libnotify +opengl seccomp spell systemd wayland +webgl +X"
+IUSE="aqua deprecated +egl embedded examples gamepad +geolocation gles2-only gnome-keyring +gstreamer gtk-doc +introspection +jit jpeg2k +jumbo-build libnotify +opengl seccomp spell systemd wayland +webgl +X"
 # webgl needs gstreamer, bug #560612
 # gstreamer with opengl/gles2 needs egl
 REQUIRED_USE="
@@ -36,8 +34,9 @@ RESTRICT="test"
 
 # Aqua support in gtk3 is untested
 # Dependencies found at Source/cmake/OptionsGTK.cmake
-# Missing WebRTC support, but ENABLE_MEDIA_STREAM/ENABLE_WEB_RTC is experimental upstream (PRIVATE OFF)
+# Missing WebRTC support, but ENABLE_MEDIA_STREAM/ENABLE_WEB_RTC is experimental upstream (PRIVATE OFF) and shouldn't be used yet
 # >=gst-plugins-opus-1.14.4-r1 for opusparse (required by MSE)
+# TODO: gst-plugins-base[X] is only needed when build configuration ends up with GLX set, but that's a bit automagic too to fix
 RDEPEND="
 	>=x11-libs/cairo-1.16.0:=[X?]
 	>=media-libs/fontconfig-2.8.0:1.0
@@ -46,7 +45,7 @@ RDEPEND="
 	x11-libs/gtk+:3=
 	>=x11-libs/gtk+-3.14:3[aqua?,introspection?,wayland?,X?]
 	>=media-libs/harfbuzz-1.4.2:=[icu(+)]
-	>=dev-libs/icu-3.8.1-r1:=
+	>=dev-libs/icu-60.2:=
 	virtual/jpeg:0=
 	>=net-libs/libsoup-2.48:2.4[introspection?]
 	>=dev-libs/libxml2-2.8.0:2
@@ -83,8 +82,8 @@ RDEPEND="
 
 	egl? ( media-libs/mesa[egl] )
 	embedded? (
-		>=gui-libs/libwpe-1.3.0:1.0
-		>=gui-libs/wpebackend-fdo-1.3.1:1.0
+		>=gui-libs/libwpe-1.5.0:1.0
+		>=gui-libs/wpebackend-fdo-1.7.0:1.0
 	)
 	gles2-only? ( media-libs/mesa[gles2] )
 	opengl? ( virtual/opengl )
@@ -101,18 +100,20 @@ RDEPEND="
 		sys-libs/libseccomp
 		sys-apps/xdg-dbus-proxy
 	)
-	systemd? ( sys-apps/systemd )
+
+	systemd? ( sys-apps/systemd:= )
 	gamepad? ( >=dev-libs/libmanette-0.2.4 )
 "
+DEPEND="${RDEPEND}"
 # paxctl needed for bug #407085
 # Need real bison, not yacc
-DEPEND="${RDEPEND}
+BDEPEND="
 	${PYTHON_DEPS}
 	${RUBY_DEPS}
 	>=app-accessibility/at-spi2-core-2.5.3
 	>=dev-util/gperf-3.0.1
 	>=sys-devel/bison-2.4.3
-	|| ( >=sys-devel/gcc-7.3 >=sys-devel/clang-5 )
+	|| ( >=sys-devel/gcc-7.5 >=sys-devel/clang-5 )
 	sys-devel/gettext
 	virtual/pkgconfig
 
@@ -121,8 +122,9 @@ DEPEND="${RDEPEND}
 	virtual/perl-Carp
 	virtual/perl-JSON-PP
 
-	gtk-doc? ( >=dev-util/gtk-doc-1.10 )
+	gtk-doc? ( >=dev-util/gtk-doc-1.32 )
 	geolocation? ( dev-util/gdbus-codegen )
+	>=dev-util/cmake-3.10
 	introspection? ( jit? ( sys-apps/paxctl ) )
 "
 #	test? (
@@ -145,7 +147,7 @@ pkg_pretend() {
 		fi
 
 		if ! test-flag-CXX -std=c++17 ; then
-			die "You need at least GCC 7.3.x or Clang >= 5 for C++17-specific compiler flags"
+			die "You need at least GCC 7.5.x or Clang >= 5 for C++17-specific compiler flags"
 		fi
 	fi
 
@@ -181,7 +183,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-2.28.2-non-jumbo-fix.patch
 	eapply "${FILESDIR}"/${PN}-2.28.4-non-jumbo-fix2.patch
 	eapply "${FILESDIR}"/${PN}-2.30.3-fix-noGL-build.patch
-	cmake-utils_src_prepare
+	cmake_src_prepare
 	gnome2_src_prepare
 }
 
@@ -220,7 +222,7 @@ src_configure() {
 	local rubyimpl
 	local ruby_interpreter=""
 	for rubyimpl in ${USE_RUBY}; do
-		if has_version --host-root "virtual/rubygems[ruby_targets_${rubyimpl}]"; then
+		if has_version -b "virtual/rubygems[ruby_targets_${rubyimpl}]"; then
 			ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ${rubyimpl})"
 		fi
 	done
@@ -260,8 +262,9 @@ src_configure() {
 		-DENABLE_API_TESTS=$(usex test)
 		-DENABLE_GTKDOC=$(usex gtk-doc)
 		-DENABLE_GEOLOCATION=$(usex geolocation) # Runtime optional (talks over dbus service)
-		$(cmake-utils_use_find_package gles2-only OpenGLES2)
+		$(cmake_use_find_package gles2-only OpenGLES2)
 		-DENABLE_GLES2=$(usex gles2-only)
+		-DENABLE_MINIBROWSER=$(usex examples)
 		-DENABLE_VIDEO=$(usex gstreamer)
 		-DENABLE_WEB_AUDIO=$(usex gstreamer)
 		-DENABLE_INTROSPECTION=$(usex introspection)
@@ -275,14 +278,15 @@ src_configure() {
 		-DUSE_SYSTEMD=$(usex systemd) # Whether to enable journald logging
 		-DENABLE_GAMEPAD=$(usex gamepad)
 		-DENABLE_WAYLAND_TARGET=$(usex wayland)
-		-DUSE_WPE_RENDERER=$(usex embedded) # WPE renderer is used to implement accelerated compositing under wayland
-		$(cmake-utils_use_find_package egl EGL)
-		$(cmake-utils_use_find_package opengl OpenGL)
+		-DUSE_WPE_RENDERER=$(usex embedded)
+		$(cmake_use_find_package egl EGL)
+		$(cmake_use_find_package opengl OpenGL)
 		-DENABLE_X11_TARGET=$(usex X)
-		-DENABLE_OPENGL=${opengl_enabled}
+		-DENABLE_GRAPHICS_CONTEXT_GL=${opengl_enabled}
 		-DENABLE_WEBGL=$(usex webgl)
 		-DENABLE_BUBBLEWRAP_SANDBOX=$(usex seccomp)
-		-DBWRAP_EXECUTABLE="${EPREFIX}"/usr/bin/bwrap # If bubblewrap[suid] then portage makes it go-r and cmake find_program fails with that
+		-DBWRAP_EXECUTABLE:FILEPATH="${EPREFIX}"/usr/bin/bwrap # If bubblewrap[suid] then portage makes it go-r and cmake find_program fails with that
+		-DDBUS_PROXY_EXECUTABLE:FILEPATH="${EPREFIX}"/usr/bin/xdg-dbus-proxy
 		-DENABLE_C_LOOP=${loop_c_enabled}
 		-DCMAKE_BUILD_TYPE=Release
 		-DPORT=GTK
@@ -300,26 +304,29 @@ src_configure() {
 #		mycmakeargs+=( -DUSE_LD_GOLD=OFF )
 #	fi
 
+	# https://bugs.gentoo.org/761238
+	append-cppflags -DNDEBUG
+
 	# CMake Error at /usr/share/cmake/Modules/FindPackageHandleStandardArgs.cmake:165 (message):
 	#   Could NOT find Threads (missing: Threads_FOUND)
-	WK_USE_CCACHE=NO cmake-utils_src_configure
+	WK_USE_CCACHE=NO cmake_src_configure
 }
 
 src_compile() {
-	cmake-utils_src_compile
+	cmake_src_compile
 }
 
 src_test() {
 	# Prevents test failures on PaX systems
 	use jit && pax-mark m $(list-paxables Programs/*[Tt]ests/*) # Programs/unittests/.libs/test*
 
-	cmake-utils_src_test
+	cmake_src_test
 }
 
 src_install() {
-	cmake-utils_src_install
+	cmake_src_install
 
 	# Prevents crashes on PaX systems, bug #522808
-	use jit && pax-mark m "${ED}usr/libexec/webkit2gtk-4.0/jsc" "${ED}usr/libexec/webkit2gtk-4.0/WebKitWebProcess"
-	pax-mark m "${ED}usr/libexec/webkit2gtk-4.0/WebKitPluginProcess"
+	use jit && pax-mark m "${ED}/usr/libexec/webkit2gtk-4.0/jsc" "${ED}/usr/libexec/webkit2gtk-4.0/WebKitWebProcess"
+	pax-mark m "${ED}/usr/libexec/webkit2gtk-4.0/WebKitPluginProcess"
 }

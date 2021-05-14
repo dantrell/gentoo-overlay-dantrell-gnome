@@ -1,11 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-CMAKE_MAKEFILE_GENERATOR="ninja"
+EAPI="7"
 PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
-USE_RUBY="ruby24 ruby25 ruby26 ruby27"
+USE_RUBY="ruby25 ruby26 ruby27"
 
-inherit check-reqs cmake-utils flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs virtualx
+inherit check-reqs cmake flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs virtualx
 
 MY_P="webkitgtk-${PV}"
 DESCRIPTION="Open source web browser engine"
@@ -16,7 +15,7 @@ LICENSE="LGPL-2+ BSD"
 SLOT="4/37" # soname version of libwebkit2gtk-4.0
 KEYWORDS="*"
 
-IUSE="aqua coverage doc +egl +geolocation gles2 gnome-keyring +gstreamer +introspection +jit jpeg2k +jumbo-build libnotify nsplugin +opengl spell wayland +webgl +X"
+IUSE="aqua doc +egl +geolocation gles2 gnome-keyring +gstreamer +introspection +jit jpeg2k +jumbo-build libnotify nsplugin +opengl spell wayland +webgl +X"
 # webgl needs gstreamer, bug #560612
 # gstreamer with opengl/gles2 needs egl
 REQUIRED_USE="
@@ -36,7 +35,7 @@ RESTRICT="test"
 
 # Aqua support in gtk3 is untested
 # Dependencies found at Source/cmake/OptionsGTK.cmake
-# Missing OpenWebRTC checks and conditionals, but ENABLE_MEDIA_STREAM/ENABLE_WEB_RTC is experimental upstream (PRIVATE OFF)
+# Missing WebRTC support, but ENABLE_MEDIA_STREAM/ENABLE_WEB_RTC is experimental upstream (PRIVATE OFF) and shouldn't be used yet
 RDEPEND="
 	>=x11-libs/cairo-1.16.0:=[X?]
 	>=media-libs/fontconfig-2.8.0:1.0
@@ -59,7 +58,6 @@ RDEPEND="
 	>=dev-libs/libxslt-1.1.7
 	media-libs/woff2
 	gnome-keyring? ( app-crypt/libsecret )
-	geolocation? ( >=app-misc/geoclue-2.4.0:2.0 )
 	introspection? ( >=dev-libs/gobject-introspection-1.32.0:= )
 	dev-libs/libtasn1:=
 	nsplugin? ( >=x11-libs/gtk+-2.24.10:2 )
@@ -87,10 +85,10 @@ RDEPEND="
 		x11-libs/libXcomposite
 		x11-libs/libXdamage )
 "
-
+DEPEND="${RDEPEND}"
 # paxctl needed for bug #407085
 # Need real bison, not yacc
-DEPEND="${RDEPEND}
+BDEPEND="
 	${PYTHON_DEPS}
 	${RUBY_DEPS}
 	>=app-accessibility/at-spi2-core-2.5.3
@@ -108,12 +106,16 @@ DEPEND="${RDEPEND}
 
 	doc? ( >=dev-util/gtk-doc-1.10 )
 	geolocation? ( dev-util/gdbus-codegen )
+	>=dev-util/cmake-3.10
 	introspection? ( jit? ( sys-apps/paxctl ) )
 "
 #	test? (
 #		dev-python/pygobject:3[python_targets_python2_7]
 #		x11-themes/hicolor-icon-theme
 #		jit? ( sys-apps/paxctl ) )
+RDEPEND="${RDEPEND}
+	geolocation? ( >=app-misc/geoclue-2.1.5:2.0 )
+"
 
 S="${WORKDIR}/${MY_P}"
 
@@ -157,7 +159,7 @@ pkg_setup() {
 src_prepare() {
 	eapply "${FILESDIR}"/${PN}-2.24.4-icu-65.patch # bug 698596
 	eapply "${FILESDIR}"/${PN}-2.24.4-eglmesaext-include.patch # bug 699054
-	cmake-utils_src_prepare
+	cmake_src_prepare
 	gnome2_src_prepare
 }
 
@@ -203,7 +205,7 @@ src_configure() {
 	local rubyimpl
 	local ruby_interpreter=""
 	for rubyimpl in ${USE_RUBY}; do
-		if has_version "virtual/rubygems[ruby_targets_${rubyimpl}]"; then
+		if has_version -b "virtual/rubygems[ruby_targets_${rubyimpl}]"; then
 			ruby_interpreter="-DRUBY_EXECUTABLE=$(type -P ${rubyimpl})"
 		fi
 	done
@@ -213,8 +215,6 @@ src_configure() {
 
 	# TODO: Check Web Audio support
 	# should somehow let user select between them?
-	#
-	# FTL_JIT requires llvm
 	#
 	# opengl needs to be explicetly handled, bug #576634
 
@@ -238,7 +238,7 @@ src_configure() {
 		-DENABLE_API_TESTS=$(usex test)
 		-DENABLE_GTKDOC=$(usex doc)
 		-DENABLE_GEOLOCATION=$(usex geolocation)
-		$(cmake-utils_use_find_package gles2 OpenGLES2)
+		$(cmake_use_find_package gles2 OpenGLES2)
 		-DENABLE_GLES2=$(usex gles2)
 		-DENABLE_VIDEO=$(usex gstreamer)
 		-DENABLE_WEB_AUDIO=$(usex gstreamer)
@@ -253,8 +253,8 @@ src_configure() {
 		-DENABLE_SPELLCHECK=$(usex spell)
 		-DENABLE_WAYLAND_TARGET=$(usex wayland)
 		-DENABLE_WEBGL=$(usex webgl)
-		$(cmake-utils_use_find_package egl EGL)
-		$(cmake-utils_use_find_package opengl OpenGL)
+		$(cmake_use_find_package egl EGL)
+		$(cmake_use_find_package opengl OpenGL)
 		-DENABLE_X11_TARGET=$(usex X)
 		-DENABLE_OPENGL=${opengl_enabled}
 		-DENABLE_C_LOOP=${loop_c_enabled}
@@ -272,25 +272,25 @@ src_configure() {
 #		mycmakeargs+=( -DUSE_LD_GOLD=OFF )
 #	fi
 
-	cmake-utils_src_configure
+	cmake_src_configure
 }
 
 src_compile() {
-	cmake-utils_src_compile
+	cmake_src_compile
 }
 
 src_test() {
 	# Prevents test failures on PaX systems
 	use jit && pax-mark m $(list-paxables Programs/*[Tt]ests/*) # Programs/unittests/.libs/test*
 
-	cmake-utils_src_test
+	cmake_src_test
 }
 
 src_install() {
-	cmake-utils_src_install
+	cmake_src_install
 
 	# Prevents crashes on PaX systems, bug #522808
-	use jit && pax-mark m "${ED}usr/libexec/webkit2gtk-4.0/jsc" "${ED}usr/libexec/webkit2gtk-4.0/WebKitWebProcess"
-	pax-mark m "${ED}usr/libexec/webkit2gtk-4.0/WebKitPluginProcess"
-	use nsplugin && pax-mark m "${ED}usr/libexec/webkit2gtk-4.0/WebKitPluginProcess"2
+	use jit && pax-mark m "${ED}/usr/libexec/webkit2gtk-4.0/jsc" "${ED}/usr/libexec/webkit2gtk-4.0/WebKitWebProcess"
+	pax-mark m "${ED}/usr/libexec/webkit2gtk-4.0/WebKitPluginProcess"
+	use nsplugin && pax-mark m "${ED}/usr/libexec/webkit2gtk-4.0/WebKitPluginProcess2"
 }

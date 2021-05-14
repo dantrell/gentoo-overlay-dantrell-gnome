@@ -25,11 +25,10 @@ DEPEND="${RDEPEND}"
 BDEPEND="
 	${PYTHON_DEPS}
 	virtual/pkgconfig
-	>=dev-cpp/mm-common-1.0.0
-	sys-devel/m4
-	dev-lang/perl
 	doc? (
-		app-doc/doxygen
+		app-doc/doxygen[dot]
+		dev-lang/perl
+		dev-perl/XML-Parser
 		dev-libs/libxslt
 		media-gfx/graphviz
 	)
@@ -48,7 +47,6 @@ src_prepare() {
 
 multilib_src_configure() {
 	local emesonargs=(
-		-Dmaintainer-mode=true
 		-Dwarnings=min
 		-Dbuild-deprecated-api=true
 		-Dbuild-documentation=$(usex doc true false)

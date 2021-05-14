@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-GNOME2_LA_PUNT="yes"
 PYTHON_COMPAT=( python2_7 )
 # libanjuta-language-vala.so links to a specific slot of libvala; we want to
 # avoid automagic behavior.
@@ -125,6 +124,12 @@ src_install() {
 	rm -rf "${ED}"/usr/share/doc/${PN} || die "rm failed"
 
 	use vala && readme.gentoo_create_doc
+
+	# The /usr/share/appdata location is deprecated
+	# 	https://bugs.gentoo.org/709450
+	mv "${ED}"/usr/share/{appdata,metainfo} || die
+
+	find "${ED}" -type f -name "*.la" -delete || die
 }
 
 pkg_postinst() {

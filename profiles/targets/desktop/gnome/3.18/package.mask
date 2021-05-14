@@ -250,6 +250,7 @@
 >=x11-libs/gnome-pty-helper-0.42.0
 >=x11-libs/gtksourceview-3.20.0
 >=x11-libs/gtk+-3.20.0
+>=x11-libs/libXfixes-6.0.0
 >=x11-libs/libwnck-3.20.0
 >=x11-libs/vte-0.44.0
 >=x11-misc/gpaste-3.20.0

@@ -13,7 +13,7 @@ SRC_URI="https://xorg.freedesktop.org/archive/individual/proto/${MY_P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 
@@ -49,6 +49,7 @@ RDEPEND="
 	!<x11-proto/xproto-7.0.31-r1
 
 	!x11-proto/fontcacheproto
-	!x11-proto/xf86rushproto"
+	!x11-proto/xf86rushproto
+"
 
 S="${WORKDIR}/${MY_P}"

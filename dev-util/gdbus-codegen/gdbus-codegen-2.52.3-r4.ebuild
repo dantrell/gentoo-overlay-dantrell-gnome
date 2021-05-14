@@ -1,9 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 GNOME_ORG_MODULE="glib"
 PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 PYTHON_REQ_USE="xml"
+DISTUTILS_USE_SETUPTOOLS=no
 
 inherit gnome.org distutils-r1
 
@@ -18,6 +19,10 @@ IUSE=""
 
 RDEPEND="${PYTHON_DEPS}"
 DEPEND="${RDEPEND}"
+BDEPEND="
+	dev-libs/libxslt
+	app-text/docbook-xsl-stylesheets
+"
 
 # To prevent circular dependencies with glib[test]
 PDEPEND=">=dev-libs/glib-${PV}:2"
