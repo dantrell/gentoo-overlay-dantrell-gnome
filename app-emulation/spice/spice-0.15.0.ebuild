@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
+
 PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 
 inherit autotools python-any-r1 readme.gentoo-r1 xdg-utils
@@ -11,9 +12,11 @@ SRC_URI="https://www.spice-space.org/download/releases/spice-server/${P}.tar.bz2
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="lz4 sasl smartcard static-libs gstreamer"
+IUSE="lz4 sasl smartcard static-libs gstreamer test"
+
+RESTRICT="!test? ( test )"
 
 # the libspice-server only uses the headers of libcacard
 RDEPEND="
@@ -33,7 +36,8 @@ RDEPEND="
 	)"
 DEPEND="${RDEPEND}
 	>=app-emulation/spice-protocol-0.14.0
-	smartcard? ( app-emulation/qemu[smartcard] )"
+	smartcard? ( app-emulation/qemu[smartcard] )
+	test? ( net-libs/glib-networking )"
 BDEPEND="${PYTHON_DEPS}
 	virtual/pkgconfig
 	$(python_gen_any_dep '
@@ -42,7 +46,7 @@ BDEPEND="${PYTHON_DEPS}
 	')"
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-0.14.0-openssl1.1_fix.patch
+	"${FILESDIR}"/${PN}-0.15.0-pthread-c5fe3df1.patch
 )
 
 python_check_deps() {
@@ -73,6 +77,7 @@ src_configure() {
 		$(use_enable lz4)
 		$(use_with sasl)
 		$(use_enable smartcard)
+		$(use_enable test tests)
 		--enable-gstreamer=$(usex gstreamer "1.0" "no")
 		--disable-celt051
 		"

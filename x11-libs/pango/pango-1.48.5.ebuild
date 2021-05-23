@@ -37,6 +37,7 @@ DEPEND="${RDEPEND}
 	X? ( x11-base/xorg-proto )
 "
 BDEPEND="
+	sys-apps/help2man
 	virtual/pkgconfig
 	gtk-doc? (
 		dev-util/gi-docgen
