@@ -12,7 +12,7 @@ SRC_URI="https://www.spice-space.org/download/gtk/${P}.tar.xz"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+gtk3 +introspection lz4 mjpeg policykit pulseaudio sasl smartcard usbredir vala webdav"
 

@@ -10,7 +10,7 @@ SRC_URI="https://www.spice-space.org/download/releases/${P}.tar.xz"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 

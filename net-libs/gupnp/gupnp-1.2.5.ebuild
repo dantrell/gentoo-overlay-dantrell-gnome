@@ -12,7 +12,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP"
 
 LICENSE="LGPL-2+ GPL-2+" # gupnp-binding-tool is GPL-2+
 SLOT="0/1.2-0" # <API version>-<soname>
-KEYWORDS="*"
+KEYWORDS=""
 
 IUSE="connman gtk-doc +introspection kernel_linux networkmanager vala"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
@@ -21,8 +21,8 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}
 
 # prefix: uuid dependency can be adapted to non-linux platforms
 RDEPEND="${PYTHON_DEPS}
-	>=dev-libs/glib-2.58:2[${MULTILIB_USEDEP}]
-	>=net-libs/gssdp-1.2.3:0=[introspection?,${MULTILIB_USEDEP}]
+	>=dev-libs/glib-2.66:2[${MULTILIB_USEDEP}]
+	>=net-libs/gssdp-1.2.4:0=[introspection?,${MULTILIB_USEDEP}]
 	>=net-libs/libsoup-2.48.0:2.4[introspection?,${MULTILIB_USEDEP}]
 	>=dev-libs/libxml2-2.9.1-r4[${MULTILIB_USEDEP}]
 	>=sys-apps/util-linux-2.24.1-r3[${MULTILIB_USEDEP}]
