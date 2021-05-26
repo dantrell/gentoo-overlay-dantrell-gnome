@@ -125,10 +125,6 @@ src_install() {
 
 	use vala && readme.gentoo_create_doc
 
-	# The /usr/share/appdata location is deprecated
-	# 	https://bugs.gentoo.org/709450
-	mv "${ED}"/usr/share/{appdata,metainfo} || die
-
 	find "${ED}" -type f -name "*.la" -delete || die
 }
 

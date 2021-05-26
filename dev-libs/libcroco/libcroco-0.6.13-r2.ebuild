@@ -26,8 +26,7 @@ BDEPEND="
 "
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-0.6.12-CVE-2017-7960.patch
-	"${FILESDIR}"/${PN}-0.6.12-CVE-2017-7961.patch
+	"${FILESDIR}"/${PN}-0.6.13-CVE-2020-12825.patch
 )
 
 src_prepare() {

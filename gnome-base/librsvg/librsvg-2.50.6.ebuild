@@ -25,7 +25,7 @@ RDEPEND="
 	>=dev-libs/glib-2.50.0:2[${MULTILIB_USEDEP}]
 	>=media-libs/harfbuzz-2.0.0:=[${MULTILIB_USEDEP}]
 	>=dev-libs/libxml2-2.9.1-r4:2[${MULTILIB_USEDEP}]
-	>=x11-libs/pango-1.38.0[${MULTILIB_USEDEP}]
+	>=x11-libs/pango-1.44.0[${MULTILIB_USEDEP}]
 
 	introspection? ( >=dev-libs/gobject-introspection-0.10.8:= )
 "

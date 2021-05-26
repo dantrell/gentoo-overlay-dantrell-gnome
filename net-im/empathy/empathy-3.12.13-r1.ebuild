@@ -7,7 +7,7 @@ PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 inherit autotools gnome2 python-any-r1 virtualx
 
 DESCRIPTION="Telepathy instant messaging and video/audio call client for GNOME"
-HOMEPAGE="https://wiki.gnome.org/Apps/Empathy"
+HOMEPAGE="https://wiki.gnome.org/Attic/Empathy"
 
 LICENSE="GPL-2 CC-BY-SA-3.0 FDL-1.3 LGPL-2.1"
 SLOT="0"
