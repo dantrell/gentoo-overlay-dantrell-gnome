@@ -2,9 +2,9 @@
 
 EAPI="7"
 
-inherit flag-o-matic libtool multilib-minimal toolchain-funcs usr-ldscript
+inherit libtool multilib-minimal usr-ldscript
 
-PATCH_SET="${PN}-10.34-patchset-01.tar.xz"
+PATCH_SET="${PN}-10.36-patchset-01.tar.xz"
 
 DESCRIPTION="Perl-compatible regular expression library"
 HOMEPAGE="https://www.pcre.org/"
@@ -23,8 +23,8 @@ if [[ -n "${PATCH_SET}" ]] ; then
 fi
 
 LICENSE="BSD"
-SLOT="0"
-KEYWORDS="*"
+SLOT="0/3" # libpcre2-posix.so version
+KEYWORDS="~*"
 
 IUSE="bzip2 +jit libedit +pcre16 pcre32 +readline +recursion-limit static-libs unicode zlib"
 REQUIRED_USE="?? ( libedit readline )"
@@ -48,7 +48,10 @@ MULTILIB_CHOST_TOOLS=(
 )
 
 src_prepare() {
-	[[ -d "${WORKDIR}/patches" ]] && eapply "${WORKDIR}"/patches
+	if [[ -d "${WORKDIR}/patches" ]] ; then
+		rm "${WORKDIR}"/patches/pcre2-10.36-001-issue2698.patch || die
+		eapply "${WORKDIR}"/patches
+	fi
 
 	default
 

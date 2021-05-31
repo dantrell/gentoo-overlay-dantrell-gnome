@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 VALA_USE_DEPEND="vapigen"
 
 inherit gnome2 vala virtualx
@@ -15,14 +15,16 @@ KEYWORDS="*"
 IUSE="+introspection vala"
 REQUIRED_USE="vala? ( introspection )"
 
-RDEPEND="
-	app-text/iso-codes
+DEPEND="
 	>=app-text/enchant-1.6.0:0=
 	>=dev-libs/glib-2.44:2
 	>=x11-libs/gtk+-3.20:3[introspection?]
+	app-text/iso-codes
 	introspection? ( >=dev-libs/gobject-introspection-1.42.0:= )
 "
-DEPEND="${RDEPEND}
+RDEPEND="${DEPEND}"
+BDEPEND="
+	dev-libs/libxml2:2
 	>=dev-util/gtk-doc-am-1.25
 	>=dev-util/intltool-0.35.0
 	>=sys-devel/gettext-0.19.4

@@ -1,12 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-
 GNOME2_LA_PUNT="yes"
-
 PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
-
 PYTHON_REQ_USE="xml"
+VALA_MAX_API_VERSION="0.50"
 
 inherit gnome2 python-r1 vala
 

@@ -6,8 +6,8 @@ VALA_MAX_API_VERSION="0.50"
 
 inherit gnome2 vala
 
-DESCRIPTION="Nibbles clone for Gnome"
-HOMEPAGE="https://wiki.gnome.org/Apps/Nibbles"
+DESCRIPTION="Nibbles clone for GNOME"
+HOMEPAGE="https://wiki.gnome.org/Apps/Nibbles https://gitlab.gnome.org/GNOME/gnome-nibbles"
 
 LICENSE="GPL-3+ CC-BY-SA-3.0"
 SLOT="0"

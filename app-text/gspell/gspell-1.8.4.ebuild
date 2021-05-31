@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 VALA_USE_DEPEND="vapigen"
 
 inherit gnome2 vala virtualx
@@ -15,21 +15,27 @@ KEYWORDS="*"
 IUSE="+introspection vala"
 REQUIRED_USE="vala? ( introspection )"
 
-RDEPEND="
-	app-text/iso-codes
+DEPEND="
 	>=app-text/enchant-2.1.3:2=
 	>=dev-libs/glib-2.44:2
 	>=x11-libs/gtk+-3.20:3[introspection?]
+	app-text/iso-codes
 	introspection? ( >=dev-libs/gobject-introspection-1.42.0:= )
 "
-DEPEND="${RDEPEND}
+RDEPEND="${DEPEND}"
+BDEPEND="
 	dev-libs/libxml2:2
 	>=dev-util/gtk-doc-am-1.25
 	>=sys-devel/gettext-0.19.6
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
-	test? ( app-text/enchant:2[hunspell]
-		|| (  app-dicts/myspell-en[l10n_en(+)] app-dicts/myspell-en[l10n_en-US(+)] ) )
+	test? (
+		app-text/enchant:2[hunspell]
+		|| (
+			app-dicts/myspell-en[l10n_en(+)]
+			app-dicts/myspell-en[l10n_en-US(+)]
+		)
+	)
 "
 # Tests require a en_US dictionary and fail with deprecated enchant aspell backend:
 # So enchant[hunspell] + myspell-en ensure they pass (hunspell is ordered before aspell),

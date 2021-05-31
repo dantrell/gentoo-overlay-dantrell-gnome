@@ -42,6 +42,7 @@ PDEPEND="
 PATCHES=(
 	"${FILESDIR}"/${PN}-243.7-nodocs.patch
 	"${FILESDIR}"/${PN}-241.4-broken-test.patch # bug 699116
+	"${FILESDIR}"/${PN}-246.10-revert-polkit-automagic.patch
 )
 
 pkg_setup() {
