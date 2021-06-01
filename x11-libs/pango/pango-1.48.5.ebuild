@@ -12,8 +12,7 @@ LICENSE="LGPL-2+ FTL"
 SLOT="0"
 KEYWORDS=""
 
-# X USE flag is simply a stub until all revdeps have been adjusted to use X(+)
-IUSE="gtk-doc +introspection test +X"
+IUSE="gtk-doc +introspection sysprof test X"
 REQUIRED_USE="gtk-doc? ( introspection )"
 
 RESTRICT="!test? ( test )"
@@ -34,6 +33,7 @@ RDEPEND="
 	)
 "
 DEPEND="${RDEPEND}
+	sysprof? ( dev-util/sysprof:4[${MULTILIB_USEDEP}] )
 	X? ( x11-base/xorg-proto )
 "
 BDEPEND="
@@ -56,6 +56,7 @@ multilib_src_configure() {
 		# Never use gi-docgen subproject
 		--wrap-mode nofallback
 
+		$(meson_feature sysprof)
 		$(meson_feature X xft)
 		-Dcairo=enabled
 		-Dfontconfig=enabled
