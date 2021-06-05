@@ -10,6 +10,7 @@
 ~app-crypt/gcr-3.38.0::dantrell-gnome-3-38
 ~app-crypt/gcr-3.38.1::dantrell-gnome-3-38
 ~app-crypt/seahorse-3.37.2::dantrell-gnome-3-38
+~app-crypt/seahorse-3.38.1::dantrell-gnome-3-38
 ~app-dicts/gnome-dictionary-3.26.1::dantrell-gnome
 ~app-editors/gedit-3.38.1::dantrell-gnome-3-38
 ~app-editors/gedit-3.38.2::dantrell-gnome-3-38
@@ -32,7 +33,7 @@
 ~dev-cpp/gtkmm-3.24.2::dantrell-gnome
 ~dev-cpp/mm-common-1.0.3::dantrell-gnome
 ~dev-cpp/pangomm-2.42.1::dantrell-gnome
-~dev-lang/vala-0.50.8::dantrell-gnome
+~dev-lang/vala-0.50.9::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.18::dantrell-gnome
 ~dev-libs/atk-2.36.0::dantrell-gnome-3-38
 ~dev-libs/folks-0.14.0::dantrell-gnome
@@ -79,9 +80,7 @@
 ~games-puzzle/gnome-tetravex-3.38.2::dantrell-gnome-3-38
 ~games-puzzle/hitori-3.38.2::dantrell-gnome-3-38
 ~games-puzzle/lightsoff-3.38.0::dantrell-gnome-3-38
-~games-puzzle/quadrapassel-3.38.1::dantrell-gnome-3-38
 ~games-puzzle/quadrapassel-3.38.6::dantrell-gnome-3-38
-~games-puzzle/quadrapassel-3.38::dantrell-gnome-3-38
 ~gnome-base/dconf-0.38.0::dantrell-gnome
 ~gnome-base/dconf-editor-3.38.3::dantrell-gnome-3-38
 ~gnome-base/gnome-3.38.0::dantrell-gnome-3-38
@@ -135,7 +134,7 @@
 ~gnome-extra/libgsf-1.14.47::dantrell-gnome
 ~gnome-extra/mousetweaks-3.32.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
-~gnome-extra/sushi-3.38.0::dantrell-gnome-3-38
+~gnome-extra/sushi-3.38.1::dantrell-gnome-3-38
 ~gnome-extra/yelp-3.38.3::dantrell-gnome-3-38
 ~gnome-extra/yelp-xsl-3.38.3::dantrell-gnome-3-38
 ~gnome-extra/zenity-3.32.0::dantrell-gnome
@@ -176,9 +175,9 @@
 ~net-misc/gnome-online-miners-3.34.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.34.5::dantrell-gnome
 ~sci-geosciences/geocode-glib-3.26.2::dantrell-gnome
-~sci-geosciences/gnome-maps-3.38.4::dantrell-gnome-3-38
+~sci-geosciences/gnome-maps-3.38.5::dantrell-gnome-3-38
 ~sys-apps/gnome-disk-utility-3.38.2::dantrell-gnome-3-38
-~www-client/epiphany-3.38.4::dantrell-gnome-3-38
+~www-client/epiphany-3.38.5::dantrell-gnome-3-38
 ~x11-libs/gdk-pixbuf-2.40.0::dantrell-gnome
 ~x11-libs/gtk+-3.24.5::dantrell-gnome
 ~x11-libs/libnotify-0.7.9::dantrell-gnome

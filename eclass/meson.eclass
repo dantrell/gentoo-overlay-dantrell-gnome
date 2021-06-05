@@ -1,4 +1,4 @@
-# Copyright 2017-2020 Gentoo Authors
+# Copyright 2017-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: meson.eclass
@@ -55,7 +55,9 @@ if [[ -z ${_MESON_ECLASS} ]]; then
 _MESON_ECLASS=1
 
 MESON_DEPEND=">=dev-util/meson-0.47.2
-	>=dev-util/ninja-1.8.2"
+	>=dev-util/ninja-1.8.2
+	dev-util/meson-format-array
+"
 
 if [[ ${EAPI:-0} == [6] ]]; then
 	DEPEND=${MESON_DEPEND}

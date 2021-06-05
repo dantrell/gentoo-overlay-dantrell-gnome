@@ -2,13 +2,13 @@
 
 EAPI="7"
 
-PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
+PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 PYTHON_REQ_USE="threads(+)"
 
 inherit autotools python-r1
 
 DESCRIPTION="Python bindings for the D-Bus messagebus"
-HOMEPAGE="https://www.freedesktop.org/wiki/Software/DBusBindings https://dbus.freedesktop.org/doc/dbus-python/"
+HOMEPAGE="https://www.freedesktop.org/wiki/Software/DBusBindings/ https://dbus.freedesktop.org/doc/dbus-python/"
 SRC_URI="https://dbus.freedesktop.org/releases/${PN}/${P}.tar.gz"
 
 LICENSE="MIT"
@@ -27,7 +27,10 @@ RDEPEND="${PYTHON_DEPS}
 DEPEND="${RDEPEND}"
 BDEPEND="
 	virtual/pkgconfig
-	doc? ( $(python_gen_any_dep 'dev-python/sphinx[${PYTHON_USEDEP}]') )
+	doc? ( $(python_gen_any_dep '
+			dev-python/sphinx[${PYTHON_USEDEP}]
+			dev-python/sphinx_rtd_theme[${PYTHON_USEDEP}]
+		') )
 	test? ( dev-python/pygobject:3[${PYTHON_USEDEP}]
 		dev-python/tappy[${PYTHON_USEDEP}] )
 "
@@ -36,6 +39,7 @@ PATCHES=( "${FILESDIR}"/${PN}-1.2.16-py39.patch )
 
 python_check_deps() {
 	has_version "dev-python/sphinx[${PYTHON_USEDEP}]"
+	has_version "dev-python/sphinx_rtd_theme[${PYTHON_USEDEP}]"
 }
 
 src_prepare() {

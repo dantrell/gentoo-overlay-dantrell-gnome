@@ -6,7 +6,7 @@ EAPI="7"
 FIREFOX_PATCHSET="firefox-78esr-patches-10.tar.xz"
 SPIDERMONKEY_PATCHSET="spidermonkey-78-patches-03.tar.xz"
 
-PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
+PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 
 WANT_AUTOCONF="2.1"
 

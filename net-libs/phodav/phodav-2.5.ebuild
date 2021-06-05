@@ -11,7 +11,9 @@ LICENSE="LGPL-2.1+"
 SLOT="2.0"
 KEYWORDS="~*"
 
-IUSE="gtk-doc systemd zeroconf"
+IUSE="gtk-doc systemd test zeroconf"
+
+RESTRICT="!test? ( test )"
 
 RDEPEND="
 	>=dev-libs/glib-2.51.2:2
@@ -25,6 +27,7 @@ BDEPEND="
 	app-text/xmlto
 	sys-devel/gettext
 	virtual/pkgconfig
+	test? ( gnome-base/dconf )
 "
 
 PATCHES=(

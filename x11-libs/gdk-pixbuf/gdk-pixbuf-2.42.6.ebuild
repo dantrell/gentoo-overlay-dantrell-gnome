@@ -15,12 +15,12 @@ IUSE="gtk-doc +introspection jpeg tiff"
 
 # TODO: For windows/darwin support: shared-mime-info conditional, native_windows_loaders option review
 DEPEND="
-	>=dev-libs/glib-2.48.0:2[${MULTILIB_USEDEP}]
+	>=dev-libs/glib-2.56.0:2[${MULTILIB_USEDEP}]
 	x11-misc/shared-mime-info
 	>=media-libs/libpng-1.4:0=[${MULTILIB_USEDEP}]
 	jpeg? ( virtual/jpeg:0=[${MULTILIB_USEDEP}] )
 	tiff? ( >=media-libs/tiff-3.9.2:0=[${MULTILIB_USEDEP}] )
-	introspection? ( >=dev-libs/gobject-introspection-0.9.3:= )
+	introspection? ( >=dev-libs/gobject-introspection-1.54:= )
 "
 RDEPEND="${DEPEND}
 	!<x11-libs/gtk+-2.90.4:3
@@ -29,8 +29,10 @@ BDEPEND="
 	app-text/docbook-xsl-stylesheets
 	dev-libs/glib:2
 	dev-libs/libxslt
-	gtk-doc? ( >=dev-util/gtk-doc-1.20
-		app-text/docbook-xml-dtd:4.3 )
+	gtk-doc? (
+		app-text/docbook-xml-dtd:4.3
+		dev-util/gi-docgen
+	)
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	>=dev-util/meson-0.55.3
@@ -70,7 +72,7 @@ multilib_src_configure() {
 	)
 	if multilib_is_native_abi; then
 		emesonargs+=(
-			$(meson_use gtk-doc gtk_docs)
+			$(meson_use gtk-doc gtk_doc)
 			$(meson_feature introspection)
 			-Dman=true
 		)
@@ -94,6 +96,15 @@ multilib_src_test() {
 
 multilib_src_install() {
 	meson_src_install
+}
+
+multilib_src_install_all() {
+	einstalldocs
+	if use gtk-doc; then
+		mkdir "${ED}"/usr/share/doc/${PF}/html || die
+		mv "${ED}"/usr/share/doc/{${PN}/,${PF}/html/} || die
+		mv "${ED}"/usr/share/doc/{gdk-pixdata/,${PF}/html/} || die
+	fi
 }
 
 pkg_preinst() {

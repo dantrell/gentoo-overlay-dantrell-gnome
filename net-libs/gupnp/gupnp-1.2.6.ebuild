@@ -2,7 +2,7 @@
 
 EAPI="7"
 VALA_USE_DEPEND="vapigen"
-PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
+PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 PYTHON_REQ_USE="xml"
 
 inherit gnome.org meson multilib-minimal python-single-r1 vala xdg
