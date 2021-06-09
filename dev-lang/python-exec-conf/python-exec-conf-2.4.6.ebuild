@@ -13,7 +13,7 @@ S=${WORKDIR}/${MY_P}
 
 LICENSE="BSD-2"
 SLOT="2"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 # Internal Python project hack.  Do not copy it.  Ever.
 IUSE="${_PYTHON_ALL_IMPLS[@]/#/python_targets_}"

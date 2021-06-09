@@ -10,7 +10,7 @@ SRC_URI="https://github.com/mgorny/python-exec/releases/download/v${PV}/${P}.tar
 
 LICENSE="BSD-2"
 SLOT="2"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 # Internal Python project hack.  Do not copy it.  Ever.
 IUSE="${_PYTHON_ALL_IMPLS[@]/#/python_targets_} +native-symlinks"
