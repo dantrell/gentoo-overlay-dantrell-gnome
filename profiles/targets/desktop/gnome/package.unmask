@@ -12,6 +12,7 @@ dev-python/pygtk::dantrell-gnome
 gnome-base/libgnome-keyring::dantrell-gnome
 gnome-extra/nautilus-sendto::dantrell-gnome
 media-fonts/symbola::gentoo
+media-libs/gmtk::dantrell-gnome
 media-video/pipewire::dantrell-gnome
 sec-policy/selinux-consolekit
 sys-apps/bubblewrap::dantrell-gnome

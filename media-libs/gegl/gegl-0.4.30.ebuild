@@ -67,6 +67,10 @@ BDEPEND="
 
 DOCS=( AUTHORS docs/ChangeLog docs/NEWS.txt )
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-0.4.30-fix-build-openexr-3.patch
+)
+
 python_check_deps() {
 	use test || return 0
 	has_version -b ">=dev-python/pygobject-3.2:3[${PYTHON_USEDEP}]"

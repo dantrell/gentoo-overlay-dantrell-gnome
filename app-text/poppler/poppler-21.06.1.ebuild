@@ -9,10 +9,10 @@ HOMEPAGE="https://poppler.freedesktop.org/"
 SRC_URI="https://poppler.freedesktop.org/${P}.tar.xz"
 
 LICENSE="GPL-2"
-SLOT="0/106"   # CHECK THIS WHEN BUMPING!!! SUBSLOT IS libpoppler.so SOVERSION
-KEYWORDS="*"
+SLOT="0/111"   # CHECK THIS WHEN BUMPING!!! SUBSLOT IS libpoppler.so SOVERSION
+KEYWORDS="~*"
 
-IUSE="cairo cjk curl +cxx debug doc +introspection +jpeg +jpeg2k +lcms nss png qt5 tiff +utils"
+IUSE="cairo cjk curl +cxx debug doc +introspection +jpeg +jpeg2k +lcms nss png qt5 +splash tiff +utils"
 
 # No test data provided
 RESTRICT="test"
@@ -25,7 +25,7 @@ DEPEND="
 	media-libs/freetype
 	sys-libs/zlib
 	cairo? (
-		dev-libs/glib:2
+		>=dev-libs/glib-2.56:2
 		x11-libs/cairo
 		introspection? ( dev-libs/gobject-introspection:= )
 	)
@@ -45,12 +45,15 @@ DEPEND="
 RDEPEND="${DEPEND}
 	cjk? ( app-text/poppler-data )
 "
+DEPEND+="
+	splash? ( dev-libs/boost:= )
+"
 
 DOCS=( AUTHORS NEWS README.md README-XPDF )
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-20.12.1-qt5-deps.patch
-	"${FILESDIR}"/${PN}-20.12.0-respect-cflags.patch
+	"${FILESDIR}"/${PN}-21.04.0-respect-cflags.patch
 	"${FILESDIR}"/${PN}-0.57.0-disable-internal-jpx.patch
 )
 
@@ -77,8 +80,11 @@ src_configure() {
 		-DBUILD_GTK_TESTS=OFF
 		-DBUILD_QT5_TESTS=OFF
 		-DBUILD_CPP_TESTS=OFF
+		-DBUILD_MANUAL_TESTS=OFF
 		-DRUN_GPERF_IF_PRESENT=OFF
-		-DENABLE_SPLASH=ON
+		# Required for SPLASH
+		-DENABLE_BOOST="$(usex splash)"
+		-DENABLE_SPLASH="$(usex splash)"
 		-DENABLE_ZLIB=ON
 		-DENABLE_ZLIB_UNCOMPRESS=OFF
 		-DENABLE_UNSTABLE_API_ABI_HEADERS=ON

@@ -159,6 +159,7 @@ pkg_setup() {
 src_prepare() {
 	eapply "${FILESDIR}"/${PN}-2.24.4-icu-65.patch # bug 698596
 	eapply "${FILESDIR}"/${PN}-2.24.4-eglmesaext-include.patch # bug 699054
+	eapply "${FILESDIR}"/${PN}-2.24.4-detect-sse2-at-compile-time.patch
 	cmake_src_prepare
 	gnome2_src_prepare
 }

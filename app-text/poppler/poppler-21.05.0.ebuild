@@ -10,7 +10,7 @@ SRC_URI="https://poppler.freedesktop.org/${P}.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0/110"   # CHECK THIS WHEN BUMPING!!! SUBSLOT IS libpoppler.so SOVERSION
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="cairo cjk curl +cxx debug doc +introspection +jpeg +jpeg2k +lcms nss png qt5 tiff +utils"
 
@@ -25,7 +25,7 @@ DEPEND="
 	media-libs/freetype
 	sys-libs/zlib
 	cairo? (
-		dev-libs/glib:2
+		>=dev-libs/glib-2.56:2
 		x11-libs/cairo
 		introspection? ( dev-libs/gobject-introspection:= )
 	)

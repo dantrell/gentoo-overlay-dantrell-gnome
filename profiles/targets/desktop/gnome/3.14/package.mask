@@ -17,6 +17,7 @@
 
 # Requires GLib 2.56 (or greater)
 >=app-arch/gnome-autoar-0.3.0
+>=app-text/poppler-21.04.0
 >=media-sound/pulseeffects-4.3.5
 >=x11-misc/xpad-5.1.0
 

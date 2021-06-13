@@ -14,6 +14,7 @@ SLOT="0/4"
 KEYWORDS=""
 
 IUSE="apt doc +introspection qt5 test"
+
 RESTRICT="test" # bug 691962
 
 BDEPEND="
