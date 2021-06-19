@@ -35,7 +35,9 @@ RDEPEND="
 	dev-db/sqlite:3
 
 	gnutls? ( >=net-libs/gnutls-2.10.2 )
-	!gnutls? ( >=dev-libs/openssl-0.9.8g:0=[-bindist] )
+	!gnutls? (
+		>=dev-libs/openssl-0.9.8g:0=[-bindist(-)]
+	)
 	jingle? (
 		>=net-libs/libsoup-2.42
 		>=net-libs/libnice-0.0.11 )

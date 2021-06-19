@@ -1,8 +1,3 @@
-# Regression in profile-formats
-#
-# Ref. https://bugs.gentoo.org/651208
->=sys-apps/portage-3.0.18
-
 # Regression in meson_options.txt default values
 #
 # Ref. https://bugs.freedesktop.org/show_bug.cgi?id=103162
