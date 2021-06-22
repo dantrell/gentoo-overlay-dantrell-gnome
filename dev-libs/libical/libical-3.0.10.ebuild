@@ -7,30 +7,19 @@ VALA_USE_DEPEND="vapigen"
 
 inherit cmake python-any-r1 vala
 
-DESCRIPTION="An implementation of basic iCAL protocols"
+DESCRIPTION="Implementation of basic iCAL protocols"
 HOMEPAGE="https://github.com/libical/libical"
 SRC_URI="https://github.com/${PN}/${PN}/releases/download/v${PV}/${P}.tar.gz"
 
 LICENSE="|| ( MPL-2.0 LGPL-2.1 )"
 SLOT="0/3"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="berkdb doc examples introspection static-libs test vala"
 REQUIRED_USE="vala? ( introspection )"
 
 RESTRICT="!test? ( test )"
 
-BDEPEND="
-	dev-lang/perl
-	virtual/pkgconfig
-	doc? ( app-doc/doxygen )
-	introspection? ( dev-libs/gobject-introspection:= )
-	test? (
-		${PYTHON_DEPS}
-		introspection? ( $(python_gen_any_dep 'dev-python/pygobject:3[${PYTHON_USEDEP}]') )
-	)
-	vala? ( $(vala_depend) )
-"
 COMMON_DEPEND="
 	dev-libs/icu:=
 	berkdb? ( sys-libs/db:= )
@@ -41,6 +30,20 @@ DEPEND="${COMMON_DEPEND}
 "
 RDEPEND="${COMMON_DEPEND}
 	sys-libs/timezone-data
+"
+BDEPEND="
+	dev-lang/perl
+	virtual/pkgconfig
+	doc? (
+		app-doc/doxygen
+		introspection? ( dev-util/gtk-doc )
+	)
+	introspection? ( dev-libs/gobject-introspection:= )
+	test? (
+		${PYTHON_DEPS}
+		introspection? ( $(python_gen_any_dep 'dev-python/pygobject:3[${PYTHON_USEDEP}]') )
+	)
+	vala? ( $(vala_depend) )
 "
 
 PATCHES=(
@@ -95,7 +98,7 @@ src_test() {
 }
 
 src_install() {
-	use doc && HTML_DOCS=( "${BUILD_DIR}"/apidocs/html/. )
+	use doc && local HTML_DOCS=( "${BUILD_DIR}"/apidocs/html/. )
 
 	cmake_src_install
 
