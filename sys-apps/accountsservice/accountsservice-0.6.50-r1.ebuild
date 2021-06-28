@@ -18,6 +18,7 @@ REQUIRED_USE="?? ( ck consolekit elogind systemd )"
 CDEPEND="
 	>=dev-libs/glib-2.37.3:2
 	sys-auth/polkit
+	virtual/libcrypt:=
 	ck? ( <sys-auth/consolekit-0.9 )
 	consolekit? ( >=sys-auth/consolekit-0.9 )
 	elogind? ( sys-auth/elogind )

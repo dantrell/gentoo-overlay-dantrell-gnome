@@ -100,7 +100,7 @@ src_test() {
 src_install() {
 	default
 	do_python
-	find "${D}" -name '*.la' -delete || die
+	find "${ED}" -type f -name '*.la' -delete || die
 
 	# backward compatibility for gentoo
 	# in the past we had slots

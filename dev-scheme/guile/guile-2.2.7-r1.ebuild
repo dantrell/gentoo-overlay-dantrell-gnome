@@ -1,50 +1,39 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-
-inherit autotools elisp-common flag-o-matic
+EAPI="7"
 
 DESCRIPTION="GNU Ubiquitous Intelligent Language for Extensions"
 HOMEPAGE="https://www.gnu.org/software/guile/"
 SRC_URI="mirror://gnu/guile/${P}.tar.xz"
 
 LICENSE="LGPL-3+"
-SLOT="12/22" # subslot is soname version
-KEYWORDS="*"
+SLOT="12/2.2-1" # libguile-2.2.so.1 => 2.2-1
+KEYWORDS=""
 
-IUSE="debug debug-malloc +deprecated doc emacs +networking +nls +regex static-libs +threads" # upstream recommended +networking +nls
+IUSE="debug debug-malloc +deprecated +networking +nls +regex +threads" # upstream recommended +networking +nls
+REQUIRED_USE="regex" # workaround for bug 596322
 
-RESTRICT="mirror"
+RESTRICT="strip"
 
 RDEPEND="
-	!dev-scheme/guile:2
-
 	>=dev-libs/boehm-gc-7.0:=[threads?]
-	>=dev-libs/gmp-4.2:0=
+	dev-libs/gmp:=
 	dev-libs/libffi:=
 	dev-libs/libltdl:=
-	>=dev-libs/libunistring-0.9.3
-	>=sys-devel/libtool-1.5.6
+	dev-libs/libunistring:0=
+	sys-libs/ncurses:0=
 	sys-libs/readline:0=
-"
-DEPEND="
-	${RDEPEND}
+	virtual/libcrypt:="
+DEPEND="${RDEPEND}"
+BDEPEND="
 	virtual/pkgconfig
-	doc? ( sys-apps/texinfo )
-	emacs? ( >=app-editors/emacs-23.1:* )
-	sys-devel/gettext
-"
+	sys-devel/libtool
+	sys-devel/gettext"
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-2-snarf.patch
-	"${FILESDIR}"/${P}-darwin.patch
-	"${FILESDIR}"/${P}-ia64-fix-crash-thread-context-switch.patch
+	"${FILESDIR}"/${PN}-2.2.3-gentoo-sandbox.patch
+	"${FILESDIR}"/${PN}-2.2.7-stack-up.patch
 )
-
-src_prepare() {
-	default
-	eautoreconf
-}
 
 src_configure() {
 	# Seems to have issues with -Os, switch to -O2
@@ -59,12 +48,15 @@ src_configure() {
 	# 	https://bugs.gentoo.org/608190
 	replace-flags -ggdb[3-9] -ggdb2
 
+	# Seems to have issues with HPPA/PPC/SPARC
+	# 	https://bugs.gentoo.org/676468
+	mv prebuilt/32-bit-big-endian{,.broken} || die
+
 	econf \
 		--disable-error-on-warning \
 		--disable-rpath \
 		--disable-static \
 		--enable-posix \
-		--with-modules \
 		--without-libgmp-prefix \
 		--without-libiconv-prefix \
 		--without-libintl-prefix \
@@ -77,16 +69,11 @@ src_configure() {
 		$(use_enable networking) \
 		$(use_enable nls) \
 		$(use_enable regex) \
-		$(use_enable static-libs static) \
 		$(use_with threads)
 }
 
 src_install() {
 	default
-
-	if use doc; then
-		dodoc GUILE-VERSION HACKING
-	fi
 
 	# Necessary for avoiding ldconfig warnings
 	# 	https://bugzilla.novell.com/show_bug.cgi?id=874028#c0
@@ -97,27 +84,5 @@ src_install() {
 	# 	https://bugs.gentoo.org/206896
 	keepdir /usr/share/guile/site
 
-	# Necessary for some dependencies
-	dosym libguile-2.0.so /usr/$(get_libdir)/libguile.so
-
 	find "${D}" -name '*.la' -delete || die
-}
-
-pkg_postinst() {
-	use emacs && elisp-site-regen
-}
-
-pkg_prerm() {
-	rm -f "${EROOT}"/usr/share/guile/site/slibcat
-}
-
-pkg_postrm() {
-	use emacs && elisp-site-regen
-}
-
-pkg_config() {
-	if has_version '>=dev-scheme/slib-3.2.4'; then
-		einfo "Registering slib with guile"
-		install_slib_for_guile
-	fi
 }
