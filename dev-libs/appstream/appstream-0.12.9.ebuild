@@ -33,7 +33,7 @@ DEPEND="
 	>=dev-libs/glib-2.54:2
 	dev-libs/libxml2:2
 	dev-libs/libyaml
-	dev-libs/snowball-stemmer
+	dev-libs/snowball-stemmer:=
 	introspection? ( >=dev-libs/gobject-introspection-1.56:= )
 	qt5? ( dev-qt/qtcore:5 )
 "

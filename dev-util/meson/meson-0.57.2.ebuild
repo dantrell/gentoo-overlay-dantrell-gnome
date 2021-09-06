@@ -2,7 +2,6 @@
 
 EAPI="7"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
-DISTUTILS_USE_SETUPTOOLS="rdepend"
 
 inherit distutils-r1 toolchain-funcs
 
@@ -12,7 +11,7 @@ SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="test"
 

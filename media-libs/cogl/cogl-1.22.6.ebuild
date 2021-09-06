@@ -28,7 +28,7 @@ COMMON_DEPEND="
 	x11-libs/libXext
 	>=x11-libs/libXfixes-3
 	>=x11-libs/libXrandr-1.2
-	media-libs/mesa[egl]
+	media-libs/mesa[egl(+)]
 	gles2? ( media-libs/mesa[gles2] )
 	gstreamer? (
 		media-libs/gstreamer:1.0
@@ -37,7 +37,7 @@ COMMON_DEPEND="
 	pango? ( >=x11-libs/pango-1.20.0[introspection?] )
 	wayland? (
 		>=dev-libs/wayland-1.1.90
-		media-libs/mesa[egl,gbm,wayland]
+		media-libs/mesa[egl(+),gbm(+),wayland]
 		x11-libs/libdrm:=
 	)
 "

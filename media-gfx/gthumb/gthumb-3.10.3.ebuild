@@ -6,7 +6,7 @@ PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 inherit gnome.org gnome2-utils meson python-any-r1 xdg
 
 DESCRIPTION="Image viewer and browser for Gnome"
-HOMEPAGE="https://wiki.gnome.org/Apps/gthumb"
+HOMEPAGE="https://wiki.gnome.org/Apps/Gthumb"
 
 LICENSE="GPL-2+"
 SLOT="0"

@@ -29,7 +29,7 @@ RDEPEND="
 	>=app-text/docbook-dsssl-stylesheets-1.40
 	emacs? ( >=app-editors/emacs-23.1:* )
 	$(python_gen_cond_dep '
-		dev-python/pygments[${PYTHON_MULTI_USEDEP}]
+		dev-python/pygments[${PYTHON_USEDEP}]
 	')
 "
 DEPEND="${RDEPEND}

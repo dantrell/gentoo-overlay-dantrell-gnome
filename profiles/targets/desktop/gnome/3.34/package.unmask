@@ -144,7 +144,7 @@
 ~media-libs/clutter-gtk-1.8.4::dantrell-gnome
 ~media-libs/cogl-1.22.8::dantrell-gnome
 ~media-libs/grilo-0.3.9::dantrell-gnome
-~media-libs/gsound-1.0.2::dantrell-gnome
+~media-libs/gsound-1.0.3::dantrell-gnome
 ~media-libs/libchamplain-0.12.20::dantrell-gnome
 ~media-libs/libmediaart-1.9.4::dantrell-gnome
 ~media-plugins/grilo-plugins-0.3.9::dantrell-gnome

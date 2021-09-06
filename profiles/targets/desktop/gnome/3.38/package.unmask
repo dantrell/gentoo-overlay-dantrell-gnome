@@ -24,7 +24,7 @@
 ~app-misc/tracker-3.0.3::dantrell-gnome
 ~app-misc/tracker-miners-3.0.4::dantrell-gnome
 ~app-text/enchant-2.2.8::dantrell-gnome
-~app-text/evince-3.38.2::dantrell-gnome-3-38
+~app-text/evince-3.38.3::dantrell-gnome-3-38
 ~app-text/gspell-1.8.4::dantrell-gnome
 ~app-text/libgxps-0.3.2::dantrell-gnome
 ~dev-cpp/atkmm-2.28.0::dantrell-gnome
@@ -33,7 +33,7 @@
 ~dev-cpp/gtkmm-3.24.2::dantrell-gnome
 ~dev-cpp/mm-common-1.0.3::dantrell-gnome
 ~dev-cpp/pangomm-2.42.1::dantrell-gnome
-~dev-lang/vala-0.50.9::dantrell-gnome
+~dev-lang/vala-0.50.10::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.18::dantrell-gnome
 ~dev-libs/atk-2.36.0::dantrell-gnome-3-38
 ~dev-libs/folks-0.14.0::dantrell-gnome
@@ -50,7 +50,7 @@
 ~dev-libs/libpeas-1.28.0::dantrell-gnome
 ~dev-libs/libsigc++-2.10.7::dantrell-gnome
 ~dev-libs/totem-pl-parser-3.26.6::dantrell-gnome
-~dev-libs/vala-common-0.48.18::dantrell-gnome
+~dev-libs/vala-common-0.48.19::dantrell-gnome
 ~dev-python/pyatspi-2.38.1::dantrell-gnome-3-38
 ~dev-python/pygobject-3.38.0::dantrell-gnome-3-38
 ~dev-util/devhelp-3.38.1::dantrell-gnome-3-38
@@ -95,6 +95,8 @@
 ~gnome-base/gnome-desktop-3.38.5::dantrell-gnome-3-38
 ~gnome-base/gnome-desktop-3.38.6::dantrell-gnome-3-38
 ~gnome-base/gnome-desktop-3.38.7::dantrell-gnome-3-38
+~gnome-base/gnome-desktop-3.38.8::dantrell-gnome-3-38
+~gnome-base/gnome-desktop-3.38.9::dantrell-gnome-3-38
 ~gnome-base/gnome-extra-apps-3.38.0::dantrell-gnome-3-38
 ~gnome-base/gnome-flashback-3.37.3::dantrell-gnome-3-38
 ~gnome-base/gnome-light-3.38.0::dantrell-gnome-3-38
@@ -103,6 +105,7 @@
 ~gnome-base/gnome-settings-daemon-3.38.2::dantrell-gnome-3-38
 ~gnome-base/gnome-shell-3.38.4::dantrell-gnome-3-38
 ~gnome-base/gnome-shell-3.38.5::dantrell-gnome-3-38
+~gnome-base/gnome-shell-3.38.6::dantrell-gnome-3-38
 ~gnome-base/gsettings-desktop-schemas-3.38.0::dantrell-gnome-3-38
 ~gnome-base/gvfs-1.46.2::dantrell-gnome-3-38
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
@@ -129,7 +132,7 @@
 ~gnome-extra/gnome-software-3.38.2::dantrell-gnome-3-38
 ~gnome-extra/gnome-system-monitor-3.38.0::dantrell-gnome-3-38
 ~gnome-extra/gnome-tweaks-3.34.1::dantrell-gnome
-~gnome-extra/gnome-user-docs-3.38.5::dantrell-gnome-3-38
+~gnome-extra/gnome-user-docs-3.38.8::dantrell-gnome-3-38
 ~gnome-extra/gnome-user-share-3.34.0::dantrell-gnome
 ~gnome-extra/gnome-weather-3.36.1::dantrell-gnome
 ~gnome-extra/gucharmap-13.0.4::dantrell-gnome
@@ -154,11 +157,12 @@
 ~media-libs/clutter-gtk-1.8.4::dantrell-gnome
 ~media-libs/cogl-1.22.8::dantrell-gnome
 ~media-libs/grilo-0.3.9::dantrell-gnome
-~media-libs/gsound-1.0.2::dantrell-gnome
+~media-libs/gsound-1.0.3::dantrell-gnome
 ~media-libs/libchamplain-0.12.20::dantrell-gnome
 ~media-libs/libmediaart-1.9.4::dantrell-gnome
 ~media-plugins/grilo-plugins-0.3.9::dantrell-gnome
 ~media-sound/gnome-music-3.38.3::dantrell-gnome-3-38
+~media-video/cheese-3.38.0::dantrell-gnome-3-38
 ~media-video/gnome-video-effects-0.5.0::dantrell-gnome
 ~media-video/totem-3.38.1::dantrell-gnome-3-38
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
@@ -168,7 +172,7 @@
 ~net-libs/gssdp-1.2.3::dantrell-gnome
 ~net-libs/gtk-vnc-1.0.0::dantrell-gnome
 ~net-libs/gupnp-1.2.4::dantrell-gnome
-~net-libs/libnma-1.8.30::dantrell-gnome
+~net-libs/libnma-1.8.32::dantrell-gnome
 ~net-libs/libsoup-2.72.0::dantrell-gnome-3-38
 ~net-libs/libsoup-gnome-2.72.0::dantrell-gnome-3-38
 ~net-libs/phodav-2.5::dantrell-gnome
@@ -177,9 +181,9 @@
 ~net-misc/gnome-online-miners-3.34.0::dantrell-gnome
 ~net-wireless/gnome-bluetooth-3.34.5::dantrell-gnome
 ~sci-geosciences/geocode-glib-3.26.2::dantrell-gnome
-~sci-geosciences/gnome-maps-3.38.5::dantrell-gnome-3-38
+~sci-geosciences/gnome-maps-3.38.6::dantrell-gnome-3-38
 ~sys-apps/gnome-disk-utility-3.38.2::dantrell-gnome-3-38
-~www-client/epiphany-3.38.5::dantrell-gnome-3-38
+~www-client/epiphany-3.38.6::dantrell-gnome-3-38
 ~x11-libs/gdk-pixbuf-2.40.0::dantrell-gnome
 ~x11-libs/gtk+-3.24.5::dantrell-gnome
 ~x11-libs/libnotify-0.7.9::dantrell-gnome
@@ -194,3 +198,4 @@
 ~x11-wm/metacity-3.37.1::dantrell-gnome-3-38
 ~x11-wm/mutter-3.38.4::dantrell-gnome-3-38
 ~x11-wm/mutter-3.38.5::dantrell-gnome-3-38
+~x11-wm/mutter-3.38.6::dantrell-gnome-3-38

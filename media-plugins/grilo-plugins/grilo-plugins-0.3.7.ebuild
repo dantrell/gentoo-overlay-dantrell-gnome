@@ -66,11 +66,11 @@ DEPEND="${RDEPEND}
 	lua? ( dev-util/gperf )
 	upnp-av? ( test? (
 		${PYTHON_DEPS}
-		$(python_gen_any_dep 'dev-python/dbusmock[${PYTHON_USEDEP}]') ) )
+		$(python_gen_any_dep 'dev-python/python-dbusmock[${PYTHON_USEDEP}]') ) )
 "
 
 python_check_deps() {
-	use upnp-av && use test && has_version "dev-python/dbusmock[${PYTHON_USEDEP}]"
+	use upnp-av && use test && has_version "dev-python/python-dbusmock[${PYTHON_USEDEP}]"
 }
 
 pkg_setup() {

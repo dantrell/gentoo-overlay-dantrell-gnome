@@ -20,7 +20,7 @@ IUSE="gtk +legacy static-libs"
 RDEPEND="
 	>=net-misc/networkmanager-1.2:=[ppp]
 	dev-libs/dbus-glib
-	net-dialup/ppp[eap-tls]
+	net-dialup/ppp:=[eap-tls]
 	net-dialup/xl2tpd
 	>=dev-libs/glib-2.32
 	|| (
@@ -33,8 +33,8 @@ RDEPEND="
 		legacy? ( gnome-extra/nm-applet[gtk] )
 		!legacy? ( gnome-extra/nm-applet )
 	)"
-
-BDEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	sys-devel/gettext
 	dev-util/intltool
 	virtual/pkgconfig"

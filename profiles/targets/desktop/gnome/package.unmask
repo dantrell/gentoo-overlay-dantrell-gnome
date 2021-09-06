@@ -1,11 +1,5 @@
 app-text/enchant:2::dantrell-gnome
 dev-lang/spidermonkey:24::dantrell-gnome
-dev-lang/vala:0.36::dantrell-gnome
-dev-lang/vala:0.40::dantrell-gnome
-dev-lang/vala:0.44::dantrell-gnome
-dev-lang/vala:0.46::dantrell-gnome
-dev-lang/vala:0.48::dantrell-gnome
-dev-lang/vala:0.50::dantrell-gnome
 dev-libs/libgames-support::dantrell-gnome
 dev-libs/vala-common::dantrell-gnome
 dev-python/pygtk::dantrell-gnome
@@ -17,6 +11,7 @@ media-video/pipewire::dantrell-gnome
 sec-policy/selinux-consolekit
 sys-apps/bubblewrap::dantrell-gnome
 sys-auth/consolekit::dantrell-gnome
+sys-devel/automake:1.11::gentoo
 sys-power/pm-quirks::dantrell-gnome
 sys-power/pm-utils::dantrell-gnome
 x11-libs/libXxf86misc::dantrell-gnome

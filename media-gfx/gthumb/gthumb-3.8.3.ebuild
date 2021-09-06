@@ -5,7 +5,7 @@ EAPI="7"
 inherit gnome.org gnome2-utils meson xdg
 
 DESCRIPTION="Image viewer and browser for Gnome"
-HOMEPAGE="https://wiki.gnome.org/Apps/gthumb"
+HOMEPAGE="https://wiki.gnome.org/Apps/Gthumb"
 
 LICENSE="GPL-2+"
 SLOT="0"

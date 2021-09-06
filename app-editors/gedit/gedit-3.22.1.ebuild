@@ -34,8 +34,8 @@ COMMON_DEPEND="
 	python? (
 		${PYTHON_DEPS}
 		$(python_gen_cond_dep '
-			dev-python/pycairo[${PYTHON_MULTI_USEDEP}]
-			>=dev-python/pygobject-3:3[cairo,${PYTHON_MULTI_USEDEP}]
+			dev-python/pycairo[${PYTHON_USEDEP}]
+			>=dev-python/pygobject-3:3[cairo,${PYTHON_USEDEP}]
 			dev-libs/libpeas[python,${PYTHON_SINGLE_USEDEP}]
 		')
 	)

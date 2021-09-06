@@ -46,6 +46,7 @@ src_prepare() {
 	mv html/libmediaart{,-${SLOT}}.devhelp2 || die
 	cd "${S}" || die
 
+	eapply "${FILESDIR}"/${PN}-1.9.4-drop-bashisms-configure.patch
 	eautoreconf
 
 	use vala && vala_src_prepare

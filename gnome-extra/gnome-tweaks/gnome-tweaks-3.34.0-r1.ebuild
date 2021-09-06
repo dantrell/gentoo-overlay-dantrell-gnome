@@ -5,7 +5,7 @@ PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 
 inherit gnome.org meson python-single-r1 xdg
 
-DESCRIPTION="Customize advanced GNOME 3 options"
+DESCRIPTION="Customize advanced GNOME options"
 HOMEPAGE="https://wiki.gnome.org/Apps/Tweaks"
 
 LICENSE="GPL-3+ CC0-1.0"
@@ -19,7 +19,7 @@ DEPEND="${PYTHON_DEPS}"
 # See README.md for list of deps
 RDEPEND="${DEPEND}
 	$(python_gen_cond_dep '
-		>=dev-python/pygobject-3.10.2:3[${PYTHON_MULTI_USEDEP}]
+		>=dev-python/pygobject-3.10.2:3[${PYTHON_USEDEP}]
 	')
 	>=gnome-base/gnome-settings-daemon-3
 	x11-themes/sound-theme-freedesktop

@@ -19,7 +19,7 @@ IUSE=""
 RDEPEND="${PYTHON_DEPS}
 	>=dev-libs/glib-2.36:2[dbus]
 	$(python_gen_cond_dep '
-		>=dev-python/pygobject-3.8:3[cairo,${PYTHON_MULTI_USEDEP}]
+		>=dev-python/pygobject-3.8:3[cairo,${PYTHON_USEDEP}]
 	')
 	gnome-base/gsettings-desktop-schemas
 	>=x11-libs/gtk+-3.12:3[introspection]

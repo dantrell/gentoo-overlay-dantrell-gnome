@@ -12,7 +12,7 @@ SRC_URI="https://github.com/googlefonts/noto-fonts/archive/${COMMIT}.tar.gz -> $
 
 LICENSE="OFL-1.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="cjk emoji extra minimal +ttf"
 

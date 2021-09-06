@@ -8,7 +8,7 @@ PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 inherit gnome.org gnome2-utils meson python-any-r1 vala xdg
 
 DESCRIPTION="Library for aggregating people from multiple sources"
-HOMEPAGE="https://wiki.gnome.org/Projects/Folks"
+HOMEPAGE="https://wiki.gnome.org/Projects/Folks https://gitlab.gnome.org/GNOME/folks"
 
 LICENSE="LGPL-2.1+"
 SLOT="0/25" # subslot = libfolks soname version
@@ -47,7 +47,7 @@ BDEPEND="
 	eds? ( gnome-extra/evolution-data-server[vala] )
 	test? ( sys-apps/dbus
 		${PYTHON_DEPS}
-		bluetooth? ( $(python_gen_any_dep 'dev-python/dbusmock[${PYTHON_USEDEP}]') )
+		bluetooth? ( $(python_gen_any_dep 'dev-python/python-dbusmock[${PYTHON_USEDEP}]') )
 	)
 "
 
@@ -57,7 +57,7 @@ PATCHES=(
 
 python_check_deps() {
 	if use test && use bluetooth; then
-		has_version "dev-python/dbusmock[${PYTHON_USEDEP}]"
+		has_version "dev-python/python-dbusmock[${PYTHON_USEDEP}]"
 	fi
 }
 

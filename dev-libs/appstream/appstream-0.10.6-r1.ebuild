@@ -25,7 +25,7 @@ RDEPEND="
 	dev-libs/gobject-introspection:=
 	dev-libs/libxml2:2
 	dev-libs/libyaml
-	dev-libs/snowball-stemmer
+	dev-libs/snowball-stemmer:=
 	qt5? ( dev-qt/qtcore:5 )
 "
 DEPEND="${RDEPEND}

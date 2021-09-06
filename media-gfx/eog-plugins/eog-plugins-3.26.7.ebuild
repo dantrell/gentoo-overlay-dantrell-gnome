@@ -34,7 +34,7 @@ RDEPEND="
 		>=dev-libs/glib-2.32:2[dbus]
 		dev-libs/libpeas:=[gtk,python,${PYTHON_SINGLE_USEDEP}]
 		$(python_gen_cond_dep '
-			dev-python/pygobject:3[${PYTHON_MULTI_USEDEP}]
+			dev-python/pygobject:3[${PYTHON_USEDEP}]
 		')
 		gnome-base/gsettings-desktop-schemas
 		media-gfx/eog[introspection]

@@ -43,7 +43,7 @@ DEPEND="
 	python? (
 		${PYTHON_DEPS}
 		$(python_gen_cond_dep '
-			>=dev-python/pygobject-2.90.3:3[${PYTHON_MULTI_USEDEP}]
+			>=dev-python/pygobject-2.90.3:3[${PYTHON_USEDEP}]
 		')
 	)
 "
@@ -56,7 +56,7 @@ RDEPEND="${DEPEND}
 		x11-libs/pango[introspection]
 		>=dev-libs/libpeas-1.1.0[python,${PYTHON_SINGLE_USEDEP}]
 		$(python_gen_cond_dep '
-			dev-python/dbus-python[${PYTHON_MULTI_USEDEP}]
+			dev-python/dbus-python[${PYTHON_USEDEP}]
 		')
 	)
 "

@@ -67,7 +67,7 @@ RDEPEND="
 		>=x11-libs/gtk+-2.12:2 )
 	playlist? ( >=dev-libs/totem-pl-parser-3:= )
 	rss? ( >=net-libs/libgrss-0.7:0 )
-	stemmer? ( dev-libs/snowball-stemmer )
+	stemmer? ( dev-libs/snowball-stemmer:= )
 	tiff? ( media-libs/tiff:0 )
 	upnp-av? ( >=media-libs/gupnp-dlna-0.9.4:2.0 )
 	vorbis? ( >=media-libs/libvorbis-0.22 )

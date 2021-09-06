@@ -30,7 +30,7 @@ RDEPEND="
 	x11-libs/gtk+:3
 	x11-libs/pango
 	introspection? ( >=dev-libs/gobject-introspection-0.9.8:= )
-	stemmer? ( dev-libs/snowball-stemmer )
+	stemmer? ( dev-libs/snowball-stemmer:= )
 "
 DEPEND="${RDEPEND}
 	app-text/docbook-xml-dtd:4.3

@@ -51,7 +51,7 @@ COMMON_DEPEND="
 	python? (
 		${PYTHON_DEPS}
 		$(python_gen_cond_dep '
-			>=dev-python/pygobject-3.0:3[${PYTHON_MULTI_USEDEP}]
+			>=dev-python/pygobject-3.0:3[${PYTHON_USEDEP}]
 		')
 	)
 	udev? (
@@ -85,7 +85,7 @@ RDEPEND="${COMMON_DEPEND}
 		gnome-keyring? ( >=app-crypt/libsecret-0.18[introspection] )
 		webkit? (
 			$(python_gen_cond_dep '
-				dev-python/mako[${PYTHON_MULTI_USEDEP}]
+				dev-python/mako[${PYTHON_USEDEP}]
 			')
 			net-libs/webkit-gtk:4[introspection] ) )
 	upnp-av? (

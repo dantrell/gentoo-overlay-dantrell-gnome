@@ -26,7 +26,7 @@ RDEPEND="
 	>=media-libs/freetype-2.4:2
 	>=media-libs/fontconfig-2.11:1.0
 	dev-libs/libyaml
-	stemmer? ( dev-libs/snowball-stemmer )
+	stemmer? ( dev-libs/snowball-stemmer:= )
 	x11-libs/pango
 	introspection? ( >=dev-libs/gobject-introspection-0.9.8:= )
 "

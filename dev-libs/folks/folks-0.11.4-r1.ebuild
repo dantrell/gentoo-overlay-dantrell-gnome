@@ -8,7 +8,7 @@ VALA_MAX_API_VERSION="0.40"
 inherit gnome2 vala virtualx
 
 DESCRIPTION="Library for aggregating people from multiple sources"
-HOMEPAGE="https://wiki.gnome.org/Projects/Folks"
+HOMEPAGE="https://wiki.gnome.org/Projects/Folks https://gitlab.gnome.org/GNOME/folks"
 
 LICENSE="LGPL-2.1+"
 SLOT="0/25" # subslot = libfolks soname version

@@ -31,7 +31,7 @@ RDEPEND="
 		${PYTHON_DEPS}
 		x11-libs/gtk+:3[introspection]
 		$(python_gen_cond_dep '
-			>=dev-python/pygobject-3.8:3[${PYTHON_MULTI_USEDEP}]
+			>=dev-python/pygobject-3.8:3[${PYTHON_USEDEP}]
 		')
 	)
 	webkit? ( >=net-libs/webkit-gtk-2.12.0:4 )

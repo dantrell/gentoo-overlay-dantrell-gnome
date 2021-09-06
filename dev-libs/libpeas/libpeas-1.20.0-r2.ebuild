@@ -29,7 +29,7 @@ RDEPEND="
 	python? (
 		${PYTHON_DEPS}
 		$(python_gen_cond_dep '
-			>=dev-python/pygobject-3.2:3[${PYTHON_MULTI_USEDEP}]
+			>=dev-python/pygobject-3.2:3[${PYTHON_USEDEP}]
 		')
 	)
 "

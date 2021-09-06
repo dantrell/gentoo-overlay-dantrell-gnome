@@ -10,7 +10,7 @@ SRC_URI="https://www.freedesktop.org/software/libmbim/${P}.tar.xz"
 
 LICENSE="LGPL-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="static-libs udev"
 

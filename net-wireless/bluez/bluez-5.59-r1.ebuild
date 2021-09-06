@@ -11,7 +11,7 @@ SRC_URI="https://www.kernel.org/pub/linux/bluetooth/${P}.tar.xz"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0/3"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="btpclient cups doc debug deprecated extra-tools experimental +mesh midi +obex +readline selinux systemd test test-programs +udev user-session"
 # Since this release all remaining extra-tools need readline support, but this could
@@ -27,8 +27,8 @@ RESTRICT="!test? ( test )"
 
 TEST_DEPS="${PYTHON_DEPS}
 	$(python_gen_cond_dep '
-		>=dev-python/dbus-python-1[${PYTHON_MULTI_USEDEP}]
-		dev-python/pygobject:3[${PYTHON_MULTI_USEDEP}]
+		>=dev-python/dbus-python-1[${PYTHON_USEDEP}]
+		dev-python/pygobject:3[${PYTHON_USEDEP}]
 	')
 "
 BDEPEND="
@@ -242,7 +242,7 @@ multilib_src_install_all() {
 	# We need to ensure obexd can be spawned automatically by systemd
 	# when user-session is enabled:
 	# http://marc.info/?l=linux-bluetooth&m=148096094716386&w=2
-	# https://bugs.gentoo.org/show_bug.cgi?id=577842
+	# https://bugs.gentoo.org/577842
 	# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=804908
 	# https://bugs.archlinux.org/task/45816
 	# https://bugzilla.redhat.com/show_bug.cgi?id=1318441

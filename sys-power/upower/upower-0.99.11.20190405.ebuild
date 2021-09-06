@@ -29,7 +29,7 @@ COMMON_DEPS="
 	)
 	integration-test? (
 		$(python_gen_cond_dep '
-			dev-python/dbusmock[${PYTHON_MULTI_USEDEP}]
+			dev-python/python-dbusmock[${PYTHON_USEDEP}]
 		')
 		dev-util/umockdev
 	)

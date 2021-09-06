@@ -20,13 +20,13 @@
 ~app-misc/tracker-2.3.6::dantrell-gnome
 ~app-misc/tracker-miners-2.3.5::dantrell-gnome
 ~app-text/enchant-2.2.8::dantrell-gnome
-~app-text/evince-3.36.10::dantrell-gnome-3-36
+~app-text/evince-3.36.11::dantrell-gnome-3-36
 ~app-text/gspell-1.8.4::dantrell-gnome
 ~app-text/libgxps-0.3.2::dantrell-gnome
 ~app-text/yelp-tools-3.32.2::dantrell-gnome
 ~dev-cpp/cairomm-1.12.2::dantrell-gnome
 ~dev-cpp/mm-common-1.0.3::dantrell-gnome
-~dev-lang/vala-0.48.18::dantrell-gnome
+~dev-lang/vala-0.48.19::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.18::dantrell-gnome
 ~dev-libs/atk-2.35.1::dantrell-gnome-3-36
 ~dev-libs/folks-0.14.0::dantrell-gnome
@@ -45,7 +45,7 @@
 ~dev-libs/libical-3.0.9::dantrell-gnome
 ~dev-libs/libpeas-1.26.0::dantrell-gnome
 ~dev-libs/totem-pl-parser-3.26.6::dantrell-gnome
-~dev-libs/vala-common-0.48.18::dantrell-gnome
+~dev-libs/vala-common-0.48.19::dantrell-gnome
 ~dev-python/pyatspi-2.36.0::dantrell-gnome-3-36
 ~dev-python/pygobject-3.36.1::dantrell-gnome-3-36
 ~dev-util/devhelp-3.36.2::dantrell-gnome-3-36
@@ -149,7 +149,7 @@
 ~media-libs/clutter-gtk-1.8.4::dantrell-gnome
 ~media-libs/cogl-1.22.8::dantrell-gnome
 ~media-libs/grilo-0.3.9::dantrell-gnome
-~media-libs/gsound-1.0.2::dantrell-gnome
+~media-libs/gsound-1.0.3::dantrell-gnome
 ~media-libs/libchamplain-0.12.20::dantrell-gnome
 ~media-libs/libmediaart-1.9.4::dantrell-gnome
 ~media-plugins/grilo-plugins-0.3.9::dantrell-gnome
@@ -164,7 +164,7 @@
 ~net-libs/gssdp-1.2.3::dantrell-gnome
 ~net-libs/gtk-vnc-1.0.0::dantrell-gnome
 ~net-libs/gupnp-1.2.4::dantrell-gnome
-~net-libs/libnma-1.8.30::dantrell-gnome
+~net-libs/libnma-1.8.32::dantrell-gnome
 ~net-libs/libsoup-2.70.0::dantrell-gnome-3-36
 ~net-libs/libsoup-gnome-2.70.0::dantrell-gnome-3-36
 ~net-libs/libzapojit-0.0.3::dantrell-gnome

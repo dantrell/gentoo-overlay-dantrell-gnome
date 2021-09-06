@@ -2,7 +2,7 @@
 
 EAPI="7"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
-USE_RUBY="ruby25 ruby26 ruby27"
+USE_RUBY="ruby26 ruby27 ruby30"
 
 inherit check-reqs cmake flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs virtualx
 
@@ -78,7 +78,7 @@ RDEPEND="
 	dev-libs/hyphen
 	jpeg2k? ( >=media-libs/openjpeg-2.2.0:2= )
 
-	egl? ( media-libs/mesa[egl] )
+	egl? ( media-libs/mesa[egl(+)] )
 	gles2? ( media-libs/mesa[gles2] )
 	opengl? ( virtual/opengl )
 	webgl? (

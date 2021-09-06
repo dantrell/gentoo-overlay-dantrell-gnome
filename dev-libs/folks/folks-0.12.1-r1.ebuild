@@ -7,7 +7,7 @@ VALA_MAX_API_VERSION="0.44" # tests-utils fails to build with newer with v0.12.1
 inherit gnome.org gnome2-utils meson vala xdg
 
 DESCRIPTION="Library for aggregating people from multiple sources"
-HOMEPAGE="https://wiki.gnome.org/Projects/Folks"
+HOMEPAGE="https://wiki.gnome.org/Projects/Folks https://gitlab.gnome.org/GNOME/folks"
 
 LICENSE="LGPL-2.1+"
 SLOT="0/25" # subslot = libfolks soname version
@@ -43,7 +43,7 @@ BDEPEND="
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	test? ( sys-apps/dbus
-		bluetooth? ( dev-python/dbusmock ) )
+		bluetooth? ( dev-python/python-dbusmock ) )
 	$(vala_depend)
 	telepathy? ( net-libs/telepathy-glib[vala] )
 	eds? ( gnome-extra/evolution-data-server[vala] )

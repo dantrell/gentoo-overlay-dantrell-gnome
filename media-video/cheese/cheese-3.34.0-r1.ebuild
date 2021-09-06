@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Cheese"
 
 LICENSE="GPL-2+"
 SLOT="0/8" # subslot = libcheese soname version
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gtk-doc +introspection test"
 
@@ -68,10 +68,10 @@ src_prepare() {
 
 src_configure() {
 	local emesonargs=(
-		$(meson_use test tests)
-		$(meson_use introspection)
 		$(meson_use gtk-doc gtk_doc)
-		-D man=true
+		$(meson_use introspection)
+		$(meson_use test tests)
+		-Dman=true
 	)
 
 	meson_src_configure

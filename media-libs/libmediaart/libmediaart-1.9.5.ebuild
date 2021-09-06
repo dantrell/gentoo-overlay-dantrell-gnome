@@ -33,21 +33,6 @@ BDEPEND="
 "
 
 src_prepare() {
-	# Make doc parallel installable
-	cd "${S}"/docs/reference/${PN} || die
-	sed -e "s/\(DOC_MODULE.*=\).*/\1${PN}-${SLOT}/" \
-		-e "s/\(DOC_MAIN_SGML_FILE.*=\).*/\1${PN}-docs-${SLOT}.xml/" \
-		-i Makefile.am Makefile.in || die
-	sed -e "s/\(<book.*name=\"\)libmediaart/\1${PN}-${SLOT}/" \
-		-i html/libmediaart.devhelp2 || die
-	mv libmediaart-docs{,-${SLOT}}.xml || die
-	mv libmediaart-overrides{,-${SLOT}}.txt || die
-	mv libmediaart-sections{,-${SLOT}}.txt || die
-	mv html/libmediaart{,-${SLOT}}.devhelp2 || die
-	cd "${S}" || die
-
-	eautoreconf
-
 	use vala && vala_src_prepare
 	gnome2_src_prepare
 }

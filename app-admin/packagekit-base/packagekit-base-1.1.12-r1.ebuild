@@ -61,8 +61,8 @@ DEPEND="${COMMON_DEPEND}
 "
 RDEPEND="${COMMON_DEPEND}
 	$(python_gen_cond_dep '
-		>=app-portage/layman-2[${PYTHON_MULTI_USEDEP}]
-		>=sys-apps/portage-2.2[${PYTHON_MULTI_USEDEP}]
+		>=app-portage/layman-2[${PYTHON_USEDEP}]
+		>=sys-apps/portage-2.2[${PYTHON_USEDEP}]
 	')
 	entropy? ( >=sys-apps/entropy-234[${PYTHON_SINGLE_USEDEP}] )
 "

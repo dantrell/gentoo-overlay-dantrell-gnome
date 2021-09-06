@@ -113,6 +113,7 @@ dev-util/gtk-update-icon-cache::gentoo
 dev-util/meld::gentoo
 dev-util/meson::gentoo
 dev-util/nemiver::gentoo
+dev-util/umockdev::gentoo
 dev-util/valadoc::gentoo
 dev-vcs/gitg::gentoo
 games-arcade/gnome-nibbles::gentoo
@@ -298,6 +299,7 @@ x11-libs/gtef::gentoo
 x11-libs/gtk+::gentoo
 x11-libs/gtksourceview::gentoo
 x11-libs/libXfixes::gentoo
+x11-libs/libXi::gentoo
 x11-libs/libXxf86misc::gentoo
 x11-libs/libcryptui::gentoo
 x11-libs/libfm-extra::gentoo

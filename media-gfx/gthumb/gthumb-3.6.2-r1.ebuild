@@ -6,7 +6,7 @@ GNOME2_LA_PUNT="yes"
 inherit gnome2
 
 DESCRIPTION="Image viewer and browser for Gnome"
-HOMEPAGE="https://wiki.gnome.org/Apps/gthumb"
+HOMEPAGE="https://wiki.gnome.org/Apps/Gthumb"
 
 LICENSE="GPL-2+"
 SLOT="0"

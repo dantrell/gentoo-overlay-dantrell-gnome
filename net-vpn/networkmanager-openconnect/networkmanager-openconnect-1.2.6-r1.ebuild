@@ -1,0 +1,50 @@
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI="7"
+GNOME_ORG_MODULE="NetworkManager-${PN##*-}"
+
+inherit gnome2
+
+DESCRIPTION="NetworkManager OpenConnect plugin"
+HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
+
+LICENSE="GPL-2+"
+SLOT="0"
+KEYWORDS="~*"
+
+IUSE="gtk +legacy"
+
+DEPEND="
+	>=net-misc/networkmanager-1.2:=
+	>=dev-libs/glib-2.32:2
+	>=dev-libs/dbus-glib-0.74
+	dev-libs/libxml2:2
+	>=net-vpn/openconnect-3.02:=
+	gtk? (
+		>=app-crypt/gcr-3.4:=
+		>=app-crypt/libsecret-0.18
+		>=x11-libs/gtk+-3.4:3 )
+"
+RDEPEND="
+	${DEPEND}
+	acct-group/nm-openconnect
+	acct-user/nm-openconnect
+"
+BDEPEND="
+	sys-devel/gettext
+	dev-util/intltool
+	virtual/pkgconfig
+"
+
+src_configure() {
+	gnome2_src_configure \
+		--disable-more-warnings \
+		--disable-static \
+		$(use_with legacy libnm-glib) \
+		$(use_with gtk gnome) \
+		$(use_with gtk authdlg)
+}
+
+pkg_postinst() {
+	gnome2_pkg_postinst
+}
