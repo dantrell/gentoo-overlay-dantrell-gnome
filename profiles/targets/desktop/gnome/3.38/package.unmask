@@ -113,8 +113,6 @@
 ~gnome-base/nautilus-3.38.1::dantrell-gnome-3-38
 ~gnome-extra/evolution-data-server-3.38.4::dantrell-gnome-3-38
 ~gnome-extra/evolution-ews-3.38.4::dantrell-gnome-3-38
-~gnome-extra/gnome-boxes-3.38.0::dantrell-gnome-3-38
-~gnome-extra/gnome-boxes-3.38.1::dantrell-gnome-3-38
 ~gnome-extra/gnome-boxes-3.38.2::dantrell-gnome-3-38
 ~gnome-extra/gnome-calculator-3.38.2::dantrell-gnome-3-38
 ~gnome-extra/gnome-calendar-3.38.2::dantrell-gnome-3-38
