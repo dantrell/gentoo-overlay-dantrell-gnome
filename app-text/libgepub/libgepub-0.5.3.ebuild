@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="8"
 
 inherit gnome.org meson xdg
 
@@ -22,13 +22,10 @@ RDEPEND="
 	x11-libs/gtk+:3
 	introspection? ( >=dev-libs/gobject-introspection-1.30:= )
 "
-DEPEND="${RDEPEND}
-	virtual/pkgconfig
-"
+DEPEND="${RDEPEND}"
+BDEPEND="virtual/pkgconfig"
 
 src_configure() {
-	local emesonargs=(
-		-D introspection=$(usex introspection true false)
-	)
-	meson_src_configure
+	meson_src_configure \
+		$(meson_use introspection)
 }

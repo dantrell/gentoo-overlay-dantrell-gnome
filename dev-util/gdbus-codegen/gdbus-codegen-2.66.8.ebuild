@@ -5,7 +5,7 @@ EAPI="7"
 DESCRIPTION="GDBus code and documentation generator"
 
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 

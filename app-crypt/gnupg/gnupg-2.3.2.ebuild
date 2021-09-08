@@ -2,7 +2,7 @@
 
 EAPI="8"
 
-inherit autotools flag-o-matic systemd toolchain-funcs
+inherit flag-o-matic systemd toolchain-funcs
 
 MY_P="${P/_/-}"
 
@@ -14,8 +14,7 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="bzip2 doc ldap nls readline selinux +smartcard sqlite ssl tofu tools usb user-socket wks-server"
-REQUIRED_USE="tofu? ( sqlite )"
+IUSE="bzip2 doc ldap nls readline selinux +smartcard ssl tofu tools usb user-socket wks-server"
 
 # Existence of executables is checked during configuration.
 DEPEND=">=dev-libs/libassuan-2.5.0
@@ -28,7 +27,7 @@ DEPEND=">=dev-libs/libassuan-2.5.0
 	ldap? ( net-nds/openldap )
 	readline? ( sys-libs/readline:0= )
 	smartcard? ( usb? ( virtual/libusb:1 ) )
-	sqlite? ( >=dev-db/sqlite-3.27 )
+	tofu? ( >=dev-db/sqlite-3.27 )
 	ssl? ( >=net-libs/gnutls-3.0:0= )
 	sys-libs/zlib
 "
@@ -52,13 +51,10 @@ DOCS=(
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-2.1.20-gpgscm-Use-shorter-socket-path-lengts-to-improve-tes.patch
-	"${FILESDIR}"/${PN}-2.3.0-sqlite_check.patch
 )
 
 src_prepare() {
 	default
-
-	eautoreconf
 
 	# Inject SSH_AUTH_SOCK into user's sessions after enabling gpg-agent-ssh.socket in systemctl --user mode,
 	# idea borrowed from libdbus, see
@@ -75,9 +71,10 @@ src_configure() {
 		$(use_enable bzip2)
 		$(use_enable nls)
 		$(use_enable smartcard scdaemon)
-		$(use_enable sqlite)
 		$(use_enable ssl gnutls)
 		$(use_enable tofu)
+		$(use_enable tofu keyboxd)
+		$(use_enable tofu sqlite)
 		$(use smartcard && use_enable usb ccid-driver || echo '--disable-ccid-driver')
 		$(use_enable wks-server wks-tools)
 		$(use_with ldap)
