@@ -50,7 +50,7 @@ RDEPEND="
 		media-libs/sbc
 		>=net-wireless/bluez-4.101:=
 	)
-	echo-cancel? ( media-libs/webrtc-audio-processing )
+	echo-cancel? ( media-libs/webrtc-audio-processing:0 )
 	extra? (
 		>=media-libs/libsndfile-1.0.20
 	)
@@ -66,10 +66,7 @@ RDEPEND="
 	)
 	pipewire-alsa? (
 		>=media-libs/alsa-lib-1.1.7[${MULTILIB_USEDEP}]
-		|| (
-			media-plugins/alsa-plugins[-pulseaudio]
-			!media-plugins/alsa-plugins
-		)
+		!media-plugins/alsa-plugins[${MULTILIB_USEDEP},pulseaudio]
 	)
 	!pipewire-alsa? ( media-plugins/alsa-plugins[${MULTILIB_USEDEP},pulseaudio] )
 	systemd? ( sys-apps/systemd )
@@ -261,7 +258,7 @@ pkg_postinst() {
 	elog
 
 	optfeature_header "The following can be installed for optional runtime features:"
-	optfeature "restricted realtime capabilities vai D-Bus" sys-auth/rtkit
+	optfeature "restricted realtime capabilities via D-Bus" sys-auth/rtkit
 	# Once hsphfpd lands in tree, both it and ofono will need to be checked for presence here!
 	if use bluetooth; then
 		optfeature "better BT headset support (daemon startup required)" net-misc/ofono

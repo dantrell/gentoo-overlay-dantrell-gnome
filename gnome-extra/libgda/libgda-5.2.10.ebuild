@@ -5,14 +5,14 @@ GNOME2_LA_PUNT="yes"
 GNOME2_EAUTORECONF="yes"
 VALA_USE_DEPEND="vapigen"
 
-inherit db-use epatch flag-o-matic gnome2 java-pkg-opt-2 vala
+inherit db-use flag-o-matic gnome2 java-pkg-opt-2 vala
 
 DESCRIPTION="GNOME database access library"
 HOMEPAGE="https://www.gnome-db.org/"
 
 LICENSE="GPL-2+ LGPL-2+"
 SLOT="5/4" # subslot = libgda-5.0 soname version
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="berkdb canvas debug firebird gnome-keyring gtk graphviz http +introspection json ldap mdb mysql oci8 postgres sourceview ssl vala"
 REQUIRED_USE="
@@ -21,8 +21,8 @@ REQUIRED_USE="
 	sourceview? ( gtk )
 	vala? ( introspection )
 "
-# firebird license is not GPL compatible
 
+# firebird license is not GPL compatible
 # FIXME: lots of tests failing. Check if they still fail in 5.1.2
 # firebird support bindist-restricted because it is not GPL compatible
 RESTRICT="
@@ -82,10 +82,13 @@ src_prepare() {
 		-e '/SUBDIRS =/ s/trml2pdf//' \
 		-i libgda-report/RML/Makefile.{am,in} || die
 
+	# replace my_bool with _Bool
+	eapply "${FILESDIR}"/${PN}-5.2-my_bool-error.patch
+
 	# Prevent file collisions with libgda:4
 	eapply "${FILESDIR}"/${PN}-4.99.1-gda-browser-doc-collision.patch
 	eapply "${FILESDIR}"/${PN}-4.99.1-control-center-icon-collision.patch
-	# Move files with mv (since epatch can't handle rename diffs) and
+	# Move files with mv (since eapply can't handle rename diffs) and
 	# update pre-generated gtk-doc files (for non-git versions of libgda)
 	local f
 	for f in tools/browser/doc/gda-browser* ; do

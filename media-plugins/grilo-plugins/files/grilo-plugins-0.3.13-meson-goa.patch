@@ -1,7 +1,22 @@
-diff '--exclude=.git' -urN a/meson.build b/meson.build
---- a/meson.build	2021-03-31 08:24:51.000000000 -0500
-+++ b/meson.build	2021-04-03 16:44:21.763935940 -0500
-@@ -13,7 +13,7 @@
+https://gitlab.gnome.org/GNOME/grilo-plugins/-/merge_requests/109
+
+From 27585cd5bcfba9e75d8ca9bc86dc0b7b3e5a2e59 Mon Sep 17 00:00:00 2001
+From: Mart Raudsepp <leio@gentoo.org>
+Date: Sat, 16 Feb 2019 14:44:44 +0200
+Subject: [PATCH] build: Support controlling gnome-online-accounts dep
+
+On Gentoo, some users prefer to disable gnome-online-accounts since it
+brings in the large WebKitGTK dependency.
+---
+ meson.build       | 4 ++--
+ meson_options.txt | 1 +
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/meson.build b/meson.build
+index 74a5d2a9..5f8c7cd4 100644
+--- a/meson.build
++++ b/meson.build
+@@ -13,7 +13,7 @@ project('grilo-plugins', 'c',
              'warning_level=1'
          ],
          license: 'LGPL 2.1',
@@ -10,7 +25,7 @@ diff '--exclude=.git' -urN a/meson.build b/meson.build
  
  plugin_version = meson.project_version()
  version_array = plugin_version.split('.')
-@@ -52,7 +52,7 @@
+@@ -52,7 +52,7 @@ avahi_glib_dep = dependency('avahi-glib', required: false)
  avahi_gobject_dep = dependency('avahi-gobject', required: false)
  gio_dep = dependency('gio-2.0', required: false)
  gio_unix_dep = dependency('gio-unix-2.0', required: false)
@@ -19,11 +34,16 @@ diff '--exclude=.git' -urN a/meson.build b/meson.build
  gom_dep = dependency('gom-1.0', version: '>= 0.4', required: false)
  grilo_net_dep = dependency('grilo-net-0.3', version: '>= 0.3.0', required: false,
                             fallback: ['grilo', 'libgrlnet_dep'])
-diff '--exclude=.git' -urN a/meson_options.txt b/meson_options.txt
---- a/meson_options.txt	2021-03-31 08:24:51.000000000 -0500
-+++ b/meson_options.txt	2021-04-03 16:44:21.763935940 -0500
-@@ -22,3 +22,4 @@
+diff --git a/meson_options.txt b/meson_options.txt
+index f5132228..1e0ea090 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -21,4 +21,5 @@ option('enable-tmdb', type: 'combo', choices: [ 'auto', 'yes', 'no' ], value: 'a
+ option('enable-tracker', type: 'combo', choices: [ 'auto', 'yes', 'no' ], value: 'auto', description: 'Enable Tracker plugin (DEPRECATED)')
  option('enable-tracker3', type: 'combo', choices: [ 'auto', 'yes', 'no' ], value: 'auto', description: 'Enable Tracker3 plugin')
  option('enable-youtube', type: 'combo', choices: [ 'auto', 'yes', 'no' ], value: 'auto', description: 'Enable YouTube plugin')
- option('help', type: 'combo', choices: [ 'yes', 'no' ], value: 'yes', description: 'Build examples developers')
 +option('goa', type: 'feature', value: 'auto', description: 'Enable gnome-online-accounts usage')
+ option('help', type: 'combo', choices: [ 'yes', 'no' ], value: 'yes', description: 'Build examples developers')
+-- 
+2.26.3
+

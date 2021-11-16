@@ -3,7 +3,7 @@
 EAPI="6"
 WANT_AUTOCONF="2.1"
 
-inherit autotools toolchain-funcs pax-utils mozcoreconf-v4
+inherit autotools toolchain-funcs pax-utils mozcoreconf-v5
 
 MY_PN="mozjs"
 MY_P="${MY_PN}-${PV/_/.}"

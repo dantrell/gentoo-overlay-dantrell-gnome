@@ -8,7 +8,7 @@ DESCRIPTION="GLib and GObject mappings for libvirt"
 HOMEPAGE="https://libvirt.org/ https://gitlab.com/libvirt/libvirt-glib/"
 SRC_URI="https://libvirt.org/sources/glib/${P}.tar.xz"
 
-LICENSE="LGPL-2.1"
+LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS=""
 
@@ -17,20 +17,20 @@ REQUIRED_USE="vala? ( introspection )"
 
 RESTRICT="!test? ( test )"
 
-BDEPEND="
-	>=dev-util/intltool-0.35.0
-	virtual/pkgconfig
-	gtk-doc? ( dev-util/gtk-doc )
-	vala? ( $(vala_depend) )
-"
 RDEPEND="
 	>=dev-libs/libxml2-2.9.1
 	>=app-emulation/libvirt-1.2.8:=
 	>=dev-libs/glib-2.48.0:2
 	introspection? ( >=dev-libs/gobject-introspection-1.48.0:= )
 "
-
 DEPEND="${RDEPEND}"
+BDEPEND="
+	>=dev-util/intltool-0.35.0
+	virtual/pkgconfig
+	gtk-doc? ( dev-util/gtk-doc
+		app-text/docbook-xml-dtd:4.3 )
+	vala? ( $(vala_depend) )
+"
 
 src_prepare() {
 	default

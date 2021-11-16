@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome2 multilib-minimal
+inherit flag-o-matic gnome2 multilib-minimal
 
 DESCRIPTION="C++ interface for GTK+"
 HOMEPAGE="https://www.gtkmm.org"
@@ -50,6 +50,9 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	# Code is not C++17 ready (GCC 11 default)
+	append-cxxflags -std=c++14
+
 	ECONF_SOURCE="${S}" \
 	gnome2_src_configure \
 		--enable-api-atkmm \

@@ -3,7 +3,7 @@
 EAPI="7"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 
-inherit gnome2-utils python-single-r1 xdg
+inherit gnome2-utils python-single-r1 xdg virtualx
 
 DESCRIPTION="Korean Hangul engine for IBus"
 HOMEPAGE="https://github.com/libhangul/ibus-hangul/wiki"
@@ -27,10 +27,20 @@ DEPEND="${RDEPEND}"
 BDEPEND="sys-devel/gettext
 	virtual/pkgconfig"
 
+PATCHES=( "${FILESDIR}"/${PN}-1.5.4-test.patch )
+
 src_configure() {
 	econf \
 		$(use_enable nls) \
 		--with-python=${EPYTHON}
+}
+
+src_test() {
+	"${BROOT}"${GLIB_COMPILE_SCHEMAS} --allow-any-name "${S}"/data || die
+
+	export GSETTINGS_BACKEND="memory"
+	export GSETTINGS_SCHEMA_DIR="${S}/data"
+	virtx default
 }
 
 pkg_preinst() {

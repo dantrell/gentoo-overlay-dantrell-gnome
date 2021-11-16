@@ -1,11 +1,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 DESCRIPTION="Unicode data from unicode.org"
-HOMEPAGE="https://www.unicode.org/ucd/"
-SRC_URI="https://www.unicode.org/Public/zipped/${PV}/UCD.zip -> ${P}-UCD.zip
-	https://www.unicode.org/Public/zipped/${PV}/Unihan.zip -> ${P}-Unihan.zip"
+HOMEPAGE="https://unicode.org/ucd/"
+SRC_URI="
+	https://unicode.org/Public/zipped/${PV}/UCD.zip -> ${P}-UCD.zip
+	https://unicode.org/Public/zipped/${PV}/Unihan.zip -> ${P}-Unihan.zip
+"
 
 LICENSE="unicode"
 SLOT="0"

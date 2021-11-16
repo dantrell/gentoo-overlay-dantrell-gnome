@@ -9,7 +9,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/GtkSourceView"
 
 LICENSE="LGPL-2.1+"
 SLOT="4"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="glade gtk-doc +introspection +vala"
 REQUIRED_USE="vala? ( introspection )"
@@ -24,12 +24,19 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	gtk-doc? ( >=dev-util/gtk-doc-1.25
-		app-text/docbook-xml-dtd:4.3 )
+	gtk-doc? (
+		>=dev-util/gtk-doc-1.25
+		app-text/docbook-xml-dtd:4.3
+	)
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
 "
+
+PATCHES=(
+	"${FILESDIR}"/${PN}-4.8.1-build-disable-Werror-for-incompatible-pointer-types.patch
+	"${FILESDIR}"/${PN}-4.8.1-build-ensure-access-to-resources-in-corelib-build.patch
+)
 
 src_prepare() {
 	use vala && vala_src_prepare

@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/GSound"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gtk-doc +introspection vala"
 REQUIRED_USE="vala? ( introspection )"
@@ -23,7 +23,8 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 BDEPEND="
 	virtual/pkgconfig
-	gtk-doc? ( dev-util/gtk-doc )
+	gtk-doc? ( dev-util/gtk-doc
+		app-text/docbook-xml-dtd:4.3 )
 	vala? ( $(vala_depend) )
 "
 

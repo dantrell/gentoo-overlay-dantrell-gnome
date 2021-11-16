@@ -35,6 +35,7 @@ RESTRICT="!test? ( test )"
 # this ebuild does not do that anyway) (bug #599586)
 
 RDEPEND="
+	!<dev-util/gdbus-codegen-${PV}
 	>=dev-libs/libpcre-8.13:3[${MULTILIB_USEDEP},static-libs?]
 	>=virtual/libiconv-0-r1[${MULTILIB_USEDEP}]
 	>=dev-libs/libffi-3.0.13-r1:=[${MULTILIB_USEDEP}]
@@ -46,13 +47,12 @@ RDEPEND="
 	fam? ( >=virtual/fam-0-r1[${MULTILIB_USEDEP}] )
 	${PYTHON_DEPS}
 	virtual/libelf:0=
-	=dev-util/gdbus-codegen-${PV}
 "
 DEPEND="${RDEPEND}
 	app-text/docbook-xml-dtd:4.1.2
 	>=dev-libs/libxslt-1.0
 	>=sys-devel/gettext-0.11
-	>=dev-util/gtk-doc-am-1.20
+	>=dev-util/gtk-doc-1.20
 	systemtap? ( >=dev-util/systemtap-1.3 )
 	test? (
 		sys-devel/gdb

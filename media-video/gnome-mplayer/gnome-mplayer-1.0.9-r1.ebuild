@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome2-utils xdg-utils
+inherit flag-o-matic gnome2-utils xdg-utils
 
 DESCRIPTION="A GTK+ interface to MPlayer"
 HOMEPAGE="https://code.google.com/p/gnome-mplayer/"
@@ -34,6 +34,9 @@ DEPEND="${COMMON_DEPEND}
 	virtual/pkgconfig"
 
 src_configure() {
+	# Work around -fno-common (GCC 10 default)
+	append-flags -fcommon
+
 	# --disable-nemo only because it's untested and new feature in 1.0.9
 	econf \
 		--enable-gtk3 \

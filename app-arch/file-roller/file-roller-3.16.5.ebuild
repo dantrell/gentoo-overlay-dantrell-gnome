@@ -3,7 +3,7 @@
 EAPI="6"
 GNOME2_LA_PUNT="yes"
 
-inherit gnome2 readme.gentoo-r1
+inherit flag-o-matic gnome2 readme.gentoo-r1
 
 DESCRIPTION="Archive manager for GNOME"
 HOMEPAGE="https://wiki.gnome.org/Apps/FileRoller"
@@ -67,6 +67,9 @@ src_prepare() {
 }
 
 src_configure() {
+	# Work around -fno-common (GCC 10 default)
+	append-flags -fcommon
+
 	# --disable-debug because enabling it adds -O0 to CFLAGS
 	gnome2_src_configure \
 		--disable-run-in-place \

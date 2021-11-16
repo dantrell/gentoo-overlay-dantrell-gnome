@@ -21,6 +21,14 @@ RDEPEND="
 	>=gnome-base/librsvg-2.32:2
 "
 DEPEND="${RDEPEND}"
+# gnome-base/librsvg:2[vala] removed because it causes the following circular dependency (with gnome-base/librsvg):
+#
+# dev-lang/vala
+#  media-gfx/graphviz
+#   gnome-base/librsvg
+#    dev-lang/vala
+#
+# Ref. https://github.com/dantrell/gentoo-project-gnome-without-systemd#known-issues
 BDEPEND="
 	$(vala_depend)
 	dev-libs/appstream-glib

@@ -27,7 +27,8 @@ RDEPEND="
 		media-libs/gstreamer:1.0
 		media-libs/gst-plugins-base:1.0
 		media-plugins/gst-plugins-gtk:1.0 )
-	raw? ( >=media-libs/libraw-0.14:= )
+	raw? ( >=media-libs/libraw-0.14:=
+		<media-libs/libraw-0.21 )
 	http? ( >=net-libs/libsoup-2.42.0:2.4 )
 	gnome-keyring? ( >=app-crypt/libsecret-0.11 )
 	cdr? ( >=app-cdr/brasero-3.2 )

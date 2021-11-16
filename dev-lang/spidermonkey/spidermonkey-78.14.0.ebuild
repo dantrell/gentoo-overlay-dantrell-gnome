@@ -58,7 +58,7 @@ DESCRIPTION="Mozilla's JavaScript engine written in C and C++"
 HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"
 
 LICENSE="MPL-2.0"
-SLOT="78/13.0"
+SLOT="78/14.0"
 KEYWORDS="*"
 
 IUSE="debug +jit minimal test"

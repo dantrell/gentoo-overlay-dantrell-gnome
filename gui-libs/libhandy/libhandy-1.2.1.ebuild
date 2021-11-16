@@ -36,6 +36,10 @@ BDEPEND="
 "
 
 src_prepare() {
+	# Work around -Werror=incompatible-pointer-types (GCC 11 default)
+	sed -i meson.build \
+		-e '/Werror=incompatible-pointer-types/d' || die
+
 	use vala && vala_src_prepare
 	xdg_src_prepare
 }

@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome2 multilib-minimal
+inherit flag-o-matic gnome2 multilib-minimal
 
 DESCRIPTION="C++ interface for pango"
 HOMEPAGE="https://www.gtkmm.org"
@@ -32,6 +32,9 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 multilib_src_configure() {
+	# Code is not C++17 ready (GCC 11 default)
+	append-cxxflags -std=c++14
+
 	ECONF_SOURCE="${S}" gnome2_src_configure \
 		$(multilib_native_use_enable doc documentation)
 }

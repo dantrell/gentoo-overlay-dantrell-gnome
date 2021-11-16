@@ -3,6 +3,7 @@
 EAPI="6"
 GNOME_ORG_MODULE="NetworkManager"
 GNOME2_LA_PUNT="yes"
+GNOME2_EAUTORECONF="yes"
 VALA_USE_DEPEND="vapigen"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 
@@ -13,7 +14,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
 
 LICENSE="GPL-2+"
 SLOT="0" # add subslot if libnm-util.so.2 or libnm-glib.so.4 bumps soname version
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="audit bluetooth ck connection-sharing consolekit +dhclient dhcpcd doc elogind gnutls +introspection iwd json kernel_linux +nss +modemmanager ncurses ofono ovs policykit +ppp resolvconf selinux systemd teamd test vala +vanilla +wext +wifi"
 REQUIRED_USE="
@@ -117,6 +118,10 @@ DEPEND="${COMMON_DEPEND}
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.21.2.data-fix-the-id-net-driver-udev-rule.patch
 	"${FILESDIR}"/${PN}-1.18.4-iwd1-compat.patch # included in 1.21.3+
+
+	# From OpenEmbedded:
+	# 	https://github.com/openembedded/meta-openembedded/commit/575c14ded56e1e97582a6df0921d19b4da630961
+	"${FILESDIR}"/${PN}-1.14.6-do-not-create-settings-settings-property-documentation.patch
 )
 
 python_check_deps() {

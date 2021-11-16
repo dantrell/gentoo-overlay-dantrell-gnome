@@ -4,7 +4,7 @@ EAPI="6"
 VALA_USE_DEPEND="vapigen"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 
-inherit gnome2 python-any-r1 vala virtualx
+inherit flag-o-matic gnome2 python-any-r1 vala virtualx
 
 DESCRIPTION="Libraries for cryptographic UIs and accessing PKCS#11 modules"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/gcr"
@@ -60,6 +60,9 @@ src_prepare() {
 }
 
 src_configure() {
+	# Work around -fno-common (GCC 10 default)
+	append-flags -fcommon
+
 	gnome2_src_configure \
 		$(use_with gtk) \
 		$(use_enable introspection) \

@@ -12,7 +12,7 @@ SRC_URI="https://dbus.freedesktop.org/releases/dbus/${P}.tar.gz"
 
 LICENSE="|| ( AFL-2.1 GPL-2 )"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="debug doc elogind kernel_linux selinux static-libs systemd test user-session X"
 REQUIRED_USE="
@@ -137,6 +137,7 @@ multilib_src_configure() {
 		--with-system-pid-file="${EPREFIX}${rundir}"/dbus.pid
 		--with-system-socket="${EPREFIX}${rundir}"/dbus/system_bus_socket
 		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
+		--with-systemduserunitdir="$(systemd_get_userunitdir)"
 		--with-dbus-user=messagebus
 		$(use_with X x)
 	)
@@ -280,5 +281,17 @@ pkg_postinst() {
 		elog "specified and refused to start otherwise, then export the"
 		elog "the following to your environment:"
 		elog " DBUS_SESSION_BUS_ADDRESS=\"launchd:env=DBUS_LAUNCHD_SESSION_BUS_SOCKET\""
+	fi
+
+	if use user-session; then
+		ewarn "You have enabled user-session. Please note this can cause"
+		ewarn "bogus behaviors in several dbus consumers that are not prepared"
+		ewarn "for this dbus activation method yet."
+		ewarn
+		ewarn "See the following link for background on this change:"
+		ewarn "https://lists.freedesktop.org/archives/systemd-devel/2015-January/027711.html"
+		ewarn
+		ewarn "Known issues are tracked here:"
+		ewarn "https://bugs.gentoo.org/576028"
 	fi
 }

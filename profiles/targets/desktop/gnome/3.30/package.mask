@@ -187,7 +187,7 @@
 >=x11-libs/gdk-pixbuf-2.40.0
 >=x11-libs/gnome-pty-helper-0.42.0
 >=x11-libs/gtksourceview-5.0
->=x11-libs/gtk+-3.26.0
+>=x11-libs/gtk+-3.24.24
 >=x11-libs/libwnck-3.31.0
 >=x11-libs/vte-0.56.0
 >=x11-misc/gpaste-3.32.0

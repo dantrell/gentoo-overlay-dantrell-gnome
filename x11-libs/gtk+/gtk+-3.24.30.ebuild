@@ -10,7 +10,7 @@ HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2+"
 SLOT="3/24" # From WebKit: http://trac.webkit.org/changeset/195811
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="aqua broadway cloudprint colord cups examples gtk-doc +introspection sysprof test vim-syntax wayland X xinerama"
 REQUIRED_USE="
@@ -207,6 +207,7 @@ multilib_src_install_all() {
 	insinto /etc/gtk-3.0
 	doins "${FILESDIR}"/settings.ini
 	# Skip README.{in,commits,win32} that would get installed by default
+	DOCS=( AUTHORS ChangeLog NEWS README )
 	einstalldocs
 }
 

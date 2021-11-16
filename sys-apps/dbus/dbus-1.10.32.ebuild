@@ -3,7 +3,7 @@
 EAPI="6"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 
-inherit autotools linux-info flag-o-matic python-any-r1 readme.gentoo-r1 systemd virtualx multilib-minimal
+inherit autotools flag-o-matic linux-info python-any-r1 readme.gentoo-r1 systemd virtualx multilib-minimal
 
 DESCRIPTION="A message bus system, a simple way for applications to talk to each other"
 HOMEPAGE="https://dbus.freedesktop.org/"
@@ -11,7 +11,7 @@ SRC_URI="https://dbus.freedesktop.org/releases/dbus/${P}.tar.gz"
 
 LICENSE="|| ( AFL-2.1 GPL-2 )"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="debug doc elogind selinux static-libs systemd test user-session X"
 REQUIRED_USE="
@@ -29,7 +29,7 @@ BDEPEND="
 	doc? ( app-doc/doxygen )
 "
 COMMON_DEPEND="
-	>=dev-libs/expat-2
+	>=dev-libs/expat-2.1.0
 	elogind? ( sys-auth/elogind )
 	selinux? ( sys-libs/libselinux )
 	systemd? ( sys-apps/systemd:0= )
@@ -39,6 +39,7 @@ COMMON_DEPEND="
 	)
 "
 DEPEND="${COMMON_DEPEND}
+	dev-libs/expat
 	test? (
 		${PYTHON_DEPS}
 		>=dev-libs/glib-2.36:2
@@ -222,7 +223,7 @@ multilib_src_install_all() {
 	# let the init script create the /var/run/dbus directory
 	rm -rf "${ED}"/var/run
 
-	dodoc AUTHORS ChangeLog HACKING NEWS README doc/TODO
+	dodoc AUTHORS ChangeLog NEWS README doc/TODO
 	readme.gentoo_create_doc
 
 	find "${ED}" -name '*.la' -delete || die

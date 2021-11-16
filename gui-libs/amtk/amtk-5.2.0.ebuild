@@ -14,7 +14,7 @@ KEYWORDS="*"
 IUSE="+introspection"
 
 RDEPEND="
-	>=dev-libs/glib-2.52:2
+	>=dev-libs/glib-2.56:2
 	>=x11-libs/gtk+-3.22:3
 	introspection? ( >=dev-libs/gobject-introspection-1.42:= )
 "

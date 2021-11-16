@@ -10,7 +10,7 @@ SRC_URI="https://dev.gentoo.org/~ulm/eselect/${P}.tar.xz"
 
 LICENSE="GPL-2+ || ( GPL-2+ CC-BY-SA-4.0 )"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="doc emacs vanilla-profile vim-syntax"
 

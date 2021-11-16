@@ -13,7 +13,7 @@ SRC_URI="https://dev.gentoo.org/~zlogene/distfiles/${CATEGORY}/${PN}/${P}.tar.xz
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="cdr dbus dia exif graphicsmagick imagemagick inkjar jemalloc jpeg lcms
 openmp postscript spell static-libs svg2 visio wpg"
@@ -45,7 +45,7 @@ COMMON_DEPEND="${PYTHON_DEPS}
 	media-libs/fontconfig
 	media-libs/freetype:2
 	media-libs/libpng:0=
-	net-libs/libsoup
+	net-libs/libsoup:2.4
 	sci-libs/gsl:=
 	x11-libs/libX11
 	>=x11-libs/pango-1.37.2
@@ -101,6 +101,9 @@ S="${WORKDIR}"/${P}_2021-01-15_e86c870879
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.0.2-glib-2.67.3.patch
+	# From Inkscape:
+	# 	https://gitlab.com/inkscape/inkscape/commit/5724c21b9cb7b6176a7b36ca24068b148c817e82
+	"${FILESDIR}"/${PN}-1.1-poppler-21.11.0.patch
 )
 
 pkg_pretend() {

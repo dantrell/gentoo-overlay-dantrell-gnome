@@ -1,0 +1,48 @@
+diff '--exclude=.git' -urN a/Makefile.am b/Makefile.am
+--- a/Makefile.am	2019-02-23 02:38:55.000000000 -0600
++++ b/Makefile.am	2021-11-13 21:30:12.196455036 -0600
+@@ -1117,9 +1117,7 @@
+ if HAVE_INTROSPECTION
+ 
+ libnm_noinst_data = \
+-	libnm/nm-property-docs.xml \
+ 	libnm/nm-settings-docs-overrides.xml \
+-	libnm/nm-settings-docs.xml \
+ 	libnm/nm-settings-keyfile-docs.xml \
+ 	libnm/nm-settings-ifcfg-rh-docs.xml
+ 
+@@ -3696,18 +3694,11 @@
+ $(clients_common_libnmc_base_la_OBJECTS): clients/common/.dirstamp
+ 
+ clients_common_settings_doc_h = clients/common/settings-docs.h
+-if HAVE_INTROSPECTION
+-$(clients_common_settings_doc_h): clients/common/settings-docs.xsl libnm/nm-property-docs.xml clients/common/.dirstamp
+-	$(AM_V_GEN) $(XSLTPROC) --output $@ $< $(word 2,$^)
+-DISTCLEANFILES += $(clients_common_settings_doc_h)
+-check-local-settings-docs: $(clients_common_settings_doc_h)
+-	$(srcdir)/tools/check-settings-docs.sh "$(srcdir)" "$(builddir)" "$(clients_common_settings_doc_h)"
+-check_local += check-local-settings-docs
+-else
++
+ $(clients_common_settings_doc_h): $(clients_common_settings_doc_h).in clients/common/.dirstamp
+ 	$(AM_V_GEN) cp "$(srcdir)/$(clients_common_settings_doc_h).in" "$(builddir)/$(clients_common_settings_doc_h)"
+ check-local-settings-docs:
+-endif
++
+ EXTRA_DIST += \
+ 	$(clients_common_settings_doc_h) \
+ 	$(clients_common_settings_doc_h).in
+diff '--exclude=.git' -urN a/configure.ac b/configure.ac
+--- a/configure.ac	2019-02-23 02:38:55.000000000 -0600
++++ b/configure.ac	2021-11-13 21:30:12.196455036 -0600
+@@ -1195,10 +1195,6 @@
+ # check if we can build setting property documentation
+ build_docs=no
+ if test -n "$INTROSPECTION_MAKEFILE"; then
+-	# If g-i is installed we know we have python, but we might not have pygobject
+-	if ! "$PYTHON" -c 'from gi.repository import GObject' >& /dev/null; then
+-		AC_MSG_ERROR(["--enable-introspection aims to build the settings documentation. This requires GObject introspection for python (pygobject)])
+-	fi
+ 
+ 	AC_PATH_PROG(PERL, perl)
+ 	if test -z "$PERL"; then

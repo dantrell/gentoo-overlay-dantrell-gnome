@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 GNOME_ORG_MODULE="gtk+"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
@@ -13,18 +13,16 @@ HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-COMMON_DEPEND="${PYTHON_DEPS}"
 # gtk-builder-convert was part of gtk+ until 2.24.10-r1
 # man page transitioned in 2.24.31-r1
-RDEPEND="${COMMON_DEPEND}
+RDEPEND="${PYTHON_DEPS}
 	!<x11-libs/gtk+-2.24.31-r1:2
 "
-
-DEPEND="${COMMON_DEPEND}
+BDEPEND="${PYTHON_DEPS}
 	app-text/docbook-xml-dtd:4.3
 	app-text/docbook-xsl-stylesheets
 	dev-libs/libxslt

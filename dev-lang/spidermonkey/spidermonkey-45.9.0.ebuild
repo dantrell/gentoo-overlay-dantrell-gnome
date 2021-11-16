@@ -3,7 +3,7 @@
 EAPI="6"
 WANT_AUTOCONF="2.1"
 
-inherit autotools check-reqs toolchain-funcs pax-utils mozcoreconf-v4
+inherit autotools check-reqs toolchain-funcs pax-utils mozcoreconf-v5
 
 DESCRIPTION="Mozilla's JavaScript engine written in C and C++"
 HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"

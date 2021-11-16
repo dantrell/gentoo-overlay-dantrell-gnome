@@ -11,6 +11,7 @@
 >=net-libs/dleyna-renderer-0.6.0
 >=net-libs/gssdp-1.2.0
 >=net-libs/gupnp-1.0.7
+>=net-libs/gupnp-av-0.13.0
 >=net-libs/gupnp-igd-0.2.5-r10
 >=net-misc/dleyna-server-0.6.0
 >=net-misc/gupnp-tools-0.10.0

@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome2
+inherit autotools gnome2
 
 DESCRIPTION="A quick previewer for Nautilus, the GNOME file manager"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/sushi"
@@ -11,7 +11,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="office"
+IUSE="office webkit"
 
 # Optional app-office/unoconv support (OOo to pdf)
 # freetype needed for font loader
@@ -32,7 +32,7 @@ COMMON_DEPEND="
 	>=media-libs/harfbuzz-0.9.9:=
 	media-libs/clutter-gst:3.0[introspection]
 	media-libs/musicbrainz:5=
-	net-libs/webkit-gtk:4[introspection]
+	webkit? ( net-libs/webkit-gtk:4[introspection] )
 	x11-libs/gtksourceview:3.0[introspection]
 
 	office? ( app-office/unoconv )
@@ -44,6 +44,16 @@ DEPEND="${RDEPEND}
 RDEPEND="${COMMON_DEPEND}
 	>=gnome-base/nautilus-3.1.90
 "
+
+src_prepare() {
+	if ! use webkit; then
+		# From GNOME Without Systemd:
+		eapply "${FILESDIR}"/${PN}-3.15.90-make-webkit-optional.patch
+	fi
+
+	eautoreconf
+	gnome2_src_prepare
+}
 
 src_configure() {
 	gnome2_src_configure --disable-static

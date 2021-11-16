@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit bash-completion-r1
 
@@ -14,17 +14,15 @@ KEYWORDS="*"
 
 IUSE="doc emacs vanilla-profile vim-syntax"
 
-RDEPEND="sys-apps/sed
+DEPEND="sys-apps/sed
 	|| (
 		sys-apps/coreutils
 		app-misc/realpath
 	)"
-DEPEND="${RDEPEND}
-	doc? ( dev-python/docutils )"
-RDEPEND="${RDEPEND}
+RDEPEND="${DEPEND}
 	sys-apps/file
 	sys-libs/ncurses:0"
-
+BDEPEND="doc? ( dev-python/docutils )"
 PDEPEND="emacs? ( app-emacs/eselect-mode )
 	vim-syntax? ( app-vim/eselect-syntax )"
 

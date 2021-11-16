@@ -43,6 +43,7 @@
 ~dev-libs/gobject-introspection-1.66.1::dantrell-gnome-3-38
 ~dev-libs/gobject-introspection-common-1.66.1::dantrell-gnome-3-38
 ~dev-libs/gom-0.4::dantrell-gnome
+~dev-libs/jsonrpc-glib-3.38.0::dantrell-gnome-3-38
 ~dev-libs/libdazzle-3.38.0::dantrell-gnome-3-38
 ~dev-libs/libgee-0.20.4::dantrell-gnome
 ~dev-libs/libgnome-games-support-1.4.4::dantrell-gnome
@@ -55,7 +56,6 @@
 ~dev-python/pygobject-3.38.0::dantrell-gnome-3-38
 ~dev-util/devhelp-3.38.1::dantrell-gnome-3-38
 ~dev-util/gdbus-codegen-2.64.6::dantrell-gnome
-~dev-util/gnome-builder-3.38.1::dantrell-gnome-3-38
 ~dev-util/gnome-builder-3.38.2::dantrell-gnome-3-38
 ~dev-util/gnome-devel-docs-3.32.1::dantrell-gnome
 ~dev-util/gtk-doc-1.33.2::dantrell-gnome
@@ -78,7 +78,7 @@
 ~games-puzzle/gnome-sudoku-3.38.0::dantrell-gnome-3-38
 ~games-puzzle/gnome-taquin-3.38.1::dantrell-gnome-3-38
 ~games-puzzle/gnome-tetravex-3.38.2::dantrell-gnome-3-38
-~games-puzzle/hitori-3.38.2::dantrell-gnome-3-38
+~games-puzzle/hitori-3.38.3::dantrell-gnome-3-38
 ~games-puzzle/lightsoff-3.38.0::dantrell-gnome-3-38
 ~games-puzzle/quadrapassel-3.38.6::dantrell-gnome-3-38
 ~gnome-base/dconf-0.38.0::dantrell-gnome
@@ -162,7 +162,7 @@
 ~media-sound/gnome-music-3.38.3::dantrell-gnome-3-38
 ~media-video/cheese-3.38.0::dantrell-gnome-3-38
 ~media-video/gnome-video-effects-0.5.0::dantrell-gnome
-~media-video/totem-3.38.1::dantrell-gnome-3-38
+~media-video/totem-3.38.2::dantrell-gnome-3-38
 ~net-analyzer/gnome-nettool-3.8.1::dantrell-gnome
 ~net-irc/polari-3.38.1::dantrell-gnome-3-38
 ~net-libs/glib-networking-2.66.0::dantrell-gnome-3-38
@@ -170,6 +170,7 @@
 ~net-libs/gssdp-1.2.3::dantrell-gnome
 ~net-libs/gtk-vnc-1.0.0::dantrell-gnome
 ~net-libs/gupnp-1.2.4::dantrell-gnome
+~net-libs/gupnp-av-0.12.11::dantrell-gnome
 ~net-libs/libnma-1.8.32::dantrell-gnome
 ~net-libs/libsoup-2.72.0::dantrell-gnome-3-38
 ~net-libs/libsoup-gnome-2.72.0::dantrell-gnome-3-38
@@ -183,7 +184,7 @@
 ~sys-apps/gnome-disk-utility-3.38.2::dantrell-gnome-3-38
 ~www-client/epiphany-3.38.6::dantrell-gnome-3-38
 ~x11-libs/gdk-pixbuf-2.40.0::dantrell-gnome
-~x11-libs/gtk+-3.24.5::dantrell-gnome
+~x11-libs/gtk+-3.24.30::dantrell-gnome
 ~x11-libs/libnotify-0.7.9::dantrell-gnome
 ~x11-libs/libwnck-3.36.0::dantrell-gnome
 ~x11-libs/pango-1.46.2::dantrell-gnome

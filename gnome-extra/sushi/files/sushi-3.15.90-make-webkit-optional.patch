@@ -1,0 +1,35 @@
+diff '--exclude=.git' -urN a/configure.ac b/configure.ac
+--- a/configure.ac	2014-04-22 18:48:55.000000000 -0500
++++ b/configure.ac	2021-11-03 16:49:22.617950038 -0500
+@@ -71,8 +71,7 @@
+                   libmusicbrainz5
+                   evince-document-3.0
+                   evince-view-3.0
+-                  gtksourceview-3.0
+-                  webkit2gtk-4.0)
++                  gtksourceview-3.0)
+ 
+ GLIB_MKENUMS=`$PKG_CONFIG --variable=glib_mkenums glib-2.0`
+ AC_SUBST(GLIB_MKENUMS)
+diff '--exclude=.git' -urN a/src/Makefile-js.am b/src/Makefile-js.am
+--- a/src/Makefile-js.am	2014-04-22 18:14:38.000000000 -0500
++++ b/src/Makefile-js.am	2021-11-03 16:50:12.984698880 -0500
+@@ -16,7 +16,6 @@
+     js/viewers/audio.js \
+     js/viewers/evince.js \
+     js/viewers/font.js \
+-    js/viewers/html.js \
+     js/viewers/text.js
+ 
+ jsutildir = $(pkgdatadir)/js/util
+diff '--exclude=.git' -urN a/src/Makefile.in b/src/Makefile.in
+--- a/src/Makefile.in	2014-04-22 18:49:15.000000000 -0500
++++ b/src/Makefile.in	2021-11-03 16:50:17.682675459 -0500
+@@ -435,7 +435,6 @@
+     js/viewers/audio.js \
+     js/viewers/evince.js \
+     js/viewers/font.js \
+-    js/viewers/html.js \
+     js/viewers/text.js
+ 
+ jsutildir = $(pkgdatadir)/js/util

@@ -13,7 +13,7 @@ HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 

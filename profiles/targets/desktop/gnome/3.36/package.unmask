@@ -164,6 +164,7 @@
 ~net-libs/gssdp-1.2.3::dantrell-gnome
 ~net-libs/gtk-vnc-1.0.0::dantrell-gnome
 ~net-libs/gupnp-1.2.4::dantrell-gnome
+~net-libs/gupnp-av-0.12.11::dantrell-gnome
 ~net-libs/libnma-1.8.32::dantrell-gnome
 ~net-libs/libsoup-2.70.0::dantrell-gnome-3-36
 ~net-libs/libsoup-gnome-2.70.0::dantrell-gnome-3-36
@@ -181,7 +182,7 @@
 ~www-client/epiphany-3.36.4::dantrell-gnome-3-36
 ~x11-libs/gdk-pixbuf-2.40.0::dantrell-gnome
 ~x11-libs/gtksourceview-4.6.1::dantrell-gnome
-~x11-libs/gtk+-3.24.5::dantrell-gnome
+~x11-libs/gtk+-3.24.30::dantrell-gnome
 ~x11-libs/libnotify-0.7.9::dantrell-gnome
 ~x11-libs/libwnck-3.36.0::dantrell-gnome
 ~x11-libs/pango-1.44.7::dantrell-gnome

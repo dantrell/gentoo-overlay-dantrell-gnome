@@ -14,7 +14,7 @@ SRC_URI="https://xorg.freedesktop.org/archive/individual/proto/${MY_P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="test"
 

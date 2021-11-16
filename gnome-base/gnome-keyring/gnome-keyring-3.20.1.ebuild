@@ -3,7 +3,7 @@
 EAPI="6"
 GNOME2_LA_PUNT="yes"
 
-inherit fcaps gnome2 pam versionator virtualx
+inherit fcaps flag-o-matic gnome2 pam versionator virtualx
 
 DESCRIPTION="Password and keyring managing daemon"
 HOMEPAGE="https://wiki.gnome.org/Projects/GnomeKeyring"
@@ -47,6 +47,9 @@ src_prepare() {
 }
 
 src_configure() {
+	# Work around -fno-common (GCC 10 default)
+	append-flags -fcommon
+
 	gnome2_src_configure \
 		$(use_with caps libcap-ng) \
 		$(use_enable pam) \

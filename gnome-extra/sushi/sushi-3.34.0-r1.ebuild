@@ -11,7 +11,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="office wayland"
+IUSE="office wayland webkit"
 
 # Optional app-office/libreoffice support (OOo to pdf and then preview)
 # gtk+[X] optionally needed for sushi_create_foreign_window(); clutter-x11.h unconditionally included
@@ -28,9 +28,9 @@ DEPEND="
 	>=x11-libs/gtk+-3.13.2:3[X,introspection,wayland?]
 	>=x11-libs/gtksourceview-4.0.3:4[introspection]
 	>=media-libs/harfbuzz-0.9.9:=
-	>=dev-libs/gobject-introspection-0.9.6:=
+	>=dev-libs/gobject-introspection-1.54:=
 	media-libs/musicbrainz:5=
-	net-libs/webkit-gtk:4[introspection]
+	webkit? ( net-libs/webkit-gtk:4[introspection] )
 	>=dev-libs/gjs-1.40
 "
 RDEPEND="${DEPEND}
@@ -47,6 +47,11 @@ src_prepare() {
 		# From Gentoo:
 		# 	https://forums.gentoo.org/viewtopic-p-8106588.html#8106588
 		eapply "${FILESDIR}"/${PN}-3.34.0-fix-without-gdkwayland.patch
+	fi
+
+	if ! use webkit; then
+		# From GNOME Without Systemd:
+		eapply "${FILESDIR}"/${PN}-3.34.0-make-webkit-optional.patch
 	fi
 
 	xdg_src_prepare

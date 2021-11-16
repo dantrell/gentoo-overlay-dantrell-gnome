@@ -74,7 +74,7 @@ COMMON_DEPEND="${PYTHON_DEPS}
 # on that.
 RDEPEND="${COMMON_DEPEND}
 	$(python_gen_cond_dep '
-		dev-python/numpy[${PYTHON_USEDEP}]
+		dev-python/numpy-python2[${PYTHON_USEDEP}]
 	')
 	uniconvertor? ( media-gfx/uniconvertor )
 	dia? ( app-office/dia )
@@ -99,6 +99,18 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-0.91_pre3-exif.patch
 	"${FILESDIR}"/${PN}-0.91_pre3-sk-man.patch
 	"${FILESDIR}"/${PN}-0.92.5-epython.patch
+	# From Inkscape:
+	#	https://gitlab.com/inkscape/inkscape/commit/dc25406853353320078eca22cf817fb052c97082
+	"${FILESDIR}"/${PN}-0.92.4-poppler-0.76.0.patch
+	# From Inkscape:
+	# 	https://gitlab.com/inkscape/inkscape/commit/324c7903d9fd62e74c042c31477299be3b980fd2
+	"${FILESDIR}"/${PN}-0.92.4-poppler-0.82.0.patch
+	# From Inkscape:
+	# 	https://gitlab.com/inkscape/inkscape/commit/51351358a62acb6887eab49bc0dc4a7a3d18c17a
+	"${FILESDIR}"/${PN}-0.92.4-poppler-0.83.0.patch
+	# From Inkscape:
+	# 	https://gitlab.com/inkscape/inkscape/commit/5724c21b9cb7b6176a7b36ca24068b148c817e82
+	"${FILESDIR}"/${PN}-1.1-poppler-21.11.0.patch
 )
 
 S="${WORKDIR}/${MY_P}"
@@ -140,6 +152,9 @@ src_configure() {
 		myconf+=(
 			--disable-strict-build
 		)
+	else
+		# Code is not C++17 ready (GCC 11 default)
+		append-cxxflags -std=c++14
 	fi
 
 	local myeconfargs=(

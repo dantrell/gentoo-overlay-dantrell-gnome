@@ -11,6 +11,7 @@
 >=net-libs/dleyna-renderer-0.6.0
 >=net-libs/gssdp-1.2.0
 >=net-libs/gupnp-1.0.7
+>=net-libs/gupnp-av-0.13.0
 >=net-libs/gupnp-igd-0.2.5-r10
 >=net-misc/dleyna-server-0.6.0
 >=net-misc/gupnp-tools-0.10.0
@@ -19,7 +20,9 @@
 >=app-arch/gnome-autoar-0.3.0
 >=app-text/poppler-21.04.0
 >=media-gfx/gimp-2.10.0
+>=media-libs/gegl-0.4.24
 >=media-sound/pulseeffects-4.3.5
+>=net-libs/libmbim-1.26.0
 >=x11-misc/xpad-5.1.0
 
 # Requires GLib 2.54 (or greater)
@@ -180,7 +183,7 @@
 >=media-libs/clutter-gst-3.1.0
 >=media-libs/clutter-gtk-1.8.5
 >=media-libs/cogl-1.24.0
->=media-libs/grilo-0.4.0
+>=media-libs/grilo-0.3.13
 >=media-plugins/grilo-plugins-0.3.10
 >=media-sound/gnome-music-3.26.0
 >=media-sound/gnome-sound-recorder-3.26.0

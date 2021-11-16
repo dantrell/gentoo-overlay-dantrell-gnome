@@ -33,11 +33,6 @@ BDEPEND="
 	vala? ( $(vala_depend) )
 "
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-4.8.1-build-disable-Werror-for-incompatible-pointer-types.patch
-	"${FILESDIR}"/${PN}-4.8.1-build-ensure-access-to-resources-in-corelib-build.patch
-)
-
 src_prepare() {
 	use vala && vala_src_prepare
 	xdg_src_prepare

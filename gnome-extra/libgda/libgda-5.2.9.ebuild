@@ -3,28 +3,26 @@
 EAPI="6"
 GNOME2_LA_PUNT="yes"
 GNOME2_EAUTORECONF="yes"
-PYTHON_COMPAT=( python2_7 )
 VALA_USE_DEPEND="vapigen"
 
-inherit db-use epatch flag-o-matic gnome2 java-pkg-opt-2 python-single-r1 vala
+inherit db-use flag-o-matic gnome2 java-pkg-opt-2 vala
 
 DESCRIPTION="GNOME database access library"
 HOMEPAGE="https://www.gnome-db.org/"
 
 LICENSE="GPL-2+ LGPL-2+"
 SLOT="5/4" # subslot = libgda-5.0 soname version
-KEYWORDS="~*"
+KEYWORDS="*"
 
-IUSE="berkdb canvas debug firebird gnome-keyring gtk graphviz http +introspection json ldap mdb mysql oci8 postgres reports sourceview ssl vala"
+IUSE="berkdb canvas debug firebird gnome-keyring gtk graphviz http +introspection json ldap mdb mysql oci8 postgres sourceview ssl vala"
 REQUIRED_USE="
-	reports? ( ${PYTHON_REQUIRED_USE} )
 	canvas? ( gtk )
 	graphviz? ( gtk )
 	sourceview? ( gtk )
 	vala? ( introspection )
 "
-# firebird license is not GPL compatible
 
+# firebird license is not GPL compatible
 # FIXME: lots of tests failing. Check if they still fail in 5.1.2
 # firebird support bindist-restricted because it is not GPL compatible
 RESTRICT="
@@ -55,10 +53,6 @@ RDEPEND="
 	mdb? ( >app-office/mdbtools-0.5:= )
 	mysql? ( dev-db/mysql-connector-c:0= )
 	postgres? ( dev-db/postgresql:= )
-	reports? (
-		${PYTHON_DEPS}
-		dev-java/fop
-		dev-python/reportlab )
 	ssl? ( dev-libs/openssl:0= )
 	>=dev-db/sqlite-3.10.2:3=
 	vala? ( dev-libs/libgee:0.8 )
@@ -68,7 +62,6 @@ RDEPEND="
 # TODO: libgee shouldn't be needed at build with USE=-vala, but needs build system fixes - bug 674066
 DEPEND="${RDEPEND}
 	dev-libs/libgee:0.8
-	>=app-text/gnome-doc-utils-0.9
 	app-text/yelp-tools
 	dev-util/gtk-doc-am
 	>=dev-util/intltool-0.40.6
@@ -79,21 +72,23 @@ DEPEND="${RDEPEND}
 
 pkg_setup() {
 	java-pkg-opt-2_pkg_setup
-	use reports && python-single-r1_pkg_setup
 }
 
 src_prepare() {
 	use berkdb && append-cppflags "-I$(db_includedir)"
 
-	use reports ||
-		sed -e '/SUBDIRS =/ s/trml2html//' \
-			-e '/SUBDIRS =/ s/trml2pdf//' \
-			-i libgda-report/RML/Makefile.{am,in} || die
+	# reports need python2
+	sed -e '/SUBDIRS =/ s/trml2html//' \
+		-e '/SUBDIRS =/ s/trml2pdf//' \
+		-i libgda-report/RML/Makefile.{am,in} || die
+
+	# replace my_bool with _Bool
+	eapply "${FILESDIR}"/${PN}-5.2-my_bool-error.patch
 
 	# Prevent file collisions with libgda:4
 	eapply "${FILESDIR}"/${PN}-4.99.1-gda-browser-doc-collision.patch
 	eapply "${FILESDIR}"/${PN}-4.99.1-control-center-icon-collision.patch
-	# Move files with mv (since epatch can't handle rename diffs) and
+	# Move files with mv (since eapply can't handle rename diffs) and
 	# update pre-generated gtk-doc files (for non-git versions of libgda)
 	local f
 	for f in tools/browser/doc/gda-browser* ; do
@@ -112,9 +107,6 @@ src_prepare() {
 	gnome2_src_prepare
 	java-pkg-opt-2_src_prepare
 	use vala && vala_src_prepare
-
-	# Support JRE 1.8 (from Fedora) - patches configure, so applied AFTER gnome2_src_prepare runs eautoreconf
-	eapply "${FILESDIR}"/${PN}-5.2.4-jre18.patch
 }
 
 src_configure() {
@@ -154,10 +146,8 @@ pkg_preinst() {
 
 src_install() {
 	gnome2_src_install
-	if use reports; then
-		for t in trml2{html,pdf}; do
-			python_scriptinto /usr/share/libgda-5.0/gda_${t}
-			python_doscript libgda-report/RML/${t}/${t}.py
-		done
+	# Use new location
+	if use gtk; then
+		mv "${ED}"/usr/share/appdata "${ED}"/usr/share/metainfo || die
 	fi
 }

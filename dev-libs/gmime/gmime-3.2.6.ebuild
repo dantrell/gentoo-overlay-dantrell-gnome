@@ -6,7 +6,7 @@ VALA_USE_DEPEND="vapigen"
 inherit flag-o-matic gnome2 vala
 
 DESCRIPTION="Utilities for creating and parsing messages using MIME"
-HOMEPAGE="http://spruce.sourceforge.net/gmime/ https://developer.gnome.org/gmime/stable/"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/gmime http://spruce.sourceforge.net/gmime/"
 
 LICENSE="LGPL-2.1+"
 SLOT="3.0"

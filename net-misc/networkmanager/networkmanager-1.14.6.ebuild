@@ -3,6 +3,7 @@
 EAPI="6"
 GNOME_ORG_MODULE="NetworkManager"
 GNOME2_LA_PUNT="yes"
+GNOME2_EAUTORECONF="yes"
 VALA_USE_DEPEND="vapigen"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 
@@ -112,6 +113,12 @@ DEPEND="${COMMON_DEPEND}
 			dev-python/pygobject:3[${PYTHON_USEDEP}]')
 	)
 "
+
+PATCHES=(
+	# From OpenEmbedded:
+	# 	https://github.com/openembedded/meta-openembedded/commit/575c14ded56e1e97582a6df0921d19b4da630961
+	"${FILESDIR}"/${PN}-1.14.6-do-not-create-settings-settings-property-documentation.patch
+)
 
 python_check_deps() {
 	if use introspection; then

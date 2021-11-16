@@ -11,6 +11,7 @@
 >=net-libs/dleyna-renderer-0.6.0
 >=net-libs/gssdp-1.2.0
 >=net-libs/gupnp-1.0.7
+>=net-libs/gupnp-av-0.13.0
 >=net-libs/gupnp-igd-0.2.5-r10
 >=net-misc/dleyna-server-0.6.0
 >=net-misc/gupnp-tools-0.10.0
@@ -230,6 +231,7 @@
 >=media-libs/clutter-gst-3.1.0
 >=media-libs/clutter-gtk-1.6.6
 >=media-libs/cogl-1.22.0
+>=media-libs/gegl-0.4.18
 >=media-libs/grilo-0.3.0
 >=media-libs/libchamplain-0.12.17
 >=media-plugins/grilo-plugins-0.2.16
