@@ -12,7 +12,7 @@ LICENSE="CC0-1.0 LGPL-2.1+ public-domain"
 SLOT="0"
 KEYWORDS=""
 
-IUSE="+acl audit debug doc +pam +policykit selinux"
+IUSE="+acl audit +cgroup-hybrid debug doc +pam +policykit selinux"
 
 BDEPEND="
 	app-text/docbook-xml-dtd:4.2
@@ -57,12 +57,9 @@ src_prepare() {
 }
 
 src_configure() {
-	local rccgroupmode="$(grep rc_cgroup_mode ${EPREFIX}/etc/rc.conf | cut -d '"' -f 2)"
-	local cgroupmode="legacy"
-
-	if [[ "xhybrid" = "x${rccgroupmode}" ]] ; then
+	if use cgroup-hybrid; then
 		cgroupmode="hybrid"
-	elif [[ "xunified" = "x${rccgroupmode}" ]] ; then
+	else
 		cgroupmode="unified"
 	fi
 

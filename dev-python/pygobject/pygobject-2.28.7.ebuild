@@ -88,7 +88,7 @@ src_test() {
 
 	testing() {
 		export XDG_CACHE_HOME="${T}/${EPYTHON}"
-		run_in_build_dir Xemake -j1 check
+		run_in_build_dir virtx emake -j1 check
 		unset XDG_CACHE_HOME
 	}
 	python_foreach_impl testing

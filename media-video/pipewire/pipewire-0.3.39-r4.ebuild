@@ -12,7 +12,7 @@ SRC_URI="https://gitlab.freedesktop.org/${PN}/${PN}/-/archive/${PV}/${P}.tar.gz"
 
 LICENSE="MIT LGPL-2.1+ GPL-2"
 SLOT="0/0.3"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="bluetooth doc echo-cancel extra gstreamer jack-client jack-sdk pipewire-alsa systemd test v4l"
 

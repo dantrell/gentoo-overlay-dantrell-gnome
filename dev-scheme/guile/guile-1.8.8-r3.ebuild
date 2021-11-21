@@ -32,22 +32,22 @@ DEPEND="${RDEPEND}
 	sys-devel/libtool"
 
 src_prepare() {
-	eapply "${FILESDIR}"/${P}-fix_guile-config.patch
-	eapply "${FILESDIR}"/${P}-gcc46.patch
-	eapply "${FILESDIR}"/${P}-gcc5.patch
-	eapply "${FILESDIR}"/${P}-makeinfo-5.patch
-	eapply "${FILESDIR}"/${P}-gtexinfo-5.patch
-	eapply "${FILESDIR}"/${P}-readline.patch
-	eapply "${FILESDIR}"/${P}-tinfo.patch
-	eapply "${FILESDIR}"/${P}-sandbox.patch
-	eapply "${FILESDIR}"/${P}-mkdir-mask.patch
+	eapply "${FILESDIR}"/${PN}-1.8.8-fix_guile-config.patch
+	eapply "${FILESDIR}"/${PN}-1.8.8-gcc46.patch
+	eapply "${FILESDIR}"/${PN}-1.8.8-gcc5.patch
+	eapply "${FILESDIR}"/${PN}-1.8.8-makeinfo-5.patch
+	eapply "${FILESDIR}"/${PN}-1.8.8-gtexinfo-5.patch
+	eapply "${FILESDIR}"/${PN}-1.8.8-readline.patch
+	eapply "${FILESDIR}"/${PN}-1.8.8-tinfo.patch
+	eapply "${FILESDIR}"/${PN}-1.8.8-sandbox.patch
+	eapply "${FILESDIR}"/${PN}-1.8.8-mkdir-mask.patch
 	eapply "${FILESDIR}"/${PN}-1.8.8-texinfo-6.7.patch
 
 	sed -e "s/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/g" \
 		-e "/AM_PROG_CC_STDC/d" \
 		-i guile-readline/configure.in || die
 
-	epatch_user
+	eapply_user
 
 	mv "${S}"/configure.{in,ac} || die
 	mv "${S}"/guile-readline/configure.{in,ac} || die

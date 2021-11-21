@@ -13,7 +13,7 @@ SRC_URI="https://gitlab.gnome.org/GNOME/${PN}/-/archive/${PV}/${P}.tar.gz"
 
 LICENSE="GPL-3+"
 SLOT="2.90"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="debug +introspection gtk-doc vala"
 REQUIRED_USE="vala? ( introspection )"

@@ -37,11 +37,11 @@ src_prepare() {
 src_configure() {
 	local mycmakeargs=(
 		-DLIB_INSTALL_DIR="${EPREFIX}/usr/$(get_libdir)"
-		$(cmake-utils_use_build test CLAR)
-		$(cmake-utils_use_enable trace TRACE)
-		$(cmake-utils_use_use gssapi GSSAPI)
-		$(cmake-utils_use_use ssh SSH)
-		$(cmake-utils_use threads THREADSAFE)
+		-DBUILD_CLAR=$(usex test)
+		-DENABLE_TRACE=$(usex trace)
+		-DUSE_GSSAPI=$(usex gssapi)
+		-DUSE_SSH=$(usex ssh)
+		-DTHREADSAFE=$(usex threads)
 	)
 	cmake-utils_src_configure
 }
@@ -53,7 +53,7 @@ src_test() {
 		ewarn "Skipping tests: non-root privileges are required for all tests to pass"
 	else
 		local TEST_VERBOSE=1
-		cmake-utils_src_test
+		cmake-utils_src_test -R offline
 	fi
 }
 

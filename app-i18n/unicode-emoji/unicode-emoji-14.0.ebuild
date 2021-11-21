@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 DESCRIPTION="UTS #51 Unicode Emoji"
 HOMEPAGE="https://unicode.org/emoji/techindex.html"
@@ -14,11 +14,10 @@ SRC_URI="${DATA_URI}/${PN#*-}-sequences.txt -> ${PN}-sequences-${PV}.txt
 
 LICENSE="unicode"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE=""
 
-DEPEND=""
 RDEPEND=""
 
 S="${WORKDIR}"

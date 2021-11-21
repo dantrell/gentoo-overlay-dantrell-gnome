@@ -4,11 +4,11 @@ EAPI="8"
 
 DESCRIPTION="Unicode Common Locale Data Repository"
 HOMEPAGE="https://cldr.unicode.org/"
-SRC_URI="https://unicode.org/Public/${PN/*-}/${PV}/core.zip -> ${PN}-common-${PV}.zip"
+SRC_URI="https://unicode.org/Public/${PN#*-}/${PV%.0}/${PN#*-}-common-${PV}.zip -> ${PN}-common-${PV}.zip"
 
 LICENSE="unicode"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE=""
 

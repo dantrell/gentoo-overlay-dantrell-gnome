@@ -2,15 +2,19 @@
 
 EAPI="7"
 
+inherit autotools
+
 DESCRIPTION="GNU Ubiquitous Intelligent Language for Extensions"
 HOMEPAGE="https://www.gnu.org/software/guile/"
 SRC_URI="mirror://gnu/guile/${P}.tar.xz"
+
+SRC_URI+=" https://dev.gentoo.org/~sam/distfiles/${CATEGORY}/${PN}/${P}-gnulib-glibc-2.34.patch.bz2"
 
 LICENSE="LGPL-3+"
 SLOT="12/3.0-1" # libguile-2.2.so.1 => 2.2-1
 KEYWORDS=""
 
-IUSE="debug debug-malloc +deprecated +git +networking +nls +regex +threads" # upstream recommended +networking +nls
+IUSE="debug debug-malloc +deprecated +jit +networking +nls +regex +threads" # upstream recommended +networking +nls
 REQUIRED_USE="regex" # workaround for bug 596322
 
 RESTRICT="strip"
@@ -31,7 +35,15 @@ BDEPEND="
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-2.2.3-gentoo-sandbox.patch
+	"${WORKDIR}"/${PN}-3.0.7-gnulib-glibc-2.34.patch
 )
+
+src_prepare() {
+	default
+
+	# Needed for the glibc-2.34 gnulib patch, can drop later
+	eautoreconf
+}
 
 src_configure() {
 	# Seems to have issues with -Os, switch to -O2

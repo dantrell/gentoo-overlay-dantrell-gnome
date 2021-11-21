@@ -1,13 +1,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit autotools git-r3
 
-DESCRIPTION="IIO accelerometer sensor to input device proxy"
-HOMEPAGE="https://developer.gnome.org/iio-sensor-proxy/1.0/"
-EGIT_REPO_URI="https://github.com/hadess/iio-sensor-proxy"
-EGIT_COMMIT="af44746c962a39fd1409349e9a42b6dc488519bc"
+DESCRIPTION="IIO sensors to D-Bus proxy"
+HOMEPAGE="https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/"
+EGIT_REPO_URI="https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/"
+EGIT_COMMIT="ba7a80dc933216ea96a72bbe7a6dbb06752a6493"
 
 LICENSE="Unlicense"
 SLOT="0"
@@ -19,13 +19,20 @@ REQUIRED_USE="
 "
 
 RDEPEND="
+	>=dev-libs/glib-2.56:2
+	dev-libs/gobject-introspection:=
+	>=dev-libs/libgudev-237:=
+	virtual/libudev:=
+	virtual/udev
 	elogind? ( >=sys-auth/elogind-233 )
 	systemd? ( >=sys-apps/systemd-233 )
-	dev-libs/libgudev
-	app-misc/geoclue:*
+	>=sys-auth/polkit-0.91
+	app-misc/geoclue:2
 "
 DEPEND="
 	${RDEPEND}
+	dev-util/gtk-doc-am
+	virtual/pkgconfig
 "
 
 src_prepare() {

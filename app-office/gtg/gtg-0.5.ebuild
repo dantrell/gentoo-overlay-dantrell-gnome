@@ -50,6 +50,7 @@ BDEPEND="
 PATCHES=(
 	# Fixes tests, and mouse cursor with some themes
 	"${FILESDIR}"/${PN}-0.5-mouse-cursor-fixes{1,2,3}.patch
+	"${FILESDIR}"/${PN}-0.5-Revert-meson-plugin-translation-apply-thing.patch
 )
 
 src_install() {

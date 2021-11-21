@@ -11,7 +11,7 @@ SRC_URI="
 
 LICENSE="unicode"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 BDEPEND="app-arch/unzip"
 
