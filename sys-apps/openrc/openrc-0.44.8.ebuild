@@ -49,6 +49,11 @@ RDEPEND="${COMMON_DEPEND}
 
 PDEPEND="netifrc? ( net-misc/netifrc )"
 
+PATCHES=(
+	# Backported from master
+	"${FILESDIR}"/${PN}-0.44.8-selinux-no-pam.patch
+)
+
 src_prepare() {
 	default
 

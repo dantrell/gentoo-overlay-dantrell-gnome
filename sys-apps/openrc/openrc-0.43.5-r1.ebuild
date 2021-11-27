@@ -49,6 +49,10 @@ RDEPEND="${COMMON_DEPEND}
 
 PDEPEND="netifrc? ( net-misc/netifrc )"
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-0.44.6-fix-checkpath.patch
+)
+
 src_prepare() {
 	default
 
@@ -85,7 +89,7 @@ src_compile() {
 		SH=$(usex bash /bin/bash /bin/sh)"
 
 	use prefix && MAKE_ARGS="${MAKE_ARGS} MKPREFIX=yes PREFIX=${EPREFIX}"
-export BRANDING="Gentoo Linux"
+	export BRANDING="Gentoo Linux"
 	export DEBUG=$(usev debug)
 	export MKTERMCAP=$(usev ncurses)
 
