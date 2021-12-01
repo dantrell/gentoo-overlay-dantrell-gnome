@@ -7,6 +7,7 @@
 # Requires GLib 2.58 (or greater)
 >=dev-java/icedtea-bin-3.12.0
 >=media-gfx/inkscape-1.1
+>=media-video/wireplumber-0.2.96
 >=net-libs/dleyna-connector-dbus-0.3.0
 >=net-libs/dleyna-core-0.6.0
 >=net-libs/dleyna-renderer-0.6.0
@@ -16,6 +17,7 @@
 >=net-libs/gupnp-igd-0.2.5-r10
 >=net-misc/dleyna-server-0.6.0
 >=net-misc/gupnp-tools-0.10.0
+>=x11-misc/colord-1.4.5
 
 # Masked to freeze the state of GNOME
 >=app-accessibility/accerciser-3.31.0
@@ -44,7 +46,7 @@
 >=dev-cpp/cairomm-1.13.0
 >=dev-cpp/glibmm-2.58.0
 >=dev-cpp/gtkmm-3.24.0
->=dev-cpp/gtksourceviewmm-3.30.0
+>=dev-cpp/gtksourceviewmm-3.20.0
 >=dev-cpp/libxmlpp-3.1.0
 >=dev-cpp/pangomm-2.42.0
 >=dev-libs/appstream-glib-0.7.16
@@ -58,7 +60,7 @@
 >=dev-libs/gom-0.4.0
 >=dev-libs/json-glib-1.5.0
 >=dev-libs/libdazzle-3.30.0
->=dev-libs/libgames-support-1.6.0
+>=dev-libs/libgames-support-1.1.0
 >=dev-libs/libgdata-0.18.0
 >=dev-libs/libgit2-1.1.0
 >=dev-libs/libgit2-glib-1.1.0

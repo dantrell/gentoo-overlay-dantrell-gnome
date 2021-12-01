@@ -1,12 +1,11 @@
 diff '--exclude=.git' -urN a/Source/ThirdParty/ANGLE/include/platform/Platform.h b/Source/ThirdParty/ANGLE/include/platform/Platform.h
 --- a/Source/ThirdParty/ANGLE/include/platform/Platform.h	2019-08-26 09:55:43.000000000 -0500
-+++ b/Source/ThirdParty/ANGLE/include/platform/Platform.h	2021-11-26 21:08:45.756046765 -0600
-@@ -9,6 +9,8 @@
++++ b/Source/ThirdParty/ANGLE/include/platform/Platform.h	2021-11-26 23:29:15.981112323 -0600
+@@ -9,6 +9,7 @@
  #ifndef ANGLE_PLATFORM_H
  #define ANGLE_PLATFORM_H
  
 +#include <stdlib.h>
-+
  #include <stdint.h>
  #include <array>
  

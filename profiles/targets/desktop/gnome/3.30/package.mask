@@ -1,8 +1,11 @@
-# Masked to test on GNOME 3.40 first
->=net-libs/webkit-gtk-2.32.0
+# Masked to test on GNOME 41 first
+>=net-libs/webkit-gtk-2.35.0
 
 # Masked to test on GNOME 3.34 first
 >=x11-libs/pango-1.44.0
+
+# Requires GLib 2.62 (or greater)
+>=media-video/wireplumber-0.4.1
 
 # Masked to freeze the state of GNOME
 >=app-accessibility/accerciser-3.31.0
@@ -31,7 +34,7 @@
 >=dev-cpp/cairomm-1.13.0
 >=dev-cpp/glibmm-2.60.0
 >=dev-cpp/gtkmm-3.32.0
->=dev-cpp/gtksourceviewmm-3.32.0
+>=dev-cpp/gtksourceviewmm-3.20.0
 >=dev-cpp/libxmlpp-3.1.0
 >=dev-cpp/pangomm-2.44.0
 >=dev-libs/appstream-glib-0.8.0
@@ -45,7 +48,7 @@
 >=dev-libs/gom-0.4.0
 >=dev-libs/json-glib-1.5.0
 >=dev-libs/libdazzle-3.32.0
->=dev-libs/libgames-support-1.6.0
+>=dev-libs/libgames-support-1.1.0
 >=dev-libs/libgdata-0.18.0
 >=dev-libs/libgit2-1.1.0
 >=dev-libs/libgit2-glib-1.1.0

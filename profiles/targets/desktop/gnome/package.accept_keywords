@@ -2,3 +2,4 @@ games-board/crafty::gentoo ~*
 games-board/sjeng::gentoo ~*
 media-fonts/crosextrafonts-caladea::gentoo ~*
 media-fonts/crosextrafonts-carlito::gentoo ~*
+sys-apps/hwdata::gentoo ~*

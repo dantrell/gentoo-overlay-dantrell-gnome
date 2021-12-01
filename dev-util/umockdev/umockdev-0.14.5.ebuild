@@ -11,7 +11,7 @@ SRC_URI="https://github.com/martinpitt/umockdev/releases/download/${PV}/${P}.tar
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+introspection static-libs test"
 

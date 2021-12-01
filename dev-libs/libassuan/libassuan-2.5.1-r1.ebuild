@@ -14,6 +14,7 @@ KEYWORDS="*"
 
 IUSE="static-libs"
 
+# Note: On each bump, update dep bounds on each version from configure.ac!
 RDEPEND=">=dev-libs/libgpg-error-1.8"
 DEPEND="${RDEPEND}"
 

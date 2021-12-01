@@ -1,5 +1,8 @@
-# Masked to test on GNOME 3.40 first
->=net-libs/webkit-gtk-2.32.0
+# Masked to test on GNOME 41 first
+>=net-libs/webkit-gtk-2.35.0
+
+# Masked to test on GNOME 40 first
+>=x11-libs/pango-1.48.0
 
 # Masked to freeze the state of GNOME
 >=app-accessibility/accerciser-3.38.0
@@ -27,10 +30,10 @@
 >=dev-cpp/atkmm-2.30.0
 >=dev-cpp/cairomm-1.16.0
 >=dev-cpp/glibmm-2.66.0
->=dev-cpp/gtkmm-3.38.0
->=dev-cpp/gtksourceviewmm-3.38.0
+>=dev-cpp/gtkmm-3.24.5
+>=dev-cpp/gtksourceviewmm-3.20.0
 >=dev-cpp/libxmlpp-3.1.0
->=dev-cpp/pangomm-2.44.0
+>=dev-cpp/pangomm-2.42.2
 >=dev-libs/appstream-glib-0.8.0
 >=dev-libs/atk-2.36.0
 >=dev-libs/folks-0.15.0
@@ -42,7 +45,7 @@
 >=dev-libs/gom-0.5.0
 >=dev-libs/json-glib-1.5.0
 >=dev-libs/libdazzle-3.38.0
->=dev-libs/libgames-support-1.7.0
+>=dev-libs/libgames-support-1.1.0
 >=dev-libs/libgdata-0.18.0
 >=dev-libs/libgit2-1.1.0
 >=dev-libs/libgit2-glib-1.1.0
@@ -96,7 +99,7 @@
 >=gnome-base/gnome-core-libs-3.38.0
 >=gnome-base/gnome-desktop-3.38.0
 >=gnome-base/gnome-extra-apps-3.38.0
->=gnome-base/gnome-flashback-3.37.0
+>=gnome-base/gnome-flashback-3.38.0
 >=gnome-base/gnome-keyring-3.38.0
 >=gnome-base/gnome-light-3.38.0
 >=gnome-base/gnome-menus-3.38.0
@@ -132,7 +135,7 @@
 >=gnome-extra/gnome-tweaks-3.35.0
 >=gnome-extra/gnome-user-docs-3.38.0
 >=gnome-extra/gnome-user-share-3.38.0
->=gnome-extra/gnome-weather-3.37.0
+>=gnome-extra/gnome-weather-40.0
 >=gnome-extra/nautilus-tracker-tags-2.3.0
 >=gnome-extra/nm-applet-1.16.0
 >=gnome-extra/sushi-3.38.0
@@ -144,8 +147,8 @@
 >=mail-client/geary-3.38.0
 >=media-gfx/eog-3.38.0
 >=media-gfx/eog-plugins-3.38.0
->=media-gfx/gnome-font-viewer-3.35.0
->=media-gfx/gnome-photos-3.35.0
+>=media-gfx/gnome-font-viewer-40.0
+>=media-gfx/gnome-photos-40.0
 >=media-gfx/gnome-screenshot-3.38.0
 >=media-gfx/simple-scan-3.38.0
 >=media-libs/clutter-1.28.0
@@ -165,7 +168,7 @@
 >=net-libs/dleyna-core-0.7.0
 >=net-libs/dleyna-renderer-0.7.0
 >=net-libs/glib-networking-2.66.0
->=net-libs/gnome-online-accounts-3.37.0
+>=net-libs/gnome-online-accounts-3.38.0
 >=net-libs/libsoup-2.72.0
 >=net-libs/libsoup-gnome-2.72.0
 >=net-misc/dleyna-server-0.7.0
@@ -179,7 +182,7 @@
 >=sci-geosciences/gnome-maps-3.38.0
 >=sys-apps/baobab-3.38.0
 >=sys-apps/gnome-disk-utility-3.38.0
->=sys-process/gnome-usage-3.35.0
+>=sys-process/gnome-usage-3.38.0
 >=www-client/epiphany-3.38.0
 >=x11-libs/gdk-pixbuf-2.42.0
 >=x11-libs/gnome-pty-helper-0.42.0
@@ -194,5 +197,5 @@
 >=x11-themes/gnome-backgrounds-3.38
 >=x11-themes/gnome-themes-standard-3.38
 >=x11-themes/gtk-engines-adwaita-3.38
->=x11-wm/metacity-3.37.0
+>=x11-wm/metacity-3.38.0
 >=x11-wm/mutter-3.38.0

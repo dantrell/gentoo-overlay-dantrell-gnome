@@ -11,7 +11,7 @@ inherit autotools bash-completion-r1 gnome2 linux-info multilib python-any-r1 sy
 DESCRIPTION="A set of co-operative tools that make networking simple and straightforward"
 HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
 
-LICENSE="GPL-2+"
+LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0" # add subslot if libnm-util.so.2 or libnm-glib.so.4 bumps soname version
 KEYWORDS="*"
 

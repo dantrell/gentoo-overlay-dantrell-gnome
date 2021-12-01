@@ -24,7 +24,6 @@ RDEPEND="
 	X? ( >=x11-libs/libwnck-2.91.0:3 )
 	systemd? ( >=sys-apps/systemd-44:0= )
 "
-# eautoreconf requires gnome-base/gnome-common
 DEPEND="${RDEPEND}"
 BDEPEND="
 	dev-util/itstool

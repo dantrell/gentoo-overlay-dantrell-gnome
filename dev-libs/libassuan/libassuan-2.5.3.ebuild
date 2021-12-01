@@ -12,6 +12,7 @@ LICENSE="GPL-3 LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
 
+# Note: On each bump, update dep bounds on each version from configure.ac!
 RDEPEND=">=dev-libs/libgpg-error-1.8"
 DEPEND="${RDEPEND}"
 

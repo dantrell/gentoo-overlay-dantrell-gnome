@@ -10,8 +10,9 @@ SRC_URI="mirror://gnupg/${PN}/${P}.tar.bz2"
 
 LICENSE="GPL-3 LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
+# Note: On each bump, update dep bounds on each version from configure.ac!
 RDEPEND=">=dev-libs/libgpg-error-1.17"
 DEPEND="${RDEPEND}"
 

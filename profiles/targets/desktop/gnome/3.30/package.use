@@ -8,6 +8,7 @@ media-libs/gegl jpeg
 media-libs/gegl png
 media-libs/gsound vala
 media-libs/mesa egl
+media-video/pipewire vanilla
 net-libs/gnome-online-accounts vala
 net-libs/gtk-vnc vala
 net-misc/spice-gtk vala

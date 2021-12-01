@@ -3,4 +3,5 @@ dev-libs/libgusb vala
 media-libs/clutter-gst X
 media-libs/gegl jpeg
 media-libs/gegl png
+media-video/pipewire vanilla
 >=www-client/chromium-84.0.4147.68 ozone

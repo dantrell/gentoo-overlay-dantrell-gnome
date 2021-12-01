@@ -18,6 +18,7 @@ KEYWORDS="*"
 IUSE="common-lisp static-libs +cxx python qt5"
 REQUIRED_USE="qt5? ( cxx ) python? ( ${PYTHON_REQUIRED_USE} )"
 
+# Note: On each bump, update dep bounds on each version from configure.ac!
 RDEPEND=">=app-crypt/gnupg-2
 	>=dev-libs/libassuan-2.0.2:=
 	>=dev-libs/libgpg-error-1.29:=
@@ -100,7 +101,7 @@ src_test() {
 src_install() {
 	default
 	do_python
-	find "${D}" -name '*.la' -delete || die
+	find "${ED}" -type f -name '*.la' -delete || die
 
 	# backward compatibility for gentoo
 	# in the past we had slots

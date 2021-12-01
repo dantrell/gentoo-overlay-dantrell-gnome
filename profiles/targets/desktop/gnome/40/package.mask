@@ -1,0 +1,11 @@
+# Masked to test on GNOME 41 first
+>=net-libs/webkit-gtk-2.35.0
+
+# Masked to test on GNOME 41 first
+>=x11-libs/pango-1.50.0
+
+# Masked to freeze the state of GNOME
+>=dev-cpp/cairomm-1.15.0
+>=dev-libs/libgit2-1.1.0
+>=dev-libs/libgit2-glib-1.1.0
+>=dev-libs/libsigc++-3.1.0

@@ -18,6 +18,7 @@ KEYWORDS="*"
 IUSE="common-lisp static-libs +cxx python qt5"
 REQUIRED_USE="qt5? ( cxx ) python? ( ${PYTHON_REQUIRED_USE} )"
 
+# Note: On each bump, update dep bounds on each version from configure.ac!
 RDEPEND=">=app-crypt/gnupg-2
 	>=dev-libs/libassuan-2.5.3:=
 	>=dev-libs/libgpg-error-1.29:=

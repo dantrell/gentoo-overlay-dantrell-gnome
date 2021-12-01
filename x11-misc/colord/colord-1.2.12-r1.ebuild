@@ -12,7 +12,7 @@ SRC_URI="https://www.freedesktop.org/software/colord/releases/${P}.tar.xz"
 
 LICENSE="GPL-2+"
 SLOT="0/2" # subslot = libcolord soname version
-KEYWORDS="~*"
+KEYWORDS="*"
 
 # We prefer policykit enabled by default, bug #448058
 IUSE="argyllcms examples extra-print-profiles +gusb +introspection +policykit scanner systemd +udev vala"
