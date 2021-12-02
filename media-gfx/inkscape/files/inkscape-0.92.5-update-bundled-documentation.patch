@@ -1,0 +1,19 @@
+diff '--exclude=.git' -urN a/share/tutorials/Makefile.am b/share/tutorials/Makefile.am
+--- a/share/tutorials/Makefile.am	2020-04-09 16:37:16.000000000 -0500
++++ b/share/tutorials/Makefile.am	2021-12-01 19:32:39.269670933 -0600
+@@ -9,7 +9,6 @@
+     oldguitar.jpg \
+     pixelart-dialog.de.png \
+     pixelart-dialog.el.png \
+-    pixelart-dialog.en.png \
+     pixelart-dialog.fr.png \
+     pixelart-dialog.nl.png \
+     pixelart-dialog.png \
+@@ -19,7 +18,6 @@
+     pixelart-dialog.zh_TW.png \
+     potrace.de.png \
+     potrace.el.png \
+-    potrace.en.png \
+     potrace.es.png \
+     potrace.eu.png \
+     potrace.fr.png \

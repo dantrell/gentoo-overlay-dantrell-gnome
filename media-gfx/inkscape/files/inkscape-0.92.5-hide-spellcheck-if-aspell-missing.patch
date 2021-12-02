@@ -1,0 +1,260 @@
+From 287c3a7e92e205b721844fd871a3f5605d3709cd Mon Sep 17 00:00:00 2001
+From: Nathan Lee <2431820-nathanal@users.noreply.gitlab.com>
+Date: Thu, 1 Aug 2019 21:52:17 +1000
+Subject: [PATCH] Hide spellcheck if Aspell missing
+
+Remove extra flags missed in last commit.
+(roughly backported 68eb62ca)
+---
+ src/shortcuts.cpp                    |  4 ++++
+ src/ui/CMakeLists.txt                | 11 +++++++++--
+ src/ui/dialog/Makefile_insert        | 10 ++++++++--
+ src/ui/dialog/dialog-manager.cpp     | 10 +++++++++-
+ src/ui/dialog/inkscape-preferences.h |  3 ++-
+ src/ui/interface.cpp                 |  4 ++++
+ src/verbs.cpp                        | 19 ++++++++++++++-----
+ src/verbs.h                          |  2 ++
+ 8 files changed, 52 insertions(+), 11 deletions(-)
+
+diff --git a/src/shortcuts.cpp b/src/shortcuts.cpp
+index 9c257edbd0..54b565a387 100644
+--- a/src/shortcuts.cpp
++++ b/src/shortcuts.cpp
+@@ -630,6 +630,10 @@ static void read_shortcuts_file(char const *filename, bool const is_user_set) {
+                 && strcmp(verb_name, "ToolPaintBucket")  != 0
+                 && strcmp(verb_name, "SelectionTrace")   != 0
+                 && strcmp(verb_name, "PaintBucketPrefs") != 0
++#endif
++#if !HAVE_ASPELL
++                && strcmp(verb_name, "DialogSpellcheck") != 0
++
+ #endif
+            ) {
+             g_warning("Unknown verb name: %s", verb_name);
+diff --git a/src/ui/CMakeLists.txt b/src/ui/CMakeLists.txt
+index 587974b908..4d162bf5bf 100644
+--- a/src/ui/CMakeLists.txt
++++ b/src/ui/CMakeLists.txt
+@@ -98,7 +98,6 @@ set(ui_SRC
+ 	dialog/polar-arrange-tab.cpp
+ 	dialog/print-colors-preview-dialog.cpp
+ 	dialog/print.cpp
+-	dialog/spellcheck.cpp
+ 	dialog/svg-fonts-dialog.cpp
+ 	dialog/swatches.cpp
+ 	dialog/symbols.cpp
+@@ -239,7 +238,6 @@ set(ui_SRC
+ 	dialog/polar-arrange-tab.h
+ 	dialog/print-colors-preview-dialog.h
+ 	dialog/print.h
+-	dialog/spellcheck.h
+ 	dialog/svg-fonts-dialog.h
+ 	dialog/swatches.h
+ 	dialog/symbols.h
+@@ -373,3 +371,12 @@ set ( ui_flood_and_trace_SRC
+ if ("${HAVE_POTRACE}")
+ 	add_inkscape_source("${ui_flood_and_trace_SRC}")
+ endif()
++
++set ( ui_spellcheck_SRC
++	dialog/spellcheck.cpp
++	dialog/spellcheck.h
++)
++
++if ("${HAVE_ASPELL}")
++	add_inkscape_source("${ui_spellcheck_SRC}")
++endif()
+diff --git a/src/ui/dialog/Makefile_insert b/src/ui/dialog/Makefile_insert
+index 71628973ed..b2198eb57b 100644
+--- a/src/ui/dialog/Makefile_insert
++++ b/src/ui/dialog/Makefile_insert
+@@ -90,8 +90,6 @@ ink_common_sources +=		\
+ 	ui/dialog/print.h			\
+ 	ui/dialog/print-colors-preview-dialog.cpp		\
+ 	ui/dialog/print-colors-preview-dialog.h		\
+-	ui/dialog/spellcheck.cpp		\
+-	ui/dialog/spellcheck.h		\
+ 	ui/dialog/svg-fonts-dialog.cpp		\
+ 	ui/dialog/svg-fonts-dialog.h		\
+ 	ui/dialog/swatches.cpp			\
+@@ -131,3 +129,11 @@ ink_common_sources +=		\
+ 	ui/dialog/tracedialog.h
+ 
+ endif
++
++if HAVE_ASPELL
++
++ink_common_sources +=		\
++	ui/dialog/spellcheck.cpp		\
++	ui/dialog/spellcheck.h
++
++endif
+\ No newline at end of file
+diff --git a/src/ui/dialog/dialog-manager.cpp b/src/ui/dialog/dialog-manager.cpp
+index 49853277c1..ffcd0195f1 100644
+--- a/src/ui/dialog/dialog-manager.cpp
++++ b/src/ui/dialog/dialog-manager.cpp
+@@ -53,7 +53,11 @@
+ #include "ui/dialog/object-attributes.h"
+ #include "ui/dialog/object-properties.h"
+ #include "ui/dialog/text-edit.h"
+-#include "ui/dialog/spellcheck.h"
++
++#if HAVE_ASPELL
++# include "ui/dialog/spellcheck.h"
++#endif
++
+ #include "ui/dialog/export.h"
+ #include "ui/dialog/xml-tree.h"
+ #include "ui/dialog/clonetiler.h"
+@@ -138,7 +142,9 @@ DialogManager::DialogManager() {
+         registerFactory("UndoHistory",         &create<UndoHistory,          FloatingBehavior>);
+         registerFactory("InputDevices",        &create<InputDialog,          FloatingBehavior>);
+         registerFactory("TextFont",            &create<TextEdit,             FloatingBehavior>);
++#if HAVE_ASPELL
+         registerFactory("SpellCheck",          &create<SpellCheck,           FloatingBehavior>);
++#endif
+         registerFactory("Export",              &create<Export,               FloatingBehavior>);
+         registerFactory("CloneTiler",          &create<CloneTiler,           FloatingBehavior>);
+         registerFactory("XmlTree",             &create<XmlTree,              FloatingBehavior>);
+@@ -177,7 +183,9 @@ DialogManager::DialogManager() {
+         registerFactory("UndoHistory",         &create<UndoHistory,          DockBehavior>);
+         registerFactory("InputDevices",        &create<InputDialog,          DockBehavior>);
+         registerFactory("TextFont",            &create<TextEdit,             DockBehavior>);
++#if HAVE_ASPELL
+         registerFactory("SpellCheck",          &create<SpellCheck,           DockBehavior>);
++#endif
+         registerFactory("Export",              &create<Export,               DockBehavior>);
+         registerFactory("CloneTiler",          &create<CloneTiler,           DockBehavior>);
+         registerFactory("XmlTree",             &create<XmlTree,              DockBehavior>);
+diff --git a/src/ui/dialog/inkscape-preferences.h b/src/ui/dialog/inkscape-preferences.h
+index 118d919f69..efb1c7f46a 100644
+--- a/src/ui/dialog/inkscape-preferences.h
++++ b/src/ui/dialog/inkscape-preferences.h
+@@ -92,8 +92,9 @@ enum {
+     PREFS_PAGE_SYSTEM,
+     PREFS_PAGE_BITMAPS,
+     PREFS_PAGE_RENDERING,
++#if HAVE_ASPELL
+     PREFS_PAGE_SPELLCHECK
+-
++#endif
+ };
+ 
+ namespace Gtk {
+diff --git a/src/ui/interface.cpp b/src/ui/interface.cpp
+index 5c7ceb8936..e6c74f8012 100644
+--- a/src/ui/interface.cpp
++++ b/src/ui/interface.cpp
+@@ -2215,11 +2215,13 @@ void ContextMenu::MakeTextMenu (void)
+     mi->show();
+     insert(*mi,positionOfLastDialog++);
+ 
++#if HAVE_ASPELL
+     /* Spellcheck dialog */
+     mi = Gtk::manage(new Gtk::MenuItem(_("Check Spellin_g..."), 1));
+     mi->signal_activate().connect(sigc::mem_fun(*this, &ContextMenu::SpellcheckSettings));
+     mi->show();
+     insert(*mi,positionOfLastDialog++);
++#endif
+ }
+ 
+ void ContextMenu::TextSettings (void)
+@@ -2233,11 +2235,13 @@ void ContextMenu::TextSettings (void)
+ 
+ void ContextMenu::SpellcheckSettings (void)
+ {
++#if HAVE_ASPELL
+     if (_desktop->selection->isEmpty()) {
+         _desktop->selection->set(_item);
+     }
+ 
+     _desktop->_dlg_mgr->showDialog("SpellCheck");
++#endif
+ }
+ 
+ /*
+diff --git a/src/verbs.cpp b/src/verbs.cpp
+index 5038b18278..5aa7e9b816 100644
+--- a/src/verbs.cpp
++++ b/src/verbs.cpp
+@@ -84,7 +84,11 @@
+ #include "ui/dialog/object-properties.h"
+ #include "ui/dialog/swatches.h"
+ #include "ui/dialog/symbols.h"
+-#include "ui/dialog/spellcheck.h"
++
++#if HAVE_ASPELL
++# include "ui/dialog/spellcheck.h"
++#endif
++
+ #include "ui/icon-names.h"
+ #include "ui/tools/node-tool.h"
+ #include "selection.h"
+@@ -838,6 +842,9 @@ Verb *Verb::getbyid(gchar const *id)
+                 && strcmp(id, "ToolPaintBucket")  != 0
+                 && strcmp(id, "SelectionTrace")   != 0
+                 && strcmp(id, "PaintBucketPrefs") != 0
++#endif
++#if !HAVE_ASPELL
++                && strcmp(id, "DialogSpellcheck") != 0
+ #endif
+             )
+         printf("Unable to find: %s\n", id);
+@@ -2071,9 +2078,11 @@ void DialogVerb::perform(SPAction *action, void *data)
+         case SP_VERB_DIALOG_FINDREPLACE:
+             // not implemented yet
+             break;
++#if HAVE_ASPELL
+         case SP_VERB_DIALOG_SPELLCHECK:
+             dt->_dlg_mgr->showDialog("SpellCheck");
+             break;
++#endif
+         case SP_VERB_DIALOG_DEBUG:
+             dt->_dlg_mgr->showDialog("Messages");
+             break;
+@@ -2188,14 +2197,10 @@ void TutorialVerb::perform(SPAction *action, void *data)
+             // TRANSLATORS: See "tutorial-basic.svg" comment.
+             sp_help_open_tutorial(NULL, (gpointer)_("tutorial-advanced.svg"));
+             break;
+-
+-#if HAVE_POTRACE
+         case SP_VERB_TUTORIAL_TRACING:
+             // TRANSLATORS: See "tutorial-basic.svg" comment.
+             sp_help_open_tutorial(NULL, (gpointer)_("tutorial-tracing.svg"));
+             break;
+-#endif
+-
+         case SP_VERB_TUTORIAL_TRACING_PIXELART:
+             sp_help_open_tutorial(NULL, (gpointer)_("tutorial-tracing-pixelart.svg"));
+             break;
+@@ -2941,8 +2946,12 @@ Verb *Verb::_base_verbs[] = {
+                    N_("Find objects in document"), INKSCAPE_ICON("edit-find")),
+     new DialogVerb(SP_VERB_DIALOG_FINDREPLACE, "DialogFindReplace", N_("Find and _Replace Text..."),
+                    N_("Find and replace text in document"), INKSCAPE_ICON("edit-find-replace")),
++
++#if HAVE_ASPELL
+     new DialogVerb(SP_VERB_DIALOG_SPELLCHECK, "DialogSpellcheck", N_("Check Spellin_g..."),
+                    N_("Check spelling of text in document"), INKSCAPE_ICON("tools-check-spelling")),
++#endif
++
+     new DialogVerb(SP_VERB_DIALOG_DEBUG, "DialogDebug", N_("_Messages..."),
+                    N_("View debug messages"), INKSCAPE_ICON("dialog-messages")),
+     new DialogVerb(SP_VERB_DIALOG_TOGGLE, "DialogsToggle", N_("Show/Hide D_ialogs"),
+diff --git a/src/verbs.h b/src/verbs.h
+index a06ea9f51e..d86b5335c9 100644
+--- a/src/verbs.h
++++ b/src/verbs.h
+@@ -299,7 +299,9 @@ enum {
+     SP_VERB_DIALOG_XML_EDITOR,
+     SP_VERB_DIALOG_FIND,
+     SP_VERB_DIALOG_FINDREPLACE,
++#if HAVE_ASPELL
+     SP_VERB_DIALOG_SPELLCHECK,
++#endif
+     SP_VERB_DIALOG_DEBUG,
+     SP_VERB_DIALOG_TOGGLE,
+     SP_VERB_DIALOG_CLONETILER,
+-- 
+GitLab
+

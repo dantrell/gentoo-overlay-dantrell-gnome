@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
+
 PYTHON_COMPAT=( python2_7 )
 PYTHON_REQ_USE="xml"
 
@@ -16,18 +17,23 @@ LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="cdr dia dbus deprecated exif gnome imagemagick openmp postscript inkjar jpeg latex"
-IUSE+=" lcms nls spell static-libs visio wpg uniconvertor"
+IUSE="cdr dbus deprecated dia exif gnome graphicsmagick imagemagick inkjar jpeg latex lcms
+nls openmp postscript  spell static-libs uniconvertor visio wpg"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RESTRICT="test"
 
+BDEPEND="
+	>=dev-util/intltool-0.40
+	>=sys-devel/gettext-0.17
+	virtual/pkgconfig
+"
 COMMON_DEPEND="${PYTHON_DEPS}
 	<app-text/poppler-22.0
 	>=app-text/poppler-0.26.0:=[cairo]
+	>=dev-cpp/cairomm-1.9.8
 	>=dev-cpp/glibmm-2.28
 	>=dev-cpp/gtkmm-2.18.0:2.4
-	>=dev-cpp/cairomm-1.9.8
 	>=dev-libs/boehm-gc-7.1:=
 	>=dev-libs/glib-2.28
 	>=dev-libs/libsigc++-2.0.12
@@ -40,8 +46,8 @@ COMMON_DEPEND="${PYTHON_DEPS}
 	media-libs/libpng:0=
 	sci-libs/gsl:=
 	x11-libs/libX11
-	>=x11-libs/gtk+-2.10.7:2
 	>=x11-libs/pango-1.24
+	>=x11-libs/gtk+-2.10.7:2
 	cdr? (
 		app-text/libwpg:0.3
 		dev-libs/librevenge
@@ -51,7 +57,10 @@ COMMON_DEPEND="${PYTHON_DEPS}
 	!deprecated? ( >=dev-cpp/glibmm-2.48 )
 	exif? ( media-libs/libexif )
 	gnome? ( >=gnome-base/gnome-vfs-2.0 )
-	imagemagick? ( media-gfx/imagemagick:=[cxx] )
+	imagemagick? (
+		!graphicsmagick? ( media-gfx/imagemagick:=[cxx] )
+		graphicsmagick? ( media-gfx/graphicsmagick:=[cxx] )
+	)
 	jpeg? ( virtual/jpeg:0 )
 	lcms? ( media-libs/lcms:2 )
 	spell? (
@@ -87,9 +96,6 @@ RDEPEND="${COMMON_DEPEND}
 "
 DEPEND="${COMMON_DEPEND}
 	>=dev-libs/boost-1.36:=
-	>=dev-util/intltool-0.40
-	>=sys-devel/gettext-0.17
-	virtual/pkgconfig
 "
 
 PATCHES=(
@@ -187,6 +193,7 @@ src_compile() {
 src_install() {
 	default
 
-	find "${ED}" -name "*.la" -delete || die
-	python_optimize "${ED%/}"/usr/share/${PN}/extensions
+	find "${ED}" -type f -name "*.la" -delete || die
+
+	python_optimize "${ED}"/usr/share/${PN}/extensions
 }

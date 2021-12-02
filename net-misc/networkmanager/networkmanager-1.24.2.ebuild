@@ -286,7 +286,6 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
-	einstalldocs
 	! use systemd && readme.gentoo_create_doc
 
 	if use vanilla; then

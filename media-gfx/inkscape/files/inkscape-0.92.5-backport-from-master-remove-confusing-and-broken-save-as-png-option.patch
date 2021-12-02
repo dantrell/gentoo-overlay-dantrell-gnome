@@ -1,0 +1,248 @@
+From e4480c55484d8510e607c9b5c9f364fd750e636c Mon Sep 17 00:00:00 2001
+From: Karl Cheng <qantas94heavy@gmail.com>
+Date: Tue, 16 Apr 2019 22:47:19 +1000
+Subject: [PATCH] Backport from master: Remove confusing and broken save as PNG
+ option
+
+Refs: https://gitlab.com/inkscape/inkscape/commit/1ae24d44779b675dfb80d5e52b73932ece9fe49e
+---
+ src/extension/CMakeLists.txt             |   2 -
+ src/extension/init.cpp                   |   2 -
+ src/extension/internal/cairo-png-out.cpp | 127 -----------------------
+ src/extension/internal/cairo-png-out.h   |  50 ---------
+ 4 files changed, 181 deletions(-)
+ delete mode 100644 src/extension/internal/cairo-png-out.cpp
+ delete mode 100644 src/extension/internal/cairo-png-out.h
+
+diff --git a/src/extension/CMakeLists.txt b/src/extension/CMakeLists.txt
+index a5352d0bab..f83389b492 100644
+--- a/src/extension/CMakeLists.txt
++++ b/src/extension/CMakeLists.txt
+@@ -32,7 +32,6 @@ set(extension_SRC
+ 	param/string.cpp
+ 
+ 	internal/bluredge.cpp
+-	internal/cairo-png-out.cpp
+ 	internal/cairo-ps-out.cpp
+ 	internal/cairo-render-context.cpp
+ 	internal/cairo-renderer.cpp
+@@ -98,7 +97,6 @@ set(extension_SRC
+ 	implementation/xslt.h
+ 
+ 	internal/bluredge.h
+-	internal/cairo-png-out.h
+ 	internal/cairo-ps-out.h
+ 	internal/cairo-render-context.h
+ 	internal/cairo-renderer-pdf-out.h
+diff --git a/src/extension/init.cpp b/src/extension/init.cpp
+index af7af2cb1c..12629f4342 100644
+--- a/src/extension/init.cpp
++++ b/src/extension/init.cpp
+@@ -37,7 +37,6 @@
+ # include "internal/wmf-print.h"
+ #ifdef HAVE_CAIRO_PDF
+ # include "internal/cairo-renderer-pdf-out.h"
+-# include "internal/cairo-png-out.h"
+ # include "internal/cairo-ps-out.h"
+ #endif
+ #include "internal/pov-out.h"
+@@ -163,7 +162,6 @@ init()
+ #ifdef HAVE_CAIRO_PDF
+     //g_print ("Using CairoRendererPdfOutput: new pdf exporter\n");
+     Internal::CairoRendererPdfOutput::init();
+-    Internal::CairoRendererOutput::init();
+ 
+     Internal::CairoPsOutput::init();
+     Internal::CairoEpsOutput::init();
+diff --git a/src/extension/internal/cairo-png-out.cpp b/src/extension/internal/cairo-png-out.cpp
+deleted file mode 100644
+index 956fcce9a6..0000000000
+--- a/src/extension/internal/cairo-png-out.cpp
++++ /dev/null
+@@ -1,127 +0,0 @@
+-/*
+- * A quick hack to use the Cairo renderer to write out a file.  This
+- * then makes 'save as...' PNG.
+- *
+- * Authors:
+- *   Ted Gould <ted@gould.cx>
+- *   Ulf Erikson <ulferikson@users.sf.net>
+- *   Jon A. Cruz <jon@joncruz.org>
+- *   Abhishek Sharma
+- *
+- * Copyright (C) 2004-2006 Authors
+- *
+- * Released under GNU GPL, read the file 'COPYING' for more information
+- */
+-
+-#ifdef HAVE_CONFIG_H
+-# include <config.h>
+-#endif
+-
+-#ifdef HAVE_CAIRO_PDF
+-
+-#include "cairo-png-out.h"
+-#include "cairo-render-context.h"
+-#include "cairo-renderer.h"
+-#include <print.h>
+-#include "extension/system.h"
+-#include "extension/print.h"
+-#include "extension/db.h"
+-#include "extension/output.h"
+-#include "display/drawing.h"
+-
+-#include "display/curve.h"
+-#include "display/canvas-bpath.h"
+-#include "sp-item.h"
+-#include "style.h"
+-#include "sp-root.h"
+-#include "sp-shape.h"
+-
+-#include "io/sys.h"
+-#include "document.h"
+-
+-namespace Inkscape {
+-namespace Extension {
+-namespace Internal {
+-
+-bool CairoRendererOutput::check(Inkscape::Extension::Extension * /*module*/)
+-{
+-    return true;
+-}
+-
+-static bool
+-png_render_document_to_file(SPDocument *doc, gchar const *filename)
+-{
+-    CairoRenderer *renderer;
+-    CairoRenderContext *ctx;
+-
+-    doc->ensureUpToDate();
+-
+-/* Start */
+-
+-    SPItem *base = doc->getRoot();
+-    Inkscape::Drawing drawing;
+-    unsigned dkey = SPItem::display_key_new(1);
+-    base->invoke_show(drawing, dkey, SP_ITEM_SHOW_DISPLAY);
+-    
+-    /* Create renderer and context */
+-    renderer = new CairoRenderer();
+-    ctx = renderer->createContext();
+-
+-    /* Render document */
+-    bool ret = renderer->setupDocument(ctx, doc, TRUE, 0., NULL);
+-    if (ret) {
+-        renderer->renderItem(ctx, base);
+-        ctx->saveAsPng(filename);
+-        ret = ctx->finish();
+-    }
+-    renderer->destroyContext(ctx);
+-
+-    base->invoke_hide(dkey);
+-/* end */
+-    delete renderer;
+-
+-    return ret;
+-}
+-
+-
+-/**
+-    \brief  This function calls the output module with the filename
+-	\param  mod   unused
+-	\param  doc   Document to be saved
+-    \param  uri   Filename to save to (probably will end in .png)
+-*/
+-void CairoRendererOutput::save(Inkscape::Extension::Output * /*mod*/, SPDocument *doc, gchar const *filename)
+-{
+-    if (!png_render_document_to_file(doc, filename)) {
+-        throw Inkscape::Extension::Output::save_failed();
+-    }
+-}
+-
+-/**
+-	\brief   A function allocate a copy of this function.
+-
+-	This is the definition of Cairo PNG out.  This function just
+-	calls the extension system with the memory allocated XML that
+-	describes the data.
+-*/
+-void
+-CairoRendererOutput::init (void)
+-{
+-	Inkscape::Extension::build_from_mem(
+-		"<inkscape-extension xmlns=\"" INKSCAPE_EXTENSION_URI "\">\n"
+-			"<name>Cairo PNG Output</name>\n"
+-			"<id>org.inkscape.output.png.cairo</id>\n"
+-			"<output>\n"
+-				"<extension>.png</extension>\n"
+-                "<mimetype>image/png</mimetype>\n"
+-				"<filetypename>Cairo PNG (*.png)</filetypename>\n"
+-				"<filetypetooltip>PNG File</filetypetooltip>\n"
+-			"</output>\n"
+-		"</inkscape-extension>", new CairoRendererOutput());
+-
+-	return;
+-}
+-
+-} } }  /* namespace Inkscape, Extension, Implementation */
+-
+-#endif /* HAVE_CAIRO_PDF */
+diff --git a/src/extension/internal/cairo-png-out.h b/src/extension/internal/cairo-png-out.h
+deleted file mode 100644
+index 93e3ab37f3..0000000000
+--- a/src/extension/internal/cairo-png-out.h
++++ /dev/null
+@@ -1,50 +0,0 @@
+-/*
+- * A quick hack to use the print output to write out a file.  This
+- * then makes 'save as...' PNG.
+- *
+- * Authors:
+- *   Ted Gould <ted@gould.cx>
+- *   Ulf Erikson <ulferikson@users.sf.net>
+- *
+- * Copyright (C) 2004-2006 Authors
+- *
+- * Released under GNU GPL, read the file 'COPYING' for more information
+- */
+-
+-#ifndef EXTENSION_INTERNAL_CAIRO_PNG_OUT_H
+-#define EXTENSION_INTERNAL_CAIRO_PNG_OUT_H
+-
+-#include "extension/implementation/implementation.h"
+-
+-#ifdef HAVE_CAIRO_PDF
+-
+-namespace Inkscape {
+-namespace Extension {
+-namespace Internal {
+-
+-class CairoRendererOutput : Inkscape::Extension::Implementation::Implementation {
+-
+-public:
+-    bool check(Inkscape::Extension::Extension *module);
+-    void save(Inkscape::Extension::Output *mod,
+-              SPDocument *doc,
+-              gchar const *filename);
+-    static void init();
+-};
+-
+-} } }  /* namespace Inkscape, Extension, Implementation */
+-
+-#endif /* HAVE_CAIRO_PDF */
+-
+-#endif /* !EXTENSION_INTERNAL_CAIRO_PNG_OUT_H */
+-
+-/*
+-  Local Variables:
+-  mode:c++
+-  c-file-style:"stroustrup"
+-  c-file-offsets:((innamespace . 0)(inline-open . 0)(case-label . +))
+-  indent-tabs-mode:nil
+-  fill-column:99
+-  End:
+-*/
+-// vim: filetype=cpp:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:fileencoding=utf-8:textwidth=99 :
+-- 
+GitLab
+
