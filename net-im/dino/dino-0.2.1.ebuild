@@ -1,10 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 CMAKE_MAKEFILE_GENERATOR="ninja"
 VALA_MIN_API_VERSION="0.34"
 
-inherit cmake-utils gnome2-utils vala xdg-utils
+inherit cmake gnome2-utils vala xdg-utils
 
 DESCRIPTION="Modern Jabber/XMPP Client using GTK+/Vala"
 HOMEPAGE="https://dino.im"
@@ -45,7 +45,7 @@ DEPEND="
 "
 
 src_prepare() {
-	cmake-utils_src_prepare
+	cmake_src_prepare
 	vala_src_prepare
 }
 
@@ -68,7 +68,7 @@ src_configure() {
 		mycmakeargs+=("-DBUILD_TESTS=yes")
 	fi
 
-	cmake-utils_src_configure
+	cmake_src_configure
 }
 
 src_test() {

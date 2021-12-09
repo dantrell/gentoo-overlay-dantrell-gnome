@@ -1,0 +1,101 @@
+From 0703b6b38f4e6cf8ecc623c09c05ef73c6424ee4 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=C3=98yvind=20Kol=C3=A5s?= <pippin@gimp.org>
+Date: Tue, 12 Mar 2019 21:58:13 +0100
+Subject: [PATCH] tools: port exp_combine to use gexiv2 instead of exiv2
+ directly
+
+We already rely on gexiv2, and recent updates of exiv2 broke API this
+commandline tool was reliant on.
+---
+ tools/Makefile.am     |  6 +++---
+ tools/exp_combine.cpp | 42 +++++++++++++++++++-----------------------
+ 2 files changed, 22 insertions(+), 26 deletions(-)
+
+diff --git a/tools/Makefile.am b/tools/Makefile.am
+index 5ee31df0d..26a3bd3d4 100644
+--- a/tools/Makefile.am
++++ b/tools/Makefile.am
+@@ -38,9 +38,9 @@ noinst_PROGRAMS = introspect operation_reference detect_opencl gegl-tester opera
+ gegl_tester_SOURCES = \
+ 	gegl-tester.c
+ 
+-if HAVE_EXIV2
++if HAVE_GEXIV2
+ noinst_PROGRAMS     += exp_combine 
+ exp_combine_SOURCES  = exp_combine.cpp
+-exp_combine_LDADD    = $(EXIV2_LIBS) 
+-exp_combine_CXXFLAGS = $(AM_CFLAGS) $(EXIV2_CFLAGS)
++exp_combine_LDADD    = $(GEXIV2_LIBS) 
++exp_combine_CXXFLAGS = $(AM_CFLAGS) $(GEXIV2_CFLAGS)
+ endif
+diff --git a/tools/exp_combine.cpp b/tools/exp_combine.cpp
+index 6b772d35a..c74f81cf6 100644
+--- a/tools/exp_combine.cpp
++++ b/tools/exp_combine.cpp
+@@ -8,8 +8,7 @@
+ 
+ #include <iostream>
+ 
+-#include <exiv2/image.hpp>
+-#include <exiv2/exif.hpp>
++#include <gexiv2/gexiv2.h>
+ 
+ using namespace std;
+ 
+@@ -54,35 +53,32 @@ die:
+ static gfloat
+ expcombine_get_file_ev (const gchar *path)
+ {
+-  /* Open the file and read in the metadata */
+-  Exiv2::Image::AutoPtr image;
+-  try 
+-    {
+-      image = Exiv2::ImageFactory::open (path);
+-      image->readMetadata ();
+-    }
+-  catch (Exiv2::Error ex)
+-    {
+-      g_print ("Error: unable to read metadata from path: '%s'\n", path);
+-      exit (EXIT_FAILURE);
+-    }
++  GError *error = NULL;
++  GExiv2Metadata *e2m = gexiv2_metadata_new ();
++  gfloat time, aperture, gain = 1.0f;
+ 
+-  Exiv2::ExifData &exifData = image->exifData ();
+-  if (exifData.empty ())
+-      return NAN;
++  gexiv2_metadata_open_path (e2m, path, &error);
++  if (error)
++  {
++    g_warning ("%s", error->message);
++    exit (EXIT_FAILURE);
++  }
+ 
+   /* Calculate the APEX brightness / EV */
+-  gfloat time, aperture, gain = 1.0f;
+ 
+-  time     = exifData["Exif.Photo.ExposureTime"].value().toFloat();
+-  aperture = exifData["Exif.Photo.FNumber"     ].value().toFloat();
++  {
++    gint nom, den;
++    gexiv2_metadata_get_exposure_time (e2m, &nom, &den);
++    time = nom * 1.0f / den;
++  }
++  aperture = gexiv2_metadata_get_fnumber (e2m);
+ 
+   /* iso */
+-  try
++  if (gexiv2_metadata_has_tag (e2m, "Exif.Image.ISOSpeedRatings"))
+     {
+-      gain = exifData["Exif.Photo.ISOSpeedRatings"].value().toLong() / 100.0f;
++      gain = gexiv2_metadata_get_iso_speed (e2m) / 100.0f;
+     }
+-  catch (Exiv2::Error ex)
++  else
+     {
+       // Assume ISO is set at 100. It's reasonably likely that the ISO is the
+       // same across all images anyway, and for our purposes the relative
+-- 
+GitLab
+

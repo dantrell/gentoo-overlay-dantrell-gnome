@@ -2,11 +2,10 @@
 
 EAPI="6"
 
-# PackageKit supports 3.2+, but entropy and portage backends are untested
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 VALA_USE_DEPEND="vapigen"
 
-inherit autotools bash-completion-r1 ltprune multilib nsplugins python-single-r1 systemd vala xdg-utils
+inherit autotools bash-completion-r1 multilib nsplugins python-single-r1 systemd vala xdg
 
 MY_PN="PackageKit"
 MY_P=${MY_PN}-${PV}
@@ -19,15 +18,14 @@ LICENSE="GPL-2"
 SLOT="0/18"
 KEYWORDS="*"
 
-IUSE="ck command-not-found connman consolekit cron elogind entropy +introspection networkmanager nsplugin systemd test vala"
+IUSE="ck command-not-found connman consolekit cron elogind +introspection networkmanager nsplugin systemd test vala"
 REQUIRED_USE="
 	${PYTHON_REQUIRED_USE}
 	?? ( ck consolekit elogind systemd )
 	vala? ( introspection )
-	entropy? ( $(python_gen_useflags 'python2*' ) )
 "
 
-RESTRICT="test"
+RESTRICT="!test? ( test )"
 
 # While not strictly needed, consolekit or elogind
 # is the alternative to systemd-login to get current session's user.
@@ -66,11 +64,6 @@ DEPEND="${COMMON_DEPEND}
 	vala? ( $(vala_depend) )
 "
 RDEPEND="${COMMON_DEPEND}
-	$(python_gen_cond_dep '
-		>=app-portage/layman-2[${PYTHON_USEDEP}]
-		>=sys-apps/portage-2.2[${PYTHON_USEDEP}]
-	')
-	entropy? ( >=sys-apps/entropy-234[${PYTHON_SINGLE_USEDEP}] )
 "
 
 PATCHES=(
@@ -87,14 +80,13 @@ PATCHES=(
 S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
-	default
+	xdg_src_prepare
 
 	eautoreconf
 	use vala && vala_src_prepare
 }
 
 src_configure() {
-	xdg_environment_reset
 	econf \
 		--disable-gstreamer-plugin \
 		--disable-gtk-doc \
@@ -104,13 +96,13 @@ src_configure() {
 		--enable-bash-completion \
 		--enable-man-pages \
 		--enable-nls \
-		--enable-portage \
+		--disable-portage \
 		--localstatedir=/var \
 		$(use_enable command-not-found) \
 		$(use_enable connman) \
 		$(use_enable cron) \
 		$(use_enable elogind) \
-		$(use_enable entropy) \
+		--disable-entropy \
 		$(use_enable introspection) \
 		$(use_enable networkmanager) \
 		$(use_enable nsplugin browser-plugin) \
@@ -123,7 +115,7 @@ src_configure() {
 
 src_install() {
 	emake DESTDIR="${D}" install
-	prune_libtool_files --all
+	find "${D}" -name '*.la' -delete || die
 
 	if use nsplugin; then
 		dodir "/usr/$(get_libdir)/${PLUGINS_DIR}"

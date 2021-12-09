@@ -22,7 +22,6 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 RESTRICT="test"
 
 # Additional unhandled dependencies
-# gnome-extra/gnome-packagekit[${PYTHON_USEDEP}] with pygobject:2 ?
 # python samba client: smbc
 # selinux: needed for troubleshooting
 COMMON_DEPEND="${PYTHON_DEPS}

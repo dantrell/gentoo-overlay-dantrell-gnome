@@ -38,8 +38,8 @@ PATCHES=(
 
 src_prepare() {
 	# Lower the minimum required GLib version
-	sed -i meson.build \
-		-e 's/2.44.0/2.42.0/' || die
+	sed -e 's/2.44.0/2.42.0/' \
+		-i meson.build || die
 
 	xdg_src_prepare
 	use vala && vala_src_prepare

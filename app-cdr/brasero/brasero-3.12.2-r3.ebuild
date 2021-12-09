@@ -13,7 +13,7 @@ LICENSE="GPL-2+ CC-BY-SA-3.0"
 SLOT="0/3.1" # subslot is 3.suffix of libbrasero-burn3
 KEYWORDS="~*"
 
-IUSE="+css +introspection +libburn mp3 nautilus packagekit playlist test tracker"
+IUSE="+css +introspection +libburn mp3 nautilus playlist test tracker"
 
 RESTRICT="!test? ( test )"
 
@@ -47,7 +47,6 @@ RDEPEND="${DEPEND}
 		app-cdr/cdrtools
 		app-cdr/dvd+rw-tools
 	)
-	packagekit? ( app-admin/packagekit-base )
 "
 BDEPEND="
 	>=dev-util/intltool-0.50
@@ -82,5 +81,9 @@ src_configure() {
 
 src_install() {
 	gnome2_src_install
+
+	# From AppStream (the /usr/share/appdata location is deprecated):
+	# 	https://www.freedesktop.org/software/appstream/docs/chap-Metadata.html#spec-component-location
+	# 	https://bugs.gentoo.org/709450
 	mv "${ED}"/usr/share/{appdata,metainfo} || die
 }

@@ -33,7 +33,9 @@ RESTRICT="!test? ( test )"
 # Added util-linux multilib dependency to have libmount support (which
 # is always turned on on linux systems, unless explicitly disabled, but
 # this ebuild does not do that anyway) (bug #599586)
-
+# * elfutils (via libelf) does not build on Windows. gresources are not embedded
+# within ELF binaries on that platform anyway and inspecting ELF binaries from
+# other platforms is not that useful so exclude the dependency in this case.
 RDEPEND="
 	!<dev-util/gdbus-codegen-${PV}
 	>=dev-libs/libpcre-8.13:3[${MULTILIB_USEDEP},static-libs?]
@@ -46,7 +48,7 @@ RDEPEND="
 	xattr? ( >=sys-apps/attr-2.4.47-r1[${MULTILIB_USEDEP}] )
 	fam? ( >=virtual/fam-0-r1[${MULTILIB_USEDEP}] )
 	${PYTHON_DEPS}
-	virtual/libelf:0=
+	!kernel_Winnt? ( virtual/libelf:0= )
 "
 DEPEND="${RDEPEND}
 	app-text/docbook-xml-dtd:4.1.2

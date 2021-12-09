@@ -27,6 +27,7 @@ DEPEND="${RDEPEND}"
 BDEPEND="
 	app-text/docbook-sgml-dtd:4.1
 	app-text/docbook-sgml-utils
+	dev-libs/appstream-glib
 	dev-util/itstool
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
@@ -37,7 +38,6 @@ PATCHES=(
 )
 
 src_configure() {
-	# Always enable tests since they are check_PROGRAMS anyway
 	local emesonargs=(
 		$(meson_use test tests)
 	)

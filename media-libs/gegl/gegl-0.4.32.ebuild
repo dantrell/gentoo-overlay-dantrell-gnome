@@ -29,7 +29,7 @@ RESTRICT="!test? ( test )"
 #       so there is no chance to support libav right now (Gentoo bug #567638)
 #       If it returns, please check prior GEGL ebuilds for how libav was integrated.  Thanks!
 RDEPEND="
-	>=dev-libs/glib-2.56:2
+	>=dev-libs/glib-2.44:2
 	>=dev-libs/json-glib-1.2.6
 	>=media-libs/babl-0.1.88[introspection?,lcms?,vala?]
 	media-libs/libnsgif
@@ -64,8 +64,6 @@ BDEPEND="
 	test? ( $(python_gen_any_dep '>=dev-python/pygobject-3.2:3[${PYTHON_USEDEP}]') )
 	vala? ( $(vala_depend) )
 "
-
-DOCS=( AUTHORS docs/ChangeLog docs/NEWS.adoc )
 
 python_check_deps() {
 	use test || return 0

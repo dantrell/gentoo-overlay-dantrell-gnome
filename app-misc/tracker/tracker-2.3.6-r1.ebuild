@@ -43,7 +43,7 @@ BDEPEND="
 	virtual/pkgconfig
 	${PYTHON_DEPS}
 "
-PDEPEND="miners? ( >=app-misc/tracker-miners-${PV_SERIES}:0 )"
+PDEPEND="miners? ( >=app-misc/tracker-miners-${PV_SERIES}:0= )"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-2.3.6-sqlite-3.34-compat.patch # From upstream tracker-2.3 branch

@@ -29,7 +29,7 @@ RDEPEND="
 	elogind? ( >=sys-auth/elogind-233 )
 	systemd? ( >=sys-apps/systemd-233 )
 	>=sys-auth/polkit-0.91
-	app-misc/geoclue:2
+	app-misc/geoclue:2.0
 "
 DEPEND="
 	${RDEPEND}
@@ -49,6 +49,12 @@ src_configure() {
 
 src_install() {
 	meson_src_install
+
+	if ! use systemd ; then
+		# From Gentoo:
+		# 	https://forums.gentoo.org/viewtopic-t-1115254.html
+		newinitd "${FILESDIR}"/iio-sensor-proxy.initd iio-sensor-proxy
+	fi
 }
 
 pkg_postinst() {

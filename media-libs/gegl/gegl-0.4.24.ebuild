@@ -29,7 +29,7 @@ RESTRICT="!test? ( test )"
 #       so there is no chance to support libav right now (Gentoo bug #567638)
 #       If it returns, please check prior GEGL ebuilds for how libav was integrated.  Thanks!
 RDEPEND="
-	>=dev-libs/glib-2.56:2
+	>=dev-libs/glib-2.44:2
 	>=dev-libs/json-glib-1.2.6
 	>=media-libs/babl-0.1.78[introspection?,lcms?,vala?]
 	media-libs/libnsgif
@@ -55,6 +55,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
+	${PYTHON_DEPS}
 	dev-lang/perl
 	>=dev-util/gtk-doc-am-1
 	>=sys-devel/gettext-0.19.8
@@ -70,11 +71,8 @@ PATCHES=(
 )
 
 python_check_deps() {
+	use test || return 0
 	has_version -b ">=dev-python/pygobject-3.2:3[${PYTHON_USEDEP}]"
-}
-
-pkg_setup() {
-	use test && python-any-r1_pkg_setup
 }
 
 src_prepare() {
@@ -95,6 +93,13 @@ src_prepare() {
 		sed -i "s:/bin/gegl:/bin/gegl-0.4:g" "${S}/tests/mipmap/${item}" || die
 		sed -i "s:/tools/gegl-imgcmp:/tools/gegl-imgcmp-0.4:g" "${S}/tests/mipmap/${item}" || die
 	done
+
+	if use openexr && has_version '>=dev-libs/glib-2.67.3'; then
+		# From GNOME:
+		# 	https://gitlab.gnome.org/GNOME/glib/-/issues/2331
+		# 	https://bugs.gentoo.org/793998
+		eapply "${FILESDIR}"/${PN}-0.4.26-fix-build-glib-2.67.3.patch
+	fi
 
 	gnome2_environment_reset
 

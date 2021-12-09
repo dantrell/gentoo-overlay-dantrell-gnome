@@ -15,7 +15,7 @@ KEYWORDS="*"
 IUSE="glade +introspection vala"
 REQUIRED_USE="vala? ( introspection )"
 
-COMMON_DEPEND="
+RDEPEND="
 	>=x11-libs/gtk+-3.13.5:3[introspection?]
 	>=dev-libs/glib-2.35.1:2
 	>=net-libs/libsoup-2.44:2.4
@@ -26,10 +26,7 @@ COMMON_DEPEND="
 	glade? ( >=dev-util/glade-3.16:3.10 )
 	introspection? ( >=dev-libs/gobject-introspection-0.9.5:= )
 "
-RDEPEND="${COMMON_DEPEND}
-	!<gnome-base/gnome-applets-2.22.0
-"
-DEPEND="${COMMON_DEPEND}
+DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.11
 	>=dev-util/intltool-0.50
 	>=sys-devel/gettext-0.18

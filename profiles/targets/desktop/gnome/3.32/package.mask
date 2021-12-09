@@ -2,6 +2,7 @@
 >=net-libs/webkit-gtk-2.35.0
 
 # Masked to test on GNOME 3.34 first
+>=gnome-base/librsvg-2.49.0
 >=x11-libs/pango-1.44.0
 
 # Requires GLib 2.62 (or greater)
@@ -15,6 +16,7 @@
 >=app-arch/file-roller-3.34.0
 >=app-arch/gcab-1.4
 >=app-crypt/gcr-3.33.0
+>=app-crypt/libsecret-0.19
 >=app-crypt/seahorse-3.34.0
 >=app-dicts/gnome-dictionary-3.34.0
 >=app-editors/gedit-3.34.0
@@ -46,6 +48,7 @@
 >=dev-libs/gobject-introspection-1.62.0
 >=dev-libs/gobject-introspection-common-1.62.0
 >=dev-libs/gom-0.4.0
+>=dev-libs/jsonrpc-glib-3.34.0
 >=dev-libs/json-glib-1.5.0
 >=dev-libs/libdazzle-3.34.0
 >=dev-libs/libgames-support-1.1.0
@@ -170,7 +173,7 @@
 >=net-libs/dleyna-connector-dbus-0.4.0
 >=net-libs/dleyna-core-0.7.0
 >=net-libs/dleyna-renderer-0.7.0
->=net-libs/glib-networking-2.60.0
+>=net-libs/glib-networking-2.62.0
 >=net-libs/gnome-online-accounts-3.33.0
 >=net-libs/libsoup-2.68.0
 >=net-libs/libsoup-gnome-2.68.0

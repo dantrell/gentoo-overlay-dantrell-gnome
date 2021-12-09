@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/DocumentationProject/GtkDoc"
 
 LICENSE="GPL-2 FDL-1.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 # This ebuild doesn't even compile anything, causing tests to fail when updating (bug #316071)
 RESTRICT="test"

@@ -6,6 +6,7 @@
 
 # Requires GLib 2.58 (or greater)
 >=dev-java/icedtea-bin-3.12.0
+>=dev-libs/appstream-0.12.10
 >=media-gfx/inkscape-1.1
 >=media-video/wireplumber-0.2.96
 >=net-libs/dleyna-connector-dbus-0.3.0
@@ -27,6 +28,7 @@
 >=app-arch/file-roller-3.30.0
 >=app-arch/gcab-1.4
 >=app-crypt/gcr-3.30.0
+>=app-crypt/libsecret-0.19
 >=app-crypt/seahorse-3.30.0
 >=app-dicts/gnome-dictionary-3.30.0
 >=app-editors/gedit-3.30.0
@@ -58,6 +60,7 @@
 >=dev-libs/gobject-introspection-1.58.0
 >=dev-libs/gobject-introspection-common-1.58.0
 >=dev-libs/gom-0.4.0
+>=dev-libs/jsonrpc-glib-3.30.0
 >=dev-libs/json-glib-1.5.0
 >=dev-libs/libdazzle-3.30.0
 >=dev-libs/libgames-support-1.1.0
@@ -71,7 +74,7 @@
 >=dev-libs/libsigc++-2.99.0
 >=dev-libs/libunistring-0.10.0
 >=dev-libs/totem-pl-parser-3.28.0
->=dev-python/pyatspi-2.28.0
+>=dev-python/pyatspi-2.30.0
 >=dev-python/pygobject-3.29.0
 >=dev-util/anjuta-3.30.0
 >=dev-util/devhelp-3.30.0

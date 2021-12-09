@@ -24,7 +24,7 @@ DEPEND="
 	>=dev-libs/libgee-0.10:0.8[introspection]
 	>=dev-libs/gobject-introspection-1.54:=
 	telepathy? ( >=net-libs/telepathy-glib-0.19.9 )
-	tracker? ( app-misc/tracker:0/2.0 )
+	tracker? ( app-misc/tracker:0= )
 	eds? (
 		>=gnome-extra/evolution-data-server-3.13.90:=
 		<gnome-extra/evolution-data-server-3.33

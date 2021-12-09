@@ -22,7 +22,7 @@ SRC_URI="
 LICENSE="MIT
 	test? ( Apache-2.0 )"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="*"
 
 RDEPEND="=dev-python/parso-0.7*[${PYTHON_USEDEP}]"
 

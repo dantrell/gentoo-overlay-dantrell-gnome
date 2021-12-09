@@ -1,0 +1,70 @@
+From 88e21e8aa2841216fa1d7fba617a8692912af51e Mon Sep 17 00:00:00 2001
+From: Ondrej Holy <oholy@redhat.com>
+Date: Thu, 25 Feb 2021 14:10:26 +0100
+Subject: [PATCH] extractor: Detect conflict also for directories
+
+Current logic doesn't detect conflics when extracting directory. This
+is ok, but only for the case when the conflic is caused by directory.
+Otherwise, the conflic should be detected and AutoarExtractor should
+try to delete the file before creating new directory.
+---
+ gnome-autoar/autoar-extractor.c | 27 ++++++++-------------------
+ 1 file changed, 8 insertions(+), 19 deletions(-)
+
+diff --git a/gnome-autoar/autoar-extractor.c b/gnome-autoar/autoar-extractor.c
+index 0ce809a..734be77 100644
+--- a/gnome-autoar/autoar-extractor.c
++++ b/gnome-autoar/autoar-extractor.c
+@@ -964,7 +964,6 @@ autoar_extractor_check_file_conflict (GFile  *file,
+                                       mode_t  extracted_filetype)
+ {
+   GFileType file_type;
+-  gboolean conflict = FALSE;
+ 
+   file_type = g_file_query_file_type (file,
+                                       G_FILE_QUERY_INFO_NONE,
+@@ -974,26 +973,13 @@ autoar_extractor_check_file_conflict (GFile  *file,
+     return FALSE;
+   }
+ 
+-  switch (extracted_filetype) {
+-    case AE_IFDIR:
+-      break;
+-    case AE_IFREG:
+-    case AE_IFLNK:
+-#if defined HAVE_MKFIFO || defined HAVE_MKNOD
+-    case AE_IFIFO:
+-#endif
+-#ifdef HAVE_MKNOD
+-    case AE_IFSOCK:
+-    case AE_IFBLK:
+-    case AE_IFCHR:
+-#endif
+-      conflict = TRUE;
+-      break;
+-    default:
+-      break;
++  /* It is not problem if the directory already exists */
++  if (file_type == G_FILE_TYPE_DIRECTORY &&
++      extracted_filetype == AE_IFDIR) {
++    return FALSE;
+   }
+ 
+-  return conflict;
++  return TRUE;
+ }
+ 
+ static void
+@@ -1964,6 +1950,9 @@ autoar_extractor_step_extract (AutoarExtractor *self) {
+           }
+           break;
+         case AUTOAR_CONFLICT_CHANGE_DESTINATION:
++          /* FIXME: If the destination is changed for directory, it should be
++           * changed also for its children...
++           */
+           g_assert_nonnull (new_extracted_filename);
+           g_clear_object (&extracted_filename);
+           extracted_filename = new_extracted_filename;
+-- 
+GitLab
+

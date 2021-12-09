@@ -1,12 +1,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python2_7 )
 
+PYTHON_COMPAT=( python2_7 )
 # vala and introspection support is broken, bug #468208
 VALA_USE_DEPEND=vapigen
 
-inherit gnome2-utils eutils autotools python-any-r1 vala
+inherit autotools gnome2-utils python-any-r1 vala
 
 DESCRIPTION="A graph based image processing framework"
 HOMEPAGE="https://gegl.org/"
@@ -14,7 +14,7 @@ SRC_URI="https://download.gimp.org/pub/${PN}/$(ver_cut 1-2)/${P}.tar.bz2"
 
 LICENSE="|| ( GPL-3 LGPL-3 )"
 SLOT="0.3"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection lcms lensfun openexr raw sdl svg test tiff umfpack vala v4l webp"
 REQUIRED_USE="
@@ -32,18 +32,17 @@ RDEPEND="
 	>=dev-libs/glib-2.44:2
 	dev-libs/json-glib
 	>=media-libs/babl-0.1.46[introspection(-)?,lcms(-)?]
+	>=media-libs/libpng-1.6.0:0=
 	sys-libs/zlib
+	virtual/jpeg:0=
 	>=x11-libs/gdk-pixbuf-2.32:2
 	x11-libs/pango
-
 	cairo? ( >=x11-libs/cairo-1.12.2 )
 	ffmpeg? ( >=media-video/ffmpeg-2.8:0= )
 	introspection? ( >=dev-libs/gobject-introspection-1.32:= )
-	virtual/jpeg:0=
 	lcms? ( >=media-libs/lcms-2.8:2 )
 	lensfun? ( >=media-libs/lensfun-0.2.5 )
 	openexr? ( >=media-libs/openexr-1.6.1:= )
-	>=media-libs/libpng-1.6.0:0=
 	raw? ( >=media-libs/libraw-0.15.4:0= )
 	sdl? ( >=media-libs/libsdl-1.2.0 )
 	svg? ( >=gnome-base/librsvg-2.40.6:2 )
@@ -52,10 +51,9 @@ RDEPEND="
 	v4l? ( >=media-libs/libv4l-1.0.1 )
 	webp? ( >=media-libs/libwebp-0.5.0:= )
 "
-
 DEPEND="${RDEPEND}"
-
 BDEPEND="
+	${PYTHON_DEPS}
 	dev-lang/perl
 	>=dev-util/gtk-doc-am-1
 	>=sys-devel/gettext-0.19.8
@@ -65,8 +63,9 @@ BDEPEND="
 	vala? ( $(vala_depend) )
 "
 
-pkg_setup() {
-	use test && use introspection && python-any-r1_pkg_setup
+python_check_deps() {
+	use test || return 0
+	has_version -b ">=dev-python/pygobject-3.2:3[${PYTHON_USEDEP}]"
 }
 
 PATCHES=(
@@ -80,9 +79,9 @@ PATCHES=(
 src_prepare() {
 	default
 
-	# FIXME: the following should be proper patch sent to upstream
 	# fix OSX loadable module filename extension
 	sed -i -e 's/\.dylib/.bundle/' configure.ac || die
+
 	# don't require Apple's OpenCL on versions of OSX that don't have it
 	if [[ ${CHOST} == *-darwin* && ${CHOST#*-darwin} -le 9 ]] ; then
 		sed -i -e 's/#ifdef __APPLE__/#if 0/' gegl/opencl/* || die
@@ -92,6 +91,17 @@ src_prepare() {
 	sed -e '/clones.xml/d' \
 		-e '/composite-transform.xml/d' \
 		-i tests/compositions/Makefile.am || die
+
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/geg/commit/0703b6b38f4e6cf8ecc623c09c05ef73c6424ee4
+	eapply "${FILESDIR}"/${PN}-0.4.16-tools-port-exp-combine-to-use-gexiv2-instead-of-exiv2-directly.patch
+
+	if use openexr && has_version '>=dev-libs/glib-2.67.3'; then
+		# From GNOME:
+		# 	https://gitlab.gnome.org/GNOME/glib/-/issues/2331
+		# 	https://bugs.gentoo.org/793998
+		eapply "${FILESDIR}"/${PN}-0.4.26-fix-build-glib-2.67.3.patch
+	fi
 
 	eautoreconf
 
@@ -166,5 +176,5 @@ src_configure() {
 
 src_install() {
 	default
-	find "${D}" -name '*.la' -delete || die
+	find "${ED}" -name '*.la' -delete || die
 }

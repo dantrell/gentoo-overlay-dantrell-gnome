@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit gnome.org meson xdg
 
@@ -9,19 +9,20 @@ HOMEPAGE="https://gitlab.gnome.org/GNOME/geocode-glib"
 
 LICENSE="LGPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gtk-doc +introspection test"
 
 RESTRICT="!test? ( test )"
 
 RDEPEND="
-	>=dev-libs/glib-2.34:2
+	>=dev-libs/glib-2.44:2
 	>=dev-libs/json-glib-0.99.2[introspection?]
 	>=net-libs/libsoup-2.42:2.4[introspection?]
 	introspection? ( >=dev-libs/gobject-introspection-0.6.3:= )
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	gtk-doc? (
 		>=dev-util/gtk-doc-1.13
 		app-text/docbook-xml-dtd:4.3 )

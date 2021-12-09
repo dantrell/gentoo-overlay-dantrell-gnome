@@ -30,6 +30,9 @@ REQUIRED_USE="
 
 RESTRICT="!test? ( test )"
 
+# * elfutils (via libelf) does not build on Windows. gresources are not embedded
+# within ELF binaries on that platform anyway and inspecting ELF binaries from
+# other platforms is not that useful so exclude the dependency in this case.
 RDEPEND="
 	!<dev-util/gdbus-codegen-${PV}
 	>=dev-libs/libpcre-8.13:3[${MULTILIB_USEDEP},static-libs?]
@@ -43,7 +46,7 @@ RDEPEND="
 	utils? (
 		${PYTHON_DEPS}
 		>=dev-util/gdbus-codegen-${PV}[${PYTHON_USEDEP}]
-		virtual/libelf:0=
+		!kernel_Winnt? ( virtual/libelf:0= )
 	)
 "
 DEPEND="${RDEPEND}

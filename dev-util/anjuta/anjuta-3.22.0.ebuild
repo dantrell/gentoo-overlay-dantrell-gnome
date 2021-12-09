@@ -16,7 +16,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="debug devhelp glade +introspection packagekit subversion terminal test vala"
+IUSE="debug devhelp glade +introspection subversion terminal test vala"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RESTRICT="!test? ( test )"
@@ -53,7 +53,6 @@ COMMON_DEPEND="
 "
 RDEPEND="${COMMON_DEPEND}
 	gnome-base/gsettings-desktop-schemas
-	packagekit? ( app-admin/packagekit-base )
 "
 DEPEND="${COMMON_DEPEND}
 	>=dev-lang/perl-5
@@ -108,7 +107,7 @@ src_configure() {
 		$(use_enable glade plugin-glade) \
 		$(use_enable glade glade-catalog) \
 		$(use_enable introspection) \
-		$(use_enable packagekit) \
+		--disable-packagekit \
 		$(use_enable subversion plugin-subversion) \
 		$(use_enable subversion serf) \
 		$(use_enable terminal plugin-terminal) \
@@ -125,7 +124,8 @@ src_install() {
 
 	use vala && readme.gentoo_create_doc
 
-	# The /usr/share/appdata location is deprecated
+	# From AppStream (the /usr/share/appdata location is deprecated):
+	# 	https://www.freedesktop.org/software/appstream/docs/chap-Metadata.html#spec-component-location
 	# 	https://bugs.gentoo.org/709450
 	mv "${ED}"/usr/share/{appdata,metainfo} || die
 

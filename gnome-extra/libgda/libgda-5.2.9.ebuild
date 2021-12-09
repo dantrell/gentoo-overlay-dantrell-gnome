@@ -148,8 +148,11 @@ pkg_preinst() {
 
 src_install() {
 	gnome2_src_install
-	# Use new location
+
 	if use gtk; then
-		mv "${ED}"/usr/share/appdata "${ED}"/usr/share/metainfo || die
+		# From AppStream (the /usr/share/appdata location is deprecated):
+		# 	https://www.freedesktop.org/software/appstream/docs/chap-Metadata.html#spec-component-location
+		# 	https://bugs.gentoo.org/709450
+		mv "${ED}"/usr/share/{appdata,metainfo} || die
 	fi
 }

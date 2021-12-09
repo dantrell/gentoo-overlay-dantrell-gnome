@@ -11,7 +11,7 @@ SRC_URI="https://github.com/davidhalter/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="doc test"
 

@@ -4,7 +4,6 @@
 ~net-misc/networkmanager-1.26.8::dantrell-gnome **
 ~net-misc/networkmanager-1.28.2::dantrell-gnome **
 ~net-misc/networkmanager-1.30.6::dantrell-gnome **
-app-crypt/libsecret::dantrell-gnome **
 app-emulation/libvirt-glib::dantrell-gnome **
 gnome-base/gdm::dantrell-gnome ~*
 gnome-extra/gnome-tweaks::dantrell-gnome **

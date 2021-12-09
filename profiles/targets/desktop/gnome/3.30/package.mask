@@ -2,6 +2,7 @@
 >=net-libs/webkit-gtk-2.35.0
 
 # Masked to test on GNOME 3.34 first
+>=gnome-base/librsvg-2.49.0
 >=x11-libs/pango-1.44.0
 
 # Requires GLib 2.62 (or greater)
@@ -15,6 +16,7 @@
 >=app-arch/file-roller-3.32.0
 >=app-arch/gcab-1.4
 >=app-crypt/gcr-3.32.0
+>=app-crypt/libsecret-0.19
 >=app-crypt/seahorse-3.32.0
 >=app-dicts/gnome-dictionary-3.32.0
 >=app-editors/gedit-3.32.0
@@ -46,6 +48,7 @@
 >=dev-libs/gobject-introspection-1.60.0
 >=dev-libs/gobject-introspection-common-1.60.0
 >=dev-libs/gom-0.4.0
+>=dev-libs/jsonrpc-glib-3.32.0
 >=dev-libs/json-glib-1.5.0
 >=dev-libs/libdazzle-3.32.0
 >=dev-libs/libgames-support-1.1.0
@@ -103,7 +106,7 @@
 >=gnome-base/gnome-desktop-3.32.0
 >=gnome-base/gnome-extra-apps-3.32.0
 >=gnome-base/gnome-flashback-3.32.0
->=gnome-base/gnome-keyring-3.32.0
+>=gnome-base/gnome-keyring-3.31.0
 >=gnome-base/gnome-light-3.32.0
 >=gnome-base/gnome-menus-3.32.0
 >=gnome-base/gnome-panel-3.32.0

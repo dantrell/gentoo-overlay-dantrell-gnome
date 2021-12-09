@@ -28,7 +28,7 @@
 >=x11-misc/xpad-5.1.0
 
 # Requires GLib 2.54 (or greater)
->=dev-libs/appstream-0.12.0
+>=dev-libs/appstream-0.12.5
 >=mail-client/geary-0.13.0
 >=media-gfx/gthumb-3.10.0
 >=media-gfx/inkscape-1.0
@@ -61,6 +61,7 @@
 >=app-arch/file-roller-3.22.0
 >=app-arch/gcab-1.4
 >=app-crypt/gcr-3.22.0
+>=app-crypt/libsecret-0.19
 >=app-crypt/seahorse-3.22.0
 >=app-dicts/gnome-dictionary-3.22.0
 >=app-editors/gedit-3.22.0

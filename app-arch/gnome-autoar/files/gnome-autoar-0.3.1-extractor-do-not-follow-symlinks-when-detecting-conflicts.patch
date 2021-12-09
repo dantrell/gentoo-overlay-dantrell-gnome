@@ -1,0 +1,27 @@
+From c4b0b9c9b6522058dc43ee817b0e0bbd1f030617 Mon Sep 17 00:00:00 2001
+From: Ondrej Holy <oholy@redhat.com>
+Date: Mon, 1 Mar 2021 10:13:17 +0100
+Subject: [PATCH] extractor: Do not follow symlinks when detecting conflicts
+
+Currently, symlinks are followed when detecting conflicts. But this
+is not desired as the original file caused the conflict, not its target.
+---
+ gnome-autoar/autoar-extractor.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gnome-autoar/autoar-extractor.c b/gnome-autoar/autoar-extractor.c
+index 734be77..9e14379 100644
+--- a/gnome-autoar/autoar-extractor.c
++++ b/gnome-autoar/autoar-extractor.c
+@@ -966,7 +966,7 @@ autoar_extractor_check_file_conflict (GFile  *file,
+   GFileType file_type;
+ 
+   file_type = g_file_query_file_type (file,
+-                                      G_FILE_QUERY_INFO_NONE,
++                                      G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
+                                       NULL);
+   /* If there is no file with the given name, there will be no conflict */
+   if (file_type == G_FILE_TYPE_UNKNOWN) {
+-- 
+GitLab
+

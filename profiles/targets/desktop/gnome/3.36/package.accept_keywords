@@ -1,4 +1,3 @@
-app-crypt/libsecret::dantrell-gnome **
 app-emulation/libvirt-glib::dantrell-gnome **
 sys-auth/elogind::dantrell-gnome ~*
 sys-auth/polkit::dantrell-gnome ~*

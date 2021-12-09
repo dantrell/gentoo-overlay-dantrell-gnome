@@ -1,0 +1,40 @@
+From 8572946d3ebe25f392f110ee838ff5abc7a3e78e Mon Sep 17 00:00:00 2001
+From: Paolo Bacchilega <paobac@src.gnome.org>
+Date: Sun, 12 Apr 2020 12:19:18 +0200
+Subject: [PATCH] libarchive: overwrite the symbolic link as well
+
+---
+ src/fr-archive-libarchive.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
+
+diff --git a/src/fr-archive-libarchive.c b/src/fr-archive-libarchive.c
+index e86ed3d4..5a761cc9 100644
+--- a/src/fr-archive-libarchive.c
++++ b/src/fr-archive-libarchive.c
+@@ -1012,11 +1012,21 @@ extract_archive_thread (GSimpleAsyncResult *result,
+ 
+ 			case AE_IFLNK:
+ 				if (! g_file_make_symbolic_link (file, archive_entry_symlink (entry), cancellable, &local_error)) {
+-					if (! g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_EXISTS))
++					if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
++						g_clear_error (&local_error);
++						if (g_file_delete (file, cancellable, &local_error)) {
++							g_clear_error (&local_error);
++							if (! g_file_make_symbolic_link (file, archive_entry_symlink (entry), cancellable, &local_error))
++								load_data->error = g_error_copy (local_error);
++						}
++						else
++							load_data->error = g_error_copy (local_error);
++					}
++					else
+ 						load_data->error = g_error_copy (local_error);
+ 					g_clear_error (&local_error);
+ 				}
+-				else if (_symlink_is_external_to_destination (file, archive_entry_symlink (entry), extract_data->destination, external_links))
++				if ((load_data->error == NULL) && _symlink_is_external_to_destination (file, archive_entry_symlink (entry), extract_data->destination, external_links))
+ 					g_hash_table_insert (external_links, g_object_ref (file), GINT_TO_POINTER (1));
+ 				archive_read_data_skip (a);
+ 				break;
+-- 
+GitLab
+

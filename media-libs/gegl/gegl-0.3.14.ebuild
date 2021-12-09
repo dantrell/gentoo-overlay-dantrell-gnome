@@ -1,11 +1,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 # vala and introspection support is broken, bug #468208
 VALA_USE_DEPEND=vapigen
 
-inherit autotools eutils gnome2-utils ltprune vala versionator
+inherit autotools gnome2-utils vala
 
 DESCRIPTION="A graph based image processing framework"
 HOMEPAGE="https://gegl.org/"
@@ -30,18 +30,17 @@ RDEPEND="
 	>=dev-libs/glib-2.36:2
 	dev-libs/json-glib
 	>=media-libs/babl-0.1.24
+	media-libs/libpng:0=
 	sys-libs/zlib
+	virtual/jpeg:0=
 	>=x11-libs/gdk-pixbuf-2.32:2
 	x11-libs/pango
-
 	cairo? ( x11-libs/cairo )
 	ffmpeg? ( >=media-video/ffmpeg-2.8:0= )
 	introspection? ( >=dev-libs/gobject-introspection-1.32:= )
-	virtual/jpeg:0=
 	lcms? ( >=media-libs/lcms-2.2:2 )
 	lensfun? ( >=media-libs/lensfun-0.2.5 )
 	openexr? ( media-libs/openexr:= )
-	media-libs/libpng:0=
 	raw? ( >=media-libs/libraw-0.15.4:0= )
 	sdl? ( media-libs/libsdl )
 	svg? ( >=gnome-base/librsvg-2.14:2 )
@@ -50,21 +49,22 @@ RDEPEND="
 	v4l? ( >=media-libs/libv4l-1.0.1 )
 	webp? ( media-libs/libwebp )
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
+	dev-lang/perl
 	>=dev-util/gtk-doc-am-1
 	>=dev-util/intltool-0.40.1
-	dev-lang/perl
-	virtual/pkgconfig
 	>=sys-devel/libtool-2.2
+	virtual/pkgconfig
 	vala? ( $(vala_depend) )
 "
 
 src_prepare() {
 	default
 
-	# FIXME: the following should be proper patch sent to upstream
 	# fix OSX loadable module filename extension
 	sed -i -e 's/\.dylib/.bundle/' configure.ac || die
+
 	# don't require Apple's OpenCL on versions of OSX that don't have it
 	if [[ ${CHOST} == *-darwin* && ${CHOST#*-darwin} -le 9 ]] ; then
 		sed -i -e 's/#ifdef __APPLE__/#if 0/' gegl/opencl/* || die
@@ -74,6 +74,17 @@ src_prepare() {
 	eapply "${FILESDIR}"/${P}-g_log_domain.patch
 
 	eapply "${FILESDIR}"/${P}-implicit-declaration.patch
+
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/geg/commit/0703b6b38f4e6cf8ecc623c09c05ef73c6424ee4
+	eapply "${FILESDIR}"/${PN}-0.4.16-tools-port-exp-combine-to-use-gexiv2-instead-of-exiv2-directly.patch
+
+	if use openexr && has_version '>=dev-libs/glib-2.67.3'; then
+		# From GNOME:
+		# 	https://gitlab.gnome.org/GNOME/glib/-/issues/2331
+		# 	https://bugs.gentoo.org/793998
+		eapply "${FILESDIR}"/${PN}-0.4.26-fix-build-glib-2.67.3.patch
+	fi
 
 	eautoreconf
 
@@ -118,21 +129,21 @@ src_configure() {
 		--program-suffix=-${SLOT} \
 		--with-gdk-pixbuf \
 		--with-pango \
+		--without-exiv2 \
+		--without-gexiv2 \
+		--without-graphviz \
+		--without-jasper \
 		--without-libspiro \
+		--without-lua \
+		--without-mrg \
 		$(use_enable cpu_flags_x86_mmx mmx) \
 		$(use_enable cpu_flags_x86_sse sse) \
 		$(use_enable debug) \
 		$(use_with cairo) \
 		$(use_with cairo pangocairo) \
-		--without-exiv2 \
 		$(use_with ffmpeg libavformat) \
-		--without-gexiv2 \
-		--without-graphviz \
-		--without-jasper \
 		$(use_with lcms) \
 		$(use_with lensfun) \
-		--without-lua \
-		--without-mrg \
 		$(use_with openexr) \
 		$(use_with raw libraw) \
 		$(use_with sdl) \
@@ -146,11 +157,7 @@ src_configure() {
 		$(use_with webp)
 }
 
-src_compile() {
-	default
-}
-
 src_install() {
 	default
-	prune_libtool_files --all
+	find "${ED}" -name '*.la' -delete || die
 }

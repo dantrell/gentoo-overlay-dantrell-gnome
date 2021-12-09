@@ -16,7 +16,7 @@ IUSE=""
 # cairo-1.14 for cairo_surface_set_device_scale check and usage
 COMMON_DEPEND="
 	>=app-text/evince-3.13.3[introspection]
-	app-misc/tracker:0/2.0
+	app-misc/tracker:0=
 	>=dev-libs/gjs-1.48.0
 	>=dev-libs/glib-2.39.3:2
 	gnome-base/gnome-desktop:3=[introspection]
@@ -36,7 +36,7 @@ COMMON_DEPEND="
 	x11-libs/pango[introspection]
 "
 RDEPEND="${COMMON_DEPEND}
-	>=app-misc/tracker-miners-2
+	>=app-misc/tracker-miners-2:0=
 	net-misc/gnome-online-miners
 	sys-apps/dbus
 	x11-themes/adwaita-icon-theme

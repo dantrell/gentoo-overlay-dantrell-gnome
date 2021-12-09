@@ -2,6 +2,7 @@
 >=net-libs/webkit-gtk-2.35.0
 
 # Masked to test on GNOME 41 first
+>=gnome-base/librsvg-2.51.0
 >=x11-libs/pango-1.50.0
 
 # Masked to freeze the state of GNOME

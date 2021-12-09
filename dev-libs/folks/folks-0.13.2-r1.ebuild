@@ -23,7 +23,7 @@ DEPEND="
 		>=net-libs/telepathy-glib-0.19.9
 		dev-libs/dbus-glib
 	)
-	tracker? ( app-misc/tracker:0/2.0 )
+	tracker? ( app-misc/tracker:0= )
 	eds? ( >=gnome-extra/evolution-data-server-3.33.2:= )
 	dev-libs/libxml2:2
 	utils? ( sys-libs/readline:0= )

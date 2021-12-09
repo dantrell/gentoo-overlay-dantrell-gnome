@@ -4,8 +4,6 @@ app-accessibility/caribou::gentoo
 app-admin/eselect::gentoo
 app-admin/gnome-system-log::gentoo
 app-admin/packagekit-base::gentoo
-app-admin/packagekit-gtk::gentoo
-app-admin/packagekit::gentoo
 app-admin/system-config-printer::gentoo
 app-arch/file-roller::gentoo
 app-arch/gcab::gentoo
@@ -69,6 +67,7 @@ dev-libs/glib::gentoo
 dev-libs/gmime::gentoo
 dev-libs/gom::gentoo
 dev-libs/json-glib::gentoo
+dev-libs/jsonrpc-glib::gentoo
 dev-libs/libassuan::gentoo
 dev-libs/libcroco::gentoo
 dev-libs/libgames-support::gentoo
@@ -139,7 +138,6 @@ gnome-base/gdm::gentoo
 gnome-base/gnome-common::gentoo
 gnome-base/gnome-keyring::gentoo
 gnome-base/gnome-menus::gentoo
-gnome-base/gnome-panel::gentoo
 gnome-base/gnome-shell-common::gentoo
 gnome-base/gsettings-desktop-schemas::gentoo
 gnome-base/libbonobo::gentoo
@@ -159,7 +157,6 @@ gnome-extra/gnome-documents::gentoo
 gnome-extra/gnome-dvb-daemon::gentoo
 gnome-extra/gnome-getting-started-docs::gentoo
 gnome-extra/gnome-multi-writer::gentoo
-gnome-extra/gnome-packagekit::gentoo
 gnome-extra/gnome-power-manager::gentoo
 gnome-extra/gnome-recipes::gentoo
 gnome-extra/gnome-system-monitor::gentoo
@@ -311,6 +308,7 @@ x11-libs/libwnck::gentoo
 x11-libs/libxklavier::gentoo
 x11-libs/pango::gentoo
 x11-libs/vte::gentoo
+x11-misc/alacarte::gentoo
 x11-misc/colord::gentoo
 x11-misc/notification-daemon::gentoo
 x11-themes/gnome-icon-theme-extras::gentoo

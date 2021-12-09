@@ -2,6 +2,7 @@
 >=net-libs/webkit-gtk-2.35.0
 
 # Masked to test on GNOME 40 first
+>=gnome-base/librsvg-2.51.0
 >=x11-libs/pango-1.48.0
 
 # Masked to freeze the state of GNOME
@@ -43,6 +44,7 @@
 >=dev-libs/gobject-introspection-1.64.0
 >=dev-libs/gobject-introspection-common-1.64.0
 >=dev-libs/gom-0.5.0
+>=dev-libs/jsonrpc-glib-3.38.0
 >=dev-libs/json-glib-1.5.0
 >=dev-libs/libdazzle-3.36.0
 >=dev-libs/libgames-support-1.1.0

@@ -1,0 +1,11 @@
+#!/sbin/openrc-run
+# Copyright 1999-2021 Gentoo Authors
+# Distributed under the terms of the GNU General Public License, v2 or later
+
+pidfile="/run/iio-sensor-proxy.pid"
+command="iio-sensor-proxy"
+command_background="yes"
+
+depend() {
+	need dbus localmount
+}

@@ -11,9 +11,10 @@ SRC_URI="https://www.freedesktop.org/software/appstream/releases/AppStream-${PV}
 LICENSE="LGPL-2.1+ GPL-2+"
 # check as_api_level
 SLOT="0/4"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="apt doc +introspection qt5 test"
+
 RESTRICT="test" # bug 691962
 
 RDEPEND="
@@ -37,6 +38,8 @@ BDEPEND="
 	doc? ( app-text/docbook-xml-dtd:4.5 )
 	test? ( dev-qt/linguist-tools:5 )
 "
+
+S="${WORKDIR}/AppStream-${PV}"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.14.3-disable-Werror-flags.patch # bug 733774

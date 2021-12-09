@@ -25,13 +25,13 @@ BDEPEND="
 	virtual/pkgconfig
 	>=sys-devel/gettext-0.19.8
 	gtk-doc? ( >=dev-util/gtk-doc-1 )
-	introspection? ( >=dev-libs/gobject-introspection-1.54:= )
+	introspection? ( >=dev-libs/gobject-introspection-0.9.0:= )
 	vala? ( $(vala_depend) )"
 
 DEPEND="=app-i18n/unicode-data-${UNICODE_VERSION}*
 	>=dev-libs/glib-2.32:2
 	media-libs/freetype:2
-	>=x11-libs/gtk+-3.22:3[introspection?]
+	>=x11-libs/gtk+-3.4.0:3[introspection?]
 	>=x11-libs/pango-1.42.4-r2[introspection?]"
 
 RDEPEND="${DEPEND}"

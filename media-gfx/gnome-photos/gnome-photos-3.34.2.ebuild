@@ -33,7 +33,7 @@ DEPEND="
 	>=net-libs/libgfbgraph-0.2.1:0.2
 	virtual/jpeg:0
 	>=media-libs/libpng-1.6:0=
-	>=app-misc/tracker-2.0:0/2.0
+	>=app-misc/tracker-2.0:0=
 	sys-apps/dbus
 "
 # gnome-online-miners is also used for google, facebook, DLNA - not only flickr
@@ -44,7 +44,7 @@ RDEPEND="${DEPEND}
 	net-misc/gnome-online-miners[flickr?]
 	upnp-av? ( media-plugins/grilo-plugins:0.3[upnp-av] )
 	flickr? ( media-plugins/grilo-plugins:0.3[flickr] )
-	>=app-misc/tracker-miners-2
+	>=app-misc/tracker-miners-2:0=
 "
 BDEPEND="
 	dev-libs/appstream-glib

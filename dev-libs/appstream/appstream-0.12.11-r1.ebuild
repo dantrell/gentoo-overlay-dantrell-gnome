@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 inherit meson xdg-utils
 
@@ -11,20 +11,12 @@ SRC_URI="https://www.freedesktop.org/software/appstream/releases/AppStream-${PV}
 LICENSE="LGPL-2.1+ GPL-2+"
 # check as_api_level
 SLOT="0/4"
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="apt doc +introspection qt5 test"
 
 RESTRICT="test" # bug 691962
 
-BDEPEND="
-	dev-libs/appstream-glib
-	dev-libs/libxslt
-	dev-util/itstool
-	>=sys-devel/gettext-0.19.8
-	doc? ( app-text/docbook-xml-dtd:4.5 )
-	test? ( dev-qt/linguist-tools:5 )
-"
 RDEPEND="
 	dev-db/lmdb:=
 	>=dev-libs/glib-2.58:2
@@ -38,11 +30,21 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	test? ( qt5? ( dev-qt/qttest:5 ) )
 "
+BDEPEND="
+	dev-libs/appstream-glib
+	dev-libs/libxslt
+	dev-util/itstool
+	>=sys-devel/gettext-0.19.8
+	doc? ( app-text/docbook-xml-dtd:4.5 )
+	test? ( dev-qt/linguist-tools:5 )
+"
+
+S="${WORKDIR}/AppStream-${PV}"
 
 PATCHES=(
-	"${FILESDIR}"/${P}-no-highlight.js.patch
-	"${FILESDIR}"/${P}-qt-add-missing-provided-kindid-enum.patch
-	"${FILESDIR}"/${P}-disable-Werror-flags.patch # bug 733774
+	"${FILESDIR}"/${PN}-0.12.11-no-highlight.js.patch
+	"${FILESDIR}"/${PN}-0.12.11-qt-add-missing-provided-kindid-enum.patch
+	"${FILESDIR}"/${PN}-0.12.11-disable-Werror-flags.patch # bug 733774
 )
 
 src_prepare() {

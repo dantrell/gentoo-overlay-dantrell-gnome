@@ -1,11 +1,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
+PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 PLOCALES="cs de es eu fr id ie it ko nb nl nn pt_BR ru sv tr uk zh_CN zh_TW"
 
-inherit meson plocale xdg-utils gnome2-utils
+inherit gnome2-utils meson plocale python-r1 xdg-utils
 
-DESCRIPTION="gtk ebook reader built with gjs"
+DESCRIPTION="Simple and modern GTK eBook viewer"
 HOMEPAGE="https://github.com/johnfactotum/foliate/"
 SRC_URI="https://github.com/johnfactotum/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
@@ -14,16 +15,24 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE="handy spell"
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-BDEPEND="${MESON_DEPEND}
-	sys-devel/gettext"
-RDEPEND="dev-libs/gjs
+RDEPEND="
+	${PYTHON_DEPS}
+	>=app-text/iso-codes-3.67
+	dev-libs/gjs
 	x11-libs/gtk+:3[introspection]
 	x11-libs/pango[introspection]
 	x11-libs/gdk-pixbuf:2[introspection]
 	net-libs/webkit-gtk:4[introspection]
 	handy? ( gui-libs/libhandy:=[introspection] )
-	spell? ( app-text/gspell[introspection] )"
+	spell? ( app-text/gspell[introspection] )
+"
+DEPEND="${RDEPEND}"
+BDEPEND="
+	${MESON_DEPEND}
+	sys-devel/gettext
+"
 
 src_prepare() {
 	default

@@ -2,10 +2,11 @@
 
 EAPI="7"
 
+PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 # vala and introspection support is broken, bug #468208
 VALA_USE_DEPEND=vapigen
 
-inherit autotools gnome2-utils vala
+inherit autotools gnome2-utils python-any-r1 vala
 
 DESCRIPTION="A graph based image processing framework"
 HOMEPAGE="https://gegl.org/"
@@ -15,13 +16,14 @@ LICENSE="|| ( GPL-3+ LGPL-3 )"
 SLOT="0.4"
 KEYWORDS="*"
 
-IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection lcms lensfun openexr pdf raw sdl svg tiff umfpack vala v4l webp zlib"
+IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection lcms lensfun openexr pdf raw sdl svg test tiff umfpack vala v4l webp zlib"
 REQUIRED_USE="
 	svg? ( cairo )
+	test? ( introspection )
 	vala? ( introspection )
 "
 
-RESTRICT="test"
+RESTRICT="!test? ( test )"
 
 # NOTE: Even current libav 11.4 does not have AV_CODEC_CAP_VARIABLE_FRAME_SIZE
 #       so there is no chance to support libav right now (Gentoo bug #567638)
@@ -31,6 +33,7 @@ RDEPEND="
 	dev-libs/json-glib
 	>=media-libs/babl-0.1.62
 	>=media-libs/libpng-1.6.0:0=
+	zlib? ( >=sys-libs/zlib-1.2.0 )
 	virtual/jpeg:0=
 	>=x11-libs/gdk-pixbuf-2.32:2
 	x11-libs/pango
@@ -48,26 +51,40 @@ RDEPEND="
 	umfpack? ( sci-libs/umfpack )
 	v4l? ( >=media-libs/libv4l-1.0.1 )
 	webp? ( >=media-libs/libwebp-0.5.0:= )
-	zlib? ( >=sys-libs/zlib-1.2.0 )
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
+	${PYTHON_DEPS}
 	dev-lang/perl
 	>=dev-util/gtk-doc-am-1
 	>=sys-devel/gettext-0.19.8
-	virtual/pkgconfig
 	>=sys-devel/libtool-2.2
+	virtual/pkgconfig
+	test? ( $(python_gen_any_dep '>=dev-python/pygobject-3.2:3[${PYTHON_USEDEP}]') )
 	vala? ( $(vala_depend) )
 "
+
+python_check_deps() {
+	use test || return 0
+	has_version -b ">=dev-python/pygobject-3.2:3[${PYTHON_USEDEP}]"
+}
 
 src_prepare() {
 	default
 
-	# FIXME: the following should be proper patch sent to upstream
 	# fix OSX loadable module filename extension
 	sed -i -e 's/\.dylib/.bundle/' configure.ac || die
+
 	# don't require Apple's OpenCL on versions of OSX that don't have it
 	if [[ ${CHOST} == *-darwin* && ${CHOST#*-darwin} -le 9 ]] ; then
 		sed -i -e 's/#ifdef __APPLE__/#if 0/' gegl/opencl/* || die
+	fi
+
+	if use openexr && has_version '>=dev-libs/glib-2.67.3'; then
+		# From GNOME:
+		# 	https://gitlab.gnome.org/GNOME/glib/-/issues/2331
+		# 	https://bugs.gentoo.org/793998
+		eapply "${FILESDIR}"/${PN}-0.4.26-fix-build-glib-2.67.3.patch
 	fi
 
 	eautoreconf
@@ -124,10 +141,6 @@ src_configure() {
 	)
 
 	econf "${myeconfargs[@]}"
-}
-
-src_compile() {
-	default
 }
 
 src_install() {

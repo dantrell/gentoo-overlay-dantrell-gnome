@@ -29,7 +29,7 @@ RESTRICT="!test? ( test )"
 #       so there is no chance to support libav right now (Gentoo bug #567638)
 #       If it returns, please check prior GEGL ebuilds for how libav was integrated.  Thanks!
 RDEPEND="
-	>=dev-libs/glib-2.56:2
+	>=dev-libs/glib-2.44:2
 	>=dev-libs/json-glib-1.2.6
 	>=media-libs/babl-0.1.84[introspection?,lcms?,vala?]
 	media-libs/libnsgif
@@ -65,8 +65,6 @@ BDEPEND="
 	vala? ( $(vala_depend) )
 "
 
-DOCS=( AUTHORS docs/ChangeLog docs/NEWS.txt )
-
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.4.18-drop-failing-tests.patch
 	"${FILESDIR}"/${PN}-0.4.18-program-suffix.patch
@@ -100,11 +98,18 @@ src_prepare() {
 	# fix 'build'headers from *.cl on gentoo-hardened, bug 739816
 	pushd "${S}/opencl/" || die
 	for file in *.cl; do
-		if [ -f "$file" ]; then
+		if [[ -f ${file} ]]; then
 			"${EPYTHON}" cltostring.py "${file}" || die
 		fi
 	done
 	popd || die
+
+	if use openexr && has_version '>=dev-libs/glib-2.67.3'; then
+		# From GNOME:
+		# 	https://gitlab.gnome.org/GNOME/glib/-/issues/2331
+		# 	https://bugs.gentoo.org/793998
+		eapply "${FILESDIR}"/${PN}-0.4.26-fix-build-glib-2.67.3.patch
+	fi
 
 	gnome2_environment_reset
 
