@@ -5,6 +5,9 @@
 >=gnome-base/librsvg-2.49.0
 >=x11-libs/pango-1.44.0
 
+# Requires GLib 2.66 (or greater)
+>=net-libs/gupnp-1.2.6
+
 # Requires GLib 2.62 (or greater)
 >=media-video/wireplumber-0.4.1
 

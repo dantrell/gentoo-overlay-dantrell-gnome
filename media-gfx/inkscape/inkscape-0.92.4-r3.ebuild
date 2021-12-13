@@ -35,6 +35,7 @@ COMMON_DEPEND="${PYTHON_DEPS}
 	>=dev-cpp/glibmm-2.28
 	>=dev-cpp/gtkmm-2.18.0:2.4
 	>=dev-libs/boehm-gc-7.1:=
+	>=dev-libs/boost-1.36:=
 	>=dev-libs/glib-2.28
 	>=dev-libs/libsigc++-2.0.12
 	>=dev-libs/libxml2-2.6.20
@@ -94,9 +95,7 @@ RDEPEND="${COMMON_DEPEND}
 	)
 	postscript? ( app-text/ghostscript-gpl )
 "
-DEPEND="${COMMON_DEPEND}
-	>=dev-libs/boost-1.36:=
-"
+DEPEND="${COMMON_DEPEND}"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.92.1-automagic.patch

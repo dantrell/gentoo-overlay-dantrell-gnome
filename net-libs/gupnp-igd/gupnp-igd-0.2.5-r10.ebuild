@@ -5,11 +5,11 @@ EAPI="6"
 inherit autotools gnome.org multilib-minimal xdg
 
 DESCRIPTION="Library to handle UPnP IGD port mapping for GUPnP"
-HOMEPAGE="http://gupnp.org"
+HOMEPAGE="http://gupnp.org https://gitlab.gnome.org/GNOME/gupnp-igd"
 
 LICENSE="LGPL-2.1+"
 SLOT="0/1.2" # pkg-config file links in gupnp API, so some consumers of gupnp-igd need to be relinked for it
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+introspection"
 

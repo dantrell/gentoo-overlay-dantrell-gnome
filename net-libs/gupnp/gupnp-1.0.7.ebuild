@@ -8,7 +8,7 @@ PYTHON_REQ_USE="xml"
 inherit gnome2 multilib-minimal python-single-r1 vala
 
 DESCRIPTION="An object-oriented framework for creating UPnP devs and control points"
-HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP"
+HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP https://gitlab.gnome.org/GNOME/gupnp"
 
 LICENSE="LGPL-2"
 SLOT="0/4"

@@ -12,7 +12,7 @@ LICENSE="LGPL-2+"
 SLOT="3/24" # From WebKit: http://trac.webkit.org/changeset/195811
 KEYWORDS="*"
 
-IUSE="aqua broadway cloudprint colord cups examples gtk-doc +introspection sysprof test vim-syntax wayland X xinerama"
+IUSE="aqua broadway colord cups examples gtk-doc +introspection sysprof test vim-syntax wayland X xinerama"
 REQUIRED_USE="
 	|| ( aqua wayland X )
 	xinerama? ( X )
@@ -37,10 +37,6 @@ COMMON_DEPEND="
 	>=x11-libs/pango-1.41.0[introspection?,${MULTILIB_USEDEP}]
 	x11-misc/shared-mime-info
 
-	cloudprint? (
-		>=dev-libs/json-glib-1.0[${MULTILIB_USEDEP}]
-		>=net-libs/rest-0.7[${MULTILIB_USEDEP}]
-	)
 	colord? ( >=x11-misc/colord-0.1.9:0=[${MULTILIB_USEDEP}] )
 	cups? ( >=net-print/cups-2.0[${MULTILIB_USEDEP}] )
 	introspection? ( >=dev-libs/gobject-introspection-1.39:= )
@@ -148,7 +144,6 @@ multilib_src_configure() {
 	local myconf=(
 		$(use_enable aqua quartz-backend)
 		$(use_enable broadway broadway-backend)
-		$(use_enable cloudprint)
 		$(use_enable colord)
 		$(use_enable cups cups auto)
 		$(multilib_native_use_enable gtk-doc)

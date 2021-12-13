@@ -5,7 +5,7 @@ EAPI="6"
 inherit gnome.org multilib-minimal xdg-utils
 
 DESCRIPTION="Library to handle UPnP IGD port mapping for GUPnP"
-HOMEPAGE="http://gupnp.org"
+HOMEPAGE="http://gupnp.org https://gitlab.gnome.org/GNOME/gupnp-igd"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"

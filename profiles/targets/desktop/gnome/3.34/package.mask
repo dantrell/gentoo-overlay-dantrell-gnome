@@ -5,6 +5,9 @@
 >=gnome-base/librsvg-2.51.0
 >=x11-libs/pango-1.48.0
 
+# Requires GLib 2.66 (or greater)
+>=net-libs/gupnp-1.2.6
+
 # Masked to freeze the state of GNOME
 >=app-accessibility/accerciser-3.36.0
 >=app-accessibility/at-spi2-atk-2.36.0

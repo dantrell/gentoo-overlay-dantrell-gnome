@@ -5,10 +5,10 @@ VALA_USE_DEPEND="vapigen"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 PYTHON_REQ_USE="xml"
 
-inherit gnome.org meson multilib-minimal python-single-r1 vala xdg
+inherit gnome.org meson-multilib python-single-r1 vala xdg
 
 DESCRIPTION="An object-oriented framework for creating UPnP devs and control points"
-HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP"
+HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP https://gitlab.gnome.org/GNOME/gupnp"
 
 LICENSE="LGPL-2+ GPL-2+" # gupnp-binding-tool is GPL-2+
 SLOT="0/1.2-0" # <API version>-<soname>
@@ -56,27 +56,14 @@ multilib_src_configure() {
 
 	local emesonargs=(
 		-Dcontext_manager=${backend}
-		-Dintrospection=$(multilib_native_usex introspection true false)
-		-Dvapi=$(multilib_native_usex vala true false)
-		-Dgtk_doc=$(multilib_native_usex gtk-doc true false)
+		$(meson_native_use_bool introspection)
+		$(meson_native_use_bool vala vapi)
+		$(meson_native_use_bool gtk-doc gtk_doc)
 		-Dexamples=false
 	)
 	meson_src_configure
 }
 
-multilib_src_compile() {
-	meson_src_compile
-}
-
-multilib_src_test() {
-	meson_src_test
-}
-
-multilib_src_install() {
-	meson_src_install
-}
-
 multilib_src_install_all() {
-	einstalldocs
 	python_fix_shebang "${ED}"/usr/bin/gupnp-binding-tool-1.2
 }

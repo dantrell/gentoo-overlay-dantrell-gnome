@@ -6,7 +6,7 @@ VALA_USE_DEPEND="vapigen"
 inherit gnome2 multilib-minimal vala
 
 DESCRIPTION="A GObject-based API for handling resource discovery and announcement over SSDP"
-HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP"
+HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP https://gitlab.gnome.org/GNOME/gssdp"
 
 LICENSE="LGPL-2"
 SLOT="0/3"
