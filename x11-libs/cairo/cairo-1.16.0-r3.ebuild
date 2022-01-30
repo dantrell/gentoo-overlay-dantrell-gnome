@@ -73,8 +73,6 @@ multilib_src_configure() {
 
 	[[ ${CHOST} == *-interix* ]] && append-flags -D_REENTRANT
 
-	use elibc_FreeBSD && myopts+=" --disable-symbol-lookup"
-
 	ECONF_SOURCE="${S}" \
 	econf \
 		$(use_with X x) \

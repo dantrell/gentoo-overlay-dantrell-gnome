@@ -51,6 +51,11 @@ CHOST_amd64=x86_64-unknown-linux-gnu
 CHOST_x86=i686-unknown-linux-gnu
 CHOST_arm64=aarch64-unknown-linux-gnu
 
+QA_FLAGS_IGNORED="
+	usr/bin/rsvg-convert
+	usr/lib.*/librsvg.*
+"
+
 PATCHES=(
 	# https://bugzilla.gnome.org/show_bug.cgi?id=653323
 	"${FILESDIR}"/${PN}-2.40.12-gtk-optional.patch

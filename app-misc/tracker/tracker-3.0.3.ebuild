@@ -11,10 +11,10 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Tracker"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="3"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 #RESTRICT="!test? ( test )"
-IUSE="gtk-doc +miners networkmanager stemmer systemd"
+IUSE="gtk-doc +miners stemmer systemd"
 
 PV_SERIES=$(ver_cut 1-2)
 
@@ -29,7 +29,6 @@ RDEPEND="
 	>=net-libs/libsoup-2.40.1:2.4
 	>=dev-libs/libxml2-2.7
 	>=dev-db/sqlite-3.20.0
-	networkmanager? ( >=net-misc/networkmanager-0.8:= )
 	stemmer? ( dev-libs/snowball-stemmer:= )
 	systemd? ( sys-apps/systemd )
 	sys-apps/util-linux
@@ -75,7 +74,6 @@ src_configure() {
 	local emesonargs=(
 		$(meson_use gtk-doc docs)
 		-Dman=false
-		$(meson_feature networkmanager network_manager)
 		$(meson_feature stemmer)
 		-Dunicode_support=icu
 		-Dbash_completion=true

@@ -52,6 +52,11 @@ CHOST_amd64=x86_64-unknown-linux-gnu
 CHOST_x86=i686-unknown-linux-gnu
 CHOST_arm64=aarch64-unknown-linux-gnu
 
+QA_FLAGS_IGNORED="
+	usr/bin/rsvg-convert
+	usr/lib.*/librsvg.*
+"
+
 src_prepare() {
 	local build_dir
 

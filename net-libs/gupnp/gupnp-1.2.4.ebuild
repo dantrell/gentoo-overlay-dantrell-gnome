@@ -14,7 +14,7 @@ LICENSE="LGPL-2+ GPL-2+" # gupnp-binding-tool is GPL-2+
 SLOT="0/1.2-0" # <API version>-<soname>
 KEYWORDS="*"
 
-IUSE="connman gtk-doc +introspection kernel_linux networkmanager vala"
+IUSE="connman gtk-doc +introspection networkmanager vala"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	?? ( connman networkmanager )
 "

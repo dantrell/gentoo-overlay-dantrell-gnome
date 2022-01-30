@@ -11,7 +11,7 @@ SRC_URI="https://www.freedesktop.org/software/colord/releases/${P}.tar.xz"
 
 LICENSE="GPL-2+"
 SLOT="0/2" # subslot = libcolord soname version
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gtk-doc argyllcms examples extra-print-profiles +introspection scanner systemd test +udev vala"
 REQUIRED_USE="

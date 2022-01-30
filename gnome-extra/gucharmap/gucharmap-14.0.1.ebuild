@@ -31,6 +31,7 @@ BDEPEND="
 DEPEND="=app-i18n/unicode-data-${UNICODE_VERSION}*
 	>=dev-libs/glib-2.32:2
 	media-libs/freetype:2
+	>=dev-libs/libpcre2-10.21:=
 	>=x11-libs/gtk+-3.4.0:3[introspection?]
 	>=x11-libs/pango-1.42.4-r2[introspection?]"
 
@@ -51,14 +52,6 @@ src_configure() {
 	)
 
 	meson_src_configure
-}
-
-src_test() {
-	meson_src_test
-}
-
-src_install() {
-	meson_src_install
 }
 
 pkg_postinst() {

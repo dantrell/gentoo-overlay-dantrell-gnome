@@ -28,8 +28,8 @@ RDEPEND="${COMMON_DEPEND}
 		net-analyzer/traceroute )
 	net-analyzer/nmap
 	net-dns/bind-tools
-	userland_GNU? ( net-misc/netkit-fingerd net-misc/whois )
-	userland_BSD? ( net-misc/bsdwhois )
+	net-misc/netkit-fingerd
+	net-misc/whois
 "
 DEPEND="${COMMON_DEPEND}
 	app-text/yelp-tools
@@ -39,6 +39,5 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_configure() {
-	gnome2_src_configure \
-		$(use_enable debug)
+	gnome2_src_configure $(use_enable debug)
 }

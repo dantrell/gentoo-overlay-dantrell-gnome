@@ -11,7 +11,7 @@ SRC_URI="https://www.kernel.org/pub/linux/bluetooth/${P}.tar.xz"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0/3"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="btpclient cups doc debug deprecated extra-tools experimental +mesh midi +obex +readline selinux systemd test test-programs +udev user-session"
 # Since this release all remaining extra-tools need readline support, but this could

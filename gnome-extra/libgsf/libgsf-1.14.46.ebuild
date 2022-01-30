@@ -1,11 +1,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="8"
 
 inherit gnome2
 
 DESCRIPTION="The GNOME Structured File Library"
-HOMEPAGE="https://developer.gnome.org/gsf/"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/libgsf"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0/114" # libgsf-1.so version

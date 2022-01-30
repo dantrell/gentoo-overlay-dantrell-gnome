@@ -31,7 +31,6 @@ REQUIRED_USE="?? ( libedit readline )"
 
 BDEPEND="
 	virtual/pkgconfig
-	userland_GNU? ( >=sys-apps/findutils-4.4.0 )
 "
 RDEPEND="
 	bzip2? ( app-arch/bzip2 )

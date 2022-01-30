@@ -10,16 +10,15 @@ DESCRIPTION="A tagging metadata database, search tool and indexer"
 HOMEPAGE="https://wiki.gnome.org/Projects/Tracker"
 
 LICENSE="GPL-2+ LGPL-2.1+"
-SLOT="3"
-KEYWORDS=""
+SLOT="3/0" # libtracker-sparql-3.0 soname version
+KEYWORDS="~*"
 
-#RESTRICT="!test? ( test )"
-IUSE="gtk-doc +miners networkmanager stemmer systemd"
+IUSE="gtk-doc +miners stemmer test"
+
+RESTRICT="!test? ( test )"
 
 PV_SERIES=$(ver_cut 1-2)
 
-# In 2.2.0 util-linux should only be necessary if glib is older than 2.52 at compile-time
-# But build still needs it - https://gitlab.gnome.org/GNOME/tracker/issues/131
 RDEPEND="
 	>=dev-libs/glib-2.46:2
 	>=sys-apps/dbus-1.3.2
@@ -29,22 +28,30 @@ RDEPEND="
 	>=net-libs/libsoup-2.40.1:2.4
 	>=dev-libs/libxml2-2.7
 	>=dev-db/sqlite-3.20.0
-	networkmanager? ( >=net-misc/networkmanager-0.8:= )
 	stemmer? ( dev-libs/snowball-stemmer:= )
-	systemd? ( sys-apps/systemd )
-	sys-apps/util-linux
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
+	app-text/asciidoc
+	dev-libs/libxslt
 	$(vala_depend)
-	gtk-doc? ( >=dev-util/gtk-doc-1.8
+	gtk-doc? (
+		>=dev-util/gtk-doc-1.8
 		app-text/docbook-xml-dtd:4.1.2
-		app-text/docbook-xml-dtd:4.5 )
+		app-text/docbook-xml-dtd:4.5
+	)
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
+	test? (
+		$(python_gen_any_dep 'dev-python/tappy[${PYTHON_USEDEP}]')
+	)
 	${PYTHON_DEPS}
 "
 PDEPEND="miners? ( >=app-misc/tracker-miners-${PV_SERIES}:3= )"
+
+PATCHES=(
+	"${FILESDIR}"/${PN}-3.1.1-Fix-asciidoc-manpage.xsl-location.patch
+)
 
 function inotify_enabled() {
 	if linux_config_exists; then
@@ -57,6 +64,11 @@ function inotify_enabled() {
 	else
 		einfo "Could not check for INOTIFY support in your kernel."
 	fi
+}
+
+python_check_deps() {
+	use test || return 0
+	has_version -b "dev-python/tappy[${PYTHON_USEDEP}]"
 }
 
 pkg_setup() {
@@ -74,13 +86,10 @@ src_prepare() {
 src_configure() {
 	local emesonargs=(
 		$(meson_use gtk-doc docs)
-		-Dman=false
-		$(meson_feature networkmanager network_manager)
+		-Dman=true
 		$(meson_feature stemmer)
 		-Dunicode_support=icu
-		-Dbash_completion=true
 		-Dbash_completion_dir="$(get_bashcompdir)"
-		$(meson_use systemd systemd_user_services)
 		-Dsystemd_user_services_dir="$(systemd_get_userunitdir)"
 	)
 	meson_src_configure

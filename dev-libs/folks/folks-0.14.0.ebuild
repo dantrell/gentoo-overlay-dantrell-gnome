@@ -45,9 +45,13 @@ BDEPEND="
 	$(vala_depend)
 	telepathy? ( net-libs/telepathy-glib[vala] )
 	eds? ( gnome-extra/evolution-data-server[vala] )
-	test? ( sys-apps/dbus
-		${PYTHON_DEPS}
-		bluetooth? ( $(python_gen_any_dep 'dev-python/python-dbusmock[${PYTHON_USEDEP}]') )
+	test? (
+		sys-apps/dbus
+		bluetooth? (
+			$(python_gen_any_dep '
+				dev-python/python-dbusmock[${PYTHON_USEDEP}]
+			')
+		)
 	)
 "
 

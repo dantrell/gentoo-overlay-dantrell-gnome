@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="8"
+
 GNOME_ORG_MODULE="${PN/pp/++}"
 
 inherit gnome2 multilib-minimal
@@ -18,9 +19,8 @@ RDEPEND="
 	>=dev-libs/libxml2-2.7.7[${MULTILIB_USEDEP}]
 	>=dev-cpp/glibmm-2.32:2[${MULTILIB_USEDEP}]
 "
-DEPEND="${RDEPEND}
-	virtual/pkgconfig
-"
+DEPEND="${RDEPEND}"
+BDEPEND="virtual/pkgconfig"
 
 multilib_src_prepare() {
 	gnome2_src_prepare

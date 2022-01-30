@@ -25,14 +25,13 @@ fi
 
 LICENSE="BSD"
 SLOT="0/3" # libpcre2-posix.so version
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="bzip2 +jit libedit +pcre16 pcre32 +readline +recursion-limit static-libs unicode zlib"
 REQUIRED_USE="?? ( libedit readline )"
 
 BDEPEND="
 	virtual/pkgconfig
-	userland_GNU? ( >=sys-apps/findutils-4.4.0 )
 "
 RDEPEND="
 	bzip2? ( app-arch/bzip2 )

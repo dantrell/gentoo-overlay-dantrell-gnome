@@ -6,6 +6,10 @@
 		<name>Gentoo GNOME Desktop</name>
 	</maintainer>
 	<maintainer type="person">
+		<email>sam@gentoo.org</email>
+		<name>Sam James</name>
+	</maintainer>
+	<maintainer type="person">
 		<email>asturm@gentoo.org</email>
 		<name>Andreas Sturmlechner</name>
 	</maintainer>
@@ -29,8 +33,11 @@
 		<flag name="jack-client">Install a plugin for running PipeWire as a JACK client</flag>
 		<flag name="jack-sdk">Use PipeWire as JACK replacement</flag>
 		<flag name="ldac">LDAC over Bluetooth (primarily Sony headphones)</flag>
+		<flag name="lv2">Allow loading LV2 plugins via <pkg>media-libs/lv2</pkg></flag>
 		<flag name="pipewire-alsa">Replace PulseAudio's ALSA plugin with PipeWire's plugin</flag>
 		<flag name="pulseaudio">Enable emulation to be able to run PulseAudio applications on top of PipeWire</flag>
+		<flag name="ssl">Enable raop-sink support (needs <pkg>dev-libs/openssl</pkg>)</flag>
 		<flag name="vulkan">Uses Vulkan compute shaders to provide a CGI video source</flag>
+		<flag name="X">Enable audible bell for X11</flag>
 	</use>
 </pkgmetadata>

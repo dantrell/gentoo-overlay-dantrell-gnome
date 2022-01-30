@@ -13,7 +13,7 @@ LICENSE="GPL-2"
 SLOT="0/3" # based on SONAME of libupower-glib.so
 KEYWORDS="*"
 
-IUSE="ck doc integration-test +introspection ios kernel_FreeBSD kernel_linux selinux"
+IUSE="ck doc integration-test +introspection ios selinux"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 COMMON_DEPS="
@@ -429,8 +429,6 @@ src_configure() {
 
 	if use kernel_linux ; then
 		backend=linux
-	elif use kernel_FreeBSD ; then
-		backend=freebsd
 	else
 		backend=dummy
 	fi
