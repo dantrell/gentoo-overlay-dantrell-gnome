@@ -58,7 +58,6 @@ src_configure() {
 		$(meson_use introspection)
 		$(meson_feature pulseaudio)
 		$(meson_feature sasl)
-		-Denable-werror=false
 		-Dwith-coroutine=auto # gthread on windows, libc ucontext elsewhere; neither has extra deps
 		$(meson_use vala with-vala)
 	)

@@ -75,7 +75,7 @@ src_install() {
 
 	if use examples; then
 		# Install example code
-		insinto /usr/share/doc/${PF}/examples
-		doins "${S}"/examples/*.c
+		docinto examples
+		dodoc "${S}"/examples/*.c
 	fi
 }

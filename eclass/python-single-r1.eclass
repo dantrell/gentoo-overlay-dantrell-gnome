@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: python-single-r1.eclass
@@ -8,6 +8,7 @@
 # Author: Michał Górny <mgorny@gentoo.org>
 # Based on work of: Krzysztof Pawlik <nelchael@gentoo.org>
 # @SUPPORTED_EAPIS: 6 7 8
+# @PROVIDES: python-utils-r1
 # @BLURB: An eclass for Python packages not installed for multiple implementations.
 # @DESCRIPTION:
 # An extension of the python-r1 eclass suite for packages which
@@ -34,7 +35,7 @@
 # to inherit both.
 #
 # For more information, please see the Python Guide:
-# https://dev.gentoo.org/~mgorny/python-guide/
+# https://projects.gentoo.org/python/guide/
 
 case "${EAPI:-0}" in
 	[0-5])
@@ -178,12 +179,6 @@ EXPORT_FUNCTIONS pkg_setup
 # @CODE
 # python_targets_python3_4(-)
 # @CODE
-
-# @ECLASS-VARIABLE: PYTHON_MULTI_USEDEP
-# @OUTPUT_VARIABLE
-# @DESCRIPTION:
-# This is a backwards-compatibility placeholder.  Use PYTHON_USEDEP
-# instead.
 
 # @ECLASS-VARIABLE: PYTHON_REQUIRED_USE
 # @OUTPUT_VARIABLE
@@ -394,6 +389,12 @@ python_gen_cond_dep() {
 				dep=${dep//\$\{PYTHON_SINGLE_USEDEP\}/${usedep}}
 			fi
 			local multi_usedep="python_targets_${impl}(-)"
+
+			if [[ ${EAPI} != [67] ]]; then
+				if [[ ${dep} == *\$\{PYTHON_MULTI_USEDEP\}* ]]; then
+					die "Replace PYTHON_MULTI_USEDEP with PYTHON_USEDEP in EAPI ${EAPI}"
+				fi
+			fi
 
 			local subdep=${dep//\$\{PYTHON_MULTI_USEDEP\}/${multi_usedep}}
 			matches+=( "python_single_target_${impl}? (

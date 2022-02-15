@@ -103,8 +103,9 @@ src_configure() {
 
 src_install() {
 	if use examples; then
-		insinto /usr/share/doc/${PF}/examples
-		doins examples/{*.c,*.jpg}
+		docinto examples
+		dodoc examples/{*.c,*.jpg}
+		docompress -x /usr/share/doc/${PF}/examples
 	fi
 
 	gnome2_src_install

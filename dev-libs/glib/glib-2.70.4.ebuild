@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
+PYTHON_REQ_USE="xml"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 
 inherit flag-o-matic gnome.org gnome2-utils linux-info meson-multilib multilib python-single-r1 toolchain-funcs xdg
@@ -135,7 +136,7 @@ src_prepare() {
 	chmod a+x "${T}/glib-test-ld-wrapper" || die
 	sed -i -e "s|'ld'|'${T}/glib-test-ld-wrapper'|g" gio/tests/meson.build || die
 
-	xdg_src_prepare
+	default
 	gnome2_environment_reset
 }
 

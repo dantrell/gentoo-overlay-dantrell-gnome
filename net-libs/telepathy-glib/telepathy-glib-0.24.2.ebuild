@@ -2,6 +2,7 @@
 
 EAPI="7"
 
+PYTHON_REQ_USE="xml"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 VALA_USE_DEPEND="vapigen"
 

@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: python-r1.eclass
@@ -8,6 +8,7 @@
 # Author: Michał Górny <mgorny@gentoo.org>
 # Based on work of: Krzysztof Pawlik <nelchael@gentoo.org>
 # @SUPPORTED_EAPIS: 6 7 8
+# @PROVIDES: multibuild python-utils-r1
 # @BLURB: A common, simple eclass for Python packages.
 # @DESCRIPTION:
 # A common eclass providing helper functions to build and install
@@ -27,7 +28,7 @@
 # both.
 #
 # For more information, please see the Python Guide:
-# https://dev.gentoo.org/~mgorny/python-guide/
+# https://projects.gentoo.org/python/guide/
 
 case "${EAPI:-0}" in
 	[0-5])
@@ -370,6 +371,7 @@ python_gen_usedep() {
 	if [[ ${EBUILD_PHASE} == setup ]]; then
 		eqawarn "python_gen_usedep() is deprecated. Please use python_gen_cond_dep instead."
 	fi
+	[[ ${EAPI} == [67] ]] || die "${FUNCNAME} banned in EAPI ${EAPI}"
 	_python_gen_usedep "${@}"
 }
 
@@ -862,7 +864,9 @@ python_replicate_script() {
 	# install the wrappers
 	local f
 	for f; do
-		_python_ln_rel "${ED%/}/usr/lib/python-exec/python-exec2" "${f}" || die
+		local dosym=dosym
+		[[ ${EAPI} == [67] ]] && dosym=dosym8
+		"${dosym}" -r /usr/lib/python-exec/python-exec2 "${f#${ED}}"
 	done
 }
 

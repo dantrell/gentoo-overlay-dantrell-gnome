@@ -26,7 +26,7 @@
 ~app-text/libgxps-0.3.2::dantrell-gnome
 ~app-text/yelp-tools-3.32.2::dantrell-gnome
 ~dev-cpp/cairomm-1.12.2::dantrell-gnome
-~dev-cpp/mm-common-1.0.3::dantrell-gnome
+~dev-cpp/mm-common-1.0.4::dantrell-gnome
 ~dev-lang/vala-0.48.22::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.18::dantrell-gnome
 ~dev-libs/folks-0.14.0::dantrell-gnome
@@ -40,7 +40,7 @@
 ~dev-libs/json-glib-1.4.4::dantrell-gnome
 ~dev-libs/libdazzle-3.36.0::dantrell-gnome-3-36
 ~dev-libs/libgdata-0.17.9::dantrell-gnome
-~dev-libs/libgee-0.20.4::dantrell-gnome
+~dev-libs/libgee-0.20.5::dantrell-gnome
 ~dev-libs/libgnome-games-support-1.8.2::dantrell-gnome
 ~dev-libs/libgweather-3.36.2::dantrell-gnome
 ~dev-libs/libical-3.0.9::dantrell-gnome
@@ -110,7 +110,7 @@
 ~gnome-extra/gnome-getting-started-docs-3.36.3::dantrell-gnome-3-36
 ~gnome-extra/gnome-multi-writer-3.35.90::dantrell-gnome
 ~gnome-extra/gnome-power-manager-3.32.0::dantrell-gnome
-~gnome-extra/gnome-recipes-2.0.2::dantrell-gnome
+~gnome-extra/gnome-recipes-2.0.4::dantrell-gnome
 ~gnome-extra/gnome-shell-extensions-3.36.7::dantrell-gnome-3-36
 ~gnome-extra/gnome-shell-frippery-3.36.1::dantrell-gnome-3-36
 ~gnome-extra/gnome-software-3.36.1::dantrell-gnome-3-36

@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
+PYTHON_REQ_USE="xml(+)"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 USE_RUBY="ruby26 ruby27 ruby30"
 

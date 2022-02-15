@@ -3,7 +3,7 @@
 EAPI="7"
 
 # Patch version
-FIREFOX_PATCHSET="firefox-91esr-patches-04.tar.xz"
+FIREFOX_PATCHSET="firefox-91esr-patches-05j.tar.xz"
 SPIDERMONKEY_PATCHSET="spidermonkey-91-patches-02j.tar.xz"
 
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )

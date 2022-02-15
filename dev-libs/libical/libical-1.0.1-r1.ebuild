@@ -40,7 +40,6 @@ src_install() {
 
 	if use examples; then
 		rm examples/Makefile* examples/CMakeLists.txt
-		insinto /usr/share/doc/${PF}/examples
-		doins examples/*
+		dodoc -r examples
 	fi
 }

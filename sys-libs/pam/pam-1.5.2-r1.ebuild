@@ -44,6 +44,10 @@ PDEPEND=">=sys-auth/pambase-20200616"
 
 S="${WORKDIR}/${MY_P}"
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-1.5.1-musl.patch
+)
+
 src_prepare() {
 	default
 	touch ChangeLog || die
