@@ -6,7 +6,7 @@
 ~app-arch/gcab-1.4::dantrell-gnome
 ~app-arch/gnome-autoar-0.2.4::dantrell-gnome
 ~app-crypt/gcr-3.36.0::dantrell-gnome-3-36
-~app-crypt/libsecret-0.20.4::dantrell-gnome
+~app-crypt/libsecret-0.20.5::dantrell-gnome
 ~app-crypt/seahorse-3.36.2::dantrell-gnome-3-36
 ~app-dicts/gnome-dictionary-3.26.1::dantrell-gnome
 ~app-editors/gedit-3.36.2::dantrell-gnome-3-36
@@ -27,7 +27,7 @@
 ~app-text/yelp-tools-3.32.2::dantrell-gnome
 ~dev-cpp/cairomm-1.12.2::dantrell-gnome
 ~dev-cpp/mm-common-1.0.4::dantrell-gnome
-~dev-lang/vala-0.48.22::dantrell-gnome
+~dev-lang/vala-0.48.23::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.18::dantrell-gnome
 ~dev-libs/folks-0.14.0::dantrell-gnome
 ~dev-libs/gjs-1.64.5::dantrell-gnome-3-36
@@ -48,7 +48,7 @@
 ~dev-libs/libpeas-1.26.0::dantrell-gnome
 ~dev-libs/template-glib-3.34.0::dantrell-gnome
 ~dev-libs/totem-pl-parser-3.26.6::dantrell-gnome
-~dev-libs/vala-common-0.48.22::dantrell-gnome
+~dev-libs/vala-common-0.48.23::dantrell-gnome
 ~dev-python/pyatspi-2.36.0::dantrell-gnome-3-36
 ~dev-python/pygobject-3.36.1::dantrell-gnome-3-36
 ~dev-util/devhelp-3.36.2::dantrell-gnome-3-36

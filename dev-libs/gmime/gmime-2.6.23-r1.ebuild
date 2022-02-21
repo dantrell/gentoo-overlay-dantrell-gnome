@@ -19,7 +19,7 @@ RESTRICT="!test? ( test )"
 RDEPEND="
 	>=dev-libs/glib-2.32.0:2
 	sys-libs/zlib
-	smime? ( >=app-crypt/gpgme-1.1.6:1= )
+	smime? ( >=app-crypt/gpgme-1.1.6:= )
 	vala? (
 		$(vala_depend)
 		>=dev-libs/gobject-introspection-1.30.0:= )

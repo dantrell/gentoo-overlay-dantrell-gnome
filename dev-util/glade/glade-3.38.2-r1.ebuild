@@ -50,6 +50,10 @@ PATCHES=(
 	# To avoid file collison with other slots, rename help module.
 	# Prevent the UI from loading glade:3's gladeui devhelp documentation.
 	"${FILESDIR}"/${PN}-3.14.1-doc-version.patch
+
+	# From Gentoo:
+	# 	https://bugs.gentoo.org/831453
+	"${FILESDIR}"/glade-3.38.2-meson-0.61.patch
 )
 
 pkg_setup() {

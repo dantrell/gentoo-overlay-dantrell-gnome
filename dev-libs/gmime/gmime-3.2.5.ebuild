@@ -19,7 +19,7 @@ RESTRICT="!test? ( test )"
 RDEPEND="
 	>=dev-libs/glib-2.32.0:2
 	sys-libs/zlib
-	crypt? ( >=app-crypt/gpgme-1.8.0:1= )
+	crypt? ( >=app-crypt/gpgme-1.8.0:= )
 	idn? ( net-dns/libidn2:= )
 	vala? (
 		$(vala_depend)

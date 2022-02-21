@@ -23,7 +23,7 @@ COMMON_DEPEND="
 	x11-libs/libICE
 	x11-libs/libSM
 
-	>=app-crypt/gpgme-1:1=
+	>=app-crypt/gpgme-1:=
 	>=app-crypt/gnupg-1.4
 
 	introspection? ( >=dev-libs/gobject-introspection-0.6.4:= )

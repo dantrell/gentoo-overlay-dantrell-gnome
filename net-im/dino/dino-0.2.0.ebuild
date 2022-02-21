@@ -28,7 +28,7 @@ RDEPEND="
 	x11-libs/gdk-pixbuf:2
 	>=x11-libs/gtk+-3.22:3
 	x11-libs/pango
-	gpg? ( app-crypt/gpgme:1 )
+	gpg? ( app-crypt/gpgme:= )
 	http? ( net-libs/libsoup:2.4 )
 	omemo? (
 		dev-libs/libgcrypt:0

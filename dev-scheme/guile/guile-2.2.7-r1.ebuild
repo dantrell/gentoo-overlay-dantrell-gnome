@@ -35,6 +35,10 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-2.2.7-stack-up.patch
 )
 
+# guile generates ELF files without use of C or machine code
+# It's a portage's false positive. bug #677600
+QA_PREBUILT='*[.]go'
+
 src_configure() {
 	# Seems to have issues with -Os, switch to -O2
 	# 	https://bugs.funtoo.org/browse/FL-2584

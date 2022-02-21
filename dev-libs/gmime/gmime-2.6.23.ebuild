@@ -22,7 +22,7 @@ RDEPEND="
 	mono? (
 		dev-lang/mono
 		>=dev-dotnet/gtk-sharp-2.12.21:2 )
-	smime? ( >=app-crypt/gpgme-1.1.6:1= )
+	smime? ( >=app-crypt/gpgme-1.1.6:= )
 	vala? (
 		$(vala_depend)
 		>=dev-libs/gobject-introspection-1.30.0:= )

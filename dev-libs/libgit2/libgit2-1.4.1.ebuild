@@ -38,8 +38,6 @@ src_prepare() {
 	cmake_src_prepare
 	# relying on forked http-parser to support some obscure URI form
 	sed -i -e '/empty_port/s:test:_&:' tests/network/url/parse.c || die
-	# https://github.com/libgit2/libgit2/pull/6217
-	sed -i -e 's:HTTP_Parser:HTTPParser:' cmake/SelectHTTPParser.cmake || die
 }
 
 src_configure() {

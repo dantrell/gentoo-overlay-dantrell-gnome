@@ -13,8 +13,10 @@ SLOT="12/22" # subslot is soname version
 KEYWORDS="*"
 
 IUSE="debug debug-malloc +deprecated doc emacs +networking +nls +regex static-libs +threads" # upstream recommended +networking +nls
+REQUIRED_USE="regex"  # workaround for bug 596322
 
-RESTRICT="mirror"
+# emacs useflag removal not working
+RESTRICT="mirror strip"
 
 RDEPEND="
 	!dev-scheme/guile:2
@@ -41,6 +43,10 @@ PATCHES=(
 	"${FILESDIR}"/${P}-darwin.patch
 	"${FILESDIR}"/${P}-ia64-fix-crash-thread-context-switch.patch
 )
+
+# guile generates ELF files without use of C or machine code
+# It's a portage's false positive. bug #677600
+QA_PREBUILT='*[.]go'
 
 src_prepare() {
 	default

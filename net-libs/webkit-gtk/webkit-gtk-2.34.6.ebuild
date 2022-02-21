@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
+PYTHON_REQ_USE="xml(+)"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 USE_RUBY="ruby26 ruby27 ruby30"
 
@@ -171,12 +172,12 @@ pkg_setup() {
 }
 
 src_prepare() {
-	eapply "${FILESDIR}"/${PN}-2.34.1-opengl-without-X-fixes.patch
-
 	# From Poky by the Yocto Project:
 	# 	https://git.yoctoproject.org/poky/tree/meta/recipes-sato/webkit/webkitgtk?id=65c94ca3196e5ef3344a469fea8e30444f2e967a
 	eapply "${FILESDIR}"/${PN}-2.34.0-fix-build-without-opengl-or-es.patch
 
+	eapply "${FILESDIR}"/${PN}-2.34.3-non-jumbo-fix.patch
+	eapply "${FILESDIR}"/${PN}-2.34.3-jumbo-fix.patch # bug 830638
 	cmake_src_prepare
 	gnome2_src_prepare
 }

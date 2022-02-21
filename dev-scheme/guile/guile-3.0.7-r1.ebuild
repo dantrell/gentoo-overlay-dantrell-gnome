@@ -38,6 +38,10 @@ PATCHES=(
 	"${WORKDIR}"/${PN}-3.0.7-gnulib-glibc-2.34.patch
 )
 
+# guile generates ELF files without use of C or machine code
+# It's a portage's false positive. bug #677600
+QA_PREBUILT='*[.]go'
+
 src_prepare() {
 	default
 

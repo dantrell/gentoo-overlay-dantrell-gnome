@@ -39,6 +39,12 @@ BDEPEND="
 	virtual/pkgconfig
 "
 
+PATCHES=(
+	# From Gentoo:
+	# 	https://bugs.gentoo.org/831829
+	"${FILESDIR}"/${PN}-1.24.0-meson-0.61.patch
+)
+
 src_configure() {
 	local emesonargs=(
 		-Dappindicator=$(usex appindicator ubuntu no)

@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 inherit multilib-minimal libtool
 
@@ -25,14 +25,13 @@ src_prepare() {
 }
 
 multilib_src_configure() {
-	ECONF_SOURCE="${S}" \
-	econf $(use_enable static-libs static)
+	ECONF_SOURCE="${S}" econf $(use_enable static-libs static)
 }
 
 multilib_src_install_all() {
 	default
 
-	if use doc; then
+	if use doc ; then
 		docinto html
 		dodoc doc/*.html
 		doinfo doc/*.info

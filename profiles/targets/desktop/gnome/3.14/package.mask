@@ -90,6 +90,7 @@
 >=net-p2p/transmission-remote-gtk-1.3.1
 >=net-voip/telepathy-gabble-0.18.4
 >=sys-apps/osinfo-db-tools-1.6.0
+>=sys-apps/usbredir-0.10.0
 >=sys-fs/udisks-2.7.0
 >=sys-libs/libosinfo-1.6.0
 >=x11-misc/lightdm-1.25.2

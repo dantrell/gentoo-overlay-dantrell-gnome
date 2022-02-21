@@ -44,6 +44,7 @@ RDEPEND="${CDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.6.35-gentoo-system-users.patch
+	"${FILESDIR}"/${PN}-0.6.55-meson-0.61-build.patch
 )
 
 src_configure() {

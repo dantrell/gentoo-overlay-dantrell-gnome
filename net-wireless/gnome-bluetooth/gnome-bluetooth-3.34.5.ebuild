@@ -42,6 +42,10 @@ BDEPEND="
 	)
 "
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-3.34.5-meson-0.61-build.patch
+)
+
 python_check_deps() {
 	if use test; then
 		has_version -b "dev-python/python-dbusmock[${PYTHON_USEDEP}]" &&

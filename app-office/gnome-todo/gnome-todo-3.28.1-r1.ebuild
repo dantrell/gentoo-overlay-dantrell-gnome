@@ -43,19 +43,23 @@ src_prepare() {
 		eapply "${FILESDIR}"/${PN}-9999-drop-the-autoptr-definition-for-esource.patch
 	fi
 
+	# From Gentoo:
+	# 	https://bugs.gentoo.org/832136
+	eapply "${FILESDIR}"/${PN}-fix-build-with-meson-0.61
+
 	default
 }
 
 src_configure() {
 	local emesonargs=(
-		-D background_plugin=true
-		-D dark_theme_plugin=true
-		-D scheduled_panel_plugin=true
-		-D score_plugin=true
-		-D today_panel_plugin=true
-		-D unscheduled_panel_plugin=true
-		-D todo_txt_plugin=true
-		-D todoist_plugin=true
+		-Dbackground_plugin=true
+		-Ddark_theme_plugin=true
+		-Dscheduled_panel_plugin=true
+		-Dscore_plugin=true
+		-Dtoday_panel_plugin=true
+		-Dunscheduled_panel_plugin=true
+		-Dtodo_txt_plugin=true
+		-Dtodoist_plugin=true
 		$(meson_use debug tracing)
 		$(meson_use gtk-doc gtk_doc)
 		$(meson_use introspection)
