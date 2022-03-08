@@ -51,6 +51,12 @@ DEPEND="${COMMON_DEPEND}
 	virtual/pkgconfig
 "
 
+PATCHES=(
+	# From Gentoo:
+	# 	https://bugs.gentoo.org/833843
+	"${FILESDIR}"/${PN}-3.34.0-fix-build-with-meson-0.61.patch
+)
+
 src_configure() {
 	local emesonargs=(
 		-Ddocumentation=true #manpage

@@ -170,7 +170,7 @@
 ~sys-apps/gnome-disk-utility-3.38.2::dantrell-gnome-3-38
 ~www-client/epiphany-3.38.6::dantrell-gnome-3-38
 ~x11-libs/gdk-pixbuf-2.40.0::dantrell-gnome
-~x11-libs/gtk+-3.24.31::dantrell-gnome
+~x11-libs/gtk+-3.24.33::dantrell-gnome
 ~x11-libs/libnotify-0.7.9::dantrell-gnome
 ~x11-libs/libwnck-3.36.0::dantrell-gnome
 ~x11-libs/pango-1.46.2::dantrell-gnome

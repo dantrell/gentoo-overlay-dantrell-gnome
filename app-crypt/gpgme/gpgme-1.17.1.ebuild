@@ -5,7 +5,7 @@ EAPI="8"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 DISTUTILS_OPTIONAL=1
 
-inherit distutils-r1 flag-o-matic libtool qmake-utils toolchain-funcs
+inherit distutils-r1 libtool qmake-utils toolchain-funcs
 
 DESCRIPTION="GnuPG Made Easy is a library for making GnuPG easier to use"
 HOMEPAGE="http://www.gnupg.org/related_software/gpgme"
@@ -15,7 +15,7 @@ LICENSE="GPL-2 LGPL-2.1"
 # Please check ABI on each bump, even if SONAMEs didn't change: bug #833355
 # Use e.g. app-portage/iwdevtools integration with dev-libs/libabigail's abidiff.
 # Subslot: SONAME of each: <libgpgme.libgpgmepp.libqgpgme>
-SLOT="1/11.6.7"
+SLOT="1/11.6.15"
 KEYWORDS="~*"
 
 IUSE="common-lisp static-libs +cxx python qt5"
@@ -40,7 +40,12 @@ do_python() {
 	fi
 }
 
-pkg_setup() {
+src_prepare() {
+	default
+
+	elibtoolize
+
+	# bug #697456
 	addpredict /run/user/$(id -u)/gnupg
 
 	local MAX_WORKDIR=66
@@ -48,11 +53,6 @@ pkg_setup() {
 		ewarn "Disabling tests as WORKDIR '${WORKDIR}' is longer than ${MAX_WORKDIR} which will fail tests"
 		SKIP_TESTS=1
 	fi
-}
-
-src_prepare() {
-	default
-	elibtoolize
 
 	# Make best effort to allow longer PORTAGE_TMPDIR
 	# as usock limitation fails build/tests
@@ -71,9 +71,11 @@ src_configure() {
 		export MOC="$(qt5_get_bindir)/moc"
 	fi
 
+	# bug #811933 for libassuan prefix
 	econf \
 		$([[ -n "${SKIP_TESTS}" ]] && echo "--disable-gpg-test --disable-gpgsm-test") \
 		--enable-languages="${languages[*]}" \
+		--with-libassuan-prefix="${ESYSROOT}"/usr \
 		$(use_enable static-libs static)
 
 	use python && emake -C lang/python prepare

@@ -7,8 +7,8 @@ inherit meson pam pax-utils systemd xdg-utils
 DESCRIPTION="Policy framework for controlling privileges for system-wide services"
 HOMEPAGE="https://www.freedesktop.org/wiki/Software/polkit https://gitlab.freedesktop.org/polkit/polkit"
 if [[ ${PV} == *_p* ]] ; then
-	MY_COMMIT="a6bedfd09b7bba753de7a107dc471da0db801858"
-	SRC_URI="https://gitlab.freedesktop.org/polkit/polkit/-/archive/${MY_COMMIT}/polkit-${MY_COMMIT}.tar.bz2 -> ${P}.tar.bz2"
+	MY_COMMIT="b10a1bdb697045db40774f2a9a8c58ae5c7189c3"
+SRC_URI="https://gitlab.freedesktop.org/polkit/polkit/-/archive/${MY_COMMIT}/polkit-${MY_COMMIT}.tar.bz2 -> ${P}.tar.bz2"
 	S="${WORKDIR}"/${PN}-${MY_COMMIT}
 else
 	SRC_URI="https://www.freedesktop.org/software/${PN}/releases/${P}.tar.gz"
