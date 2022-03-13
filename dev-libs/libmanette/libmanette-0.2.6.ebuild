@@ -22,7 +22,8 @@ RDEPEND="
 	dev-libs/libevdev
 	introspection? ( >=dev-libs/gobject-introspection-1.56:= )
 "
-DEPEND="${DEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	vala? ( $(vala_depend) )
 	virtual/pkgconfig
 "

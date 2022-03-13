@@ -2,6 +2,7 @@
 
 EAPI="8"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
+DISTUTILS_USE_PEP517=setuptools
 
 inherit distutils-r1 toolchain-funcs
 

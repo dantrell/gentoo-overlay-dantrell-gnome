@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="8"
 
 inherit gnome2
 
@@ -22,7 +22,8 @@ RDEPEND="
 	dev-cpp/cairomm:0
 	dev-cpp/pangomm:1.4
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	virtual/pkgconfig
 	doc? ( app-doc/doxygen )
 "

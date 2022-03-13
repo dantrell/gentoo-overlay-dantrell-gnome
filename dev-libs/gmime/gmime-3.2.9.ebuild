@@ -1,25 +1,26 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-VALA_USE_DEPEND="vapigen"
+EAPI="8"
 
-inherit gnome2 vala flag-o-matic
+inherit flag-o-matic gnome2 vala
 
 DESCRIPTION="A C/C++ MIME creation and parser library with support for S/MIME, PGP, and Unix mbox spools"
-HOMEPAGE="https://gitlab.gnome.org/GNOME/gmime http://spruce.sourceforge.net/gmime/"
+HOMEPAGE="https://github.com/jstedfast/gmime http://spruce.sourceforge.net/gmime/"
+SRC_URI="https://github.com/jstedfast/${PN}/releases/download/${PV}/${P}.tar.xz"
 
-LICENSE="LGPL-2.1"
-SLOT="2.6"
-KEYWORDS="*"
+LICENSE="LGPL-2.1+"
+SLOT="3.0"
+KEYWORDS="~*"
 
-IUSE="doc smime static-libs test vala"
+IUSE="crypt doc idn test +vala"
 
 RESTRICT="!test? ( test )"
 
 RDEPEND="
 	>=dev-libs/glib-2.32.0:2
 	sys-libs/zlib
-	smime? ( >=app-crypt/gpgme-1.1.6:= )
+	crypt? ( >=app-crypt/gpgme-1.8.0:= )
+	idn? ( net-dns/libidn2:= )
 	vala? (
 		$(vala_depend)
 		>=dev-libs/gobject-introspection-1.30.0:= )
@@ -35,18 +36,21 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	gnome2_src_prepare
-	use vala && vala_src_prepare
+	use vala && vala_setup
 }
 
 src_configure() {
-	[[ ${CHOST} == *-solaris* ]] && append-libs iconv
+	if [[ ${CHOST} == *-solaris* ]]; then
+		# bug #???, why not use --with-libiconv
+		append-libs iconv
+	fi
+
 	gnome2_src_configure \
-		--enable-cryptography \
-		--disable-strict-parser \
-		--disable-mono \
-		$(use_enable smime) \
-		$(use_enable static-libs static) \
-		$(use_enable vala)
+		--enable-largefile \
+		$(use_enable crypt crypto) \
+		$(use_enable vala) \
+		$(use_with idn libidn) \
+		$(usex doc "" DB2HTML=)
 }
 
 src_compile() {

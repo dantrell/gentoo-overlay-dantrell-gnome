@@ -5,7 +5,7 @@ VALA_USE_DEPEND="vapigen"
 
 inherit mono-env gnome2 vala flag-o-matic
 
-DESCRIPTION="Utilities for creating and parsing messages using MIME"
+DESCRIPTION="A C/C++ MIME creation and parser library with support for S/MIME, PGP, and Unix mbox spools"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/gmime http://spruce.sourceforge.net/gmime/"
 
 LICENSE="LGPL-2.1"

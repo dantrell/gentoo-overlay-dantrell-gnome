@@ -8,7 +8,7 @@ DESCRIPTION="A GStreamer based RTSP server"
 HOMEPAGE="https://gstreamer.freedesktop.org/modules/gst-rtsp-server.html"
 
 LICENSE="LGPL-2+"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="examples +introspection static-libs"
 
@@ -16,16 +16,14 @@ IUSE="examples +introspection static-libs"
 # gst-plugins-good for rtprtxsend and rtpbin elements, maybe more
 # gst-plugins-srtp for srtpenc and srtpdec elements
 RDEPEND="
-	>=dev-libs/glib-2.40.0:2[${MULTILIB_USEDEP}]
 	>=media-libs/gstreamer-${PV}:${SLOT}[introspection?,${MULTILIB_USEDEP}]
 	>=media-libs/gst-plugins-base-${PV}:${SLOT}[introspection?,${MULTILIB_USEDEP}]
 	>=media-libs/gst-plugins-good-${PV}:${SLOT}[${MULTILIB_USEDEP}]
 	>=media-plugins/gst-plugins-srtp-${PV}:${SLOT}[${MULTILIB_USEDEP}]
 	introspection? ( >=dev-libs/gobject-introspection-1.31.1:= )
 "
-DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.12
-"
+DEPEND="${RDEPEND}"
+BDEPEND=""
 
 multilib_src_configure() {
 	local emesonargs=(
