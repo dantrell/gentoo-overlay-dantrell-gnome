@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="8"
 
 inherit autotools flag-o-matic elisp-common
 
@@ -9,11 +9,14 @@ HOMEPAGE="https://www.gnu.org/software/guile/"
 SRC_URI="mirror://gnu/guile/${P}.tar.gz"
 
 LICENSE="LGPL-2.1"
-SLOT="12"
+# Guile seems to contain some slotting support, /usr/share/guile/ is slotted,
+# but there are lots of collisions. Most in /usr/share/libguile. Therefore
+# I'm slotting this in the same slot as guile-1.6* for now.
+SLOT="12/8"
 MAJOR="1.8"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="debug debug-freelist debug-malloc +deprecated discouraged doc emacs networking nls readline +regex +threads"
+IUSE="debug debug-freelist debug-malloc +deprecated discouraged emacs networking nls readline +regex +threads"
 
 RESTRICT="!regex? ( test )"
 
@@ -25,30 +28,35 @@ RDEPEND="
 	sys-devel/gettext
 	sys-libs/ncurses:0=
 	virtual/libcrypt:=
-	emacs? ( >=app-editors/emacs-23.1:* )
-	readline? ( sys-libs/readline:0= )"
-DEPEND="${RDEPEND}
+	readline? ( sys-libs/readline:0= )
+"
+DEPEND="${RDEPEND}"
+BDEPEND="
 	sys-apps/texinfo
-	sys-devel/libtool"
+	sys-devel/libtool
+	emacs? ( >=app-editors/emacs-23.1:* )
+"
+
+PATCHES=(
+	"${FILESDIR}"/${PN}-1.8.8-fix_guile-config.patch
+	"${FILESDIR}"/${PN}-1.8.8-gcc46.patch
+	"${FILESDIR}"/${PN}-1.8.8-gcc5.patch
+	"${FILESDIR}"/${PN}-1.8.8-makeinfo-5.patch
+	"${FILESDIR}"/${PN}-1.8.8-gtexinfo-5.patch
+	"${FILESDIR}"/${PN}-1.8.8-readline.patch
+	"${FILESDIR}"/${PN}-1.8.8-tinfo.patch
+	"${FILESDIR}"/${PN}-1.8.8-sandbox.patch
+	"${FILESDIR}"/${PN}-1.8.8-mkdir-mask.patch
+	"${FILESDIR}"/${PN}-1.8.8-texinfo-6.7.patch
+)
 
 src_prepare() {
-	eapply "${FILESDIR}"/${PN}-1.8.8-fix_guile-config.patch
-	eapply "${FILESDIR}"/${PN}-1.8.8-gcc46.patch
-	eapply "${FILESDIR}"/${PN}-1.8.8-gcc5.patch
-	eapply "${FILESDIR}"/${PN}-1.8.8-makeinfo-5.patch
-	eapply "${FILESDIR}"/${PN}-1.8.8-gtexinfo-5.patch
-	eapply "${FILESDIR}"/${PN}-1.8.8-readline.patch
-	eapply "${FILESDIR}"/${PN}-1.8.8-tinfo.patch
-	eapply "${FILESDIR}"/${PN}-1.8.8-sandbox.patch
-	eapply "${FILESDIR}"/${PN}-1.8.8-mkdir-mask.patch
-	eapply "${FILESDIR}"/${PN}-1.8.8-texinfo-6.7.patch
+	default
 
 	sed \
 		-e "s/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/g" \
 		-e "/AM_PROG_CC_STDC/d" \
 		-i guile-readline/configure.in || die
-
-	eapply_user
 
 	mv "${S}"/configure.{in,ac} || die
 	mv "${S}"/guile-readline/configure.{in,ac} || die
@@ -65,24 +73,26 @@ src_configure() {
 	# 	https://bugs.gentoo.org/178499
 	filter-flags -ftree-vectorize
 
-	econf \
-		--disable-error-on-warning \
-		--disable-rpath \
-		--disable-static \
-		--enable-posix \
-		--with-modules \
-		$(use deprecated || use_enable discouraged) \
-		$(use_enable debug-freelist) \
-		$(use_enable debug guile-debug) \
-		$(use_enable debug-malloc) \
-		$(use_enable deprecated) \
-		$(use_enable emacs elisp) \
-		$(use_enable networking) \
-		$(use_enable nls) \
-		$(use_enable readline) \
-		$(use_enable regex) \
-		$(use_with threads) \
-		EMACS=no
+	#will fail for me if posix is disabled or without modules -- hkBst
+	myconf=(
+		--disable-error-on-warning
+		--disable-static
+		--enable-posix
+		$(use_enable networking)
+		$(use_enable readline)
+		$(use_enable regex)
+		$(use deprecated || use_enable discouraged)
+		$(use_enable deprecated)
+		$(use_enable emacs elisp)
+		$(use_enable nls)
+		--disable-rpath
+		$(use_enable debug-freelist)
+		$(use_enable debug-malloc)
+		$(use_enable debug guile-debug)
+		$(use_with threads)
+		--with-modules
+	)
+	econf "${myconf[@]}" EMACS=no
 }
 
 src_compile() {
@@ -97,7 +107,7 @@ src_compile() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" install
+	default
 
 	if use doc; then
 		dodoc AUTHORS ChangeLog GUILE-VERSION HACKING NEWS README THANKS
@@ -112,15 +122,15 @@ src_install() {
 	# 	https://bugs.gentoo.org/23493
 	dodir /etc/env.d
 	echo "GUILE_LOAD_PATH=\"${EPREFIX}/usr/share/guile/${MAJOR}\"" \
-		 > "${ED}"/etc/env.d/50guile
+		 > "${ED}"/etc/env.d/50guile || die
 
 	# Necessary for registering SLIB
 	# 	https://bugs.gentoo.org/206896
 	keepdir /usr/share/guile/site
 
 	if use emacs; then
-		elisp-install ${PN} emacs/*.{el,elc} || die
-		elisp-site-file-install "${FILESDIR}"/50${PN}-gentoo.el || die
+		elisp-install ${PN} emacs/*.{el,elc}
+		elisp-site-file-install "${FILESDIR}"/50${PN}-gentoo.el
 	fi
 }
 

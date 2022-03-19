@@ -11,7 +11,9 @@ LICENSE="GPL-2 LGPL-2.1"
 SLOT="0/114" # libgsf-1.so version
 KEYWORDS="*"
 
-IUSE="bzip2 gtk +introspection"
+IUSE="bzip2 gtk +introspection test"
+
+RESTRICT="!test? ( test )"
 
 RDEPEND="
 	>=dev-libs/glib-2.36:2
@@ -29,6 +31,7 @@ DEPEND="${RDEPEND}
 	dev-libs/gobject-introspection-common
 	>=sys-devel/gettext-0.19.6
 	virtual/pkgconfig
+	test? ( dev-perl/XML-Parser )
 "
 
 src_configure() {
