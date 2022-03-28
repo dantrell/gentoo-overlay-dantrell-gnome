@@ -4,14 +4,14 @@ EAPI="7"
 
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 
-inherit gnome.org meson multilib-minimal python-any-r1 virtualx
+inherit gnome.org meson-multilib python-any-r1 virtualx
 
 DESCRIPTION="C++ interface for GTK+"
 HOMEPAGE="https://www.gtkmm.org"
 
 LICENSE="LGPL-2.1+"
 SLOT="3.0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="aqua doc test wayland X"
 REQUIRED_USE="|| ( aqua wayland X )"
@@ -43,19 +43,11 @@ multilib_src_configure() {
 	local emesonargs=(
 		-Dbuild-atkmm-api=true
 		-Dbuild-demos=false
-		-Dbuild-documentation=$(multilib_native_usex doc true false)
-		-Dbuild-tests=$(usex test true false)
-		-Dbuild-x11-api=$(usex X true false)
+		$(meson_native_use_bool doc build-documentation)
+		$(meson_use test build-tests)
+		$(meson_use X build-x11-api)
 	)
 	meson_src_configure
-}
-
-multilib_src_compile() {
-	meson_src_compile
-}
-
-multilib_src_install() {
-	meson_src_install
 }
 
 multilib_src_test() {

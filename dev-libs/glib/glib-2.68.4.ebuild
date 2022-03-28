@@ -10,7 +10,7 @@ HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2.1+"
 SLOT="2/68"
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="dbus debug +elf fam gtk-doc +mime selinux static-libs sysprof systemtap test xattr"
 REQUIRED_USE="${PYTHON_REQUIRED_USE} gtk-doc? ( test )" # Bug #777636
@@ -258,6 +258,13 @@ pkg_postinst() {
 		ewarn "your final image for performance reasons and re-run it when packages"
 		ewarn "installing GIO modules get upgraded or added to the image."
 	fi
+
+	for v in ${REPLACING_VERSIONS}; do
+		if ver_test "$v" "-lt" "2.63.6"; then
+			ewarn "glib no longer installs the gio-launch-desktop binary. You may need"
+			ewarn "to restart your session for \"Open With\" dialogs to work."
+		fi
+	done
 }
 
 pkg_postrm() {

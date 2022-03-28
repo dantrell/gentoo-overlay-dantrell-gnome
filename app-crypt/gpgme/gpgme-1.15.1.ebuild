@@ -4,12 +4,14 @@ EAPI="7"
 
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 DISTUTILS_OPTIONAL=1
+VERIFY_SIG_OPENPGP_KEY_PATH="${BROOT}"/usr/share/openpgp-keys/gnupg.asc
 
-inherit distutils-r1 flag-o-matic libtool qmake-utils toolchain-funcs
+inherit distutils-r1 flag-o-matic libtool qmake-utils toolchain-funcs verify-sig
 
 DESCRIPTION="GnuPG Made Easy is a library for making GnuPG easier to use"
 HOMEPAGE="http://www.gnupg.org/related_software/gpgme"
-SRC_URI="mirror://gnupg/gpgme/${P}.tar.bz2"
+SRC_URI="mirror://gnupg/gpgme/${P}.tar.bz2
+	verify-sig? ( mirror://gnupg/gpgme/${P}.tar.bz2.sig )"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="1/11" # subslot = soname major version
@@ -27,12 +29,13 @@ RDEPEND=">=app-crypt/gnupg-2
 	#doc? ( app-doc/doxygen[dot] )
 DEPEND="${RDEPEND}
 	qt5? ( dev-qt/qttest:5 )"
-BDEPEND="python? ( dev-lang/swig )"
+BDEPEND="python? ( dev-lang/swig )
+	verify-sig? ( sec-keys/openpgp-keys-gnupg )"
 
 do_python() {
 	if use python; then
 		pushd "lang/python" > /dev/null || die
-		top_builddir="../.." srcdir="." CPP=$(tc-getCPP) distutils-r1_src_${EBUILD_PHASE}
+		top_builddir="../.." srcdir="." CPP="$(tc-getCPP)" distutils-r1_src_${EBUILD_PHASE}
 		popd > /dev/null
 	fi
 }

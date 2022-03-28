@@ -10,7 +10,7 @@ HOMEPAGE="https://gitlab.gnome.org/GNOME/libgnome-games-support"
 
 LICENSE="LGPL-3+"
 SLOT="1/3"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 

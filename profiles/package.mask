@@ -102,6 +102,7 @@ dev-python/pygobject::gentoo
 dev-python/pygtk::gentoo
 dev-scheme/guile::gentoo
 dev-util/anjuta::gentoo
+dev-util/appdata-tools::gentoo
 dev-util/gdbus-codegen::gentoo
 dev-util/gi-docgen::gentoo
 dev-util/glade::gentoo
@@ -177,6 +178,7 @@ gnome-extra/yelp-xsl::gentoo
 gnome-extra/yelp::gentoo
 gnome-extra/zenity::gentoo
 gui-libs/amtk::gentoo
+gui-libs/gtk::gentoo
 gui-libs/libhandy::gentoo
 gui-libs/tepl::gentoo
 mail-client/geary::gentoo

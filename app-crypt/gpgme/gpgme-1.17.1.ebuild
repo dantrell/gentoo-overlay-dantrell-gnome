@@ -4,19 +4,21 @@ EAPI="8"
 
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 DISTUTILS_OPTIONAL=1
+VERIFY_SIG_OPENPGP_KEY_PATH="${BROOT}"/usr/share/openpgp-keys/gnupg.asc
 
-inherit distutils-r1 libtool qmake-utils toolchain-funcs
+inherit distutils-r1 libtool qmake-utils toolchain-funcs verify-sig
 
 DESCRIPTION="GnuPG Made Easy is a library for making GnuPG easier to use"
 HOMEPAGE="http://www.gnupg.org/related_software/gpgme"
-SRC_URI="mirror://gnupg/gpgme/${P}.tar.bz2"
+SRC_URI="mirror://gnupg/gpgme/${P}.tar.bz2
+	verify-sig? ( mirror://gnupg/gpgme/${P}.tar.bz2.sig )"
 
 LICENSE="GPL-2 LGPL-2.1"
 # Please check ABI on each bump, even if SONAMEs didn't change: bug #833355
 # Use e.g. app-portage/iwdevtools integration with dev-libs/libabigail's abidiff.
 # Subslot: SONAME of each: <libgpgme.libgpgmepp.libqgpgme>
 SLOT="1/11.6.15"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="common-lisp static-libs +cxx python qt5"
 REQUIRED_USE="qt5? ( cxx ) python? ( ${PYTHON_REQUIRED_USE} )"
@@ -30,7 +32,8 @@ RDEPEND=">=app-crypt/gnupg-2
 	#doc? ( app-doc/doxygen[dot] )
 DEPEND="${RDEPEND}
 	qt5? ( dev-qt/qttest:5 )"
-BDEPEND="python? ( dev-lang/swig )"
+BDEPEND="python? ( dev-lang/swig )
+	verify-sig? ( sec-keys/openpgp-keys-gnupg )"
 
 do_python() {
 	if use python; then

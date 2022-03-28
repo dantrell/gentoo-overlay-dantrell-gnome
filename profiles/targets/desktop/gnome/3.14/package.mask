@@ -1,6 +1,9 @@
 # Masked to test on GNOME 3.34 first
 >=net-libs/webkit-gtk-2.26.0
 
+# Requires GLib 2.68 (or greater)
+>=dev-libs/gmime-3.2.11
+
 # Requires GLib 2.59 (or greater)
 >=x11-libs/pango-1.44.0
 

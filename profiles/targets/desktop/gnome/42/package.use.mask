@@ -1,0 +1,17 @@
+app-office/gnome-todo -libecal2
+dev-libs/folks tracker
+gnome-base/gnome-extra-apps california
+gnome-base/gnome-shell deprecated-background
+gnome-extra/gnome-contacts doc
+net-vpn/networkmanager-fortisslvpn legacy
+net-vpn/networkmanager-l2tp legacy
+net-vpn/networkmanager-libreswan legacy
+net-vpn/networkmanager-openconnect legacy
+net-vpn/networkmanager-openswan legacy
+net-vpn/networkmanager-openvpn legacy
+net-vpn/networkmanager-pptp legacy
+net-vpn/networkmanager-sstp legacy
+net-vpn/networkmanager-strongswan legacy
+net-vpn/networkmanager-vpnc legacy
+net-vpn/networkmanager-wireguard legacy
+x11-wm/mutter deprecated-background

@@ -17,7 +17,7 @@ RDEPEND="
 	>=x11-libs/gtk+-3.10:3
 	>=x11-libs/gdk-pixbuf-2.0.5:2
 	>=dev-libs/glib-2.36.0:2
-	dev-libs/libgnome-games-support:=
+	dev-libs/libgnome-games-support:1=
 "
 DEPEND="${RDEPEND}"
 BDEPEND="

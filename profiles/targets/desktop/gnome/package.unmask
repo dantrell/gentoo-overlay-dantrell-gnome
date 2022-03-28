@@ -3,6 +3,7 @@ dev-lang/spidermonkey:24::dantrell-gnome
 dev-libs/libgames-support::dantrell-gnome
 dev-libs/vala-common::dantrell-gnome
 dev-python/pygtk::dantrell-gnome
+dev-util/appdata-tools::dantrell-gnome
 gnome-base/libgnome-keyring::dantrell-gnome
 gnome-extra/nautilus-sendto::dantrell-gnome
 media-fonts/symbola::gentoo

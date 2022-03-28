@@ -1,9 +1,12 @@
-# Masked to test on GNOME 41 first
->=net-libs/webkit-gtk-2.35.0
-
-# Masked to test on GNOME 40 first
+# Masked to test on GNOME 42 first
 >=gnome-base/librsvg-2.51.0
 >=x11-libs/pango-1.48.0
+
+# Masked to test on GNOME 40 first
+>=net-libs/webkit-gtk-2.35.0
+
+# Requires GLib 2.68 (or greater)
+>=dev-libs/gmime-3.2.11
 
 # Requires GLib 2.66 (or greater)
 >=net-libs/gupnp-1.2.6

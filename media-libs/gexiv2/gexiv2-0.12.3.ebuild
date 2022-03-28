@@ -15,25 +15,29 @@ SLOT="0"
 KEYWORDS="~*"
 
 IUSE="gtk-doc +introspection python test +vala"
-
 REQUIRED_USE="
 	python? ( introspection ${PYTHON_REQUIRED_USE} )
 	test? ( python introspection )
 	vala? ( introspection )
 "
+
 RESTRICT="!test? ( test )"
 
 RDEPEND="
 	>=media-gfx/exiv2-0.26:=
 	>=dev-libs/glib-2.46.0:2
 	introspection? ( dev-libs/gobject-introspection:= )
-	python? ( ${PYTHON_DEPS}
-		dev-python/pygobject:3[${PYTHON_USEDEP}] )
+	python? (
+		${PYTHON_DEPS}
+		dev-python/pygobject:3[${PYTHON_USEDEP}]
+	)
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	gtk-doc? ( dev-util/gtk-doc
-		app-text/docbook-xml-dtd:4.3 )
+	gtk-doc? (
+		dev-util/gtk-doc
+		app-text/docbook-xml-dtd:4.3
+	)
 	test? ( media-gfx/exiv2[xmp] )
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )

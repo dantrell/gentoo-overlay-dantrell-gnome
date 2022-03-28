@@ -37,18 +37,18 @@ DEPEND="${DEPEND}
 # Extra options passed to elibtoolize
 ELTCONF=${ELTCONF:-}
 
-# @ECLASS-VARIABLE: GNOME_LIVE_MODULE
+# @ECLASS_VARIABLE: GNOME_LIVE_MODULE
 # @DESCRIPTION:
 # Default git module name is assumed to be the same as the gnome.org module name
 # used on ftp.gnome.org. We have GNOME_ORG_MODULE because we inherit gnome.org
 : ${GNOME_LIVE_MODULE:="${GNOME_ORG_MODULE}"}
 
-# @ECLASS-VARIABLE: EGIT_REPO_URI
+# @ECLASS_VARIABLE: EGIT_REPO_URI
 # @DESCRIPTION:
 # git URI for the project, uses GNOME_LIVE_MODULE by default
 : "${EGIT_REPO_URI:="https://gitlab.gnome.org/GNOME/${GNOME_LIVE_MODULE}.git"}"
 
-# @ECLASS-VARIABLE: PATCHES
+# @ECLASS_VARIABLE: PATCHES
 # @DESCRIPTION:
 # Whitespace-separated list of patches to apply after cloning
 : ${PATCHES:=""}

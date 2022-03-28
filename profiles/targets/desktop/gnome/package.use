@@ -49,6 +49,7 @@ media-libs/gst-plugins-base X
 media-libs/gst-plugins-base theora
 media-libs/harfbuzz icu
 media-libs/libcanberra gstreamer
+media-libs/libmediaart gtk
 media-libs/libmediaart -qt4
 media-libs/libmediaart -qt5
 media-libs/libpng apng

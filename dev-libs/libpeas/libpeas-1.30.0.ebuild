@@ -16,7 +16,8 @@ KEYWORDS=""
 
 IUSE="glade +gtk gtk-doc lua +python vala"
 REQUIRED_USE="lua? ( ${LUA_REQUIRED_USE} )
-	python? ( ${PYTHON_REQUIRED_USE} )"
+	python? ( ${PYTHON_REQUIRED_USE} )
+	gtk-doc? ( gtk )"
 
 RDEPEND="
 	>=dev-libs/glib-2.38:2

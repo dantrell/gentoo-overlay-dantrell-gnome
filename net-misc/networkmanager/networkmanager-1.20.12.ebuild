@@ -67,7 +67,7 @@ COMMON_DEPEND="
 		net-misc/openvswitch
 	)
 	ppp? ( >=net-dialup/ppp-2.4.5:=[ipv6] )
-	resolvconf? ( net-dns/openresolv )
+	resolvconf? ( virtual/resolvconf )
 	selinux? ( sys-libs/libselinux )
 	systemd? ( >=sys-apps/systemd-209:0= )
 	teamd? (

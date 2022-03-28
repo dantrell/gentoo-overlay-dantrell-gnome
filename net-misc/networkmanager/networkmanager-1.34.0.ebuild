@@ -61,7 +61,7 @@ COMMON_DEPEND="
 	dhclient? ( >=net-misc/dhcp-4[client] )
 	dhcpcd? ( >=net-misc/dhcpcd-9.3.3 )
 	ovs? ( >=dev-libs/jansson-2.7:= )
-	resolvconf? ( net-dns/openresolv )
+	resolvconf? ( virtual/resolvconf )
 	connection-sharing? (
 		net-dns/dnsmasq[dbus,dhcp]
 		iptables? ( net-firewall/iptables )

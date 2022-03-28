@@ -2,7 +2,7 @@
 
 EAPI="7"
 
-inherit flag-o-matic gnome2-utils meson-multilib toolchain-funcs xdg
+inherit flag-o-matic gnome2-utils meson-multilib xdg
 
 DESCRIPTION="Internationalized text layout and rendering library"
 HOMEPAGE="https://www.pango.org/ https://gitlab.gnome.org/GNOME/pango"
@@ -10,7 +10,7 @@ SRC_URI="http://ftp.gnome.org/pub/GNOME/sources/pango/$(ver_cut 1-2)/${P}.tar.xz
 
 LICENSE="LGPL-2+"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="debug +introspection sysprof X"
 
@@ -18,7 +18,7 @@ RDEPEND="
 	>=dev-libs/glib-2.62.2:2[${MULTILIB_USEDEP}]
 	>=dev-libs/fribidi-1.0.6[${MULTILIB_USEDEP}]
 	>=media-libs/harfbuzz-2.2.0:=[glib(+),introspection?,truetype(+),${MULTILIB_USEDEP}]
-	>=media-libs/fontconfig-2.12.92:1.0=[${MULTILIB_USEDEP}]
+	>=media-libs/fontconfig-2.11.91:1.0=[${MULTILIB_USEDEP}]
 	>=x11-libs/cairo-1.12.10:=[X?,${MULTILIB_USEDEP}]
 	>=media-libs/freetype-2.5.0.1:2=[${MULTILIB_USEDEP}]
 	introspection? ( >=dev-libs/gobject-introspection-0.9.5:= )

@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 
@@ -11,13 +11,14 @@ HOMEPAGE="https://www.gtkmm.org"
 
 LICENSE="LGPL-2.1+"
 SLOT="1.4"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="doc"
 
 DEPEND="
 	>=dev-cpp/cairomm-1.2.2:0[doc?,${MULTILIB_USEDEP}]
 	>=dev-cpp/glibmm-2.48.0:2[doc?,${MULTILIB_USEDEP}]
+	dev-libs/libsigc++:2=[${MULTILIB_USEDEP}]
 	dev-libs/libsigc++:2[doc?,${MULTILIB_USEDEP}]
 	<x11-libs/pango-1.50.0[${MULTILIB_USEDEP}]
 	>=x11-libs/pango-1.41.0[${MULTILIB_USEDEP}]

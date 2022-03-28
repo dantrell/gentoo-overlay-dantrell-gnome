@@ -1,20 +1,19 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
-VALA_USE_DEPEND="vapigen"
+EAPI="8"
 
-inherit autotools flag-o-matic gnome2 vala virtualx
+inherit gnome2 meson vala
 
 DESCRIPTION="Manages, extracts and handles media art caches"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/libmediaart"
 
 LICENSE="LGPL-2.1+"
 SLOT="2.0"
-KEYWORDS=""
+KEYWORDS="~*"
 
-IUSE="gtk +introspection qt5 vala"
+IUSE="gtk gtk-doc +introspection qt5 vala"
 REQUIRED_USE="
-	?? ( gtk qt5 )
+	^^ ( gtk qt5 )
 	vala? ( introspection )
 "
 
@@ -27,31 +26,31 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 BDEPEND="
 	dev-libs/gobject-introspection-common
-	>=dev-util/gtk-doc-am-1.8
+	dev-util/gtk-doc
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
 "
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-1.9.5-meson-add-introspection-option.patch
+	"${FILESDIR}"/${PN}-1.9.5-meson-add-vapi-option.patch
+)
+
 src_prepare() {
-	use vala && vala_src_prepare
-	gnome2_src_prepare
+	default
+	use vala && vala_setup
 }
 
 src_configure() {
-	if use qt5 ; then
-		local myconf="--with-qt-version=5"
-		append-cxxflags -std=c++11
-	fi
+	local image_library
+	use gtk && image_library=gdk-pixbuf
+	use qt5 && image_library=qt5
 
-	gnome2_src_configure \
-		--enable-unit-tests \
-		$(use_enable gtk gdkpixbuf) \
-		$(use_enable introspection) \
-		$(use_enable qt5 qt) \
-		$(use_enable vala) \
-		${myconf}
-}
-
-src_test() {
-	dbus-launch virtx emake check #513502
+	local emesonargs=(
+		-Dimage_library=${image_library}
+		$(meson_use introspection)
+		$(meson_use vala vapi)
+		$(meson_use gtk-doc gtk_doc)
+	)
+	meson_src_configure
 }
