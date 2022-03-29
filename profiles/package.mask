@@ -135,6 +135,7 @@ games-puzzle/gnome2048::gentoo
 games-puzzle/hitori::gentoo
 games-puzzle/quadrapassel::gentoo
 games-puzzle/swell-foop::gentoo
+gnome-base/dconf-editor::gentoo
 gnome-base/dconf::gentoo
 gnome-base/gdm::gentoo
 gnome-base/gnome-common::gentoo
@@ -240,6 +241,8 @@ net-libs/libnma::gentoo
 net-libs/libpsl::gentoo
 net-libs/libqmi::gentoo
 net-libs/libsignal-protocol-c::gentoo
+net-libs/libsoup-gnome::gentoo
+net-libs/libsoup::gentoo
 net-libs/libzapojit::gentoo
 net-libs/phodav::gentoo
 net-libs/rest::gentoo

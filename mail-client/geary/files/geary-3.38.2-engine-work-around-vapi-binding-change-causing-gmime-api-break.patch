@@ -1,0 +1,45 @@
+diff '--exclude=.git' -urN a/src/engine/util/util-stream.vala b/src/engine/util/util-stream.vala
+--- a/src/engine/util/util-stream.vala	2021-02-06 22:39:30.000000000 -0600
++++ b/src/engine/util/util-stream.vala	2022-03-28 16:26:27.539142855 -0500
+@@ -60,15 +60,23 @@
+             return this.written;
+         }
+ 
++#if GMIME_STREAM_WRITE_STRING
+         public override ssize_t write(string buf, size_t len) {
+-            ssize_t ret = -1;
+             try {
+-                ret = this.dest.write(buf.data[0:len]);
+-                this.written += len;
++                var ret = this.dest.write(buf.data[0:len]);
++#else
++        public override ssize_t write(uint8[] buf) {
++            try {
++                var ret = this.dest.write(buf);
++#endif
++                if (ret > 0) {
++                    this.written += ret;
++                }
++                return ret;
+             } catch (IOError err) {
+                 // Oh well
++                return -1;
+             }
+-            return ret;
+         }
+ 
+         public override int close() {
+diff '--exclude=.git' -urN a/src/meson.build b/src/meson.build
+--- a/src/meson.build	2021-02-06 22:39:30.000000000 -0600
++++ b/src/meson.build	2022-03-28 16:27:18.988923510 -0500
+@@ -37,6 +37,10 @@
+   geary_vala_args += [ '--define=REF_TRACKING' ]
+ endif
+ 
++if gmime.version().version_compare('<=3.2.7')
++  vala_defines += [ '--define=GMIME_STREAM_WRITE_STRING' ]
++endif
++
+ # Common cc options
+ geary_c_args = [
+   '-include', 'config.h',

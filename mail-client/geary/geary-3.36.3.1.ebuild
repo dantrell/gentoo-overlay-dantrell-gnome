@@ -15,9 +15,7 @@ KEYWORDS="~*"
 
 IUSE="ytnef"
 
-# for now both enchants work, but ensuring enchant:2
-
-# >=webkit-gtk-2.26.4-r1 and >=gspell-1.7 dep to ensure all libraries used use enchant:2
+# >=gspell-1.7 dep to ensure all libraries used use enchant:2
 DEPEND="
 	>=dev-libs/glib-2.60.4:2
 	>=x11-libs/gtk+-3.24.7:3
@@ -37,7 +35,6 @@ DEPEND="
 	>=dev-libs/libpeas-1.24.0
 	>=app-crypt/libsecret-0.11
 	>=net-libs/libsoup-2.48:2.4
-	>=sys-libs/libunwind-1.1:0
 	>=dev-libs/libxml2-2.7.8:2
 	ytnef? ( >=net-mail/ytnef-1.9.3 )
 "
@@ -70,13 +67,13 @@ src_prepare() {
 
 src_configure() {
 	local emesonargs=(
-		-Dcontractor=false
-		-Dlibunwind_optional=false # TODO: Automagical if optional=true
-		-Dpoodle=true
-		$(meson_use ytnef tnef-support)
-		-Dvaladoc=false
 		-Dprofile=default
 		-Drevno="${PR}"
+		-Dvaladoc=false
+		-Dcontractor=false
+		-Dlibunwind_optional=false
+		-Dpoodle=true
+		$(meson_use ytnef tnef-support)
 	)
 
 	meson_src_configure

@@ -28,8 +28,8 @@
 >=app-misc/bijiben-3.36.0
 >=app-misc/geoclue-2.6.0
 >=app-misc/gnote-3.35.0
->=app-misc/tracker-2.3.0
->=app-misc/tracker-miners-2.3.0
+>=app-misc/tracker-2.4.0
+>=app-misc/tracker-miners-2.4.0
 >=app-office/gnome-todo-3.36.0
 >=app-text/evince-3.36.0
 >=app-text/gspell-1.10.0

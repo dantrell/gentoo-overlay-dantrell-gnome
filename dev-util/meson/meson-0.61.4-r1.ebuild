@@ -29,6 +29,10 @@ DEPEND="
 	)
 "
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-0.61.4-fix-gtk-update-icon-cache-check.patch
+)
+
 python_prepare_all() {
 	local disable_unittests=(
 		# ASAN and sandbox both want control over LD_PRELOAD
