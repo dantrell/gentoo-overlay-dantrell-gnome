@@ -4,7 +4,7 @@ EAPI="6"
 
 inherit gnome2
 
-DESCRIPTION="Five or More Game for GNOME"
+DESCRIPTION="Remove colored balls from the board by forming lines"
 HOMEPAGE="https://wiki.gnome.org/Apps/Five%20or%20more"
 
 LICENSE="GPL-2+ CC-BY-SA-3.0"

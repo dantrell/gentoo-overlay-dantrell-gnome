@@ -1,0 +1,27 @@
+From cadbaab1b210ef2a11777bee46cc420e6b70d8ea Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 7 Sep 2021 11:30:22 +0200
+Subject: [PATCH 25/86] linux: Bump tests timeout
+
+We need a higher than default timeout as the
+test_critical_action_is_taken_repeatedly test takes at least 2 suspend
+cycles and those take at least UP_DAEMON_ACTION_DELAY (20 seconds).
+---
+ src/meson.build | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/meson.build b/src/meson.build
+index 821b643..d0d8141 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -135,6 +135,7 @@ if os_backend == 'linux' and gobject_introspection.found()
+              args: ut_args,
+              env: env,
+              depends: [ libupower_glib_typelib, upowerd ],
++             timeout: 50,
+             )
+     endforeach
+ endif
+-- 
+2.35.1
+

@@ -1,0 +1,50 @@
+From 2bddb64f68c5358582d88dd364de74e0c54f8554 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 17 Jun 2021 11:31:21 +0200
+Subject: [PATCH 048/157] lib: Add UP_DEVICE_KIND_BLUETOOTH_GENERIC type
+
+This will be useful to show information about Bluetooth devices which
+don't fit in with the existing types, and for which we don't want to
+show an unknown kind.
+---
+ libupower-glib/up-types.c | 4 ++++
+ libupower-glib/up-types.h | 1 +
+ 2 files changed, 5 insertions(+)
+
+diff --git a/libupower-glib/up-types.c b/libupower-glib/up-types.c
+index 22d9d8d..23954d6 100644
+--- a/libupower-glib/up-types.c
++++ b/libupower-glib/up-types.c
+@@ -101,6 +101,8 @@ up_device_kind_to_string (UpDeviceKind type_enum)
+ 		return "wearable";
+ 	case UP_DEVICE_KIND_TOY:
+ 		return "toy";
++	case UP_DEVICE_KIND_BLUETOOTH_GENERIC:
++		return "bluetooth-generic";
+ 	default:
+ 		return "unknown";
+ 	}
+@@ -173,6 +175,8 @@ up_device_kind_from_string (const gchar *type)
+ 		return UP_DEVICE_KIND_WEARABLE;
+ 	if (g_str_equal (type, "toy"))
+ 		return UP_DEVICE_KIND_TOY;
++	if (g_str_equal (type, "bluetooth-generic"))
++		return UP_DEVICE_KIND_BLUETOOTH_GENERIC;
+ 	return UP_DEVICE_KIND_UNKNOWN;
+ }
+ 
+diff --git a/libupower-glib/up-types.h b/libupower-glib/up-types.h
+index e67efe0..4944854 100644
+--- a/libupower-glib/up-types.h
++++ b/libupower-glib/up-types.h
+@@ -64,6 +64,7 @@ typedef enum {
+ 	UP_DEVICE_KIND_CAMERA,
+ 	UP_DEVICE_KIND_WEARABLE,
+ 	UP_DEVICE_KIND_TOY,
++	UP_DEVICE_KIND_BLUETOOTH_GENERIC,
+ 	UP_DEVICE_KIND_LAST
+ } UpDeviceKind;
+ 
+-- 
+2.35.1
+

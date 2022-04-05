@@ -1,0 +1,81 @@
+From 0847d0c6745759012b61b2c29e3a19b254c1c43e Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 2 Nov 2021 11:25:26 +0100
+Subject: [PATCH 39/86] linux: Make sure ChargeCycles is unknown in more cases
+
+In the case where the kernel returns "0" as the cycle_count, we need to
+assume this also means that the number of cycles is unknown.
+---
+ src/linux/integration-test.py | 30 +++++++++++++++++++++++++-----
+ src/linux/up-device-supply.c  | 10 ++++++++--
+ 2 files changed, 33 insertions(+), 7 deletions(-)
+
+diff --git a/src/linux/integration-test.py b/src/linux/integration-test.py
+index ce9735e..cb42110 100755
+--- a/src/linux/integration-test.py
++++ b/src/linux/integration-test.py
+@@ -1920,14 +1920,34 @@ class Tests(dbusmock.DBusTestCase):
+                                  'voltage_now', '12000000',
+                                  'cycle_count', '2000'], [])
+ 
++        self.testbed.add_device('power_supply', 'BAT2', None,
++                                ['type', 'Battery',
++                                 'present', '1',
++                                 'status', 'Discharging',
++                                 'energy_full', '60000000',
++                                 'energy_full_design', '80000000',
++                                 'energy_now', '1500000',
++                                 'voltage_now', '12000000',
++                                 'cycle_count', '0'], [])
++
++        self.testbed.add_device('power_supply', 'BAT3', None,
++                                ['type', 'Battery',
++                                 'present', '1',
++                                 'status', 'Discharging',
++                                 'energy_full', '60000000',
++                                 'energy_full_design', '80000000',
++                                 'energy_now', '1500000',
++                                 'voltage_now', '12000000',
++                                 'cycle_count', '-1'], [])
++
+         self.start_daemon()
+         devs = self.proxy.EnumerateDevices()
+-        self.assertEqual(len(devs), 2)
+-        bat0_up = devs[0]
+-        bat1_up = devs[1]
++        self.assertEqual(len(devs), 4)
+ 
+-        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'ChargeCycles'), -1)
+-        self.assertEqual(self.get_dbus_dev_property(bat1_up, 'ChargeCycles'), 2000)
++        self.assertEqual(self.get_dbus_dev_property(devs[0], 'ChargeCycles'), -1)
++        self.assertEqual(self.get_dbus_dev_property(devs[1], 'ChargeCycles'), 2000)
++        self.assertEqual(self.get_dbus_dev_property(devs[2], 'ChargeCycles'), -1)
++        self.assertEqual(self.get_dbus_dev_property(devs[3], 'ChargeCycles'), -1)
+         self.stop_daemon()
+ 
+     #
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index a2a657f..fc7e731 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -835,9 +835,15 @@ up_device_supply_refresh_battery (UpDeviceSupply *supply,
+ 	/* get temperature */
+ 	temp = g_udev_device_get_sysfs_attr_as_double_uncached (native, "temp") / 10.0;
+ 
+-	/* charge cycles */
+-	if (g_udev_device_has_sysfs_attr_uncached (native, "cycle_count"))
++	/* charge_cycles is -1 if:
++	 * cycle_count is -1 (unknown)
++	 * cycle_count is 0 (shouldn't be used by conforming implementations)
++	 * cycle_count is absent (unsupported) */
++	if (g_udev_device_has_sysfs_attr_uncached (native, "cycle_count")) {
+ 		charge_cycles = g_udev_device_get_sysfs_attr_as_int_uncached (native, "cycle_count");
++		if (charge_cycles == 0)
++			charge_cycles = -1;
++	}
+ 
+ 	/* check if the energy value has changed and, if that's the case,
+ 	 * store the new values in the buffer. */
+-- 
+2.35.1
+

@@ -1,0 +1,38 @@
+From 07ad5a9b4ce595396e7f24c98c54b2c98c40fd5a Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Mon, 24 Jan 2022 18:19:17 +0100
+Subject: [PATCH 53/86] lib: Simplify loop using g_auto
+
+---
+ libupower-glib/up-client.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/libupower-glib/up-client.c b/libupower-glib/up-client.c
+index 3dd72df..b283f49 100644
+--- a/libupower-glib/up-client.c
++++ b/libupower-glib/up-client.c
+@@ -118,18 +118,15 @@ up_client_get_devices_full (UpClient      *client,
+ 	array = g_ptr_array_new_with_free_func ((GDestroyNotify) g_object_unref);
+ 
+ 	for (i = 0; devices[i] != NULL; i++) {
+-		UpDevice *device;
++		g_autoptr(UpDevice) device = NULL;
+ 		const char *object_path = devices[i];
+ 		gboolean ret;
+ 
+ 		device = up_device_new ();
+ 		ret = up_device_set_object_path_sync (device, object_path, cancellable, NULL);
+-		if (!ret) {
+-			g_object_unref (device);
++		if (!ret)
+ 			continue;
+-		}
+-
+-		g_ptr_array_add (array, device);
++		g_ptr_array_add (array, g_steal_pointer (&device));
+ 	}
+ 
+ 	return array;
+-- 
+2.35.1
+

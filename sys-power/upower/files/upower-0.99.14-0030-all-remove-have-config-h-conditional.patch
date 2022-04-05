@@ -1,0 +1,173 @@
+From 0fd6b11085da1f20d5442924f109b1af7c6155b1 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 7 Sep 2021 12:27:57 +0200
+Subject: [PATCH 30/86] all: Remove HAVE_CONFIG_H conditional
+
+We always have a config.h now, and don't rely on autotools setting this
+cflags for us to know it.
+---
+ src/linux/up-device-bluez.c   | 4 +---
+ src/linux/up-device-hid.c     | 4 +---
+ src/linux/up-device-idevice.c | 4 +---
+ src/linux/up-device-supply.c  | 4 +---
+ src/linux/up-device-wup.c     | 4 +---
+ src/linux/up-input.c          | 4 +---
+ src/up-daemon.c               | 4 +---
+ src/up-device.c               | 4 +---
+ src/up-main.c                 | 4 +---
+ tools/up-tool.c               | 4 +---
+ 10 files changed, 10 insertions(+), 30 deletions(-)
+
+diff --git a/src/linux/up-device-bluez.c b/src/linux/up-device-bluez.c
+index 7747c75..2e09ddc 100644
+--- a/src/linux/up-device-bluez.c
++++ b/src/linux/up-device-bluez.c
+@@ -18,9 +18,7 @@
+  *
+  */
+ 
+-#ifdef HAVE_CONFIG_H
+-#  include "config.h"
+-#endif
++#include "config.h"
+ 
+ #include <gio/gio.h>
+ 
+diff --git a/src/linux/up-device-hid.c b/src/linux/up-device-hid.c
+index 8d584c8..418193c 100644
+--- a/src/linux/up-device-hid.c
++++ b/src/linux/up-device-hid.c
+@@ -21,9 +21,7 @@
+  *
+  */
+ 
+-#ifdef HAVE_CONFIG_H
+-#  include "config.h"
+-#endif
++#include "config.h"
+ 
+ #include <string.h>
+ #include <math.h>
+diff --git a/src/linux/up-device-idevice.c b/src/linux/up-device-idevice.c
+index db7f363..98182f7 100644
+--- a/src/linux/up-device-idevice.c
++++ b/src/linux/up-device-idevice.c
+@@ -20,9 +20,7 @@
+  *
+  */
+ 
+-#ifdef HAVE_CONFIG_H
+-#  include "config.h"
+-#endif
++#include "config.h"
+ 
+ #include <string.h>
+ #include <math.h>
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index cd5592c..cd2339e 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -19,9 +19,7 @@
+  *
+  */
+ 
+-#ifdef HAVE_CONFIG_H
+-#  include "config.h"
+-#endif
++#include "config.h"
+ 
+ #include <string.h>
+ #include <math.h>
+diff --git a/src/linux/up-device-wup.c b/src/linux/up-device-wup.c
+index 1f7764d..060cbfe 100644
+--- a/src/linux/up-device-wup.c
++++ b/src/linux/up-device-wup.c
+@@ -20,9 +20,7 @@
+  *
+  */
+ 
+-#ifdef HAVE_CONFIG_H
+-#  include "config.h"
+-#endif
++#include "config.h"
+ 
+ #include <string.h>
+ #include <math.h>
+diff --git a/src/linux/up-input.c b/src/linux/up-input.c
+index 26043ab..ccd42c7 100644
+--- a/src/linux/up-input.c
++++ b/src/linux/up-input.c
+@@ -18,9 +18,7 @@
+  *
+  */
+ 
+-#ifdef HAVE_CONFIG_H
+-#  include "config.h"
+-#endif
++#include "config.h"
+ 
+ #include <errno.h>
+ #include <unistd.h>
+diff --git a/src/up-daemon.c b/src/up-daemon.c
+index 53e51dd..6522a85 100644
+--- a/src/up-daemon.c
++++ b/src/up-daemon.c
+@@ -19,9 +19,7 @@
+  *
+  */
+ 
+-#ifdef HAVE_CONFIG_H
+-#  include "config.h"
+-#endif
++#include "config.h"
+ 
+ #include <string.h>
+ #include <stdlib.h>
+diff --git a/src/up-device.c b/src/up-device.c
+index 84b0223..4182fb9 100644
+--- a/src/up-device.c
++++ b/src/up-device.c
+@@ -19,9 +19,7 @@
+  *
+  */
+ 
+-#ifdef HAVE_CONFIG_H
+-#  include "config.h"
+-#endif
++#include "config.h"
+ 
+ #include <string.h>
+ 
+diff --git a/src/up-main.c b/src/up-main.c
+index 0619c50..8a13eb3 100644
+--- a/src/up-main.c
++++ b/src/up-main.c
+@@ -20,9 +20,7 @@
+  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+  */
+ 
+-#ifdef HAVE_CONFIG_H
+-#  include "config.h"
+-#endif
++#include "config.h"
+ 
+ #include <string.h>
+ #include <signal.h>
+diff --git a/tools/up-tool.c b/tools/up-tool.c
+index eeee0b4..d993b1b 100644
+--- a/tools/up-tool.c
++++ b/tools/up-tool.c
+@@ -19,9 +19,7 @@
+  *
+  */
+ 
+-#ifdef HAVE_CONFIG_H
+-#  include "config.h"
+-#endif
++#include "config.h"
+ 
+ #include <stdlib.h>
+ #include <stdio.h>
+-- 
+2.35.1
+

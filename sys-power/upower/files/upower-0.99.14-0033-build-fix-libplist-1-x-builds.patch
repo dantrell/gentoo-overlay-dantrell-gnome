@@ -1,0 +1,27 @@
+From 244e858a8619c6ff061e06f2cd9d9c6880ce9ea2 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Mon, 13 Sep 2021 12:32:14 +0200
+Subject: [PATCH 33/86] build: Fix libplist 1.x builds
+
+When libplist-2.0 isn't available, fallback to requiring libplist 1.x
+to build the iDevice support.
+---
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index 2e3ffc7..fe0497b 100644
+--- a/meson.build
++++ b/meson.build
+@@ -76,7 +76,7 @@ if os_backend == 'linux'
+   if idevice_dep.found()
+     plist_dep = dependency('libplist-2.0', required: false)
+     if not plist_dep.found()
+-      plist_dep = dependency(libplist)
++      plist_dep = dependency('libplist', required: true)
+     endif
+     cdata.set10('HAVE_IDEVICE', true)
+   endif
+-- 
+2.35.1
+

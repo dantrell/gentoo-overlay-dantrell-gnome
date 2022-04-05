@@ -1,0 +1,514 @@
+From 4227d0c439aa8f812c702f7f169be545d3a139e1 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 19 Jan 2021 13:28:48 +0100
+Subject: [PATCH 027/157] linux: Remove support for CSR devices
+
+Those devices date back from the mid-2000s. If they still work, and
+somebody is still interested in having them export their battery status,
+we would recommend moving this information to the appropriate kernel
+drivers.
+---
+ rules/95-upower-csr.rules |  21 ---
+ rules/Makefile.am         |   1 -
+ src/linux/Makefile.am     |   2 -
+ src/linux/up-backend.c    |   8 -
+ src/linux/up-device-csr.c | 344 --------------------------------------
+ src/linux/up-device-csr.h |  56 -------
+ 6 files changed, 432 deletions(-)
+ delete mode 100644 rules/95-upower-csr.rules
+ delete mode 100644 src/linux/up-device-csr.c
+ delete mode 100644 src/linux/up-device-csr.h
+
+diff --git a/rules/95-upower-csr.rules b/rules/95-upower-csr.rules
+deleted file mode 100644
+index 7c5f560..0000000
+--- a/rules/95-upower-csr.rules
++++ /dev/null
+@@ -1,21 +0,0 @@
+-##############################################################################################################
+-# Logitech Mice with CSR battery readouts
+-#
+-# These are properties defining the behavior:
+-#  UPOWER_CSR_DUAL (Dual Receiver)
+-#
+-SUBSYSTEM!="usb", GOTO="up_csr_end"
+-
+-ATTR{idVendor}=="046d", ENV{UPOWER_VENDOR}="Logitech, Inc."
+-ATTR{idVendor}=="046d", ATTR{idProduct}=="c501", ENV{UPOWER_PRODUCT}="Mouse Receiver", ENV{UPOWER_BATTERY_TYPE}="mouse"
+-ATTR{idVendor}=="046d", ATTR{idProduct}=="c502", ENV{UPOWER_PRODUCT}="Dual Receiver", ENV{UPOWER_BATTERY_TYPE}="mouse", ENV{UPOWER_CSR_DUAL}="1"
+-ATTR{idVendor}=="046d", ATTR{idProduct}=="c504", ENV{UPOWER_PRODUCT}="Freedom Optical", ENV{UPOWER_BATTERY_TYPE}="mouse", ENV{UPOWER_CSR_DUAL}="1"
+-ATTR{idVendor}=="046d", ATTR{idProduct}=="c505", ENV{UPOWER_PRODUCT}="Elite Duo", ENV{UPOWER_BATTERY_TYPE}="keyboard"
+-ATTR{idVendor}=="046d", ATTR{idProduct}=="c506", ENV{UPOWER_PRODUCT}="MX700 Optical Mouse", ENV{UPOWER_BATTERY_TYPE}="mouse"
+-ATTR{idVendor}=="046d", ATTR{idProduct}=="c508", ENV{UPOWER_PRODUCT}="Optical TrackMan", ENV{UPOWER_BATTERY_TYPE}="mouse"
+-ATTR{idVendor}=="046d", ATTR{idProduct}=="c50e", ENV{UPOWER_PRODUCT}="MX1000 Laser Mouse", ENV{UPOWER_BATTERY_TYPE}="mouse"
+-ATTR{idVendor}=="046d", ATTR{idProduct}=="c510", ENV{UPOWER_PRODUCT}="Click! Mouse", ENV{UPOWER_BATTERY_TYPE}="mouse"
+-ATTR{idVendor}=="046d", ATTR{idProduct}=="c512", ENV{UPOWER_PRODUCT}="Keyboard+Mouse Receiver", ENV{UPOWER_BATTERY_TYPE}="keyboard"
+-ATTR{idVendor}=="046d", ATTR{idProduct}=="c702", ENV{UPOWER_PRODUCT}="Presenter", ENV{UPOWER_BATTERY_TYPE}="mouse"
+-
+-LABEL="up_csr_end"
+diff --git a/rules/Makefile.am b/rules/Makefile.am
+index 5262d9e..1d71d24 100644
+--- a/rules/Makefile.am
++++ b/rules/Makefile.am
+@@ -3,7 +3,6 @@
+ udevrules_DATA =						\
+ 	95-upower-wup.rules					\
+ 	95-upower-hid.rules					\
+-	95-upower-csr.rules					\
+ 	95-upower-hidpp.rules
+ 
+ EXTRA_DIST =							\
+diff --git a/src/linux/Makefile.am b/src/linux/Makefile.am
+index aec0b31..82f60fd 100644
+--- a/src/linux/Makefile.am
++++ b/src/linux/Makefile.am
+@@ -29,8 +29,6 @@ endif
+ libupshared_la_SOURCES =					\
+ 	up-device-supply.c					\
+ 	up-device-supply.h					\
+-	up-device-csr.c						\
+-	up-device-csr.h						\
+ 	up-device-unifying.c					\
+ 	up-device-unifying.h					\
+ 	up-device-hid.c						\
+diff --git a/src/linux/up-backend.c b/src/linux/up-backend.c
+index 04e6f2f..e17a946 100644
+--- a/src/linux/up-backend.c
++++ b/src/linux/up-backend.c
+@@ -38,7 +38,6 @@
+ #include "sysfs-utils.h"
+ 
+ #include "up-device-supply.h"
+-#include "up-device-csr.h"
+ #include "up-device-unifying.h"
+ #include "up-device-wup.h"
+ #include "up-device-hid.h"
+@@ -147,13 +146,6 @@ up_backend_device_new (UpBackend *backend, GUdevDevice *native)
+ 		g_object_unref (device);
+ #endif /* HAVE_IDEVICE */
+ 
+-		/* see if this is a CSR mouse or keyboard */
+-		device = UP_DEVICE (up_device_csr_new ());
+-		ret = up_device_coldplug (device, backend->priv->daemon, G_OBJECT (native));
+-		if (ret)
+-			goto out;
+-		g_object_unref (device);
+-
+ 		/* try to detect a HID UPS */
+ 		device = UP_DEVICE (up_device_hid_new ());
+ 		ret = up_device_coldplug (device, backend->priv->daemon, G_OBJECT (native));
+diff --git a/src/linux/up-device-csr.c b/src/linux/up-device-csr.c
+deleted file mode 100644
+index 63442d8..0000000
+--- a/src/linux/up-device-csr.c
++++ /dev/null
+@@ -1,344 +0,0 @@
+-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
+- *
+- * Copyright (C) 2005-2010 Richard Hughes <richard@hughsie.com>
+- * Copyright (C) 2004 Sergey V. Udaltsov <svu@gnome.org>
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License as published by
+- * the Free Software Foundation; either version 2 of the License, or
+- * (at your option) any later version.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
+- *
+- * You should have received a copy of the GNU General Public License
+- * along with this program; if not, write to the Free Software
+- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+- *
+- */
+-
+-#ifdef HAVE_CONFIG_H
+-#  include "config.h"
+-#endif
+-
+-#include <string.h>
+-#include <math.h>
+-
+-#include <glib.h>
+-#include <glib/gstdio.h>
+-#include <glib/gprintf.h>
+-#include <glib/gi18n-lib.h>
+-#include <glib-object.h>
+-#include <gudev/gudev.h>
+-#include <libusb.h>
+-
+-#include "sysfs-utils.h"
+-#include "up-types.h"
+-#include "up-device-csr.h"
+-
+-#define UP_DEVICE_CSR_REFRESH_TIMEOUT		30L
+-
+-/* Internal CSR registers */
+-#define CSR_P6  			0
+-#define CSR_P0  			1
+-#define CSR_P4  			2
+-#define CSR_P5  			3
+-#define CSR_P8  			4
+-#define CSR_P9  			5
+-#define CSR_PB0 			6
+-#define CSR_PB1 			7
+-
+-struct UpDeviceCsrPrivate
+-{
+-	gboolean		 is_dual;
+-	guint			 bus_num;
+-	guint			 dev_num;
+-	gint			 raw_value;
+-	libusb_context		*ctx;
+-	libusb_device		*device;
+-};
+-
+-G_DEFINE_TYPE_WITH_PRIVATE (UpDeviceCsr, up_device_csr, UP_TYPE_DEVICE)
+-
+-static gboolean		 up_device_csr_refresh	 	(UpDevice *device);
+-
+-/**
+- * up_device_csr_poll_cb:
+- **/
+-static gboolean
+-up_device_csr_poll_cb (UpDeviceCsr *csr)
+-{
+-	UpDevice *device = UP_DEVICE (csr);
+-
+-	g_debug ("Polling: %s", up_device_get_object_path (device));
+-	up_device_csr_refresh (device);
+-
+-	/* always continue polling */
+-	return TRUE;
+-}
+-
+-/**
+- * up_device_csr_find_device:
+- **/
+-static libusb_device *
+-up_device_csr_find_device (UpDeviceCsr *csr)
+-{
+-	libusb_device *curr_device = NULL;
+-	libusb_device **devices = NULL;
+-	guint8 bus_num;
+-	guint8 dev_num;
+-	guint i;
+-	ssize_t cnt;
+-
+-	g_debug ("Looking for: [%03d][%03d]", csr->priv->bus_num, csr->priv->dev_num);
+-
+-	/* try to find the right device */
+-	cnt = libusb_get_device_list (csr->priv->ctx, &devices);
+-	if (cnt < 0) {
+-/*		need to depend on > libusb1-1.0.9 for libusb_strerror()
+-		g_warning ("failed to get device list: %s", libusb_strerror (cnt));
+- */
+-		g_warning ("failed to get device list: %d", (int)cnt);
+-		goto out;
+-	}
+-	if (devices == NULL) {
+-		g_warning ("failed to get device list");
+-		goto out;
+-	}
+-	for (i=0; devices[i] != NULL; i++) {
+-
+-		bus_num = libusb_get_bus_number (devices[i]);
+-		dev_num = libusb_get_device_address (devices[i]);
+-		if (bus_num == csr->priv->bus_num &&
+-		    dev_num == csr->priv->dev_num) {
+-			curr_device = libusb_ref_device (devices[i]);
+-			break;
+-		}
+-	}
+-
+-	libusb_free_device_list (devices, TRUE);
+-out:
+-	return curr_device;
+-}
+-
+-/**
+- * up_device_csr_coldplug:
+- *
+- * Return %TRUE on success, %FALSE if we failed to get data and should be removed
+- **/
+-static gboolean
+-up_device_csr_coldplug (UpDevice *device)
+-{
+-	UpDeviceCsr *csr = UP_DEVICE_CSR (device);
+-	GUdevDevice *native;
+-	gboolean ret = FALSE;
+-	const gchar *type;
+-	const gchar *native_path;
+-	const gchar *vendor;
+-	const gchar *product;
+-
+-	/* get the type */
+-	native = G_UDEV_DEVICE (up_device_get_native (device));
+-	type = g_udev_device_get_property (native, "UPOWER_BATTERY_TYPE");
+-	if (type == NULL)
+-		goto out;
+-
+-	/* which one? */
+-	if (g_strcmp0 (type, "mouse") == 0)
+-		g_object_set (device, "type", UP_DEVICE_KIND_MOUSE, NULL);
+-	else if (g_strcmp0 (type, "keyboard") == 0)
+-		g_object_set (device, "type", UP_DEVICE_KIND_KEYBOARD, NULL);
+-	else {
+-		g_debug ("not a recognised csr device");
+-		goto out;
+-	}
+-
+-	/* get what USB device we are */
+-	native_path = g_udev_device_get_sysfs_path (native);
+-	csr->priv->bus_num = sysfs_get_int (native_path, "busnum");
+-	csr->priv->dev_num = sysfs_get_int (native_path, "devnum");
+-
+-	/* get correct bus numbers? */
+-	if (csr->priv->bus_num == 0 || csr->priv->dev_num == 0) {
+-		g_warning ("unable to get bus or device numbers");
+-		goto out;
+-	}
+-
+-	/* try to get the usb device */
+-	csr->priv->device = up_device_csr_find_device (csr);
+-	if (csr->priv->device == NULL) {
+-		g_debug ("failed to get device %p", csr);
+-		goto out;
+-	}
+-
+-	/* get optional quirk parameters */
+-	ret = g_udev_device_has_property (native, "UPOWER_CSR_DUAL");
+-	if (ret)
+-		csr->priv->is_dual = g_udev_device_get_property_as_boolean (native, "UPOWER_CSR_DUAL");
+-	g_debug ("is_dual=%i", csr->priv->is_dual);
+-
+-	/* prefer UPOWER names */
+-	vendor = g_udev_device_get_property (native, "UPOWER_VENDOR");
+-	if (vendor == NULL)
+-		vendor = g_udev_device_get_property (native, "ID_VENDOR");
+-	product = g_udev_device_get_property (native, "UPOWER_PRODUCT");
+-	if (product == NULL)
+-		product = g_udev_device_get_property (native, "ID_PRODUCT");
+-
+-	/* hardcode some values */
+-	g_object_set (device,
+-		      "vendor", vendor,
+-		      "model", product,
+-		      "power-supply", FALSE,
+-		      "is-present", TRUE,
+-		      "is-rechargeable", TRUE,
+-		      "state", UP_DEVICE_STATE_DISCHARGING,
+-		      "has-history", TRUE,
+-		      NULL);
+-
+-	/* coldplug */
+-	ret = up_device_csr_refresh (device);
+-	if (!ret)
+-		goto out;
+-
+-	/* set up a poll */
+-	up_daemon_start_poll (G_OBJECT (device), (GSourceFunc) up_device_csr_poll_cb);
+-out:
+-	return ret;
+-}
+-
+-/**
+- * up_device_csr_refresh:
+- *
+- * Return %TRUE on success, %FALSE if we failed to refresh or no data
+- **/
+-static gboolean
+-up_device_csr_refresh (UpDevice *device)
+-{
+-	gboolean ret = FALSE;
+-	UpDeviceCsr *csr = UP_DEVICE_CSR (device);
+-	libusb_device_handle *handle = NULL;
+-	guint8 buf[80];
+-	guint addr;
+-	gdouble percentage;
+-	gint retval;
+-
+-	/* ensure we still have a device */
+-	if (csr->priv->device == NULL) {
+-		g_warning ("no device!");
+-		goto out;
+-	}
+-
+-	/* open USB device */
+-	retval = libusb_open (csr->priv->device, &handle);
+-	if (retval < 0) {
+-		g_warning ("could not open device: %i", retval);
+-		goto out;
+-	}
+-
+-	/* For dual receivers C502, C504 and C505, the mouse is the
+-	 * second device and uses an addr of 1 in the value and index
+-	 * fields' high byte */
+-	addr = csr->priv->is_dual ? 1<<8 : 0;
+-
+-	/* get the charge */
+-	retval = libusb_control_transfer (handle, 0xc0, 0x09, 0x03|addr, 0x00|addr,
+-					  buf, 8, UP_DEVICE_CSR_REFRESH_TIMEOUT);
+-	if (retval < 0) {
+-		g_warning ("failed to write to device: %i", retval);
+-		goto out;
+-	}
+-
+-	/* ensure we wrote 8 bytes */
+-	if (retval != 8) {
+-		g_warning ("failed to write to device, wrote %i bytes", retval);
+-		goto out;
+-	}
+-
+-	/* is a C504 receiver busy? */
+-	if (buf[CSR_P0] == 0x3b && buf[CSR_P4] == 0) {
+-		g_warning ("receiver busy");
+-		goto out;
+-	}
+-
+-	/* get battery status */
+-	csr->priv->raw_value = buf[CSR_P5] & 0x07;
+-	g_debug ("charge level: %d", csr->priv->raw_value);
+-	if (csr->priv->raw_value != 0) {
+-		percentage = (100.0 / 7.0) * csr->priv->raw_value;
+-		g_object_set (device, "percentage", percentage, NULL);
+-		g_debug ("percentage=%f", percentage);
+-	}
+-
+-	/* reset time */
+-	g_object_set (device, "update-time", (guint64) g_get_real_time () / G_USEC_PER_SEC, NULL);
+-
+-	/* success */
+-	ret = TRUE;
+-out:
+-	if (handle != NULL)
+-		libusb_close (handle);
+-	return ret;
+-}
+-
+-/**
+- * up_device_csr_init:
+- **/
+-static void
+-up_device_csr_init (UpDeviceCsr *csr)
+-{
+-	gint retval;
+-	csr->priv = up_device_csr_get_instance_private (csr);
+-
+-	csr->priv->raw_value = -1;
+-	retval = libusb_init (&csr->priv->ctx);
+-	if (retval < 0)
+-		g_warning ("could not initialize libusb: %i", retval);
+-}
+-
+-/**
+- * up_device_csr_finalize:
+- **/
+-static void
+-up_device_csr_finalize (GObject *object)
+-{
+-	UpDeviceCsr *csr;
+-
+-	g_return_if_fail (object != NULL);
+-	g_return_if_fail (UP_IS_DEVICE_CSR (object));
+-
+-	csr = UP_DEVICE_CSR (object);
+-	g_return_if_fail (csr->priv != NULL);
+-
+-	if (csr->priv->ctx != NULL)
+-		libusb_exit (csr->priv->ctx);
+-	up_daemon_stop_poll (object);
+-
+-	G_OBJECT_CLASS (up_device_csr_parent_class)->finalize (object);
+-}
+-
+-/**
+- * up_device_csr_class_init:
+- **/
+-static void
+-up_device_csr_class_init (UpDeviceCsrClass *klass)
+-{
+-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+-	UpDeviceClass *device_class = UP_DEVICE_CLASS (klass);
+-
+-	object_class->finalize = up_device_csr_finalize;
+-	device_class->coldplug = up_device_csr_coldplug;
+-	device_class->refresh = up_device_csr_refresh;
+-}
+-
+-/**
+- * up_device_csr_new:
+- **/
+-UpDeviceCsr *
+-up_device_csr_new (void)
+-{
+-	return g_object_new (UP_TYPE_DEVICE_CSR, NULL);
+-}
+-
+diff --git a/src/linux/up-device-csr.h b/src/linux/up-device-csr.h
+deleted file mode 100644
+index 65e7f35..0000000
+--- a/src/linux/up-device-csr.h
++++ /dev/null
+@@ -1,56 +0,0 @@
+-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
+- *
+- * Copyright (C) 2008 David Zeuthen <davidz@redhat.com>
+- * Copyright (C) 2008 Richard Hughes <richard@hughsie.com>
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License as published by
+- * the Free Software Foundation; either version 2 of the License, or
+- * (at your option) any later version.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
+- *
+- * You should have received a copy of the GNU General Public License
+- * along with this program; if not, write to the Free Software
+- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+- *
+- */
+-
+-#ifndef __UP_DEVICE_CSR_H__
+-#define __UP_DEVICE_CSR_H__
+-
+-#include <glib-object.h>
+-#include "up-device.h"
+-
+-G_BEGIN_DECLS
+-
+-#define UP_TYPE_DEVICE_CSR  			(up_device_csr_get_type ())
+-#define UP_DEVICE_CSR(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), UP_TYPE_DEVICE_CSR, UpDeviceCsr))
+-#define UP_DEVICE_CSR_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST((k), UP_TYPE_DEVICE_CSR, UpDeviceCsrClass))
+-#define UP_IS_DEVICE_CSR(o)			(G_TYPE_CHECK_INSTANCE_TYPE ((o), UP_TYPE_DEVICE_CSR))
+-#define UP_IS_DEVICE_CSR_CLASS(k)		(G_TYPE_CHECK_CLASS_TYPE ((k), UP_TYPE_DEVICE_CSR))
+-#define UP_DEVICE_CSR_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), UP_TYPE_DEVICE_CSR, UpDeviceCsrClass))
+-
+-typedef struct UpDeviceCsrPrivate UpDeviceCsrPrivate;
+-
+-typedef struct
+-{
+-	UpDevice		 parent;
+-	UpDeviceCsrPrivate	*priv;
+-} UpDeviceCsr;
+-
+-typedef struct
+-{
+-	UpDeviceClass		 parent_class;
+-} UpDeviceCsrClass;
+-
+-GType		 up_device_csr_get_type		(void);
+-UpDeviceCsr	*up_device_csr_new			(void);
+-
+-G_END_DECLS
+-
+-#endif /* __UP_DEVICE_CSR_H__ */
+-
+-- 
+2.35.1
+

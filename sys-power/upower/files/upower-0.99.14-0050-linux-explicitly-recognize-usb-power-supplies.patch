@@ -1,0 +1,33 @@
+From 1b1f8f375cbdd96be697c40273450ecffa6e10ae Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+Date: Sun, 19 Dec 2021 01:48:55 +0100
+Subject: [PATCH 50/86] linux: explicitly recognize USB power supplies
+
+Prevents a spurious warning:
+"did not recognise USB path /sys/devices/platform/USBC000:00/power_supply/ucsi-source-psy-USBC000:001, please report"
+
+This does not actually change any functionality, as the heuristic for
+the attribute "online" in up_device_supply_coldplug() would have
+matches id, too.
+
+Fixes #148
+---
+ src/linux/up-device-supply.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index fc7e731..2364047 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -1093,6 +1093,8 @@ up_device_supply_guess_type (GUdevDevice *native,
+ 		/* use a heuristic to find the device type */
+ 		if (g_strstr_len (native_path, -1, "wacom_") != NULL) {
+ 			type = UP_DEVICE_KIND_TABLET;
++		} else if (g_strstr_len (native_path, -1, "ucsi-source-psy-") != NULL) {
++			type = UP_DEVICE_KIND_LINE_POWER;
+ 		} else {
+ 			g_warning ("did not recognise USB path %s, please report",
+ 				   native_path);
+-- 
+2.35.1
+

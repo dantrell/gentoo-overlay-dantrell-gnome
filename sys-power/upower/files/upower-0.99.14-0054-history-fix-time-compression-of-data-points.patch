@@ -1,0 +1,66 @@
+From 50bdbe7e65bed037ba0284553cd926276723c0de Mon Sep 17 00:00:00 2001
+From: Benjamin Berg <bberg@redhat.com>
+Date: Mon, 24 Jan 2022 14:27:29 +0100
+Subject: [PATCH 54/86] history: Fix time compression of data points
+
+The algorithm tries to use floating point timestamps. However, the
+precision of floating point is too low for unix time, causing rounding
+issues. This can cause extra points to be inserted (or too few) under
+some conditions, creating a scenario where the test-suite fails
+randomly.
+
+Do this properly by using 64bit integers for the time. The 64bit integer
+should have enough head-room even for very long histories.
+
+Closes: #167
+---
+ src/up-history.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
+
+diff --git a/src/up-history.c b/src/up-history.c
+index 5583a51..5e03653 100644
+--- a/src/up-history.c
++++ b/src/up-history.c
+@@ -117,18 +117,16 @@ up_history_array_limit_resolution (GPtrArray *array, guint max_num)
+ {
+ 	UpHistoryItem *item;
+ 	UpHistoryItem *item_new;
+-	gfloat division;
+ 	guint length;
+ 	guint i;
+-	guint last;
+-	guint first;
++	guint64 last;
++	guint64 first;
+ 	GPtrArray *new;
+ 	UpDeviceState state = UP_DEVICE_STATE_UNKNOWN;
+ 	guint64 time_s = 0;
+ 	gdouble value = 0;
+ 	guint64 count = 0;
+ 	guint step = 1;
+-	gfloat preset;
+ 
+ 	new = g_ptr_array_new_with_free_func ((GDestroyNotify) g_object_unref);
+ 	g_debug ("length of array (before) %i", array->len);
+@@ -149,15 +147,14 @@ up_history_array_limit_resolution (GPtrArray *array, guint max_num)
+ 	item = (UpHistoryItem *) g_ptr_array_index (array, 0);
+ 	first = up_history_item_get_time (item);
+ 
+-	division = (first - last) / (gfloat) max_num;
+-	g_debug ("Using a x division of %f (first=%i,last=%i)", division, first, last);
+-
+ 	/* Reduces the number of points to a pre-set level using a time
+ 	 * division algorithm so we don't keep diluting the previous
+ 	 * data with a conventional 1-in-x type algorithm. */
+ 	for (i = 0; i < length; i++) {
++		guint64 preset;
++
+ 		item = (UpHistoryItem *) g_ptr_array_index (array, i);
+-		preset = last + (division * (gfloat) step);
++		preset = last + ((first - last) * (guint64) step) / max_num;
+ 
+ 		/* if state changed or we went over the preset do a new point */
+ 		if (count > 0 &&
+-- 
+2.35.1
+

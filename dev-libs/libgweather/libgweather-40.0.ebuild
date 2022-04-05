@@ -11,7 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/LibGWeather"
 
 LICENSE="GPL-2+"
 SLOT="2/3-16-2" # subslot = 3-(libgweather-3 soname suffix) w/ temporary -2 suffix for silent ABI break after 3.28 without soname bump as per distro-list
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="glade gtk-doc +introspection +vala"
 REQUIRED_USE="vala? ( introspection )"
@@ -29,13 +29,15 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	gtk-doc? ( >=dev-util/gtk-doc-1.11
-		app-text/docbook-xml-dtd:4.3 )
+	gtk-doc? (
+		>=dev-util/gtk-doc-1.11
+		app-text/docbook-xml-dtd:4.3
+	)
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	${PYTHON_DEPS}
 	$(python_gen_any_dep 'dev-python/pygobject[${PYTHON_USEDEP}]')
-	$(vala_depend)
+	vala? ( $(vala_depend) )
 "
 
 PATCHES=(

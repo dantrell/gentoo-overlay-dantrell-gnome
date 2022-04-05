@@ -1,0 +1,127 @@
+From 3acbedca26619e6313f70b147024c1c3b92efbd9 Mon Sep 17 00:00:00 2001
+From: Dylan Van Assche <me@dylanvanassche.be>
+Date: Tue, 10 Aug 2021 13:27:56 +0200
+Subject: [PATCH 014/103] tests: Test inhibitor lock for critical action
+
+Inhibitor lock should be taken between the critical
+action notification and the execution of the critical action.
+
+Requires python-dbusmock > 0.23.1, test is skipped on lower versions.
+
+python-dbusmock in the CI is installed from git and bumped version
+to 0.23.2 until a new release is available.
+---
+ src/linux/integration-test | 55 +++++++++++++++++++++++++++++++++++---
+ 1 file changed, 51 insertions(+), 4 deletions(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 211f445..2a54417 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -24,6 +24,7 @@ import tempfile
+ import subprocess
+ import unittest
+ import time
++from packaging.version import parse as parse_version
+ 
+ try:
+     import gi
+@@ -52,6 +53,7 @@ except ImportError:
+ UP = 'org.freedesktop.UPower'
+ UP_DEVICE = 'org.freedesktop.UPower.Device'
+ UP_DISPLAY_OBJECT_PATH = '/org/freedesktop/UPower/devices/DisplayDevice'
++UP_DAEMON_ACTION_DELAY = 20
+ 
+ DEVICE_IFACE = 'org.bluez.Device1'
+ BATTERY_IFACE = 'org.bluez.Battery1'
+@@ -292,7 +294,7 @@ class Tests(dbusmock.DBusTestCase):
+         with open(self.log.name) as f:
+             return f.read().count(text)
+ 
+-    def assertEventually(self, condition, message=None, timeout=50):
++    def assertEventually(self, condition, message=None, timeout=50, value=True):
+         '''Assert that condition function eventually returns True.
+ 
+         Timeout is in deciseconds, defaulting to 50 (5 seconds). message is
+@@ -302,7 +304,7 @@ class Tests(dbusmock.DBusTestCase):
+             context = GLib.MainContext.default()
+             while context.iteration(False):
+                 pass
+-            if condition():
++            if condition() == value:
+                 break
+             timeout -= 1
+             time.sleep(0.1)
+@@ -979,6 +981,51 @@ class Tests(dbusmock.DBusTestCase):
+ 
+         self.stop_daemon()
+ 
++    @unittest.skipIf(parse_version(dbusmock.__version__) <= parse_version('0.23.1'), 'Not supported in dbusmock version')
++    def test_prevent_sleep_until_critical_action_is_executed(self):
++        '''check that critical action is executed when trying to suspend'''
++
++        bat0 = self.testbed.add_device('power_supply', 'BAT0', None,
++                                       ['type', 'Battery',
++                                        'present', '1',
++                                        'status', 'Discharging',
++                                        'energy_full', '60000000',
++                                        'energy_full_design', '80000000',
++                                        'energy_now', '50000000',
++                                        'voltage_now', '12000000'], [])
++
++        config = tempfile.NamedTemporaryFile(delete=False, mode='w')
++        config.write("[UPower]\n")
++        config.write("UsePercentageForPolicy=true\n")
++        config.write("PercentageAction=5\n")
++        config.write("CriticalPowerAction=Hibernate\n")
++        config.close()
++
++        self.start_logind()
++        self.start_daemon(cfgfile=config.name)
++
++        # delay inhibitor taken
++        self.assertEqual(len(self.logind_obj.ListInhibitors()), 1)
++
++        devs = self.proxy.EnumerateDevices()
++        self.assertEqual(len(devs), 1)
++        bat0_up = devs[0]
++
++        # simulate that battery has 1% (less than PercentageAction)
++        self.testbed.set_attribute(bat0, 'energy_now', '600000')
++        self.testbed.uevent(bat0, 'change')
++
++        # critical action is scheduled, a block inhibitor lock is taken besides a delay inhibitor lock
++        time.sleep(0.5)
++        self.assertEventually(lambda: self.get_dbus_display_property('WarningLevel'), value=UP_DEVICE_LEVEL_ACTION)
++        self.assertEqual(len(self.logind_obj.ListInhibitors()), 2)
++
++        time.sleep(UP_DAEMON_ACTION_DELAY + 0.5) # wait for UP_DAEMON_ACTION_DELAY
++        self.assertEqual(self.count_text_in_log("About to call logind method Hibernate"), 1)
++
++        # block inhibitor lock is released
++        self.assertEqual(len(self.logind_obj.ListInhibitors()), 1)
++
+     def test_critical_action_is_taken_repeatedly(self):
+         '''check that critical action works repeatedly (eg. after resume)'''
+ 
+@@ -1012,7 +1059,7 @@ class Tests(dbusmock.DBusTestCase):
+         time.sleep(0.5)
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_ACTION)
+ 
+-        time.sleep(20.5) # wait for UP_DAEMON_ACTION_DELAY
++        time.sleep(UP_DAEMON_ACTION_DELAY + 0.5) # wait for UP_DAEMON_ACTION_DELAY
+         self.assertEqual(self.count_text_in_log("About to call logind method Hibernate"), 1)
+ 
+         # simulate that battery was charged to 100% during sleep
+@@ -1029,7 +1076,7 @@ class Tests(dbusmock.DBusTestCase):
+         time.sleep(0.5)
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_ACTION)
+ 
+-        time.sleep(20.5) # wait for UP_DAEMON_ACTION_DELAY
++        time.sleep(UP_DAEMON_ACTION_DELAY + 0.5) # wait for UP_DAEMON_ACTION_DELAY
+         self.assertEqual(self.count_text_in_log("About to call logind method Hibernate"), 2)
+ 
+         self.stop_daemon()
+-- 
+2.35.1
+

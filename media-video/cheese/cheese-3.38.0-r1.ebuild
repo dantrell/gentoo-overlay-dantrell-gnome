@@ -59,6 +59,10 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-3.38.0-buildfix.patch
 	"${FILESDIR}"/${PN}-3.38.0-Fix-infinite-loop-if-thumbnailer-is-not-available.patch
 	"${FILESDIR}"/${PN}-3.38.0-vala-genericarray.patch
+
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/cheese/-/commit/5bf958f1d2f67b11ba050aa210a6224e02d499a5
+	"${FILESDIR}"/${PN}-41.1-meson-avoid-positional-arguments-in-merge-file.patch
 )
 
 src_prepare() {

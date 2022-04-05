@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 GNOME_ORG_MODULE="network-manager-applet"
 
 inherit gnome.org meson xdg
@@ -28,7 +28,7 @@ RDEPEND="
 	)
 	modemmanager? ( net-misc/modemmanager )
 	selinux? ( sys-libs/libselinux )
-	teamd? ( >=dev-libs/jansson-2.7 )
+	teamd? ( >=dev-libs/jansson-2.7:= )
 
 	virtual/freedesktop-icon-theme
 "
@@ -38,6 +38,12 @@ BDEPEND="
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 "
+
+PATCHES=(
+	# From Gentoo:
+	# 	https://bugs.gentoo.org/831829
+	"${FILESDIR}"/${PN}-1.24.0-meson-0.61.patch
+)
 
 src_configure() {
 	local emesonargs=(

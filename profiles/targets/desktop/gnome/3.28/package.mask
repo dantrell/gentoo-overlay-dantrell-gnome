@@ -38,6 +38,7 @@
 >=app-editors/gedit-plugins-3.30.0
 >=app-editors/ghex-3.30.0
 >=app-editors/gnome-latex-3.30.0
+>=app-editors/gnome-text-editor-41.0
 >=app-misc/bijiben-3.30.0
 >=app-misc/geoclue-2.6.0
 >=app-misc/gnote-3.30.0
@@ -69,7 +70,7 @@
 >=dev-libs/libgames-support-1.1.0
 >=dev-libs/libgdata-0.18.0
 >=dev-libs/libgit2-1.1.0
->=dev-libs/libgit2-glib-1.1.0
+>=dev-libs/libgit2-glib-1.0.0
 >=dev-libs/libgusb-0.4.0
 >=dev-libs/libgweather-3.30.0
 >=dev-libs/libical-4.0.0
@@ -91,7 +92,7 @@
 >=dev-vcs/gitg-3.30.0
 >=games-arcade/gnome-nibbles-3.30.0
 >=games-arcade/gnome-robots-3.30.0
->=games-board/aisleriot-3.30.0
+>=games-board/aisleriot-3.24.0
 >=games-board/four-in-a-row-3.30.0
 >=games-board/gnome-chess-3.30.0
 >=games-board/gnome-mahjongg-3.30.0
@@ -158,7 +159,7 @@
 >=gnome-extra/gnome-user-docs-3.30.0
 >=gnome-extra/gnome-user-share-3.30.0
 >=gnome-extra/gnome-weather-3.30.0
->=gnome-extra/nautilus-tracker-tags-2.0.0
+>=gnome-extra/nautilus-tracker-tags-1.14.0
 >=gnome-extra/nm-applet-1.16.0
 >=gnome-extra/sushi-3.30.0
 >=gnome-extra/yelp-3.30.0
@@ -168,7 +169,7 @@
 >=gui-libs/tepl-5.0
 >=mail-client/evolution-3.30.0
 >=media-gfx/eog-3.30.0
->=media-gfx/eog-plugins-3.30.0
+>=media-gfx/eog-plugins-42.0
 >=media-gfx/gnome-font-viewer-3.30.0
 >=media-gfx/gnome-photos-3.30.0
 >=media-gfx/gnome-screenshot-3.30.0
@@ -197,8 +198,8 @@
 >=net-misc/gnome-online-miners-3.30.0
 >=net-misc/rygel-0.38.0
 >=net-misc/spice-gtk-1.0
->=net-misc/vinagre-3.30.0
->=net-misc/vino-3.30.0
+>=net-misc/vinagre-3.24.0
+>=net-misc/vino-3.24.0
 >=net-wireless/gnome-bluetooth-3.30.0
 >=sci-geosciences/geocode-glib-3.27.0
 >=sci-geosciences/gnome-maps-3.30.0
@@ -206,6 +207,7 @@
 >=sys-apps/gnome-disk-utility-3.30.0
 >=sys-process/gnome-usage-3.30.0
 >=www-client/epiphany-3.30.0
+>=x11-libs/colord-gtk-0.3.0
 >=x11-libs/gdk-pixbuf-2.38.0
 >=x11-libs/gnome-pty-helper-0.42.0
 >=x11-libs/gtksourceview-5.0

@@ -1,0 +1,155 @@
+From 15329e840ca71c6cfeed230ebdd042523a65aa88 Mon Sep 17 00:00:00 2001
+From: Marijn Suijten <marijns95@gmail.com>
+Date: Fri, 22 Jan 2021 23:13:21 +0100
+Subject: [PATCH 033/157] tests: Move BlueZ battery setup into helper function
+
+---
+ src/linux/integration-test | 111 ++++++++++++++++---------------------
+ 1 file changed, 48 insertions(+), 63 deletions(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 2a73c9d..dbd2814 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -1600,47 +1600,58 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_display_property('WarningLevel'), UP_DEVICE_LEVEL_NONE)
+         self.stop_daemon()
+ 
++    def _add_bluez_battery_device(self, alias, device_properties, battery_level):
++        self.start_bluez()
++
++        # Add an adapter to both bluez and udev
++        adapter_name = 'hci0'
++        path = self.bluez_obj.AddAdapter(adapter_name, 'my-computer')
++        self.assertEqual(path, '/org/bluez/' + adapter_name)
++
++        dev = self.testbed.add_device('bluetooth',
++                                      'usb2/bluetooth/hci0/hci0:1',
++                                      None,
++                                      [], [])
++
++        # Add a device to bluez
++        address = '11:22:33:44:55:66'
++
++        path = self.bluez_obj.AddDevice(adapter_name, address, alias)
++
++        device = self.dbus_con.get_object('org.bluez', path)
++
++        if device_properties:
++            device.AddProperties(DEVICE_IFACE, device_properties)
++
++        battery_properties = {
++            'Percentage': dbus.Byte(battery_level, variant_level=1),
++        }
++
++        device.AddProperties(BATTERY_IFACE, battery_properties)
++
++        self.start_daemon()
++
++        # process = subprocess.Popen(['gdbus', 'introspect', '--system', '--dest', 'org.bluez', '--object-path', '/org/bluez/hci0/dev_11_22_33_44_55_66'])
++
++        # Wait for UPower to process the new device
++        time.sleep(0.5)
++        return self.proxy.EnumerateDevices()
++
+     def test_bluetooth_le_mouse(self):
+         '''Bluetooth LE mouse'''
+ 
+-        self.start_bluez()
+-
+-        # Add an adapter to both bluez and udev
+-        adapter_name = 'hci0'
+-        path = self.bluez_obj.AddAdapter(adapter_name, 'my-computer')
+-        self.assertEqual(path, '/org/bluez/' + adapter_name)
+-
+-        dev = self.testbed.add_device('bluetooth',
+-                                      'usb2/bluetooth/hci0/hci0:1',
+-                                      None,
+-                                      [], [])
+-
+-        # Add a device to bluez
+-        address = '11:22:33:44:55:66'
+         alias = 'Arc Touch Mouse SE'
+-
+-        path = self.bluez_obj.AddDevice(adapter_name, address, alias)
+-
+-        device = self.dbus_con.get_object('org.bluez', path)
+-        device.AddProperties(DEVICE_IFACE, { 'Appearance': dbus.UInt16(0x03c2, variant_level=1) })
+-
+-        properties = {
+-            'Percentage': dbus.Byte(99, variant_level=1),
++        battery_level = 99
++        device_properties = {
++            'Appearance': dbus.UInt16(0x03c2, variant_level=1)
+         }
+-        device.AddProperties(BATTERY_IFACE, properties)
+ 
+-        self.start_daemon()
+-
+-        # process = subprocess.Popen(['gdbus', 'introspect', '--system', '--dest', 'org.bluez', '--object-path', '/org/bluez/hci0/dev_11_22_33_44_55_66'])
+-
+-        # Wait for UPower to process the new device
+-        time.sleep(0.5)
+-        devs = self.proxy.EnumerateDevices()
++        devs = self._add_bluez_battery_device(alias, device_properties, battery_level)
+         self.assertEqual(len(devs), 1)
+         mouse_bat0_up = devs[0]
+ 
+-        self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Model'), 'Arc Touch Mouse SE')
+-        self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Percentage'), 99)
++        self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Model'), alias)
++        self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Percentage'), battery_level)
+         self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'PowerSupply'), False)
+         self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Type'), UP_DEVICE_KIND_MOUSE)
+         self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'UpdateTime') != 0, True)
+@@ -1650,42 +1661,16 @@ class Tests(dbusmock.DBusTestCase):
+         '''Bluetooth LE Device'''
+         '''See https://gitlab.freedesktop.org/upower/upower/issues/100'''
+ 
+-        self.start_bluez()
+-
+-        # Add an adapter to both bluez and udev
+-        adapter_name = 'hci0'
+-        path = self.bluez_obj.AddAdapter(adapter_name, 'my-computer')
+-        self.assertEqual(path, '/org/bluez/' + adapter_name)
+-
+-        dev = self.testbed.add_device('bluetooth',
+-                                      'usb2/bluetooth/hci0/hci0:1',
+-                                      None,
+-                                      [], [])
+-
+-        # Add a device to both bluez and udev
+-        address = '11:22:33:44:55:66'
+         alias = 'Satechi M1 Mouse'
++        battery_level = 99
++        device_properties = None
+ 
+-        path = self.bluez_obj.AddDevice(adapter_name, address, alias)
+-
+-        device = self.dbus_con.get_object('org.bluez', path)
+-        properties = {
+-            'Percentage': dbus.Byte(99, variant_level=1),
+-        }
+-        device.AddProperties(BATTERY_IFACE, properties)
+-
+-        self.start_daemon()
+-
+-        # process = subprocess.Popen(['gdbus', 'introspect', '--system', '--dest', 'org.bluez', '--object-path', '/org/bluez/hci0/dev_11_22_33_44_55_66'])
+-
+-        # Wait for UPower to process the new device
+-        time.sleep(0.5)
+-        devs = self.proxy.EnumerateDevices()
++        devs = self._add_bluez_battery_device(alias, device_properties, battery_level)
+         self.assertEqual(len(devs), 1)
+         mouse_bat0_up = devs[0]
+ 
+-        self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Model'), 'Satechi M1 Mouse')
+-        self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Percentage'), 99)
++        self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Model'), alias)
++        self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Percentage'), battery_level)
+         self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'PowerSupply'), False)
+         self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Type'), UP_DEVICE_KIND_UNKNOWN)
+         self.stop_daemon()
+-- 
+2.35.1
+

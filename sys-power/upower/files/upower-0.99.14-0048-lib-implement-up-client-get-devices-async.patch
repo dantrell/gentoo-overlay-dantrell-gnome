@@ -1,0 +1,148 @@
+From 1fdc0824b6f4470a97cc980b5d70144071dc3dba Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Sun, 23 Jan 2022 22:48:17 +0100
+Subject: [PATCH 48/86] lib: Implement up_client_get_devices_async()
+
+---
+ libupower-glib/up-client.c    | 65 +++++++++++++++++++++++++++++++++++
+ libupower-glib/up-client.h    |  7 ++++
+ src/linux/integration-test.py | 20 +++++++++--
+ 3 files changed, 89 insertions(+), 3 deletions(-)
+
+diff --git a/libupower-glib/up-client.c b/libupower-glib/up-client.c
+index 8dc3a22..93d3507 100644
+--- a/libupower-glib/up-client.c
++++ b/libupower-glib/up-client.c
+@@ -160,6 +160,71 @@ up_client_get_devices2 (UpClient *client)
+ 	}
+ 	return ret;
+ }
++
++static void
++get_devices_async_thread (GTask        *task,
++			  gpointer      source_object,
++			  gpointer      task_data,
++			  GCancellable *cancellable)
++{
++	GError *error = NULL;
++	GPtrArray *array;
++
++	array = up_client_get_devices_full (UP_CLIENT (source_object), cancellable, &error);
++	if (!array)
++		g_task_return_error (task, error);
++	else
++		g_task_return_pointer (task, array, (GDestroyNotify) g_ptr_array_unref);
++}
++
++/**
++ * up_client_get_devices_async:
++ * @client: a #UpClient instance.
++ * @cancellable: (nullable): a #GCancellable or %NULL
++ * @callback: a #GAsyncReadyCallback to call when the request is satisfied
++ * @user_data: the data to pass to @callback
++ *
++ * Asynchronously fetches the list of #UpDevice objects.
++ *
++ * Since: 0.99.14
++ **/
++void
++up_client_get_devices_async (UpClient            *client,
++			     GCancellable        *cancellable,
++			     GAsyncReadyCallback  callback,
++			     gpointer             user_data)
++{
++	GTask *task;
++
++	task = g_task_new (client, cancellable, callback, user_data);
++	g_task_set_source_tag (task, (gpointer) G_STRFUNC);
++
++	g_task_run_in_thread (task, get_devices_async_thread);
++}
++
++/**
++ * up_client_get_devices_finish:
++ * @client: a #UpClient instance.
++ * @res: a #GAsyncResult obtained from the #GAsyncReadyCallback passed
++ *     to up_client_get_devices_async()
++ *
++ * Finishes an operation started with up_client_get_devices_async().
++ *
++ * Return value: (element-type UpDevice) (transfer full): an array of
++ *     #UpDevice objects or %NULL on error.
++ **/
++GPtrArray *
++up_client_get_devices_finish (UpClient      *client,
++			      GAsyncResult  *res,
++			      GError       **error)
++{
++  g_return_val_if_fail (UP_IS_CLIENT (client), NULL);
++  g_return_val_if_fail (g_task_is_valid (res, client), NULL);
++  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
++
++  return g_task_propagate_pointer (G_TASK (res), error);
++}
++
+ /**
+  * up_client_get_display_device:
+  * @client: a #UpClient instance.
+diff --git a/libupower-glib/up-client.h b/libupower-glib/up-client.h
+index bd149cd..da6a5d4 100644
+--- a/libupower-glib/up-client.h
++++ b/libupower-glib/up-client.h
+@@ -86,6 +86,13 @@ char *		 up_client_get_critical_action		(UpClient *client);
+ /* accessors */
+ GPtrArray	*up_client_get_devices			(UpClient		*client) G_DEPRECATED_FOR(up_client_get_devices2);
+ GPtrArray	*up_client_get_devices2			(UpClient		*client);
++void		up_client_get_devices_async		(UpClient		*client,
++							 GCancellable		*cancellable,
++							 GAsyncReadyCallback 	 callback,
++							 gpointer		 user_data);
++GPtrArray	*up_client_get_devices_finish		(UpClient		*client,
++							 GAsyncResult		*res,
++							 GError		       **error);
+ const gchar	*up_client_get_daemon_version		(UpClient		*client);
+ G_DEPRECATED
+ gboolean	 up_client_get_lid_is_closed		(UpClient		*client);
+diff --git a/src/linux/integration-test.py b/src/linux/integration-test.py
+index d1dced6..a4722b8 100755
+--- a/src/linux/integration-test.py
++++ b/src/linux/integration-test.py
+@@ -1967,18 +1967,32 @@ class Tests(dbusmock.DBusTestCase):
+     def test_lib_up_client_async(self):
+         '''Test up_client_async_new()'''
+ 
++        ac = self.testbed.add_device('power_supply', 'AC', None,
++                                     ['type', 'Mains', 'online', '1'], [])
+         self.start_daemon()
+ 
+-        def client_new_cb(obj, task):
+-            nonlocal ml
+-            client = UPowerGlib.Client.new_finish(task)
++        def client_new_cb(obj, res):
++            nonlocal ml, client
++            client = UPowerGlib.Client.new_finish(res)
+             self.assertRegex(client.get_daemon_version(), '^[0-9.]+$')
+             ml.quit()
+ 
++        def get_devices_cb(obj, res):
++            nonlocal ml, client
++            devs = client.get_devices_finish(res)
++            self.assertEqual(len(devs), 1)
++            ml.quit()
++
++        client = None
+         ml = GLib.MainLoop()
+         UPowerGlib.Client.new_async(None, client_new_cb)
+         ml.run()
+ 
++        # This will crash, see:
++        # https://gitlab.gnome.org/GNOME/gobject-introspection/-/issues/305
++        # client.get_devices_async(None, get_devices_cb)
++        # ml.run()
++
+     #
+     # Helper methods
+     #
+-- 
+2.35.1
+

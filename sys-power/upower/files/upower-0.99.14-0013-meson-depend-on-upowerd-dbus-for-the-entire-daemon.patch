@@ -1,0 +1,34 @@
+From 738d1002b07270172c5a48f477335be7234fbdb5 Mon Sep 17 00:00:00 2001
+From: Benjamin Berg <bberg@redhat.com>
+Date: Fri, 3 Sep 2021 22:37:07 +0200
+Subject: [PATCH 13/86] meson: Depend on upowerd_dbus for the entire daemon
+
+---
+ src/meson.build | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/meson.build b/src/meson.build
+index 221b625..311f4a0 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -7,7 +7,7 @@ upowerd_deps = declare_dependency(
+         include_directories('../libupower-glib'),
+     ],
+     dependencies: [
+-        glib_dep, gobject_dep, gio_dep, gio_unix_dep, libupower_glib_dep
++        glib_dep, gobject_dep, gio_dep, gio_unix_dep, libupower_glib_dep, upowerd_dbus_dep
+     ],
+     compile_args: [
+         '-DUP_COMPILATION',
+@@ -43,7 +43,7 @@ upowerd_private = static_library('upowerd-private',
+         'up-backend.h',
+         'up-native.h',
+     ],
+-    dependencies: [ upowerd_deps, upowerd_dbus_dep ],
++    dependencies: [ upowerd_deps ],
+ )
+ 
+ upowerd = executable('upowerd',
+-- 
+2.35.1
+

@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/libgdata"
 
 LICENSE="LGPL-2.1+"
 SLOT="0/22" # subslot = libgdata soname version
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+crypt gnome-online-accounts gtk-doc +introspection test vala"
 REQUIRED_USE="vala? ( introspection )"

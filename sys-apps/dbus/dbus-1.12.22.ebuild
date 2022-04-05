@@ -63,6 +63,8 @@ TBD="${WORKDIR}/${P}-tests-build"
 PATCHES=(
 	"${FILESDIR}"/${PN}-enable-elogind.patch
 	"${FILESDIR}"/${PN}-daemon-optional.patch # bug #653136
+
+	"${FILESDIR}"/${PN}-1.12.22-check-fd.patch
 )
 
 pkg_setup() {
@@ -206,6 +208,9 @@ multilib_src_compile() {
 }
 
 src_test() {
+	# https://bugs.gentoo.org/836560
+	addwrite /proc/self/oom_score_adj
+
 	DBUS_VERBOSE=1 virtx emake -j1 -C "${TBD}" check
 }
 

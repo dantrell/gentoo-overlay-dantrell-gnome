@@ -1,0 +1,210 @@
+From c987ca4ed2606518b4b3bc5c9f74002193b1e0bd Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 22 Oct 2020 14:59:36 +0200
+Subject: [PATCH 015/157] linux: Simplify UpInput object code
+
+Use G_DECLARE_FINAL_TYPE() to clean up header and remove the use of a
+private struct, as the whole object struct is now private.
+---
+ src/linux/up-input.c | 66 ++++++++++++++++++++++----------------------
+ src/linux/up-input.h | 19 +------------
+ 2 files changed, 34 insertions(+), 51 deletions(-)
+
+diff --git a/src/linux/up-input.c b/src/linux/up-input.c
+index be79b56..80f0ee3 100644
+--- a/src/linux/up-input.c
++++ b/src/linux/up-input.c
+@@ -45,8 +45,10 @@
+ #include "up-input.h"
+ #include "up-daemon.h"
+ 
+-struct UpInputPrivate
++struct _UpInput
+ {
++	GObject			 parent_instance;
++
+ 	int			 eventfp;
+ 	struct input_event	 event;
+ 	gsize			 offset;
+@@ -54,7 +56,7 @@ struct UpInputPrivate
+ 	UpDaemon		*daemon;
+ };
+ 
+-G_DEFINE_TYPE_WITH_PRIVATE (UpInput, up_input, G_TYPE_OBJECT)
++G_DEFINE_TYPE (UpInput, up_input, G_TYPE_OBJECT)
+ 
+ /* we must use this kernel-compatible implementation */
+ #define BITS_PER_LONG (sizeof(long) * 8)
+@@ -110,33 +112,33 @@ up_input_event_io (GIOChannel *channel, GIOCondition condition, gpointer data)
+ 
+ 	/* read event */
+ 	while (g_io_channel_read_chars (channel,
+-		((gchar*)&input->priv->event) + input->priv->offset,
+-		sizeof(struct input_event) - input->priv->offset,
++		((gchar*)&input->event) + input->offset,
++		sizeof(struct input_event) - input->offset,
+ 		&read_bytes, &error) == G_IO_STATUS_NORMAL) {
+ 
+ 		/* not enough data */
+-		if (input->priv->offset + read_bytes < sizeof (struct input_event)) {
+-			input->priv->offset = input->priv->offset + read_bytes;
++		if (input->offset + read_bytes < sizeof (struct input_event)) {
++			input->offset = input->offset + read_bytes;
+ 			g_debug ("incomplete read");
+ 			goto out;
+ 		}
+ 
+ 		/* we have all the data */
+-		input->priv->offset = 0;
++		input->offset = 0;
+ 
+ 		g_debug ("event.value=%d ; event.code=%d (0x%02x)",
+-			   input->priv->event.value,
+-			   input->priv->event.code,
+-			   input->priv->event.code);
++			   input->event.value,
++			   input->event.code,
++			   input->event.code);
+ 
+ 		/* switch? */
+-		if (input->priv->event.type != EV_SW) {
++		if (input->event.type != EV_SW) {
+ 			g_debug ("not a switch event");
+ 			continue;
+ 		}
+ 
+ 		/* is not lid */
+-		if (input->priv->event.code != SW_LID) {
++		if (input->event.code != SW_LID) {
+ 			g_debug ("not a lid");
+ 			continue;
+ 		}
+@@ -148,8 +150,8 @@ up_input_event_io (GIOChannel *channel, GIOCondition condition, gpointer data)
+ 		}
+ 
+ 		/* are we set */
+-		ret = test_bit (input->priv->event.code, bitmask);
+-		up_daemon_set_lid_is_closed (input->priv->daemon, ret);
++		ret = test_bit (input->event.code, bitmask);
++		up_daemon_set_lid_is_closed (input->daemon, ret);
+ 	}
+ out:
+ 	return TRUE;
+@@ -218,26 +220,26 @@ up_input_coldplug (UpInput *input, UpDaemon *daemon, GUdevDevice *d)
+ 	}
+ 
+ 	/* open device file */
+-	input->priv->eventfp = open (device_file, O_RDONLY | O_NONBLOCK);
+-	if (input->priv->eventfp <= 0) {
++	input->eventfp = open (device_file, O_RDONLY | O_NONBLOCK);
++	if (input->eventfp <= 0) {
+ 		g_warning ("cannot open '%s': %s", device_file, strerror (errno));
+ 		ret = FALSE;
+ 		goto out;
+ 	}
+ 
+ 	/* get initial state */
+-	if (ioctl (input->priv->eventfp, EVIOCGSW(sizeof (bitmask)), bitmask) < 0) {
++	if (ioctl (input->eventfp, EVIOCGSW(sizeof (bitmask)), bitmask) < 0) {
+ 		g_warning ("ioctl EVIOCGSW on %s failed", native_path);
+ 		ret = FALSE;
+ 		goto out;
+ 	}
+ 
+ 	/* create channel */
+-	g_debug ("watching %s (%i)", device_file, input->priv->eventfp);
+-	input->priv->channel = g_io_channel_unix_new (input->priv->eventfp);
++	g_debug ("watching %s (%i)", device_file, input->eventfp);
++	input->channel = g_io_channel_unix_new (input->eventfp);
+ 
+ 	/* set binary encoding */
+-	status = g_io_channel_set_encoding (input->priv->channel, NULL, &error);
++	status = g_io_channel_set_encoding (input->channel, NULL, &error);
+ 	if (status != G_IO_STATUS_NORMAL) {
+ 		g_warning ("failed to set encoding: %s", error->message);
+ 		g_error_free (error);
+@@ -246,14 +248,14 @@ up_input_coldplug (UpInput *input, UpDaemon *daemon, GUdevDevice *d)
+ 	}
+ 
+ 	/* save daemon */
+-	input->priv->daemon = g_object_ref (daemon);
++	input->daemon = g_object_ref (daemon);
+ 
+ 	/* watch this */
+-	g_io_add_watch (input->priv->channel, G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL, up_input_event_io, input);
++	g_io_add_watch (input->channel, G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL, up_input_event_io, input);
+ 
+ 	/* set if we are closed */
+ 	g_debug ("using %s for lid event", native_path);
+-	up_daemon_set_lid_is_closed (input->priv->daemon, test_bit (SW_LID, bitmask));
++	up_daemon_set_lid_is_closed (input->daemon, test_bit (SW_LID, bitmask));
+ out:
+ 	g_free (path);
+ 	g_free (contents);
+@@ -266,8 +268,7 @@ out:
+ static void
+ up_input_init (UpInput *input)
+ {
+-	input->priv = up_input_get_instance_private (input);
+-	input->priv->eventfp = -1;
++	input->eventfp = -1;
+ }
+ 
+ /**
+@@ -282,16 +283,15 @@ up_input_finalize (GObject *object)
+ 	g_return_if_fail (UP_IS_INPUT (object));
+ 
+ 	input = UP_INPUT (object);
+-	g_return_if_fail (input->priv != NULL);
+ 
+-	g_clear_object (&input->priv->daemon);
+-	if (input->priv->channel) {
+-		g_io_channel_shutdown (input->priv->channel, FALSE, NULL);
+-		input->priv->eventfp = -1;
+-		g_io_channel_unref (input->priv->channel);
++	g_clear_object (&input->daemon);
++	if (input->channel) {
++		g_io_channel_shutdown (input->channel, FALSE, NULL);
++		input->eventfp = -1;
++		g_io_channel_unref (input->channel);
+ 	}
+-	if (input->priv->eventfp >= 0)
+-		close (input->priv->eventfp);
++	if (input->eventfp >= 0)
++		close (input->eventfp);
+ 	G_OBJECT_CLASS (up_input_parent_class)->finalize (object);
+ }
+ 
+diff --git a/src/linux/up-input.h b/src/linux/up-input.h
+index c42808b..c6bb85b 100644
+--- a/src/linux/up-input.h
++++ b/src/linux/up-input.h
+@@ -28,24 +28,7 @@
+ G_BEGIN_DECLS
+ 
+ #define UP_TYPE_INPUT  	(up_input_get_type ())
+-#define UP_INPUT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), UP_TYPE_INPUT, UpInput))
+-#define UP_INPUT_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST((k), UP_TYPE_INPUT, UpInputClass))
+-#define UP_IS_INPUT(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), UP_TYPE_INPUT))
+-#define UP_IS_INPUT_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), UP_TYPE_INPUT))
+-#define UP_INPUT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), UP_TYPE_INPUT, UpInputClass))
+-
+-typedef struct UpInputPrivate UpInputPrivate;
+-
+-typedef struct
+-{
+-	GObject			 parent;
+-	UpInputPrivate		*priv;
+-} UpInput;
+-
+-typedef struct
+-{
+-	GObjectClass		 parent_class;
+-} UpInputClass;
++G_DECLARE_FINAL_TYPE (UpInput, up_input, UP, INPUT, GObject)
+ 
+ GType			 up_input_get_type		(void);
+ UpInput		*up_input_new			(void);
+-- 
+2.35.1
+

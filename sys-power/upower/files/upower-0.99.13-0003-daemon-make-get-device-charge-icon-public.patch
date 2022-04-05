@@ -1,0 +1,135 @@
+From 9b2ab574e1c7d70a1e90a0ccf4cfb940af9b85bb Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Pablo=20Correa=20G=C3=B3mez?= <ablocorrea@hotmail.com>
+Date: Thu, 17 Jun 2021 14:25:33 +0200
+Subject: [PATCH 003/103] daemon: Make get_device_charge_icon() public
+
+---
+ src/up-daemon.c | 33 +++++++++++++++++++++++++++++++++
+ src/up-daemon.h |  3 +++
+ src/up-device.c | 41 ++++-------------------------------------
+ 3 files changed, 40 insertions(+), 37 deletions(-)
+
+diff --git a/src/up-daemon.c b/src/up-daemon.c
+index ef2cd6b..8fcaabe 100644
+--- a/src/up-daemon.c
++++ b/src/up-daemon.c
+@@ -704,6 +704,39 @@ up_daemon_update_warning_level (UpDaemon *daemon)
+ 		up_daemon_set_warning_level (daemon, warning_level);
+ }
+ 
++const gchar *
++up_daemon_get_charge_icon (gdouble       percentage,
++			   UpDeviceLevel battery_level,
++			   gboolean      charging)
++{
++	if (battery_level == UP_DEVICE_LEVEL_NONE && daemon != NULL) {
++		if (percentage < 10)
++			return charging ? "battery-caution-charging-symbolic" : "battery-caution-symbolic";
++		else if (percentage < 30)
++			return charging ? "battery-low-charging-symbolic" : "battery-low-symbolic";
++		else if (percentage < 60)
++			return charging ? "battery-good-charging-symbolic" : "battery-good-symbolic";
++		return charging ? "battery-full-charging-symbolic" : "battery-full-symbolic";
++	} else {
++		switch (battery_level) {
++		case UP_DEVICE_LEVEL_UNKNOWN:
++			/* The lack of symmetry is on purpose */
++			return charging ? "battery-good-charging-symbolic" : "battery-caution-symbolic";
++		case UP_DEVICE_LEVEL_LOW:
++		case UP_DEVICE_LEVEL_CRITICAL:
++			return charging ? "battery-caution-charging-symbolic" : "battery-caution-symbolic";
++		case UP_DEVICE_LEVEL_NORMAL:
++			return charging ? "battery-low-charging-symbolic" : "battery-low-symbolic";
++		case UP_DEVICE_LEVEL_HIGH:
++			return charging ? "battery-good-charging-symbolic" : "battery-good-symbolic";
++		case UP_DEVICE_LEVEL_FULL:
++			return charging ? "battery-full-charging-symbolic" : "battery-full-symbolic";
++		default:
++			g_assert_not_reached ();
++		}
++	}
++}
++
+ /**
+  * up_daemon_device_changed_cb:
+  **/
+diff --git a/src/up-daemon.h b/src/up-daemon.h
+index 7160e0e..2300ebe 100644
+--- a/src/up-daemon.h
++++ b/src/up-daemon.h
+@@ -82,6 +82,9 @@ UpDeviceLevel	 up_daemon_compute_warning_level(UpDaemon		*daemon,
+ 						 gboolean		 power_supply,
+ 						 gdouble		 percentage,
+ 						 gint64			 time_to_empty);
++const gchar	*up_daemon_get_charge_icon	(gdouble		 percentage,
++						 UpDeviceLevel		 battery_level,
++						 gboolean		 charging);
+ 
+ void		 up_daemon_start_poll		(GObject		*object,
+ 						 GSourceFunc		 callback);
+diff --git a/src/up-device.c b/src/up-device.c
+index 37ec129..8a98404 100644
+--- a/src/up-device.c
++++ b/src/up-device.c
+@@ -89,39 +89,6 @@ update_warning_level (UpDevice *device)
+ 	up_exported_device_set_warning_level (skeleton, warning_level);
+ }
+ 
+-static const gchar *
+-get_device_charge_icon (gdouble       percentage,
+-			UpDeviceLevel battery_level,
+-			gboolean      charging)
+-{
+-	if (battery_level == UP_DEVICE_LEVEL_NONE) {
+-		if (percentage < 10)
+-			return charging ? "battery-caution-charging-symbolic" : "battery-caution-symbolic";
+-		else if (percentage < 30)
+-			return charging ? "battery-low-charging-symbolic" : "battery-low-symbolic";
+-		else if (percentage < 60)
+-			return charging ? "battery-good-charging-symbolic" : "battery-good-symbolic";
+-		return charging ? "battery-full-charging-symbolic" : "battery-full-symbolic";
+-	} else {
+-		switch (battery_level) {
+-		case UP_DEVICE_LEVEL_UNKNOWN:
+-			/* The lack of symmetry is on purpose */
+-			return charging ? "battery-good-charging-symbolic" : "battery-caution-symbolic";
+-		case UP_DEVICE_LEVEL_LOW:
+-		case UP_DEVICE_LEVEL_CRITICAL:
+-			return charging ? "battery-caution-charging-symbolic" : "battery-caution-symbolic";
+-		case UP_DEVICE_LEVEL_NORMAL:
+-			return charging ? "battery-low-charging-symbolic" : "battery-low-symbolic";
+-		case UP_DEVICE_LEVEL_HIGH:
+-			return charging ? "battery-good-charging-symbolic" : "battery-good-symbolic";
+-		case UP_DEVICE_LEVEL_FULL:
+-			return charging ? "battery-full-charging-symbolic" : "battery-full-symbolic";
+-		default:
+-			g_assert_not_reached ();
+-		}
+-	}
+-}
+-
+ /* This needs to be called when one of those properties changes:
+  * type
+  * state
+@@ -152,14 +119,14 @@ update_icon_name (UpDevice *device)
+ 				break;
+ 			case UP_DEVICE_STATE_CHARGING:
+ 			case UP_DEVICE_STATE_PENDING_CHARGE:
+-				icon_name = get_device_charge_icon (up_exported_device_get_percentage (skeleton),
+-								    up_exported_device_get_battery_level (skeleton),
++				icon_name = up_daemon_get_charge_icon (up_exported_device_get_percentage (skeleton),
++								       up_exported_device_get_battery_level (skeleton),
+ 								    TRUE);
+ 				break;
+ 			case UP_DEVICE_STATE_DISCHARGING:
+ 			case UP_DEVICE_STATE_PENDING_DISCHARGE:
+-				icon_name = get_device_charge_icon (up_exported_device_get_percentage (skeleton),
+-								    up_exported_device_get_battery_level (skeleton),
++				icon_name = up_daemon_get_charge_icon (up_exported_device_get_percentage (skeleton),
++								       up_exported_device_get_battery_level (skeleton),
+ 								    FALSE);
+ 				break;
+ 			default:
+-- 
+2.35.1
+

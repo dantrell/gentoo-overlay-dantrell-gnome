@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Clutter"
 
 LICENSE="LGPL-2.1+ FDL-1.1+"
 SLOT="1.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="aqua debug doc egl gtk +introspection test wayland X"
 REQUIRED_USE="

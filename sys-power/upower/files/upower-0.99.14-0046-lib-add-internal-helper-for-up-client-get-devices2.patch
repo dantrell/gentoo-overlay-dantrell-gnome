@@ -1,0 +1,107 @@
+From 74aefb0fd7d763d1b73642a21dca8e99ec341f61 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Sun, 23 Jan 2022 21:04:56 +0100
+Subject: [PATCH 46/86] lib: Add internal helper for up_client_get_devices2()
+
+Making sure to pass GCancellable and GError arguments.
+---
+ libupower-glib/up-client.c | 54 +++++++++++++++++++++++---------------
+ 1 file changed, 33 insertions(+), 21 deletions(-)
+
+diff --git a/libupower-glib/up-client.c b/libupower-glib/up-client.c
+index 6f50021..8dc3a22 100644
+--- a/libupower-glib/up-client.c
++++ b/libupower-glib/up-client.c
+@@ -98,21 +98,12 @@ up_client_get_devices (UpClient *client)
+ 	return array;
+ }
+ 
+-/**
+- * up_client_get_devices2:
+- * @client: a #UpClient instance.
+- *
+- * Get a copy of the device objects.
+- *
+- * Return value: (element-type UpDevice) (transfer full): an array of #UpDevice objects or %NULL on error, free with g_ptr_array_unref()
+- *
+- * Since: 0.99.8
+- **/
+-GPtrArray *
+-up_client_get_devices2 (UpClient *client)
++static GPtrArray *
++up_client_get_devices_full (UpClient      *client,
++			    GCancellable  *cancellable,
++			    GError       **error)
+ {
+-	GError *error = NULL;
+-	char **devices;
++	g_auto(GStrv) devices = NULL;
+ 	GPtrArray *array;
+ 	guint i;
+ 
+@@ -120,10 +111,8 @@ up_client_get_devices2 (UpClient *client)
+ 
+ 	if (up_exported_daemon_call_enumerate_devices_sync (client->priv->proxy,
+ 							    &devices,
+-							    NULL,
+-							    &error) == FALSE) {
+-		g_warning ("up_client_get_devices failed: %s", error->message);
+-		g_error_free (error);
++							    cancellable,
++							    error) == FALSE) {
+ 		return NULL;
+ 	}
+ 
+@@ -131,11 +120,11 @@ up_client_get_devices2 (UpClient *client)
+ 
+ 	for (i = 0; devices[i] != NULL; i++) {
+ 		UpDevice *device;
+-		const char *object_path = devices[i];
++		const char *object_path = ((char **)devices)[i];
+ 		gboolean ret;
+ 
+ 		device = up_device_new ();
+-		ret = up_device_set_object_path_sync (device, object_path, NULL, NULL);
++		ret = up_device_set_object_path_sync (device, object_path, cancellable, NULL);
+ 		if (!ret) {
+ 			g_object_unref (device);
+ 			continue;
+@@ -143,11 +132,34 @@ up_client_get_devices2 (UpClient *client)
+ 
+ 		g_ptr_array_add (array, device);
+ 	}
+-	g_strfreev (devices);
+ 
+ 	return array;
+ }
+ 
++/**
++ * up_client_get_devices2:
++ * @client: a #UpClient instance.
++ *
++ * Get a copy of the device objects.
++ *
++ * Return value: (element-type UpDevice) (transfer full): an array of #UpDevice objects or %NULL on error, free with g_ptr_array_unref()
++ *
++ * Since: 0.99.8
++ **/
++GPtrArray *
++up_client_get_devices2 (UpClient *client)
++{
++	g_autoptr(GError) error = NULL;
++	GPtrArray *ret = NULL;
++
++	ret = up_client_get_devices_full (client, NULL, &error);
++	if (!ret) {
++		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
++			g_warning ("up_client_get_devices failed: %s", error->message);
++		return NULL;
++	}
++	return ret;
++}
+ /**
+  * up_client_get_display_device:
+  * @client: a #UpClient instance.
+-- 
+2.35.1
+

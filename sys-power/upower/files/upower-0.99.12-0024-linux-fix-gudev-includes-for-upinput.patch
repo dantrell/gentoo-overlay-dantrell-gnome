@@ -1,0 +1,37 @@
+From c6d2618e95bea65472d353573afd406fbf59453b Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 5 Nov 2020 16:40:36 +0100
+Subject: [PATCH 024/157] linux: Fix gudev includes for UpInput
+
+---
+ src/linux/up-input.c | 1 -
+ src/linux/up-input.h | 1 +
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/linux/up-input.c b/src/linux/up-input.c
+index d0d0509..26043ab 100644
+--- a/src/linux/up-input.c
++++ b/src/linux/up-input.c
+@@ -30,7 +30,6 @@
+ #include <glib.h>
+ #include <glib/gstdio.h>
+ #include <glib-object.h>
+-#include <gudev/gudev.h>
+ 
+ #include "up-input.h"
+ 
+diff --git a/src/linux/up-input.h b/src/linux/up-input.h
+index 8b749bd..3229be1 100644
+--- a/src/linux/up-input.h
++++ b/src/linux/up-input.h
+@@ -22,6 +22,7 @@
+ #define __UP_INPUT_H__
+ 
+ #include <glib-object.h>
++#include <gudev/gudev.h>
+ 
+ G_BEGIN_DECLS
+ 
+-- 
+2.35.1
+

@@ -1,0 +1,73 @@
+From bdd2711c2bcd2089859ddcd27238cd2bda255c85 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 7 Sep 2021 15:34:44 +0200
+Subject: [PATCH 24/86] linux: Postpone importing libraries for tests
+
+They're not needed and might not be available when we're trying to list
+the included tests.
+---
+ src/linux/integration-test.py | 35 +++++++++++++++++------------------
+ 1 file changed, 17 insertions(+), 18 deletions(-)
+
+diff --git a/src/linux/integration-test.py b/src/linux/integration-test.py
+index 3748e2a..0f31ffb 100755
+--- a/src/linux/integration-test.py
++++ b/src/linux/integration-test.py
+@@ -26,30 +26,12 @@ import unittest
+ import time
+ from packaging.version import parse as parse_version
+ 
+-try:
+-    import gi
+-    from gi.repository import GLib
+-    from gi.repository import Gio
+-    gi.require_version('UPowerGlib', '1.0')
+-    from gi.repository import UPowerGlib
+-except ImportError as e:
+-    sys.stderr.write('Skipping tests, PyGobject not available for Python 3, or missing GI typelibs: %s\n' % str(e))
+-    sys.exit(77)
+-
+-try:
+-    gi.require_version('UMockdev', '1.0')
+-    from gi.repository import UMockdev
+-except ImportError:
+-    sys.stderr.write('Skipping tests, umockdev not available (https://github.com/martinpitt/umockdev)\n')
+-    sys.exit(77)
+-
+ try:
+     import dbusmock
+ except ImportError:
+     sys.stderr.write('Skipping tests, python-dbusmock not available (http://pypi.python.org/pypi/python-dbusmock).\n')
+     sys.exit(77)
+ 
+-
+ UP = 'org.freedesktop.UPower'
+ UP_DEVICE = 'org.freedesktop.UPower.Device'
+ UP_DISPLAY_OBJECT_PATH = '/org/freedesktop/UPower/devices/DisplayDevice'
+@@ -1947,6 +1929,23 @@ class Tests(dbusmock.DBusTestCase):
+         return prop_str
+ 
+ if __name__ == '__main__':
++    try:
++        import gi
++        from gi.repository import GLib
++        from gi.repository import Gio
++        gi.require_version('UPowerGlib', '1.0')
++        from gi.repository import UPowerGlib
++    except ImportError as e:
++        sys.stderr.write('Skipping tests, PyGobject not available for Python 3, or missing GI typelibs: %s\n' % str(e))
++        sys.exit(77)
++
++    try:
++        gi.require_version('UMockdev', '1.0')
++        from gi.repository import UMockdev
++    except ImportError:
++        sys.stderr.write('Skipping tests, umockdev not available (https://github.com/martinpitt/umockdev)\n')
++        sys.exit(77)
++
+     # run ourselves under umockdev
+     if 'umockdev' not in os.environ.get('LD_PRELOAD', ''):
+         os.execvp('umockdev-wrapper', ['umockdev-wrapper'] + sys.argv)
+-- 
+2.35.1
+

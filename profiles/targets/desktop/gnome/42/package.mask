@@ -1,6 +1,6 @@
 # Masked to test on GNOME 42 first
 >=gnome-base/librsvg-2.51.0
->=x11-libs/pango-1.50.0
+>=x11-libs/pango-1.51.0
 
 # Masked to test on GNOME 40 first
 >=net-libs/webkit-gtk-2.35.0

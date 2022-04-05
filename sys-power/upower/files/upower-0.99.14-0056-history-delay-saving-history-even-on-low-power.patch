@@ -1,0 +1,184 @@
+From d113f627277b1838dc43bcd17e6b33c9caa3999d Mon Sep 17 00:00:00 2001
+From: Benjamin Berg <bberg@redhat.com>
+Date: Thu, 27 Jan 2022 13:06:29 +0100
+Subject: [PATCH 56/86] history: Delay saving history even on low power
+
+Otherwise we flush out the data much more often than needed. With this
+change, we'll also wait up to 5 seconds even on lower power. Loosing 5s
+of data shouldn't be too bad, and it may prevent additional disk writes.
+
+But, more importantly, we need to deferre writing the data to a later
+main loop iteration. If we did not do this, then we have an
+write-amplification scenario where the history is written at least 4
+times instead of once.
+
+Closes: #150
+---
+ src/linux/integration-test.py | 45 +++++++++++++++++++++++++++++++++++
+ src/up-history.c              | 44 +++++++++++++++++++++-------------
+ 2 files changed, 72 insertions(+), 17 deletions(-)
+
+diff --git a/src/linux/integration-test.py b/src/linux/integration-test.py
+index e25cafe..8333525 100755
+--- a/src/linux/integration-test.py
++++ b/src/linux/integration-test.py
+@@ -36,6 +36,8 @@ UP = 'org.freedesktop.UPower'
+ UP_DEVICE = 'org.freedesktop.UPower.Device'
+ UP_DISPLAY_OBJECT_PATH = '/org/freedesktop/UPower/devices/DisplayDevice'
+ UP_DAEMON_ACTION_DELAY = 20
++UP_HISTORY_SAVE_INTERVAL = (10*60)
++UP_HISTORY_SAVE_INTERVAL_LOW_POWER = 5
+ 
+ DEVICE_IFACE = 'org.bluez.Device1'
+ BATTERY_IFACE = 'org.bluez.Battery1'
+@@ -1062,6 +1064,49 @@ class Tests(dbusmock.DBusTestCase):
+ 
+         os.unlink(config.name)
+ 
++    def test_low_battery_changes_history_save_interval(self):
++        '''check that we save the history more quickly on low battery'''
++
++        bat0 = self.testbed.add_device('power_supply', 'BAT0', None,
++                                       ['type', 'Battery',
++                                        'present', '1',
++                                        'status', 'Discharging',
++                                        'energy_full', '60000000',
++                                        'energy_full_design', '80000000',
++                                        'energy_now', '50000000',
++                                        'voltage_now', '12000000'], [])
++
++        self.start_logind()
++        self.start_daemon()
++
++        devs = self.proxy.EnumerateDevices()
++        self.assertEqual(len(devs), 1)
++        bat0_up = devs[0]
++
++        self.assertEventually(lambda: self.have_text_in_log(f"saving in {UP_HISTORY_SAVE_INTERVAL} seconds"), timeout=10)
++
++        # simulate that battery has 1% (less than 10%)
++        self.testbed.set_attribute(bat0, 'energy_now', '600000')
++        self.testbed.uevent(bat0, 'change')
++
++        time.sleep(0.5)
++        self.assertEqual(self.get_dbus_display_property('Percentage'), 1)
++
++        self.assertEqual(self.count_text_in_log("saving to disk earlier due to low power"), 1)
++        self.assertEqual(self.count_text_in_log(f"saving in {UP_HISTORY_SAVE_INTERVAL_LOW_POWER} seconds"), 1)
++
++        # simulate that battery was charged to 100% during sleep
++        self.testbed.set_attribute(bat0, 'energy_now', '60000000')
++        self.testbed.uevent(bat0, 'change')
++
++        time.sleep(0.5)
++        self.assertEqual(self.get_dbus_display_property('Percentage'), 100)
++
++        # The 5 seconds were not up yet, and the shorter timeout sticks
++        self.assertEqual(self.count_text_in_log("deferring as earlier timeout is already queued"), 1)
++
++        self.stop_daemon()
++
+     def test_no_poll_batteries(self):
+         ''' setting NoPollBatteries option should disable polling'''
+ 
+diff --git a/src/up-history.c b/src/up-history.c
+index 5e03653..8d918cc 100644
+--- a/src/up-history.c
++++ b/src/up-history.c
+@@ -35,6 +35,8 @@ static void	up_history_finalize	(GObject		*object);
+ 
+ #define UP_HISTORY_FILE_HEADER		"PackageKit Profile"
+ #define UP_HISTORY_SAVE_INTERVAL	(10*60)		/* seconds */
++#define UP_HISTORY_SAVE_INTERVAL_LOW_POWER	5	/* seconds */
++#define UP_HISTORY_LOW_POWER_PERCENT	10
+ #define UP_HISTORY_DEFAULT_MAX_DATA_AGE	(7*24*60*60)	/* seconds */
+ 
+ struct UpHistoryPrivate
+@@ -49,7 +51,7 @@ struct UpHistoryPrivate
+ 	GPtrArray		*data_charge;
+ 	GPtrArray		*data_time_full;
+ 	GPtrArray		*data_time_empty;
+-	guint			 save_id;
++	GSource			*save_source;
+ 	guint			 max_data_age;
+ 	gchar			*dir;
+ };
+@@ -589,7 +591,7 @@ static gboolean
+ up_history_schedule_save_cb (UpHistory *history)
+ {
+ 	up_history_save_data (history);
+-	history->priv->save_id = 0;
++	g_clear_pointer (&history->priv->save_source, g_source_destroy);
+ 	return FALSE;
+ }
+ 
+@@ -617,7 +619,7 @@ up_history_is_low_power (UpHistory *history)
+ 		return FALSE;
+ 
+ 	/* high enough */
+-	if (up_history_item_get_value (item) > 10)
++	if (up_history_item_get_value (item) > UP_HISTORY_LOW_POWER_PERCENT)
+ 		return FALSE;
+ 
+ 	/* we are low power */
+@@ -631,26 +633,35 @@ static gboolean
+ up_history_schedule_save (UpHistory *history)
+ {
+ 	gboolean ret;
++	gint timeout = UP_HISTORY_SAVE_INTERVAL;
+ 
+ 	/* if low power, then don't batch up save requests */
+ 	ret = up_history_is_low_power (history);
+ 	if (ret) {
+-		g_debug ("saving directly to disk as low power");
+-		up_history_save_data (history);
+-		return TRUE;
++		g_debug ("saving to disk earlier due to low power");
++		timeout = UP_HISTORY_SAVE_INTERVAL_LOW_POWER;
+ 	}
+ 
+-	/* we already have one saved */
+-	if (history->priv->save_id != 0) {
+-		g_debug ("deferring as others queued");
+-		return TRUE;
++	/* we already have one saved, clear it if it will fire earlier */
++	if (history->priv->save_source) {
++		guint64 ready = g_source_get_ready_time (history->priv->save_source);
++
++		if (ready > g_source_get_time (history->priv->save_source) + timeout * G_USEC_PER_SEC) {
++			g_clear_pointer (&history->priv->save_source, g_source_destroy);
++		} else {
++			g_debug ("deferring as earlier timeout is already queued");
++			return TRUE;
++		}
+ 	}
+ 
+-	/* nothing scheduled, do new */
+-	g_debug ("saving in %i seconds", UP_HISTORY_SAVE_INTERVAL);
+-	history->priv->save_id = g_timeout_add_seconds (UP_HISTORY_SAVE_INTERVAL,
+-							(GSourceFunc) up_history_schedule_save_cb, history);
+-	g_source_set_name_by_id (history->priv->save_id, "[upower] up_history_schedule_save_cb");
++	/* nothing scheduled */
++	g_debug ("saving in %i seconds", timeout);
++	history->priv->save_source = g_timeout_source_new_seconds (timeout);
++	g_source_set_name (history->priv->save_source, "[upower] up_history_schedule_save_cb");
++	g_source_attach (history->priv->save_source, NULL);
++	g_source_set_callback (history->priv->save_source,
++			       (GSourceFunc) up_history_schedule_save_cb, history,
++			       NULL);
+ 	return TRUE;
+ }
+ 
+@@ -902,8 +913,7 @@ up_history_finalize (GObject *object)
+ 	history = UP_HISTORY (object);
+ 
+ 	/* save */
+-	if (history->priv->save_id > 0)
+-		g_source_remove (history->priv->save_id);
++	g_clear_pointer (&history->priv->save_source, g_source_destroy);
+ 	if (history->priv->id != NULL)
+ 		up_history_save_data (history);
+ 
+-- 
+2.35.1
+

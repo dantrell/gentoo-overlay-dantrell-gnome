@@ -1,0 +1,35 @@
+From 94af9d6f3d9cf87001718d60826eee1975a38fd6 Mon Sep 17 00:00:00 2001
+From: Benjamin Berg <bberg@redhat.com>
+Date: Thu, 27 Jan 2022 13:08:46 +0100
+Subject: [PATCH 55/86] linux: Make test compatible with older dbusmock
+ versions
+
+The changes from 37b6d4b039a7 ("linux: Fix Bluetooth tests for
+python-dbusmock changes") require a not-yet-released dbusmock version.
+Simply catch the error and fall back to adding the properties in order
+to be compatible with both old and new dbusmock versions of the bluez
+service.
+---
+ src/linux/integration-test.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/src/linux/integration-test.py b/src/linux/integration-test.py
+index a4722b8..e25cafe 100755
+--- a/src/linux/integration-test.py
++++ b/src/linux/integration-test.py
+@@ -1745,7 +1745,11 @@ class Tests(dbusmock.DBusTestCase):
+         device = self.dbus_con.get_object('org.bluez', path)
+ 
+         if device_properties:
+-            device.UpdateProperties(DEVICE_IFACE, device_properties)
++            try:
++                # The properties are only installed for umockdev newer than 0.25.0
++                device.UpdateProperties(DEVICE_IFACE, device_properties)
++            except dbus.exceptions.DBusException:
++                device.AddProperties(DEVICE_IFACE, device_properties)
+ 
+         battery_properties = {
+             'Percentage': dbus.Byte(battery_level, variant_level=1),
+-- 
+2.35.1
+

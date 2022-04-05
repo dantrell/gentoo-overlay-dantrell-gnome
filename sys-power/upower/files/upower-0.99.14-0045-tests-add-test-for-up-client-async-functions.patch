@@ -1,0 +1,38 @@
+From 8f893964a29fc779853f32379df097dbd1a6a400 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 21 Jan 2022 22:31:24 +0100
+Subject: [PATCH 45/86] tests: Add test for up_client_async*() functions
+
+---
+ src/linux/integration-test.py | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/src/linux/integration-test.py b/src/linux/integration-test.py
+index 2b4ab16..c6174f6 100755
+--- a/src/linux/integration-test.py
++++ b/src/linux/integration-test.py
+@@ -1967,6 +1967,21 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(client.get_critical_action(), 'HybridSleep')
+         self.stop_daemon()
+ 
++    def test_lib_up_client_async(self):
++        '''Test up_client_async_new()'''
++
++        self.start_daemon()
++
++        def client_new_cb(obj, task):
++            nonlocal ml
++            client = UPowerGlib.Client.new_finish(task)
++            self.assertRegex(client.get_daemon_version(), '^[0-9.]+$')
++            ml.quit()
++
++        ml = GLib.MainLoop()
++        UPowerGlib.Client.new_async(None, client_new_cb)
++        ml.run()
++
+     #
+     # Helper methods
+     #
+-- 
+2.35.1
+

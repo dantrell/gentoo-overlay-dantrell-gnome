@@ -1,0 +1,53 @@
+From 4e962fdc8d26a8b98bbd75fbca16d872d935eff2 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 19 Aug 2021 18:51:30 +0200
+Subject: [PATCH 01/86] lib: Mark lid related functions and properties as
+ deprecated
+
+As we want to eventually remove them.
+
+See https://gitlab.freedesktop.org/upower/upower/-/merge_requests/5
+---
+ libupower-glib/up-client.c | 4 ++--
+ libupower-glib/up-client.h | 2 ++
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/libupower-glib/up-client.c b/libupower-glib/up-client.c
+index 723ab75..447efb7 100644
+--- a/libupower-glib/up-client.c
++++ b/libupower-glib/up-client.c
+@@ -404,7 +404,7 @@ up_client_class_init (UpClientClass *klass)
+ 							       "If the laptop lid is closed",
+ 							       NULL,
+ 							       FALSE,
+-							       G_PARAM_READABLE));
++							       G_PARAM_READABLE | G_PARAM_DEPRECATED));
+ 	/**
+ 	 * UpClient:lid-is-present:
+ 	 *
+@@ -418,7 +418,7 @@ up_client_class_init (UpClientClass *klass)
+ 							       "If a laptop lid is present",
+ 							       NULL,
+ 							       FALSE,
+-							       G_PARAM_READABLE));
++							       G_PARAM_READABLE | G_PARAM_DEPRECATED));
+ 
+ 	/**
+ 	 * UpClient::device-added:
+diff --git a/libupower-glib/up-client.h b/libupower-glib/up-client.h
+index 0180dd4..5ce31c3 100644
+--- a/libupower-glib/up-client.h
++++ b/libupower-glib/up-client.h
+@@ -82,7 +82,9 @@ char *		 up_client_get_critical_action		(UpClient *client);
+ GPtrArray	*up_client_get_devices			(UpClient		*client) G_DEPRECATED_FOR(up_client_get_devices2);
+ GPtrArray	*up_client_get_devices2			(UpClient		*client);
+ const gchar	*up_client_get_daemon_version		(UpClient		*client);
++G_DEPRECATED
+ gboolean	 up_client_get_lid_is_closed		(UpClient		*client);
++G_DEPRECATED
+ gboolean	 up_client_get_lid_is_present		(UpClient		*client);
+ gboolean	 up_client_get_on_battery		(UpClient		*client);
+ 
+-- 
+2.35.1
+

@@ -1,0 +1,112 @@
+From fa23d1be0c58e23a5ab49ac29a2eb7b7070d270b Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 17 Jun 2021 10:40:19 +0200
+Subject: [PATCH 039/157] linux: Add property to ignore the "capacity" sysfs
+ value
+
+On some hardware, the "capacity" sysfs contains the capacity of the
+battery when full compared to when it was new, instead of the percentage
+of battery available.
+
+Make it possible to ignore the "capacity" with this new property.
+---
+ src/linux/up-device-supply.c | 51 +++++++++++++++++++++++++++++++++++-
+ 1 file changed, 50 insertions(+), 1 deletion(-)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index 7485b26..16c3bee 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -40,6 +40,11 @@
+ #include "up-device-supply.h"
+ #include "up-backend-linux-private.h"
+ 
++enum {
++	PROP_0,
++	PROP_IGNORE_SYSTEM_PERCENTAGE
++};
++
+ #define UP_DEVICE_SUPPLY_CHARGED_THRESHOLD	90.0f	/* % */
+ 
+ #define UP_DEVICE_SUPPLY_COLDPLUG_UNITS_CHARGE		TRUE
+@@ -68,6 +73,7 @@ struct UpDeviceSupplyPrivate
+ 	gboolean		 disable_battery_poll; /* from configuration */
+ 	gboolean		 is_power_supply;
+ 	gboolean		 shown_invalid_voltage_warning;
++	gboolean		 ignore_system_percentage;
+ };
+ 
+ G_DEFINE_TYPE_WITH_PRIVATE (UpDeviceSupply, up_device_supply, UP_TYPE_DEVICE)
+@@ -722,7 +728,8 @@ up_device_supply_refresh_battery (UpDeviceSupply *supply,
+ 		energy_rate = up_device_supply_calculate_rate (supply, energy);
+ 
+ 	/* get a precise percentage */
+-        if (sysfs_file_exists (native_path, "capacity")) {
++        if (!supply->priv->ignore_system_percentage &&
++            sysfs_file_exists (native_path, "capacity")) {
+ 		percentage = sysfs_get_double (native_path, "capacity");
+ 		percentage = CLAMP(percentage, 0.0f, 100.0f);
+                 /* for devices which provide capacity, but not {energy,charge}_now */
+@@ -1276,6 +1283,40 @@ up_device_supply_finalize (GObject *object)
+ 	G_OBJECT_CLASS (up_device_supply_parent_class)->finalize (object);
+ }
+ 
++static void
++up_device_supply_set_property (GObject        *object,
++			       guint           property_id,
++			       const GValue   *value,
++			       GParamSpec     *pspec)
++{
++	UpDeviceSupply *supply = UP_DEVICE_SUPPLY (object);
++
++	switch (property_id) {
++	case PROP_IGNORE_SYSTEM_PERCENTAGE:
++		supply->priv->ignore_system_percentage = g_value_get_boolean (value);
++		break;
++	default:
++		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
++	}
++}
++
++static void
++up_device_supply_get_property (GObject        *object,
++			       guint           property_id,
++			       GValue         *value,
++			       GParamSpec     *pspec)
++{
++	UpDeviceSupply *supply = UP_DEVICE_SUPPLY (object);
++
++	switch (property_id) {
++	case PROP_IGNORE_SYSTEM_PERCENTAGE:
++		g_value_set_flags (value, supply->priv->ignore_system_percentage);
++		break;
++	default:
++		G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
++	}
++}
++
+ /**
+  * up_device_supply_class_init:
+  **/
+@@ -1286,10 +1327,18 @@ up_device_supply_class_init (UpDeviceSupplyClass *klass)
+ 	UpDeviceClass *device_class = UP_DEVICE_CLASS (klass);
+ 
+ 	object_class->finalize = up_device_supply_finalize;
++	object_class->set_property = up_device_supply_set_property;
++	object_class->get_property = up_device_supply_get_property;
+ 	device_class->get_on_battery = up_device_supply_get_on_battery;
+ 	device_class->get_online = up_device_supply_get_online;
+ 	device_class->coldplug = up_device_supply_coldplug;
+ 	device_class->refresh = up_device_supply_refresh;
++
++	g_object_class_install_property (object_class, PROP_IGNORE_SYSTEM_PERCENTAGE,
++					 g_param_spec_boolean ("ignore-system-percentage",
++							       "Ignore system percentage",
++							       "Ignore system provided battery percentage",
++							       FALSE, G_PARAM_READWRITE));
+ }
+ 
+ /**
+-- 
+2.35.1
+

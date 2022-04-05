@@ -1,0 +1,41 @@
+From 706dcd44e443f630607554b1154a5d3685d43a9c Mon Sep 17 00:00:00 2001
+From: Benjamin Berg <bberg@redhat.com>
+Date: Mon, 1 Feb 2021 12:11:00 +0100
+Subject: [PATCH 036/157] up-tool: Catch NULL return for more upower API calls
+
+This can lead to crashes if the communication with the daemon fails.
+
+See https://bugzilla.redhat.com/show_bug.cgi?id=1922777
+---
+ tools/up-tool.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/tools/up-tool.c b/tools/up-tool.c
+index 724e468..5e73cc5 100644
+--- a/tools/up-tool.c
++++ b/tools/up-tool.c
+@@ -315,6 +315,10 @@ main (int argc, char **argv)
+ 	if (opt_enumerate || opt_dump) {
+ 		GPtrArray *devices;
+ 		devices = up_client_get_devices2 (client);
++		if (!devices) {
++			g_print ("Failed to get device list\n");
++			goto out;
++		}
+ 		for (i=0; i < devices->len; i++) {
+ 			device = (UpDevice*) g_ptr_array_index (devices, i);
+ 			if (opt_enumerate) {
+@@ -328,6 +332,10 @@ main (int argc, char **argv)
+ 		}
+ 		g_ptr_array_unref (devices);
+ 		device = up_client_get_display_device (client);
++		if (!device) {
++			g_print ("Failed to get display device\n");
++			goto out;
++		}
+ 		if (opt_enumerate) {
+ 			g_print ("%s\n", up_device_get_object_path (device));
+ 		} else {
+-- 
+2.35.1
+

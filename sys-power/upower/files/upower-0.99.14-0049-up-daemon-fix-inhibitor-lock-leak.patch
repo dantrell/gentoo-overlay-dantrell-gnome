@@ -1,0 +1,30 @@
+From 545e54713ae96a571caaec7cdcbc9b9a3e12dbde Mon Sep 17 00:00:00 2001
+From: John Sheu <john.sheu+gitlab.freedesktop.org@gmail.com>
+Date: Wed, 15 Dec 2021 20:32:32 +0000
+Subject: [PATCH 49/86] up-daemon: fix inhibitor lock leak
+
+The inhibitor lock should also be released when a critical action
+timeout is cancelled, to avoid leaking the lock.
+---
+ src/up-daemon.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/src/up-daemon.c b/src/up-daemon.c
+index 6522a85..1db5e4f 100644
+--- a/src/up-daemon.c
++++ b/src/up-daemon.c
+@@ -636,6 +636,11 @@ up_daemon_set_warning_level (UpDaemon *daemon, UpDeviceLevel warning_level)
+ 			g_debug ("Removing timeout as action level changed");
+ 			g_source_remove (daemon->priv->action_timeout_id);
+ 		}
++
++		if (daemon->priv->critical_action_lock_fd >= 0) {
++			close (daemon->priv->critical_action_lock_fd);
++			daemon->priv->critical_action_lock_fd = -1;
++		}
+ 	}
+ }
+ 
+-- 
+2.35.1
+

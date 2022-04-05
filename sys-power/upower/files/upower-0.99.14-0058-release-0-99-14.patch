@@ -1,0 +1,50 @@
+From ab9520a7aad3795be7975e021577093a6e85946c Mon Sep 17 00:00:00 2001
+From: Benjamin Berg <bberg@redhat.com>
+Date: Wed, 2 Feb 2022 17:15:27 +0100
+Subject: [PATCH 58/86] Release 0.99.14
+
+---
+ NEWS        | 18 ++++++++++++++++++
+ meson.build |  2 +-
+ 2 files changed, 19 insertions(+), 1 deletion(-)
+
+diff --git a/NEWS b/NEWS
+index 7ee6e6c..782ed35 100644
+--- a/NEWS
++++ b/NEWS
+@@ -1,3 +1,21 @@
++Version 0.99.14
++---------------
++Released: 2022-02-03
++
++Changes:
++- Port build system to meson
++- New ChargeCycles D-Bus property (#152)
++- New async GLib APIs (#121)
++- lid related functions are now deprecated
++- Refresh API is now deprecated
++
++Bug fixes:
++- Plenty of test suite fixes
++- Fix leak of inhibitor lock (#160)
++- Recognize USB power supplies (#148)
++- Fix time compression of data points (#167)
++- Fix disk write amplification when battery is low (#150)
++
+ Version 0.99.13
+ ---------------
+ Released: 2021-08-17
+diff --git a/meson.build b/meson.build
+index fe0497b..f87de19 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1,5 +1,5 @@
+ project('upower', 'c',
+-    version: '0.99.13',
++    version: '0.99.14',
+     license: 'GPLv2+',
+     default_options: [
+         'buildtype=debugoptimized',
+-- 
+2.35.1
+

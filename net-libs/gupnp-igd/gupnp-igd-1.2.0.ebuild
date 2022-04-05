@@ -9,7 +9,7 @@ HOMEPAGE="http://gupnp.org https://gitlab.gnome.org/GNOME/gupnp-igd"
 
 LICENSE="LGPL-2.1+"
 SLOT="0/1.2" # pkg-config file links in gupnp API, so some consumers of gupnp-igd need to be relinked for it
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gtk-doc +introspection"
 

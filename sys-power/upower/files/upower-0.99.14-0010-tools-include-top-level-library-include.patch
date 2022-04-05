@@ -1,0 +1,28 @@
+From c0402747fd579e00d029644c8f835fcbbbdbbc00 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 2 Sep 2021 17:46:25 +0200
+Subject: [PATCH 10/86] tools: Include top-level library include
+
+So we don't need to define UP_COMPILATION
+---
+ tools/up-tool.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/tools/up-tool.c b/tools/up-tool.c
+index 5e73cc5..eeee0b4 100644
+--- a/tools/up-tool.c
++++ b/tools/up-tool.c
+@@ -32,9 +32,7 @@
+ #include <glib/gi18n-lib.h>
+ #include <locale.h>
+ 
+-#include "up-client.h"
+-#include "up-device.h"
+-#include "up-wakeups.h"
++#include "upower.h"
+ 
+ static GMainLoop *loop;
+ static gboolean opt_monitor_detail = FALSE;
+-- 
+2.35.1
+

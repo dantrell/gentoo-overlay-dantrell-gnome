@@ -8,7 +8,7 @@ inherit perl-module systemd flag-o-matic
 
 DESCRIPTION="Cups filters"
 HOMEPAGE="https://wiki.linuxfoundation.org/openprinting/cups-filters"
-SRC_URI="http://www.openprinting.org/download/${PN}/${P}.tar.xz"
+SRC_URI="https://www.openprinting.org/download/${PN}/${P}.tar.xz"
 
 LICENSE="MIT GPL-2"
 SLOT="0"

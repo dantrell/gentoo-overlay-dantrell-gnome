@@ -1,0 +1,59 @@
+From 64582256a8c75127c3de23f5542c8467e2e9484a Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 19 Jan 2021 13:31:25 +0100
+Subject: [PATCH 028/157] build: Remove libusb dependency in Linux
+
+As the last user, the CSR support code, was removed.
+---
+ configure.ac          | 1 -
+ src/Makefile.am       | 2 --
+ src/linux/Makefile.am | 1 -
+ 3 files changed, 4 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 5f08d91..9db579f 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -199,7 +199,6 @@ AC_SUBST(BACKEND, "$with_backend")
+ have_idevice=no
+ if test x$with_backend = xlinux; then
+ 	PKG_CHECK_MODULES(GUDEV, [gudev-1.0 >= 147])
+-	PKG_CHECK_MODULES(USB, [libusb-1.0 >= 1.0.0])
+ 	AC_ARG_WITH(idevice, AS_HELP_STRING([--without-idevice],[Build without libimobiledevice]),
+ 		    with_idevice=$withval,with_idevice=yes)
+ 	LIBPLIST_DEP=libplist
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 3400139..81f5566 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -69,7 +69,6 @@ upowerd_CPPFLAGS =						\
+ 
+ upowerd_LDADD =							\
+ 	-lm							\
+-	$(USB_LIBS)						\
+ 	$(GIO_LIBS)						\
+ 	$(GIO_UNIX_LIBS)					\
+ 	$(UPOWER_LIBS)
+@@ -94,7 +93,6 @@ endif
+ if BACKEND_TYPE_LINUX
+ upowerd_LDADD += 						\
+ 	linux/libupshared.la					\
+-	$(USB_LIBS)						\
+ 	$(GUDEV_LIBS)						\
+ 	$(IDEVICE_LIBS)						\
+ 	$(NULL)
+diff --git a/src/linux/Makefile.am b/src/linux/Makefile.am
+index 82f60fd..5f3475d 100644
+--- a/src/linux/Makefile.am
++++ b/src/linux/Makefile.am
+@@ -7,7 +7,6 @@ AM_CPPFLAGS = \
+ 	-DG_LOG_DOMAIN=\"UPower-Linux\"				\
+ 	-DPACKAGE_SYSCONF_DIR=\""$(sysconfdir)"\"		\
+ 	-I$(top_srcdir)/libupower-glib				\
+-	$(USB_CFLAGS)						\
+ 	$(GIO_CFLAGS)						\
+ 	$(GIO_UNIX_CFLAGS)					\
+ 	$(GUDEV_CFLAGS)						\
+-- 
+2.35.1
+

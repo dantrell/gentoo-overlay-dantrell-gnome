@@ -1,0 +1,40 @@
+From 5f4d16ad4d525431092dc47492ff3ee982b4d518 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 7 Sep 2021 15:31:19 +0200
+Subject: [PATCH 29/86] build: Fix idevice support always being off
+
+---
+ meson.build           | 1 +
+ src/linux/meson.build | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index 122de7c..2f578b5 100644
+--- a/meson.build
++++ b/meson.build
+@@ -79,6 +79,7 @@ if os_backend == 'linux'
+       plist_dep = dependency(libplist)
+     endif
+   endif
++  cdata.set10('HAVE_IDEVICE', true)
+ endif
+ 
+ historydir = get_option('historydir')
+diff --git a/src/linux/meson.build b/src/linux/meson.build
+index 60478a9..f50be42 100644
+--- a/src/linux/meson.build
++++ b/src/linux/meson.build
+@@ -21,8 +21,9 @@ upshared += { 'linux': static_library('upshared',
+         'up-backend.c',
+         'up-backend-linux-private.h',
+         'up-native.c',
++        idevice_sources
+     ],
+     c_args: [ '-DG_LOG_DOMAIN="UPower-Linux"' ],
+-    dependencies: [ gudev_dep, upowerd_deps ],
++    dependencies: [ gudev_dep, upowerd_deps, idevice_dep ],
+     build_by_default: false,
+ )}
+-- 
+2.35.1
+

@@ -1,0 +1,31 @@
+From 47481f3a57aeffa140f34e13f8a003b0b094af03 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 23 Oct 2020 14:34:34 +0200
+Subject: [PATCH 021/157] linux: Fix warning when compiling with meson
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+src/up-input.c:294:3: warning: implicit declaration of function ‘close’; did you mean ‘pclose’? [-Wimplicit-function-declaration]
+  294 |   close (input->eventfp);
+      |   ^~~~~
+      |   pclose
+---
+ src/linux/up-input.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/linux/up-input.c b/src/linux/up-input.c
+index 0de53f3..565f11e 100644
+--- a/src/linux/up-input.c
++++ b/src/linux/up-input.c
+@@ -23,6 +23,7 @@
+ #endif
+ 
+ #include <errno.h>
++#include <unistd.h>
+ #include <fcntl.h>
+ #include <linux/input.h>
+ 
+-- 
+2.35.1
+

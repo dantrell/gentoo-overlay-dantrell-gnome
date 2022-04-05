@@ -11,7 +11,7 @@ HOMEPAGE="https://www.gtkmm.org/"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 BDEPEND="${PYTHON_DEPS}"
 

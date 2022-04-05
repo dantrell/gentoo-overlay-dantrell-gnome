@@ -1,0 +1,25 @@
+From 0d08f8feeaeefe89219a3bcbfd6c930cda47c1eb Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Mon, 24 Jan 2022 18:18:43 +0100
+Subject: [PATCH 51/86] lib: Remove unnecessary cast
+
+---
+ libupower-glib/up-client.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libupower-glib/up-client.c b/libupower-glib/up-client.c
+index 93d3507..5a1cbc6 100644
+--- a/libupower-glib/up-client.c
++++ b/libupower-glib/up-client.c
+@@ -120,7 +120,7 @@ up_client_get_devices_full (UpClient      *client,
+ 
+ 	for (i = 0; devices[i] != NULL; i++) {
+ 		UpDevice *device;
+-		const char *object_path = ((char **)devices)[i];
++		const char *object_path = devices[i];
+ 		gboolean ret;
+ 
+ 		device = up_device_new ();
+-- 
+2.35.1
+

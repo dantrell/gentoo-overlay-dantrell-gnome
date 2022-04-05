@@ -1,0 +1,70 @@
+From d697b39408bab38900b8ebaaa7dd3939d6486482 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 5 Nov 2020 16:15:40 +0100
+Subject: [PATCH 023/157] linux: Add support for running under umockdev
+
+The sysfs path needs to be adjusted when running under umockdev.
+---
+ src/linux/up-input.c | 25 +++++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
+
+diff --git a/src/linux/up-input.c b/src/linux/up-input.c
+index 3408714..d0d0509 100644
+--- a/src/linux/up-input.c
++++ b/src/linux/up-input.c
+@@ -68,6 +68,26 @@ static guint signals[LAST_SIGNAL] = { 0 };
+ #define LONG(x) ((x)/BITS_PER_LONG)
+ #define test_bit(bit, array)    ((array[LONG(bit)] >> OFF(bit)) & 1)
+ 
++
++/**
++ * up_input_get_device_sysfs_path:
++ **/
++static char *
++up_input_get_device_sysfs_path (GUdevDevice *device)
++{
++  const char *root;
++
++  g_return_val_if_fail (G_UDEV_IS_DEVICE (device), FALSE);
++
++  root = g_getenv ("UMOCKDEV_DIR");
++  if (!root || *root == '\0')
++    return g_strdup (g_udev_device_get_sysfs_path (device));
++
++  return g_build_filename (root,
++                           g_udev_device_get_sysfs_path (device),
++                           NULL);
++}
++
+ /**
+  * up_input_str_to_bitmask:
+  **/
+@@ -169,7 +189,7 @@ up_input_coldplug (UpInput *input, GUdevDevice *d)
+ 	gboolean ret = FALSE;
+ 	gchar *path;
+ 	gchar *contents = NULL;
+-	const gchar *native_path;
++	gchar *native_path = NULL;
+ 	const gchar *device_file;
+ 	GError *error = NULL;
+ 	glong bitmask[NBITS(SW_MAX)];
+@@ -177,7 +197,7 @@ up_input_coldplug (UpInput *input, GUdevDevice *d)
+ 	GIOStatus status;
+ 
+ 	/* get sysfs path */
+-	native_path = g_udev_device_get_sysfs_path (d);
++	native_path = up_input_get_device_sysfs_path (d);
+ 
+ 	/* is a switch */
+ 	path = g_build_filename (native_path, "../capabilities/sw", NULL);
+@@ -261,6 +281,7 @@ up_input_coldplug (UpInput *input, GUdevDevice *d)
+ 	input->last_switch_state = test_bit (input->watched_switch, bitmask);
+ 
+ out:
++	g_free (native_path);
+ 	g_free (path);
+ 	g_free (contents);
+ 	return ret;
+-- 
+2.35.1
+

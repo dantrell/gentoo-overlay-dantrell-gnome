@@ -1,3 +1,5 @@
+~dev-libs/libical-3.0.13 berkdb
+~dev-libs/libical-3.0.14 berkdb
 app-crypt/gpgme python
 app-i18n/ibus vala
 app-office/gnome-todo libecal2

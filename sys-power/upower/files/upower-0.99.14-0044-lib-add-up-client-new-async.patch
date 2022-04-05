@@ -1,0 +1,147 @@
+From c5282324d8135e96efbd975f62734d3b89e3a43e Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 21 Jan 2022 17:08:21 +0100
+Subject: [PATCH 44/86] lib: Add up_client_new_async()
+
+Closes: #121
+---
+ libupower-glib/up-client.c | 95 ++++++++++++++++++++++++++++++++++++--
+ libupower-glib/up-client.h |  5 ++
+ 2 files changed, 95 insertions(+), 5 deletions(-)
+
+diff --git a/libupower-glib/up-client.c b/libupower-glib/up-client.c
+index 447efb7..6f50021 100644
+--- a/libupower-glib/up-client.c
++++ b/libupower-glib/up-client.c
+@@ -38,10 +38,11 @@
+ #include "up-daemon-generated.h"
+ #include "up-device.h"
+ 
+-static void	up_client_class_init		(UpClientClass	*klass);
+-static void	up_client_initable_iface_init	(GInitableIface *iface);
+-static void	up_client_init			(UpClient	*client);
+-static void	up_client_finalize		(GObject	*object);
++static void	up_client_class_init			(UpClientClass	*klass);
++static void	up_client_initable_iface_init		(GInitableIface *iface);
++static void	up_client_async_initable_iface_init	(GAsyncInitableIface *async_initable_iface);
++static void	up_client_init				(UpClient	*client);
++static void	up_client_finalize			(GObject	*object);
+ 
+ /**
+  * UpClientPrivate:
+@@ -72,7 +73,8 @@ static guint signals [UP_CLIENT_LAST_SIGNAL] = { 0 };
+ 
+ G_DEFINE_TYPE_WITH_CODE (UpClient, up_client, G_TYPE_OBJECT,
+ 			 G_ADD_PRIVATE(UpClient)
+-                         G_IMPLEMENT_INTERFACE(G_TYPE_INITABLE, up_client_initable_iface_init))
++                         G_IMPLEMENT_INTERFACE(G_TYPE_INITABLE, up_client_initable_iface_init)
++                         G_IMPLEMENT_INTERFACE (G_TYPE_ASYNC_INITABLE, up_client_async_initable_iface_init))
+ 
+ /**
+  * up_client_get_devices:
+@@ -559,3 +561,86 @@ up_client_new (void)
+ 	return client;
+ }
+ 
++static void
++up_client_async_initable_iface_init (GAsyncInitableIface *async_initable_iface)
++{
++  /* Use default */
++}
++
++static void
++up_client_new_async_initable_cb (GObject      *source_object,
++				 GAsyncResult *res,
++				 gpointer      user_data)
++{
++  GTask *task = user_data;
++  GError *error = NULL;
++
++  if (!g_async_initable_init_finish (G_ASYNC_INITABLE (source_object),
++                                     res,
++                                     &error))
++    {
++      g_assert (error != NULL);
++      g_task_return_error (task, error);
++      g_object_unref (source_object);
++    }
++  else
++    {
++      g_task_return_pointer (task, source_object, g_object_unref);
++    }
++  g_object_unref (task);
++}
++
++/**
++ * up_client_new_async:
++ * @cancellable: (nullable): a #GCancellable or %NULL
++ * @callback: a #GAsyncReadyCallback to call when the request is satisfied
++ * @user_data: the data to pass to @callback
++ *
++ * Asynchronously creates a new #UpClient object.
++ *
++ * This is an asynchronous failable function.
++ *
++ * Since: 0.99.14
++ **/
++void
++up_client_new_async (GCancellable        *cancellable,
++		     GAsyncReadyCallback  callback,
++		     gpointer             user_data)
++{
++  UpClient *client;
++  GTask *task;
++
++  task = g_task_new (NULL, cancellable, callback, user_data);
++  g_task_set_source_tag (task, (gpointer) G_STRFUNC);
++
++  client = g_object_new (UP_TYPE_CLIENT, NULL);
++  g_async_initable_init_async (G_ASYNC_INITABLE (client),
++                               G_PRIORITY_DEFAULT,
++                               cancellable,
++                               up_client_new_async_initable_cb,
++                               task);
++}
++
++/**
++ * up_client_new_finish:
++ * @res: a #GAsyncResult obtained from the #GAsyncReadyCallback passed
++ *     to up_client_new_async()
++ * @error: return location for error or %NULL
++ *
++ * Finishes an operation started with up_client_new_async().
++ *
++ * Returns: (transfer full): a #UpClient or %NULL if @error is set.
++ *     Free with g_object_unref().
++ *
++ * Since: 0.99.14
++ **/
++UpClient *
++up_client_new_finish (GAsyncResult  *res,
++		      GError       **error)
++{
++  g_return_val_if_fail (g_task_is_valid (res, NULL), NULL);
++  g_return_val_if_fail (error == NULL || *error == NULL, NULL);
++
++  return g_task_propagate_pointer (G_TASK (res), error);
++}
++
+diff --git a/libupower-glib/up-client.h b/libupower-glib/up-client.h
+index 5ce31c3..bd149cd 100644
+--- a/libupower-glib/up-client.h
++++ b/libupower-glib/up-client.h
+@@ -73,6 +73,11 @@ typedef struct {
+ GType		 up_client_get_type			(void);
+ UpClient	*up_client_new				(void);
+ UpClient	*up_client_new_full			(GCancellable *cancellable, GError **error);
++void		 up_client_new_async			(GCancellable        *cancellable,
++							 GAsyncReadyCallback  callback,
++							 gpointer             user_data);
++UpClient 	*up_client_new_finish			(GAsyncResult  *res,
++							 GError       **error);
+ 
+ /* sync versions */
+ UpDevice *	 up_client_get_display_device		(UpClient *client);
+-- 
+2.35.1
+

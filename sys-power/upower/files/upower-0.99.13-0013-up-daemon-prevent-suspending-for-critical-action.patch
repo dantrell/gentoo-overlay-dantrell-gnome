@@ -1,0 +1,60 @@
+From 0dc2a521be870d9663a459a03f5ec38a7e33e6ab Mon Sep 17 00:00:00 2001
+From: Dylan Van Assche <me@dylanvanassche.be>
+Date: Tue, 10 Aug 2021 13:25:49 +0200
+Subject: [PATCH 013/103] up-daemon: prevent suspending for critical action
+
+Take inhibitor lock when notifying the user
+about a critical battery level and release lock
+when executing critical battery action.
+---
+ src/up-daemon.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/src/up-daemon.c b/src/up-daemon.c
+index b8cec84..53e51dd 100644
+--- a/src/up-daemon.c
++++ b/src/up-daemon.c
+@@ -46,6 +46,7 @@ struct UpDaemonPrivate
+ 	GHashTable		*poll_timeouts;
+ 	gboolean                 poll_paused;
+ 	GHashTable		*idle_signals;
++	int			 critical_action_lock_fd;
+ 
+ 	/* Properties */
+ 	UpDeviceLevel		 warning_level;
+@@ -588,6 +589,12 @@ up_daemon_set_on_battery (UpDaemon *daemon, gboolean on_battery)
+ static gboolean
+ take_action_timeout_cb (UpDaemon *daemon)
+ {
++	/* Release the inhibitor lock first, otherwise our action may be canceled */
++	if (daemon->priv->critical_action_lock_fd >= 0) {
++		close (daemon->priv->critical_action_lock_fd);
++		daemon->priv->critical_action_lock_fd = -1;
++	}
++
+ 	up_backend_take_action (daemon->priv->backend);
+ 
+ 	g_debug ("Backend was notified to take action. The timeout will be removed.");
+@@ -618,6 +625,7 @@ up_daemon_set_warning_level (UpDaemon *daemon, UpDeviceLevel warning_level)
+ 	if (daemon->priv->warning_level == UP_DEVICE_LEVEL_ACTION) {
+ 		if (daemon->priv->action_timeout_id == 0) {
+ 			g_debug ("About to take action in %d seconds", UP_DAEMON_ACTION_DELAY);
++			daemon->priv->critical_action_lock_fd = up_backend_inhibitor_lock_take (daemon->priv->backend, "Execute critical action", "block");
+ 			daemon->priv->action_timeout_id = g_timeout_add_seconds (UP_DAEMON_ACTION_DELAY,
+ 										 (GSourceFunc) take_action_timeout_cb,
+ 										 daemon);
+@@ -1188,6 +1196,11 @@ up_daemon_finalize (GObject *object)
+ 	if (priv->action_timeout_id != 0)
+ 		g_source_remove (priv->action_timeout_id);
+ 
++	if (priv->critical_action_lock_fd >= 0) {
++		close (priv->critical_action_lock_fd);
++		priv->critical_action_lock_fd = -1;
++	}
++
+ 	g_clear_pointer (&priv->poll_timeouts, g_hash_table_destroy);
+ 	g_clear_pointer (&priv->idle_signals, g_hash_table_destroy);
+ 
+-- 
+2.35.1
+

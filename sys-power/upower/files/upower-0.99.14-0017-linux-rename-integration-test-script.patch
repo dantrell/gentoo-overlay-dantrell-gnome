@@ -1,0 +1,32 @@
+From 20cb2e96101e3777c1e6de54546c5a15354d9b57 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 7 Sep 2021 11:28:33 +0200
+Subject: [PATCH 17/86] linux: Rename integration test script
+
+Add the python suffix.
+---
+ src/linux/{integration-test => integration-test.py} | 0
+ src/meson.build                                     | 2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename src/linux/{integration-test => integration-test.py} (100%)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test.py
+similarity index 100%
+rename from src/linux/integration-test
+rename to src/linux/integration-test.py
+diff --git a/src/meson.build b/src/meson.build
+index 0f10c13..12920fe 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -123,7 +123,7 @@ if os_backend == 'linux' and gir_dep.found()
+ 
+     test(
+         'integration-test',
+-        find_program('linux/integration-test'),
++        find_program('linux/integration-test.py'),
+         timeout: 120,
+         env: env,
+     )
+-- 
+2.35.1
+

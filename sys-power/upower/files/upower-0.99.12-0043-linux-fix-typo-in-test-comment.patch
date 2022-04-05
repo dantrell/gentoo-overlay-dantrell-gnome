@@ -1,0 +1,25 @@
+From 2ab63bd81bde6b2265f531b0e65cdfe828996423 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 15 Sep 2020 13:08:56 +0200
+Subject: [PATCH 043/157] linux: Fix typo in test comment
+
+---
+ src/linux/integration-test | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 44a89a1..e7de40d 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -198,7 +198,7 @@ class Tests(dbusmock.DBusTestCase):
+         this only works with coldplugging, as we do not currently have a way to
+         inject simulated uevents.
+ 
+-        When done, this sets self.proxy a the Gio.DBusProxy for upowerd.
++        When done, this sets self.proxy as the Gio.DBusProxy for upowerd.
+         '''
+         env = os.environ.copy()
+         if cfgfile is not None:
+-- 
+2.35.1
+

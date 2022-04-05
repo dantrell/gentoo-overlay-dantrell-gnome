@@ -1,0 +1,43 @@
+From 870a3a0c5bbcf8153ddaef4680ab8fc3009573b1 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 18 Jan 2022 13:05:49 +0100
+Subject: [PATCH 42/86] linux: Only try to open a device if it's not a fake UPS
+
+---
+ src/linux/up-device-hid.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/src/linux/up-device-hid.c b/src/linux/up-device-hid.c
+index d6131af..6c84801 100644
+--- a/src/linux/up-device-hid.c
++++ b/src/linux/up-device-hid.c
+@@ -321,18 +321,18 @@ up_device_hid_coldplug (UpDevice *device)
+ 		goto out;
+ 	}
+ 
+-	/* connect to the device */
+-	g_debug ("using device: %s", device_file);
+-	hid->priv->fd = open (device_file, O_RDONLY | O_NONBLOCK);
+-	if (hid->priv->fd < 0) {
+-		g_debug ("cannot open device file %s", device_file);
+-		goto out;
+-	}
+-
+ 	/* first check that we are an UPS */
+ 	hid->priv->fake_device = g_udev_device_has_property (native, "UPOWER_FAKE_DEVICE");
+ 	if (!hid->priv->fake_device)
+ 	{
++		/* connect to the device */
++		g_debug ("using device: %s", device_file);
++		hid->priv->fd = open (device_file, O_RDONLY | O_NONBLOCK);
++		if (hid->priv->fd < 0) {
++			g_debug ("cannot open device file %s", device_file);
++			goto out;
++		}
++
+ 		ret = up_device_hid_is_ups (hid);
+ 		if (!ret) {
+ 			g_debug ("not a HID device: %s", device_file);
+-- 
+2.35.1
+

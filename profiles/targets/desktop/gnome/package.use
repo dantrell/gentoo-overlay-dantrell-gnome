@@ -1,5 +1,6 @@
 app-crypt/gcr gtk
 app-crypt/libsecret vala
+app-emulation/qemu gnutls
 app-emulation/qemu smartcard
 app-emulation/qemu spice
 app-emulation/qemu usbredir
@@ -14,6 +15,7 @@ dev-cpp/gtkmm X
 dev-libs/boehm-gc threads
 dev-libs/folks eds
 dev-libs/libdazzle vala
+dev-libs/libgdata vala
 dev-libs/libgit2 ssh
 dev-libs/libgit2 threads
 dev-libs/libgit2-glib ssh

@@ -1,0 +1,59 @@
+From d8482bc767db44ea1ae5de6057e194628b4bddbf Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Pablo=20Correa=20G=C3=B3mez?= <ablocorrea@hotmail.com>
+Date: Wed, 30 Jun 2021 10:55:33 +0200
+Subject: [PATCH 005/103] tests: Add test for non-default low level
+
+---
+ src/linux/integration-test | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 8e1a862..128477c 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -1074,6 +1074,42 @@ class Tests(dbusmock.DBusTestCase):
+ 
+         os.unlink(config.name)
+ 
++    def test_percentage_low_icon_set(self):
++        '''Without battery level, PercentageLow is limit for icon change'''
++
++        bat0 = self.testbed.add_device('power_supply', 'BAT0', None,
++                                       ['type', 'Battery',
++                                        'present', '1',
++                                        'status', 'Discharging',
++                                        'energy_full',        '100000000',
++                                        'energy_full_design', '100000000',
++                                        'energy_now',          '15000000',
++                                        'capacity', '15',
++                                        'voltage_now', '12000000'], [])
++
++        config = tempfile.NamedTemporaryFile(delete=False, mode='w')
++        # Low, Critical and Action are all needed to avoid fallback to defaults
++        config.write("[UPower]\n")
++        config.write("PercentageLow=20\n")
++        config.write("PercentageCritical=3\n")
++        config.write("PercentageAction=2\n")
++        config.close()
++
++        self.start_daemon(cfgfile=config.name)
++        devs = self.proxy.EnumerateDevices()
++        self.assertEqual(len(devs), 1)
++        bat0_up = devs[0]
++
++        # capacity_level is unused because a 'capacity' attribute is present and used instead
++        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'BatteryLevel'), UP_DEVICE_LEVEL_NONE)
++        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'Percentage'), 15.0)
++        # Battery below 20% from config, should set 'caution' icon even if over default (10%)
++        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'IconName'), 'battery-caution-symbolic')
++
++        self.stop_daemon()
++
++        os.unlink(config.name)
++
+     def test_vendor_strings(self):
+         '''manufacturer/model_name/serial_number with valid and invalid strings'''
+ 
+-- 
+2.35.1
+

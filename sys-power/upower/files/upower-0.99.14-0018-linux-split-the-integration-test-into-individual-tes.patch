@@ -1,0 +1,97 @@
+From 68584d33f471f943fd76f7c997a5c0b2e93df57d Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 7 Sep 2021 11:30:22 +0200
+Subject: [PATCH 18/86] linux: Split the integration test into individual tests
+
+unittest_inspector.py lists the tests in the integration-test.py script,
+which are then added as individual tests.
+---
+ src/linux/unittest_inspector.py | 46 +++++++++++++++++++++++++++++++++
+ src/meson.build                 | 20 +++++++++-----
+ 2 files changed, 60 insertions(+), 6 deletions(-)
+ create mode 100755 src/linux/unittest_inspector.py
+
+diff --git a/src/linux/unittest_inspector.py b/src/linux/unittest_inspector.py
+new file mode 100755
+index 0000000..0d5d3a6
+--- /dev/null
++++ b/src/linux/unittest_inspector.py
+@@ -0,0 +1,46 @@
++#! /usr/bin/env python3
++# Copyright © 2020, Canonical Ltd
++#
++# This program is free software; you can redistribute it and/or
++# modify it under the terms of the GNU Lesser General Public
++# License as published by the Free Software Foundation; either
++# version 2.1 of the License, or (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++# Lesser General Public License for more details.
++#
++# You should have received a copy of the GNU Lesser General Public
++# License along with this library. If not, see <http://www.gnu.org/licenses/>.
++# Authors:
++#       Marco Trevisan <marco.trevisan@canonical.com>
++
++import argparse
++import importlib.util
++import inspect
++import os
++import unittest
++
++def list_tests(module):
++    tests = []
++    for name, obj in inspect.getmembers(module):
++        if inspect.isclass(obj) and issubclass(obj, unittest.TestCase):
++            cases = unittest.defaultTestLoader.getTestCaseNames(obj)
++            tests += [ (obj, '{}.{}'.format(name, t)) for t in cases ]
++    return tests
++
++
++if __name__ == '__main__':
++    parser = argparse.ArgumentParser()
++    parser.add_argument('unittest_source', type=argparse.FileType('r'))
++
++    args = parser.parse_args()
++    source_path = args.unittest_source.name
++    spec = importlib.util.spec_from_file_location(
++        os.path.basename(source_path), source_path)
++    module = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(module)
++
++    for machine, human in list_tests(module):
++        print(human)
+diff --git a/src/meson.build b/src/meson.build
+index 12920fe..7eb58f1 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -121,10 +121,18 @@ if os_backend == 'linux' and gir_dep.found()
+     env.prepend('LD_LIBRARY_PATH', join_paths(meson.build_root(), 'libupower-glib'))
+     env.prepend('GI_TYPELIB_PATH', join_paths(meson.build_root(), 'libupower-glib'))
+ 
+-    test(
+-        'integration-test',
+-        find_program('linux/integration-test.py'),
+-        timeout: 120,
+-        env: env,
+-    )
++    python3 = find_program('python3')
++    unittest_inspector = find_program('linux/unittest_inspector.py')
++    r = run_command(unittest_inspector, files('linux/integration-test.py'))
++    unit_tests = r.stdout().strip().split('\n')
++
++    foreach ut: unit_tests
++        ut_args = files('linux/integration-test.py')
++        ut_args += ut
++        test(ut,
++             python3,
++             args: ut_args,
++             env: env,
++            )
++    endforeach
+ endif
+-- 
+2.35.1
+

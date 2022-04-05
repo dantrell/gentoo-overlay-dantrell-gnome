@@ -20,6 +20,7 @@ RDEPEND="
 	dev-libs/libsigc++:2=[${MULTILIB_USEDEP}]
 	>=dev-libs/libsigc++-2.9.1:2[${MULTILIB_USEDEP}]
 	>=dev-libs/glib-2.61.2:2[${MULTILIB_USEDEP}]
+	>=dev-cpp/mm-common-1.0.0
 "
 DEPEND="${RDEPEND}"
 BDEPEND="

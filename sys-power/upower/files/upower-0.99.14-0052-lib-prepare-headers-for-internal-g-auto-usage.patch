@@ -1,0 +1,27 @@
+From 5e8b96ea242595bf0993b26c4c18f692580b3835 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Mon, 24 Jan 2022 18:27:19 +0100
+Subject: [PATCH 52/86] lib: Prepare headers for internal g_auto* usage
+
+---
+ libupower-glib/up-client.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/libupower-glib/up-client.c b/libupower-glib/up-client.c
+index 5a1cbc6..3dd72df 100644
+--- a/libupower-glib/up-client.c
++++ b/libupower-glib/up-client.c
+@@ -34,9 +34,8 @@
+ #include <stdio.h>
+ #include <glib-object.h>
+ 
+-#include "up-client.h"
++#include "upower.h"
+ #include "up-daemon-generated.h"
+-#include "up-device.h"
+ 
+ static void	up_client_class_init			(UpClientClass	*klass);
+ static void	up_client_initable_iface_init		(GInitableIface *iface);
+-- 
+2.35.1
+

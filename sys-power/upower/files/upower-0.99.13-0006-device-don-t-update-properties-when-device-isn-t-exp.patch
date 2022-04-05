@@ -1,0 +1,54 @@
+From 988e79ae24035e202190158d395a1f114c8f34c3 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Pablo=20Correa=20G=C3=B3mez?= <ablocorrea@hotmail.com>
+Date: Fri, 18 Jun 2021 14:32:59 +0200
+Subject: [PATCH 006/103] device: Don't update properties when device isn't
+ exported
+
+The code in up_device_notify() will still eventually be reached when the
+up_device_coldplug() implementations are called, and properties are set
+for the device type for the first time (rather than during instance
+construction).
+---
+ src/up-device.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
+
+diff --git a/src/up-device.c b/src/up-device.c
+index 0a56810..84b0223 100644
+--- a/src/up-device.c
++++ b/src/up-device.c
+@@ -63,10 +63,6 @@ update_warning_level (UpDevice *device)
+ 	UpDeviceLevel warning_level, battery_level;
+ 	UpExportedDevice *skeleton = UP_EXPORTED_DEVICE (device);
+ 
+-	/* Not finished setting up the object? */
+-	if (device->priv->daemon == NULL)
+-		return;
+-
+ 	/* If the battery level is available, and is critical,
+ 	 * we need to fallback to calculations to get the warning
+ 	 * level, as that might be "action" at this point */
+@@ -101,10 +97,6 @@ update_icon_name (UpDevice *device)
+ 	const gchar *icon_name = NULL;
+ 	UpExportedDevice *skeleton = UP_EXPORTED_DEVICE (device);
+ 
+-	/* Not finished setting up the object? */
+-	if (device->priv->daemon == NULL)
+-		return;
+-
+ 	/* get the icon from some simple rules */
+ 	if (up_exported_device_get_type_ (skeleton) == UP_DEVICE_KIND_LINE_POWER) {
+ 		icon_name = "ac-adapter-symbolic";
+@@ -165,6 +157,10 @@ up_device_notify (GObject *object, GParamSpec *pspec)
+ {
+ 	UpDevice *device = UP_DEVICE (object);
+ 
++	/* Not finished setting up the object? */
++	if (device->priv->daemon == NULL)
++		return;
++
+ 	G_OBJECT_CLASS (up_device_parent_class)->notify (object, pspec);
+ 
+ 	if (g_strcmp0 (pspec->name, "type") == 0 ||
+-- 
+2.35.1
+

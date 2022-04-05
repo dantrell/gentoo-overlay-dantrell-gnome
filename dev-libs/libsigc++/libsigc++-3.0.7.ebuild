@@ -10,7 +10,7 @@ HOMEPAGE="https://libsigcplusplus.github.io/libsigcplusplus/
 
 LICENSE="LGPL-2.1+"
 SLOT="3/0"
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="doc examples test"
 

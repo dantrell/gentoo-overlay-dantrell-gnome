@@ -1,0 +1,42 @@
+From 809d69e66e554f8e3492ff11302823ca6428d4f6 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 22 Oct 2020 15:01:51 +0200
+Subject: [PATCH 019/157] linux: Remove unused headers in up-input.c
+
+---
+ src/linux/up-input.c | 10 ----------
+ 1 file changed, 10 deletions(-)
+
+diff --git a/src/linux/up-input.c b/src/linux/up-input.c
+index 35e537d..0de53f3 100644
+--- a/src/linux/up-input.c
++++ b/src/linux/up-input.c
+@@ -22,25 +22,15 @@
+ #  include "config.h"
+ #endif
+ 
+-#include <string.h>
+-#include <math.h>
+ #include <errno.h>
+ #include <fcntl.h>
+-#include <stdint.h>
+-#include <stdio.h>
+-#include <stdlib.h>
+-#include <string.h>
+-#include <unistd.h>
+ #include <linux/input.h>
+ 
+ #include <glib.h>
+ #include <glib/gstdio.h>
+-#include <glib/gi18n-lib.h>
+ #include <glib-object.h>
+ #include <gudev/gudev.h>
+ 
+-#include "sysfs-utils.h"
+-#include "up-types.h"
+ #include "up-input.h"
+ 
+ struct _UpInput
+-- 
+2.35.1
+

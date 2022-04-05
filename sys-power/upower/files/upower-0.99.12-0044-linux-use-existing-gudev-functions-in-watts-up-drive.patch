@@ -1,0 +1,49 @@
+From fe9332cbe47ac2abbefb601ebf912fcd53e3fe50 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 15 Sep 2020 13:09:50 +0200
+Subject: [PATCH 044/157] linux: Use existing gudev functions in Watts-Up
+ driver
+
+---
+ src/linux/up-device-wup.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/src/linux/up-device-wup.c b/src/linux/up-device-wup.c
+index a7b00c1..a5e0d4c 100644
+--- a/src/linux/up-device-wup.c
++++ b/src/linux/up-device-wup.c
+@@ -296,10 +296,10 @@ up_device_wup_coldplug (UpDevice *device)
+ 	gboolean ret = FALSE;
+ 	const gchar *device_file;
+ 	const gchar *type;
+-	const gchar *native_path;
+ 	gchar *data;
+ 	const gchar *vendor;
+ 	const gchar *product;
++	g_autofree char *serial = NULL;
+ 
+ 	/* detect what kind of device we are */
+ 	native = G_UDEV_DEVICE (up_device_get_native (device));
+@@ -358,7 +358,9 @@ up_device_wup_coldplug (UpDevice *device)
+ 		product = g_udev_device_get_property (native, "ID_PRODUCT");
+ 
+ 	/* hardcode some values */
+-	native_path = g_udev_device_get_sysfs_path (native);
++	serial = g_strdup (g_udev_device_get_sysfs_attr (native, "serial"));
++	if (serial)
++		g_strstrip (serial);
+ 	g_object_set (device,
+ 		      "type", UP_DEVICE_KIND_MONITOR,
+ 		      "is-rechargeable", FALSE,
+@@ -366,7 +368,7 @@ up_device_wup_coldplug (UpDevice *device)
+ 		      "is-present", FALSE,
+ 		      "vendor", vendor,
+ 		      "model", product,
+-		      "serial", g_strstrip (sysfs_get_string (native_path, "serial")),
++		      "serial", serial,
+ 		      "has-history", TRUE,
+ 		      "state", UP_DEVICE_STATE_DISCHARGING,
+ 		      NULL);
+-- 
+2.35.1
+

@@ -1,0 +1,34 @@
+From 1e53985dfa08368f89a9ace9697ab23fef4840ed Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Mon, 13 Sep 2021 12:36:01 +0200
+Subject: [PATCH 34/86] dbus: Add ChargeCycles property
+
+---
+ dbus/org.freedesktop.UPower.Device.xml | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/dbus/org.freedesktop.UPower.Device.xml b/dbus/org.freedesktop.UPower.Device.xml
+index 4f042c1..f286aa7 100644
+--- a/dbus/org.freedesktop.UPower.Device.xml
++++ b/dbus/org.freedesktop.UPower.Device.xml
+@@ -477,6 +477,17 @@ method return sender=:1.386 -> dest=:1.477 reply_serial=2
+       </doc:doc>
+     </property>
+ 
++    <property name="ChargeCycles" type="i" access="read">
++      <doc:doc>
++        <doc:description>
++          <doc:para>
++            The number of charge cycles as defined by the TCO certification, or -1 if
++            that value is unknown or not applicable.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </property>
++
+     <property name="Luminosity" type="d" access="read">
+       <doc:doc>
+         <doc:description>
+-- 
+2.35.1
+

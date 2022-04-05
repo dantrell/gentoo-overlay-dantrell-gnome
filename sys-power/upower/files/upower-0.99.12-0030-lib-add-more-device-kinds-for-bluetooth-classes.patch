@@ -1,0 +1,115 @@
+From e294444496e8bbcd91a3605874f59562e14c34ec Mon Sep 17 00:00:00 2001
+From: Marijn Suijten <marijns95@gmail.com>
+Date: Wed, 20 Jan 2021 10:12:14 +0100
+Subject: [PATCH 030/157] lib: Add more device kinds for Bluetooth classes
+
+This adds a variety of missing device kinds specific to the Bluetooth
+classes supported in gnome-bluetooth [1].
+
+In up_device_to_text these types have only been added to the
+`percentage` class, which is currently the only property exposed by
+org.bluez.Battery1, where these devices are coming from.
+
+[1]: https://gitlab.gnome.org/GNOME/gnome-bluetooth/-/blob/cf4a0ba59dc092f84030349d9933caf00f2640a2/lib/bluetooth-utils.c#L165
+---
+ libupower-glib/up-types.c | 52 +++++++++++++++++++++++++++++++++++++++
+ libupower-glib/up-types.h | 13 ++++++++++
+ 2 files changed, 65 insertions(+)
+
+diff --git a/libupower-glib/up-types.c b/libupower-glib/up-types.c
+index 3f87db6..22d9d8d 100644
+--- a/libupower-glib/up-types.c
++++ b/libupower-glib/up-types.c
+@@ -75,6 +75,32 @@ up_device_kind_to_string (UpDeviceKind type_enum)
+ 		return "pen";
+ 	case UP_DEVICE_KIND_TOUCHPAD:
+ 		return "touchpad";
++	case UP_DEVICE_KIND_MODEM:
++		return "modem";
++	case UP_DEVICE_KIND_NETWORK:
++		return "network";
++	case UP_DEVICE_KIND_HEADSET:
++		return "headset";
++	case UP_DEVICE_KIND_SPEAKERS:
++		return "speakers";
++	case UP_DEVICE_KIND_HEADPHONES:
++		return "headphones";
++	case UP_DEVICE_KIND_VIDEO:
++		return "video";
++	case UP_DEVICE_KIND_OTHER_AUDIO:
++		return "audio-device";
++	case UP_DEVICE_KIND_REMOTE_CONTROL:
++		return "remote-control";
++	case UP_DEVICE_KIND_PRINTER:
++		return "printer";
++	case UP_DEVICE_KIND_SCANNER:
++		return "scanner";
++	case UP_DEVICE_KIND_CAMERA:
++		return "camera";
++	case UP_DEVICE_KIND_WEARABLE:
++		return "wearable";
++	case UP_DEVICE_KIND_TOY:
++		return "toy";
+ 	default:
+ 		return "unknown";
+ 	}
+@@ -121,6 +147,32 @@ up_device_kind_from_string (const gchar *type)
+ 		return UP_DEVICE_KIND_PEN;
+ 	if (g_str_equal (type, "touchpad"))
+ 		return UP_DEVICE_KIND_TOUCHPAD;
++	if (g_str_equal (type, "modem"))
++		return UP_DEVICE_KIND_MODEM;
++	if (g_str_equal (type, "network"))
++		return UP_DEVICE_KIND_NETWORK;
++	if (g_str_equal (type, "headset"))
++		return UP_DEVICE_KIND_HEADSET;
++	if (g_str_equal (type, "speakers"))
++		return UP_DEVICE_KIND_SPEAKERS;
++	if (g_str_equal (type, "headphones"))
++		return UP_DEVICE_KIND_HEADPHONES;
++	if (g_str_equal (type, "video"))
++		return UP_DEVICE_KIND_VIDEO;
++	if (g_str_equal (type, "audio-device"))
++		return UP_DEVICE_KIND_OTHER_AUDIO;
++	if (g_str_equal (type, "remote-control"))
++		return UP_DEVICE_KIND_REMOTE_CONTROL;
++	if (g_str_equal (type, "printer"))
++		return UP_DEVICE_KIND_PRINTER;
++	if (g_str_equal (type, "scanner"))
++		return UP_DEVICE_KIND_SCANNER;
++	if (g_str_equal (type, "camera"))
++		return UP_DEVICE_KIND_CAMERA;
++	if (g_str_equal (type, "wearable"))
++		return UP_DEVICE_KIND_WEARABLE;
++	if (g_str_equal (type, "toy"))
++		return UP_DEVICE_KIND_TOY;
+ 	return UP_DEVICE_KIND_UNKNOWN;
+ }
+ 
+diff --git a/libupower-glib/up-types.h b/libupower-glib/up-types.h
+index 8a2e7d8..e67efe0 100644
+--- a/libupower-glib/up-types.h
++++ b/libupower-glib/up-types.h
+@@ -51,6 +51,19 @@ typedef enum {
+ 	UP_DEVICE_KIND_GAMING_INPUT,
+ 	UP_DEVICE_KIND_PEN,
+ 	UP_DEVICE_KIND_TOUCHPAD,
++	UP_DEVICE_KIND_MODEM,
++	UP_DEVICE_KIND_NETWORK,
++	UP_DEVICE_KIND_HEADSET,
++	UP_DEVICE_KIND_SPEAKERS,
++	UP_DEVICE_KIND_HEADPHONES,
++	UP_DEVICE_KIND_VIDEO,
++	UP_DEVICE_KIND_OTHER_AUDIO,
++	UP_DEVICE_KIND_REMOTE_CONTROL,
++	UP_DEVICE_KIND_PRINTER,
++	UP_DEVICE_KIND_SCANNER,
++	UP_DEVICE_KIND_CAMERA,
++	UP_DEVICE_KIND_WEARABLE,
++	UP_DEVICE_KIND_TOY,
+ 	UP_DEVICE_KIND_LAST
+ } UpDeviceKind;
+ 
+-- 
+2.35.1
+

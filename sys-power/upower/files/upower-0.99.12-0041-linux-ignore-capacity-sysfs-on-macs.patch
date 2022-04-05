@@ -1,0 +1,72 @@
+From 15fb868cf15de227c3d7f9514f595c9da8c5bfa3 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 17 Jun 2021 10:52:23 +0200
+Subject: [PATCH 041/157] linux: Ignore "capacity" sysfs on Macs
+
+capacity is supposed to be the running battery percentage, not a
+representation of its current state of the factory capacity (which
+isn't something that's ever shown in Linux or macOS).
+
+Use the new "ignore-system-percentage" property to work-around that
+problem.
+
+Closes: #141, #103
+---
+ src/linux/integration-test | 26 ++++++++++++++++++++++++++
+ src/linux/up-backend.c     |  3 +++
+ 2 files changed, 29 insertions(+)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 719bbb3..44a89a1 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -366,6 +366,32 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_dev_property(devs[0], 'Online'), False)
+         self.stop_daemon()
+ 
++    def test_macbook_capacity(self):
++        '''MacBooks have incorrect sysfs capacity'''
++
++        ac = self.testbed.add_device('power_supply', 'AC', None,
++                                     ['type', 'Mains', 'online', '0'], [])
++        bat0 = self.testbed.add_device('power_supply', 'BAT0', None,
++                                       ['type', 'Battery',
++                                        'present', '1',
++                                        'status', 'Discharging',
++                                        'capacity', '60',
++                                        'energy_full', '60000000',
++                                        'energy_full_design', '80000000',
++                                        'energy_now', '48000000',
++                                        'voltage_now', '12000000'], [])
++        self.testbed.add_device('virtual', 'virtual/dmi', None,
++                                ['id/product_name', 'MacBookAir7,2'], [])
++        self.start_daemon()
++        devs = self.proxy.EnumerateDevices()
++        self.assertEqual(len(devs), 2)
++        if 'BAT' in devs[0] == ac_up:
++            (bat0_up, ac_up) = devs
++        else:
++            (ac_up, bat0_up) = devs
++
++        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'Percentage'), 80)
++
+     def test_macbook_uevent(self):
+         '''MacBooks sent uevent 5 seconds before battery updates'''
+ 
+diff --git a/src/linux/up-backend.c b/src/linux/up-backend.c
+index d475b74..6983fc8 100644
+--- a/src/linux/up-backend.c
++++ b/src/linux/up-backend.c
+@@ -129,6 +129,9 @@ up_backend_device_new (UpBackend *backend, GUdevDevice *native)
+ 
+ 		/* are we a valid power supply */
+ 		device = UP_DEVICE (up_device_supply_new ());
++		g_object_set (G_OBJECT(device),
++			      "ignore-system-percentage", GPOINTER_TO_INT (is_macbook (NULL)),
++			      NULL);
+ 		ret = up_device_coldplug (device, backend->priv->daemon, G_OBJECT (native));
+ 		if (ret)
+ 			goto out;
+-- 
+2.35.1
+

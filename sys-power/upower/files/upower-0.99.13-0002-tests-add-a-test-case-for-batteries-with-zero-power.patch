@@ -1,0 +1,50 @@
+From b64902eed2efa1e91e8faa49b44bf6b1982b8375 Mon Sep 17 00:00:00 2001
+From: Philipp Zabel <p.zabel@pengutronix.de>
+Date: Thu, 17 Jun 2021 18:15:01 +0200
+Subject: [PATCH 002/103] tests: Add a test case for batteries with zero power
+ draw
+
+Make sure that the issue reported in #7 and #44 is fixed.
+The mocked battery has a zero power_now attribute and a non-zero legacy
+current_now attribute on purpose, to detect if upowerd tries to read
+current_now if the power_now value is small.
+---
+ src/linux/integration-test | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 7f18a18..8e1a862 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -833,6 +833,28 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_display_property('IsPresent'), True)
+         self.stop_daemon()
+ 
++    def test_battery_zero_power_draw(self):
++        '''Battery with zero power draw, e.g. in a dual-battery system'''
++
++        self.testbed.add_device('power_supply', 'BAT0', None,
++                                ['type', 'Battery',
++                                 'present', '1',
++                                 'status', 'Full',
++                                 'energy_full', '60000000',
++                                 'energy_full_design', '80000000',
++                                 'energy_now', '60000000',
++                                 'voltage_now', '12000000',
++                                 'power_now', '0',
++                                 'current_now', '787000'], [])
++
++        self.start_daemon()
++        devs = self.proxy.EnumerateDevices()
++        self.assertEqual(len(devs), 1)
++        bat0_up = devs[0]
++
++        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'EnergyRate'), 0.0)
++        self.stop_daemon()
++
+     def test_ups_no_ac(self):
+         '''UPS properties without AC'''
+ 
+-- 
+2.35.1
+

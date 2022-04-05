@@ -1,0 +1,28 @@
+From 95618dfad441bab442049475fd6d53470ddada60 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Sun, 23 Jan 2022 22:34:39 +0100
+Subject: [PATCH 47/86] linux: Remove libtool support from test suite
+
+---
+ src/linux/integration-test.py | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/src/linux/integration-test.py b/src/linux/integration-test.py
+index c6174f6..d1dced6 100755
+--- a/src/linux/integration-test.py
++++ b/src/linux/integration-test.py
+@@ -194,10 +194,7 @@ class Tests(dbusmock.DBusTestCase):
+         env['UMOCKDEV_DIR'] = self.testbed.get_root_dir()
+         self.log = tempfile.NamedTemporaryFile()
+         if os.getenv('VALGRIND') != None:
+-            if self.local_daemon:
+-                daemon_path = ['libtool', '--mode=execute', 'valgrind', self.daemon_path, '-v']
+-            else:
+-                daemon_path = ['valgrind', self.daemon_path, '-v']
++            daemon_path = ['valgrind', self.daemon_path, '-v']
+         else:
+             daemon_path = [self.daemon_path, '-v']
+         self.daemon = subprocess.Popen(daemon_path,
+-- 
+2.35.1
+

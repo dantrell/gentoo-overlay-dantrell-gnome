@@ -1,0 +1,32 @@
+From 781e856974a4f37204c6f971ed232b124c2ff70e Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 22 Jul 2021 13:49:40 +0200
+Subject: [PATCH 009/103] linux: Fix touchpad not being the right type
+
+Touchpads are also tagged as mice, so make sure that we check for
+the touchpad property before checking for mouse one.
+---
+ src/linux/up-device-supply.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index 300c74d..cd5592c 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -1063,10 +1063,10 @@ up_device_supply_guess_type (GUdevDevice *native,
+ 
+ 		sibling = up_device_supply_get_sibling_with_subsystem (native, "input");
+ 		if (sibling) {
+-			if (g_udev_device_get_property_as_boolean (sibling, "ID_INPUT_MOUSE")) {
+-				type = UP_DEVICE_KIND_MOUSE;
+-			} else if (g_udev_device_get_property_as_boolean (sibling, "ID_INPUT_TOUCHPAD")) {
++			if (g_udev_device_get_property_as_boolean (sibling, "ID_INPUT_TOUCHPAD")) {
+ 				type = UP_DEVICE_KIND_TOUCHPAD;
++			} else if (g_udev_device_get_property_as_boolean (sibling, "ID_INPUT_MOUSE")) {
++				type = UP_DEVICE_KIND_MOUSE;
+ 			} else if (g_udev_device_get_property_as_boolean (sibling, "ID_INPUT_JOYSTICK")) {
+ 				type = UP_DEVICE_KIND_GAMING_INPUT;
+ 			} else {
+-- 
+2.35.1
+

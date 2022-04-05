@@ -1,0 +1,42 @@
+From 9035db94fc9de2fb033474d477495f3dda336325 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 7 Sep 2021 12:23:41 +0200
+Subject: [PATCH 22/86] build: Add missing GLib log domains
+
+The daemon sources and libupower-glib were built without their historic
+log domains which meant some debug messages did not appear when running
+upowerd in verbose mode.
+
+This fixes the test_no_poll_batteries test.
+---
+ libupower-glib/meson.build | 1 +
+ src/meson.build            | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/libupower-glib/meson.build b/libupower-glib/meson.build
+index 9a5323c..7eda0be 100644
+--- a/libupower-glib/meson.build
++++ b/libupower-glib/meson.build
+@@ -51,6 +51,7 @@ libupower_glib = shared_library('upower-glib',
+     include_directories: [ '..' ],
+     c_args: [
+         '-DUP_COMPILATION',
++        '-DG_LOG_DOMAIN="libupower-glib"',
+     ],
+     soversion: soversion,
+     version: libversion,
+diff --git a/src/meson.build b/src/meson.build
+index 7eb58f1..e9c4d70 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -43,6 +43,7 @@ upowerd_private = static_library('upowerd-private',
+         'up-native.h',
+     ],
+     dependencies: [ upowerd_deps ],
++    c_args: [ '-DG_LOG_DOMAIN="UPower"' ],
+ )
+ 
+ upowerd = executable('upowerd',
+-- 
+2.35.1
+

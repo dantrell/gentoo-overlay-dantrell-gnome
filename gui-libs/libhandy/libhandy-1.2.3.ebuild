@@ -10,7 +10,7 @@ SRC_URI="https://gitlab.gnome.org/GNOME/libhandy/-/archive/${PV}/${P}.tar.bz2"
 
 LICENSE="LGPL-2.1+"
 SLOT="1"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="examples glade gtk-doc +introspection test +vala"
 REQUIRED_USE="vala? ( introspection )"

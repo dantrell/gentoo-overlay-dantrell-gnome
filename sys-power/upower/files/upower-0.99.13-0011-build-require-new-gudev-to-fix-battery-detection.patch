@@ -1,0 +1,32 @@
+From e66c7da2d263e8feb6ff0d85a89d52df5b5fdcdd Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 10 Aug 2021 12:55:51 +0200
+Subject: [PATCH 011/103] build: Require new gudev to fix battery detection
+
+gudev 234 had bugs converting cached sysfs properties to boolean which
+caused upower to think that batteries were not there, as the "present"
+sysfs attribute was misread.
+
+Require at least gudev 235 to avoid battery detection being broken.
+
+Closes: #149
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 8523d5a..11b1a7d 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -198,7 +198,7 @@ AC_SUBST(BACKEND, "$with_backend")
+ # only need GUdev on linux
+ have_idevice=no
+ if test x$with_backend = xlinux; then
+-	PKG_CHECK_MODULES(GUDEV, [gudev-1.0 >= 234])
++	PKG_CHECK_MODULES(GUDEV, [gudev-1.0 >= 235])
+ 	AC_ARG_WITH(idevice, AS_HELP_STRING([--without-idevice],[Build without libimobiledevice]),
+ 		    with_idevice=$withval,with_idevice=yes)
+ 	LIBPLIST_DEP=libplist
+-- 
+2.35.1
+

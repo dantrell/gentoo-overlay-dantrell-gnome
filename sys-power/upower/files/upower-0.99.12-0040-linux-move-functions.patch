@@ -1,0 +1,75 @@
+From 4496ebeb0a3118bf55d4320bd61f84a2c8237b1c Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 17 Jun 2021 10:52:04 +0200
+Subject: [PATCH 040/157] linux: Move functions
+
+No functional changes.
+---
+ src/linux/up-backend.c | 44 +++++++++++++++++++++---------------------
+ 1 file changed, 22 insertions(+), 22 deletions(-)
+
+diff --git a/src/linux/up-backend.c b/src/linux/up-backend.c
+index e17a946..d475b74 100644
+--- a/src/linux/up-backend.c
++++ b/src/linux/up-backend.c
+@@ -93,6 +93,28 @@ input_switch_changed_cb (UpInput   *input,
+ 	up_daemon_set_lid_is_closed (backend->priv->daemon, switch_value);
+ }
+ 
++static gpointer
++is_macbook (gpointer data)
++{
++	char *product;
++	gboolean ret = FALSE;
++
++	product = sysfs_get_string ("/sys/devices/virtual/dmi/id/", "product_name");
++	if (product == NULL)
++		return GINT_TO_POINTER(ret);
++	ret = g_str_has_prefix (product, "MacBook");
++	g_free (product);
++	return GINT_TO_POINTER(ret);
++}
++
++gboolean
++up_backend_needs_poll_after_uevent (void)
++{
++	static GOnce dmi_once = G_ONCE_INIT;
++	g_once (&dmi_once, is_macbook, NULL);
++	return GPOINTER_TO_INT(dmi_once.retval);
++}
++
+ static UpDevice *
+ up_backend_device_new (UpBackend *backend, GUdevDevice *native)
+ {
+@@ -281,28 +303,6 @@ up_backend_uevent_signal_handler_cb (GUdevClient *client, const gchar *action,
+ 	}
+ }
+ 
+-static gpointer
+-is_macbook (gpointer data)
+-{
+-	char *product;
+-	gboolean ret = FALSE;
+-
+-	product = sysfs_get_string ("/sys/devices/virtual/dmi/id/", "product_name");
+-	if (product == NULL)
+-		return GINT_TO_POINTER(ret);
+-	ret = g_str_has_prefix (product, "MacBook");
+-	g_free (product);
+-	return GINT_TO_POINTER(ret);
+-}
+-
+-gboolean
+-up_backend_needs_poll_after_uevent (void)
+-{
+-	static GOnce dmi_once = G_ONCE_INIT;
+-	g_once (&dmi_once, is_macbook, NULL);
+-	return GPOINTER_TO_INT(dmi_once.retval);
+-}
+-
+ static gboolean
+ is_battery_iface_proxy (GDBusProxy *interface_proxy)
+ {
+-- 
+2.35.1
+

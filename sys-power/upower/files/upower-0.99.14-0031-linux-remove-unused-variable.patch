@@ -1,0 +1,31 @@
+From d0d6b633a010dabdeca2b6e60c28ebdd6c7bfeed Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 7 Sep 2021 12:28:53 +0200
+Subject: [PATCH 31/86] linux: Remove unused variable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+src/linux/up-device-supply.c: In function ‘up_device_supply_refresh_line_power’:
+src/linux/up-device-supply.c:89:22: warning: unused variable ‘native_path’ [-Wunused-variable]
+   89 |         const gchar *native_path;
+      |                      ^~~~~~~~~~~
+---
+ src/linux/up-device-supply.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index cd2339e..aabb1c5 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -86,7 +86,6 @@ up_device_supply_refresh_line_power (UpDeviceSupply *supply)
+ {
+ 	UpDevice *device = UP_DEVICE (supply);
+ 	GUdevDevice *native;
+-	const gchar *native_path;
+ 
+ 	/* is providing power to computer? */
+ 	g_object_set (device,
+-- 
+2.35.1
+

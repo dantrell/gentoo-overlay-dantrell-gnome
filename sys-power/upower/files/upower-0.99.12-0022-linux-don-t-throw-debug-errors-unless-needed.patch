@@ -1,0 +1,40 @@
+From 522fb6fff29ec22205b856d076605f58b1d7172a Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 5 Nov 2020 16:13:43 +0100
+Subject: [PATCH 022/157] linux: Don't throw debug errors unless needed
+
+It's really confusing seeing "not a switch [...]" when we actually
+managed to find a switch, so throw 2 errors in the debug when both
+checks fail, rather than as things are being tested.
+---
+ src/linux/up-input.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/src/linux/up-input.c b/src/linux/up-input.c
+index 565f11e..3408714 100644
+--- a/src/linux/up-input.c
++++ b/src/linux/up-input.c
+@@ -182,13 +182,16 @@ up_input_coldplug (UpInput *input, GUdevDevice *d)
+ 	/* is a switch */
+ 	path = g_build_filename (native_path, "../capabilities/sw", NULL);
+ 	if (!g_file_test (path, G_FILE_TEST_EXISTS)) {
+-		g_debug ("not a switch [%s]", path);
+-		g_free (path);
+-		path = g_build_filename (native_path, "capabilities/sw", NULL);
+-		if (!g_file_test (path, G_FILE_TEST_EXISTS)) {
++		char *path2;
++		path2 = g_build_filename (native_path, "capabilities/sw", NULL);
++		if (!g_file_test (path2, G_FILE_TEST_EXISTS)) {
+ 			g_debug ("not a switch [%s]", path);
++			g_debug ("not a switch [%s]", path2);
++			g_free (path2);
+ 			goto out;
+ 		}
++		g_free (path);
++		path = path2;
+ 	}
+ 
+ 	/* get caps */
+-- 
+2.35.1
+

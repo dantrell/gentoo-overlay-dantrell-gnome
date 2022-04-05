@@ -1,0 +1,27 @@
+From bd59723fb8cd1912228dd69b93441b9cd759b7d6 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 19 Aug 2021 18:52:51 +0200
+Subject: [PATCH 02/86] lib: Mark device refresh function as deprecated
+
+As the daemon API will soon be removed.
+
+See https://gitlab.freedesktop.org/upower/upower/-/merge_requests/66
+---
+ libupower-glib/up-device.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/libupower-glib/up-device.h b/libupower-glib/up-device.h
+index 22d168a..142d09b 100644
+--- a/libupower-glib/up-device.h
++++ b/libupower-glib/up-device.h
+@@ -69,6 +69,7 @@ UpDevice	*up_device_new				(void);
+ gchar		*up_device_to_text			(UpDevice		*device);
+ 
+ /* sync versions */
++G_DEPRECATED
+ gboolean	 up_device_refresh_sync			(UpDevice		*device,
+ 							 GCancellable		*cancellable,
+ 							 GError			**error);
+-- 
+2.35.1
+

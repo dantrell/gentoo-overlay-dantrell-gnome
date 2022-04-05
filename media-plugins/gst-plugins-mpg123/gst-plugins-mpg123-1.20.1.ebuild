@@ -1,0 +1,14 @@
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI="7"
+GST_ORG_MODULE=gst-plugins-good
+
+inherit gstreamer-meson
+
+DESCRIPTION="MP3 decoder plugin for GStreamer"
+KEYWORDS="*"
+
+RDEPEND="
+	>=media-sound/mpg123-1.23[${MULTILIB_USEDEP}]
+"
+DEPEND="${RDEPEND}"

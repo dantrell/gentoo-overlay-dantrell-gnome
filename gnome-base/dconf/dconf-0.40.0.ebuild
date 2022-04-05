@@ -9,7 +9,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/dconf"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="gtk-doc"
 

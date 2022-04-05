@@ -1,0 +1,39 @@
+From 37b6d4b039a7916b26100098ebfbd7875b01cf07 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 18 Jan 2022 13:15:59 +0100
+Subject: [PATCH 40/86] linux: Fix Bluetooth tests for python-dbusmock changes
+
+---
+ src/linux/integration-test.py | 2 +-
+ src/linux/up-device-bluez.c   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/linux/integration-test.py b/src/linux/integration-test.py
+index cb42110..2b4ab16 100755
+--- a/src/linux/integration-test.py
++++ b/src/linux/integration-test.py
+@@ -1748,7 +1748,7 @@ class Tests(dbusmock.DBusTestCase):
+         device = self.dbus_con.get_object('org.bluez', path)
+ 
+         if device_properties:
+-            device.AddProperties(DEVICE_IFACE, device_properties)
++            device.UpdateProperties(DEVICE_IFACE, device_properties)
+ 
+         battery_properties = {
+             'Percentage': dbus.Byte(battery_level, variant_level=1),
+diff --git a/src/linux/up-device-bluez.c b/src/linux/up-device-bluez.c
+index 2e09ddc..032f310 100644
+--- a/src/linux/up-device-bluez.c
++++ b/src/linux/up-device-bluez.c
+@@ -183,7 +183,7 @@ up_device_bluez_coldplug (UpDevice *device)
+ 	}
+ 
+ 	v = g_dbus_proxy_get_cached_property (proxy, "Appearance");
+-	if (v) {
++	if (v && g_variant_get_uint16 (v) != 0) {
+ 		guint16 appearance;
+ 
+ 		appearance = g_variant_get_uint16 (v);
+-- 
+2.35.1
+

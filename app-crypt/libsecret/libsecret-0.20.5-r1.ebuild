@@ -11,7 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Libsecret"
 
 LICENSE="LGPL-2.1+ Apache-2.0" # Apache-2.0 license is used for tests only
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+crypt gtk-doc +introspection test tpm +vala"
 REQUIRED_USE="

@@ -1,0 +1,58 @@
+From a14de392416a0e1a9a4f096a6e4cb54f65009d96 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 22 Jul 2021 12:35:43 +0200
+Subject: [PATCH 007/103] etc: Tweak default percentage levels
+
+If we want the computer to be able to take useful action about the low
+battery, we should have a slightly higher "low" percentage level so that
+power saving made really makes a difference in runtime.
+
+Also bump "critical" slightly so that doom isn't quite as near but in the
+distance nonetheless.
+
+The "action" level stays the same, as 1% is too close to some batteries'
+actual switch off point, eg. the computer might brown out before we see
+1%.
+---
+ etc/UPower.conf | 8 ++++----
+ src/up-daemon.c | 4 ++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/etc/UPower.conf b/etc/UPower.conf
+index e2c6a69..6cab6dc 100644
+--- a/etc/UPower.conf
++++ b/etc/UPower.conf
+@@ -59,11 +59,11 @@ UsePercentageForPolicy=true
+ # will be used.
+ #
+ # Defaults:
+-# PercentageLow=10
+-# PercentageCritical=3
++# PercentageLow=20
++# PercentageCritical=5
+ # PercentageAction=2
+-PercentageLow=10
+-PercentageCritical=3
++PercentageLow=20
++PercentageCritical=5
+ PercentageAction=2
+ 
+ # When UsePercentageForPolicy is false, the time remaining at which UPower
+diff --git a/src/up-daemon.c b/src/up-daemon.c
+index 70b75dd..b8cec84 100644
+--- a/src/up-daemon.c
++++ b/src/up-daemon.c
+@@ -1073,8 +1073,8 @@ static void
+ load_percentage_policy (UpDaemon    *daemon,
+ 			gboolean     load_default)
+ {
+-	LOAD_OR_DEFAULT (daemon->priv->low_percentage, "PercentageLow", 10);
+-	LOAD_OR_DEFAULT (daemon->priv->critical_percentage, "PercentageCritical", 3);
++	LOAD_OR_DEFAULT (daemon->priv->low_percentage, "PercentageLow", 20);
++	LOAD_OR_DEFAULT (daemon->priv->critical_percentage, "PercentageCritical", 5);
+ 	LOAD_OR_DEFAULT (daemon->priv->action_percentage, "PercentageAction", 2);
+ }
+ 
+-- 
+2.35.1
+

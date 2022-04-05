@@ -1,0 +1,1788 @@
+From 9b93b6c402b901756f07401b3c8443329053b157 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 2 Sep 2021 18:02:22 +0200
+Subject: [PATCH 15/86] build: Remove autotools
+
+---
+ Makefile.am                 |  63 ---------
+ RELEASE                     |   2 +-
+ autogen.sh                  |  27 ----
+ configure.ac                | 271 ------------------------------------
+ dbus/Makefile.am            |  64 ---------
+ doc/Makefile.am             | 117 ----------------
+ doc/clean.sh                |   8 --
+ doc/man/Makefile.am         |  23 ---
+ etc/Makefile.am             |   7 -
+ git.mk                      | 200 --------------------------
+ libupower-glib/Makefile.am  |  90 ------------
+ m4/.gitignore               |   2 -
+ m4/ax_check_compile_flag.m4 |  72 ----------
+ m4/ax_check_link_flag.m4    |  71 ----------
+ po/.gitignore               |   6 -
+ po/ChangeLog                |   0
+ po/Makevars                 |  78 -----------
+ rules/Makefile.am           |  13 --
+ src/Makefile.am             | 207 ---------------------------
+ src/bsd/Makefile.am         |  32 -----
+ src/dummy/Makefile.am       |  32 -----
+ src/freebsd/Makefile.am     |  43 ------
+ src/linux/Makefile.am       |  62 ---------
+ src/openbsd/Makefile.am     |  28 ----
+ tools/Makefile.am           |  37 -----
+ upower-glib.pc.in           |  13 --
+ 26 files changed, 1 insertion(+), 1567 deletions(-)
+ delete mode 100644 Makefile.am
+ delete mode 100755 autogen.sh
+ delete mode 100644 configure.ac
+ delete mode 100644 dbus/Makefile.am
+ delete mode 100644 doc/Makefile.am
+ delete mode 100755 doc/clean.sh
+ delete mode 100644 doc/man/Makefile.am
+ delete mode 100644 etc/Makefile.am
+ delete mode 100644 git.mk
+ delete mode 100644 libupower-glib/Makefile.am
+ delete mode 100644 m4/.gitignore
+ delete mode 100644 m4/ax_check_compile_flag.m4
+ delete mode 100644 m4/ax_check_link_flag.m4
+ delete mode 100644 po/.gitignore
+ delete mode 100644 po/ChangeLog
+ delete mode 100644 po/Makevars
+ delete mode 100644 rules/Makefile.am
+ delete mode 100644 src/Makefile.am
+ delete mode 100644 src/bsd/Makefile.am
+ delete mode 100644 src/dummy/Makefile.am
+ delete mode 100644 src/freebsd/Makefile.am
+ delete mode 100644 src/linux/Makefile.am
+ delete mode 100644 src/openbsd/Makefile.am
+ delete mode 100644 tools/Makefile.am
+ delete mode 100644 upower-glib.pc.in
+
+diff --git a/Makefile.am b/Makefile.am
+deleted file mode 100644
+index e64060c..0000000
+--- a/Makefile.am
++++ /dev/null
+@@ -1,63 +0,0 @@
+-## Process this file with automake to produce Makefile.in
+-
+-ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
+-
+-SUBDIRS = etc dbus libupower-glib src doc tools po
+-
+-if BACKEND_TYPE_LINUX
+-SUBDIRS += rules
+-endif
+-
+-# Creating ChangeLog from git log (taken from cairo/Makefile.am):
+-ChangeLog: $(srcdir)/ChangeLog
+-
+-$(srcdir)/ChangeLog:
+-	@if test -d "$(srcdir)/.git"; then \
+-	  (cd "$(srcdir)" && \
+-	  ./missing --run git-log --stat) | fmt --split-only > $@.tmp \
+-	  && mv -f $@.tmp $@ \
+-	  || ($(RM) $@.tmp; \
+-	      echo Failed to generate ChangeLog, your ChangeLog may be outdated >&2; \
+-	      (test -f $@ || echo git-log is required to generate this file >> $@)); \
+-	else \
+-	  test -f $@ || \
+-	  (echo A git checkout and git-log is required to generate ChangeLog >&2 && \
+-	  echo A git checkout and git-log is required to generate this file >> $@); \
+-	fi
+-
+-EXTRA_DIST = 				\
+-	HACKING 			\
+-	ChangeLog
+-
+-MAINTAINERCLEANFILES =			\
+-	ABOUT-NLS		\
+-	aclocal.m4		\
+-	build-aux		\
+-	ChangeLog		\
+-	config.h.in		\
+-	gtk-doc.make		\
+-	po/Makefile.in.in~	\
+-	po/Makevars.template	\
+-	po/Rules-quot		\
+-	po/e*.header		\
+-	po/*.sin		\
+-	po/*.sed		\
+-	*.tar.xz		\
+-	INSTALL
+-
+-snapshot:
+-	$(MAKE) dist distdir=$(PACKAGE)-$(VERSION)-`date +"%Y%m%d"`
+-
+-pkgconfigdir = $(libdir)/pkgconfig
+-pkgconfig_DATA = upower-glib.pc
+-
+-# xsltproc barfs on 'make distcheck'; disable for now
+-DISTCHECK_CONFIGURE_FLAGS=--enable-man-pages --enable-gtk-doc			\
+-	--with-systemdsystemunitdir=$$dc_install_base/$(systemdsystemunitdir)	\
+-	--with-udevrulesdir='$${libdir}/udev/rules.d-distcheck'			\
+-	--enable-introspection=yes
+-
+-clean-local :
+-	rm -f *~
+-
+--include $(top_srcdir)/git.mk
+diff --git a/RELEASE b/RELEASE
+index 773ab01..264a776 100644
+--- a/RELEASE
++++ b/RELEASE
+@@ -21,7 +21,7 @@ git push
+ 
+ 3. Generate the tarball:
+ 
+-make dist
++meson dist
+ 
+ 4. Upload tarball:
+ 
+diff --git a/autogen.sh b/autogen.sh
+deleted file mode 100755
+index c01d09f..0000000
+--- a/autogen.sh
++++ /dev/null
+@@ -1,27 +0,0 @@
+-#!/bin/sh
+-# Run this to generate all the initial makefiles, etc.
+-
+-test -n "$srcdir" || srcdir=`dirname "$0"`
+-test -n "$srcdir" || srcdir=.
+-
+-olddir=`pwd`
+-cd $srcdir
+-
+-AUTORECONF=`which autoreconf`
+-if test -z $AUTORECONF; then
+-        echo "*** No autoreconf found, please intall it ***"
+-        exit 1
+-fi
+-
+-GTKDOCIZE=`which gtkdocize`
+-if test -z $GTKDOCIZE; then
+-        echo "*** No GTK-Doc found, please install it ***"
+-        exit 1
+-fi
+-
+-gtkdocize --copy || exit 1
+-autoreconf --verbose --force --install || exit 1
+-
+-cd $olddir
+-test -n "$NOCONFIGURE" || "$srcdir/configure" "$@"
+-
+diff --git a/configure.ac b/configure.ac
+deleted file mode 100644
+index 300e840..0000000
+--- a/configure.ac
++++ /dev/null
+@@ -1,271 +0,0 @@
+-dnl Process this file with autoconf to produce a configure script.
+-
+-m4_define([up_major_version], [0])
+-m4_define([up_minor_version], [99])
+-m4_define([up_micro_version], [13])
+-m4_define([up_version],
+-          [up_major_version.up_minor_version.up_micro_version])
+-
+-AC_PREREQ(2.63)
+-AC_INIT([upower],
+-        [up_version],
+-        [https://bugs.freedesktop.org/enter_bug.cgi?product=upower],
+-        [upower],
+-        [http://upower.freedesktop.org/])
+-
+-AC_CONFIG_HEADERS([config.h])
+-AC_CONFIG_SRCDIR([src])
+-AC_CONFIG_MACRO_DIR([m4])
+-AC_CONFIG_AUX_DIR([build-aux])
+-
+-AM_INIT_AUTOMAKE([1.11 -Wno-portability no-dist-gzip dist-xz tar-ustar])
+-AM_MAINTAINER_MODE([enable])
+-
+-# enable nice build output on automake1.11
+-AM_SILENT_RULES([yes])
+-
+-GOBJECT_INTROSPECTION_CHECK([0.9.9])
+-
+-# use this in up-version.h
+-UP_MAJOR_VERSION=up_major_version
+-UP_MINOR_VERSION=up_minor_version
+-UP_MICRO_VERSION=up_micro_version
+-AC_SUBST(VERSION)
+-AC_SUBST(UP_MAJOR_VERSION)
+-AC_SUBST(UP_MINOR_VERSION)
+-AC_SUBST(UP_MICRO_VERSION)
+-
+-# libtool versioning - this applies to libupower-glib
+-#
+-# See http://sources.redhat.com/autobook/autobook/autobook_91.html#SEC91 for details
+-#
+-# increment;
+-# CURRENT	If the API or ABI interface has changed (reset REVISION to 0)
+-# REVISION	If the API and ABI remains the same, but bugs are fixed.
+-# AGE		Don't use.
+-LT_CURRENT=3
+-LT_REVISION=1
+-LT_AGE=0
+-AC_SUBST(LT_CURRENT)
+-AC_SUBST(LT_REVISION)
+-AC_SUBST(LT_AGE)
+-
+-# Check for programs
+-AC_PROG_CC
+-AM_PROG_CC_C_O
+-AC_HEADER_STDC
+-AC_PROG_MAKE_SET
+-AC_PROG_LN_S
+-AC_SYS_LARGEFILE
+-
+-# Initialize libtool
+-LT_INIT
+-
+-# Build man pages?
+-AC_ARG_ENABLE(man-pages,        [  --enable-man-pages      build manual pages],enable_man_pages=$enableval,enable_man_pages=yes)
+-if test "${enable_man_page}" != no; then
+-  AC_PATH_PROG([XSLTPROC], [xsltproc])
+-  if test -z "$XSLTPROC"; then
+-    enable_man_pages=no
+-  fi
+-fi
+-AM_CONDITIONAL(MAN_PAGES_ENABLED, test x$enable_man_pages = xyes)
+-
+-GTK_DOC_CHECK([1.11],[--flavour no-tmpl])
+-
+-AC_ARG_WITH([udevrulesdir],
+-            AS_HELP_STRING([--with-udevrulesdir=DIR], [Directory for udev rules]),
+-            [],
+-            [with_udevrulesdir=$($PKG_CONFIG --variable=udevdir udev)"/rules.d"])
+-AC_SUBST([udevrulesdir], [$with_udevrulesdir])
+-
+-# History/Db dir
+-AC_ARG_WITH([historydir],
+-	AS_HELP_STRING([--with-historydir=<dir>], [directory where the upower history files will be stored]))
+-if test "$with_historydir" != "no" -a "$with_historydir" != "" ; then
+-	historydir=$withval
+-else
+-	historydir=${localstatedir}/lib/upower
+-fi
+-AC_SUBST(historydir)
+-
+-#### gcc warning flags
+-
+-dnl ---------------------------------------------------------------------------
+-dnl - Extra verbose warning switches
+-dnl ---------------------------------------------------------------------------
+-CPPFLAGS="$CPPFLAGS -DG_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_SINGLE_INCLUDES"
+-CPPFLAGS="$CPPFLAGS -DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED"
+-CPPFLAGS="$CPPFLAGS -DGDK_MULTIHEAD_SAFE -DGTK_MULTIHEAD_SAFE"
+-CPPFLAGS="$CPPFLAGS -DGSEAL_ENABLE"
+-
+-if test "$GCC" = "yes"; then
+-	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wall"
+-	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wcast-align -Wno-uninitialized"
+-	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wmissing-declarations"
+-#	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wredundant-decls"
+-	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wpointer-arith"
+-	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wcast-align"
+-	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wwrite-strings"
+-	WARNINGFLAGS_C="$WARNINGFLAGS_C -Winit-self"
+-	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wreturn-type"
+-	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wformat-nonliteral"
+-	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wformat-security"
+-#	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wmissing-include-dirs"
+-	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wmissing-format-attribute"
+-#	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wclobbered"
+-#	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wempty-body"
+-#	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wignored-qualifiers"
+-	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wsign-compare"
+-#	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wtype-limits"
+-	WARNINGFLAGS_C="$WARNINGFLAGS_C -O -Wuninitialized"
+-	WARNINGFLAGS_C="$WARNINGFLAGS_C -Waggregate-return"
+-	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wdeclaration-after-statement"
+-#	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wshadow"
+-	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wno-strict-aliasing"
+-#	WARNINGFLAGS_C="$WARNINGFLAGS_C -Winline"
+-#	WARNINGFLAGS_C="$WARNINGFLAGS_C -Wmissing-parameter-type"
+-#	WARNINGFLAGS_C="$WARNINGFLAGS_C -Woverride-init"
+-else
+-	WARNINGFLAGS_C=""
+-fi
+-AC_SUBST(WARNINGFLAGS_C)
+-
+-# check for PIE (position independent executable) support
+-AX_CHECK_COMPILE_FLAG([-fPIE],
+-		      [AX_CHECK_LINK_FLAG([-fPIE -pie],
+-					  [PIE_CFLAGS="-fPIE" PIE_LDFLAGS="-pie"])])
+-AC_SUBST(PIE_CFLAGS)
+-AC_SUBST(PIE_LDFLAGS)
+-
+-# check for full RELRO (relocation read-only) support
+-AX_CHECK_LINK_FLAG([-Wl,-z,relro,-z,now],
+-		   [RELRO_LDFLAGS="-Wl,-z,relro,-z,now"])
+-AC_SUBST([RELRO_LDFLAGS])
+-
+-PKG_CHECK_MODULES(GLIB, [glib-2.0 >= 2.38.0 gobject-2.0])
+-PKG_CHECK_MODULES(GIO, [gio-2.0 >= 2.16.1])
+-PKG_CHECK_MODULES(GIO_UNIX, [gio-unix-2.0])
+-
+-dnl ====================================================================
+-dnl Check for systemd
+-dnl ====================================================================
+-AC_ARG_WITH([systemdsystemunitdir],
+-            AS_HELP_STRING([--with-systemdsystemunitdir=DIR], [Directory for systemd service files]),
+-            [],
+-            [with_systemdsystemunitdir=$($PKG_CONFIG --variable=systemdsystemunitdir systemd)])
+-if test x$with_systemdsystemunitdir != xno; then
+-        AC_SUBST([systemdsystemunitdir], [$with_systemdsystemunitdir])
+-fi
+-AM_CONDITIONAL(HAVE_SYSTEMDSYSTEMUNITDIR, [test -n "$systemdsystemunitdir"])
+-
+-dnl ---------------------------------------------------------------------------
+-dnl - Compile time default choice of backend
+-dnl ---------------------------------------------------------------------------
+-AC_ARG_WITH([backend],
+-	    AS_HELP_STRING([--with-backend=<option>],
+-			   [Default backend to use linux, freebsd, openbsd, dummy (dummy)]))
+-# default to a sane option
+-AC_CANONICAL_HOST
+-if test x$with_backend = x; then
+-	AS_CASE([$host],
+-		[*-linux*],   [with_backend=linux],
+-		[*-*freebsd*], [with_backend=freebsd],
+-		[*-openbsd*], [with_backend=openbsd],
+-		              [with_backend=dummy])
+-fi
+-AC_DEFINE_UNQUOTED(BACKEND, "$with_backend", [backend])
+-AC_SUBST(BACKEND, "$with_backend")
+-
+-# only need GUdev on linux
+-have_idevice=no
+-if test x$with_backend = xlinux; then
+-	PKG_CHECK_MODULES(GUDEV, [gudev-1.0 >= 235])
+-	AC_ARG_WITH(idevice, AS_HELP_STRING([--without-idevice],[Build without libimobiledevice]),
+-		    with_idevice=$withval,with_idevice=yes)
+-	LIBPLIST_DEP=libplist
+-	PKG_CHECK_EXISTS(libplist-2.0, LIBPLIST_DEP=libplist-2.0)
+-	AS_IF([test "x$with_idevice" != "xno"],
+-	      [PKG_CHECK_MODULES(IDEVICE, libimobiledevice-1.0 >= 0.9.7 $LIBPLIST_DEP, have_idevice=yes, have_idevice=no)],
+-	      [have_idevice=no])
+-	AS_IF([test "x$have_idevice" = "xyes"],
+-	      [AC_DEFINE(HAVE_IDEVICE, 1, [Define to 1 if iDevice is going to be built])])
+-fi
+-
+-AM_CONDITIONAL(HAVE_IDEVICE, [test x$have_idevice = xyes])
+-
+-# export to Makefile.am
+-AM_CONDITIONAL(BACKEND_TYPE_DUMMY, [test x$with_backend = xdummy])
+-AM_CONDITIONAL(BACKEND_TYPE_LINUX, [test x$with_backend = xlinux])
+-AM_CONDITIONAL(BACKEND_TYPE_FREEBSD, [test x$with_backend = xfreebsd])
+-AM_CONDITIONAL(BACKEND_TYPE_OPENBSD, [test x$with_backend = xopenbsd])
+-
+-dnl ---------------------------------------------------------------------------
+-dnl - Build self tests
+-dnl ---------------------------------------------------------------------------
+-AC_ARG_ENABLE(tests, AS_HELP_STRING([--enable-tests],[enable unit test code]),
+-	      enable_tests=$enableval,enable_tests=yes)
+-AM_CONDITIONAL(UP_BUILD_TESTS, test x$enable_tests = xyes)
+-
+-if test "x$GCC" = "xyes"; then
+-  LDFLAGS="-Wl,--as-needed $LDFLAGS"
+-fi
+-
+-# i18n support
+-AM_GNU_GETTEXT_VERSION([0.19.8])
+-AM_GNU_GETTEXT([external])
+-
+-AC_SUBST([GETTEXT_PACKAGE],[${PACKAGE_TARNAME}])
+-AC_DEFINE([GETTEXT_PACKAGE],[PACKAGE_TARNAME],[Define to the gettext package name])
+-
+-
+-AC_CONFIG_FILES([
+-Makefile
+-upower-glib.pc
+-etc/Makefile
+-dbus/Makefile
+-src/Makefile
+-src/dummy/Makefile
+-src/freebsd/Makefile
+-src/openbsd/Makefile
+-src/linux/Makefile
+-src/bsd/Makefile
+-tools/Makefile
+-doc/Makefile
+-doc/version.xml
+-doc/man/Makefile
+-rules/Makefile
+-libupower-glib/Makefile
+-libupower-glib/up-version.h
+-po/Makefile.in
+-])
+-AC_OUTPUT
+-
+-dnl ==========================================================================
+-echo "
+-                 UPower $VERSION
+-             =========================
+-
+-        prefix:                     ${prefix}
+-        libdir:                     ${libdir}
+-        libexecdir:                 ${libexecdir}
+-        bindir:                     ${bindir}
+-        sbindir:                    ${sbindir}
+-        datadir:                    ${datadir}
+-        sysconfdir:                 ${sysconfdir}
+-        localstatedir:              ${localstatedir}
+-        docdir:                     ${docdir}
+-
+-        compiler:                   ${CC}
+-        cflags:                     ${CFLAGS}
+-        cppflags:                   ${CPPFLAGS}
+-        xsltproc:                   ${XSLTPROC}
+-
+-        Enable deprecated stuff:    ${enable_deprecated}
+-        Backend:                    ${with_backend}
+-        libimobiledevice support:   ${have_idevice}
+-        Maintainer mode:            ${USE_MAINTAINER_MODE}
+-        Building api docs:          ${enable_gtk_doc}
+-        Building man pages:         ${enable_man_pages}
+-        Building unit tests:        ${enable_tests}
+-"
+diff --git a/dbus/Makefile.am b/dbus/Makefile.am
+deleted file mode 100644
+index 017c7eb..0000000
+--- a/dbus/Makefile.am
++++ /dev/null
+@@ -1,64 +0,0 @@
+-noinst_LTLIBRARIES=libupower-dbus.la
+-
+-AM_CPPFLAGS = \
+-	$(GIO_CFLAGS)		\
+-	$(GIO_UNIX_CFLAGS)	\
+-	$(GLIB_CFLAGS)
+-
+-libupower_dbus_la_LIBADD = \
+-	$(GIO_LIBS)		\
+-	$(GIO_UNIX_LIBS)	\
+-	$(GLIB_LIBS)
+-
+-BUILT_SOURCES =		\
+-	up-daemon-generated.h		\
+-	up-daemon-generated.c		\
+-	up-device-generated.h		\
+-	up-device-generated.c		\
+-	up-kbd-backlight-generated.h	\
+-	up-kbd-backlight-generated.c	\
+-	up-wakeups-generated.h		\
+-	up-wakeups-generated.c
+-
+-libupower_dbus_la_SOURCES = $(BUILT_SOURCES)
+-
+-up-daemon-generated.h: org.freedesktop.UPower.xml Makefile.am
+-	$(AM_V_GEN) gdbus-codegen --interface-prefix org.freedesktop.UPower. \
+-	--generate-c-code up-daemon-generated \
+-	--c-namespace Up \
+-	--annotate "org.freedesktop.UPower" "org.gtk.GDBus.C.Name" ExportedDaemon \
+-	$(srcdir)/org.freedesktop.UPower.xml
+-up-daemon-generated.c: up-daemon-generated.h
+-
+-up-device-generated.h: org.freedesktop.UPower.Device.xml Makefile.am
+-	$(AM_V_GEN) gdbus-codegen --interface-prefix org.freedesktop.UPower.Device. \
+-	--generate-c-code up-device-generated \
+-	--c-namespace Up \
+-	--annotate "org.freedesktop.UPower.Device" "org.gtk.GDBus.C.Name" ExportedDevice \
+-	$(srcdir)/org.freedesktop.UPower.Device.xml
+-up-device-generated.c: up-device-generated.h
+-
+-up-kbd-backlight-generated.h: org.freedesktop.UPower.KbdBacklight.xml Makefile.am
+-	$(AM_V_GEN) gdbus-codegen --interface-prefix org.freedesktop.UPower.KbdBacklight. \
+-	--generate-c-code up-kbd-backlight-generated \
+-	--c-namespace Up \
+-	--annotate "org.freedesktop.UPower.KbdBacklight" "org.gtk.GDBus.C.Name" ExportedKbdBacklight \
+-	$(srcdir)/org.freedesktop.UPower.KbdBacklight.xml
+-up-kbd-backlight-generated.c: up-kbd-backlight-generated.h
+-
+-up-wakeups-generated.h: org.freedesktop.UPower.Wakeups.xml Makefile.am
+-	$(AM_V_GEN) gdbus-codegen --interface-prefix org.freedesktop.UPower.Wakeups. \
+-	--generate-c-code up-wakeups-generated \
+-	--c-namespace Up \
+-	--annotate "org.freedesktop.UPower.Wakeups" "org.gtk.GDBus.C.Name" ExportedWakeups \
+-	$(srcdir)/org.freedesktop.UPower.Wakeups.xml
+-up-wakeups-generated.c: up-wakeups-generated.h
+-
+-dbusifdir = $(datadir)/dbus-1/interfaces
+-dist_dbusif_DATA =						\
+-	org.freedesktop.UPower.xml				\
+-	org.freedesktop.UPower.Device.xml			\
+-	org.freedesktop.UPower.KbdBacklight.xml			\
+-	org.freedesktop.UPower.Wakeups.xml
+-
+--include $(top_srcdir)/git.mk
+diff --git a/doc/Makefile.am b/doc/Makefile.am
+deleted file mode 100644
+index 2c20415..0000000
+--- a/doc/Makefile.am
++++ /dev/null
+@@ -1,117 +0,0 @@
+-
+-SUBDIRS = man
+-
+-NULL =
+-
+-AUTOMAKE_OPTIONS = 1.7
+-
+-# The name of the module.
+-DOC_MODULE=UPower
+-
+-# The top-level SGML file.
+-DOC_MAIN_SGML_FILE=upower-docs.xml
+-
+-# Extra options to supply to gtkdoc-scan
+-SCAN_OPTIONS=--ignore-headers=config.h --rebuild-types --rebuild-sections
+-
+-# The directory containing the source code. Relative to $(srcdir)
+-DOC_SOURCE_DIR=../libupower-glib
+-
+-# Used for dependencies
+-HFILE_GLOB=
+-#$(top_srcdir)/policy/*.h
+-CFILE_GLOB=
+-#$(top_srcdir)/policy/*.c
+-
+-# Headers to ignore
+-IGNORE_HFILES= \
+-	config.h					\
+-	$(NULL)
+-
+-# CFLAGS and LDFLAGS for compiling scan program. Only needed
+-# if $(DOC_MODULE).types is non-empty.
+-AM_CPPFLAGS = \
+-	$(GLIB_CFLAGS)			\
+-	-I$(top_srcdir)/libupower-glib 		\
+-	-I$(top_builddir)/libupower-glib	\
+-	$(NULL)
+-
+-UPOWER_GLIB_LIBS =						\
+-	$(top_builddir)/libupower-glib/libupower-glib.la	\
+-	$(NULL)
+-
+-GTKDOC_LIBS = 			\
+-	$(UPOWER_GLIB_LIBS)					\
+-	$(NULL)
+-
+-# Extra options to supply to gtkdoc-mkdb
+-MKDB_OPTIONS=--sgml-mode --output-format=xml
+-
+-# Extra options to supply to gtkdoc-mktmpl
+-MKTMPL_OPTIONS=
+-
+-org.freedesktop.UPower.ref.xml : $(top_srcdir)/dbus/org.freedesktop.UPower.xml $(top_srcdir)/doc/spec-to-docbook.xsl
+-	if $(AM_V_P); then set -x; else echo " GEN   $@"; fi
+-	echo "<?xml version=\"1.0\"?>""<!DOCTYPE refentry PUBLIC \"-//OASIS//DTD DocBook XML V4.1.2//EN\" \"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd\">" > $@
+-	$(XSLTPROC) $(top_srcdir)/doc/spec-to-docbook.xsl $< | tail -n +2 >> $@
+-
+-org.freedesktop.UPower.Device.ref.xml : $(top_srcdir)/dbus/org.freedesktop.UPower.Device.xml $(top_srcdir)/doc/spec-to-docbook.xsl
+-	if $(AM_V_P); then set -x; else echo " GEN   $@"; fi
+-	echo "<?xml version=\"1.0\"?>""<!DOCTYPE refentry PUBLIC \"-//OASIS//DTD DocBook XML V4.1.2//EN\" \"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd\">" > $@
+-	$(XSLTPROC) $(top_srcdir)/doc/spec-to-docbook.xsl $< | tail -n +2 >> $@
+-
+-org.freedesktop.UPower.KbdBacklight.ref.xml : $(top_srcdir)/dbus/org.freedesktop.UPower.KbdBacklight.xml $(top_srcdir)/doc/spec-to-docbook.xsl
+-	if $(AM_V_P); then set -x; else echo " GEN   $@"; fi
+-	echo "<?xml version=\"1.0\"?>""<!DOCTYPE refentry PUBLIC \"-//OASIS//DTD DocBook XML V4.1.2//EN\" \"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd\">" > $@
+-	$(XSLTPROC) $(top_srcdir)/doc/spec-to-docbook.xsl $< | tail -n +2 >> $@
+-
+-org.freedesktop.UPower.Wakeups.ref.xml : $(top_srcdir)/dbus/org.freedesktop.UPower.Wakeups.xml $(top_srcdir)/doc/spec-to-docbook.xsl
+-	if $(AM_V_P); then set -x; else echo " GEN   $@"; fi
+-	echo "<?xml version=\"1.0\"?>""<!DOCTYPE refentry PUBLIC \"-//OASIS//DTD DocBook XML V4.1.2//EN\" \"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd\">" > $@
+-	$(XSLTPROC) $(top_srcdir)/doc/spec-to-docbook.xsl $< | tail -n +2 >> $@
+-
+-EXTRA_DIST = spec-to-docbook.xsl dbus-introspect-docs.dtd
+-
+-BUILT_SOURCES =							\
+-	org.freedesktop.UPower.ref.xml			\
+-	org.freedesktop.UPower.Device.ref.xml		\
+-	org.freedesktop.UPower.KbdBacklight.ref.xml
+-
+-# Non-autogenerated SGML files to be included in $(DOC_MAIN_SGML_FILE)
+-content_files =  			    				\
+-	version.xml			    				\
+-	man/upower.xml		    					\
+-	man/upowerd.xml		    					\
+-	man/UPower.xml		    					\
+-	$(BUILT_SOURCES)						\
+-	$(NULL)
+-
+-# Images to copy into HTML directory
+-HTML_IMAGES = 				\
+-	$(NULL)
+-
+-# Extra options to supply to gtkdoc-fixref
+-FIXXREF_OPTIONS=
+-
+-MAINTAINERCLEANFILES =		\
+-	*~			\
+-	Makefile.in		\
+-	UPower.types		\
+-	UPower-*.txt
+-
+-DISTCLEANFILES =					\
+-	org.freedesktop.UPower.Device.ref.xml		\
+-	org.freedesktop.UPower.KbdBacklight.ref.xml	\
+-	org.freedesktop.UPower.ref.xml			\
+-	upowerd.xml					\
+-	upower.xml					\
+-	UPower.xml
+-
+-if ENABLE_GTK_DOC
+-include $(top_srcdir)/gtk-doc.make
+-endif
+-
+-# Version information for marking the documentation
+-EXTRA_DIST += version.xml.in
+-
+--include $(top_srcdir)/git.mk
+diff --git a/doc/clean.sh b/doc/clean.sh
+deleted file mode 100755
+index a44fc72..0000000
+--- a/doc/clean.sh
++++ /dev/null
+@@ -1,8 +0,0 @@
+-rm -f *.txt
+-rm -f UPower-scan.*
+-rm -f UPower.types
+-rm -f html/*.html
+-rm -f html/*.png
+-rm -f tmpl/*
+-rm -f *.stamp
+-
+diff --git a/doc/man/Makefile.am b/doc/man/Makefile.am
+deleted file mode 100644
+index cb3dedc..0000000
+--- a/doc/man/Makefile.am
++++ /dev/null
+@@ -1,23 +0,0 @@
+-if MAN_PAGES_ENABLED
+-
+-man_MANS = 				\
+-	upower.1			\
+-	upowerd.8			\
+-	UPower.7
+-
+-%.1 %.7 %.8 : %.xml
+-	$(XSLTPROC) -nonet http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl $<
+-
+-MAINTAINERCLEANFILES = $(man_MANS)
+-
+-endif # MAN_PAGES_ENABLED
+-
+-EXTRA_DIST= 				\
+-	upower.xml			\
+-	upowerd.xml			\
+-	UPower.xml
+-
+-clean-local:
+-	rm -f *~ *.[178]
+-
+--include $(top_srcdir)/git.mk
+diff --git a/etc/Makefile.am b/etc/Makefile.am
+deleted file mode 100644
+index 94d5548..0000000
+--- a/etc/Makefile.am
++++ /dev/null
+@@ -1,7 +0,0 @@
+-configdir = $(sysconfdir)/UPower
+-config_DATA = UPower.conf
+-
+-EXTRA_DIST =						\
+-	$(config_DATA)
+-
+--include $(top_srcdir)/git.mk
+diff --git a/git.mk b/git.mk
+deleted file mode 100644
+index abd6c0a..0000000
+--- a/git.mk
++++ /dev/null
+@@ -1,200 +0,0 @@
+-# git.mk
+-#
+-# Copyright 2009, Red Hat, Inc.
+-# Written by Behdad Esfahbod
+-#
+-# Copying and distribution of this file, with or without modification,
+-# are permitted in any medium without royalty provided the copyright
+-# notice and this notice are preserved.
+-#
+-# The canonical source for this file is pango/git.mk, or whereever the
+-# header of pango/git.mk suggests in the future.
+-#
+-# To use in your project, import this file in your git repo's toplevel,
+-# then do "make -f git.mk".  This modifies all Makefile.am files in
+-# your project to include git.mk.
+-#
+-# This enables automatic .gitignore generation.  If you need to ignore
+-# more files, add them to the GITIGNOREFILES variable in your Makefile.am.
+-# But think twice before doing that.  If a file has to be in .gitignore,
+-# chances are very high that it's a generated file and should be in one
+-# of MOSTLYCLEANFILES, CLEANFILES, DISTCLEANFILES, or MAINTAINERCLEANFILES.
+-#
+-# The only case that you need to manually add a file to GITIGNOREFILES is
+-# when remove files in one of mostlyclean-local, clean-local, distclean-local,
+-# or maintainer-clean-local.
+-#
+-# Note that for files like editor backup, etc, there are better places to
+-# ignore them.  See "man gitignore".
+-#
+-# If "make maintainer-clean" removes the files but they are not recognized
+-# by this script (that is, if "git status" shows untracked files still), send
+-# me the output of "git status" as well as your Makefile.am and Makefile for
+-# the directories involved.
+-#
+-# For a list of toplevel files that should be in MAINTAINERCLEANFILES, see
+-# pango/Makefile.am.
+-#
+-# Don't EXTRA_DIST this file.  It is supposed to only live in git clones,
+-# not tarballs.  It serves no useful purpose in tarballs and clutters the
+-# build dir.
+-#
+-# This file knows how to handle autoconf, automake, libtool, gtk-doc,
+-# gnome-doc-utils, mallard, intltool, gsettings.
+-#
+-#
+-# KNOWN ISSUES:
+-#
+-# - Recursive configure doesn't work as $(top_srcdir)/git.mk inside the
+-#   submodule doesn't find us.  If you have configure.{in,ac} files in
+-#   subdirs, add a proxy git.mk file in those dirs that simply does:
+-#   "include $(top_srcdir)/../git.mk".  Add more ..'s to your taste.
+-#   And add those files to git.  See vte/gnome-pty-helper/git.mk for
+-#   example.
+-#
+-# ChangeLog
+-#
+-# - 2010-12-06 Add support for Mallard docs
+-# - 2010-12-06 Start this change log
+-
+-git-all: git-mk-install
+-
+-git-mk-install:
+-	@echo Installing git makefile
+-	@any_failed=; find $(top_srcdir) -name Makefile.am | while read x; do \
+-		if grep 'include .*/git.mk' $$x >/dev/null; then \
+-			echo $$x already includes git.mk; \
+-		else \
+-			failed=; \
+-			echo "Updating $$x"; \
+-			{ cat $$x; \
+-			  echo ''; \
+-			  echo '-include $$(top_srcdir)/git.mk'; \
+-			} > $$x.tmp || failed=1; \
+-			if test x$$failed = x; then \
+-				mv $$x.tmp $$x || failed=1; \
+-			fi; \
+-			if test x$$failed = x; then : else \
+-				echo Failed updating $$x; >&2 \
+-				any_failed=1; \
+-			fi; \
+-	fi; done; test -z "$$any_failed"
+-
+-.PHONY: git-all git-mk-install
+-
+-
+-### .gitignore generation
+-
+-$(srcdir)/.gitignore: Makefile.am $(top_srcdir)/git.mk
+-	$(AM_V_GEN) \
+-	{ \
+-		if test "x$(DOC_MODULE)" = x -o "x$(DOC_MAIN_SGML_FILE)" = x; then :; else \
+-			for x in \
+-				$(DOC_MODULE)-decl-list.txt \
+-				$(DOC_MODULE)-decl.txt \
+-				tmpl/$(DOC_MODULE)-unused.sgml \
+-				"tmpl/*.bak" \
+-				xml html \
+-			; do echo /$$x; done; \
+-		fi; \
+-		if test "x$(DOC_MODULE)$(DOC_ID)" = x -o "x$(DOC_LINGUAS)" = x; then :; else \
+-			for x in \
+-				$(_DOC_C_DOCS) \
+-				$(_DOC_LC_DOCS) \
+-				$(_DOC_OMF_ALL) \
+-				$(_DOC_DSK_ALL) \
+-				$(_DOC_HTML_ALL) \
+-				$(_DOC_MOFILES) \
+-				$(_DOC_POFILES) \
+-				$(DOC_H_FILE) \
+-				"*/.xml2po.mo" \
+-				"*/*.omf.out" \
+-			; do echo /$$x; done; \
+-		fi; \
+-		if test "x$(gsettings_SCHEMAS)" = x; then :; else \
+-			for x in \
+-				$(gsettings_SCHEMAS:.xml=.valid) \
+-				$(gsettings__enum_file) \
+-			; do echo /$$x; done; \
+-		fi; \
+-		if test -f $(srcdir)/po/Makefile.in.in; then \
+-			for x in \
+-				po/Makefile.in.in \
+-				po/Makefile.in \
+-				po/Makefile \
+-				po/POTFILES \
+-				po/stamp-it \
+-				po/.intltool-merge-cache \
+-				"po/*.gmo" \
+-				"po/*.mo" \
+-				po/$(GETTEXT_PACKAGE).pot \
+-				intltool-extract.in \
+-				intltool-merge.in \
+-				intltool-update.in \
+-			; do echo /$$x; done; \
+-		fi; \
+-		if test -f $(srcdir)/configure; then \
+-			for x in \
+-				autom4te.cache \
+-				configure \
+-				config.h \
+-				stamp-h1 \
+-				libtool \
+-				config.lt \
+-			; do echo /$$x; done; \
+-		fi; \
+-		for x in \
+-			.gitignore \
+-			$(GITIGNOREFILES) \
+-			$(CLEANFILES) \
+-			$(PROGRAMS) \
+-			$(check_PROGRAMS) \
+-			$(EXTRA_PROGRAMS) \
+-			$(LTLIBRARIES) \
+-			so_locations \
+-			.libs _libs \
+-			$(MOSTLYCLEANFILES) \
+-			"*.$(OBJEXT)" \
+-			"*.lo" \
+-			$(DISTCLEANFILES) \
+-			$(am__CONFIG_DISTCLEAN_FILES) \
+-			$(CONFIG_CLEAN_FILES) \
+-			TAGS ID GTAGS GRTAGS GSYMS GPATH tags \
+-			"*.tab.c" \
+-			$(MAINTAINERCLEANFILES) \
+-			$(BUILT_SOURCES) \
+-			$(DEPDIR) \
+-			Makefile \
+-			Makefile.in \
+-			"*.orig" \
+-			"*.rej" \
+-			"*.bak" \
+-			"*~" \
+-			".*.sw[nop]" \
+-			".dirstamp" \
+-		; do echo /$$x; done; \
+-	} | \
+-	sed "s@^/`echo "$(srcdir)" | sed 's/\(.\)/[\1]/g'`/@/@" | \
+-	sed 's@/[.]/@/@g' | \
+-	LC_ALL=C sort | uniq > $@.tmp && \
+-	mv $@.tmp $@;
+-
+-all: $(srcdir)/.gitignore gitignore-recurse-maybe
+-gitignore-recurse-maybe:
+-	@if test "x$(SUBDIRS)" = "x$(DIST_SUBDIRS)"; then :; else \
+-		$(MAKE) $(AM_MAKEFLAGS) gitignore-recurse; \
+-	fi;
+-gitignore-recurse:
+-	@for subdir in $(DIST_SUBDIRS); do \
+-	  case " $(SUBDIRS) " in \
+-	    *" $$subdir "*) :;; \
+-	    *) test "$$subdir" = . || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) .gitignore gitignore-recurse || echo "Skipping $$subdir");; \
+-	  esac; \
+-	done
+-gitignore: $(srcdir)/.gitignore gitignore-recurse
+-
+-maintainer-clean: gitignore-clean
+-gitignore-clean:
+-	-rm -f $(srcdir)/.gitignore
+-
+-.PHONY: gitignore-clean gitignore gitignore-recurse gitignore-recurse-maybe
+diff --git a/libupower-glib/Makefile.am b/libupower-glib/Makefile.am
+deleted file mode 100644
+index dd3ead2..0000000
+--- a/libupower-glib/Makefile.am
++++ /dev/null
+@@ -1,90 +0,0 @@
+-AM_CPPFLAGS = \
+-	$(GLIB_CFLAGS)						\
+-	$(GIO_UNIX_CFLAGS)					\
+-	-I$(top_builddir)					\
+-	-I$(top_srcdir)						\
+-	-I$(top_srcdir)/dbus					\
+-	-I$(top_builddir)/dbus					\
+-	-I$(top_srcdir)/libupower-glib				\
+-	-DUP_COMPILATION					\
+-	-DG_LOG_DOMAIN=\"libupower-glib\"			\
+-	-DPACKAGE_DATA_DIR=\""$(datadir)"\"			\
+-	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\"
+-
+--include $(INTROSPECTION_MAKEFILE)
+-INTROSPECTION_GIRS =
+-INTROSPECTION_SCANNER_ARGS = --add-include-path=$(srcdir)
+-INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir)
+-
+-lib_LTLIBRARIES =						\
+-	libupower-glib.la
+-
+-libupower_glib_includedir = $(includedir)/libupower-glib
+-libupower_glib_include_HEADERS =				\
+-	upower.h						\
+-	up-autocleanups.h					\
+-	up-version.h						\
+-	up-types.h						\
+-	up-device.h						\
+-	up-wakeup-item.h					\
+-	up-stats-item.h						\
+-	up-history-item.h					\
+-	up-wakeups.h						\
+-	up-client.h
+-
+-libupower_glib_la_SOURCES =					\
+-	up-types.c						\
+-	up-client.c						\
+-	up-wakeups.c						\
+-	up-wakeup-item.c					\
+-	up-stats-item.c						\
+-	up-history-item.c					\
+-	up-device.c
+-
+-libupower_glib_la_LIBADD =					\
+-	$(INTLLIBS)						\
+-	$(GLIB_LIBS)						\
+-	$(GIO_UNIX_LIBS)					\
+-	$(top_builddir)/dbus/libupower-dbus.la
+-
+-libupower_glib_la_LDFLAGS =					\
+-	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)	\
+-	-export-dynamic						\
+-	-no-undefined						\
+-	-export-symbols-regex '^up_.*'
+-
+-libupower_glib_la_CFLAGS =					\
+-	$(AM_CPPFLAGS)						\
+-	$(WARNINGFLAGS_C)					\
+-	$(NULL)
+-
+-EXTRA_DIST =							\
+-	up-version.h.in
+-
+-CLEANFILES = $(BUILT_SOURCES)
+-
+-if HAVE_INTROSPECTION
+-introspection_sources = $(libupower_glib_include_HEADERS) $(libupower_glib_la_SOURCES)
+-
+-UPowerGlib-1.0.gir: libupower-glib.la
+-UPowerGlib_1_0_gir_INCLUDES = GObject-2.0 Gio-2.0
+-UPowerGlib_1_0_gir_CFLAGS = $(AM_CPPFLAGS)
+-UPowerGlib_1_0_gir_SCANNERFLAGS = --identifier-prefix=Up --symbol-prefix=up_ --warn-all --add-include-path=$(srcdir)
+-UPowerGlib_1_0_gir_LIBS = libupower-glib.la
+-UPowerGlib_1_0_gir_FILES = $(introspection_sources)
+-UPowerGlib_1_0_gir_NAMESPACE = UPowerGlib
+-INTROSPECTION_GIRS += UPowerGlib-1.0.gir
+-
+-girdir = $(datadir)/gir-1.0
+-gir_DATA = $(INTROSPECTION_GIRS)
+-
+-typelibdir = $(libdir)/girepository-1.0
+-typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
+-
+-CLEANFILES += $(gir_DATA) $(typelib_DATA)
+-endif
+-
+-clean-local:
+-	rm -f *~
+-
+--include $(top_srcdir)/git.mk
+diff --git a/m4/.gitignore b/m4/.gitignore
+deleted file mode 100644
+index b2cecf0..0000000
+--- a/m4/.gitignore
++++ /dev/null
+@@ -1,2 +0,0 @@
+-*.m4
+-
+diff --git a/m4/ax_check_compile_flag.m4 b/m4/ax_check_compile_flag.m4
+deleted file mode 100644
+index c3a8d69..0000000
+--- a/m4/ax_check_compile_flag.m4
++++ /dev/null
+@@ -1,72 +0,0 @@
+-# ===========================================================================
+-#   http://www.gnu.org/software/autoconf-archive/ax_check_compile_flag.html
+-# ===========================================================================
+-#
+-# SYNOPSIS
+-#
+-#   AX_CHECK_COMPILE_FLAG(FLAG, [ACTION-SUCCESS], [ACTION-FAILURE], [EXTRA-FLAGS])
+-#
+-# DESCRIPTION
+-#
+-#   Check whether the given FLAG works with the current language's compiler
+-#   or gives an error.  (Warnings, however, are ignored)
+-#
+-#   ACTION-SUCCESS/ACTION-FAILURE are shell commands to execute on
+-#   success/failure.
+-#
+-#   If EXTRA-FLAGS is defined, it is added to the current language's default
+-#   flags (e.g. CFLAGS) when the check is done.  The check is thus made with
+-#   the flags: "CFLAGS EXTRA-FLAGS FLAG".  This can for example be used to
+-#   force the compiler to issue an error when a bad flag is given.
+-#
+-#   NOTE: Implementation based on AX_CFLAGS_GCC_OPTION. Please keep this
+-#   macro in sync with AX_CHECK_{PREPROC,LINK}_FLAG.
+-#
+-# LICENSE
+-#
+-#   Copyright (c) 2008 Guido U. Draheim <guidod@gmx.de>
+-#   Copyright (c) 2011 Maarten Bosmans <mkbosmans@gmail.com>
+-#
+-#   This program is free software: you can redistribute it and/or modify it
+-#   under the terms of the GNU General Public License as published by the
+-#   Free Software Foundation, either version 3 of the License, or (at your
+-#   option) any later version.
+-#
+-#   This program is distributed in the hope that it will be useful, but
+-#   WITHOUT ANY WARRANTY; without even the implied warranty of
+-#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+-#   Public License for more details.
+-#
+-#   You should have received a copy of the GNU General Public License along
+-#   with this program. If not, see <http://www.gnu.org/licenses/>.
+-#
+-#   As a special exception, the respective Autoconf Macro's copyright owner
+-#   gives unlimited permission to copy, distribute and modify the configure
+-#   scripts that are the output of Autoconf when processing the Macro. You
+-#   need not follow the terms of the GNU General Public License when using
+-#   or distributing such scripts, even though portions of the text of the
+-#   Macro appear in them. The GNU General Public License (GPL) does govern
+-#   all other use of the material that constitutes the Autoconf Macro.
+-#
+-#   This special exception to the GPL applies to versions of the Autoconf
+-#   Macro released by the Autoconf Archive. When you make and distribute a
+-#   modified version of the Autoconf Macro, you may extend this special
+-#   exception to the GPL to apply to your modified version as well.
+-
+-#serial 2
+-
+-AC_DEFUN([AX_CHECK_COMPILE_FLAG],
+-[AC_PREREQ(2.59)dnl for _AC_LANG_PREFIX
+-AS_VAR_PUSHDEF([CACHEVAR],[ax_cv_check_[]_AC_LANG_ABBREV[]flags_$4_$1])dnl
+-AC_CACHE_CHECK([whether _AC_LANG compiler accepts $1], CACHEVAR, [
+-  ax_check_save_flags=$[]_AC_LANG_PREFIX[]FLAGS
+-  _AC_LANG_PREFIX[]FLAGS="$[]_AC_LANG_PREFIX[]FLAGS $4 $1"
+-  AC_COMPILE_IFELSE([AC_LANG_PROGRAM()],
+-    [AS_VAR_SET(CACHEVAR,[yes])],
+-    [AS_VAR_SET(CACHEVAR,[no])])
+-  _AC_LANG_PREFIX[]FLAGS=$ax_check_save_flags])
+-AS_IF([test x"AS_VAR_GET(CACHEVAR)" = xyes],
+-  [m4_default([$2], :)],
+-  [m4_default([$3], :)])
+-AS_VAR_POPDEF([CACHEVAR])dnl
+-])dnl AX_CHECK_COMPILE_FLAGS
+diff --git a/m4/ax_check_link_flag.m4 b/m4/ax_check_link_flag.m4
+deleted file mode 100644
+index e2d0d36..0000000
+--- a/m4/ax_check_link_flag.m4
++++ /dev/null
+@@ -1,71 +0,0 @@
+-# ===========================================================================
+-#    http://www.gnu.org/software/autoconf-archive/ax_check_link_flag.html
+-# ===========================================================================
+-#
+-# SYNOPSIS
+-#
+-#   AX_CHECK_LINK_FLAG(FLAG, [ACTION-SUCCESS], [ACTION-FAILURE], [EXTRA-FLAGS])
+-#
+-# DESCRIPTION
+-#
+-#   Check whether the given FLAG works with the linker or gives an error.
+-#   (Warnings, however, are ignored)
+-#
+-#   ACTION-SUCCESS/ACTION-FAILURE are shell commands to execute on
+-#   success/failure.
+-#
+-#   If EXTRA-FLAGS is defined, it is added to the linker's default flags
+-#   when the check is done.  The check is thus made with the flags: "LDFLAGS
+-#   EXTRA-FLAGS FLAG".  This can for example be used to force the linker to
+-#   issue an error when a bad flag is given.
+-#
+-#   NOTE: Implementation based on AX_CFLAGS_GCC_OPTION. Please keep this
+-#   macro in sync with AX_CHECK_{PREPROC,COMPILE}_FLAG.
+-#
+-# LICENSE
+-#
+-#   Copyright (c) 2008 Guido U. Draheim <guidod@gmx.de>
+-#   Copyright (c) 2011 Maarten Bosmans <mkbosmans@gmail.com>
+-#
+-#   This program is free software: you can redistribute it and/or modify it
+-#   under the terms of the GNU General Public License as published by the
+-#   Free Software Foundation, either version 3 of the License, or (at your
+-#   option) any later version.
+-#
+-#   This program is distributed in the hope that it will be useful, but
+-#   WITHOUT ANY WARRANTY; without even the implied warranty of
+-#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+-#   Public License for more details.
+-#
+-#   You should have received a copy of the GNU General Public License along
+-#   with this program. If not, see <http://www.gnu.org/licenses/>.
+-#
+-#   As a special exception, the respective Autoconf Macro's copyright owner
+-#   gives unlimited permission to copy, distribute and modify the configure
+-#   scripts that are the output of Autoconf when processing the Macro. You
+-#   need not follow the terms of the GNU General Public License when using
+-#   or distributing such scripts, even though portions of the text of the
+-#   Macro appear in them. The GNU General Public License (GPL) does govern
+-#   all other use of the material that constitutes the Autoconf Macro.
+-#
+-#   This special exception to the GPL applies to versions of the Autoconf
+-#   Macro released by the Autoconf Archive. When you make and distribute a
+-#   modified version of the Autoconf Macro, you may extend this special
+-#   exception to the GPL to apply to your modified version as well.
+-
+-#serial 2
+-
+-AC_DEFUN([AX_CHECK_LINK_FLAG],
+-[AS_VAR_PUSHDEF([CACHEVAR],[ax_cv_check_ldflags_$4_$1])dnl
+-AC_CACHE_CHECK([whether the linker accepts $1], CACHEVAR, [
+-  ax_check_save_flags=$LDFLAGS
+-  LDFLAGS="$LDFLAGS $4 $1"
+-  AC_LINK_IFELSE([AC_LANG_PROGRAM()],
+-    [AS_VAR_SET(CACHEVAR,[yes])],
+-    [AS_VAR_SET(CACHEVAR,[no])])
+-  LDFLAGS=$ax_check_save_flags])
+-AS_IF([test x"AS_VAR_GET(CACHEVAR)" = xyes],
+-  [m4_default([$2], :)],
+-  [m4_default([$3], :)])
+-AS_VAR_POPDEF([CACHEVAR])dnl
+-])dnl AX_CHECK_LINK_FLAGS
+diff --git a/po/.gitignore b/po/.gitignore
+deleted file mode 100644
+index adfc4e0..0000000
+--- a/po/.gitignore
++++ /dev/null
+@@ -1,6 +0,0 @@
+-Makefile.in.in
+-POTFILES
+-stamp-it
+-*.pot
+-*.gmo
+-
+diff --git a/po/ChangeLog b/po/ChangeLog
+deleted file mode 100644
+index e69de29..0000000
+diff --git a/po/Makevars b/po/Makevars
+deleted file mode 100644
+index 45215a8..0000000
+--- a/po/Makevars
++++ /dev/null
+@@ -1,78 +0,0 @@
+-# Makefile variables for PO directory in any package using GNU gettext.
+-
+-# Usually the message domain is the same as the package name.
+-DOMAIN = $(PACKAGE)
+-
+-# These two variables depend on the location of this directory.
+-subdir = po
+-top_builddir = ..
+-
+-# These options get passed to xgettext.
+-XGETTEXT_OPTIONS = --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=C_:1c,2 --keyword=NC_:1c,2 --keyword=g_dngettext:2,3 --add-comments
+-
+-# This is the copyright holder that gets inserted into the header of the
+-# $(DOMAIN).pot file.  Set this to the copyright holder of the surrounding
+-# package.  (Note that the msgstr strings, extracted from the package's
+-# sources, belong to the copyright holder of the package.)  Translators are
+-# expected to transfer the copyright for their translations to this person
+-# or entity, or to disclaim their copyright.  The empty string stands for
+-# the public domain; in this case the translators are expected to disclaim
+-# their copyright.
+-COPYRIGHT_HOLDER = The UPower authors.
+-
+-# This tells whether or not to prepend "GNU " prefix to the package
+-# name that gets inserted into the header of the $(DOMAIN).pot file.
+-# Possible values are "yes", "no", or empty.  If it is empty, try to
+-# detect it automatically by scanning the files in $(top_srcdir) for
+-# "GNU packagename" string.
+-PACKAGE_GNU = no
+-
+-# This is the email address or URL to which the translators shall report
+-# bugs in the untranslated strings:
+-# - Strings which are not entire sentences, see the maintainer guidelines
+-#   in the GNU gettext documentation, section 'Preparing Strings'.
+-# - Strings which use unclear terms or require additional context to be
+-#   understood.
+-# - Strings which make invalid assumptions about notation of date, time or
+-#   money.
+-# - Pluralisation problems.
+-# - Incorrect English spelling.
+-# - Incorrect formatting.
+-# It can be your email address, or a mailing list address where translators
+-# can write to without being subscribed, or the URL of a web page through
+-# which the translators can contact you.
+-MSGID_BUGS_ADDRESS = https://gitlab.freedesktop.org/upower/upower/issues
+-
+-# This is the list of locale categories, beyond LC_MESSAGES, for which the
+-# message catalogs shall be used.  It is usually empty.
+-EXTRA_LOCALE_CATEGORIES =
+-
+-# This tells whether the $(DOMAIN).pot file contains messages with an 'msgctxt'
+-# context.  Possible values are "yes" and "no".  Set this to yes if the
+-# package uses functions taking also a message context, like pgettext(), or
+-# if in $(XGETTEXT_OPTIONS) you define keywords with a context argument.
+-USE_MSGCTXT = yes
+-
+-# These options get passed to msgmerge.
+-# Useful options are in particular:
+-#   --previous            to keep previous msgids of translated messages,
+-#   --quiet               to reduce the verbosity.
+-MSGMERGE_OPTIONS =
+-
+-# These options get passed to msginit.
+-# If you want to disable line wrapping when writing PO files, add
+-# --no-wrap to MSGMERGE_OPTIONS, XGETTEXT_OPTIONS, and
+-# MSGINIT_OPTIONS.
+-MSGINIT_OPTIONS =
+-
+-# This tells whether or not to regenerate a PO file when $(DOMAIN).pot
+-# has changed.  Possible values are "yes" and "no".  Set this to no if
+-# the POT file is checked in the repository and the version control
+-# program ignores timestamps.
+-PO_DEPENDS_ON_POT = no
+-
+-# This tells whether or not to forcibly update $(DOMAIN).pot and
+-# regenerate PO files on "make dist".  Possible values are "yes" and
+-# "no".  Set this to no if the POT file and PO files are maintained
+-# externally.
+-DIST_DEPENDS_ON_UPDATE_PO = no
+diff --git a/rules/Makefile.am b/rules/Makefile.am
+deleted file mode 100644
+index eb0ff66..0000000
+--- a/rules/Makefile.am
++++ /dev/null
+@@ -1,13 +0,0 @@
+-## Process this file with automake to produce Makefile.in
+-
+-udevrules_DATA =						\
+-	95-upower-wup.rules					\
+-	95-upower-hid.rules
+-
+-EXTRA_DIST =							\
+-	$(udevrules_DATA)
+-
+-clean-local :
+-	rm -f *~
+-
+--include $(top_srcdir)/git.mk
+diff --git a/src/Makefile.am b/src/Makefile.am
+deleted file mode 100644
+index bcb1187..0000000
+--- a/src/Makefile.am
++++ /dev/null
+@@ -1,207 +0,0 @@
+-## Process this file with automake to produce Makefile.in
+-
+-DIST_SUBDIRS = dummy freebsd linux openbsd bsd
+-SUBDIRS = dummy freebsd linux openbsd
+-
+-if BACKEND_TYPE_FREEBSD
+-SUBDIRS += bsd
+-endif
+-
+-if BACKEND_TYPE_OPENBSD
+-SUBDIRS += bsd
+-endif
+-
+-AM_CPPFLAGS = \
+-	$(PIE_CFLAGS)						\
+-	-I$(top_builddir)/src -I$(top_srcdir)/src		\
+-	-I$(top_builddir)/ -I$(top_srcdir)/			\
+-	-DUPOWER_CONF_PATH=\""$(top_srcdir)/etc/UPower.conf"\"	\
+-	-DPACKAGE_LIBEXEC_DIR=\""$(libexecdir)"\"		\
+-	-DPACKAGE_SYSCONF_DIR=\""$(sysconfdir)"\"		\
+-	-DPACKAGE_DATA_DIR=\""$(datadir)"\"			\
+-	-DPACKAGE_BIN_DIR=\""$(bindir)"\"			\
+-	-DPACKAGE_LOCALSTATE_DIR=\""$(localstatedir)"\"		\
+-	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\"			\
+-	-DPACKAGE_LIB_DIR=\""$(libdir)"\"			\
+-	-DHISTORY_DIR=\""$(historydir)"\"			\
+-	-D_POSIX_PTHREAD_SEMANTICS -D_REENTRANT			\
+-	-DUP_COMPILATION					\
+-	-DG_LOG_DOMAIN=\"UPower\"				\
+-	-I$(top_srcdir)/dbus					\
+-	-I$(top_srcdir)/libupower-glib				\
+-	-I$(top_srcdir)						\
+-	$(GIO_CFLAGS)						\
+-	$(GIO_UNIX_CFLAGS)					\
+-	$(GUDEV_CFLAGS)						\
+-	$(GLIB_CFLAGS)
+-
+-UPOWER_LIBS = \
+-	$(top_builddir)/dbus/libupower-dbus.la			\
+-	$(top_builddir)/libupower-glib/libupower-glib.la
+-
+-libexec_PROGRAMS = upowerd
+-
+-upowerd_SOURCES =						\
+-	up-constants.h						\
+-	up-daemon.h						\
+-	up-daemon.c						\
+-	up-device.h						\
+-	up-device.c						\
+-	up-device-list.h					\
+-	up-device-list.c					\
+-	up-config.h						\
+-	up-config.c						\
+-	up-kbd-backlight.h					\
+-	up-kbd-backlight.c					\
+-	up-wakeups.h						\
+-	up-wakeups.c						\
+-	up-history.h						\
+-	up-history.c						\
+-	up-backend.h						\
+-	up-native.h						\
+-	up-main.c						\
+-	up-backend-bsd-private.h			\
+-	$(BUILT_SOURCES)
+-
+-upowerd_CPPFLAGS =						\
+-	-I$(top_srcdir)/src					\
+-	$(AM_CPPFLAGS)
+-
+-upowerd_LDADD =							\
+-	-lm							\
+-	$(GIO_LIBS)						\
+-	$(GIO_UNIX_LIBS)					\
+-	$(UPOWER_LIBS)
+-
+-if BACKEND_TYPE_DUMMY
+-upowerd_LDADD += 						\
+-	dummy/libupshared.la
+-endif
+-
+-if BACKEND_TYPE_FREEBSD
+-upowerd_LDADD +=						\
+-	freebsd/libupshared.la				\
+-	bsd/libupsharedcommon.la
+-endif
+-
+-if BACKEND_TYPE_OPENBSD
+-upowerd_LDADD +=						\
+-	openbsd/libupshared.la				\
+-	bsd/libupsharedcommon.la
+-endif
+-
+-if BACKEND_TYPE_LINUX
+-upowerd_LDADD += 						\
+-	linux/libupshared.la					\
+-	$(GUDEV_LIBS)						\
+-	$(IDEVICE_LIBS)						\
+-	$(NULL)
+-
+-upowerd_LDFLAGS =						\
+-	$(PIE_LDFLAGS)						\
+-	$(RELRO_LDFLAGS)
+-
+-if UP_BUILD_TESTS
+-check-local: upowerd
+-# To launch a single test
+-# env GI_TYPELIB_PATH=$(top_builddir)/libupower-glib:$(GI_TYPELIB_PATH) LD_LIBRARY_PATH=$(top_builddir)/libupower-glib/.libs:$(LD_LIBRARY_PATH) top_builddir=$(top_builddir) $(srcdir)/linux/integration-test -v Tests.test_bluetooth_le_mouse
+-	env GI_TYPELIB_PATH=$(top_builddir)/libupower-glib:$(GI_TYPELIB_PATH) LD_LIBRARY_PATH=$(top_builddir)/libupower-glib/.libs:$(LD_LIBRARY_PATH) top_builddir=$(top_builddir) $(srcdir)/linux/integration-test -v; \
+-	res=$$?; test $$res -eq 77 && res=0; \
+-	exit $$res
+-endif
+-
+-endif
+-
+-upowerd_CFLAGS =						\
+-	$(WARNINGFLAGS_C)					\
+-	$(NULL)
+-
+-if UP_BUILD_TESTS
+-
+-check_PROGRAMS =						\
+-	up-self-test
+-
+-up_self_test_SOURCES =						\
+-	up-self-test.c						\
+-	up-config.h						\
+-	up-config.c						\
+-	up-daemon.h						\
+-	up-daemon.c						\
+-	up-device.h						\
+-	up-device.c						\
+-	up-device-list.h					\
+-	up-device-list.c					\
+-	up-kbd-backlight.h					\
+-	up-kbd-backlight.c					\
+-	up-wakeups.h						\
+-	up-wakeups.c						\
+-	up-history.h						\
+-	up-history.c						\
+-	up-backend.h						\
+-	up-native.h						\
+-	$(BUILT_SOURCES)
+-
+-up_self_test_LDADD =						\
+-	-lm							\
+-	dummy/libuptest.la					\
+-	$(GLIB_LIBS)						\
+-	$(GIO_CFLAGS)						\
+-	$(POLKIT_LIBS)						\
+-	$(UPOWER_LIBS)
+-
+-up_self_test_CFLAGS = $(AM_CFLAGS) $(WARNINGFLAGS_C)
+-
+-TESTS_ENVIRONMENT = $(DBUS_LAUNCH)
+-TESTS = up-self-test
+-
+-endif
+-
+-dbusservicedir       = $(datadir)/dbus-1/system-services
+-dbusservice_in_files = org.freedesktop.UPower.service.in
+-dbusservice_DATA     = $(dbusservice_in_files:.service.in=.service)
+-
+-$(dbusservice_DATA): $(dbusservice_in_files) Makefile
+-	@sed -e "s|\@libexecdir\@|$(libexecdir)|" $< > $@
+-
+-dbusconfdir = $(datadir)/dbus-1/system.d
+-dbusconf_in_files = org.freedesktop.UPower.conf.in
+-dbusconf_DATA = $(dbusconf_in_files:.conf.in=.conf)
+-
+-$(dbusconf_DATA): $(dbusconf_in_files) Makefile
+-	cp $< $@
+-
+-systemdservice_in_files = upower.service.in
+-
+-if HAVE_SYSTEMDSYSTEMUNITDIR
+-systemdservicedir       = $(systemdsystemunitdir)
+-systemdservice_DATA     = $(systemdservice_in_files:.service.in=.service)
+-
+-$(systemdservice_DATA): $(systemdservice_in_files) Makefile
+-	@sed -e "s|\@libexecdir\@|$(libexecdir)|" -e "s|\@historydir\@|$(historydir)|" $< > $@
+-endif
+-
+-install-data-hook:
+-	if test -w $(DESTDIR)$(prefix)/; then \
+-		mkdir -p $(DESTDIR)$(historydir); \
+-	fi
+-
+-CLEANFILES = $(BUILT_SOURCES)
+-
+-MAINTAINERCLEANFILES =						\
+-	$(dbusconf_DATA)					\
+-	$(systemdservice_DATA)					\
+-	$(dbusservice_DATA)
+-
+-EXTRA_DIST =							\
+-	$(systemdservice_in_files)				\
+-	$(dbusservice_in_files)					\
+-	$(dbusconf_in_files)
+-
+-if HAVE_SYSTEMDSYSTEMUNITDIR
+-EXTRA_DIST += $(systemdservice_in_files)
+-endif
+-
+-clean-local :
+-	rm -f *~ $(dbusservice_DATA) $(dbusconf_DATA) $(systemdservice_DATA)
+-
+--include $(top_srcdir)/git.mk
+diff --git a/src/bsd/Makefile.am b/src/bsd/Makefile.am
+deleted file mode 100644
+index 295cf85..0000000
+--- a/src/bsd/Makefile.am
++++ /dev/null
+@@ -1,32 +0,0 @@
+-## Process this file with automake to produce Makefile.in
+-
+-AM_CPPFLAGS = \
+-	-I$(top_builddir)/src -I$(top_srcdir)/src		\
+-	-I$(top_builddir)/ -I$(top_srcdir)/			\
+-	-DUP_COMPILATION					\
+-	-DG_LOG_DOMAIN=\"UPower-Unix\"			\
+-	-I$(top_srcdir)/libupower-glib				\
+-	$(POLKIT_CFLAGS)					\
+-	$(DBUS_GLIB_CFLAGS)					\
+-	$(GLIB_CFLAGS)						\
+-	$(GIO_CFLAGS)
+-
+-noinst_LTLIBRARIES = libupsharedcommon.la
+-
+-libupsharedcommon_la_SOURCES =					\
+-	up-backend-common.c							\
+-	$(BUILT_SOURCES)
+-
+-libupsharedcommon_la_CFLAGS =					\
+-	$(WARNINGFLAGS_C)
+-
+-EXTRA_DIST = $(libupsharedcommon_la_SOURCES)
+-
+-libupsharedcommon_la_LIBADD = 					\
+-	$(GIO_LIBS)									\
+-	$(GLIB_LIBS)
+-
+-clean-local :
+-	rm -f *~
+-
+--include $(top_srcdir)/git.mk
+diff --git a/src/dummy/Makefile.am b/src/dummy/Makefile.am
+deleted file mode 100644
+index 088f856..0000000
+--- a/src/dummy/Makefile.am
++++ /dev/null
+@@ -1,32 +0,0 @@
+-## Process this file with automake to produce Makefile.in
+-
+-AM_CPPFLAGS = \
+-	-I$(top_builddir)/src -I$(top_srcdir)/src		\
+-	-I$(top_builddir)/ -I$(top_srcdir)/			\
+-	-DUP_COMPILATION					\
+-	-DG_LOG_DOMAIN=\"UPower-Dummy\"				\
+-	-I$(top_srcdir)/libupower-glib				\
+-	$(POLKIT_CFLAGS)					\
+-	$(GLIB_CFLAGS)
+-
+-noinst_LTLIBRARIES =
+-
+-if BACKEND_TYPE_DUMMY
+-noinst_LTLIBRARIES += libupshared.la
+-endif
+-
+-libupshared_la_SOURCES =					\
+-	up-backend.c						\
+-	up-native.c						\
+-	$(BUILT_SOURCES)
+-
+-if UP_BUILD_TESTS
+-noinst_LTLIBRARIES += libuptest.la
+-libuptest_la_CFLAGS = -DEGG_TEST
+-libuptest_la_SOURCES = $(libupshared_la_SOURCES)
+-endif
+-
+-clean-local :
+-	rm -f *~
+-
+--include $(top_srcdir)/git.mk
+diff --git a/src/freebsd/Makefile.am b/src/freebsd/Makefile.am
+deleted file mode 100644
+index c640dc1..0000000
+--- a/src/freebsd/Makefile.am
++++ /dev/null
+@@ -1,43 +0,0 @@
+-## Process this file with automake to produce Makefile.in
+-
+-AM_CPPFLAGS = \
+-	-I$(top_builddir)/src -I$(top_srcdir)/src		\
+-	-I$(top_builddir)/ -I$(top_srcdir)/			\
+-	-DUP_COMPILATION					\
+-	-DG_LOG_DOMAIN=\"UPower-Freebsd\"			\
+-	-I$(top_srcdir)/libupower-glib				\
+-	$(POLKIT_CFLAGS)					\
+-	$(GLIB_CFLAGS)
+-
+-if BACKEND_TYPE_FREEBSD
+-noinst_LTLIBRARIES = libupshared.la
+-endif
+-
+-libupshared_la_SOURCES =					\
+-	up-acpi-native.c					\
+-	up-acpi-native.h					\
+-	up-backend-acpi.h					\
+-	up-backend.c						\
+-	up-devd.c						\
+-	up-devd.h						\
+-	up-device-supply.c					\
+-	up-device-supply.h					\
+-	up-native.c						\
+-	up-util.c						\
+-	up-util.h						\
+-	$(BUILT_SOURCES)
+-
+-libupshared_la_CFLAGS =					\
+-	$(WARNINGFLAGS_C)
+-
+-libupshared_la_LIBADD =					\
+-	-lkvm
+-
+-EXTRA_DIST =							\
+-	up-acpi-native.vala					\
+-	TODO
+-
+-clean-local :
+-	rm -f *~
+-
+--include $(top_srcdir)/git.mk
+diff --git a/src/linux/Makefile.am b/src/linux/Makefile.am
+deleted file mode 100644
+index 40abf08..0000000
+--- a/src/linux/Makefile.am
++++ /dev/null
+@@ -1,62 +0,0 @@
+-## Process this file with automake to produce Makefile.in
+-
+-AM_CPPFLAGS = \
+-	-I$(top_builddir)/src -I$(top_srcdir)/src		\
+-	-I$(top_builddir)/ -I$(top_srcdir)			\
+-	-DUP_COMPILATION					\
+-	-DG_LOG_DOMAIN=\"UPower-Linux\"				\
+-	-DPACKAGE_SYSCONF_DIR=\""$(sysconfdir)"\"		\
+-	-I$(top_srcdir)/libupower-glib				\
+-	$(GIO_CFLAGS)						\
+-	$(GIO_UNIX_CFLAGS)					\
+-	$(GUDEV_CFLAGS)						\
+-	$(POLKIT_CFLAGS)					\
+-	$(GLIB_CFLAGS)						\
+-	$(IDEVICE_CFLAGS)					\
+-	$(NULL)
+-
+-if BACKEND_TYPE_LINUX
+-noinst_LTLIBRARIES = libupshared.la
+-endif
+-
+-if HAVE_IDEVICE
+-idevice_files = up-device-idevice.c up-device-idevice.h
+-else
+-idevice_files =
+-endif
+-
+-libupshared_la_SOURCES =					\
+-	up-device-supply.c					\
+-	up-device-supply.h					\
+-	up-device-hid.c						\
+-	up-device-hid.h						\
+-	up-device-wup.c						\
+-	up-device-wup.h						\
+-	up-device-bluez.c					\
+-	up-device-bluez.h					\
+-	up-input.c						\
+-	up-input.h						\
+-	up-backend.c						\
+-	up-backend-linux-private.h				\
+-	up-native.c						\
+-	$(idevice_files)					\
+-	$(BUILT_SOURCES)
+-
+-EXTRA_DIST = $(libupshared_la_SOURCES) 			\
+-	     integration-test
+-
+-libupshared_la_CFLAGS =					\
+-	$(WARNINGFLAGS_C)
+-
+-libupshared_la_LIBADD = $(GIO_LIBS)
+-
+-clean-local :
+-	rm -f *~
+-
+-uninstall-hook:
+-	rm -f $(DESTDIR)$(localstatedir)/lib/upower/history-* && \
+-	rmdir $(DESTDIR)$(localstatedir)/lib/upower && \
+-	rmdir $(DESTDIR)$(localstatedir)/lib && \
+-	rmdir $(DESTDIR)$(localstatedir)
+-
+--include $(top_srcdir)/git.mk
+diff --git a/src/openbsd/Makefile.am b/src/openbsd/Makefile.am
+deleted file mode 100644
+index b7a501f..0000000
+--- a/src/openbsd/Makefile.am
++++ /dev/null
+@@ -1,28 +0,0 @@
+-## Process this file with automake to produce Makefile.in
+-
+-AM_CPPFLAGS = \
+-	-I$(top_builddir)/src -I$(top_srcdir)/src		\
+-	-I$(top_builddir)/ -I$(top_srcdir)/			\
+-	-DUP_COMPILATION					\
+-	-DG_LOG_DOMAIN=\"UPower-Openbsd\"			\
+-	-I$(top_srcdir)/libupower-glib				\
+-	$(POLKIT_CFLAGS)					\
+-	$(GLIB_CFLAGS)
+-
+-if BACKEND_TYPE_OPENBSD
+-noinst_LTLIBRARIES = libupshared.la
+-endif
+-
+-libupshared_la_SOURCES =					\
+-	up-backend.c						\
+-	up-native.c						\
+-	up-apm-native.h						\
+-	$(BUILT_SOURCES)
+-
+-libupshared_la_CFLAGS =					\
+-	$(WARNINGFLAGS_C)
+-
+-clean-local :
+-	rm -f *~
+-
+--include $(top_srcdir)/git.mk
+diff --git a/tools/Makefile.am b/tools/Makefile.am
+deleted file mode 100644
+index 3764391..0000000
+--- a/tools/Makefile.am
++++ /dev/null
+@@ -1,37 +0,0 @@
+-## Process this file with automake to produce Makefile.in
+-
+-AM_CPPFLAGS = \
+-	$(PIE_CFLAGS)						\
+-	-DUP_COMPILATION					\
+-	-DG_LOG_DOMAIN=\"UPower\"				\
+-	-I$(top_srcdir)						\
+-	-I$(top_srcdir)/libupower-glib				\
+-	$(POLKIT_DBUS_CFLAGS)					\
+-	$(GLIB_CFLAGS)
+-
+-UPOWER_LIBS = $(top_builddir)/libupower-glib/libupower-glib.la
+-
+-bin_PROGRAMS = upower
+-
+-upower_SOURCES = 					\
+-	up-tool.c					\
+-	$(BUILT_SOURCES)
+-
+-upower_CPPFLAGS = 					\
+-	$(AM_CPPFLAGS)
+-
+-upower_LDFLAGS =
+-	-pthread					\
+-	$(PIE_LDFLAGS)
+-
+-upower_LDADD = 						\
+-	$(GLIB_LIBS)					\
+-	$(UPOWER_LIBS)					\
+-	$(POLKIT_DBUS_LIBS)
+-
+-CLEANFILES = $(BUILT_SOURCES)
+-
+-clean-local :
+-	rm -f *~ $(service_DATA) $(dbusconf_DATA)
+-
+--include $(top_srcdir)/git.mk
+diff --git a/upower-glib.pc.in b/upower-glib.pc.in
+deleted file mode 100644
+index 6d1ef74..0000000
+--- a/upower-glib.pc.in
++++ /dev/null
+@@ -1,13 +0,0 @@
+-prefix=@prefix@
+-exec_prefix=@exec_prefix@
+-libdir=@libdir@
+-includedir=@includedir@
+-
+-Name: upower-glib
+-Description: UPower is a system daemon for managing power devices
+-Version: @VERSION@
+-Requires.private: gthread-2.0, gio-2.0
+-Requires: glib-2.0, gobject-2.0
+-Libs: -L${libdir} -lupower-glib
+-Cflags: -I${includedir}/libupower-glib
+-
+-- 
+2.35.1
+

@@ -1,0 +1,84 @@
+From 96ea5b352161c7edab5fd6d0b4789878b111d1cd Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 17 Jun 2021 11:34:40 +0200
+Subject: [PATCH 049/157] linux: Make unknown Bluetooth devices appear as
+ generic
+
+Make Bluetooth devices for which we can't guess the "kind" or form
+factor be "generic Bluetooth" devices, rather than "unknown" devices.
+
+That should make it clearer in UIs that the devices are Bluetooth rather
+than connected to the computer somehow.
+
+Closes: #137
+---
+ src/linux/integration-test  | 7 ++++---
+ src/linux/up-device-bluez.c | 6 +++---
+ 2 files changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index e7de40d..7f18a18 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -101,7 +101,8 @@ BATTERY_IFACE = 'org.bluez.Battery1'
+  UP_DEVICE_KIND_SCANNER,
+  UP_DEVICE_KIND_CAMERA,
+  UP_DEVICE_KIND_WEARABLE,
+- UP_DEVICE_KIND_TOY) = range(28)
++ UP_DEVICE_KIND_TOY,
++ UP_DEVICE_KIND_BLUETOOTH_GENERIC) = range(29)
+ 
+ class Tests(dbusmock.DBusTestCase):
+     @classmethod
+@@ -1711,7 +1712,7 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Model'), alias)
+         self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Percentage'), battery_level)
+         self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'PowerSupply'), False)
+-        self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Type'), UP_DEVICE_KIND_UNKNOWN)
++        self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Type'), UP_DEVICE_KIND_BLUETOOTH_GENERIC)
+         self.stop_daemon()
+ 
+     def test_bluetooth_headphones(self):
+@@ -1806,7 +1807,7 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_dev_property(bat0_up, 'Model'), alias)
+         self.assertEqual(self.get_dbus_dev_property(bat0_up, 'Percentage'), battery_level)
+         self.assertEqual(self.get_dbus_dev_property(bat0_up, 'PowerSupply'), False)
+-        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'Type'), UP_DEVICE_KIND_UNKNOWN)
++        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'Type'), UP_DEVICE_KIND_BLUETOOTH_GENERIC)
+         self.stop_daemon()
+ 
+     #
+diff --git a/src/linux/up-device-bluez.c b/src/linux/up-device-bluez.c
+index 2234b83..7747c75 100644
+--- a/src/linux/up-device-bluez.c
++++ b/src/linux/up-device-bluez.c
+@@ -59,7 +59,7 @@ appearance_to_kind (guint16 appearance)
+                 break;
+         }
+ 
+-	return UP_DEVICE_KIND_UNKNOWN;
++	return UP_DEVICE_KIND_BLUETOOTH_GENERIC;
+ }
+ 
+ /**
+@@ -147,7 +147,7 @@ class_to_kind (guint32 class)
+ 		return UP_DEVICE_KIND_TOY;
+ 	}
+ 
+-	return UP_DEVICE_KIND_UNKNOWN;
++	return UP_DEVICE_KIND_BLUETOOTH_GENERIC;
+ }
+ 
+ /**
+@@ -198,7 +198,7 @@ up_device_bluez_coldplug (UpDevice *device)
+ 		kind = class_to_kind (class);
+ 		g_variant_unref (v);
+ 	} else {
+-		kind = UP_DEVICE_KIND_UNKNOWN;
++		kind = UP_DEVICE_KIND_BLUETOOTH_GENERIC;
+ 	}
+ 
+ 	v = g_dbus_proxy_get_cached_property (proxy, "Address");
+-- 
+2.35.1
+

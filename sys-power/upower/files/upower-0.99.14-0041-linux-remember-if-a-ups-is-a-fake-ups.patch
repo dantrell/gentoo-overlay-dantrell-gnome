@@ -1,0 +1,52 @@
+From 6996261d28511520e651daf829704f3402c814a5 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 18 Jan 2022 13:05:18 +0100
+Subject: [PATCH 41/86] linux: Remember if a UPS is a fake UPS
+
+---
+ src/linux/up-device-hid.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/linux/up-device-hid.c b/src/linux/up-device-hid.c
+index 418193c..d6131af 100644
+--- a/src/linux/up-device-hid.c
++++ b/src/linux/up-device-hid.c
+@@ -85,6 +85,7 @@ struct UpDeviceHidPrivate
+ {
+ 	guint			 poll_timer_id;
+ 	int			 fd;
++	gboolean		 fake_device;
+ };
+ 
+ G_DEFINE_TYPE_WITH_PRIVATE (UpDeviceHid, up_device_hid, UP_TYPE_DEVICE)
+@@ -303,7 +304,6 @@ up_device_hid_coldplug (UpDevice *device)
+ 	UpDeviceHid *hid = UP_DEVICE_HID (device);
+ 	GUdevDevice *native;
+ 	gboolean ret = FALSE;
+-	gboolean fake_device;
+ 	const gchar *device_file;
+ 	const gchar *type;
+ 	const gchar *vendor;
+@@ -330,8 +330,8 @@ up_device_hid_coldplug (UpDevice *device)
+ 	}
+ 
+ 	/* first check that we are an UPS */
+-	fake_device = g_udev_device_has_property (native, "UPOWER_FAKE_DEVICE");
+-	if (!fake_device)
++	hid->priv->fake_device = g_udev_device_has_property (native, "UPOWER_FAKE_DEVICE");
++	if (!hid->priv->fake_device)
+ 	{
+ 		ret = up_device_hid_is_ups (hid);
+ 		if (!ret) {
+@@ -357,7 +357,7 @@ up_device_hid_coldplug (UpDevice *device)
+ 		      NULL);
+ 
+ 	/* coldplug everything */
+-	if (fake_device)
++	if (hid->priv->fake_device)
+ 	{
+ 		ret = TRUE;
+ 		if (g_udev_device_get_property_as_boolean (native, "UPOWER_FAKE_HID_CHARGING"))
+-- 
+2.35.1
+

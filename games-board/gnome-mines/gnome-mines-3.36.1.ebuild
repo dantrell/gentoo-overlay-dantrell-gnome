@@ -31,6 +31,11 @@ BDEPEND="
 	gnome-base/librsvg:2[vala]
 "
 
+PATCHES=(
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/gnome-mines/-/commit/7214468e974422644b3702fcc0d56f66a788b982
+	"${FILESDIR}"/${PN}-40.1-meson-drop-unused-argument-for-i18n-merge-file.patch
+)
 src_prepare() {
 	xdg_src_prepare
 	vala_src_prepare

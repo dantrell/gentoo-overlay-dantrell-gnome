@@ -1,0 +1,51 @@
+From dde6f714ea5f770dd6936e452891cd804cc5a27e Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Mon, 18 Jan 2021 22:05:20 +0100
+Subject: [PATCH 026/157] linux: Set update-time for BlueZ devices
+
+When the battery percentage for a BlueZ device changes, change the
+update-time so that the charge history is somewhat useful.
+---
+ src/linux/integration-test  | 1 +
+ src/linux/up-device-bluez.c | 6 +++++-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/src/linux/integration-test b/src/linux/integration-test
+index 254da46..c303baf 100755
+--- a/src/linux/integration-test
++++ b/src/linux/integration-test
+@@ -1643,6 +1643,7 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Percentage'), 99)
+         self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'PowerSupply'), False)
+         self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'Type'), UP_DEVICE_KIND_MOUSE)
++        self.assertEqual(self.get_dbus_dev_property(mouse_bat0_up, 'UpdateTime') != 0, True)
+         self.stop_daemon()
+ 
+     def test_bluetooth_le_device(self):
+diff --git a/src/linux/up-device-bluez.c b/src/linux/up-device-bluez.c
+index 8673d82..f4480ba 100644
+--- a/src/linux/up-device-bluez.c
++++ b/src/linux/up-device-bluez.c
+@@ -147,6 +147,7 @@ up_device_bluez_coldplug (UpDevice *device)
+ 	g_object_set (device,
+ 		      "is-present", TRUE,
+ 		      "percentage", (gdouble) percentage,
++		      "update-time", (guint64) g_get_real_time () / G_USEC_PER_SEC,
+ 		      NULL);
+ 
+ 	g_object_unref (proxy);
+@@ -171,7 +172,10 @@ up_device_bluez_update (UpDeviceBluez *bluez,
+ 	g_variant_iter_init (&iter, properties);
+ 	while (g_variant_iter_next (&iter, "{&sv}", &key, &value)) {
+ 		if (g_str_equal (key, "Percentage")) {
+-			g_object_set (device, "percentage", (gdouble) g_variant_get_byte (value), NULL);
++			g_object_set (device,
++				      "percentage", (gdouble) g_variant_get_byte (value),
++				      "update-time", (guint64) g_get_real_time () / G_USEC_PER_SEC,
++				      NULL);
+ 		} else {
+ 			char *str = g_variant_print (value, TRUE);
+ 
+-- 
+2.35.1
+

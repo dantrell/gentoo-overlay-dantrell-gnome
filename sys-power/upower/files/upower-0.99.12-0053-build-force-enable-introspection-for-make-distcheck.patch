@@ -1,0 +1,29 @@
+From 95763ef43e62fcf9b60925905e09c8d2c111d966 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 17 Jun 2021 14:13:57 +0200
+Subject: [PATCH 053/157] build: Force enable introspection for "make
+ distcheck" to work
+
+Introspection support is needed to be able to instatiate a UPClient
+object in the test suite.
+---
+ Makefile.am | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index 559c4f9..e64060c 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -54,7 +54,8 @@ pkgconfig_DATA = upower-glib.pc
+ # xsltproc barfs on 'make distcheck'; disable for now
+ DISTCHECK_CONFIGURE_FLAGS=--enable-man-pages --enable-gtk-doc			\
+ 	--with-systemdsystemunitdir=$$dc_install_base/$(systemdsystemunitdir)	\
+-	--with-udevrulesdir='$${libdir}/udev/rules.d-distcheck'
++	--with-udevrulesdir='$${libdir}/udev/rules.d-distcheck'			\
++	--enable-introspection=yes
+ 
+ clean-local :
+ 	rm -f *~
+-- 
+2.35.1
+

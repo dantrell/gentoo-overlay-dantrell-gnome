@@ -1,0 +1,26 @@
+From 98be7dd216cb3b4559e6c1300ba1f30faf07eca4 Mon Sep 17 00:00:00 2001
+From: Ian Douglas Scott <idscott@system76.com>
+Date: Fri, 10 Sep 2021 21:46:44 -0700
+Subject: [PATCH 32/86] build: Fix compiling with idevice disabled
+
+---
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index 2f578b5..2e3ffc7 100644
+--- a/meson.build
++++ b/meson.build
+@@ -78,8 +78,8 @@ if os_backend == 'linux'
+     if not plist_dep.found()
+       plist_dep = dependency(libplist)
+     endif
++    cdata.set10('HAVE_IDEVICE', true)
+   endif
+-  cdata.set10('HAVE_IDEVICE', true)
+ endif
+ 
+ historydir = get_option('historydir')
+-- 
+2.35.1
+

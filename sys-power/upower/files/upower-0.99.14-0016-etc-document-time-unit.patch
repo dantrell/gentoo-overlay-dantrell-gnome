@@ -1,0 +1,29 @@
+From c4cf2e579cf04caaf11ab9a0ab0100a3af7116ea Mon Sep 17 00:00:00 2001
+From: pacien <pacien.trangirard@pacien.net>
+Date: Fri, 3 Sep 2021 01:00:18 +0200
+Subject: [PATCH 16/86] etc: Document Time* unit
+
+---
+ etc/UPower.conf | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/etc/UPower.conf b/etc/UPower.conf
+index 6cab6dc..bae5d2e 100644
+--- a/etc/UPower.conf
++++ b/etc/UPower.conf
+@@ -66,9 +66,9 @@ PercentageLow=20
+ PercentageCritical=5
+ PercentageAction=2
+ 
+-# When UsePercentageForPolicy is false, the time remaining at which UPower
+-# will consider the battery low, critical, or take action for the critical
+-# battery level.
++# When UsePercentageForPolicy is false, the time remaining in seconds at
++# which UPower will consider the battery low, critical, or take action for
++# the critical battery level.
+ #
+ # If any value is invalid, or not in descending order, the defaults
+ # will be used.
+-- 
+2.35.1
+

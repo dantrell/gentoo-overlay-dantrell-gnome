@@ -10,7 +10,7 @@ SRC_URI="https://01.org/sites/default/files/downloads/dleyna/${P}.tar_3.gz -> ${
 
 LICENSE="LGPL-2.1"
 SLOT="1.0/4"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 

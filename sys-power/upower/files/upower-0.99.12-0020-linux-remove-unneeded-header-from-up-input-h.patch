@@ -1,0 +1,28 @@
+From 4a3cc71aa6874e49dcbe1fe8eb2b2da974dbf661 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Fri, 23 Oct 2020 14:33:27 +0200
+Subject: [PATCH 020/157] linux: Remove unneeded header from up-input.h
+
+Missed in an earlier commit.
+
+Fixes: 7ddb75166de ("linux: Remove UpDaemon dependency from UpInput")
+---
+ src/linux/up-input.h | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/src/linux/up-input.h b/src/linux/up-input.h
+index 6c257e8..8b749bd 100644
+--- a/src/linux/up-input.h
++++ b/src/linux/up-input.h
+@@ -23,8 +23,6 @@
+ 
+ #include <glib-object.h>
+ 
+-#include "up-daemon.h"
+-
+ G_BEGIN_DECLS
+ 
+ #define UP_TYPE_INPUT  	(up_input_get_type ())
+-- 
+2.35.1
+

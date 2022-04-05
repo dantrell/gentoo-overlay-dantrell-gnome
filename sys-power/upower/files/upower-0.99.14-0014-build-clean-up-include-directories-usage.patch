@@ -1,0 +1,51 @@
+From 6b9134c5d4494e55be8adc8b7ff842d73ce93a4c Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 2 Sep 2021 18:00:47 +0200
+Subject: [PATCH 14/86] build: Clean up include_directories usage
+
+---
+ libupower-glib/meson.build | 3 ++-
+ src/meson.build            | 1 -
+ tools/meson.build          | 1 -
+ 3 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/libupower-glib/meson.build b/libupower-glib/meson.build
+index f9c7436..9a5323c 100644
+--- a/libupower-glib/meson.build
++++ b/libupower-glib/meson.build
+@@ -60,7 +60,8 @@ libupower_glib = shared_library('upower-glib',
+ libupower_glib_dep = declare_dependency(
+     sources: libupower_glib_headers,
+     link_with: libupower_glib,
+-    include_directories: [ '..' ],
++    # FIXME: The libupower-glib prefix is used inconsistently when including
++    include_directories: [ '.', '..' ],
+     dependencies: [ gobject_dep, gio_dep ],
+ )
+ 
+diff --git a/src/meson.build b/src/meson.build
+index 311f4a0..0f10c13 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -4,7 +4,6 @@ upowerd_deps = declare_dependency(
+         include_directories('.'),
+         include_directories('..'),
+         include_directories('../dbus'),
+-        include_directories('../libupower-glib'),
+     ],
+     dependencies: [
+         glib_dep, gobject_dep, gio_dep, gio_unix_dep, libupower_glib_dep, upowerd_dbus_dep
+diff --git a/tools/meson.build b/tools/meson.build
+index 69d6de0..384ff46 100644
+--- a/tools/meson.build
++++ b/tools/meson.build
+@@ -6,6 +6,5 @@ executable('upower',
+     gnu_symbol_visibility: 'hidden',
+     install: true,
+     install_dir: get_option('prefix') / get_option('bindir'),
+-    include_directories: [ '../libupower-glib/' ],
+     c_args: [ '-DG_LOG_DOMAIN="UPower"' ],
+ )
+-- 
+2.35.1
+

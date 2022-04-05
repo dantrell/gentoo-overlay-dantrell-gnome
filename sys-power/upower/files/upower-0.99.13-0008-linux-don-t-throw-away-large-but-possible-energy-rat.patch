@@ -1,0 +1,34 @@
+From 3b91711e82a932be12df4661a50b646e729164df Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 10 Aug 2021 12:32:24 +0200
+Subject: [PATCH 008/103] linux: Don't throw away large but possible energy
+ rates
+
+USB PD 3.1 allows up to 240W (48V, 5A) and some proprietary supplies
+already delivered more than 100W over USB-C (USB PD 3.0 limit).
+
+Closes: #147
+
+Reported by StefanBruens
+---
+ src/linux/up-device-supply.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index 4236ce4..300c74d 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -724,8 +724,8 @@ up_device_supply_refresh_battery (UpDeviceSupply *supply,
+ 	if (energy_rate == 0xffff)
+ 		energy_rate = 0;
+ 
+-	/* sanity check to less than 100W */
+-	if (energy_rate > 100)
++	/* Ensure less than 300W, above the 240W possible with USB Power Delivery */
++	if (energy_rate > 300)
+ 		energy_rate = 0;
+ 
+ 	/* the hardware reporting failed -- try to calculate this */
+-- 
+2.35.1
+

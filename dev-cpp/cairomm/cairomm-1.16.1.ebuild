@@ -10,7 +10,7 @@ SRC_URI="https://www.cairographics.org/releases/${P}.tar.xz"
 
 LICENSE="LGPL-2+"
 SLOT="1.16"
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="doc test"
 

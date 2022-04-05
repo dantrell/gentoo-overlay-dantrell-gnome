@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Clutter"
 
 LICENSE="LGPL-2.1+"
 SLOT="1.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="X debug examples gtk +introspection wayland"
 

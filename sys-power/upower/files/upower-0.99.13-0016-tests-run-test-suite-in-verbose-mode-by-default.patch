@@ -1,0 +1,26 @@
+From b5a6e2491a31d37e24f2397a60ecd46b985713e8 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 17 Aug 2021 15:50:58 +0200
+Subject: [PATCH 016/103] tests: Run test suite in verbose mode by default
+
+So we can see progress better.
+---
+ src/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 81f5566..4c47d46 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -105,7 +105,7 @@ if UP_BUILD_TESTS
+ check-local: upowerd
+ # To launch a single test
+ # env GI_TYPELIB_PATH=$(top_builddir)/libupower-glib:$(GI_TYPELIB_PATH) LD_LIBRARY_PATH=$(top_builddir)/libupower-glib/.libs:$(LD_LIBRARY_PATH) top_builddir=$(top_builddir) $(srcdir)/linux/integration-test -v Tests.test_bluetooth_le_mouse
+-	env GI_TYPELIB_PATH=$(top_builddir)/libupower-glib:$(GI_TYPELIB_PATH) LD_LIBRARY_PATH=$(top_builddir)/libupower-glib/.libs:$(LD_LIBRARY_PATH) top_builddir=$(top_builddir) $(srcdir)/linux/integration-test
++	env GI_TYPELIB_PATH=$(top_builddir)/libupower-glib:$(GI_TYPELIB_PATH) LD_LIBRARY_PATH=$(top_builddir)/libupower-glib/.libs:$(LD_LIBRARY_PATH) top_builddir=$(top_builddir) $(srcdir)/linux/integration-test -v
+ endif
+ 
+ endif
+-- 
+2.35.1
+

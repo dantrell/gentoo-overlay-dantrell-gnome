@@ -1,0 +1,56 @@
+From 27709f6af47da035739846a33cbf2dbdebee7485 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Mon, 13 Sep 2021 12:47:40 +0200
+Subject: [PATCH 37/86] tests: Add ChargeCycles test
+
+---
+ src/linux/integration-test.py | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
+
+diff --git a/src/linux/integration-test.py b/src/linux/integration-test.py
+index 0f31ffb..ce9735e 100755
+--- a/src/linux/integration-test.py
++++ b/src/linux/integration-test.py
+@@ -1897,6 +1897,39 @@ class Tests(dbusmock.DBusTestCase):
+         self.assertEqual(self.get_dbus_dev_property(bat0_up, 'Type'), UP_DEVICE_KIND_BLUETOOTH_GENERIC)
+         self.stop_daemon()
+ 
++    def test_charge_cycles(self):
++        '''Charge cycles'''
++
++        # one well charged, one low
++        self.testbed.add_device('power_supply', 'BAT0', None,
++                                ['type', 'Battery',
++                                 'present', '1',
++                                 'status', 'Discharging',
++                                 'energy_full', '60000000',
++                                 'energy_full_design', '80000000',
++                                 'energy_now', '48000000',
++                                 'voltage_now', '12000000'], [])
++
++        self.testbed.add_device('power_supply', 'BAT1', None,
++                                ['type', 'Battery',
++                                 'present', '1',
++                                 'status', 'Discharging',
++                                 'energy_full', '60000000',
++                                 'energy_full_design', '80000000',
++                                 'energy_now', '1500000',
++                                 'voltage_now', '12000000',
++                                 'cycle_count', '2000'], [])
++
++        self.start_daemon()
++        devs = self.proxy.EnumerateDevices()
++        self.assertEqual(len(devs), 2)
++        bat0_up = devs[0]
++        bat1_up = devs[1]
++
++        self.assertEqual(self.get_dbus_dev_property(bat0_up, 'ChargeCycles'), -1)
++        self.assertEqual(self.get_dbus_dev_property(bat1_up, 'ChargeCycles'), 2000)
++        self.stop_daemon()
++
+     #
+     # libupower-glib tests (through introspection)
+     #
+-- 
+2.35.1
+

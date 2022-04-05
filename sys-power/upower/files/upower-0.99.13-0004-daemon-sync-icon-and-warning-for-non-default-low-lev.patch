@@ -1,0 +1,92 @@
+From 665a3b2757737d377039ce00832b741a1ddc9a93 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Pablo=20Correa=20G=C3=B3mez?= <ablocorrea@hotmail.com>
+Date: Thu, 17 Jun 2021 01:01:32 +0200
+Subject: [PATCH 004/103] daemon: Sync icon and warning for non-default low
+ level
+
+Before, the low level for changing the battery icon was hardcoded.
+However, as the `low_percentage` property is settable by the user using
+`PercentageLow` option. That can lead to inconsistencies when PercentageLow
+is not the default. For example, if PercentageLow is set higher than 10,
+the Low Battery level warning will be sent at the user-set level, but the
+battery icon would not be updated to "caution" until the percentage
+drops below 10%.
+
+This issue is solved in this commit by using the `low_percentage` property
+for the comparison instead of hardcoding the default.
+---
+ src/up-daemon.c |  5 +++--
+ src/up-daemon.h |  3 ++-
+ src/up-device.c | 10 ++++++++--
+ 3 files changed, 13 insertions(+), 5 deletions(-)
+
+diff --git a/src/up-daemon.c b/src/up-daemon.c
+index 8fcaabe..70b75dd 100644
+--- a/src/up-daemon.c
++++ b/src/up-daemon.c
+@@ -705,12 +705,13 @@ up_daemon_update_warning_level (UpDaemon *daemon)
+ }
+ 
+ const gchar *
+-up_daemon_get_charge_icon (gdouble       percentage,
++up_daemon_get_charge_icon (UpDaemon     *daemon,
++			   gdouble       percentage,
+ 			   UpDeviceLevel battery_level,
+ 			   gboolean      charging)
+ {
+ 	if (battery_level == UP_DEVICE_LEVEL_NONE && daemon != NULL) {
+-		if (percentage < 10)
++		if (percentage <= daemon->priv->low_percentage)
+ 			return charging ? "battery-caution-charging-symbolic" : "battery-caution-symbolic";
+ 		else if (percentage < 30)
+ 			return charging ? "battery-low-charging-symbolic" : "battery-low-symbolic";
+diff --git a/src/up-daemon.h b/src/up-daemon.h
+index 2300ebe..76e7937 100644
+--- a/src/up-daemon.h
++++ b/src/up-daemon.h
+@@ -82,7 +82,8 @@ UpDeviceLevel	 up_daemon_compute_warning_level(UpDaemon		*daemon,
+ 						 gboolean		 power_supply,
+ 						 gdouble		 percentage,
+ 						 gint64			 time_to_empty);
+-const gchar	*up_daemon_get_charge_icon	(gdouble		 percentage,
++const gchar	*up_daemon_get_charge_icon	(UpDaemon		*daemon,
++						 gdouble		 percentage,
+ 						 UpDeviceLevel		 battery_level,
+ 						 gboolean		 charging);
+ 
+diff --git a/src/up-device.c b/src/up-device.c
+index 8a98404..0a56810 100644
+--- a/src/up-device.c
++++ b/src/up-device.c
+@@ -101,6 +101,10 @@ update_icon_name (UpDevice *device)
+ 	const gchar *icon_name = NULL;
+ 	UpExportedDevice *skeleton = UP_EXPORTED_DEVICE (device);
+ 
++	/* Not finished setting up the object? */
++	if (device->priv->daemon == NULL)
++		return;
++
+ 	/* get the icon from some simple rules */
+ 	if (up_exported_device_get_type_ (skeleton) == UP_DEVICE_KIND_LINE_POWER) {
+ 		icon_name = "ac-adapter-symbolic";
+@@ -119,13 +123,15 @@ update_icon_name (UpDevice *device)
+ 				break;
+ 			case UP_DEVICE_STATE_CHARGING:
+ 			case UP_DEVICE_STATE_PENDING_CHARGE:
+-				icon_name = up_daemon_get_charge_icon (up_exported_device_get_percentage (skeleton),
++				icon_name = up_daemon_get_charge_icon (device->priv->daemon,
++								       up_exported_device_get_percentage (skeleton),
+ 								       up_exported_device_get_battery_level (skeleton),
+ 								    TRUE);
+ 				break;
+ 			case UP_DEVICE_STATE_DISCHARGING:
+ 			case UP_DEVICE_STATE_PENDING_DISCHARGE:
+-				icon_name = up_daemon_get_charge_icon (up_exported_device_get_percentage (skeleton),
++				icon_name = up_daemon_get_charge_icon (device->priv->daemon,
++								       up_exported_device_get_percentage (skeleton),
+ 								       up_exported_device_get_battery_level (skeleton),
+ 								    FALSE);
+ 				break;
+-- 
+2.35.1
+

@@ -2,7 +2,7 @@
 
 EAPI="7"
 VALA_MIN_API_VERSION="0.34"
-VALA_MAX_API_VERSION="0.46"
+VALA_MAX_API_VERSION="0.54"
 
 inherit gnome.org gnome2-utils meson vala xdg
 
@@ -11,7 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Shotwell"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="opencv udev"
 

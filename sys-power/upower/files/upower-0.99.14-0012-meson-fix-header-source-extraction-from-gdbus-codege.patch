@@ -1,0 +1,29 @@
+From 02ab49963b15629d9df3aba5b6717ef6a788b510 Mon Sep 17 00:00:00 2001
+From: Benjamin Berg <bberg@redhat.com>
+Date: Fri, 3 Sep 2021 22:35:33 +0200
+Subject: [PATCH 12/86] meson: Fix header/source extraction from gdbus_codegen
+
+Otherwise we depend on the C sources being ready rather than the headers
+for building the rest of upowerd.
+---
+ dbus/meson.build | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/dbus/meson.build b/dbus/meson.build
+index 211229b..7657d9e 100644
+--- a/dbus/meson.build
++++ b/dbus/meson.build
+@@ -17,8 +17,8 @@ foreach interface: upowerd_dbus_interfaces
+         namespace: 'Up',
+         object_manager: false,
+     )
+-    upowerd_dbus_headers += t[0]
+-    upowerd_dbus_sources += t[1]
++    upowerd_dbus_sources += t[0]
++    upowerd_dbus_headers += t[1]
+ 
+     install_data(xml,
+         install_dir: dbusdir / 'interfaces',
+-- 
+2.35.1
+

@@ -1,0 +1,78 @@
+From 20aceb0e8c6f8e6f1f5e60b17855029c55cb5fe4 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Mon, 13 Sep 2021 12:37:01 +0200
+Subject: [PATCH 35/86] lib: Add API to access ChargeCyles D-Bus property
+
+---
+ libupower-glib/up-device.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+diff --git a/libupower-glib/up-device.c b/libupower-glib/up-device.c
+index 36fda27..db0149f 100644
+--- a/libupower-glib/up-device.c
++++ b/libupower-glib/up-device.c
+@@ -89,6 +89,7 @@ enum {
+ 	PROP_WARNING_LEVEL,
+ 	PROP_BATTERY_LEVEL,
+ 	PROP_ICON_NAME,
++	PROP_CHARGE_CYCLES,
+ 	PROP_LAST
+ };
+ 
+@@ -346,6 +347,12 @@ up_device_to_text (UpDevice *device)
+ 		if (up_exported_device_get_voltage (priv->proxy_device) > 0)
+ 			g_string_append_printf (string, "    voltage:             %g V\n", up_exported_device_get_voltage (priv->proxy_device));
+ 	}
++	if (kind == UP_DEVICE_KIND_BATTERY) {
++		if (up_exported_device_get_charge_cycles (priv->proxy_device) > 0)
++			g_string_append_printf (string, "    charge-cycles:       %d\n", up_exported_device_get_charge_cycles (priv->proxy_device));
++		else
++			g_string_append_printf (string, "    charge-cycles:       %s\n", "N/A");
++	}
+ 	if (kind == UP_DEVICE_KIND_KEYBOARD) {
+ 		if (up_exported_device_get_luminosity (priv->proxy_device) > 0)
+ 			g_string_append_printf (string, "    luminosity:          %g lx\n", up_exported_device_get_luminosity (priv->proxy_device));
+@@ -681,6 +688,9 @@ up_device_set_property (GObject *object, guint prop_id, const GValue *value, GPa
+ 	case PROP_ICON_NAME:
+ 		up_exported_device_set_icon_name (device->priv->proxy_device, g_value_get_string (value));
+ 		break;
++	case PROP_CHARGE_CYCLES:
++		up_exported_device_set_charge_cycles (device->priv->proxy_device, g_value_get_int (value));
++		break;
+ 	default:
+ 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+ 		break;
+@@ -795,6 +805,9 @@ up_device_get_property (GObject *object, guint prop_id, GValue *value, GParamSpe
+ 	case PROP_ICON_NAME:
+ 		g_value_set_string (value, up_exported_device_get_icon_name (device->priv->proxy_device));
+ 		break;
++	case PROP_CHARGE_CYCLES:
++		g_value_set_int (value, up_exported_device_get_charge_cycles (device->priv->proxy_device));
++		break;
+ 	default:
+ 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+ 		break;
+@@ -1197,6 +1210,20 @@ up_device_class_init (UpDeviceClass *klass)
+ 					 g_param_spec_string ("icon-name",
+ 							      NULL, NULL, NULL,
+ 							      G_PARAM_READWRITE));
++
++	/**
++	 * UpDevice:charge-cycles:
++	 *
++	 * The number of charge cycles for the battery, or -1 if unknown
++	 * or non-applicable.
++	 *
++	 * Since: 1.0
++	 **/
++	g_object_class_install_property (object_class,
++					 PROP_CHARGE_CYCLES,
++					 g_param_spec_int ("charge-cycles",
++							   NULL, NULL,
++							   -1, G_MAXINT, -1, G_PARAM_READWRITE));
+ }
+ 
+ static void
+-- 
+2.35.1
+

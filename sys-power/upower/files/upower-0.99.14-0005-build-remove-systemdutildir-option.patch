@@ -1,0 +1,33 @@
+From 95ee81fc6ecd9531cd86dcf94c4c6714ce75eb35 Mon Sep 17 00:00:00 2001
+From: Benjamin Berg <bberg@redhat.com>
+Date: Thu, 2 Sep 2021 12:22:42 +0200
+Subject: [PATCH 05/86] build: Remove systemdutildir option
+
+It appears that this option is not used (anymore).
+---
+ configure.ac | 9 ---------
+ 1 file changed, 9 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 8c5e334..8531137 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -159,15 +159,6 @@ PKG_CHECK_MODULES(GIO_UNIX, [gio-unix-2.0])
+ dnl ====================================================================
+ dnl Check for systemd
+ dnl ====================================================================
+-AC_ARG_WITH([systemdutildir],
+-            AS_HELP_STRING([--with-systemdutildir=DIR], [Directory for systemd utilities]),
+-            [],
+-            [with_systemdutildir=$($PKG_CONFIG --variable=systemdutildir systemd)])
+-if test x$with_systemdutildir != xno; then
+-        AC_SUBST([systemdutildir], [$with_systemdutildir])
+-fi
+-AM_CONDITIONAL(HAVE_SYSTEMDUTILDIR, [test -n "$systemdutildir"])
+-
+ AC_ARG_WITH([systemdsystemunitdir],
+             AS_HELP_STRING([--with-systemdsystemunitdir=DIR], [Directory for systemd service files]),
+             [],
+-- 
+2.35.1
+

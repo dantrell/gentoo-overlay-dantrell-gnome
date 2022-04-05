@@ -1,0 +1,44 @@
+From daf15b0f91bff44b95977edfd39497c43acac5ef Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 17 Jun 2021 14:36:54 +0200
+Subject: [PATCH 051/157] data: Also remove HID++ udev rules
+
+Now that HID++ user-space support has been removed.
+---
+ rules/95-upower-hidpp.rules | 9 ---------
+ rules/Makefile.am           | 3 +--
+ 2 files changed, 1 insertion(+), 11 deletions(-)
+ delete mode 100644 rules/95-upower-hidpp.rules
+
+diff --git a/rules/95-upower-hidpp.rules b/rules/95-upower-hidpp.rules
+deleted file mode 100644
+index c24c0e9..0000000
+--- a/rules/95-upower-hidpp.rules
++++ /dev/null
+@@ -1,9 +0,0 @@
+-##############################################################################################################
+-# Unifying HID++ devices
+-SUBSYSTEM!="hid", GOTO="up_unifying_end"
+-# Kernel provides the battery information already
+-ATTRS{idVendor}=="046d", TEST=="builtin_power_supply", GOTO="up_unifying_end"
+-ATTRS{idVendor}=="046d", ENV{UPOWER_VENDOR}="Logitech, Inc."
+-ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c52f", ENV{UPOWER_BATTERY_TYPE}="lg-wireless"
+-ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c531", ENV{UPOWER_BATTERY_TYPE}="lg-wireless"
+-LABEL="up_unifying_end"
+diff --git a/rules/Makefile.am b/rules/Makefile.am
+index 1d71d24..eb0ff66 100644
+--- a/rules/Makefile.am
++++ b/rules/Makefile.am
+@@ -2,8 +2,7 @@
+ 
+ udevrules_DATA =						\
+ 	95-upower-wup.rules					\
+-	95-upower-hid.rules					\
+-	95-upower-hidpp.rules
++	95-upower-hid.rules
+ 
+ EXTRA_DIST =							\
+ 	$(udevrules_DATA)
+-- 
+2.35.1
+

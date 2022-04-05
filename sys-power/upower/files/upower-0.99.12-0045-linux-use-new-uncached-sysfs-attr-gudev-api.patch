@@ -1,0 +1,415 @@
+From 0e3c511d2a506d09d7dc82f77f47dd5108cca62d Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 15 Sep 2020 13:10:20 +0200
+Subject: [PATCH 045/157] linux: Use new uncached sysfs attr gudev API
+
+---
+ configure.ac                 |   2 +-
+ src/linux/up-device-supply.c | 135 ++++++++++++++++++-----------------
+ 2 files changed, 70 insertions(+), 67 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 9db579f..8523d5a 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -198,7 +198,7 @@ AC_SUBST(BACKEND, "$with_backend")
+ # only need GUdev on linux
+ have_idevice=no
+ if test x$with_backend = xlinux; then
+-	PKG_CHECK_MODULES(GUDEV, [gudev-1.0 >= 147])
++	PKG_CHECK_MODULES(GUDEV, [gudev-1.0 >= 234])
+ 	AC_ARG_WITH(idevice, AS_HELP_STRING([--without-idevice],[Build without libimobiledevice]),
+ 		    with_idevice=$withval,with_idevice=yes)
+ 	LIBPLIST_DEP=libplist
+diff --git a/src/linux/up-device-supply.c b/src/linux/up-device-supply.c
+index 16c3bee..4ae7813 100644
+--- a/src/linux/up-device-supply.c
++++ b/src/linux/up-device-supply.c
+@@ -98,8 +98,9 @@ up_device_supply_refresh_line_power (UpDeviceSupply *supply)
+ 
+ 	/* get new AC value */
+ 	native = G_UDEV_DEVICE (up_device_get_native (device));
+-	native_path = g_udev_device_get_sysfs_path (native);
+-	g_object_set (device, "online", sysfs_get_int (native_path, "online"), NULL);
++	g_object_set (device,
++		      "online", g_udev_device_get_sysfs_attr_as_int_uncached (native, "online"),
++		      NULL);
+ 
+ 	return REFRESH_RESULT_SUCCESS;
+ }
+@@ -329,12 +330,14 @@ up_device_supply_convert_device_technology (const gchar *type)
+  * up_device_supply_get_string:
+  **/
+ static gchar *
+-up_device_supply_get_string (const gchar *native_path, const gchar *key)
++up_device_supply_get_string (GUdevDevice *native, const gchar *key)
+ {
+ 	gchar *value;
+ 
+ 	/* get value, and strip to remove spaces */
+-	value = g_strstrip (sysfs_get_string (native_path, key));
++	value = g_strdup (g_udev_device_get_sysfs_attr_uncached (native, key));
++	if (value)
++		g_strstrip (value);
+ 
+ 	/* no value */
+ 	if (value == NULL)
+@@ -354,41 +357,42 @@ out:
+  * up_device_supply_get_design_voltage:
+  **/
+ static gdouble
+-up_device_supply_get_design_voltage (UpDeviceSupply *device, const gchar *native_path)
++up_device_supply_get_design_voltage (UpDeviceSupply *device,
++				     GUdevDevice *native)
+ {
+ 	gdouble voltage;
+ 	gchar *device_type = NULL;
+ 
+ 	/* design maximum */
+-	voltage = sysfs_get_double (native_path, "voltage_max_design") / 1000000.0;
++	voltage = g_udev_device_get_sysfs_attr_as_double_uncached (native, "voltage_max_design") / 1000000.0;
+ 	if (voltage > 1.00f) {
+ 		g_debug ("using max design voltage");
+ 		goto out;
+ 	}
+ 
+ 	/* design minimum */
+-	voltage = sysfs_get_double (native_path, "voltage_min_design") / 1000000.0;
++	voltage = g_udev_device_get_sysfs_attr_as_double_uncached (native, "voltage_min_design") / 1000000.0;
+ 	if (voltage > 1.00f) {
+ 		g_debug ("using min design voltage");
+ 		goto out;
+ 	}
+ 
+ 	/* current voltage */
+-	voltage = sysfs_get_double (native_path, "voltage_present") / 1000000.0;
++	voltage = g_udev_device_get_sysfs_attr_as_double_uncached (native, "voltage_present") / 1000000.0;
+ 	if (voltage > 1.00f) {
+ 		g_debug ("using present voltage");
+ 		goto out;
+ 	}
+ 
+ 	/* current voltage, alternate form */
+-	voltage = sysfs_get_double (native_path, "voltage_now") / 1000000.0;
++	voltage = g_udev_device_get_sysfs_attr_as_double_uncached (native, "voltage_now") / 1000000.0;
+ 	if (voltage > 1.00f) {
+ 		g_debug ("using present voltage (alternate)");
+ 		goto out;
+ 	}
+ 
+ 	/* is this a USB device? */
+-	device_type = up_device_supply_get_string (native_path, "type");
++	device_type = up_device_supply_get_string (native, "type");
+ 	if (device_type != NULL && g_ascii_strcasecmp (device_type, "USB") == 0) {
+ 		g_debug ("USB device, so assuming 5v");
+ 		voltage = 5.0f;
+@@ -399,10 +403,12 @@ up_device_supply_get_design_voltage (UpDeviceSupply *device, const gchar *native
+ 	 * device */
+ 	if (!device->priv->shown_invalid_voltage_warning) {
+ 		device->priv->shown_invalid_voltage_warning = TRUE;
+-		g_warning ("no valid voltage value found for device %s, assuming 10V", native_path);
++		g_warning ("no valid voltage value found for device %s, assuming 10V",
++			   g_udev_device_get_sysfs_path (native));
+ 	}
+ 	/* completely guess, to avoid getting zero values */
+-	g_debug ("no voltage values for device %s, using 10V as approximation", native_path);
++	g_debug ("no voltage values for device %s, using 10V as approximation",
++		 g_udev_device_get_sysfs_path (native));
+ 	voltage = 10.0f;
+ out:
+ 	g_free (device_type);
+@@ -442,26 +448,27 @@ up_device_supply_make_safe_string (gchar *text)
+ }
+ 
+ static gboolean
+-up_device_supply_units_changed (UpDeviceSupply *supply, const gchar *native_path)
++up_device_supply_units_changed (UpDeviceSupply *supply,
++				GUdevDevice    *native)
+ {
+ 	if (supply->priv->coldplug_units == UP_DEVICE_SUPPLY_COLDPLUG_UNITS_CHARGE)
+-		if (sysfs_file_exists (native_path, "charge_now") ||
+-		    sysfs_file_exists (native_path, "charge_avg"))
++		if (g_udev_device_has_sysfs_attr_uncached (native, "charge_now") ||
++		    g_udev_device_has_sysfs_attr_uncached (native, "charge_avg"))
+ 			return FALSE;
+ 	if (supply->priv->coldplug_units == UP_DEVICE_SUPPLY_COLDPLUG_UNITS_ENERGY)
+-		if (sysfs_file_exists (native_path, "energy_now") ||
+-		    sysfs_file_exists (native_path, "energy_avg"))
++		if (g_udev_device_has_sysfs_attr_uncached (native, "energy_now") ||
++		    g_udev_device_has_sysfs_attr_uncached (native, "energy_avg"))
+ 			return FALSE;
+ 	return TRUE;
+ }
+ 
+ static UpDeviceState
+-up_device_supply_get_state (const gchar *native_path)
++up_device_supply_get_state (GUdevDevice *native)
+ {
+ 	UpDeviceState state;
+ 	gchar *status;
+ 
+-	status = up_device_supply_get_string (native_path, "status");
++	status = up_device_supply_get_string (native, "status");
+ 	if (status == NULL ||
+ 	    g_ascii_strcasecmp (status, "unknown") == 0 ||
+ 	    *status == '\0') {
+@@ -487,7 +494,7 @@ up_device_supply_get_state (const gchar *native_path)
+ }
+ 
+ static gdouble
+-sysfs_get_capacity_level (const char    *native_path,
++sysfs_get_capacity_level (GUdevDevice   *native,
+ 			  UpDeviceLevel *level)
+ {
+ 	char *str;
+@@ -511,14 +518,14 @@ sysfs_get_capacity_level (const char    *native_path,
+ 
+ 	g_return_val_if_fail (level != NULL, -1.0);
+ 
+-	if (!sysfs_file_exists (native_path, "capacity_level")) {
++	if (!g_udev_device_has_sysfs_attr_uncached (native, "capacity_level")) {
+ 		g_debug ("capacity_level doesn't exist, skipping");
+ 		*level = UP_DEVICE_LEVEL_NONE;
+ 		return -1.0;
+ 	}
+ 
+ 	*level = UP_DEVICE_LEVEL_UNKNOWN;
+-	str = sysfs_get_string (native_path, "capacity_level");
++	str = g_strdup (g_udev_device_get_sysfs_attr_uncached (native, "capacity_level"));
+ 	if (!str) {
+ 		g_debug ("Failed to read capacity_level!");
+ 		return ret;
+@@ -550,7 +557,6 @@ up_device_supply_refresh_battery (UpDeviceSupply *supply,
+ 	UpDeviceState old_state;
+ 	UpDeviceState state;
+ 	UpDevice *device = UP_DEVICE (supply);
+-	const gchar *native_path;
+ 	GUdevDevice *native;
+ 	gboolean is_present;
+ 	gdouble energy;
+@@ -575,11 +581,10 @@ up_device_supply_refresh_battery (UpDeviceSupply *supply,
+ 	guint i;
+ 
+ 	native = G_UDEV_DEVICE (up_device_get_native (device));
+-	native_path = g_udev_device_get_sysfs_path (native);
+ 
+ 	/* have we just been removed? */
+-	if (sysfs_file_exists (native_path, "present")) {
+-		is_present = sysfs_get_bool (native_path, "present");
++	if (g_udev_device_has_sysfs_attr_uncached (native, "present")) {
++		is_present = g_udev_device_get_sysfs_attr_as_boolean_uncached (native, "present");
+ 	} else {
+ 		/* when no present property exists, handle as present */
+ 		is_present = TRUE;
+@@ -592,29 +597,29 @@ up_device_supply_refresh_battery (UpDeviceSupply *supply,
+ 	}
+ 
+ 	/* get the current charge */
+-	energy = sysfs_get_double (native_path, "energy_now") / 1000000.0;
++	energy = g_udev_device_get_sysfs_attr_as_double_uncached (native, "energy_now") / 1000000.0;
+ 	if (energy < 0.01)
+-		energy = sysfs_get_double (native_path, "energy_avg") / 1000000.0;
++		energy = g_udev_device_get_sysfs_attr_as_double_uncached (native, "energy_avg") / 1000000.0;
+ 
+ 	/* used to convert A to W later */
+-	voltage_design = up_device_supply_get_design_voltage (supply, native_path);
++	voltage_design = up_device_supply_get_design_voltage (supply, native);
+ 
+ 	/* initial values */
+ 	if (!supply->priv->has_coldplug_values ||
+-	    up_device_supply_units_changed (supply, native_path)) {
++	    up_device_supply_units_changed (supply, native)) {
+ 
+ 		g_object_set (device,
+ 			      "power-supply", supply->priv->is_power_supply,
+ 			      NULL);
+ 
+ 		/* the ACPI spec is bad at defining battery type constants */
+-		technology_native = up_device_supply_get_string (native_path, "technology");
++		technology_native = up_device_supply_get_string (native, "technology");
+ 		g_object_set (device, "technology", up_device_supply_convert_device_technology (technology_native), NULL);
+ 
+ 		/* get values which may be blank */
+-		manufacturer = up_device_supply_get_string (native_path, "manufacturer");
+-		model_name = up_device_supply_get_string (native_path, "model_name");
+-		serial_number = up_device_supply_get_string (native_path, "serial_number");
++		manufacturer = up_device_supply_get_string (native, "manufacturer");
++		model_name = up_device_supply_get_string (native, "model_name");
++		serial_number = up_device_supply_get_string (native, "serial_number");
+ 
+ 		/* some vendors fill this with binary garbage */
+ 		up_device_supply_make_safe_string (manufacturer);
+@@ -631,13 +636,13 @@ up_device_supply_refresh_battery (UpDeviceSupply *supply,
+ 			      NULL);
+ 
+ 		/* these don't change at runtime */
+-		energy_full = sysfs_get_double (native_path, "energy_full") / 1000000.0;
+-		energy_full_design = sysfs_get_double (native_path, "energy_full_design") / 1000000.0;
++		energy_full = g_udev_device_get_sysfs_attr_as_double_uncached (native, "energy_full") / 1000000.0;
++		energy_full_design = g_udev_device_get_sysfs_attr_as_double_uncached (native, "energy_full_design") / 1000000.0;
+ 
+ 		/* convert charge to energy */
+ 		if (energy_full < 0.01) {
+-			energy_full = sysfs_get_double (native_path, "charge_full") / 1000000.0;
+-			energy_full_design = sysfs_get_double (native_path, "charge_full_design") / 1000000.0;
++			energy_full = g_udev_device_get_sysfs_attr_as_double_uncached (native, "charge_full") / 1000000.0;
++			energy_full_design = g_udev_device_get_sysfs_attr_as_double_uncached (native, "charge_full_design") / 1000000.0;
+ 			energy_full *= voltage_design;
+ 			energy_full_design *= voltage_design;
+ 			supply->priv->coldplug_units = UP_DEVICE_SUPPLY_COLDPLUG_UNITS_CHARGE;
+@@ -675,29 +680,29 @@ up_device_supply_refresh_battery (UpDeviceSupply *supply,
+ 			      NULL);
+ 	}
+ 
+-	state = up_device_supply_get_state (native_path);
++	state = up_device_supply_get_state (native);
+ 
+ 	/* this is the new value in uW */
+-	energy_rate = fabs (sysfs_get_double (native_path, "power_now") / 1000000.0);
++	energy_rate = fabs (g_udev_device_get_sysfs_attr_as_double_uncached (native, "power_now") / 1000000.0);
+ 	if (energy_rate < 0.01) {
+ 		gdouble charge_full;
+ 
+ 		/* convert charge to energy */
+ 		if (energy < 0.01) {
+-			energy = sysfs_get_double (native_path, "charge_now") / 1000000.0;
++			energy = g_udev_device_get_sysfs_attr_as_double_uncached (native, "charge_now") / 1000000.0;
+ 			if (energy < 0.01)
+-				energy = sysfs_get_double (native_path, "charge_avg") / 1000000.0;
++				energy = g_udev_device_get_sysfs_attr_as_double_uncached (native, "charge_avg") / 1000000.0;
+ 			energy *= voltage_design;
+ 		}
+ 
+-		charge_full = sysfs_get_double (native_path, "charge_full") / 1000000.0;
++		charge_full = g_udev_device_get_sysfs_attr_as_double_uncached (native, "charge_full") / 1000000.0;
+ 		if (charge_full < 0.01)
+-			charge_full = sysfs_get_double (native_path, "charge_full_design") / 1000000.0;
++			charge_full = g_udev_device_get_sysfs_attr_as_double_uncached (native, "charge_full_design") / 1000000.0;
+ 
+ 		/* If charge_full exists, then current_now is always reported in uA.
+ 		 * In the legacy case, where energy only units exist, and power_now isn't present
+ 		 * current_now is power in uW. */
+-		energy_rate = fabs (sysfs_get_double (native_path, "current_now") / 1000000.0);
++		energy_rate = fabs (g_udev_device_get_sysfs_attr_as_double_uncached (native, "current_now") / 1000000.0);
+ 		if (charge_full != 0)
+ 			energy_rate *= voltage_design;
+ 	}
+@@ -709,9 +714,9 @@ up_device_supply_refresh_battery (UpDeviceSupply *supply,
+ 	}
+ 
+ 	/* present voltage */
+-	voltage = sysfs_get_double (native_path, "voltage_now") / 1000000.0;
++	voltage = g_udev_device_get_sysfs_attr_as_double_uncached (native, "voltage_now") / 1000000.0;
+ 	if (voltage < 0.01)
+-		voltage = sysfs_get_double (native_path, "voltage_avg") / 1000000.0;
++		voltage = g_udev_device_get_sysfs_attr_as_double_uncached (native, "voltage_avg") / 1000000.0;
+ 
+ 	/* ACPI gives out the special 'Ones' value for rate when it's unable
+ 	 * to calculate the true rate. We should set the rate zero, and wait
+@@ -729,8 +734,8 @@ up_device_supply_refresh_battery (UpDeviceSupply *supply,
+ 
+ 	/* get a precise percentage */
+         if (!supply->priv->ignore_system_percentage &&
+-            sysfs_file_exists (native_path, "capacity")) {
+-		percentage = sysfs_get_double (native_path, "capacity");
++            g_udev_device_has_sysfs_attr_uncached (native, "capacity")) {
++		percentage = g_udev_device_get_sysfs_attr_as_double_uncached (native, "capacity");
+ 		percentage = CLAMP(percentage, 0.0f, 100.0f);
+                 /* for devices which provide capacity, but not {energy,charge}_now */
+                 if (energy < 0.1f && energy_full > 0.0f)
+@@ -801,7 +806,8 @@ up_device_supply_refresh_battery (UpDeviceSupply *supply,
+ 
+ 	/* if empty, and BIOS does not know what to do */
+ 	if (state == UP_DEVICE_STATE_UNKNOWN && energy < 0.01) {
+-		g_warning ("Setting %s state empty as unknown and very low", native_path);
++		g_warning ("Setting %s state empty as unknown and very low",
++			   g_udev_device_get_sysfs_path (native));
+ 		state = UP_DEVICE_STATE_EMPTY;
+ 	}
+ 
+@@ -828,7 +834,7 @@ up_device_supply_refresh_battery (UpDeviceSupply *supply,
+ 		time_to_full = 0;
+ 
+ 	/* get temperature */
+-	temp = sysfs_get_double(native_path, "temp") / 10.0;
++	temp = g_udev_device_get_sysfs_attr_as_double_uncached (native, "temp") / 10.0;
+ 
+ 	/* check if the energy value has changed and, if that's the case,
+ 	 * store the new values in the buffer. */
+@@ -952,19 +958,15 @@ up_device_supply_refresh_device (UpDeviceSupply *supply,
+ 		gchar *serial_number;
+ 
+ 		/* get values which may be blank */
+-		model_name = up_device_supply_get_string (native_path, "model_name");
+-		serial_number = up_device_supply_get_string (native_path, "serial_number");
++		model_name = up_device_supply_get_string (native, "model_name");
++		serial_number = up_device_supply_get_string (native, "serial_number");
+ 		if (model_name == NULL && serial_number == NULL) {
+ 			GUdevDevice *sibling;
+ 
+ 			sibling = up_device_supply_get_sibling_with_subsystem (native, "input");
+ 			if (sibling != NULL) {
+-				const char *path;
+-				path = g_udev_device_get_sysfs_path (sibling);
+-
+-				model_name = up_device_supply_get_string (path, "name");
+-				serial_number = up_device_supply_get_string (path, "uniq");
+-
++				model_name = up_device_supply_get_string (sibling, "name");
++				serial_number = up_device_supply_get_string (sibling, "uniq");
+ 				g_object_unref (sibling);
+ 			}
+ 		}
+@@ -990,8 +992,9 @@ up_device_supply_refresh_device (UpDeviceSupply *supply,
+ 	}
+ 
+ 	/* get a precise percentage */
+-	if (!sysfs_get_double_with_error (native_path, "capacity", &percentage))
+-		percentage = sysfs_get_capacity_level (native_path, &level);
++	percentage = g_udev_device_get_sysfs_attr_as_double_uncached (native, "capacity");
++	if (percentage == 0.0f)
++		percentage = sysfs_get_capacity_level (native, &level);
+ 
+ 	if (percentage < 0.0) {
+ 		/* Probably talking to the device over Bluetooth */
+@@ -1001,7 +1004,7 @@ up_device_supply_refresh_device (UpDeviceSupply *supply,
+ 		return REFRESH_RESULT_NO_DATA;
+ 	}
+ 
+-	state = up_device_supply_get_state (native_path);
++	state = up_device_supply_get_state (native);
+ 
+ 	/* Override whatever the device might have told us
+ 	 * because a number of them are always discharging */
+@@ -1046,7 +1049,7 @@ up_device_supply_guess_type (GUdevDevice *native,
+ 	gchar *device_type;
+ 	UpDeviceKind type = UP_DEVICE_KIND_UNKNOWN;
+ 
+-	device_type = up_device_supply_get_string (native_path, "type");
++	device_type = up_device_supply_get_string (native, "type");
+ 	if (device_type == NULL)
+ 		return type;
+ 
+@@ -1131,8 +1134,8 @@ up_device_supply_coldplug (UpDevice *device)
+ 
+ 	/* we don't use separate ACs for devices */
+ 	if (supply->priv->is_power_supply == FALSE &&
+-	    !sysfs_file_exists (native_path, "capacity") &&
+-	    !sysfs_file_exists (native_path, "capacity_level")) {
++	    !g_udev_device_has_sysfs_attr_uncached (native, "capacity") &&
++	    !g_udev_device_has_sysfs_attr_uncached (native, "capacity_level")) {
+ 		g_debug ("Ignoring device AC, we'll monitor the device battery");
+ 		return FALSE;
+ 	}
+@@ -1142,7 +1145,7 @@ up_device_supply_coldplug (UpDevice *device)
+ 
+ 	/* if reading the device type did not work, use the previous method */
+ 	if (type == UP_DEVICE_KIND_UNKNOWN) {
+-		if (sysfs_file_exists (native_path, "online")) {
++		if (g_udev_device_has_sysfs_attr_uncached (native, "online")) {
+ 			type = UP_DEVICE_KIND_LINE_POWER;
+ 		} else {
+ 			/* this is a good guess as UPS and CSR are not in the kernel */
+-- 
+2.35.1
+

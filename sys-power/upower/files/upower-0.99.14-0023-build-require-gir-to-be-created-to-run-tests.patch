@@ -1,0 +1,47 @@
+From b68fe26fc90bd09c650cb2a048ca0e16855ea2f4 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 7 Sep 2021 15:26:07 +0200
+Subject: [PATCH 23/86] build: Require GIR to be created to run tests
+
+---
+ libupower-glib/meson.build | 4 +---
+ src/meson.build            | 3 ++-
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/libupower-glib/meson.build b/libupower-glib/meson.build
+index 7eda0be..eec5c08 100644
+--- a/libupower-glib/meson.build
++++ b/libupower-glib/meson.build
+@@ -88,7 +88,5 @@ if gobject_introspection.found()
+         ],
+         install : true)
+ 
+-    gir_dep = declare_dependency(sources: gir)
+-else
+-    gir_dep = dependency('', required: false)
++    libupower_glib_typelib = gir[1]
+ endif
+diff --git a/src/meson.build b/src/meson.build
+index e9c4d70..821b643 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -116,7 +116,7 @@ test(
+ 
+ # On Linux, we can run the additional integration test;
+ # defined here as we would have a circular dependency otherwise.
+-if os_backend == 'linux' and gir_dep.found()
++if os_backend == 'linux' and gobject_introspection.found()
+     env = environment()
+     env.prepend('top_builddir', join_paths(meson.build_root()))
+     env.prepend('LD_LIBRARY_PATH', join_paths(meson.build_root(), 'libupower-glib'))
+@@ -134,6 +134,7 @@ if os_backend == 'linux' and gir_dep.found()
+              python3,
+              args: ut_args,
+              env: env,
++             depends: [ libupower_glib_typelib, upowerd ],
+             )
+     endforeach
+ endif
+-- 
+2.35.1
+

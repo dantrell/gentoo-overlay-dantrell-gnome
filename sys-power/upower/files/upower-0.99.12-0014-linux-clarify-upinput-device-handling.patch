@@ -1,0 +1,32 @@
+From ba153833fa25908ce6b1c084ff1fc1480cfd678c Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 22 Oct 2020 14:09:08 +0200
+Subject: [PATCH 014/157] linux: Clarify UpInput device handling
+
+Despite what the comments say, the device is indeed a valid input
+device, it's just not one we want to add to the power devices,
+as done in up-daemon.c's up_daemon_device_added_cb().
+---
+ src/linux/up-backend.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/src/linux/up-backend.c b/src/linux/up-backend.c
+index 9d08a85..2c46ab0 100644
+--- a/src/linux/up-backend.c
++++ b/src/linux/up-backend.c
+@@ -164,10 +164,9 @@ up_backend_device_new (UpBackend *backend, GUdevDevice *native)
+ 			/* we now have a lid */
+ 			up_daemon_set_lid_is_present (backend->priv->daemon, TRUE);
+ 
+-			/* not a power device */
++			/* not a power device, add it to the managed devices
++			 * and don't return a power device */
+ 			up_device_list_insert (backend->priv->managed_devices, G_OBJECT (native), G_OBJECT (input));
+-
+-			/* no valid input object */
+ 			device = NULL;
+ 		}
+ 		g_object_unref (input);
+-- 
+2.35.1
+

@@ -1,0 +1,24 @@
+From e87cc7b47c087e572c23cab84cdb30697211aa24 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 22 Oct 2020 15:02:04 +0200
+Subject: [PATCH 016/157] linux: Remove duplicate header in up-input.c
+
+---
+ src/linux/up-input.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/src/linux/up-input.c b/src/linux/up-input.c
+index 80f0ee3..c84df9a 100644
+--- a/src/linux/up-input.c
++++ b/src/linux/up-input.c
+@@ -43,7 +43,6 @@
+ #include "up-types.h"
+ #include "up-daemon.h"
+ #include "up-input.h"
+-#include "up-daemon.h"
+ 
+ struct _UpInput
+ {
+-- 
+2.35.1
+

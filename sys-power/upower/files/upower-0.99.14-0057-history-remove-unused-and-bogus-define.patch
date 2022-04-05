@@ -1,0 +1,24 @@
+From dd3d63b27474664f96bfcd1600d68deb694023d7 Mon Sep 17 00:00:00 2001
+From: Benjamin Berg <bberg@redhat.com>
+Date: Thu, 27 Jan 2022 14:50:47 +0100
+Subject: [PATCH 57/86] history: Remove unused and bogus define
+
+---
+ src/up-history.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/src/up-history.c b/src/up-history.c
+index 8d918cc..51d9e2a 100644
+--- a/src/up-history.c
++++ b/src/up-history.c
+@@ -33,7 +33,6 @@
+ 
+ static void	up_history_finalize	(GObject		*object);
+ 
+-#define UP_HISTORY_FILE_HEADER		"PackageKit Profile"
+ #define UP_HISTORY_SAVE_INTERVAL	(10*60)		/* seconds */
+ #define UP_HISTORY_SAVE_INTERVAL_LOW_POWER	5	/* seconds */
+ #define UP_HISTORY_LOW_POWER_PERCENT	10
+-- 
+2.35.1
+

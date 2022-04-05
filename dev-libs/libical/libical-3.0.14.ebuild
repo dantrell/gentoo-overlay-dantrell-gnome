@@ -13,7 +13,7 @@ SRC_URI="https://github.com/${PN}/${PN}/releases/download/v${PV}/${P}.tar.gz"
 
 LICENSE="|| ( MPL-2.0 LGPL-2.1 )"
 SLOT="0/3"
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="berkdb doc examples introspection static-libs test vala"
 REQUIRED_USE="vala? ( introspection )"

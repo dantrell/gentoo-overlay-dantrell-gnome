@@ -1,0 +1,27 @@
+From 820031cd26335005749f58056fe3db11d66730a0 Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Thu, 2 Sep 2021 17:39:30 +0200
+Subject: [PATCH 04/86] README: Update dependencies
+
+libgudev got a version bump and libusb isn't used anymore.
+---
+ README | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/README b/README
+index 50c16cb..66cc286 100644
+--- a/README
++++ b/README
+@@ -6,8 +6,7 @@ Requirements:
+ 
+    glib-2.0             >= 2.34.0
+    gio-2.0              >= 2.16.1
+-   gudev-1.0            >= 147    (Linux)
+-   libusb-1.0           >= 1.0.0  (Linux)
++   gudev-1.0            >= 235    (Linux)
+    libimobiledevice-1.0 >= 0.9.7  (optional)
+ 
+ UPower is an abstraction for enumerating power devices,
+-- 
+2.35.1
+

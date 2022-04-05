@@ -53,7 +53,7 @@ COMMON_DEPEND="
 		media-libs/fontconfig
 		media-libs/mesa[X(+)]
 		x11-libs/libX11
-		>=x11-libs/libXi-1.8
+		>=x11-libs/libXi-1.7.10
 		x11-libs/libXext
 		>=x11-libs/libXrandr-1.5
 		x11-libs/libXcursor

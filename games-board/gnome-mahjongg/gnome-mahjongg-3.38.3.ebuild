@@ -30,6 +30,8 @@ BDEPEND="
 "
 
 PATCHES=(
+	# From Gentoo:
+	# 	https://bugs.gentoo.org/831466
 	"${FILESDIR}"/${PN}-3.38.3-meson-0.61.patch
 )
 

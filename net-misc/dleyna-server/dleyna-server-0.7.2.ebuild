@@ -10,7 +10,7 @@ SRC_URI="https://github.com/phako/${PN}/archive/refs/tags/v${PV}.tar.gz -> ${P}.
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="*"
 
 RDEPEND="
 	>=dev-libs/glib-2.36:2

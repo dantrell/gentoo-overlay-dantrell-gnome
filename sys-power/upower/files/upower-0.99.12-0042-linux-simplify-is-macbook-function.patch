@@ -1,0 +1,37 @@
+From dfce006c2104b9195cae0788120a2a8c6575731a Mon Sep 17 00:00:00 2001
+From: Bastien Nocera <hadess@hadess.net>
+Date: Tue, 15 Sep 2020 13:08:03 +0200
+Subject: [PATCH 042/157] linux: Simplify is_macbook() function
+
+---
+ src/linux/up-backend.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
+
+diff --git a/src/linux/up-backend.c b/src/linux/up-backend.c
+index 6983fc8..17110f4 100644
+--- a/src/linux/up-backend.c
++++ b/src/linux/up-backend.c
+@@ -96,15 +96,12 @@ input_switch_changed_cb (UpInput   *input,
+ static gpointer
+ is_macbook (gpointer data)
+ {
+-	char *product;
+-	gboolean ret = FALSE;
++	g_autofree char *product = NULL;
+ 
+-	product = sysfs_get_string ("/sys/devices/virtual/dmi/id/", "product_name");
+-	if (product == NULL)
+-		return GINT_TO_POINTER(ret);
+-	ret = g_str_has_prefix (product, "MacBook");
+-	g_free (product);
+-	return GINT_TO_POINTER(ret);
++	if (!g_file_get_contents ("/sys/devices/virtual/dmi/id/product_name", &product, NULL, NULL) ||
++	    product == NULL)
++		return GINT_TO_POINTER(FALSE);
++	return GINT_TO_POINTER(g_str_has_prefix (product, "MacBook"));
+ }
+ 
+ gboolean
+-- 
+2.35.1
+

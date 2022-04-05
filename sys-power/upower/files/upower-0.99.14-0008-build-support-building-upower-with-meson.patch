@@ -1,0 +1,739 @@
+From f2e702d4dc22a04e6b660c63e77c93f269fb3818 Mon Sep 17 00:00:00 2001
+From: Benjamin Berg <bberg@redhat.com>
+Date: Mon, 30 Aug 2021 13:11:42 +0200
+Subject: [PATCH 08/86] build: Support building upower with meson
+
+---
+ dbus/meson.build           |  39 ++++++++++
+ doc/man/meson.build        |  18 +++++
+ doc/meson.build            |  46 ++++++++++++
+ etc/meson.build            |   1 +
+ libupower-glib/meson.build |  92 ++++++++++++++++++++++++
+ meson.build                | 143 +++++++++++++++++++++++++++++++++++++
+ meson_options.txt          |  31 ++++++++
+ po/meson.build             |   1 +
+ rules/meson.build          |   9 +++
+ src/bsd/meson.build        |  13 ++++
+ src/dummy/meson.build      |   9 +++
+ src/freebsd/meson.build    |  18 +++++
+ src/linux/meson.build      |  28 ++++++++
+ src/meson.build            | 131 +++++++++++++++++++++++++++++++++
+ src/openbsd/meson.build    |  10 +++
+ tools/meson.build          |  11 +++
+ 16 files changed, 600 insertions(+)
+ create mode 100644 dbus/meson.build
+ create mode 100644 doc/man/meson.build
+ create mode 100644 doc/meson.build
+ create mode 100644 etc/meson.build
+ create mode 100644 libupower-glib/meson.build
+ create mode 100644 meson.build
+ create mode 100644 meson_options.txt
+ create mode 100644 po/meson.build
+ create mode 100644 rules/meson.build
+ create mode 100644 src/bsd/meson.build
+ create mode 100644 src/dummy/meson.build
+ create mode 100644 src/freebsd/meson.build
+ create mode 100644 src/linux/meson.build
+ create mode 100644 src/meson.build
+ create mode 100644 src/openbsd/meson.build
+ create mode 100644 tools/meson.build
+
+diff --git a/dbus/meson.build b/dbus/meson.build
+new file mode 100644
+index 0000000..211229b
+--- /dev/null
++++ b/dbus/meson.build
+@@ -0,0 +1,39 @@
++
++upowerd_dbus_interfaces = [
++    [ 'daemon', 'org.freedesktop.UPower', 'Daemon' ],
++    [ 'device', 'org.freedesktop.UPower.Device', 'Device' ],
++    [ 'kbd-backlight', 'org.freedesktop.UPower.KbdBacklight', 'KbdBacklight' ],
++    [ 'wakeups', 'org.freedesktop.UPower.Wakeups', 'Wakeups' ],
++]
++
++upowerd_dbus_headers = []
++upowerd_dbus_sources = []
++foreach interface: upowerd_dbus_interfaces
++    xml = interface[1] + '.xml'
++    t = gnome.gdbus_codegen('up-' + interface[0] + '-generated',
++        sources: xml,
++        autocleanup: 'all',
++        annotations:[ [ interface[1], 'org.gtk.GDBus.C.Name', 'Exported' + interface[2] ] ],
++        namespace: 'Up',
++        object_manager: false,
++    )
++    upowerd_dbus_headers += t[0]
++    upowerd_dbus_sources += t[1]
++
++    install_data(xml,
++        install_dir: dbusdir / 'interfaces',
++    )
++endforeach
++
++
++upowerd_dbus = static_library('libupower-dbus',
++    sources: upowerd_dbus_sources + upowerd_dbus_headers,
++    dependencies: [ gobject_dep, gio_dep, gio_unix_dep ],
++)
++
++upowerd_dbus_dep = declare_dependency(
++    link_with: upowerd_dbus,
++    include_directories: [ '.' ],
++    sources: upowerd_dbus_headers,
++    dependencies: [ gio_unix_dep ]
++)
+diff --git a/doc/man/meson.build b/doc/man/meson.build
+new file mode 100644
+index 0000000..bd1408d
+--- /dev/null
++++ b/doc/man/meson.build
+@@ -0,0 +1,18 @@
++
++man_pages = [
++    [ 'upower', 1 ],
++    [ 'upowerd', 8 ],
++    [ 'UPower', 7 ],
++]
++
++foreach man: man_pages
++    custom_target(
++        '@0@.@1@'.format(man[0], man[1]),
++        input: files(join_paths(man[0] + '.xml')),
++        output: '@0@.@1@'.format(man[0], man[1]),
++        command: [xsltproc, '--output', '@OUTPUT@', '-nonet', 'http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl', '@INPUT@'],
++        build_by_default: get_option('man'),
++        install: get_option('man'),
++        install_dir: get_option('prefix') / get_option('mandir') / 'man@0@'.format(man[1]),
++    )
++endforeach
+diff --git a/doc/meson.build b/doc/meson.build
+new file mode 100644
+index 0000000..636ef8f
+--- /dev/null
++++ b/doc/meson.build
+@@ -0,0 +1,46 @@
++subdir('man')
++
++ifaces_refs = []
++
++dbus_dir = join_paths(meson.source_root(), 'dbus')
++spec_to_docbook = files('spec-to-docbook.xsl')
++
++foreach iface: upowerd_dbus_interfaces
++  iface = iface[1]
++  iface_ref = iface + '.ref.xml'
++
++  ifaces_refs += custom_target(
++    iface_ref,
++    input: files(dbus_dir / iface + '.xml'),
++    output: iface_ref,
++    command: [xsltproc, '--output', '@OUTPUT@', spec_to_docbook, '@INPUT@'],
++    # XXX: This appears to be needed so that "ninja -C _build install" works
++    build_by_default: get_option('gtk-doc'),
++  )
++endforeach
++
++cdata = configuration_data()
++cdata.set('VERSION', meson.project_version())
++version_xml = configure_file(
++    output: 'version.xml',
++    input: 'version.xml.in',
++    configuration: cdata)
++
++gnome.gtkdoc('UPower',
++    main_xml: 'upower-docs.xml',
++    src_dir: meson.source_root() / 'libupower-glib',
++    dependencies: [ libupower_glib_dep ],
++    scan_args: ['--rebuild-types', '--rebuild-sections'],
++    content_files: [
++        version_xml,
++        ifaces_refs,
++        'man/UPower.xml',
++        'man/upowerd.xml',
++        'man/upower.xml',
++        '../COPYING',
++    ],
++    ignore_headers: [
++        'config.h',
++    ],
++    install: get_option('gtk-doc')
++)
+diff --git a/etc/meson.build b/etc/meson.build
+new file mode 100644
+index 0000000..59966f8
+--- /dev/null
++++ b/etc/meson.build
+@@ -0,0 +1 @@
++install_data('UPower.conf', install_dir: get_option('sysconfdir') / 'UPower')
+diff --git a/libupower-glib/meson.build b/libupower-glib/meson.build
+new file mode 100644
+index 0000000..f9c7436
+--- /dev/null
++++ b/libupower-glib/meson.build
+@@ -0,0 +1,92 @@
++
++idevice_sources = []
++if idevice_dep.found()
++    idevice_sources = [
++        'up-device-idevice.c',
++        'up-device-idevice.h',
++    ]
++endif
++
++cdata = configuration_data()
++cdata.set('UP_MAJOR_VERSION', meson.project_version()[0])
++cdata.set('UP_MINOR_VERSION', meson.project_version()[1])
++cdata.set('UP_MICRO_VERSION', meson.project_version()[2])
++
++up_version_h = configure_file(
++    output: 'up-version.h',
++    input: 'up-version.h.in',
++    configuration: cdata,
++)
++
++libupower_glib_headers = [
++    'upower.h',
++    'up-autocleanups.h',
++    'up-types.h',
++    'up-device.h',
++    'up-wakeup-item.h',
++    'up-stats-item.h',
++    'up-history-item.h',
++    'up-wakeups.h',
++    'up-client.h',
++    up_version_h,
++]
++
++libupower_glib_sources = [
++    'up-types.c',
++    'up-client.c',
++    'up-wakeups.c',
++    'up-wakeup-item.c',
++    'up-stats-item.c',
++    'up-history-item.c',
++    'up-device.c',
++]
++
++install_headers(libupower_glib_headers,
++    subdir: 'libupower-glib'
++)
++
++libupower_glib = shared_library('upower-glib',
++    sources: libupower_glib_headers + libupower_glib_sources,
++    dependencies: [ gobject_dep, gio_dep, upowerd_dbus_dep ],
++    include_directories: [ '..' ],
++    c_args: [
++        '-DUP_COMPILATION',
++    ],
++    soversion: soversion,
++    version: libversion,
++    install: true,
++)
++
++libupower_glib_dep = declare_dependency(
++    sources: libupower_glib_headers,
++    link_with: libupower_glib,
++    include_directories: [ '..' ],
++    dependencies: [ gobject_dep, gio_dep ],
++)
++
++if gobject_introspection.found()
++    gir = gnome.generate_gir(libupower_glib,
++        sources : libupower_glib_headers + libupower_glib_sources,
++        namespace : 'UPowerGlib',
++        symbol_prefix : 'up_',
++        identifier_prefix : 'Up',
++        extra_args : [
++            '--c-include=upower.h',
++        ],
++        link_with : libupower_glib,
++        nsversion: '1.0',
++        dependencies : [
++            gobject_dep,
++            gio_dep,
++            declare_dependency(compile_args: [ '-DUP_COMPILATION' ]),
++        ],
++        includes : [
++            'GObject-2.0',
++            'Gio-2.0',
++        ],
++        install : true)
++
++    gir_dep = declare_dependency(sources: gir)
++else
++    gir_dep = dependency('', required: false)
++endif
+diff --git a/meson.build b/meson.build
+new file mode 100644
+index 0000000..122de7c
+--- /dev/null
++++ b/meson.build
+@@ -0,0 +1,143 @@
++project('upower', 'c',
++    version: '0.99.13',
++    license: 'GPLv2+',
++    default_options: [
++        'buildtype=debugoptimized',
++        'warning_level=1',
++        'c_std=gnu99',
++    ],
++    meson_version: '>= 0.49.0')
++
++soversion = 3
++current = 1
++revision = 0
++libversion = '@0@.@1@.@2@'.format(soversion, current, revision)
++
++gnome = import('gnome')
++i18n = import('i18n')
++
++cc = meson.get_compiler('c')
++
++# TODO: Get rid of these by including config.h where needed
++add_project_arguments([
++    '-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name()),
++    '-DPACKAGE_VERSION="@0@"'.format(meson.project_version()),
++], language: 'c')
++
++cdata = configuration_data()
++cdata.set_quoted('GETTEXT_PACKAGE', meson.project_name())
++cdata.set_quoted('PACKAGE_VERSION', meson.project_version())
++cdata.set_quoted('VERSION', meson.project_version())
++cdata.set_quoted('PACKAGE_SYSCONF_DIR', get_option('sysconfdir'))
++
++glib_min_version = '2.56'
++
++glib_version_def = 'GLIB_VERSION_@0@_@1@'.format(
++    glib_min_version.split('.')[0], glib_min_version.split('.')[1])
++common_cflags = cc.get_supported_arguments([
++    '-DGLIB_VERSION_MIN_REQUIRED=' + glib_version_def,
++    '-DGLIB_VERSION_MAX_ALLOWED=' + glib_version_def,
++])
++add_project_arguments(common_cflags, language: 'c')
++
++
++glib_dep = dependency('glib-2.0', version: '>=' + glib_min_version)
++gobject_dep = dependency('gobject-2.0', version: '>=' + glib_min_version)
++gio_dep = dependency('gio-2.0', version: '>=' + glib_min_version)
++gio_unix_dep = dependency('gio-unix-2.0', version: '>=' + glib_min_version)
++
++xsltproc = find_program('xsltproc', required: get_option('gtk-doc') or get_option('man'))
++
++# Resolve OS backend
++os_backend = get_option('os_backend')
++if os_backend == 'auto'
++  # Likely needs to be updated when options are added
++  if host_machine.system() in ['linux', 'freebsd', 'openbsd']
++    os_backend = host_machine.system()
++  else
++    os_backend = 'dummy'
++  endif
++endif
++cdata.set_quoted('BACKEND', os_backend)
++
++# Backend specific dependencies
++gudev_dep = dependency('', required: false)
++idevice_dep = dependency('', required: false)
++plist_dep = dependency('', required: false)
++gobject_introspection = dependency('gobject-introspection-1.0', required: get_option('introspection'))
++
++
++if os_backend == 'linux'
++  gudev_dep = dependency('gudev-1.0', version: '>= 235')
++  idevice_dep = dependency('libimobiledevice-1.0',
++                           version : '>= 0.9.7',
++                           required : get_option('idevice'))
++
++  if idevice_dep.found()
++    plist_dep = dependency('libplist-2.0', required: false)
++    if not plist_dep.found()
++      plist_dep = dependency(libplist)
++    endif
++  endif
++endif
++
++historydir = get_option('historydir')
++if historydir == ''
++    historydir = get_option('prefix') / get_option('localstatedir') / 'lib' / 'upower'
++endif
++
++udevrulesdir = get_option('udevrulesdir')
++if udevrulesdir == 'auto'
++    udev_dep = dependency('udev', required: true)
++    udevrulesdir = udev_dep.get_pkgconfig_variable('udev_dir')
++endif
++
++dbusdir = get_option('datadir') / 'dbus-1'
++systemdsystemunitdir = get_option('systemdsystemunitdir')
++if systemdsystemunitdir == ''
++    systemd_dep = dependency('systemd')
++    systemdsystemunitdir = systemd_dep.get_pkgconfig_variable('systemdsystemunitdir')
++endif
++
++# Generate configuration file
++config_h = configure_file(output: 'config.h', configuration: cdata)
++
++subdir('etc')
++subdir('rules')
++subdir('po')
++subdir('dbus')
++subdir('libupower-glib')
++subdir('src')
++subdir('tools')
++subdir('doc')
++
++pkgconfig = import('pkgconfig')
++pkgconfig.generate(
++    name: 'upower-glib',
++    description: 'UPower is a system daemon for managing power devices',
++    version: meson.project_version(),
++    libraries: libupower_glib,
++    requires: [glib_dep, gobject_dep],
++    subdirs: 'libupower-glib',
++)
++
++output = []
++output += 'UPower ' + meson.project_version()
++output += 'System Paths'
++output += '  prefix:         ' + get_option('prefix')
++output += '  libdir:         ' + get_option('libdir')
++output += '  libexecdir:     ' + get_option('prefix') / get_option('libexecdir')
++output += '  bindir:         ' + get_option('prefix') / get_option('bindir')
++output += '  sbindir:        ' + get_option('prefix') / get_option('datadir')
++output += '  datadir:        ' + get_option('prefix') / get_option('sbindir')
++output += '  sysconfdir:     ' + get_option('sysconfdir')
++output += '  localstatedir:  ' + get_option('prefix') / get_option('localstatedir')
++output += '  historydir:     ' + historydir
++
++output += '\nFeatures'
++output += '  Backend:                  ' + os_backend
++output += '  libimobiledevice support: ' + idevice_dep.found().to_string()
++output += '  Building api docs:        ' + get_option('gtk-doc').to_string()
++output += '  Building man pages:       ' + get_option('man').to_string()
++
++message('\n'+'\n'.join(output)+'\n')
+diff --git a/meson_options.txt b/meson_options.txt
+new file mode 100644
+index 0000000..7a2757a
+--- /dev/null
++++ b/meson_options.txt
+@@ -0,0 +1,31 @@
++option('man',
++       type : 'boolean',
++       value : 'true',
++       description : 'Build manpages')
++option('gtk-doc',
++       type : 'boolean',
++       value : 'true',
++       description : 'Build developer documentation')
++option('introspection',
++       type : 'feature',
++       value : 'auto',
++       description : 'Build GObject Introspection data')
++option('udevrulesdir',
++       type : 'string',
++       value: 'auto',
++       description : 'Directory for udev rules')
++option('historydir',
++       type : 'string',
++       description : 'Directory for upower history files will be stored')
++option('systemdsystemunitdir',
++       type : 'string',
++       description : 'Directory for systemd service files ("no" to disable)')
++option('os_backend',
++       type : 'combo',
++       choices : [ 'auto', 'linux', 'freebsd', 'openbsd', 'dummy'],
++       value : 'auto',
++       description : 'Directory for systemd service files')
++option('idevice',
++       type : 'feature',
++       value : 'auto',
++       description : 'Build with libimobiledevice')
+diff --git a/po/meson.build b/po/meson.build
+new file mode 100644
+index 0000000..e9b77d7
+--- /dev/null
++++ b/po/meson.build
+@@ -0,0 +1 @@
++i18n.gettext(meson.project_name(), preset: 'glib')
+diff --git a/rules/meson.build b/rules/meson.build
+new file mode 100644
+index 0000000..b3e6fe5
+--- /dev/null
++++ b/rules/meson.build
+@@ -0,0 +1,9 @@
++rules = [
++    '95-upower-wup.rules',
++    '95-upower-hid.rules',
++]
++
++install_data(
++    rules,
++    install_dir: udevrulesdir,
++)
+diff --git a/src/bsd/meson.build b/src/bsd/meson.build
+new file mode 100644
+index 0000000..723ca8d
+--- /dev/null
++++ b/src/bsd/meson.build
+@@ -0,0 +1,13 @@
++upshared_common = static_library('upshared-common',
++    sources: [
++        'up-backend-common.c',
++    ],
++    c_args: [ '-DG_LOG_DOMAIN="UPower-Unix"' ],
++    dependencies: [ gudev_dep, upowerd_deps ],
++    build_by_default: false,
++)
++
++upshared_common_dep = declare_dependency(
++    link_with: [ upshared_common ],
++    # TODO: Move up-backend-bsd-private.h here and add it as include directory
++)
+diff --git a/src/dummy/meson.build b/src/dummy/meson.build
+new file mode 100644
+index 0000000..558ec4d
+--- /dev/null
++++ b/src/dummy/meson.build
+@@ -0,0 +1,9 @@
++upshared += { 'dummy': static_library('upshared',
++    sources: [
++        'up-backend.c',
++        'up-native.c',
++    ],
++    c_args: [ '-DG_LOG_DOMAIN="UPower-Dummy"' ],
++    dependencies: [ gudev_dep, upowerd_deps ],
++    build_by_default: false,
++)}
+diff --git a/src/freebsd/meson.build b/src/freebsd/meson.build
+new file mode 100644
+index 0000000..3750ba6
+--- /dev/null
++++ b/src/freebsd/meson.build
+@@ -0,0 +1,18 @@
++upshared += { 'freebsd': static_library('upshared',
++    sources: [
++        'up-acpi-native.c',
++        'up-acpi-native.h',
++        'up-backend-acpi.h',
++        'up-backend.c',
++        'up-devd.c',
++        'up-devd.h',
++        'up-device-supply.c',
++        'up-device-supply.h',
++        'up-native.c',
++        'up-util.c',
++        'up-util.h',
++    ],
++    c_args: [ '-DG_LOG_DOMAIN="UPower-Freebsd"' ],
++    dependencies: [ gudev_dep, upowerd_deps, upshared_common_dep ],
++    build_by_default: false,
++)}
+diff --git a/src/linux/meson.build b/src/linux/meson.build
+new file mode 100644
+index 0000000..60478a9
+--- /dev/null
++++ b/src/linux/meson.build
+@@ -0,0 +1,28 @@
++idevice_sources = []
++if idevice_dep.found()
++    idevice_sources = [
++        'up-device-idevice.c',
++        'up-device-idevice.h',
++    ]
++endif
++
++upshared += { 'linux': static_library('upshared',
++    sources: [
++        'up-device-supply.c',
++        'up-device-supply.h',
++        'up-device-hid.c',
++        'up-device-hid.h',
++        'up-device-wup.c',
++        'up-device-wup.h',
++        'up-device-bluez.c',
++        'up-device-bluez.h',
++        'up-input.c',
++        'up-input.h',
++        'up-backend.c',
++        'up-backend-linux-private.h',
++        'up-native.c',
++    ],
++    c_args: [ '-DG_LOG_DOMAIN="UPower-Linux"' ],
++    dependencies: [ gudev_dep, upowerd_deps ],
++    build_by_default: false,
++)}
+diff --git a/src/meson.build b/src/meson.build
+new file mode 100644
+index 0000000..221b625
+--- /dev/null
++++ b/src/meson.build
+@@ -0,0 +1,131 @@
++
++upowerd_deps = declare_dependency(
++    include_directories: [
++        include_directories('.'),
++        include_directories('..'),
++        include_directories('../dbus'),
++        include_directories('../libupower-glib'),
++    ],
++    dependencies: [
++        glib_dep, gobject_dep, gio_dep, gio_unix_dep, libupower_glib_dep
++    ],
++    compile_args: [
++        '-DUP_COMPILATION',
++        '-DHISTORY_DIR="@0@"'.format(historydir),
++    ],
++)
++
++upshared = {}
++subdir('dummy')
++subdir('linux')
++subdir('bsd')
++subdir('openbsd')
++subdir('freebsd')
++
++# Everything that is also needed by the tests
++upowerd_private = static_library('upowerd-private',
++    sources: [
++        'up-constants.h',
++        'up-config.h',
++        'up-config.c',
++        'up-daemon.h',
++        'up-daemon.c',
++        'up-device.h',
++        'up-device.c',
++        'up-device-list.h',
++        'up-device-list.c',
++        'up-kbd-backlight.h',
++        'up-kbd-backlight.c',
++        'up-wakeups.h',
++        'up-wakeups.c',
++        'up-history.h',
++        'up-history.c',
++        'up-backend.h',
++        'up-native.h',
++    ],
++    dependencies: [ upowerd_deps, upowerd_dbus_dep ],
++)
++
++upowerd = executable('upowerd',
++    sources: [
++        'up-main.c',
++    ],
++    dependencies: upowerd_deps,
++    link_with: [ upowerd_private, upshared[os_backend] ],
++    gnu_symbol_visibility: 'hidden',
++    install: true,
++    install_dir: get_option('prefix') / get_option('libexecdir'),
++    c_args: [ '-DG_LOG_DOMAIN="UPower"' ],
++)
++
++up_self_test = executable('up_self_test',
++    sources: [
++        'up-self-test.c',
++    ],
++    c_args: [
++        '-DUPOWER_CONF_PATH="@0@"'.format(meson.source_root() / 'etc' / 'UPower.conf'),
++        '-DG_LOG_DOMAIN="UPower"',
++    ],
++    dependencies: upowerd_deps,
++    link_with: [ upowerd_private, upshared['dummy'] ],
++    gnu_symbol_visibility: 'hidden',
++    build_by_default: true,
++    install: false,
++)
++
++#############
++# Data/Config files
++#############
++
++install_subdir('does-not-exist', install_dir: historydir, strip_directory : true)
++
++cdata = configuration_data()
++cdata.set('libexecdir', get_option('prefix') / get_option('libexecdir'))
++cdata.set('historydir', historydir)
++
++configure_file(
++    input: 'org.freedesktop.UPower.service.in',
++    output: 'org.freedesktop.UPower.service',
++    install_dir: dbusdir / 'system-services',
++    configuration: cdata,
++)
++
++configure_file(
++    input: 'org.freedesktop.UPower.conf.in',
++    output: 'org.freedesktop.UPower.conf',
++    install_dir: dbusdir / 'system.d',
++    configuration: cdata,
++)
++
++if systemdsystemunitdir != 'no'
++    configure_file(
++        input: 'upower.service.in',
++        output: 'upower.service',
++        install_dir: systemdsystemunitdir,
++        configuration: cdata,
++    )
++endif
++
++#############
++# Tests
++#############
++test(
++   'self-test',
++   up_self_test,
++)
++
++# On Linux, we can run the additional integration test;
++# defined here as we would have a circular dependency otherwise.
++if os_backend == 'linux' and gir_dep.found()
++    env = environment()
++    env.prepend('top_builddir', join_paths(meson.build_root()))
++    env.prepend('LD_LIBRARY_PATH', join_paths(meson.build_root(), 'libupower-glib'))
++    env.prepend('GI_TYPELIB_PATH', join_paths(meson.build_root(), 'libupower-glib'))
++
++    test(
++        'integration-test',
++        find_program('linux/integration-test'),
++        timeout: 120,
++        env: env,
++    )
++endif
+diff --git a/src/openbsd/meson.build b/src/openbsd/meson.build
+new file mode 100644
+index 0000000..83afe51
+--- /dev/null
++++ b/src/openbsd/meson.build
+@@ -0,0 +1,10 @@
++upshared += { 'openbsd': static_library('upshared',
++    sources: [
++        'up-backend.c',
++        'up-native.c',
++        'up-apm-native.h',
++    ],
++    c_args: [ '-DG_LOG_DOMAIN="UPower-Openbsd"' ],
++    dependencies: [ gudev_dep, upowerd_deps, upshared_common_dep ],
++    build_by_default: false,
++)}
+diff --git a/tools/meson.build b/tools/meson.build
+new file mode 100644
+index 0000000..69d6de0
+--- /dev/null
++++ b/tools/meson.build
+@@ -0,0 +1,11 @@
++executable('upower',
++    sources: [
++        'up-tool.c',
++    ],
++    dependencies: [ libupower_glib_dep ],
++    gnu_symbol_visibility: 'hidden',
++    install: true,
++    install_dir: get_option('prefix') / get_option('bindir'),
++    include_directories: [ '../libupower-glib/' ],
++    c_args: [ '-DG_LOG_DOMAIN="UPower"' ],
++)
+-- 
+2.35.1
+
