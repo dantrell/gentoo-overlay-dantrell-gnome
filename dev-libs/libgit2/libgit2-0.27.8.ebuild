@@ -7,7 +7,7 @@ PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 inherit cmake-utils python-any-r1
 
 DESCRIPTION="A linkable library for Git"
-HOMEPAGE="https://libgit2.org"
+HOMEPAGE="https://libgit2.org/"
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2-with-linking-exception"

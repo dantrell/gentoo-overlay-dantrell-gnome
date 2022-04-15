@@ -1,0 +1,25 @@
+diff '--exclude=.git' -urN a/pambase.py b/pambase.py
+--- a/pambase.py	2020-10-12 12:30:18.000000000 -0500
++++ b/pambase.py	2022-04-10 15:02:43.587565255 -0500
+@@ -12,6 +12,7 @@
+     parser.add_argument('--passwdqc', action="store_true", help='enable pam_passwdqc.so module')
+     parser.add_argument('--pwhistory', action="store_true", help='enable pam_pwhistory.so module')
+     parser.add_argument('--pwquality', action="store_true", help='enable pam_pwquality.so module')
++    parser.add_argument('--consolekit', action="store_true", help='enable pam_ck_connector.so module')
+     parser.add_argument('--elogind', action="store_true", help='enable pam_elogind.so module')
+     parser.add_argument('--systemd', action="store_true", help='enable pam_systemd.so module')
+     parser.add_argument('--selinux', action="store_true", help='enable pam_selinux.so module')
+diff '--exclude=.git' -urN a/templates/system-login.tpl b/templates/system-login.tpl
+--- a/templates/system-login.tpl	2020-10-12 12:30:18.000000000 -0500
++++ b/templates/system-login.tpl	2022-04-10 15:03:20.130423919 -0500
+@@ -33,6 +33,10 @@
+ session		optional	pam_mail.so
+ {% endif %}
+ 
++{% if consolekit %}
++-session        optional        pam_ck_connector.so nox11
++{% endif %}
++
+ {% if systemd %}
+ -session        optional        pam_systemd.so
+ {% endif %}

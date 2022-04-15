@@ -1,0 +1,24 @@
+diff '--exclude=.git' -urN a/src/plugins/background/gtd-plugin-background.c b/src/plugins/background/gtd-plugin-background.c
+--- a/src/plugins/background/gtd-plugin-background.c	2021-09-16 12:48:29.000000000 -0500
++++ b/src/plugins/background/gtd-plugin-background.c	2022-04-09 10:53:02.362630777 -0500
+@@ -28,7 +28,7 @@
+ #include <gtk/gtk.h>
+ 
+ #include <libportal/portal.h>
+-#include <libportal/portal-gtk4.h>
++#include <libportal-gtk4/portal-gtk4.h>
+ 
+ #define AUTOSTART_NOTIFICATION_ID      "Gtd::BackgroundPlugin::autostart_notification"
+ #define AUTOSTART_NOTIFICATION_TIMEOUT 3  /* seconds */
+diff '--exclude=.git' -urN a/src/plugins/background/meson.build b/src/plugins/background/meson.build
+--- a/src/plugins/background/meson.build	2021-09-16 12:48:29.000000000 -0500
++++ b/src/plugins/background/meson.build	2022-04-09 10:53:02.362630777 -0500
+@@ -1,7 +1,7 @@
+ plugins_ldflags += ['-Wl,--undefined=gtd_plugin_background_register_types']
+ 
+ plugins_deps += [
+-  dependency('libportal'),
++  dependency('libportal-gtk4'),
+ ]
+ 
+ plugins_sources += files(

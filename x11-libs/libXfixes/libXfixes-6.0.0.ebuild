@@ -9,7 +9,7 @@ inherit xorg-3
 
 DESCRIPTION="X.Org Xfixes library"
 
-KEYWORDS="~*"
+KEYWORDS="*"
 
 RDEPEND="
 	>=x11-libs/libX11-1.6.2[${MULTILIB_USEDEP}]"

@@ -18,7 +18,8 @@ LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS=""
 
-IUSE="+duktape examples gtk +introspection kde pam selinux systemd test"
+IUSE="ck consolekit +duktape elogind examples gtk +introspection kde pam selinux systemd test"
+REQUIRED_USE="?? ( ck consolekit elogind systemd )"
 
 # Tests currently don't work with meson. See
 #   https://gitlab.freedesktop.org/polkit/polkit/-/issues/144
@@ -40,19 +41,21 @@ DEPEND="
 	dev-libs/expat
 	duktape? ( dev-lang/duktape:= )
 	!duktape? ( dev-lang/spidermonkey:91[-debug] )
+	elogind? ( sys-auth/elogind )
 	pam? (
 		sys-auth/pambase
 		sys-libs/pam
 	)
 	!pam? ( virtual/libcrypt:= )
 	systemd? ( sys-apps/systemd:0=[policykit] )
-	!systemd? ( sys-auth/elogind )
 "
 RDEPEND="${DEPEND}
 	acct-user/polkitd
 	selinux? ( sec-policy/selinux-policykit )
 "
 PDEPEND="
+	ck? ( <sys-auth/consolekit-0.9[policykit] )
+	consolekit? ( >=sys-auth/consolekit-0.9[policykit] )
 	gtk? ( || (
 		>=gnome-extra/polkit-gnome-0.105
 		>=lxde-base/lxsession-0.5.2
@@ -88,7 +91,7 @@ src_configure() {
 		-Dgtk_doc=false
 		-Dman=true
 		-Dos_type=gentoo
-		-Dsession_tracking="$(usex systemd libsystemd-login libelogind)"
+		-Dsession_tracking="$(usex systemd libsystemd-login $(usex elogind libelogind ConsoleKit))"
 		-Dsystemdsystemunitdir="$(systemd_get_systemunitdir)"
 		-Djs_engine=$(usex duktape duktape mozjs)
 		$(meson_use introspection)

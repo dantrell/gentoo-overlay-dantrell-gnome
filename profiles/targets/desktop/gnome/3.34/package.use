@@ -12,7 +12,6 @@ media-libs/gsound vala
 media-libs/mesa egl
 net-libs/gnome-online-accounts vala
 net-libs/gtk-vnc vala
-net-libs/libsoup vala
 net-misc/spice-gtk vala
 x11-libs/gtksourceview:3.0 vala
 x11-libs/vte vala

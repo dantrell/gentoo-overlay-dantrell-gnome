@@ -1,2 +1,3 @@
+dev-util/meson deprecated
 net-libs/glib-networking smartcard
 net-libs/gnutls pkcs11

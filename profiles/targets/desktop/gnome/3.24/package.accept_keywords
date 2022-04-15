@@ -1,1 +1,2 @@
 sys-auth/elogind::dantrell-gnome ~*
+>=net-misc/networkmanager-1.20.0::dantrell-gnome -*

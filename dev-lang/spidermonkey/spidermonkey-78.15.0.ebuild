@@ -6,11 +6,14 @@ EAPI="7"
 FIREFOX_PATCHSET="firefox-78esr-patches-19.tar.xz"
 SPIDERMONKEY_PATCHSET="spidermonkey-78-patches-04.tar.xz"
 
+LLVM_MAX_SLOT=13
+
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
+PYTHON_REQ_USE="ssl"
 
 WANT_AUTOCONF="2.1"
 
-inherit autotools check-reqs flag-o-matic multiprocessing pax-utils python-any-r1 toolchain-funcs
+inherit autotools check-reqs flag-o-matic llvm multiprocessing prefix python-any-r1 toolchain-funcs
 
 MY_PN="mozjs"
 MY_PV="${PV/_pre*}" # Handle Gentoo pre-releases
@@ -54,21 +57,53 @@ PATCH_URIS=(
 SRC_URI="${MOZ_SRC_BASE_URI}/source/${MOZ_P}.source.tar.xz -> ${MOZ_P_DISTFILES}.source.tar.xz
 	${PATCH_URIS[@]}"
 
-DESCRIPTION="Mozilla's JavaScript engine written in C and C++"
+DESCRIPTION="SpiderMonkey is Mozilla's JavaScript engine written in C and C++"
 HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"
 
 LICENSE="MPL-2.0"
 SLOT="78/15.0"
 KEYWORDS="*"
 
-IUSE="debug +jit minimal test"
+IUSE="clang cpu_flags_arm_neon debug +jit lto test"
 
 RESTRICT="!test? ( test )"
 
 BDEPEND="${PYTHON_DEPS}
-	sys-devel/llvm
 	>=virtual/rust-1.41.0
-	virtual/pkgconfig"
+	virtual/pkgconfig
+	|| (
+		(
+			sys-devel/llvm:13
+			clang? (
+				sys-devel/clang:13
+				lto? ( =sys-devel/lld-13* )
+			)
+		)
+		(
+			sys-devel/llvm:12
+			clang? (
+				sys-devel/clang:12
+				lto? ( =sys-devel/lld-12* )
+			)
+		)
+		(
+			sys-devel/llvm:11
+			clang? (
+				sys-devel/clang:11
+				lto? ( =sys-devel/lld-11* )
+			)
+		)
+		(
+			sys-devel/llvm:10
+			clang? (
+				sys-devel/clang:10
+				lto? ( =sys-devel/lld-10* )
+			)
+		)
+	)
+	lto? (
+		!clang? ( sys-devel/binutils[gold] )
+	)"
 
 CDEPEND=">=dev-libs/icu-67.1:=
 	>=dev-libs/nspr-4.25
@@ -82,8 +117,30 @@ DEPEND="${CDEPEND}
 
 RDEPEND="${CDEPEND}"
 
-S="${WORKDIR}/firefox-${PV}"
-MOZJS_BUILDDIR="${S}/jsobj"
+S="${WORKDIR}/firefox-${MY_PV}/js/src"
+
+llvm_check_deps() {
+	if ! has_version -b "sys-devel/llvm:${LLVM_SLOT}" ; then
+		einfo "sys-devel/llvm:${LLVM_SLOT} is missing! Cannot use LLVM slot ${LLVM_SLOT} ..." >&2
+		return 1
+	fi
+
+	if use clang ; then
+		if ! has_version -b "sys-devel/clang:${LLVM_SLOT}" ; then
+			einfo "sys-devel/clang:${LLVM_SLOT} is missing! Cannot use LLVM slot ${LLVM_SLOT} ..." >&2
+			return 1
+		fi
+
+		if use lto ; then
+			if ! has_version -b "=sys-devel/lld-${LLVM_SLOT}*" ; then
+				einfo "=sys-devel/lld-${LLVM_SLOT}* is missing! Cannot use LLVM slot ${LLVM_SLOT} ..." >&2
+				return 1
+			fi
+		fi
+	fi
+
+	einfo "Using LLVM slot ${LLVM_SLOT} to build" >&2
+}
 
 python_check_deps() {
 	if use test ; then
@@ -102,114 +159,281 @@ pkg_pretend() {
 }
 
 pkg_setup() {
-	if use test ; then
-		CHECKREQS_DISK_BUILD="7600M"
-	else
-		CHECKREQS_DISK_BUILD="6400M"
+	if [[ ${MERGE_TYPE} != binary ]] ; then
+		if use test ; then
+			CHECKREQS_DISK_BUILD="7600M"
+		else
+			CHECKREQS_DISK_BUILD="6400M"
+		fi
+
+		check-reqs_pkg_setup
+
+		llvm_pkg_setup
+
+		if use clang && use lto ; then
+			local version_lld=$(ld.lld --version 2>/dev/null | awk '{ print $2 }')
+			[[ -n ${version_lld} ]] && version_lld=$(ver_cut 1 "${version_lld}")
+			[[ -z ${version_lld} ]] && die "Failed to read ld.lld version!"
+
+			# temp fix for https://bugs.gentoo.org/768543
+			# we can assume that rust 1.{49,50}.0 always uses llvm 11
+			local version_rust=$(rustc -Vv 2>/dev/null | grep -F -- 'release:' | awk '{ print $2 }')
+			[[ -n ${version_rust} ]] && version_rust=$(ver_cut 1-2 "${version_rust}")
+			[[ -z ${version_rust} ]] && die "Failed to read version from rustc!"
+
+			if ver_test "${version_rust}" -ge "1.49" && ver_test "${version_rust}" -le "1.50" ; then
+				local version_llvm_rust="11"
+			else
+				local version_llvm_rust=$(rustc -Vv 2>/dev/null | grep -F -- 'LLVM version:' | awk '{ print $3 }')
+				[[ -n ${version_llvm_rust} ]] && version_llvm_rust=$(ver_cut 1 "${version_llvm_rust}")
+				[[ -z ${version_llvm_rust} ]] && die "Failed to read used LLVM version from rustc!"
+			fi
+
+			if ver_test "${version_lld}" -ne "${version_llvm_rust}" ; then
+				eerror "Rust is using LLVM version ${version_llvm_rust} but ld.lld version belongs to LLVM version ${version_lld}."
+				eerror "You will be unable to link ${CATEGORY}/${PN}. To proceed you have the following options:"
+				eerror "  - Manually switch rust version using 'eselect rust' to match used LLVM version"
+				eerror "  - Switch to dev-lang/rust[system-llvm] which will guarantee matching version"
+				eerror "  - Build ${CATEGORY}/${PN} without USE=lto"
+				die "LLVM version used by Rust (${version_llvm_rust}) does not match with ld.lld version (${version_lld})!"
+			fi
+		fi
+
+		python-any-r1_pkg_setup
+
+		# Build system is using /proc/self/oom_score_adj, bug #604394
+		addpredict /proc/self/oom_score_adj
+
+		if ! mountpoint -q /dev/shm ; then
+			# If /dev/shm is not available, configure is known to fail with
+			# a traceback report referencing /usr/lib/pythonN.N/multiprocessing/synchronize.py
+			ewarn "/dev/shm is not mounted -- expect build failures!"
+		fi
+
+		# Ensure we use C locale when building, bug #746215
+		export LC_ALL=C
 	fi
-
-	check-reqs_pkg_setup
-
-	python-any-r1_pkg_setup
 }
 
 src_prepare() {
+	pushd ../.. &>/dev/null || die
+
+	use lto && rm -v "${WORKDIR}"/firefox-patches/*-LTO-Only-enable-LTO-*.patch
+
 	eapply "${WORKDIR}"/firefox-patches
 	eapply "${WORKDIR}"/spidermonkey-patches
 
-	eapply_user
+	default
 
-	if [[ ${CHOST} == *-freebsd* ]]; then
-		# Don't try to be smart, this does not work in cross-compile anyway
-		ln -sfn "${MOZJS_BUILDDIR}/config/Linux_All.mk" "${S}/config/$(uname -s)$(uname -r).mk" || die
-	fi
+	# Make LTO respect MAKEOPTS
+	sed -i \
+		-e "s/multiprocessing.cpu_count()/$(makeopts_jobs)/" \
+		build/moz.configure/lto-pgo.configure \
+		|| die "sed failed to set num_cores"
 
-	cd "${S}"/js/src || die
-	eautoconf old-configure.in
+	# sed-in toolchain prefix
+	sed -i \
+		-e "s/objdump/${CHOST}-objdump/" \
+		python/mozbuild/mozbuild/configure/check_debug_ranges.py \
+		|| die "sed failed to set toolchain prefix"
+
+	# use prefix shell in wrapper linker scripts, bug #789660
+	hprefixify "${S}"/../../build/cargo-{,host-}linker
+
+	einfo "Removing pre-built binaries ..."
+	find third_party -type f \( -name '*.so' -o -name '*.o' \) -print -delete || die
+
+	MOZJS_BUILDDIR="${WORKDIR}/build"
+	mkdir "${MOZJS_BUILDDIR}" || die
+
+	popd &>/dev/null || die
 	eautoconf
-
-	# remove options that are not correct from js-config
-	sed '/lib-filenames/d' -i "${S}"/js/src/build/js-config.in || die "failed to remove invalid option from js-config"
-
-	# there is a default config.cache that messes everything up
-	rm -f "${S}"/js/src/config.cache || die
-
-	mkdir -p "${MOZJS_BUILDDIR}" || die
 }
 
 src_configure() {
+	# Show flags set at the beginning
+	einfo "Current CFLAGS:    ${CFLAGS}"
+	einfo "Current CXXFLAGS:  ${CXXFLAGS}"
+	einfo "Current LDFLAGS:   ${LDFLAGS}"
+	einfo "Current RUSTFLAGS: ${RUSTFLAGS}"
+
+	local have_switched_compiler=
+	if use clang && ! tc-is-clang ; then
+		# Force clang
+		einfo "Enforcing the use of clang due to USE=clang ..."
+		have_switched_compiler=yes
+		AR=llvm-ar
+		CC=${CHOST}-clang
+		CXX=${CHOST}-clang++
+		NM=llvm-nm
+		RANLIB=llvm-ranlib
+	elif ! use clang && ! tc-is-gcc ; then
+		# Force gcc
+		have_switched_compiler=yes
+		einfo "Enforcing the use of gcc due to USE=-clang ..."
+		AR=gcc-ar
+		CC=${CHOST}-gcc
+		CXX=${CHOST}-g++
+		NM=gcc-nm
+		RANLIB=gcc-ranlib
+	fi
+
+	if [[ -n "${have_switched_compiler}" ]] ; then
+		# Because we switched active compiler we have to ensure
+		# that no unsupported flags are set
+		strip-unsupported-flags
+	fi
+
+	# Ensure we use correct toolchain
+	export HOST_CC="$(tc-getBUILD_CC)"
+	export HOST_CXX="$(tc-getBUILD_CXX)"
+	tc-export CC CXX LD AR NM OBJDUMP RANLIB PKG_CONFIG
+
 	cd "${MOZJS_BUILDDIR}" || die
 
-	${S}/js/src/configure \
-		--host="${CBUILD:-${CHOST}}" \
-		--target="${CHOST}" \
-		--prefix=/usr \
-		--libdir=/usr/$(get_libdir) \
-		--disable-jemalloc \
-		--disable-optimize \
-		--disable-strip \
-		--enable-readline \
-		--enable-shared-js \
-		--with-intl-api \
-		--with-system-icu \
-		--with-system-nspr \
-		--with-system-zlib \
-		--with-toolchain-prefix="${CHOST}-" \
-		$(use_enable debug) \
-		$(use_enable jit) \
-		$(use_enable test tests) \
-		XARGS="/usr/bin/xargs" \
-		CONFIG_SHELL="${EPREFIX}/bin/bash" \
-		CC="${CC}" CXX="${CXX}" LD="${LD}" AR="${AR}"
-}
+	# ../python/mach/mach/mixin/process.py fails to detect SHELL
+	export SHELL="${EPREFIX}/bin/bash"
 
-cross_make() {
-	emake \
-		CFLAGS="${BUILD_CFLAGS}" \
-		CXXFLAGS="${BUILD_CXXFLAGS}" \
-		AR="${BUILD_AR}" \
-		CC="${BUILD_CC}" \
-		CXX="${BUILD_CXX}" \
-		RANLIB="${BUILD_RANLIB}" \
-		"$@"
+	local -a myeconfargs=(
+		--host="${CBUILD:-${CHOST}}"
+		--target="${CHOST}"
+		--disable-jemalloc
+		--disable-optimize
+		--disable-strip
+		--enable-readline
+		--enable-shared-js
+		--with-intl-api
+		--with-system-icu
+		--with-system-nspr
+		--with-system-zlib
+		--with-toolchain-prefix="${CHOST}-"
+		$(use_enable debug)
+		$(use_enable jit)
+		$(use_enable test tests)
+	)
+
+	if ! use x86 && [[ ${CHOST} != armv*h* ]] ; then
+		myeconfargs+=( --enable-rust-simd )
+	fi
+
+	# Modifications to better support ARM, bug 717344
+	if use cpu_flags_arm_neon ; then
+		myeconfargs+=( --with-fpu=neon )
+
+		if ! tc-is-clang ; then
+			# thumb options aren't supported when using clang, bug 666966
+			myeconfargs+=( --with-thumb=yes )
+			myeconfargs+=( --with-thumb-interwork=no )
+		fi
+	fi
+
+	# Tell build system that we want to use LTO
+	if use lto ; then
+		myeconfargs+=( --enable-lto )
+
+		if use clang ; then
+			myeconfargs+=( --enable-linker=lld )
+		else
+			myeconfargs+=( --enable-linker=gold )
+		fi
+	fi
+
+	# LTO flag was handled via configure
+	filter-flags '-flto*'
+
+	if tc-is-gcc ; then
+		if ver_test $(gcc-fullversion) -ge 10 ; then
+			einfo "Forcing -fno-tree-loop-vectorize to workaround GCC bug, see bug 758446 ..."
+			append-cxxflags -fno-tree-loop-vectorize
+		fi
+	fi
+
+	# Show flags we will use
+	einfo "Build CFLAGS:    ${CFLAGS}"
+	einfo "Build CXXFLAGS:  ${CXXFLAGS}"
+	einfo "Build LDFLAGS:   ${LDFLAGS}"
+	einfo "Build RUSTFLAGS: ${RUSTFLAGS}"
+
+	# Forcing system-icu allows us to skip patching bundled ICU for PPC
+	# and other minor arches
+	ECONF_SOURCE="${S}" \
+		econf \
+		${myeconfargs[@]} \
+		XARGS="${EPREFIX}/usr/bin/xargs"
 }
 
 src_compile() {
 	cd "${MOZJS_BUILDDIR}" || die
-	if tc-is-cross-compiler; then
-		tc-export_build_env BUILD_{AR,CC,CXX,RANLIB}
-		cross_make \
-			MOZ_OPTIMIZE_FLAGS="" MOZ_DEBUG_FLAGS="" \
-			HOST_OPTIMIZE_FLAGS="" MODULE_OPTIMIZE_FLAGS="" \
-			MOZ_PGO_OPTIMIZE_FLAGS="" \
-			host_jsoplengen host_jskwgen
-		cross_make \
-			MOZ_OPTIMIZE_FLAGS="" MOZ_DEBUG_FLAGS="" HOST_OPTIMIZE_FLAGS="" \
-			-C config nsinstall
-		mv {,native-}host_jskwgen || die
-		mv {,native-}host_jsoplengen || die
-		mv config/{,native-}nsinstall || die
-		sed -i \
-			-e 's@./host_jskwgen@./native-host_jskwgen@' \
-			-e 's@./host_jsoplengen@./native-host_jsoplengen@' \
-			Makefile || die
-		sed -i -e 's@/nsinstall@/native-nsinstall@' config/config.mk || die
-		rm -f config/host_nsinstall.o \
-			config/host_pathsub.o \
-			host_jskwgen.o \
-			host_jsoplengen.o || die
-	fi
-
-	MOZ_MAKE_FLAGS="${MAKEOPTS}" \
-	emake \
-		MOZ_OPTIMIZE_FLAGS="" MOZ_DEBUG_FLAGS="" \
-		HOST_OPTIMIZE_FLAGS="" MODULE_OPTIMIZE_FLAGS="" \
-		MOZ_PGO_OPTIMIZE_FLAGS=""
+	default
 }
 
 src_test() {
-	cd "${MOZJS_BUILDDIR}/js/src/jsapi-tests" || die
-	./jsapi-tests || die
+	if "${MOZJS_BUILDDIR}/js/src/js" -e 'print("Hello world!")'; then
+		einfo "Smoke-test successful, continuing with full test suite"
+	else
+		die "Smoke-test failed: did interpreter initialization fail?"
+	fi
+
+	local -a KNOWN_TESTFAILURES
+	KNOWN_TESTFAILURES+=( non262/Date/reset-time-zone-cache-same-offset.js )
+	KNOWN_TESTFAILURES+=( non262/Date/time-zone-path.js )
+	KNOWN_TESTFAILURES+=( non262/Date/time-zones-historic.js )
+	KNOWN_TESTFAILURES+=( non262/Date/time-zones-imported.js )
+	KNOWN_TESTFAILURES+=( non262/Date/toString-localized.js )
+	KNOWN_TESTFAILURES+=( non262/Date/toString-localized-posix.js )
+	KNOWN_TESTFAILURES+=( non262/Intl/Date/toLocaleString_timeZone.js )
+	KNOWN_TESTFAILURES+=( non262/Intl/Date/toLocaleDateString_timeZone.js )
+	KNOWN_TESTFAILURES+=( non262/Intl/DateTimeFormat/format.js )
+	KNOWN_TESTFAILURES+=( non262/Intl/DateTimeFormat/format_timeZone.js )
+	KNOWN_TESTFAILURES+=( non262/Intl/DateTimeFormat/timeZone_backward_links.js )
+	KNOWN_TESTFAILURES+=( non262/Intl/DateTimeFormat/tz-environment-variable.js )
+	KNOWN_TESTFAILURES+=( non262/Intl/DisplayNames/language.js )
+	KNOWN_TESTFAILURES+=( non262/Intl/DisplayNames/region.js )
+	KNOWN_TESTFAILURES+=( non262/Intl/Locale/likely-subtags.js )
+	KNOWN_TESTFAILURES+=( non262/Intl/Locale/likely-subtags-generated.js )
+	KNOWN_TESTFAILURES+=( test262/intl402/Locale/prototype/minimize/removing-likely-subtags-first-adds-likely-subtags.js )
+
+	if use x86 ; then
+		KNOWN_TESTFAILURES+=( non262/Date/timeclip.js )
+		KNOWN_TESTFAILURES+=( test262/built-ins/Number/prototype/toPrecision/return-values.js )
+		KNOWN_TESTFAILURES+=( test262/language/types/number/S8.5_A2.1.js )
+		KNOWN_TESTFAILURES+=( test262/language/types/number/S8.5_A2.2.js )
+	fi
+
+	if [[ $(tc-endian) == "big" ]] ; then
+		KNOWN_TESTFAILURES+=( test262/built-ins/TypedArray/prototype/set/typedarray-arg-set-values-same-buffer-other-type.js )
+	fi
+
+	echo "" > "${T}"/known_failures.list || die
+
+	local KNOWN_TESTFAILURE
+	for KNOWN_TESTFAILURE in ${KNOWN_TESTFAILURES[@]} ; do
+		echo "${KNOWN_TESTFAILURE}" >> "${T}"/known_failures.list
+	done
+
+	PYTHONPATH="${S}/tests/lib" \
+		${PYTHON} \
+		"${S}"/tests/jstests.py -d -s -t 1800 --wpt=disabled --no-progress \
+		--exclude-file="${T}"/known_failures.list \
+		"${MOZJS_BUILDDIR}"/js/src/js \
+		|| die
+
+	if use jit ; then
+		KNOWN_TESTFAILURES=()
+
+		echo "" > "${T}"/known_failures.list || die
+
+		for KNOWN_TESTFAILURE in ${KNOWN_TESTFAILURES[@]} ; do
+			echo "${KNOWN_TESTFAILURE}" >> "${T}"/known_failures.list
+		done
+
+		PYTHONPATH="${S}/tests/lib" \
+			${PYTHON} \
+			"${S}"/tests/jstests.py -d -s -t 1800 --wpt=disabled --no-progress \
+			--exclude-file="${T}"/known_failures.list \
+			"${MOZJS_BUILDDIR}"/js/src/js basic \
+			|| die
+	fi
 }
 
 src_install() {
@@ -234,16 +458,4 @@ src_install() {
 		"${ED}"/usr/$(get_libdir)/pkgconfig/*.pc \
 		"${ED}"/usr/include/mozjs-${MY_MAJOR}/js-config.h \
 		|| die
-
-	if ! use minimal; then
-		if use jit; then
-			pax-mark m "${ED}"usr/bin/js${SLOT%/*}
-		fi
-	else
-		rm -f "${ED}"usr/bin/js${SLOT%/*}
-	fi
-
-	# We can't actually disable building of static libraries
-	# They're used by the tests and in a few other places
-	find "${D}" -iname '*.a' -o -iname '*.ajs' -delete || die
 }

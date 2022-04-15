@@ -12,11 +12,11 @@ SRC_URI="https://github.com/gentoo/pambase/archive/${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="*"
 
-IUSE="caps debug elogind gnome-keyring minimal mktemp +nullok pam_krb5 pam_ssh +passwdqc pwhistory pwquality securetty selinux +sha512 systemd"
+IUSE="caps ck consolekit debug elogind gnome-keyring minimal mktemp +nullok pam_krb5 pam_ssh +passwdqc pwhistory pwquality securetty selinux +sha512 systemd"
 REQUIRED_USE="
-	?? ( elogind systemd )
+	?? ( ck consolekit elogind systemd )
 	?? ( passwdqc pwquality )
 	pwhistory? ( || ( passwdqc pwquality ) )
 "
@@ -27,6 +27,8 @@ MIN_PAM_REQ=1.4.0
 
 RDEPEND="
 	>=sys-libs/pam-${MIN_PAM_REQ}
+	ck? ( <sys-auth/consolekit-0.9[pam] )
+	consolekit? ( >=sys-auth/consolekit-0.9[pam] )
 	elogind? ( sys-auth/elogind[pam] )
 	gnome-keyring? ( gnome-base/gnome-keyring[pam] )
 	mktemp? ( sys-auth/pam_mktemp )
@@ -47,6 +49,10 @@ BDEPEND="$(python_gen_any_dep '
 		dev-python/jinja[${PYTHON_USEDEP}]
 	')"
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-20201013-consolekit.patch
+)
+
 python_check_deps() {
 	has_version -b "dev-python/jinja[${PYTHON_USEDEP}]"
 }
@@ -56,6 +62,8 @@ S="${WORKDIR}/${PN}-${P}"
 src_configure() {
 	${EPYTHON} ./${PN}.py \
 	$(usex caps '--libcap' '') \
+	$(usex ck '--consolekit' '') \
+	$(usex consolekit '--consolekit' '') \
 	$(usex debug '--debug' '') \
 	$(usex elogind '--elogind' '') \
 	$(usex gnome-keyring '--gnome-keyring' '') \

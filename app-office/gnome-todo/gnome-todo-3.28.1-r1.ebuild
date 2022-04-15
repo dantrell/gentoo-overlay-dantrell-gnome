@@ -45,7 +45,7 @@ src_prepare() {
 
 	# From Gentoo:
 	# 	https://bugs.gentoo.org/832136
-	eapply "${FILESDIR}"/${PN}-fix-build-with-meson-0.61.patch
+	eapply "${FILESDIR}"/${PN}-3.28.1-fix-build-with-meson-0.61.patch
 
 	default
 }

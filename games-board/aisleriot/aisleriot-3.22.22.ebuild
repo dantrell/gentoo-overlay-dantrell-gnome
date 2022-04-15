@@ -41,7 +41,7 @@ DEPEND="${COMMON_DEPEND}
 
 src_configure() {
 	local emesonargs=(
-		-Dbinreloc=true
+		-Dbinreloc=false
 		$(meson_use debug dbg)
 		$(meson_use debug dbgui)
 		$(meson_use doc docs)

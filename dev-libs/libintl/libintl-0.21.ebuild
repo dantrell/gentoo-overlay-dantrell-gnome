@@ -5,12 +5,14 @@
 EAPI="7"
 
 MY_P="gettext-${PV}"
+VERIFY_SIG_OPENPGP_KEY_PATH="${BROOT}"/usr/share/openpgp-keys/gettext.asc
 
-inherit multilib-minimal libtool usr-ldscript
+inherit multilib-minimal libtool usr-ldscript verify-sig
 
 DESCRIPTION="the GNU international library (split out of gettext)"
 HOMEPAGE="https://www.gnu.org/software/gettext/"
-SRC_URI="mirror://gnu/gettext/${MY_P}.tar.gz"
+SRC_URI="mirror://gnu/gettext/${MY_P}.tar.xz"
+SRC_URI+=" verify-sig? ( mirror://gnu/gettext/${MY_P}.tar.xz.sig )"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
@@ -24,6 +26,7 @@ RDEPEND="${DEPEND}
 	!sys-libs/glibc
 	!sys-libs/musl
 	!<sys-devel/gettext-0.19.6-r1"
+BDEPEND="verify-sig? ( sec-keys/openpgp-keys-gettext )"
 
 S="${WORKDIR}/${MY_P}/gettext-runtime"
 

@@ -155,7 +155,7 @@
 >=gnome-extra/sushi-3.34.0
 >=gnome-extra/yelp-3.34.0
 >=gnome-extra/yelp-xsl-3.34.0
->=gnome-extra/zenity-3.34.0
+>=gnome-extra/zenity-3.41.0
 >=gui-libs/libhandy-1.3.0
 >=gui-libs/tepl-5.0
 >=mail-client/evolution-3.34.0

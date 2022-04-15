@@ -4,11 +4,14 @@
 
 EAPI="7"
 
-inherit mono-env libtool java-pkg-opt-2 multilib-minimal
+VERIFY_SIG_OPENPGP_KEY_PATH="${BROOT}"/usr/share/openpgp-keys/gettext.asc
+
+inherit mono-env libtool java-pkg-opt-2 multilib-minimal verify-sig
 
 DESCRIPTION="GNU locale utilities"
 HOMEPAGE="https://www.gnu.org/software/gettext/"
-SRC_URI="mirror://gnu/${PN}/${P}.tar.gz"
+SRC_URI="mirror://gnu/${PN}/${P}.tar.xz"
+SRC_URI+=" verify-sig? ( mirror://gnu/${PN}/${P}.tar.xz.sig )"
 
 # Only libasprintf is under the LGPL (and libintl is in a sep package),
 # so put that license behind USE=cxx.
@@ -39,7 +42,7 @@ RDEPEND="${DEPEND}
 BDEPEND="
 	!git? ( cvs? ( dev-vcs/cvs ) )
 	git? ( dev-vcs/git )
-"
+	verify-sig? ( sec-keys/openpgp-keys-gettext )"
 PDEPEND="emacs? ( app-emacs/po-mode )"
 
 MULTILIB_WRAPPED_HEADERS=(

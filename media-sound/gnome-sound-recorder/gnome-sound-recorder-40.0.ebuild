@@ -35,6 +35,8 @@ BDEPEND="
 "
 
 PATCHES=(
+	# From Gentoo:
+	# 	https://bugs.gentoo.org/831924
 	"${FILESDIR}"/${PN}-40.0-fix-build-with-meson-0.61.1.patch
 )
 

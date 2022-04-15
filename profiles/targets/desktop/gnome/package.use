@@ -65,6 +65,7 @@ media-video/mpv libmpv
 net-analyzer/wireshark -qt4
 net-analyzer/wireshark -qt5
 net-fs/samba client
+net-libs/libsoup vala
 net-misc/dhcpcd-ui -qt4
 net-misc/networkmanager modemmanager
 net-misc/networkmanager ppp

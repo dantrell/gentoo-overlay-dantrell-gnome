@@ -13,8 +13,8 @@ media-libs/mesa egl
 net-dns/dnsmasq script
 net-libs/gnome-online-accounts vala
 net-libs/gtk-vnc vala
-net-libs/libsoup vala
 net-misc/spice-gtk vala
+sys-libs/libportal vala
 x11-libs/gtksourceview:3.0 vala
 x11-libs/vte vala
 x11-misc/colord vala

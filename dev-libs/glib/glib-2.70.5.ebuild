@@ -162,7 +162,6 @@ multilib_src_configure() {
 		$(meson_feature selinux)
 		$(meson_use xattr)
 		-Dlibmount=enabled # only used if host_system == 'linux'
-		-Dinternal_pcre=false
 		-Dman=true
 		$(meson_use systemtap dtrace)
 		$(meson_use systemtap)

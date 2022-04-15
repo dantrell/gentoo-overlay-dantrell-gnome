@@ -45,6 +45,8 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-41.2-optional-introspection.patch
 	"${FILESDIR}"/${PN}-41.2-webkitgtk40.patch
 
+	# From Gentoo:
+	# 	https://bugs.gentoo.org/831928
 	"${FILESDIR}"/${PN}-41.2-meson-0.61.patch
 )
 

@@ -1,0 +1,99 @@
+diff '--exclude=.git' -urN a/meson.build b/meson.build
+--- a/meson.build	2022-04-05 08:16:58.000000000 -0500
++++ b/meson.build	2022-04-08 16:44:02.082156863 -0500
+@@ -21,10 +21,6 @@
+ gtk_wayland_dep = dependency('gtk+-wayland-3.0', version: '>= 3.21.5', required: get_option('wayland'))
+ gtksourceview_dep = dependency('gtksourceview-4', version: '>=4.0.3')
+ harfbuzz_dep = dependency('harfbuzz', version: '>=0.9.9')
+-webkit_dep = dependency('webkit2gtk-4.1', required : false)
+-if not webkit_dep.found()
+-  webkit_dep = dependency('webkit2gtk-4.0')
+-endif
+ 
+ bindir = join_paths(get_option('prefix'), get_option('bindir'))
+ datadir = join_paths(get_option('prefix'), get_option('datadir'))
+diff '--exclude=.git' -urN a/src/org.gnome.NautilusPreviewer.src.gresource.xml b/src/org.gnome.NautilusPreviewer.src.gresource.xml
+--- a/src/org.gnome.NautilusPreviewer.src.gresource.xml	2022-04-05 08:16:58.000000000 -0500
++++ b/src/org.gnome.NautilusPreviewer.src.gresource.xml	2022-04-08 16:42:45.257481608 -0500
+@@ -14,7 +14,6 @@
+     <file>viewers/evince.js</file>
+     <file>viewers/font.js</file>
+     <file>viewers/gst.js</file>
+-    <file>viewers/html.js</file>
+     <file>viewers/image.js</file>
+     <file>viewers/libreoffice.js</file>
+     <file>viewers/text.js</file>
+diff '--exclude=.git' -urN a/src/viewers/html.js b/src/viewers/html.js
+--- a/src/viewers/html.js	2022-04-05 08:16:58.000000000 -0500
++++ b/src/viewers/html.js	1969-12-31 18:00:00.000000000 -0600
+@@ -1,70 +0,0 @@
+-/*
+- * Copyright (C) 2011 Red Hat, Inc.
+- *
+- * This program is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU General Public License as
+- * published by the Free Software Foundation; either version 2 of the
+- * License, or (at your option) any later version.
+- *
+- * This program is distributed in the hope that it will be useful, but
+- * WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * General Public License for more details.
+- *
+- * You should have received a copy of the GNU General Public License
+- * along with this program; if not, see <http://www.gnu.org/licenses/>.
+- *
+- * The Sushi project hereby grant permission for non-gpl compatible GStreamer
+- * plugins to be used and distributed together with GStreamer and Sushi. This
+- * permission is above and beyond the permissions granted by the GPL license
+- * Sushi is covered by.
+- *
+- * Authors: Cosimo Cecchi <cosimoc@redhat.com>
+- *
+- */
+-
+-const {Gtk, GLib, GObject, Sushi, WebKit2} = imports.gi;
+-
+-const Renderer = imports.ui.renderer;
+-
+-var Klass = GObject.registerClass({
+-    Implements: [Renderer.Renderer],
+-    Properties: {
+-        fullscreen: GObject.ParamSpec.boolean('fullscreen', '', '',
+-                                              GObject.ParamFlags.READABLE,
+-                                              false),
+-        ready: GObject.ParamSpec.boolean('ready', '', '',
+-                                         GObject.ParamFlags.READABLE,
+-                                         false)
+-    },
+-}, class HTMLRenderer extends WebKit2.WebView {
+-    get ready() {
+-        return !!this._ready;
+-    }
+-
+-    get fullscreen() {
+-        return !!this._fullscreen;
+-    }
+-
+-    _init(file) {
+-        super._init();
+-
+-        /* disable the default context menu of the web view */
+-        this.connect('context-menu',
+-                     function() {return true;});
+-
+-        this.load_uri(file.get_uri());
+-        this.connect('load-failed', (view, loadEvent, uri, error) => {
+-            this.emit('error', error);
+-        });
+-        this.isReady();
+-    }
+-
+-    get moveOnClick() {
+-        return false;
+-    }
+-});
+-
+-var mimeTypes = [
+-    'text/html'
+-];

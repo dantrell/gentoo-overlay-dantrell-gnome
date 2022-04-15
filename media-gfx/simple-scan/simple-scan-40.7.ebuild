@@ -3,6 +3,7 @@
 EAPI="7"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 VALA_MIN_API_VERSION="0.34"
+VALA_MAX_API_VERSION="0.54"
 
 inherit gnome.org gnome2-utils meson python-any-r1 vala xdg
 

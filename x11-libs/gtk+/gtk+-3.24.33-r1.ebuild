@@ -140,7 +140,7 @@ src_prepare() {
 	# Fix broken autotools logic
 	eapply "${FILESDIR}"/${PN}-3.22.20-libcloudproviders-automagic.patch
 
-	# bug #836763
+	# bug #835966
 	git apply "${DISTDIR}/${PN}-3.24.33-add-legacy-icons.patch" || die
 
 	# call eapply_user (implicitly) before eautoreconf

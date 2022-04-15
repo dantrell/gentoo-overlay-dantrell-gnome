@@ -13,7 +13,7 @@ LICENSE="GPL-2+ LGPL-2+"
 SLOT="0/1" # subslot = suffix of libgcr-base-3 and co
 KEYWORDS="*"
 
-IUSE="gtk gtk-doc +introspection test +vala"
+IUSE="gtk gtk-doc +introspection systemd test +vala"
 REQUIRED_USE="vala? ( introspection )"
 
 RESTRICT="!test? ( test )"
@@ -25,6 +25,7 @@ DEPEND="
 	gtk? ( >=x11-libs/gtk+-3.22:3[introspection?] )
 	>=sys-apps/dbus-1
 	introspection? ( >=dev-libs/gobject-introspection-1.58:= )
+	systemd? ( sys-apps/systemd:= )
 "
 RDEPEND="${DEPEND}"
 PDEPEND="app-crypt/gnupg"
@@ -47,6 +48,9 @@ PATCHES=(
 	# From Gentoo:
 	# 	https://bugs.gentoo.org/831428
 	"${FILESDIR}"/${PN}-3.40.0-meson-0.61-build.patch
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/gcr/-/commit/96e76ee482dad2a0d71f9a5a5a6558d272d538ca
+	"${FILESDIR}"/${PN}-9999-unbreak-build-without-systemd.patch
 )
 
 pkg_setup() {
@@ -65,6 +69,8 @@ src_configure() {
 		$(meson_use gtk-doc gtk_doc)
 		-Dgpg_path="${EPREFIX}"/usr/bin/gpg
 		$(meson_use vala vapi)
+		-Dssh_agent=true
+		$(meson_feature systemd)
 	)
 	meson_src_configure
 }

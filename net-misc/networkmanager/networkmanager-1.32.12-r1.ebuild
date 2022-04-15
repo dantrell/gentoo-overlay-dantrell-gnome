@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 GNOME_ORG_MODULE="NetworkManager"
 VALA_USE_DEPEND="vapigen"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
@@ -12,9 +12,9 @@ HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0" # add subslot if libnm-util.so.2 or libnm-glib.so.4 bumps soname version
-KEYWORDS=""
+KEYWORDS="~*"
 
-IUSE="audit bluetooth +concheck connection-sharing debug +dhclient dhcpcd elogind gnutls +gtk-doc +introspection iptables iwd kernel_linux psl lto +nss nftables +modemmanager ofono ovs policykit +ppp resolvconf selinux syslog systemd teamd test +tools vala +vanilla +wext +wifi"
+IUSE="audit bluetooth ck +concheck connection-sharing consolekit debug +dhclient dhcpcd elogind gnutls gtk-doc +introspection iptables iwd kernel_linux psl lto +nss nftables +modemmanager ofono ovs policykit +ppp resolvconf selinux syslog systemd teamd test +tools vala +vanilla +wext +wifi"
 REQUIRED_USE="
 	bluetooth? ( modemmanager )
 	connection-sharing? ( || ( iptables nftables ) )
@@ -24,7 +24,7 @@ REQUIRED_USE="
 	vanilla? ( !dhcpcd )
 	wext? ( wifi )
 	^^ ( gnutls nss )
-	?? ( elogind systemd )
+	?? ( ck consolekit elogind systemd )
 	?? ( dhclient dhcpcd )
 	?? ( syslog systemd )
 "
@@ -33,6 +33,8 @@ RESTRICT="!test? ( test )"
 
 COMMON_DEPEND="
 	sys-apps/util-linux[${MULTILIB_USEDEP}]
+	ck? ( >=sys-power/upower-0.99:=[ck] )
+	consolekit? ( >=sys-auth/consolekit-0.9 )
 	elogind? ( >=sys-auth/elogind-219 )
 	>=virtual/libudev-175:=[${MULTILIB_USEDEP}]
 	sys-apps/dbus
@@ -97,6 +99,7 @@ DEPEND="${COMMON_DEPEND}
 "
 BDEPEND="
 	dev-util/gdbus-codegen
+	!gtk-doc? ( dev-util/gtk-doc-am )
 	gtk-doc? (
 		dev-util/gtk-doc
 		app-text/docbook-xml-dtd:4.1.2
@@ -120,11 +123,11 @@ BDEPEND="
 
 python_check_deps() {
 	if use introspection; then
-		has_version "dev-python/pygobject:3[${PYTHON_USEDEP}]" || return
+		has_version -b "dev-python/pygobject:3[${PYTHON_USEDEP}]" || return
 	fi
 	if use test; then
-		has_version "dev-python/dbus-python[${PYTHON_USEDEP}]" &&
-		has_version "dev-python/pygobject:3[${PYTHON_USEDEP}]"
+		has_version -b "dev-python/dbus-python[${PYTHON_USEDEP}]" &&
+		has_version -b "dev-python/pygobject:3[${PYTHON_USEDEP}]"
 	fi
 }
 
@@ -179,7 +182,7 @@ src_prepare() {
 		root password, add your user account to the 'plugdev' group."
 
 	default
-	use vala && vala_src_prepare
+	use vala && vala_setup
 
 	sed -i \
 		-e 's#/usr/bin/sed#/bin/sed#' \
@@ -263,7 +266,15 @@ multilib_src_configure() {
 		$(meson_use lto b_lto)
 	)
 
-	if multilib_is_native_abi && use systemd; then
+	if multilib_is_native_abi && use ck; then
+		emesonargs+=( -Dsession_tracking_consolekit=true )
+		emesonargs+=( -Dsession_tracking=no )
+		emesonargs+=( -Dsuspend_resume=upower )
+	elif multilib_is_native_abi && use consolekit; then
+		emesonargs+=( -Dsession_tracking_consolekit=true )
+		emesonargs+=( -Dsession_tracking=no )
+		emesonargs+=( -Dsuspend_resume=consolekit )
+	elif multilib_is_native_abi && use systemd; then
 		emesonargs+=( -Dsession_tracking_consolekit=false )
 		emesonargs+=( -Dsession_tracking=systemd )
 		emesonargs+=( -Dsuspend_resume=systemd )

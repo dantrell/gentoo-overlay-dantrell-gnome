@@ -1,9 +1,3 @@
-~net-misc/networkmanager-1.20.12::dantrell-gnome **
-~net-misc/networkmanager-1.22.16::dantrell-gnome **
-~net-misc/networkmanager-1.24.2::dantrell-gnome **
-~net-misc/networkmanager-1.26.8::dantrell-gnome **
-~net-misc/networkmanager-1.28.2::dantrell-gnome **
-~net-misc/networkmanager-1.30.6::dantrell-gnome **
 app-emulation/libvirt-glib::dantrell-gnome **
 gnome-base/gdm::dantrell-gnome ~*
 gnome-extra/gnome-tweaks::dantrell-gnome **

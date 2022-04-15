@@ -3,9 +3,9 @@
 EAPI="7"
 PYTHON_REQ_USE="xml(+)"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
-USE_RUBY="ruby26 ruby27 ruby30"
+USE_RUBY="ruby26 ruby27 ruby30 ruby31"
 
-inherit check-reqs cmake flag-o-matic gnome2 python-any-r1 ruby-single toolchain-funcs
+inherit check-reqs flag-o-matic gnome2 python-any-r1 ruby-single toolchain-funcs cmake
 
 MY_P="webkitgtk-${PV}"
 DESCRIPTION="Open source web browser engine"
@@ -16,7 +16,7 @@ LICENSE="LGPL-2+ BSD"
 SLOT="4/37" # soname version of libwebkit2gtk-4.0
 KEYWORDS="*"
 
-IUSE="aqua avif +egl examples gamepad +geolocation gles2-only gnome-keyring +gstreamer gtk-doc +introspection +jpeg2k +jumbo-build lcms libnotify +opengl seccomp spell systemd wayland +X"
+IUSE="aqua avif +egl examples gamepad +geolocation gles2-only gnome-keyring +gstreamer gtk-doc +introspection +jpeg2k +jumbo-build lcms libnotify +opengl seccomp spell systemd test wayland +X"
 
 # gstreamer with opengl/gles2 needs egl
 REQUIRED_USE="

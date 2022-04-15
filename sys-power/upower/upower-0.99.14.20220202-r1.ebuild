@@ -3,7 +3,7 @@
 EAPI="7"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 
-inherit meson python-single-r1 systemd udev xdg-utils
+inherit autotools python-single-r1 systemd xdg-utils
 
 DESCRIPTION="D-Bus abstraction for enumerating power devices, listening to device events, querying history and statistics"
 HOMEPAGE="https://upower.freedesktop.org/"
@@ -11,15 +11,18 @@ SRC_URI="https://${PN}.freedesktop.org/releases/${PN}-0.99.3.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0/3" # based on SONAME of libupower-glib.so
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="ck doc integration-test +introspection ios selinux"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 DEPEND="
 	${PYTHON_DEPS}
+	>=dev-libs/dbus-glib-0.100
 	>=dev-libs/glib-2.34:2
+	dev-util/gdbus-codegen
 	sys-apps/dbus:=
+	>=sys-auth/polkit-0.110
 	ck? (
 		sys-power/acpid
 		sys-power/pm-utils
@@ -32,7 +35,8 @@ DEPEND="
 	)
 	introspection? ( dev-libs/gobject-introspection:= )
 	kernel_linux? (
-		>=dev-libs/libgudev-236:=
+		virtual/libusb:1
+		dev-libs/libgudev:=
 		virtual/udev
 		ios? (
 			>=app-pda/libimobiledevice-1:=
@@ -45,8 +49,10 @@ RDEPEND="${DEPEND}
 "
 BDEPEND="
 	app-text/docbook-xsl-stylesheets
+	dev-libs/gobject-introspection-common
 	dev-libs/libxslt
 	dev-util/gdbus-codegen
+	dev-util/intltool
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	doc? ( dev-util/gtk-doc )
@@ -600,6 +606,7 @@ src_prepare() {
 
 	default
 	xdg_environment_reset
+	eautoreconf
 }
 
 src_configure() {
@@ -611,18 +618,22 @@ src_configure() {
 		backend=dummy
 	fi
 
-	local emesonargs=(
-		--localstatedir "${EPREFIX}"/var
-
-		-Dman=true
-		$(meson_use doc gtk-doc)
-		$(meson_feature introspection)
-		-Dudevrulesdir="${EPREFIX}$(get_udevdir)/rules.d"
-		-Dsystemdsystemunitdir="$(systemd_get_systemunitdir)"
-		-Dos_backend="${backend}"
-		$(meson_feature ios idevice)
+	local myeconfargs=(
+		--disable-static
+		--disable-tests
+		--enable-man-pages
+		--libexecdir="${EPREFIX}"/usr/lib/${PN}
+		--localstatedir="${EPREFIX}"/var
+		--with-backend=${backend}
+		--with-html-dir="${EPREFIX}"/usr/share/doc/${PF}/html
+		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
+		--with-systemdutildir="$(systemd_get_utildir)"
+		$(use_enable ck deprecated)
+		$(use_enable doc gtk-doc-html)
+		$(use_enable introspection)
+		$(use_with ios idevice)
 	)
-	meson_src_configure
+	econf "${myeconfargs[@]}"
 }
 
 src_install() {
@@ -638,7 +649,7 @@ src_install() {
 		newbin src/linux/integration-test.py upower-integration-test
 	fi
 
-	meson_src_install
+	find "${ED}" -type f -name '*.la' -delete || die
 	keepdir /var/lib/upower #383091
 }
 

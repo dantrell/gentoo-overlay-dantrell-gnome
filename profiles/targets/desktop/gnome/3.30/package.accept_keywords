@@ -1,3 +1,4 @@
 sys-auth/elogind::dantrell-gnome ~*
 sys-auth/polkit::dantrell-gnome ~*
 <mail-client/geary-0.13.0::dantrell-gnome **
+>=net-misc/networkmanager-1.20.0::dantrell-gnome -*

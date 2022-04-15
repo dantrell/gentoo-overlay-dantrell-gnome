@@ -1,3 +1,4 @@
+dev-util/meson deprecated
 gnome-base/gnome-shell vanilla-gc
 net-libs/glib-networking smartcard
 net-libs/gnutls pkcs11

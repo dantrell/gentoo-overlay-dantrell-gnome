@@ -9,7 +9,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/GtkSourceView"
 
 LICENSE="LGPL-2.1+"
 SLOT="4"
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="glade gtk-doc +introspection +vala"
 REQUIRED_USE="vala? ( introspection )"
@@ -58,4 +58,10 @@ src_install() {
 
 	insinto /usr/share/${PN}-4.0/language-specs
 	newins "${FILESDIR}"/gentoo.lang/4.6.lang gentoo.lang || die
+
+	# Avoid conflict with gtksourceview:3.0 glade-catalog
+	# TODO: glade doesn't actually show multiple GtkSourceView widget collections, so with both installed, can't really be sure which ones are used
+	if use glade; then
+		mv "${ED}"/usr/share/glade/catalogs/gtksourceview.xml "${ED}"/usr/share/glade/catalogs/gtksourceview-${SLOT}.xml || die
+	fi
 }

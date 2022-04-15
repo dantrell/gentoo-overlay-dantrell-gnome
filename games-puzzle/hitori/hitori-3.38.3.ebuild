@@ -27,6 +27,8 @@ DEPEND="${RDEPEND}
 "
 
 PATCHES=(
+	# From Gentoo:
+	# 	https://bugs.gentoo.org/831462
 	"${FILESDIR}"/${PN}-3.38.3-meson-0.61-build.patch
 )
 

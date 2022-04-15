@@ -19,6 +19,7 @@
 >=net-libs/gupnp-igd-0.2.5-r10
 >=net-misc/dleyna-server-0.6.0
 >=net-misc/gupnp-tools-0.10.0
+>=sys-libs/libportal-0.4
 
 # Requires GLib 2.56 (or greater)
 >=app-arch/gnome-autoar-0.3.0

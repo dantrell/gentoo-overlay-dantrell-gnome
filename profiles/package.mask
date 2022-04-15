@@ -69,6 +69,7 @@ dev-libs/gmime::gentoo
 dev-libs/gom::gentoo
 dev-libs/json-glib::gentoo
 dev-libs/jsonrpc-glib::gentoo
+dev-libs/libIDL::gentoo
 dev-libs/libassuan::gentoo
 dev-libs/libcroco::gentoo
 dev-libs/libgames-support::gentoo
@@ -186,6 +187,8 @@ gnome-extra/yelp::gentoo
 gnome-extra/zenity::gentoo
 gui-libs/amtk::gentoo
 gui-libs/gtk::gentoo
+gui-libs/gtksourceview::gentoo
+gui-libs/libadwaita::gentoo
 gui-libs/libhandy::gentoo
 gui-libs/tepl::gentoo
 mail-client/geary::gentoo
@@ -381,6 +384,7 @@ sys-auth/polkit::gentoo
 sys-devel/gettext::gentoo
 sys-fs/udisks::gentoo
 sys-libs/libosinfo::gentoo
+sys-libs/libportal::gentoo
 sys-libs/pam::gentoo
 sys-power/acpid::gentoo
 sys-power/pm-quirks::gentoo

@@ -10,7 +10,7 @@ HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-autoar"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gtk gtk-doc +introspection test vala"
 REQUIRED_USE="vala? ( introspection ) gtk-doc? ( gtk )"

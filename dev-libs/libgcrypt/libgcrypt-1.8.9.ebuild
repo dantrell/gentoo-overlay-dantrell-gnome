@@ -16,7 +16,7 @@ LICENSE="LGPL-2.1 MIT"
 SLOT="0/20" # subslot = soname major version
 KEYWORDS="*"
 
-IUSE="doc o-flag-munging static-libs"
+IUSE="custom-cflags doc static-libs"
 
 RDEPEND=">=dev-libs/libgpg-error-1.25[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"
@@ -34,7 +34,6 @@ MULTILIB_CHOST_TOOLS=(
 
 src_prepare() {
 	default
-
 	eautoreconf
 }
 
@@ -64,7 +63,7 @@ multilib_src_configure() {
 
 		# required for sys-power/suspend[crypt], bug 751568
 		$(use_enable static-libs static)
-		$(use_enable o-flag-munging O-flag-munging)
+		$(use_enable !custom-cflags O-flag-munging)
 
 		# http://trac.videolan.org/vlc/ticket/620
 		# causes bus-errors on sparc64-solaris
@@ -73,25 +72,21 @@ multilib_src_configure() {
 
 		GPG_ERROR_CONFIG="${ESYSROOT}/usr/bin/${CHOST}-gpg-error-config"
 	)
-
 	ECONF_SOURCE="${S}" econf "${myeconfargs[@]}" \
 		$("${S}/configure" --help | grep -o -- '--without-.*-prefix')
 }
 
 multilib_src_compile() {
 	default
-
 	multilib_is_native_abi && use doc && VARTEXFONTS="${T}/fonts" emake -C doc gcrypt.pdf
 }
 
 multilib_src_install() {
 	emake DESTDIR="${D}" install
-
 	multilib_is_native_abi && use doc && dodoc doc/gcrypt.pdf
 }
 
 multilib_src_install_all() {
 	default
-
 	find "${ED}" -type f -name '*.la' -delete || die
 }

@@ -1,3 +1,4 @@
+app-admin/gnome-system-log::dantrell-gnome
 app-text/enchant:2::dantrell-gnome
 dev-lang/spidermonkey:24::dantrell-gnome
 dev-libs/libgames-support::dantrell-gnome
@@ -5,10 +6,14 @@ dev-libs/vala-common::dantrell-gnome
 dev-python/pygtk::dantrell-gnome
 dev-util/appdata-tools::dantrell-gnome
 gnome-base/libgnome-keyring::dantrell-gnome
+gnome-extra/gnome-search-tool::gentoo
+gnome-extra/gnome-utils::gentoo
 gnome-extra/nautilus-sendto::dantrell-gnome
 media-fonts/symbola::gentoo
 media-libs/gmtk::dantrell-gnome
 media-video/pipewire::dantrell-gnome
+net-misc/vinagre::dantrell-gnome
+net-misc/vino::dantrell-gnome
 sec-policy/selinux-consolekit
 sys-apps/bubblewrap::dantrell-gnome
 sys-auth/consolekit::dantrell-gnome

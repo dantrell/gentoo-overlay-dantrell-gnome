@@ -3,7 +3,7 @@
 EAPI="7"
 PYTHON_REQ_USE="xml(+)"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
-USE_RUBY="ruby26 ruby27 ruby30"
+USE_RUBY="ruby26 ruby27 ruby30 ruby31"
 
 inherit check-reqs cmake flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs virtualx
 

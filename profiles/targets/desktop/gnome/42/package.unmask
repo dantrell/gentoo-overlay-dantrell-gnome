@@ -11,7 +11,7 @@
 ~app-dicts/gnome-dictionary-40.0::dantrell-gnome
 ~app-editors/gedit-42.0::dantrell-gnome-42
 ~app-editors/gedit-plugins-42.0::dantrell-gnome-42
-~app-editors/ghex-3.18.4::dantrell-gnome
+~app-editors/ghex-42.0::dantrell-gnome-42
 ~app-editors/gnome-latex-3.38.0::dantrell-gnome
 ~app-editors/gnome-text-editor-42.0::dantrell-gnome-42
 ~app-misc/bijiben-40.1::dantrell-gnome
@@ -36,7 +36,7 @@
 ~dev-libs/atk-2.36.0::dantrell-gnome
 ~dev-libs/folks-0.15.5::dantrell-gnome
 ~dev-libs/gjs-1.72.0::dantrell-gnome-42
-~dev-libs/glib-2.72.0::dantrell-gnome
+~dev-libs/glib-2.72.1::dantrell-gnome
 ~dev-libs/gmime-3.2.9::dantrell-gnome
 ~dev-libs/gobject-introspection-1.72.0::dantrell-gnome-42
 ~dev-libs/gobject-introspection-common-1.72.0::dantrell-gnome-42
@@ -55,7 +55,7 @@
 ~dev-python/pyatspi-2.38.2::dantrell-gnome
 ~dev-python/pygobject-3.42.0::dantrell-gnome
 ~dev-util/devhelp-41.2::dantrell-gnome
-~dev-util/gdbus-codegen-2.72.0::dantrell-gnome
+~dev-util/gdbus-codegen-2.72.1::dantrell-gnome
 ~dev-util/glade-3.22.2::dantrell-gnome
 ~dev-util/gnome-builder-42.0::dantrell-gnome-42
 ~dev-util/gnome-devel-docs-40.3::dantrell-gnome
@@ -74,10 +74,10 @@
 ~games-puzzle/gnome-sudoku-42.0::dantrell-gnome-42
 ~games-puzzle/gnome-taquin-3.38.1::dantrell-gnome
 ~games-puzzle/gnome-tetravex-3.38.2::dantrell-gnome
-~games-puzzle/hitori-3.38.3::dantrell-gnome
+~games-puzzle/hitori-3.38.4::dantrell-gnome
 ~games-puzzle/lightsoff-40.0.1::dantrell-gnome
 ~games-puzzle/quadrapassel-40.2::dantrell-gnome
-~games-puzzle/swell-foop-41.0.1::dantrell-gnome
+~games-puzzle/swell-foop-41.1::dantrell-gnome
 ~gnome-base/dconf-0.40.0::dantrell-gnome
 ~gnome-base/dconf-editor-3.38.3::dantrell-gnome
 ~gnome-base/gdm-42.0::dantrell-gnome-42
@@ -127,6 +127,7 @@
 ~gnome-extra/yelp-xsl-42.0::dantrell-gnome-42
 ~gnome-extra/zenity-3.42.0::dantrell-gnome-42
 ~gui-libs/gtk-4.6.2::dantrell-gnome
+~gui-libs/libadwaita-1.1.0::dantrell-gnome
 ~gui-libs/libhandy-1.6.1::dantrell-gnome
 ~mail-client/evolution-3.44.0::dantrell-gnome-42
 ~mail-client/geary-40.0::dantrell-gnome
@@ -159,7 +160,7 @@
 ~net-libs/gssdp-1.4.0.1::dantrell-gnome
 ~net-libs/gupnp-av-0.14.0::dantrell-gnome
 ~net-libs/gupnp-igd-1.2.0::dantrell-gnome
-~net-libs/libnma-1.8.36::dantrell-gnome
+~net-libs/libnma-1.8.38::dantrell-gnome
 ~net-libs/libsoup-3.0.6::dantrell-gnome
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/phodav-2.5::dantrell-gnome
@@ -172,11 +173,11 @@
 ~sci-geosciences/gnome-maps-42.0::dantrell-gnome-42
 ~sys-apps/baobab-42.0::dantrell-gnome-42
 ~sys-apps/gnome-disk-utility-42.0::dantrell-gnome-42
-~www-client/epiphany-42.0::dantrell-gnome-42
+~www-client/epiphany-42.1::dantrell-gnome-42
 ~x11-libs/gdk-pixbuf-2.42.8::dantrell-gnome
 ~x11-libs/gtk+-3.24.33::dantrell-gnome
 ~x11-libs/libnotify-0.7.9::dantrell-gnome
-~x11-libs/pango-1.50.6::dantrell-gnome
+~x11-libs/pango-1.50.7::dantrell-gnome
 ~x11-libs/vte-0.68.0::dantrell-gnome-42
 ~x11-misc/gpaste-42.1::dantrell-gnome-42
 ~x11-terms/gnome-terminal-3.44.0::dantrell-gnome-42

@@ -2,3 +2,6 @@ app-office/gnome-todo libecal2
 gnome-base/gnome-shell vanilla-gc
 net-libs/glib-networking smartcard
 net-libs/gnutls pkcs11
+net-libs/libnma gtk4
+sys-libs/libportal gtk3
+sys-libs/libportal gtk4

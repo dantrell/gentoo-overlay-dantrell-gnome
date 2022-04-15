@@ -19,8 +19,8 @@ REQUIRED_USE="test? ( debug )"
 
 RESTRICT="!test? ( test )"
 
-RDEPEND=">=dev-libs/glib-2.44.1-r1:2[${MULTILIB_USEDEP}]
-	>=dev-libs/libIDL-0.8.14-r1[${MULTILIB_USEDEP}]
+RDEPEND=">=dev-libs/glib-2.8.0:2[${MULTILIB_USEDEP}]
+	>=dev-libs/libIDL-0.8.2[${MULTILIB_USEDEP}]
 "
 DEPEND="${RDEPEND}"
 BDEPEND="

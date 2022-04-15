@@ -1,9 +1,9 @@
+# Masked to test on GNOME 43 first
+>=net-libs/webkit-gtk-2.37.0
+
 # Masked to test on GNOME 42 first
 >=gnome-base/librsvg-2.51.0
 >=x11-libs/pango-1.51.0
-
-# Masked to test on GNOME 40 first
->=net-libs/webkit-gtk-2.35.0
 
 # Requires GLib 2.68 (or greater)
 >=dev-libs/gmime-3.2.11
@@ -96,7 +96,7 @@
 >=games-puzzle/hitori-3.40.0
 >=games-puzzle/lightsoff-41.0
 >=games-puzzle/quadrapassel-41.0
->=games-puzzle/swell-foop-40.0
+>=games-puzzle/swell-foop-41.0
 >=gnome-base/dconf-0.42.0
 >=gnome-base/dconf-editor-3.40.0
 >=gnome-base/gdm-41.0
@@ -150,7 +150,7 @@
 >=gnome-extra/sushi-41.0
 >=gnome-extra/yelp-41.0
 >=gnome-extra/yelp-xsl-41.0
->=gnome-extra/zenity-41.0
+>=gnome-extra/zenity-3.41.0
 >=gui-libs/libhandy-1.5.0
 >=gui-libs/tepl-7.0
 >=mail-client/evolution-3.42.0

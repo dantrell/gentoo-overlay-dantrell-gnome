@@ -10,9 +10,10 @@ SRC_URI="https://www.freedesktop.org/software/${PN}/releases/${P}.tar.gz"
 
 LICENSE="LGPL-2"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
-IUSE="examples gtk +introspection kde pam selinux systemd test"
+IUSE="ck consolekit elogind examples gtk +introspection kde pam selinux systemd test"
+REQUIRED_USE="?? ( ck consolekit elogind systemd )"
 
 # Tests currently don't work with meson. See
 #   https://gitlab.freedesktop.org/polkit/polkit/-/issues/144
@@ -33,19 +34,21 @@ DEPEND="
 	dev-lang/spidermonkey:78[-debug]
 	dev-libs/glib:2
 	dev-libs/expat
+	elogind? ( sys-auth/elogind )
 	pam? (
 		sys-auth/pambase
 		sys-libs/pam
 	)
 	!pam? ( virtual/libcrypt:= )
 	systemd? ( sys-apps/systemd:0=[policykit] )
-	!systemd? ( sys-auth/elogind )
 "
 RDEPEND="${DEPEND}
 	acct-user/polkitd
 	selinux? ( sec-policy/selinux-policykit )
 "
 PDEPEND="
+	ck? ( <sys-auth/consolekit-0.9[policykit] )
+	consolekit? ( >=sys-auth/consolekit-0.9[policykit] )
 	gtk? ( || (
 		>=gnome-extra/polkit-gnome-0.105
 		>=lxde-base/lxsession-0.5.2
@@ -59,11 +62,18 @@ QA_MULTILIB_PATHS="
 
 src_prepare() {
 	local PATCHES=(
-		"${FILESDIR}"/polkit-0.120-CVE-2021-4034.patch
+		# musl
+		"${FILESDIR}"/${PN}-0.118-make-netgroup-support-optional.patch
+		# Pending upstream
+		"${FILESDIR}"/${PN}-0.120-meson.patch
+
+		"${FILESDIR}"/${PN}-0.120-CVE-2021-4034.patch
 	)
+
 	default
 
-	sed -i -e 's|unix-group:wheel|unix-user:0|' src/polkitbackend/*-default.rules || die #401513
+	# bug #401513
+	sed -i -e 's|unix-group:wheel|unix-user:0|' src/polkitbackend/*-default.rules || die
 }
 
 src_configure() {
@@ -76,7 +86,7 @@ src_configure() {
 		-Dgtk_doc=false
 		-Dman=true
 		-Dos_type=gentoo
-		-Dsession_tracking="$(usex systemd libsystemd-login libelogind)"
+		-Dsession_tracking="$(usex systemd libsystemd-login $(usex elogind libelogind ConsoleKit))"
 		-Dsystemdsystemunitdir="$(systemd_get_systemunitdir)"
 		$(meson_use introspection)
 		$(meson_use test tests)

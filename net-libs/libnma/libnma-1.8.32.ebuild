@@ -9,7 +9,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 # pkcs11 default enabled as it's a small dep often already present by libnma users, and it was default enabled as IUSE=+gcr in nm-applet before
 IUSE="gtk-doc +introspection +pkcs11 vala"
