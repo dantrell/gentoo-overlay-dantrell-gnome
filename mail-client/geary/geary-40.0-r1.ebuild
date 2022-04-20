@@ -1,10 +1,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
+PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 VALA_MIN_API_VERSION="0.48"
 VALA_MAX_API_VERSION="0.54"
 
-inherit gnome.org gnome2-utils meson vala virtualx xdg
+inherit gnome.org gnome2-utils meson python-any-r1 vala virtualx xdg
 
 DESCRIPTION="A lightweight, easy-to-use, feature-rich email client"
 HOMEPAGE="https://wiki.gnome.org/Apps/Geary"
@@ -30,7 +31,7 @@ DEPEND="
 	>=dev-libs/folks-0.11:0=
 	>=app-crypt/gcr-3.10.1:0=
 	>=dev-libs/libgee-0.8.5:0.8=
-	net-libs/gnome-online-accounts
+	net-libs/gnome-online-accounts:=
 	media-libs/gsound
 	>=app-text/gspell-1.7:=
 	>=dev-libs/icu-60:=
@@ -48,6 +49,7 @@ RDEPEND="${DEPEND}
 	gnome-base/gsettings-desktop-schemas
 "
 BDEPEND="
+	${PYTHON_DEPS}
 	>=dev-libs/appstream-glib-0.7.10
 	dev-libs/libxml2
 	dev-util/itstool

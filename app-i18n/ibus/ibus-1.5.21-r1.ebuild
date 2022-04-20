@@ -14,7 +14,7 @@ SRC_URI="https://github.com/${PN}/${PN}/releases/download/${PV}/${P}.tar.gz"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+X +emoji +gtk +gtk2 +gtk3 +introspection kde nls +python test +unicode vala wayland"
 REQUIRED_USE="emoji? ( gtk )

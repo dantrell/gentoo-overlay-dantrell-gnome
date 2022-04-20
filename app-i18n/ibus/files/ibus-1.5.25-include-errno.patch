@@ -1,0 +1,77 @@
+diff '--exclude=.git' -urN a/conf/dconf/main.c b/conf/dconf/main.c
+--- a/conf/dconf/main.c	2021-08-19 19:48:40.000000000 -0500
++++ b/conf/dconf/main.c	2022-04-18 19:50:06.856222303 -0500
+@@ -24,6 +24,7 @@
+ #include <ibus.h>
+ #include <stdlib.h>
+ #include <locale.h>
++#include <errno.h>
+ #include "config-private.h"
+ 
+ static IBusBus *bus = NULL;
+diff '--exclude=.git' -urN a/portal/portal.c b/portal/portal.c
+--- a/portal/portal.c	2021-08-19 19:48:40.000000000 -0500
++++ b/portal/portal.c	2022-04-18 19:49:56.927263647 -0500
+@@ -30,6 +30,7 @@
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <unistd.h>
++#include <errno.h>
+ 
+ #include "ibus-portal-dbus.h"
+ 
+diff '--exclude=.git' -urN a/src/ibuscomposetable.c b/src/ibuscomposetable.c
+--- a/src/ibuscomposetable.c	2021-08-19 19:48:40.000000000 -0500
++++ b/src/ibuscomposetable.c	2022-04-18 19:39:59.162770895 -0500
+@@ -23,6 +23,7 @@
+ #include <glib/gstdio.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include <errno.h>
+ 
+ #include "ibuscomposetable.h"
+ #include "ibuserror.h"
+diff '--exclude=.git' -urN a/src/ibusemoji.c b/src/ibusemoji.c
+--- a/src/ibusemoji.c	2021-08-19 19:48:40.000000000 -0500
++++ b/src/ibusemoji.c	2022-04-18 19:49:19.016421499 -0500
+@@ -25,6 +25,7 @@
+ 
+ #include <glib.h>
+ #include <glib/gstdio.h>
++#include <errno.h>
+ #include "ibusemoji.h"
+ #include "ibusinternal.h"
+ 
+diff '--exclude=.git' -urN a/src/ibusregistry.c b/src/ibusregistry.c
+--- a/src/ibusregistry.c	2021-08-19 19:48:40.000000000 -0500
++++ b/src/ibusregistry.c	2022-04-18 19:49:06.638473034 -0500
+@@ -23,6 +23,7 @@
+ #include <gio/gio.h>
+ #include <glib/gstdio.h>
+ #include <string.h>
++#include <errno.h>
+ 
+ #include "ibusinternal.h"
+ #include "ibusmarshalers.h"
+diff '--exclude=.git' -urN a/src/ibusshare.c b/src/ibusshare.c
+--- a/src/ibusshare.c	2021-08-19 19:48:40.000000000 -0500
++++ b/src/ibusshare.c	2022-04-18 19:48:45.787559844 -0500
+@@ -32,6 +32,7 @@
+ #include <stdio.h>
+ #include <string.h>
+ #include <ibus.h>
++#include <errno.h>
+ 
+ static gchar *_display = NULL;
+ 
+diff '--exclude=.git' -urN a/src/ibusunicode.c b/src/ibusunicode.c
+--- a/src/ibusunicode.c	2021-08-19 19:48:40.000000000 -0500
++++ b/src/ibusunicode.c	2022-04-18 19:48:31.868617792 -0500
+@@ -25,6 +25,7 @@
+ 
+ #include <glib.h>
+ #include <glib/gstdio.h>
++#include <errno.h>
+ #include "ibusinternal.h"
+ #include "ibuserror.h"
+ #include "ibusunicode.h"

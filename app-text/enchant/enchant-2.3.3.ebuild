@@ -2,17 +2,16 @@
 
 EAPI="8"
 
-MY_PV="${PV//./-}"
 DESCRIPTION="Spellchecker wrapping library"
 HOMEPAGE="https://abiword.github.io/enchant/"
-SRC_URI="https://github.com/AbiWord/enchant/releases/download/${PN}-${MY_PV}/${P}.tar.gz"
+SRC_URI="https://github.com/AbiWord/enchant/releases/download/v${PV}/${P}.tar.gz"
 
 LICENSE="LGPL-2.1+"
-SLOT="0"
+SLOT="2/3"
 KEYWORDS="*"
 
-IUSE="aspell +hunspell test"
-REQUIRED_USE="|| ( aspell hunspell )"
+IUSE="aspell +hunspell nuspell test voikko"
+REQUIRED_USE="|| ( aspell hunspell nuspell )"
 
 RESTRICT="!test? ( test )"
 
@@ -20,9 +19,11 @@ COMMON_DEPEND="
 	>=dev-libs/glib-2.6:2
 	aspell? ( app-text/aspell )
 	hunspell? ( >=app-text/hunspell-1.2.1:0= )
+	nuspell? ( >=app-text/nuspell-5.1.0:0= )
+	voikko? ( dev-libs/libvoikko )
 "
 RDEPEND="${COMMON_DEPEND}
-	!>app-text/enchant-2.3.3:2
+	!=app-text/enchant-1.6.1-r2:0
 "
 DEPEND="${COMMON_DEPEND}
 	test? ( >=dev-libs/unittest++-2.0.0-r2 )
@@ -30,25 +31,22 @@ DEPEND="${COMMON_DEPEND}
 BDEPEND="virtual/pkgconfig"
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-1.6.0-hunspell150_fix.patch
+	"${FILESDIR}"/${PN}-2.3.3-include-cstring.patch
 )
-
-src_prepare() {
-	default
-	sed -e "s/build_zemberek=yes//" -i "${S}"/configure{.ac,} || die # bug 662484
-}
 
 src_configure() {
 	local myconf=(
+		--datadir="${EPREFIX}"/usr/share/enchant-2
 		--disable-static
-		$(use_enable aspell)
-		$(use_enable hunspell myspell)
-		--disable-hspell
-		--disable-ispell
-		--disable-uspell
-		--disable-voikko
-		--disable-zemberek
-		--with-myspell-dir="${EPREFIX}"/usr/share/myspell/
+		$(use_enable test relocatable)
+		$(use_with aspell)
+		$(use_with hunspell)
+		$(use_with nuspell)
+		$(use_with voikko)
+		--without-hspell
+		--without-applespell
+		--without-zemberek
+		--with-hunspell-dir="${EPREFIX}"/usr/share/hunspell/
 	)
 	econf "${myconf[@]}"
 }

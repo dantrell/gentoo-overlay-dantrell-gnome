@@ -11,7 +11,7 @@
 ~app-dicts/gnome-dictionary-40.0::dantrell-gnome
 ~app-editors/gedit-42.0::dantrell-gnome-42
 ~app-editors/gedit-plugins-42.0::dantrell-gnome-42
-~app-editors/ghex-42.0::dantrell-gnome-42
+~app-editors/ghex-42.1::dantrell-gnome-42
 ~app-editors/gnome-latex-3.38.0::dantrell-gnome
 ~app-editors/gnome-text-editor-42.0::dantrell-gnome-42
 ~app-misc/bijiben-40.1::dantrell-gnome
@@ -20,8 +20,7 @@
 ~app-misc/tracker-3.3.0::dantrell-gnome-42
 ~app-misc/tracker-miners-3.3.0::dantrell-gnome-42
 ~app-office/gnome-todo-41.0::dantrell-gnome
-~app-text/enchant-2.2.8::dantrell-gnome
-~app-text/evince-42.1::dantrell-gnome-42
+~app-text/evince-42.2::dantrell-gnome-42
 ~app-text/gspell-1.9.1::dantrell-gnome
 ~app-text/libgepub-0.6.0::dantrell-gnome
 ~app-text/libgxps-0.3.2::dantrell-gnome
@@ -53,7 +52,7 @@
 ~dev-libs/totem-pl-parser-3.26.6::dantrell-gnome
 ~dev-libs/vala-common-0.54.8::dantrell-gnome
 ~dev-python/pyatspi-2.38.2::dantrell-gnome
-~dev-python/pygobject-3.42.0::dantrell-gnome
+~dev-python/pygobject-3.42.1::dantrell-gnome
 ~dev-util/devhelp-41.2::dantrell-gnome
 ~dev-util/gdbus-codegen-2.72.1::dantrell-gnome
 ~dev-util/glade-3.22.2::dantrell-gnome
@@ -137,7 +136,7 @@
 ~media-gfx/gnome-font-viewer-42.0::dantrell-gnome-42
 ~media-gfx/gnome-photos-42.0::dantrell-gnome-42
 ~media-gfx/gnome-screenshot-41.0::dantrell-gnome
-~media-gfx/simple-scan-42.0::dantrell-gnome-42
+~media-gfx/simple-scan-42.1::dantrell-gnome-42
 ~media-libs/clutter-1.26.4::dantrell-gnome
 ~media-libs/clutter-gst-3.0.27::dantrell-gnome
 ~media-libs/clutter-gtk-1.8.4::dantrell-gnome

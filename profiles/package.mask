@@ -88,6 +88,7 @@ dev-libs/liblouis::gentoo
 dev-libs/libmanette::gentoo
 dev-libs/libpcre2::gentoo
 dev-libs/libpeas::gentoo
+dev-libs/libportal::gentoo
 dev-libs/libsigc++::gentoo
 dev-libs/libunistring::gentoo
 dev-libs/npth::gentoo
@@ -384,7 +385,6 @@ sys-auth/polkit::gentoo
 sys-devel/gettext::gentoo
 sys-fs/udisks::gentoo
 sys-libs/libosinfo::gentoo
-sys-libs/libportal::gentoo
 sys-libs/pam::gentoo
 sys-power/acpid::gentoo
 sys-power/pm-quirks::gentoo

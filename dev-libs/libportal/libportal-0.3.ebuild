@@ -14,6 +14,8 @@ KEYWORDS="*"
 
 RDEPEND="
 	dev-libs/glib:2
+
+	!sys-libs/libportal
 "
 DEPEND="${RDEPEND}"
 BDEPEND="

@@ -1,8 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
+PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 
-inherit gnome.org gnome2-utils meson xdg vala
+inherit gnome.org gnome2-utils meson python-any-r1 xdg vala
 
 DESCRIPTION="Manage your passwords and encryption keys"
 HOMEPAGE="https://wiki.gnome.org/Apps/Seahorse"
@@ -35,6 +36,7 @@ DEPEND="${RDEPEND}
 	gui-libs/libhandy:1[vala]
 "
 BDEPEND="
+	${PYTHON_DEPS}
 	app-text/docbook-xml-dtd:4.2
 	app-text/docbook-xsl-stylesheets
 	dev-libs/appstream-glib
@@ -45,9 +47,14 @@ BDEPEND="
 	virtual/pkgconfig
 "
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-41.0-meson-fix-gpg-version-check-for-recent-gnupg.patch
+)
+
 src_prepare() {
-	xdg_src_prepare
+	default
 	vala_src_prepare
+	gnome2_environment_reset
 }
 
 src_configure() {

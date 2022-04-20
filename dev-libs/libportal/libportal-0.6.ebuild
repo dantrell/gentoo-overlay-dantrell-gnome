@@ -25,6 +25,8 @@ RDEPEND="
 	gtk4? ( >=gui-libs/gtk-4.4:4[introspection?] )
 	introspection? ( dev-libs/gobject-introspection:= )
 	qt5? ( dev-qt/qtcore:5 )
+
+	!sys-libs/libportal
 "
 DEPEND="${RDEPEND}"
 BDEPEND="

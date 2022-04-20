@@ -19,7 +19,6 @@
 ~app-misc/tracker-3.2.1::dantrell-gnome-41
 ~app-misc/tracker-miners-3.2.2::dantrell-gnome-41
 ~app-office/gnome-todo-41.0::dantrell-gnome
-~app-text/enchant-2.2.8::dantrell-gnome
 ~app-text/evince-41.4::dantrell-gnome-41
 ~app-text/gspell-1.9.1::dantrell-gnome
 ~app-text/libgepub-0.6.0::dantrell-gnome
@@ -51,7 +50,7 @@
 ~dev-libs/totem-pl-parser-3.26.6::dantrell-gnome
 ~dev-libs/vala-common-0.54.8::dantrell-gnome
 ~dev-python/pyatspi-2.38.2::dantrell-gnome
-~dev-python/pygobject-3.42.0::dantrell-gnome
+~dev-python/pygobject-3.42.1::dantrell-gnome
 ~dev-util/devhelp-41.2::dantrell-gnome
 ~dev-util/gdbus-codegen-2.70.5::dantrell-gnome
 ~dev-util/glade-3.22.2::dantrell-gnome

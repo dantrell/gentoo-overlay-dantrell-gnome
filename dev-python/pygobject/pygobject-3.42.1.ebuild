@@ -39,10 +39,6 @@ BDEPEND="
 	virtual/pkgconfig
 "
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-3.42.0-dynamicimporter-py310.patch
-)
-
 src_configure() {
 	configuring() {
 		meson_src_configure \

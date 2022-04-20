@@ -22,7 +22,7 @@ RDEPEND="
 	net-libs/rest:0.7
 	dev-libs/json-glib
 	>=gui-libs/libadwaita-1.0.0:1=
-	>=sys-libs/libportal-0.6[gtk4]
+	>=dev-libs/libportal-0.6[gtk4]
 	introspection? ( >=dev-libs/gobject-introspection-1.42:= )
 "
 DEPEND="${RDEPEND}"

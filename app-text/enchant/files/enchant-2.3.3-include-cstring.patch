@@ -1,0 +1,11 @@
+diff '--exclude=.git' -urN a/tests/enchant_providers/Dictionary/dictionary_suggest.cpp b/tests/enchant_providers/Dictionary/dictionary_suggest.cpp
+--- a/tests/enchant_providers/Dictionary/dictionary_suggest.cpp	2020-12-11 01:31:29.000000000 -0600
++++ b/tests/enchant_providers/Dictionary/dictionary_suggest.cpp	2022-04-19 09:42:06.164185317 -0500
+@@ -22,6 +22,7 @@
+ 
+ #include "../unittest_enchant_providers.h"
+ #include <vector>
++#include <cstring>
+ #include <glib.h>
+ #include <assert.h>
+ 

@@ -16,7 +16,7 @@ LICENSE="LGPL-2.1 MIT"
 SLOT="0/20" # subslot = soname major version
 KEYWORDS="*"
 
-IUSE="custom-cflags doc static-libs"
+IUSE="doc static-libs"
 
 RDEPEND=">=dev-libs/libgpg-error-1.25[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"
@@ -63,7 +63,6 @@ multilib_src_configure() {
 
 		# required for sys-power/suspend[crypt], bug 751568
 		$(use_enable static-libs static)
-		$(use_enable !custom-cflags O-flag-munging)
 
 		# http://trac.videolan.org/vlc/ticket/620
 		# causes bus-errors on sparc64-solaris

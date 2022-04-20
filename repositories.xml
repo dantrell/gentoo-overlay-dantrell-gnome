@@ -182,4 +182,43 @@
         <source type="git">git@github.com:dantrell/gentoo-overlay-dantrell-gnome-3-38.git</source>
         <feed>https://github.com/dantrell/gentoo-overlay-dantrell-gnome-3-38/commits/master.atom</feed>
     </repo>
+    <repo priority="100" quality="experimental" status="unofficial">
+        <name>dantrell-gnome-40</name>
+        <description lang="en">Dantrell B.'s Gentoo Overlay for GNOME (40)</description>
+        <homepage>https://github.com/dantrell/gentoo-project-gnome-without-systemd</homepage>
+        <owner>
+            <name>Dantrell B.</name>
+            <email>dantrell@mirthil.org</email>
+        </owner>
+        <source type="git">https://github.com/dantrell/gentoo-overlay-dantrell-gnome-40.git</source>
+        <source type="git">git://github.com/dantrell/gentoo-overlay-dantrell-gnome-40.git</source>
+        <source type="git">git@github.com:dantrell/gentoo-overlay-dantrell-gnome-40.git</source>
+        <feed>https://github.com/dantrell/gentoo-overlay-dantrell-gnome-40/commits/master.atom</feed>
+    </repo>
+    <repo priority="100" quality="experimental" status="unofficial">
+        <name>dantrell-gnome-41</name>
+        <description lang="en">Dantrell B.'s Gentoo Overlay for GNOME (41)</description>
+        <homepage>https://github.com/dantrell/gentoo-project-gnome-without-systemd</homepage>
+        <owner>
+            <name>Dantrell B.</name>
+            <email>dantrell@mirthil.org</email>
+        </owner>
+        <source type="git">https://github.com/dantrell/gentoo-overlay-dantrell-gnome-41.git</source>
+        <source type="git">git://github.com/dantrell/gentoo-overlay-dantrell-gnome-41.git</source>
+        <source type="git">git@github.com:dantrell/gentoo-overlay-dantrell-gnome-41.git</source>
+        <feed>https://github.com/dantrell/gentoo-overlay-dantrell-gnome-41/commits/master.atom</feed>
+    </repo>
+    <repo priority="100" quality="experimental" status="unofficial">
+        <name>dantrell-gnome-42</name>
+        <description lang="en">Dantrell B.'s Gentoo Overlay for GNOME (42)</description>
+        <homepage>https://github.com/dantrell/gentoo-project-gnome-without-systemd</homepage>
+        <owner>
+            <name>Dantrell B.</name>
+            <email>dantrell@mirthil.org</email>
+        </owner>
+        <source type="git">https://github.com/dantrell/gentoo-overlay-dantrell-gnome-42.git</source>
+        <source type="git">git://github.com/dantrell/gentoo-overlay-dantrell-gnome-42.git</source>
+        <source type="git">git@github.com:dantrell/gentoo-overlay-dantrell-gnome-42.git</source>
+        <feed>https://github.com/dantrell/gentoo-overlay-dantrell-gnome-42/commits/master.atom</feed>
+    </repo>
 </repositories>
