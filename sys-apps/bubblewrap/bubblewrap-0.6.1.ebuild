@@ -30,6 +30,10 @@ BDEPEND="
 	virtual/pkgconfig
 "
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-0.6.1-clang-printf.patch
+)
+
 pkg_setup() {
 	if [[ ${MERGE_TYPE} != buildonly ]]; then
 		CONFIG_CHECK="~UTS_NS ~IPC_NS ~USER_NS ~PID_NS ~NET_NS"

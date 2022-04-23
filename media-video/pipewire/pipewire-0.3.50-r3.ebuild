@@ -111,7 +111,10 @@ DOCS=( {README,INSTALL}.md NEWS )
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.3.25-enable-failed-mlock-warning.patch
+
 	"${FILESDIR}"/${PN}-0.3.50-fix-spa-header.patch
+	"${FILESDIR}"/${PN}-0.3.50-treewide-retain-sections-to.patch
+	"${FILESDIR}"/${PN}-0.3.49-x86-cast.patch
 )
 
 # limitsdfile related code taken from =sys-auth/realtime-base-0.1

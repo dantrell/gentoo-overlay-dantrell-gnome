@@ -123,8 +123,8 @@
 ~gnome-extra/yelp-41.2::dantrell-gnome-41
 ~gnome-extra/yelp-xsl-41.1::dantrell-gnome-41
 ~gnome-extra/zenity-3.41.0::dantrell-gnome-41
-~gui-libs/libadwaita-1.1.0::dantrell-gnome
-~gui-libs/libhandy-1.4.0::dantrell-gnome
+~gui-libs/libadwaita-1.1.1::dantrell-gnome
+~gui-libs/libhandy-1.4.1::dantrell-gnome
 ~mail-client/evolution-3.42.4::dantrell-gnome-41
 ~mail-client/geary-40.0::dantrell-gnome
 ~media-fonts/cantarell-0.303.1::dantrell-gnome
@@ -167,7 +167,7 @@
 ~sci-geosciences/gnome-maps-41.4::dantrell-gnome-41
 ~sys-apps/baobab-41.0::dantrell-gnome-41
 ~sys-apps/gnome-disk-utility-41.0::dantrell-gnome-41
-~www-client/epiphany-41.3::dantrell-gnome-41
+~www-client/epiphany-41.4::dantrell-gnome-41
 ~x11-libs/gdk-pixbuf-2.42.8::dantrell-gnome
 ~x11-libs/gtksourceview-4.8.3::dantrell-gnome
 ~x11-libs/gtk+-3.24.33::dantrell-gnome

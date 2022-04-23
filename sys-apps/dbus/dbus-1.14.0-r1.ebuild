@@ -1,23 +1,22 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
+
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 TMPFILES_OPTIONAL=1
 
 inherit autotools flag-o-matic linux-info python-any-r1 readme.gentoo-r1 systemd tmpfiles virtualx multilib-minimal
 
 DESCRIPTION="A message bus system, a simple way for applications to talk to each other"
-HOMEPAGE="https://dbus.freedesktop.org/"
-SRC_URI="https://dbus.freedesktop.org/releases/dbus/${P}.tar.gz"
+HOMEPAGE="https://www.freedesktop.org/wiki/Software/dbus/"
+SRC_URI="https://dbus.freedesktop.org/releases/dbus/${P}.tar.xz"
 
 LICENSE="|| ( AFL-2.1 GPL-2 )"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="debug doc elogind selinux static-libs systemd test user-session X"
-REQUIRED_USE="
-	?? ( elogind systemd )
-"
+REQUIRED_USE="?? ( elogind systemd )"
 
 RESTRICT="!test? ( test )"
 
@@ -64,7 +63,11 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-enable-elogind.patch
 	"${FILESDIR}"/${PN}-daemon-optional.patch # bug #653136
 
+	"${FILESDIR}"/${PN}-1.14.0-x-autoconf-fixes.patch
 	"${FILESDIR}"/${PN}-1.12.22-check-fd.patch
+
+	# https://bugs.gentoo.org/836560
+	"${FILESDIR}"/${PN}-1.14.0-oom_score_adj.patch
 )
 
 pkg_setup() {
@@ -77,12 +80,6 @@ pkg_setup() {
 }
 
 src_prepare() {
-	# Tests were restricted because of this
-	sed -i \
-		-e 's/.*bus_dispatch_test.*/printf ("Disabled due to excess noise\\n");/' \
-		-e '/"dispatch"/d' \
-		bus/test-main.c || die
-
 	default
 
 	if [[ ${CHOST} == *-solaris* ]]; then
@@ -92,14 +89,16 @@ src_prepare() {
 			configure.ac || die
 	fi
 
-	# required for bug 263909, cross-compile so don't remove eautoreconf
+	# required for bug #263909, cross-compile so don't remove eautoreconf
 	eautoreconf
 }
 
 src_configure() {
 	local rundir=$(usex kernel_linux /run /var/run)
+
 	sed -e "s;@rundir@;${EPREFIX}${rundir};g" "${FILESDIR}"/dbus.initd.in \
 		> "${T}"/dbus.initd || die
+
 	multilib-minimal_src_configure
 }
 
@@ -109,7 +108,7 @@ multilib_src_configure() {
 	# so we can get backtraces from apps
 	case ${CHOST} in
 		*-mingw*)
-			# error: unrecognized command line option '-rdynamic' wrt #488036
+			# error: unrecognized command line option '-rdynamic', bug #488036
 			;;
 		*)
 			append-flags -rdynamic
@@ -191,7 +190,7 @@ multilib_src_configure() {
 
 multilib_src_compile() {
 	if multilib_is_native_abi; then
-		# after the compile, it uses a selinuxfs interface to
+		# After the compile, it uses a selinuxfs interface to
 		# check if the SELinux policy has the right support
 		use selinux && addwrite /selinux/access
 
@@ -208,10 +207,9 @@ multilib_src_compile() {
 }
 
 src_test() {
-	# https://bugs.gentoo.org/836560
-	addwrite /proc/self/oom_score_adj
-
-	DBUS_VERBOSE=1 virtx emake -j1 -C "${TBD}" check
+	# DBUS_TEST_MALLOC_FAILURES=0 to avoid huge test logs
+	# https://gitlab.freedesktop.org/dbus/dbus/-/blob/master/CONTRIBUTING.md#L231
+	DBUS_TEST_MALLOC_FAILURES=0 DBUS_VERBOSE=1 virtx emake -j1 -C "${TBD}" check
 }
 
 multilib_src_install() {
@@ -229,25 +227,25 @@ multilib_src_install_all() {
 	newinitd "${T}"/dbus.initd dbus
 
 	if use X; then
-		# dbus X session script (#77504)
+		# dbus X session script (bug #77504)
 		# turns out to only work for GDM (and startx). has been merged into
 		# other desktop (kdm and such scripts)
 		exeinto /etc/X11/xinit/xinitrc.d
 		doexe "${FILESDIR}"/80-dbus
 	fi
 
-	# needs to exist for dbus sessions to launch
+	# Needs to exist for dbus sessions to launch
 	keepdir /usr/share/dbus-1/services
 	keepdir /etc/dbus-1/{session,system}.d
 	# machine-id symlink from pkg_postinst()
 	keepdir /var/lib/dbus
-	# let the init script create the /var/run/dbus directory
+	# Let the init script create the /var/run/dbus directory
 	rm -rf "${ED}"/var/run
 
-	# https://bugs.gentoo.org/761763
+	# sysusers.d configuration conflict (bug #761763)
 	rm -rf "${ED}"/usr/lib/sysusers.d
 
-	dodoc AUTHORS ChangeLog NEWS README doc/TODO
+	dodoc AUTHORS NEWS README doc/TODO
 	readme.gentoo_create_doc
 
 	find "${ED}" -name '*.la' -delete || die
@@ -260,7 +258,7 @@ pkg_postinst() {
 		tmpfiles_process dbus.conf
 	fi
 
-	# Ensure unique id is generated and put it in /etc wrt #370451 but symlink
+	# Ensure unique id is generated and put it in /etc wrt bug #370451 but symlink
 	# for DBUS_MACHINE_UUID_FILE (see tools/dbus-launch.c) and reverse
 	# dependencies with hardcoded paths (although the known ones got fixed already)
 	# TODO: should be safe to remove at least the ln because of the above tmpfiles_process?

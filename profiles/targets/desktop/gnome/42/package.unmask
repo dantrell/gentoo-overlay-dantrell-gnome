@@ -1,6 +1,6 @@
 ~app-accessibility/accerciser-3.38.0::dantrell-gnome
 ~app-accessibility/at-spi2-atk-2.38.0::dantrell-gnome
-~app-accessibility/at-spi2-core-2.44.0::dantrell-gnome-42
+~app-accessibility/at-spi2-core-2.44.1::dantrell-gnome-42
 ~app-accessibility/orca-42.0::dantrell-gnome-42
 ~app-arch/file-roller-3.42.0::dantrell-gnome
 ~app-arch/gcab-1.4::dantrell-gnome
@@ -13,7 +13,7 @@
 ~app-editors/gedit-plugins-42.0::dantrell-gnome-42
 ~app-editors/ghex-42.1::dantrell-gnome-42
 ~app-editors/gnome-latex-3.38.0::dantrell-gnome
-~app-editors/gnome-text-editor-42.0::dantrell-gnome-42
+~app-editors/gnome-text-editor-42.1::dantrell-gnome-42
 ~app-misc/bijiben-40.1::dantrell-gnome
 ~app-misc/geoclue-2.5.7::dantrell-gnome
 ~app-misc/gnote-42.0::dantrell-gnome-42
@@ -30,7 +30,7 @@
 ~dev-cpp/gtkmm-4.6.1::dantrell-gnome
 ~dev-cpp/mm-common-1.0.4::dantrell-gnome
 ~dev-cpp/pangomm-2.50.0::dantrell-gnome
-~dev-lang/vala-0.56.0::dantrell-gnome
+~dev-lang/vala-0.56.1::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.18::dantrell-gnome
 ~dev-libs/atk-2.36.0::dantrell-gnome
 ~dev-libs/folks-0.15.5::dantrell-gnome
@@ -56,7 +56,7 @@
 ~dev-util/devhelp-41.2::dantrell-gnome
 ~dev-util/gdbus-codegen-2.72.1::dantrell-gnome
 ~dev-util/glade-3.22.2::dantrell-gnome
-~dev-util/gnome-builder-42.0::dantrell-gnome-42
+~dev-util/gnome-builder-42.1::dantrell-gnome-42
 ~dev-util/gnome-devel-docs-40.3::dantrell-gnome
 ~dev-util/gtk-doc-1.33.2::dantrell-gnome
 ~dev-util/sysprof-3.44.0::dantrell-gnome-42
@@ -94,12 +94,12 @@
 ~gnome-base/gnome-settings-daemon-42.1::dantrell-gnome-42
 ~gnome-base/gnome-shell-42.0::dantrell-gnome-42
 ~gnome-base/gsettings-desktop-schemas-42.0::dantrell-gnome-42
-~gnome-base/gvfs-1.50.0::dantrell-gnome-42
+~gnome-base/gvfs-1.50.1::dantrell-gnome-42
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
 ~gnome-base/libgtop-2.40.0::dantrell-gnome
-~gnome-base/nautilus-42.0::dantrell-gnome-42
-~gnome-extra/evolution-data-server-3.44.0::dantrell-gnome-42
-~gnome-extra/evolution-ews-3.44.0::dantrell-gnome-42
+~gnome-base/nautilus-42.1.1::dantrell-gnome-42
+~gnome-extra/evolution-data-server-3.44.1::dantrell-gnome-42
+~gnome-extra/evolution-ews-3.44.1::dantrell-gnome-42
 ~gnome-extra/gnome-boxes-42.0.1::dantrell-gnome-42
 ~gnome-extra/gnome-calculator-42.0::dantrell-gnome-42
 ~gnome-extra/gnome-calendar-42.0::dantrell-gnome-42
@@ -126,9 +126,9 @@
 ~gnome-extra/yelp-xsl-42.0::dantrell-gnome-42
 ~gnome-extra/zenity-3.42.0::dantrell-gnome-42
 ~gui-libs/gtk-4.6.2::dantrell-gnome
-~gui-libs/libadwaita-1.1.0::dantrell-gnome
-~gui-libs/libhandy-1.6.1::dantrell-gnome
-~mail-client/evolution-3.44.0::dantrell-gnome-42
+~gui-libs/libadwaita-1.1.1::dantrell-gnome
+~gui-libs/libhandy-1.6.2::dantrell-gnome
+~mail-client/evolution-3.44.1::dantrell-gnome-42
 ~mail-client/geary-40.0::dantrell-gnome
 ~media-fonts/cantarell-0.303.1::dantrell-gnome
 ~media-gfx/eog-42.0::dantrell-gnome-42
@@ -169,10 +169,10 @@
 ~net-misc/rygel-0.40.3::dantrell-gnome
 ~net-wireless/gnome-bluetooth-42.0::dantrell-gnome-42
 ~sci-geosciences/geocode-glib-3.26.2::dantrell-gnome
-~sci-geosciences/gnome-maps-42.0::dantrell-gnome-42
+~sci-geosciences/gnome-maps-42.1::dantrell-gnome-42
 ~sys-apps/baobab-42.0::dantrell-gnome-42
 ~sys-apps/gnome-disk-utility-42.0::dantrell-gnome-42
-~www-client/epiphany-42.1::dantrell-gnome-42
+~www-client/epiphany-42.2::dantrell-gnome-42
 ~x11-libs/gdk-pixbuf-2.42.8::dantrell-gnome
 ~x11-libs/gtk+-3.24.33::dantrell-gnome
 ~x11-libs/libnotify-0.7.9::dantrell-gnome
