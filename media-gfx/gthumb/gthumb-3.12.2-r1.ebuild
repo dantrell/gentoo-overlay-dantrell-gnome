@@ -49,7 +49,7 @@ RDEPEND="
 	)
 
 	sys-libs/zlib
-	virtual/jpeg:0=
+	media-libs/libjpeg-turbo:0=
 	tiff? ( media-libs/tiff:= )
 	media-libs/libpng:0=
 	>=gnome-base/gsettings-desktop-schemas-0.1.4

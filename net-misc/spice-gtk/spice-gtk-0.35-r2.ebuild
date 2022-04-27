@@ -39,7 +39,7 @@ RDEPEND="
 	gtk3? ( x11-libs/gtk+:3[introspection?] )
 	>=dev-libs/glib-2.46:2
 	>=x11-libs/cairo-1.2
-	virtual/jpeg:0=
+	media-libs/libjpeg-turbo:0=
 	sys-libs/zlib
 	introspection? ( dev-libs/gobject-introspection:= )
 	lz4? ( app-arch/lz4 )

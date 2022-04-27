@@ -6,7 +6,7 @@ GNOME2_LA_PUNT="yes"
 inherit gnome2
 
 DESCRIPTION="The Eye of GNOME image viewer"
-HOMEPAGE="https://wiki.gnome.org/Apps/EyeOfGnome"
+HOMEPAGE="https://wiki.gnome.org/Apps/EyeOfGnome https://gitlab.gnome.org/GNOME/eog"
 
 LICENSE="GPL-2+"
 SLOT="1"
@@ -28,7 +28,7 @@ RDEPEND="
 
 	exif? ( >=media-libs/libexif-0.6.14 )
 	introspection? ( >=dev-libs/gobject-introspection-0.9.3:= )
-	jpeg? ( virtual/jpeg:0 )
+	jpeg? ( media-libs/libjpeg-turbo:0= )
 	lcms? ( media-libs/lcms:2 )
 	svg? ( >=gnome-base/librsvg-2.36.2:2 )
 	xmp? ( media-libs/exempi:2 )

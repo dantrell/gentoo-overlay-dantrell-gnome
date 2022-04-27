@@ -37,7 +37,7 @@ RDEPEND="
 
 	crypt? ( >=dev-libs/libgcrypt-1.1.90:0= )
 	gnome-keyring? ( app-crypt/libsecret )
-	jpeg? ( virtual/jpeg:0= )
+	jpeg? ( media-libs/libjpeg-turbo:0= )
 	ssl? ( >=net-libs/gnutls-2.2.0:= )
 	telepathy? (
 		dev-libs/dbus-glib

@@ -23,7 +23,7 @@ RDEPEND="
 	media-libs/libpng:0
 	>=x11-libs/cairo-1.10[svg]
 	introspection? ( >=dev-libs/gobject-introspection-0.10.1:= )
-	jpeg? ( virtual/jpeg:0 )
+	jpeg? ( media-libs/libjpeg-turbo:0= )
 	lcms? ( media-libs/lcms:2 )
 	tiff? ( media-libs/tiff:0[zlib] )
 "

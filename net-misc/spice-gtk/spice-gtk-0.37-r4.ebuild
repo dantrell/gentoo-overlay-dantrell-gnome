@@ -28,7 +28,7 @@ RDEPEND="
 	media-libs/gstreamer:1.0[introspection?]
 	media-libs/opus
 	sys-libs/zlib
-	virtual/jpeg:0=
+	media-libs/libjpeg-turbo:0=
 	>=x11-libs/cairo-1.2
 	>=x11-libs/pixman-0.17.7
 	gtk3? ( x11-libs/gtk+:3[introspection?] )

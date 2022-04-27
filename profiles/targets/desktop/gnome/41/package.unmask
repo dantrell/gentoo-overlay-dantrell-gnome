@@ -65,7 +65,6 @@
 ~games-board/gnome-mahjongg-3.38.3::dantrell-gnome
 ~games-board/gnome-mines-40.1::dantrell-gnome
 ~games-board/iagno-3.38.1::dantrell-gnome
-~games-board/tali-40.6::dantrell-gnome
 ~games-puzzle/five-or-more-3.32.3::dantrell-gnome
 ~games-puzzle/gnome-klotski-3.38.2::dantrell-gnome
 ~games-puzzle/gnome-sudoku-40.2::dantrell-gnome
@@ -143,7 +142,7 @@
 ~media-libs/libchamplain-0.12.20::dantrell-gnome
 ~media-libs/libmediaart-1.9.5::dantrell-gnome
 ~media-plugins/grilo-plugins-0.3.9::dantrell-gnome
-~media-sound/gnome-music-41.0::dantrell-gnome-41
+~media-sound/gnome-music-41.1::dantrell-gnome-41
 ~media-sound/gnome-sound-recorder-40.0::dantrell-gnome
 ~media-video/cheese-41.1::dantrell-gnome
 ~media-video/gnome-video-effects-0.5.0::dantrell-gnome

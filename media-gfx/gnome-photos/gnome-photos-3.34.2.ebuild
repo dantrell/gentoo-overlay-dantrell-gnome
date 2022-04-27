@@ -31,7 +31,7 @@ DEPEND="
 	>=dev-libs/libdazzle-3.26.0
 	>=dev-libs/libgdata-0.15.2:0=[gnome-online-accounts]
 	>=net-libs/libgfbgraph-0.2.1:0.2
-	virtual/jpeg:0
+	media-libs/libjpeg-turbo:0=
 	>=media-libs/libpng-1.6:0=
 	>=app-misc/tracker-2.0:0=
 	sys-apps/dbus

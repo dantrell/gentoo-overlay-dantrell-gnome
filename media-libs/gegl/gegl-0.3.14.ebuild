@@ -32,7 +32,7 @@ RDEPEND="
 	>=media-libs/babl-0.1.24
 	media-libs/libpng:0=
 	sys-libs/zlib
-	virtual/jpeg:0=
+	media-libs/libjpeg-turbo:0=
 	>=x11-libs/gdk-pixbuf-2.32:2
 	x11-libs/pango
 	cairo? ( x11-libs/cairo )

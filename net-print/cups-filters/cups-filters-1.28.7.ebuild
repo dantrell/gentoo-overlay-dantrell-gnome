@@ -31,7 +31,7 @@ RDEPEND="
 	sys-libs/zlib
 	dbus? ( sys-apps/dbus )
 	foomatic? ( !net-print/foomatic-filters )
-	jpeg? ( virtual/jpeg:0 )
+	jpeg? ( media-libs/libjpeg-turbo:0= )
 	ldap? ( net-nds/openldap:= )
 	pdf? ( app-text/mupdf )
 	perl? ( dev-lang/perl:= )

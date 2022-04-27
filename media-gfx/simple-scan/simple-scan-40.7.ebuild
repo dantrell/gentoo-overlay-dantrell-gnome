@@ -28,7 +28,7 @@ DEPEND="
 	webp? ( media-libs/libwebp )
 	>=media-gfx/sane-backends-1.0.20:=
 
-	virtual/jpeg:0=
+	media-libs/libjpeg-turbo:0=
 "
 RDEPEND="${DEPEND}
 	x11-misc/xdg-utils

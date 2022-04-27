@@ -61,7 +61,7 @@ python_prepare_all() {
 		-e 's/test_python_module/_&/'
 	)
 
-	sed -i "${disable_unittests[@]}" run_unittests.py || die
+	sed -i "${disable_unittests[@]}" unittests/*.py || die
 
 	# Broken due to python2 script created by python_wrapper_setup
 	rm -r "test cases/frameworks/1 boost" || die
@@ -74,8 +74,6 @@ src_test() {
 	if ${PKG_CONFIG} --exists Qt5Core && ! ${PKG_CONFIG} --exists Qt5Gui; then
 		ewarn "Found Qt5Core but not Qt5Gui; skipping tests"
 	else
-		# https://bugs.gentoo.org/687792
-		unset PKG_CONFIG
 		distutils-r1_src_test
 	fi
 }
@@ -84,6 +82,9 @@ python_test() {
 	(
 		# test_meson_installed
 		unset PYTHONDONTWRITEBYTECODE
+
+		# https://bugs.gentoo.org/687792
+		unset PKG_CONFIG
 
 		# test_cross_file_system_paths
 		unset XDG_DATA_HOME
@@ -98,7 +99,8 @@ python_test() {
 		# value in JAVA_HOME, and the tests should get skipped.
 		export JAVA_HOME=$(java-config -O 2>/dev/null)
 
-		${EPYTHON} -u run_tests.py
+		# Call python3 instead of EPYTHON to satisfy test_meson_uninstalled.
+		python3 run_tests.py
 	) || die "Testing failed with ${EPYTHON}"
 }
 

@@ -6,7 +6,7 @@ PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 inherit gnome2 python-single-r1
 
 DESCRIPTION="Eye of GNOME plugins"
-HOMEPAGE="https://wiki.gnome.org/Apps/EyeOfGnome/Plugins"
+HOMEPAGE="https://wiki.gnome.org/Apps/EyeOfGnome/Plugins https://gitlab.gnome.org/GNOME/eog-plugins"
 
 LICENSE="GPL-2"
 SLOT="0"

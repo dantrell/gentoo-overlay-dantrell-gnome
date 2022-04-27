@@ -29,7 +29,7 @@ COMMON_DEPEND="
 	>=x11-libs/pango-1.50.0[introspection?]
 	media-libs/libpng:0=
 	media-libs/tiff:0=
-	virtual/jpeg:0=
+	media-libs/libjpeg-turbo:0=
 	>=media-libs/harfbuzz-2.1.0:=
 	x11-misc/shared-mime-info
 

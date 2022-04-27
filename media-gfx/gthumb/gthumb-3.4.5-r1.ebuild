@@ -40,7 +40,7 @@ RDEPEND="
 	media-libs/libpng:0=
 	sys-libs/zlib
 	>=gnome-base/gsettings-desktop-schemas-0.1.4
-	jpeg? ( virtual/jpeg:0= )
+	jpeg? ( media-libs/libjpeg-turbo:0= )
 	tiff? ( media-libs/tiff:= )
 	!raw? ( media-gfx/dcraw )
 "

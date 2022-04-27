@@ -62,7 +62,7 @@ COMMON_DEPEND="${PYTHON_DEPS}
 		!graphicsmagick? ( media-gfx/imagemagick:=[cxx] )
 		graphicsmagick? ( media-gfx/graphicsmagick:=[cxx] )
 	)
-	jpeg? ( virtual/jpeg:0 )
+	jpeg? ( media-libs/libjpeg-turbo:0= )
 	lcms? ( media-libs/lcms:2 )
 	spell? (
 		app-text/aspell

@@ -6,7 +6,7 @@ PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 inherit gnome.org gnome2-utils meson python-any-r1 xdg
 
 DESCRIPTION="Beat the odds in a poker-style dice game"
-HOMEPAGE="https://wiki.gnome.org/Apps/Tali"
+HOMEPAGE="https://wiki.gnome.org/Apps/Tali https://gitlab.gnome.org/GNOME/tali"
 
 LICENSE="GPL-2+ FDL-1.1+"
 SLOT="0"

@@ -34,7 +34,7 @@ RDEPEND="
 	>=media-libs/babl-0.1.62
 	>=media-libs/libpng-1.6.0:0=
 	zlib? ( >=sys-libs/zlib-1.2.0 )
-	virtual/jpeg:0=
+	media-libs/libjpeg-turbo:0=
 	>=x11-libs/gdk-pixbuf-2.32:2
 	x11-libs/pango
 	cairo? ( >=x11-libs/cairo-1.12.2 )

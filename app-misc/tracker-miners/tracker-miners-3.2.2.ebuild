@@ -37,7 +37,7 @@ RDEPEND="
 	gsf? ( >=gnome-extra/libgsf-1.14.24:= )
 	xps? ( app-text/libgxps )
 	iptc? ( media-libs/libiptcdata )
-	jpeg? ( virtual/jpeg:0 )
+	jpeg? ( media-libs/libjpeg-turbo:0= )
 	iso? ( >=sys-libs/libosinfo-0.2.10 )
 	>=media-libs/libpng-1.2:0=
 	seccomp? ( >=sys-libs/libseccomp-2.0 )

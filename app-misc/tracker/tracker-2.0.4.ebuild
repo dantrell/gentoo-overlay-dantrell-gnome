@@ -57,7 +57,7 @@ RDEPEND="
 		>=x11-libs/gtk+-3:3 )
 	iptc? ( media-libs/libiptcdata )
 	iso? ( >=sys-libs/libosinfo-0.2.9:= )
-	jpeg? ( virtual/jpeg:0 )
+	jpeg? ( media-libs/libjpeg-turbo:0= )
 	upower? ( >=sys-power/upower-0.9:= )
 	mp3? ( >=media-libs/taglib-1.6 )
 	networkmanager? ( >=net-misc/networkmanager-0.8:= )

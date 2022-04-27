@@ -24,7 +24,7 @@ RESTRICT="!test? ( test )"
 DEPEND="
 	>=dev-libs/glib-2.44:2[${MULTILIB_USEDEP}]
 	crypt? ( >=dev-libs/libgcrypt-1.2.2:0=[${MULTILIB_USEDEP}] )
-	tpm? ( >=app-crypt/tpm2-tss-3.0.3 )
+	tpm? ( >=app-crypt/tpm2-tss-3.0.3:= )
 	introspection? ( >=dev-libs/gobject-introspection-1.29:= )
 "
 RDEPEND="${DEPEND}
@@ -48,7 +48,7 @@ BDEPEND="
 		tpm? (
 			app-crypt/swtpm
 			app-crypt/tpm2-abrmd
-			>=app-crypt/tpm2-tss-3.2.0
+			>=app-crypt/tpm2-tss-3.2.0:=
 		)
 	)
 	vala? ( $(vala_depend) )

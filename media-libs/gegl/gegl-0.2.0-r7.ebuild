@@ -24,7 +24,7 @@ RDEPEND="
 	png? ( media-libs/libpng:0= )
 	>=x11-libs/gdk-pixbuf-2.18:2
 	sys-libs/zlib
-	jpeg? ( virtual/jpeg:0 )
+	jpeg? ( media-libs/libjpeg-turbo:0= )
 	x11-libs/pango
 	cairo? ( x11-libs/cairo )
 	ffmpeg? ( >=media-video/ffmpeg-4:0= )

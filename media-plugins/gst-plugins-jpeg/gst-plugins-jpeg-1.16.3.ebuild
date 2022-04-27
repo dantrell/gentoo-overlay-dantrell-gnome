@@ -10,5 +10,5 @@ KEYWORDS="*"
 
 IUSE=""
 
-RDEPEND=">=virtual/jpeg-0-r2:0[${MULTILIB_USEDEP}]"
+RDEPEND=">=media-libs/libjpeg-turbo-0-r2:0=[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"
