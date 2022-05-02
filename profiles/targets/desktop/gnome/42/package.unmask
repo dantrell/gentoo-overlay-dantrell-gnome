@@ -11,7 +11,7 @@
 ~app-dicts/gnome-dictionary-40.0::dantrell-gnome
 ~app-editors/gedit-42.0::dantrell-gnome-42
 ~app-editors/gedit-plugins-42.0::dantrell-gnome-42
-~app-editors/ghex-42.1::dantrell-gnome-42
+~app-editors/ghex-42.2::dantrell-gnome-42
 ~app-editors/gnome-latex-3.38.0::dantrell-gnome
 ~app-editors/gnome-text-editor-42.1::dantrell-gnome-42
 ~app-misc/bijiben-40.1::dantrell-gnome
@@ -81,10 +81,10 @@
 ~gnome-base/gdm-42.0::dantrell-gnome-42
 ~gnome-base/gnome-42.0::dantrell-gnome-42
 ~gnome-base/gnome-applets-3.44.0::dantrell-gnome-42
-~gnome-base/gnome-control-center-42.0::dantrell-gnome-42
+~gnome-base/gnome-control-center-42.1::dantrell-gnome-42
 ~gnome-base/gnome-core-apps-42.0::dantrell-gnome-42
 ~gnome-base/gnome-core-libs-42.0::dantrell-gnome-42
-~gnome-base/gnome-desktop-42.0::dantrell-gnome-42
+~gnome-base/gnome-desktop-42.1::dantrell-gnome-42
 ~gnome-base/gnome-extra-apps-42.0::dantrell-gnome-42
 ~gnome-base/gnome-flashback-3.44.0::dantrell-gnome-42
 ~gnome-base/gnome-light-42.0::dantrell-gnome-42
@@ -101,7 +101,7 @@
 ~gnome-extra/evolution-ews-3.44.1::dantrell-gnome-42
 ~gnome-extra/gnome-boxes-42.0.1::dantrell-gnome-42
 ~gnome-extra/gnome-calculator-42.0::dantrell-gnome-42
-~gnome-extra/gnome-calendar-42.0::dantrell-gnome-42
+~gnome-extra/gnome-calendar-42.1::dantrell-gnome-42
 ~gnome-extra/gnome-characters-42.0::dantrell-gnome-42
 ~gnome-extra/gnome-clocks-42.0::dantrell-gnome-42
 ~gnome-extra/gnome-color-manager-3.36.0::dantrell-gnome
@@ -112,7 +112,7 @@
 ~gnome-extra/gnome-recipes-2.0.4::dantrell-gnome
 ~gnome-extra/gnome-shell-extensions-42.0::dantrell-gnome-42
 ~gnome-extra/gnome-shell-frippery-42.0::dantrell-gnome-42
-~gnome-extra/gnome-software-42.0::dantrell-gnome-42
+~gnome-extra/gnome-software-42.1::dantrell-gnome-42
 ~gnome-extra/gnome-system-monitor-42.0::dantrell-gnome-42
 ~gnome-extra/gnome-user-docs-42.0::dantrell-gnome-42
 ~gnome-extra/gnome-user-share-3.34.0::dantrell-gnome
@@ -123,8 +123,8 @@
 ~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
 ~gnome-extra/yelp-42.1::dantrell-gnome-42
 ~gnome-extra/yelp-xsl-42.0::dantrell-gnome-42
-~gnome-extra/zenity-3.42.0::dantrell-gnome-42
-~gui-libs/gtk-4.6.2::dantrell-gnome
+~gnome-extra/zenity-3.42.1::dantrell-gnome-42
+~gui-libs/gtk-4.6.3::dantrell-gnome
 ~gui-libs/libadwaita-1.1.1::dantrell-gnome
 ~gui-libs/libhandy-1.6.2::dantrell-gnome
 ~mail-client/evolution-3.44.1::dantrell-gnome-42

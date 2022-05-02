@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 
 inherit meson python-single-r1 systemd udev xdg-utils
@@ -13,8 +13,10 @@ LICENSE="GPL-2"
 SLOT="0/3" # based on SONAME of libupower-glib.so
 KEYWORDS=""
 
-IUSE="ck doc integration-test +introspection ios selinux"
+IUSE="ck doc +introspection ios selinux test"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
+
+RESTRICT="!test? ( test )"
 
 DEPEND="
 	${PYTHON_DEPS}
@@ -23,12 +25,6 @@ DEPEND="
 	ck? (
 		sys-power/acpid
 		sys-power/pm-utils
-	)
-	integration-test? (
-		$(python_gen_cond_dep '
-			dev-python/python-dbusmock[${PYTHON_USEDEP}]
-		')
-		dev-util/umockdev
 	)
 	introspection? ( dev-libs/gobject-introspection:= )
 	kernel_linux? (
@@ -50,14 +46,26 @@ BDEPEND="
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	doc? ( dev-util/gtk-doc )
+	test? (
+		$(python_gen_cond_dep '
+			dev-python/dbus-python[${PYTHON_USEDEP}]
+			dev-python/python-dbusmock[${PYTHON_USEDEP}]
+		')
+		dev-util/umockdev
+	)
 "
 
 QA_MULTILIB_PATHS="usr/lib/${PN}/.*"
 
 S="${WORKDIR}/${PN}-0.99.3"
 
+python_check_deps() {
+	python_has_version -b "dev-python/dbus-python[${PYTHON_USEDEP}]" &&
+	python_has_version -b "dev-python/python-dbusmock[${PYTHON_USEDEP}]"
+}
+
 pkg_setup() {
-	python-single-r1_pkg_setup
+	use test && python-single-r1_pkg_setup
 }
 
 src_prepare() {
@@ -591,7 +599,7 @@ src_prepare() {
 		#	https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=718491
 		eapply "${FILESDIR}"/${PN}-0.99.0-always-use-pm-utils-backend.patch
 
-		if use integration-test; then
+		if use test; then
 			# From UPower:
 			# 	https://cgit.freedesktop.org/upower/commit/?id=720680d6855061b136ecc9ff756fb0cc2bc3ae2c
 			eapply "${FILESDIR}"/${PN}-0.99.14-fix-integration-test.patch
@@ -634,7 +642,7 @@ src_install() {
 		dosym /usr/share/gtk-doc/html/UPower /usr/share/doc/${PF}/html
 	fi
 
-	if use integration-test; then
+	if use test; then
 		newbin src/linux/integration-test.py upower-integration-test
 	fi
 
@@ -643,6 +651,8 @@ src_install() {
 }
 
 pkg_postinst() {
+	udev_reload
+
 	if [[ ${REPLACING_VERSIONS} ]] && ver_test ${REPLACING_VERSIONS} -lt 0.99.12; then
 		elog "Support for Logitech Unifying Receiver battery state readout was"
 		elog "removed in version 0.99.12, these devices have been directly"

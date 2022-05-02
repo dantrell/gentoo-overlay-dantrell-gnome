@@ -12,7 +12,7 @@ SRC_URI="https://www.freedesktop.org/software/libmbim/${P}.tar.xz"
 
 LICENSE="LGPL-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 RDEPEND=">=dev-libs/glib-2.48:2"
 DEPEND="${RDEPEND}"
