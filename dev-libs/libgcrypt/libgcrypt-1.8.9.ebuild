@@ -16,7 +16,7 @@ LICENSE="LGPL-2.1 MIT"
 SLOT="0/20" # subslot = soname major version
 KEYWORDS="*"
 
-IUSE="doc static-libs"
+IUSE="+asm doc static-libs"
 
 RDEPEND=">=dev-libs/libgpg-error-1.25[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"
@@ -65,12 +65,17 @@ multilib_src_configure() {
 		$(use_enable static-libs static)
 
 		# http://trac.videolan.org/vlc/ticket/620
-		# causes bus-errors on sparc64-solaris
 		$([[ ${CHOST} == *86*-darwin* ]] && echo "--disable-asm")
+		# causes bus-errors on sparc64-solaris
 		$([[ ${CHOST} == sparcv9-*-solaris* ]] && echo "--disable-asm")
+		# bug #832871
+		$([[ ${CHOST} == hppa1.1* ]] && echo "--disable-asm")
+
+		$(use asm || echo "--disable-asm")
 
 		GPG_ERROR_CONFIG="${ESYSROOT}/usr/bin/${CHOST}-gpg-error-config"
 	)
+
 	ECONF_SOURCE="${S}" econf "${myeconfargs[@]}" \
 		$("${S}/configure" --help | grep -o -- '--without-.*-prefix')
 }

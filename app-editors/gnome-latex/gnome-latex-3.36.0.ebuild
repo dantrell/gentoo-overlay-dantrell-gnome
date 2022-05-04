@@ -7,7 +7,7 @@ VALA_USE_DEPEND="vapigen"
 inherit gnome2 vala
 
 DESCRIPTION="Integrated LaTeX environment for GNOME"
-HOMEPAGE="https://wiki.gnome.org/Apps/GNOME-LaTeX"
+HOMEPAGE="https://wiki.gnome.org/Apps/GNOME-LaTeX https://gitlab.gnome.org/swilmet/gnome-latex"
 
 LICENSE="GPL-3"
 SLOT="0"

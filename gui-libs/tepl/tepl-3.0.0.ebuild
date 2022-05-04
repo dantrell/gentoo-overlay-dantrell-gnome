@@ -6,7 +6,7 @@ VALA_USE_DEPEND="vapigen"
 inherit gnome2 vala virtualx
 
 DESCRIPTION="GtkSourceView-based text editors and IDE helper library"
-HOMEPAGE="https://wiki.gnome.org/Projects/Tepl"
+HOMEPAGE="https://wiki.gnome.org/Projects/Tepl https://gitlab.gnome.org/swilmet/tepl"
 
 LICENSE="LGPL-2.1+"
 SLOT="4"

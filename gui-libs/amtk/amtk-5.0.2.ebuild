@@ -5,7 +5,7 @@ EAPI="7"
 inherit gnome2
 
 DESCRIPTION="Actions, Menus and Toolbars Kit for GTK+ applications"
-HOMEPAGE="https://wiki.gnome.org/Projects/Amtk"
+HOMEPAGE="https://wiki.gnome.org/Projects/Amtk https://gitlab.gnome.org/swilmet/amtk"
 
 LICENSE="LGPL-2.1+"
 SLOT="5"

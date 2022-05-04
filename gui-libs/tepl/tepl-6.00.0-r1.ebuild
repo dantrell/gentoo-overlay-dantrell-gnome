@@ -5,7 +5,7 @@ EAPI="7"
 inherit gnome.org meson virtualx
 
 DESCRIPTION="GtkSourceView-based text editors and IDE helper library"
-HOMEPAGE="https://wiki.gnome.org/Projects/Tepl"
+HOMEPAGE="https://wiki.gnome.org/Projects/Tepl https://gitlab.gnome.org/swilmet/tepl"
 
 LICENSE="LGPL-3+"
 SLOT="6"
