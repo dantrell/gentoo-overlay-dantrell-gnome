@@ -25,7 +25,7 @@
 ~app-text/libgxps-0.3.2::dantrell-gnome
 ~app-text/yelp-tools-40.0::dantrell-gnome-40
 ~dev-cpp/atkmm-2.36.1::dantrell-gnome
-~dev-cpp/glibmm-2.66.2::dantrell-gnome
+~dev-cpp/glibmm-2.66.4::dantrell-gnome
 ~dev-cpp/gtkmm-4.6.1::dantrell-gnome
 ~dev-cpp/mm-common-1.0.4::dantrell-gnome
 ~dev-cpp/pangomm-2.50.0::dantrell-gnome

@@ -26,7 +26,7 @@
 ~app-text/libgxps-0.3.2::dantrell-gnome
 ~app-text/yelp-tools-42.0::dantrell-gnome-42
 ~dev-cpp/atkmm-2.36.1::dantrell-gnome
-~dev-cpp/glibmm-2.66.2::dantrell-gnome
+~dev-cpp/glibmm-2.66.4::dantrell-gnome
 ~dev-cpp/gtkmm-4.6.1::dantrell-gnome
 ~dev-cpp/mm-common-1.0.4::dantrell-gnome
 ~dev-cpp/pangomm-2.50.0::dantrell-gnome
@@ -91,7 +91,7 @@
 ~gnome-base/gnome-panel-3.44.0::dantrell-gnome-42
 ~gnome-base/gnome-session-42.0::dantrell-gnome-42
 ~gnome-base/gnome-settings-daemon-42.1::dantrell-gnome-42
-~gnome-base/gnome-shell-42.0::dantrell-gnome-42
+~gnome-base/gnome-shell-42.1::dantrell-gnome-42
 ~gnome-base/gsettings-desktop-schemas-42.0::dantrell-gnome-42
 ~gnome-base/gvfs-1.50.1::dantrell-gnome-42
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
@@ -110,7 +110,7 @@
 ~gnome-extra/gnome-multi-writer-3.35.90::dantrell-gnome
 ~gnome-extra/gnome-power-manager-3.32.0::dantrell-gnome
 ~gnome-extra/gnome-recipes-2.0.4::dantrell-gnome
-~gnome-extra/gnome-shell-extensions-42.0::dantrell-gnome-42
+~gnome-extra/gnome-shell-extensions-42.1::dantrell-gnome-42
 ~gnome-extra/gnome-shell-frippery-42.0::dantrell-gnome-42
 ~gnome-extra/gnome-software-42.1::dantrell-gnome-42
 ~gnome-extra/gnome-system-monitor-42.0::dantrell-gnome-42
@@ -183,4 +183,4 @@
 ~x11-themes/gnome-backgrounds-42.0::dantrell-gnome-42
 ~x11-themes/gnome-themes-extra-3.28::dantrell-gnome
 ~x11-wm/metacity-3.44.0::dantrell-gnome-42
-~x11-wm/mutter-42.0::dantrell-gnome-42
+~x11-wm/mutter-42.1::dantrell-gnome-42

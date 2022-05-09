@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
-VALA_USE_DEPEND="vapigen"
+EAPI="8"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 
 inherit gnome.org gnome2-utils meson python-any-r1 vala xdg
@@ -22,10 +21,11 @@ DEPEND="
 	>=dev-libs/glib-2.44.0:2
 	>=dev-libs/libgcrypt-1.2.2:0=
 	>=app-crypt/p11-kit-0.19.0
+	>=app-crypt/libsecret-0.20
+	systemd? ( sys-apps/systemd:= )
 	gtk? ( >=x11-libs/gtk+-3.22:3[introspection?] )
 	>=sys-apps/dbus-1
 	introspection? ( >=dev-libs/gobject-introspection-1.58:= )
-	systemd? ( sys-apps/systemd:= )
 "
 RDEPEND="${DEPEND}"
 PDEPEND="app-crypt/gnupg"
@@ -58,8 +58,9 @@ pkg_setup() {
 }
 
 src_prepare() {
-	use vala && vala_src_prepare
-	xdg_src_prepare
+	default
+	use vala && vala_setup
+	xdg_environment_reset
 }
 
 src_configure() {
@@ -68,9 +69,9 @@ src_configure() {
 		$(meson_use gtk)
 		$(meson_use gtk-doc gtk_doc)
 		-Dgpg_path="${EPREFIX}"/usr/bin/gpg
-		$(meson_use vala vapi)
 		-Dssh_agent=true
 		$(meson_feature systemd)
+		$(meson_use vala vapi)
 	)
 	meson_src_configure
 }

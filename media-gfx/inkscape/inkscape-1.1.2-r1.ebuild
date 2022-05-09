@@ -14,7 +14,7 @@ SRC_URI="https://media.inkscape.org/dl/resources/file/${P}.tar.xz"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="cdr dbus dia exif graphicsmagick imagemagick inkjar jemalloc jpeg
 openmp postscript readline spell svg2 test visio wpg"
@@ -69,7 +69,7 @@ COMMON_DEPEND="${PYTHON_DEPS}
 		graphicsmagick? ( media-gfx/graphicsmagick:=[cxx] )
 	)
 	jemalloc? ( dev-libs/jemalloc )
-	jpeg? ( media-libs/libjpeg-turbo:0= )
+	jpeg? ( media-libs/libjpeg-turbo:= )
 	readline? ( sys-libs/readline:0= )
 	spell? ( app-text/gspell )
 	visio? (
@@ -100,7 +100,8 @@ DEPEND="${COMMON_DEPEND}
 S="${WORKDIR}/${MY_P}"
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-1.1.2-poppler-22.03.0.patch  # bug 835424
+	"${FILESDIR}"/${PN}-1.1.2-r1-poppler-22.03.0.patch # bug 835424
+	"${FILESDIR}"/${PN}-1.1.2-r1-poppler-22.04.0.patch # bug 835661 / bug 843275
 )
 
 pkg_pretend() {

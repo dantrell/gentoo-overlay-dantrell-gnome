@@ -25,7 +25,7 @@
 ~app-text/libgxps-0.3.2::dantrell-gnome
 ~app-text/yelp-tools-41.0::dantrell-gnome-41
 ~dev-cpp/atkmm-2.36.1::dantrell-gnome
-~dev-cpp/glibmm-2.66.2::dantrell-gnome
+~dev-cpp/glibmm-2.66.4::dantrell-gnome
 ~dev-cpp/gtkmm-4.6.1::dantrell-gnome
 ~dev-cpp/mm-common-1.0.4::dantrell-gnome
 ~dev-cpp/pangomm-2.50.0::dantrell-gnome
@@ -88,13 +88,13 @@
 ~gnome-base/gnome-panel-3.42.0::dantrell-gnome-41
 ~gnome-base/gnome-session-41.3::dantrell-gnome-41
 ~gnome-base/gnome-settings-daemon-41.0::dantrell-gnome-41
-~gnome-base/gnome-shell-41.5::dantrell-gnome-41
+~gnome-base/gnome-shell-41.6::dantrell-gnome-41
 ~gnome-base/gsettings-desktop-schemas-41.0::dantrell-gnome-41
 ~gnome-base/gvfs-1.48.1::dantrell-gnome
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
 ~gnome-base/libgtop-2.40.0::dantrell-gnome
 ~gnome-base/nautilus-41.5::dantrell-gnome-41
-~gnome-extra/evolution-data-server-3.42.4::dantrell-gnome-41
+~gnome-extra/evolution-data-server-3.42.5::dantrell-gnome-41
 ~gnome-extra/evolution-ews-3.42.4::dantrell-gnome-41
 ~gnome-extra/gnome-boxes-41.3::dantrell-gnome-41
 ~gnome-extra/gnome-calculator-41.1::dantrell-gnome-41
@@ -179,4 +179,4 @@
 ~x11-themes/gnome-backgrounds-41.0::dantrell-gnome-41
 ~x11-themes/gnome-themes-extra-3.28::dantrell-gnome
 ~x11-wm/metacity-3.42.0::dantrell-gnome-41
-~x11-wm/mutter-41.5::dantrell-gnome-41
+~x11-wm/mutter-41.6::dantrell-gnome-41

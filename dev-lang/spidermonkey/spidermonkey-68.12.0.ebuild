@@ -41,6 +41,13 @@ DEPEND="
 	>=sys-libs/zlib-1.2.3:=
 	|| (
 		(
+			sys-devel/llvm:14
+			clang? (
+				sys-devel/clang:14
+				lto? ( =sys-devel/lld-14* )
+			)
+		)
+		(
 			sys-devel/clang:13
 			!clang? ( sys-devel/llvm:13 )
 			clang? (
@@ -54,14 +61,6 @@ DEPEND="
 			clang? (
 				=sys-devel/lld-12*
 				sys-devel/llvm:12[gold]
-			)
-		)
-		(
-			sys-devel/clang:11
-			!clang? ( sys-devel/llvm:11 )
-			clang? (
-				=sys-devel/lld-11*
-				sys-devel/llvm:11[gold]
 			)
 		)
 	)
