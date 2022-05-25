@@ -1,9 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 PYTHON_REQ_USE="xml(+)"
-VALA_USE_DEPEND="vapigen"
 
 inherit meson python-any-r1 systemd vala xdg
 
@@ -43,8 +42,9 @@ BDEPEND="
 "
 
 src_prepare() {
-	xdg_src_prepare
-	use vala && vala_src_prepare
+	default
+	use vala && vala_setup
+	xdg_environment_reset
 }
 
 src_configure() {
@@ -57,10 +57,24 @@ src_configure() {
 		$(meson_use modemmanager cdma-source)
 		$(meson_use modemmanager modem-gps-source)
 		$(meson_use zeroconf nmea-source)
+		-Dcompass=true
 		-Denable-backend=true
 		-Ddemo-agent=true
 		-Dsystemd-system-unit-dir="$(systemd_get_systemunitdir)"
 		-Ddbus-srv-user=geoclue
+
+		-Dmozilla-api-key=f57afde7-113f-4e8f-96d1-62be64a0273c
 	)
+
+	DISTRO="$(awk -F= '/^NAME/ {print $2}' /etc/os-release | tr -d \" )"
+	if [[ $DISTRO != Gentoo ]]; then
+		eerror "The following API key has been allocated for Gentoo only."
+		eerror "If you are a derivative, please request your own key as discussed here:"
+		eerror "https://gitlab.freedesktop.org/geoclue/geoclue/-/issues/136"
+		eerror "See also: https://location.services.mozilla.com/api and"
+		eerror "https://blog.mozilla.org/services/2019/09/03/a-new-policy-for-mozilla-location-service/"
+		die "Please request an API key for your distribution."
+	fi
+
 	meson_src_configure
 }

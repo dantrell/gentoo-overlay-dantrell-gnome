@@ -5,7 +5,7 @@ EAPI="6"
 inherit gnome2 multilib-minimal virtualx
 
 DESCRIPTION="C++ interface for GTK+"
-HOMEPAGE="https://www.gtkmm.org"
+HOMEPAGE="https://www.gtkmm.org https://gitlab.gnome.org/GNOME/gtkmm"
 
 LICENSE="LGPL-2.1+"
 SLOT="3.0"

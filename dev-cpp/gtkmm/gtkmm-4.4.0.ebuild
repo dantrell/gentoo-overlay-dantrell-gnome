@@ -7,7 +7,7 @@ PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 inherit gnome.org meson python-any-r1 virtualx
 
 DESCRIPTION="C++ interface for GTK+"
-HOMEPAGE="https://www.gtkmm.org"
+HOMEPAGE="https://www.gtkmm.org https://gitlab.gnome.org/GNOME/gtkmm"
 
 LICENSE="LGPL-2.1+"
 SLOT="4.0"

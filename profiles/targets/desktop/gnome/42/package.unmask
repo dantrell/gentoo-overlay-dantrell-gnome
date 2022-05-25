@@ -1,7 +1,7 @@
 ~app-accessibility/accerciser-3.38.0::dantrell-gnome
 ~app-accessibility/at-spi2-atk-2.38.0::dantrell-gnome
 ~app-accessibility/at-spi2-core-2.44.1::dantrell-gnome-42
-~app-accessibility/orca-42.0::dantrell-gnome-42
+~app-accessibility/orca-42.1::dantrell-gnome-42
 ~app-arch/file-roller-3.42.0::dantrell-gnome
 ~app-arch/gcab-1.4::dantrell-gnome
 ~app-arch/gnome-autoar-0.4.3::dantrell-gnome
@@ -20,7 +20,7 @@
 ~app-misc/tracker-3.3.0::dantrell-gnome-42
 ~app-misc/tracker-miners-3.3.0::dantrell-gnome-42
 ~app-office/gnome-todo-41.0::dantrell-gnome
-~app-text/evince-42.2::dantrell-gnome-42
+~app-text/evince-42.3::dantrell-gnome-42
 ~app-text/gspell-1.9.1::dantrell-gnome
 ~app-text/libgepub-0.6.0::dantrell-gnome
 ~app-text/libgxps-0.3.2::dantrell-gnome
@@ -124,7 +124,7 @@
 ~gnome-extra/yelp-42.1::dantrell-gnome-42
 ~gnome-extra/yelp-xsl-42.0::dantrell-gnome-42
 ~gnome-extra/zenity-3.42.1::dantrell-gnome-42
-~gui-libs/gtk-4.6.3::dantrell-gnome
+~gui-libs/gtk-4.6.4::dantrell-gnome
 ~gui-libs/libadwaita-1.1.1::dantrell-gnome
 ~gui-libs/libhandy-1.6.2::dantrell-gnome
 ~mail-client/evolution-3.44.1::dantrell-gnome-42
@@ -173,7 +173,7 @@
 ~sys-apps/gnome-disk-utility-42.0::dantrell-gnome-42
 ~www-client/epiphany-42.2::dantrell-gnome-42
 ~x11-libs/gdk-pixbuf-2.42.8::dantrell-gnome
-~x11-libs/gtk+-3.24.33::dantrell-gnome
+~x11-libs/gtk+-3.24.34::dantrell-gnome
 ~x11-libs/libnotify-0.7.9::dantrell-gnome
 ~x11-libs/pango-1.50.7::dantrell-gnome
 ~x11-libs/vte-0.68.0::dantrell-gnome-42

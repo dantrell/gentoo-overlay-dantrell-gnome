@@ -12,7 +12,7 @@ SRC_URI+=" https://gitlab.gnome.org/GNOME/gtk/-/commit/5a0ffbbb4568e39bdf26006e1
 
 LICENSE="LGPL-2+"
 SLOT="3/24" # From WebKit: http://trac.webkit.org/changeset/195811
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="aqua broadway colord cups examples gtk-doc +introspection sysprof test vim-syntax wayland X xinerama"
 REQUIRED_USE="

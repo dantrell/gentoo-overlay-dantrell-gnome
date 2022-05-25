@@ -12,7 +12,9 @@ LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="common-lisp nls static-libs"
+IUSE="common-lisp nls static-libs test"
+
+RESTRICT="!test? ( test )"
 
 RDEPEND="nls? ( >=virtual/libintl-0-r1[${MULTILIB_USEDEP}] )"
 DEPEND="${RDEPEND}"
@@ -52,6 +54,7 @@ multilib_src_configure() {
 		$(use_enable nls)
 		# required for sys-power/suspend[crypt], bug 751568
 		$(use_enable static-libs static)
+		$(use_enable test tests)
 		--enable-threads
 		CC_FOR_BUILD="$(tc-getBUILD_CC)"
 		$("${S}/configure" --help | grep -o -- '--without-.*-prefix')

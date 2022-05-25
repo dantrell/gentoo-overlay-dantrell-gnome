@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 inherit gnome.org meson xdg
 
@@ -9,9 +9,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP"
 
 LICENSE="GPL-2+ LGPL-2+"
 SLOT="0"
-KEYWORDS="~*"
-
-IUSE=""
+KEYWORDS="*"
 
 RDEPEND="
 	>=net-libs/gssdp-1.2.0:=

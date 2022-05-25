@@ -396,6 +396,8 @@ multilib_src_install_all() {
 }
 
 pkg_postinst() {
+	udev_reload
+
 	systemd_reenable NetworkManager.service
 	! use systemd && readme.gentoo_print_elog
 

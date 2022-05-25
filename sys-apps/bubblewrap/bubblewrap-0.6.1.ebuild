@@ -2,7 +2,7 @@
 
 EAPI="8"
 
-inherit bash-completion-r1 linux-info meson
+inherit linux-info meson
 
 DESCRIPTION="Unprivileged sandboxing tool, namespaces-powered chroot-like solution"
 HOMEPAGE="https://github.com/containers/bubblewrap/"
@@ -14,7 +14,7 @@ KEYWORDS="~*"
 
 IUSE="selinux +suid"
 
-# tests require root priviledge
+# tests require root privileges
 RESTRICT="test"
 
 RDEPEND="
@@ -43,10 +43,10 @@ pkg_setup() {
 
 src_configure() {
 	local emesonargs=(
-		'-Dbash_completion=enabled'
-		'-Dman=enabled'
-		'-Dzsh_completion=enabled'
-		"$(meson_feature selinux)"
+		-Dbash_completion=enabled
+		-Dman=enabled
+		-Dzsh_completion=enabled
+		$(meson_feature selinux)
 	)
 
 	meson_src_configure

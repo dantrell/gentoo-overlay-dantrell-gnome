@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 
@@ -101,7 +101,9 @@ pkg_setup() {
 }
 
 src_prepare() {
-	xdg_src_prepare
+	default
+	xdg_environment_reset
+
 	# dev-python/docutils installs rst2man.py, not rst2man
 	sed -i -e "s/'rst2man'/'rst2man.py'/" docs/reference/gtk/meson.build || die
 	# Nothing should use gtk4-update-icon-cache and an unversioned one is shipped by dev-util/gtk-update-icon-cache

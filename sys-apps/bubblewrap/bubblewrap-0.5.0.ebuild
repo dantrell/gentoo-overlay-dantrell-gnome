@@ -17,7 +17,7 @@ REQUIRED_USE="
 	namespaces? ( suid )
 "
 
-# tests require root priviledge
+# tests require root privileges
 RESTRICT="test"
 
 RDEPEND="

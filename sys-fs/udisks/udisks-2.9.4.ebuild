@@ -2,7 +2,7 @@
 
 EAPI="7"
 
-inherit bash-completion-r1 linux-info systemd tmpfiles udev xdg-utils
+inherit autotools bash-completion-r1 linux-info systemd tmpfiles udev xdg-utils
 
 DESCRIPTION="Daemon providing interfaces to work with storage devices"
 HOMEPAGE="https://www.freedesktop.org/wiki/Software/udisks"
@@ -59,6 +59,10 @@ BDEPEND="
 # dev-libs/gobject-introspection-common
 # sys-devel/autoconf-archive
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-2.9.4-undefined.patch # 782061
+)
+
 pkg_setup() {
 	# Listing only major arch's here to avoid tracking kernel's defconfig
 	if use amd64 || use arm || use ppc || use ppc64 || use x86; then
@@ -77,6 +81,9 @@ src_prepare() {
 	if ! use systemd ; then
 		sed -i -e 's:libsystemd-login:&disable:' configure || die
 	fi
+
+	# Added for bug # 782061
+	eautoreconf
 }
 
 src_configure() {
@@ -121,6 +128,8 @@ pkg_preinst() {
 }
 
 pkg_postinst() {
+	udev_reload
+
 	# TODO: obsolete with tmpfiles_process?
 	# mkdir -p "${EROOT}"/run #415987
 

@@ -1,13 +1,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
-
+EAPI="8"
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 
 inherit gnome.org meson-multilib python-any-r1 virtualx
 
 DESCRIPTION="C++ interface for GTK+"
-HOMEPAGE="https://www.gtkmm.org"
+HOMEPAGE="https://www.gtkmm.org https://gitlab.gnome.org/GNOME/gtkmm"
 
 LICENSE="LGPL-2.1+"
 SLOT="3.0"

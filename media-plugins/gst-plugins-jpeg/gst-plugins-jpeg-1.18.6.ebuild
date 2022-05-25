@@ -8,7 +8,5 @@ inherit gstreamer-meson
 DESCRIPTION="JPEG image encoder/decoder plugin for GStreamer"
 KEYWORDS="*"
 
-IUSE=""
-
-RDEPEND=">=media-libs/libjpeg-turbo-0-r2:0=[${MULTILIB_USEDEP}]"
+RDEPEND="media-libs/libjpeg-turbo:0=[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"

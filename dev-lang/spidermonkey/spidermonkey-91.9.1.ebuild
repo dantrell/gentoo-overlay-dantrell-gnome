@@ -1,15 +1,15 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 # Patch version
-FIREFOX_PATCHSET="firefox-78esr-patches-19.tar.xz"
-SPIDERMONKEY_PATCHSET="spidermonkey-78-patches-04.tar.xz"
+FIREFOX_PATCHSET="firefox-91esr-patches-05j.tar.xz"
+SPIDERMONKEY_PATCHSET="spidermonkey-91-patches-04j.tar.xz"
 
-LLVM_MAX_SLOT=13
+LLVM_MAX_SLOT=14
 
 PYTHON_COMPAT=( python{3_8,3_9,3_10} )
-PYTHON_REQ_USE="ssl"
+PYTHON_REQ_USE="ssl,xml(+)"
 
 WANT_AUTOCONF="2.1"
 
@@ -50,18 +50,18 @@ if [[ ${PV} == *_rc* ]] ; then
 fi
 
 PATCH_URIS=(
-	https://dev.gentoo.org/~{whissi,polynomial-c,axs}/mozilla/patchsets/${FIREFOX_PATCHSET}
-	https://dev.gentoo.org/~{whissi,polynomial-c,axs}/mozilla/patchsets/${SPIDERMONKEY_PATCHSET}
+	https://dev.gentoo.org/~{juippis,polynomial-c,whissi}/mozilla/patchsets/${FIREFOX_PATCHSET}
+	https://dev.gentoo.org/~{juippis,polynomial-c,whissi}/mozilla/patchsets/${SPIDERMONKEY_PATCHSET}
 )
 
 SRC_URI="${MOZ_SRC_BASE_URI}/source/${MOZ_P}.source.tar.xz -> ${MOZ_P_DISTFILES}.source.tar.xz
 	${PATCH_URIS[@]}"
 
 DESCRIPTION="SpiderMonkey is Mozilla's JavaScript engine written in C and C++"
-HOMEPAGE="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey"
+HOMEPAGE="https://spidermonkey.dev https://firefox-source-docs.mozilla.org/js/index.html "
 
 LICENSE="MPL-2.0"
-SLOT="78/15.0"
+SLOT="91/9.1"
 KEYWORDS="*"
 
 IUSE="clang cpu_flags_arm_neon debug +jit lto test"
@@ -69,8 +69,11 @@ IUSE="clang cpu_flags_arm_neon debug +jit lto test"
 RESTRICT="!test? ( test )"
 
 BDEPEND="${PYTHON_DEPS}
-	>=virtual/rust-1.41.0
+	>=virtual/rust-1.51.0
 	virtual/pkgconfig
+	test? (
+		$(python_gen_any_dep 'dev-python/six[${PYTHON_USEDEP}]')
+	)
 	|| (
 		(
 			sys-devel/llvm:14
@@ -93,22 +96,12 @@ BDEPEND="${PYTHON_DEPS}
 				lto? ( =sys-devel/lld-12* )
 			)
 		)
-	)
-	lto? (
-		!clang? ( sys-devel/binutils[gold] )
 	)"
-
-CDEPEND=">=dev-libs/icu-67.1:=
-	>=dev-libs/nspr-4.25
+DEPEND=">=dev-libs/icu-69.1:=
+	dev-libs/nspr
 	sys-libs/readline:0=
-	>=sys-libs/zlib-1.2.3"
-
-DEPEND="${CDEPEND}
-	test? (
-		$(python_gen_any_dep 'dev-python/six[${PYTHON_USEDEP}]')
-	)"
-
-RDEPEND="${CDEPEND}"
+	sys-libs/zlib"
+RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/firefox-${MY_PV}/js/src"
 
@@ -168,19 +161,9 @@ pkg_setup() {
 			[[ -n ${version_lld} ]] && version_lld=$(ver_cut 1 "${version_lld}")
 			[[ -z ${version_lld} ]] && die "Failed to read ld.lld version!"
 
-			# temp fix for https://bugs.gentoo.org/768543
-			# we can assume that rust 1.{49,50}.0 always uses llvm 11
-			local version_rust=$(rustc -Vv 2>/dev/null | grep -F -- 'release:' | awk '{ print $2 }')
-			[[ -n ${version_rust} ]] && version_rust=$(ver_cut 1-2 "${version_rust}")
-			[[ -z ${version_rust} ]] && die "Failed to read version from rustc!"
-
-			if ver_test "${version_rust}" -ge "1.49" && ver_test "${version_rust}" -le "1.50" ; then
-				local version_llvm_rust="11"
-			else
-				local version_llvm_rust=$(rustc -Vv 2>/dev/null | grep -F -- 'LLVM version:' | awk '{ print $3 }')
-				[[ -n ${version_llvm_rust} ]] && version_llvm_rust=$(ver_cut 1 "${version_llvm_rust}")
-				[[ -z ${version_llvm_rust} ]] && die "Failed to read used LLVM version from rustc!"
-			fi
+			local version_llvm_rust=$(rustc -Vv 2>/dev/null | grep -F -- 'LLVM version:' | awk '{ print $3 }')
+			[[ -n ${version_llvm_rust} ]] && version_llvm_rust=$(ver_cut 1 "${version_llvm_rust}")
+			[[ -z ${version_llvm_rust} ]] && die "Failed to read used LLVM version from rustc!"
 
 			if ver_test "${version_lld}" -ne "${version_llvm_rust}" ; then
 				eerror "Rust is using LLVM version ${version_llvm_rust} but ld.lld version belongs to LLVM version ${version_lld}."
@@ -188,6 +171,8 @@ pkg_setup() {
 				eerror "  - Manually switch rust version using 'eselect rust' to match used LLVM version"
 				eerror "  - Switch to dev-lang/rust[system-llvm] which will guarantee matching version"
 				eerror "  - Build ${CATEGORY}/${PN} without USE=lto"
+				eerror "  - Rebuild lld with llvm that was used to build rust (may need to rebuild the whole "
+				eerror "    llvm/clang/lld/rust chain depending on your @world updates)"
 				die "LLVM version used by Rust (${version_llvm_rust}) does not match with ld.lld version (${version_lld})!"
 			fi
 		fi
@@ -218,11 +203,8 @@ src_prepare() {
 
 	default
 
-	# Make LTO respect MAKEOPTS
-	sed -i \
-		-e "s/multiprocessing.cpu_count()/$(makeopts_jobs)/" \
-		build/moz.configure/lto-pgo.configure \
-		|| die "sed failed to set num_cores"
+	# Make cargo respect MAKEOPTS
+	export CARGO_BUILD_JOBS="$(makeopts_jobs)"
 
 	# sed-in toolchain prefix
 	sed -i \
@@ -290,10 +272,13 @@ src_configure() {
 	local -a myeconfargs=(
 		--host="${CBUILD:-${CHOST}}"
 		--target="${CHOST}"
+		--disable-ctype
 		--disable-jemalloc
 		--disable-optimize
+		--disable-smoosh
 		--disable-strip
 		--enable-readline
+		--enable-release
 		--enable-shared-js
 		--with-intl-api
 		--with-system-icu
@@ -322,12 +307,12 @@ src_configure() {
 
 	# Tell build system that we want to use LTO
 	if use lto ; then
-		myeconfargs+=( --enable-lto )
-
 		if use clang ; then
 			myeconfargs+=( --enable-linker=lld )
+			myeconfargs+=( --enable-lto=cross )
 		else
-			myeconfargs+=( --enable-linker=gold )
+			myeconfargs+=( --enable-linker=bfd )
+			myeconfargs+=( --enable-lto )
 		fi
 	fi
 
@@ -340,6 +325,9 @@ src_configure() {
 			append-cxxflags -fno-tree-loop-vectorize
 		fi
 	fi
+
+	export MACH_USE_SYSTEM_PYTHON=1
+	export PIP_NO_CACHE_DIR=off
 
 	# Show flags we will use
 	einfo "Build CFLAGS:    ${CFLAGS}"
@@ -367,61 +355,69 @@ src_test() {
 		die "Smoke-test failed: did interpreter initialization fail?"
 	fi
 
-	local -a KNOWN_TESTFAILURES
-	KNOWN_TESTFAILURES+=( non262/Date/reset-time-zone-cache-same-offset.js )
-	KNOWN_TESTFAILURES+=( non262/Date/time-zone-path.js )
-	KNOWN_TESTFAILURES+=( non262/Date/time-zones-historic.js )
-	KNOWN_TESTFAILURES+=( non262/Date/time-zones-imported.js )
-	KNOWN_TESTFAILURES+=( non262/Date/toString-localized.js )
-	KNOWN_TESTFAILURES+=( non262/Date/toString-localized-posix.js )
-	KNOWN_TESTFAILURES+=( non262/Intl/Date/toLocaleString_timeZone.js )
-	KNOWN_TESTFAILURES+=( non262/Intl/Date/toLocaleDateString_timeZone.js )
-	KNOWN_TESTFAILURES+=( non262/Intl/DateTimeFormat/format.js )
-	KNOWN_TESTFAILURES+=( non262/Intl/DateTimeFormat/format_timeZone.js )
-	KNOWN_TESTFAILURES+=( non262/Intl/DateTimeFormat/timeZone_backward_links.js )
-	KNOWN_TESTFAILURES+=( non262/Intl/DateTimeFormat/tz-environment-variable.js )
-	KNOWN_TESTFAILURES+=( non262/Intl/DisplayNames/language.js )
-	KNOWN_TESTFAILURES+=( non262/Intl/DisplayNames/region.js )
-	KNOWN_TESTFAILURES+=( non262/Intl/Locale/likely-subtags.js )
-	KNOWN_TESTFAILURES+=( non262/Intl/Locale/likely-subtags-generated.js )
-	KNOWN_TESTFAILURES+=( test262/intl402/Locale/prototype/minimize/removing-likely-subtags-first-adds-likely-subtags.js )
+	cp "${FILESDIR}"/spidermonkey-91-known-test-failures.txt "${T}"/known_failures.list || die
+
+	# bgo #827960
+	if use ppc; then
+		echo "non262/TypedArray/map-and-filter.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/load/bigint/good-views.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/load/bigint/non-shared-bufferdata.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/add/bigint/good-views.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/add/bigint/non-shared-bufferdata.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/exchange/bigint/good-views.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/exchange/bigint/non-shared-bufferdata.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/store/bigint/good-views.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/store/bigint/non-shared-bufferdata.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/xor/bigint/good-views.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/xor/bigint/non-shared-bufferdata.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/sub/bigint/good-views.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/sub/bigint/non-shared-bufferdata.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/wait/bigint/no-spurious-wakeup-on-exchange.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/and/bigint/good-views.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/wait/bigint/no-spurious-wakeup-on-or.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/wait/bigint/false-for-timeout-agent.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/wait/bigint/no-spurious-wakeup-on-add.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/or/bigint/non-shared-bufferdata.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/wait/bigint/no-spurious-wakeup-on-sub.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/wait/bigint/no-spurious-wakeup-on-compareExchange.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/wait/bigint/negative-timeout-agent.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/wait/bigint/no-spurious-wakeup-on-xor.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/wait/bigint/value-not-equal.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/wait/bigint/no-spurious-wakeup-no-operation.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/wait/bigint/waiterlist-block-indexedposition-wake.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/wait/bigint/nan-for-timeout.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/wait/bigint/no-spurious-wakeup-on-and.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/wait/bigint/was-woken-before-timeout.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/wait/bigint/no-spurious-wakeup-on-store.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/wait/bigint/waiterlist-order-of-operations-is-fifo.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/compareExchange/bigint/non-shared-bufferdata.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/compareExchange/bigint/good-views.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/and/bigint/non-shared-bufferdata.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/or/bigint/good-views.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Atomics/notify/bigint/notify-all-on-loc.js" >> "${T}"/known_failures.list
+	fi
 
 	if use x86 ; then
-		KNOWN_TESTFAILURES+=( non262/Date/timeclip.js )
-		KNOWN_TESTFAILURES+=( test262/built-ins/Number/prototype/toPrecision/return-values.js )
-		KNOWN_TESTFAILURES+=( test262/language/types/number/S8.5_A2.1.js )
-		KNOWN_TESTFAILURES+=( test262/language/types/number/S8.5_A2.2.js )
+		echo "non262/Date/timeclip.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Number/prototype/toPrecision/return-values.js" >> "${T}"/known_failures.list
+		echo "test262/language/types/number/S8.5_A2.1.js" >> "${T}"/known_failures.list
+		echo "test262/language/types/number/S8.5_A2.2.js" >> "${T}"/known_failures.list
 	fi
 
 	if [[ $(tc-endian) == "big" ]] ; then
-		KNOWN_TESTFAILURES+=( test262/built-ins/TypedArray/prototype/set/typedarray-arg-set-values-same-buffer-other-type.js )
+		echo "non262/extensions/clone-errors.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/Date/UTC/fp-evaluation-order.js" >> "${T}"/known_failures.list
+		echo "test262/built-ins/TypedArray/prototype/set/typedarray-arg-set-values-same-buffer-other-type.js" >> "${T}"/known_failures.list
 	fi
 
-	echo "" > "${T}"/known_failures.list || die
-
-	local KNOWN_TESTFAILURE
-	for KNOWN_TESTFAILURE in ${KNOWN_TESTFAILURES[@]} ; do
-		echo "${KNOWN_TESTFAILURE}" >> "${T}"/known_failures.list
-	done
-
-	PYTHONPATH="${S}/tests/lib" \
-		${PYTHON} \
+	${EPYTHON} \
 		"${S}"/tests/jstests.py -d -s -t 1800 --wpt=disabled --no-progress \
 		--exclude-file="${T}"/known_failures.list \
 		"${MOZJS_BUILDDIR}"/js/src/js \
 		|| die
 
 	if use jit ; then
-		KNOWN_TESTFAILURES=()
-
-		echo "" > "${T}"/known_failures.list || die
-
-		for KNOWN_TESTFAILURE in ${KNOWN_TESTFAILURES[@]} ; do
-			echo "${KNOWN_TESTFAILURE}" >> "${T}"/known_failures.list
-		done
-
-		PYTHONPATH="${S}/tests/lib" \
-			${PYTHON} \
+		${EPYTHON} \
 			"${S}"/tests/jstests.py -d -s -t 1800 --wpt=disabled --no-progress \
 			--exclude-file="${T}"/known_failures.list \
 			"${MOZJS_BUILDDIR}"/js/src/js basic \

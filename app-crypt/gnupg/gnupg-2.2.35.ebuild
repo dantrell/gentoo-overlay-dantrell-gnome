@@ -18,7 +18,9 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="bzip2 doc ldap nls readline selinux +smartcard ssl tofu tools usb user-socket wks-server"
+IUSE="bzip2 doc ldap nls readline selinux +smartcard ssl test tofu tools usb user-socket wks-server"
+
+RESTRICT="!test? ( test )"
 
 # Existence of executables is checked during configuration.
 # Note: On each bump, update dep bounds on each version from configure.ac!
@@ -28,12 +30,12 @@ DEPEND=">=dev-libs/libassuan-2.5.0
 	>=dev-libs/libksba-1.3.5
 	>=dev-libs/npth-1.2
 	>=net-misc/curl-7.10
+	sys-libs/zlib
 	bzip2? ( app-arch/bzip2 )
 	ldap? ( net-nds/openldap:= )
 	readline? ( sys-libs/readline:0= )
 	smartcard? ( usb? ( virtual/libusb:1 ) )
 	ssl? ( >=net-libs/gnutls-3.0:0= )
-	sys-libs/zlib
 	tofu? ( >=dev-db/sqlite-3.7 )"
 
 RDEPEND="${DEPEND}
@@ -48,11 +50,6 @@ BDEPEND="virtual/pkgconfig
 	verify-sig? ( sec-keys/openpgp-keys-gnupg )"
 
 S="${WORKDIR}/${MY_P}"
-
-DOCS=(
-	ChangeLog NEWS README THANKS TODO VERSION
-	doc/FAQ doc/DETAILS doc/HACKING doc/TRANSLATE doc/OpenPGP doc/KEYSERVER
-)
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-2.1.20-gpgscm-Use-shorter-socket-path-lengts-to-improve-tes.patch
@@ -77,6 +74,8 @@ src_configure() {
 		$(use_enable nls)
 		$(use_enable smartcard scdaemon)
 		$(use_enable ssl gnutls)
+		$(use_enable test all-tests)
+		$(use_enable test tests)
 		$(use_enable tofu)
 		$(use smartcard && use_enable usb ccid-driver || echo '--disable-ccid-driver')
 		$(use_enable wks-server wks-tools)
@@ -84,16 +83,17 @@ src_configure() {
 		$(use_with readline)
 		--with-mailprog=/usr/libexec/sendmail
 		--disable-ntbtls
-		--enable-all-tests
 		--enable-gpg
 		--enable-gpgsm
 		--enable-large-secmem
+
 		CC_FOR_BUILD="$(tc-getBUILD_CC)"
 		GPG_ERROR_CONFIG="${ESYSROOT}/usr/bin/${CHOST}-gpg-error-config"
 		KSBA_CONFIG="${ESYSROOT}/usr/bin/ksba-config"
 		LIBASSUAN_CONFIG="${ESYSROOT}/usr/bin/libassuan-config"
 		LIBGCRYPT_CONFIG="${ESYSROOT}/usr/bin/${CHOST}-libgcrypt-config"
 		NPTH_CONFIG="${ESYSROOT}/usr/bin/npth-config"
+
 		$("${S}/configure" --help | grep -o -- '--without-.*-prefix')
 	)
 
@@ -102,14 +102,13 @@ src_configure() {
 		append-cppflags -I"${EPREFIX}/usr/include/libusb-1.0"
 	fi
 
-	#bug 663142
+	# bug #663142
 	if use user-socket; then
 		myconf+=( --enable-run-gnupg-user-socket )
 	fi
 
 	# glib fails and picks up clang's internal stdint.h causing weird errors
-	[[ ${CC} == *clang ]] && \
-		export gl_cv_absolute_stdint_h=/usr/include/stdint.h
+	tc-is-clang && export gl_cv_absolute_stdint_h="${ESYSROOT}"/usr/include/stdint.h
 
 	# Hardcode mailprog to /usr/libexec/sendmail even if it does not exist.
 	# As of GnuPG 2.3, the mailprog substitution is used for the binary called
@@ -130,8 +129,9 @@ src_compile() {
 }
 
 src_test() {
-	#Bug: 638574
+	# bug #638574
 	use tofu && export TESTFLAGS=--parallel
+
 	default
 }
 

@@ -12,13 +12,19 @@ LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
 
+IUSE="test"
+
+RESTRICT="!test? ( test )"
+
 src_prepare() {
 	default
 	eautoreconf
 }
 
 src_configure() {
-	econf --disable-static
+	econf \
+		--disable-static \
+		$(use_enable test tests)
 }
 
 src_install() {

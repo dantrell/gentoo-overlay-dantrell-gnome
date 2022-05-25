@@ -20,8 +20,10 @@ LICENSE="GPL-2 LGPL-2.1"
 SLOT="1/11.6.15"
 KEYWORDS="*"
 
-IUSE="common-lisp static-libs +cxx python qt5"
+IUSE="common-lisp static-libs +cxx python qt5 test"
 REQUIRED_USE="qt5? ( cxx ) python? ( ${PYTHON_REQUIRED_USE} )"
+
+RESTRICT="!test? ( test )"
 
 # Note: On each bump, update dep bounds on each version from configure.ac!
 RDEPEND=">=app-crypt/gnupg-2
@@ -31,7 +33,9 @@ RDEPEND=">=app-crypt/gnupg-2
 	qt5? ( dev-qt/qtcore:5 )"
 	#doc? ( app-doc/doxygen[dot] )
 DEPEND="${RDEPEND}
-	qt5? ( dev-qt/qttest:5 )"
+	test? (
+		qt5? ( dev-qt/qttest:5 )
+	)"
 BDEPEND="python? ( dev-lang/swig )
 	verify-sig? ( sec-keys/openpgp-keys-gnupg )"
 
@@ -52,9 +56,9 @@ src_prepare() {
 	addpredict /run/user/$(id -u)/gnupg
 
 	local MAX_WORKDIR=66
-	if [[ "${#WORKDIR}" -gt "${MAX_WORKDIR}" ]]; then
-		ewarn "Disabling tests as WORKDIR '${WORKDIR}' is longer than ${MAX_WORKDIR} which will fail tests"
-		SKIP_TESTS=1
+	if use test && [[ "${#WORKDIR}" -gt "${MAX_WORKDIR}" ]]; then
+		eerror "Unable to run tests as WORKDIR='${WORKDIR}' is longer than ${MAX_WORKDIR} which causes failure!"
+		die "Could not run tests as requested with too-long WORKDIR."
 	fi
 
 	# Make best effort to allow longer PORTAGE_TMPDIR
@@ -65,6 +69,7 @@ src_prepare() {
 
 src_configure() {
 	local languages=()
+
 	use common-lisp && languages+=( "cl" )
 	use cxx && languages+=( "cpp" )
 	if use qt5; then
@@ -76,7 +81,7 @@ src_configure() {
 
 	# bug #811933 for libassuan prefix
 	econf \
-		$([[ -n "${SKIP_TESTS}" ]] && echo "--disable-gpg-test --disable-gpgsm-test") \
+		$(use test || echo "--disable-gpgconf-test --disable-gpg-test --disable-gpgsm-test --disable-g13-test") \
 		--enable-languages="${languages[*]}" \
 		--with-libassuan-prefix="${ESYSROOT}"/usr \
 		$(use_enable static-libs static)
@@ -92,9 +97,8 @@ src_compile() {
 }
 
 src_test() {
-	[[ -z "${SKIP_TESTS}" ]] || return
-
 	default
+
 	if use python; then
 		test_python() {
 			emake -C lang/python/tests check \
@@ -108,11 +112,13 @@ src_test() {
 
 src_install() {
 	default
+
 	do_python
+
 	find "${ED}" -type f -name '*.la' -delete || die
 
-	# backward compatibility for gentoo
-	# in the past we had slots
+	# Backward compatibility for gentoo
+	# (in the past, we had slots)
 	dodir /usr/include/gpgme
 	dosym ../gpgme.h /usr/include/gpgme/gpgme.h
 }

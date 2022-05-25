@@ -6,6 +6,7 @@
 		<name>Conrad Kostecki</name>
 	</maintainer>
 	<use>
+		<flag name="gtk4">Use GTK4 instead of GTK3.</flag>
 		<flag name="legacy">Enable libnm-glib compatibility.</flag>
 	</use>
 </pkgmetadata>

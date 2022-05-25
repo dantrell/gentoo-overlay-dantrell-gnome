@@ -1,10 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 # Patch version
-FIREFOX_PATCHSET="firefox-91esr-patches-05j.tar.xz"
-SPIDERMONKEY_PATCHSET="spidermonkey-91-patches-04j.tar.xz"
+FIREFOX_PATCHSET="firefox-78esr-patches-19.tar.xz"
+SPIDERMONKEY_PATCHSET="spidermonkey-78-patches-04.tar.xz"
 
 LLVM_MAX_SLOT=14
 
@@ -50,8 +50,8 @@ if [[ ${PV} == *_rc* ]] ; then
 fi
 
 PATCH_URIS=(
-	https://dev.gentoo.org/~{juippis,polynomial-c,whissi}/mozilla/patchsets/${FIREFOX_PATCHSET}
-	https://dev.gentoo.org/~{juippis,polynomial-c,whissi}/mozilla/patchsets/${SPIDERMONKEY_PATCHSET}
+	https://dev.gentoo.org/~{whissi,polynomial-c,axs}/mozilla/patchsets/${FIREFOX_PATCHSET}
+	https://dev.gentoo.org/~{whissi,polynomial-c,axs}/mozilla/patchsets/${SPIDERMONKEY_PATCHSET}
 )
 
 SRC_URI="${MOZ_SRC_BASE_URI}/source/${MOZ_P}.source.tar.xz -> ${MOZ_P_DISTFILES}.source.tar.xz
@@ -61,12 +61,11 @@ DESCRIPTION="SpiderMonkey is Mozilla's JavaScript engine written in C and C++"
 HOMEPAGE="https://spidermonkey.dev https://firefox-source-docs.mozilla.org/js/index.html "
 
 LICENSE="MPL-2.0"
-SLOT="91/8.0"
+SLOT="78/15.0"
 KEYWORDS="*"
 
 IUSE="clang cpu_flags_arm_neon debug +jit lto test"
 
-#RESTRICT="test"
 RESTRICT="!test? ( test )"
 
 BDEPEND="${PYTHON_DEPS}
@@ -172,6 +171,8 @@ pkg_setup() {
 				eerror "  - Manually switch rust version using 'eselect rust' to match used LLVM version"
 				eerror "  - Switch to dev-lang/rust[system-llvm] which will guarantee matching version"
 				eerror "  - Build ${CATEGORY}/${PN} without USE=lto"
+				eerror "  - Rebuild lld with llvm that was used to build rust (may need to rebuild the whole "
+				eerror "    llvm/clang/lld/rust chain depending on your @world updates)"
 				die "LLVM version used by Rust (${version_llvm_rust}) does not match with ld.lld version (${version_lld})!"
 			fi
 		fi
@@ -271,13 +272,10 @@ src_configure() {
 	local -a myeconfargs=(
 		--host="${CBUILD:-${CHOST}}"
 		--target="${CHOST}"
-		--disable-ctype
 		--disable-jemalloc
 		--disable-optimize
-		--disable-smoosh
 		--disable-strip
 		--enable-readline
-		--enable-release
 		--enable-shared-js
 		--with-intl-api
 		--with-system-icu
@@ -306,12 +304,12 @@ src_configure() {
 
 	# Tell build system that we want to use LTO
 	if use lto ; then
+		myeconfargs+=( --enable-lto )
+
 		if use clang ; then
 			myeconfargs+=( --enable-linker=lld )
-			myeconfargs+=( --enable-lto=cross )
 		else
-			myeconfargs+=( --enable-linker=bfd )
-			myeconfargs+=( --enable-lto )
+			myeconfargs+=( --enable-linker=gold )
 		fi
 	fi
 

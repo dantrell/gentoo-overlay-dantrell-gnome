@@ -34,6 +34,10 @@ DEPEND="${RDEPEND}
 	test? ( dev-perl/XML-Parser )
 "
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-1.14.49-skip-valgrind-tests.patch
+)
+
 src_configure() {
 	gnome2_src_configure \
 		--disable-static \

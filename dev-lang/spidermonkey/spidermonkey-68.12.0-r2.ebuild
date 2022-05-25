@@ -1,10 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 # Patch version
-FIREFOX_PATCHSET="firefox-91esr-patches-05j.tar.xz"
-SPIDERMONKEY_PATCHSET="spidermonkey-91-patches-04j.tar.xz"
+FIREFOX_PATCHSET="firefox-68.0-patches-15.tar.xz"
+SPIDERMONKEY_PATCHSET="spidermonkey-68.6.0-patches-04.tar.xz"
 
 LLVM_MAX_SLOT=14
 
@@ -50,8 +50,8 @@ if [[ ${PV} == *_rc* ]] ; then
 fi
 
 PATCH_URIS=(
-	https://dev.gentoo.org/~{juippis,polynomial-c,whissi}/mozilla/patchsets/${FIREFOX_PATCHSET}
-	https://dev.gentoo.org/~{juippis,polynomial-c,whissi}/mozilla/patchsets/${SPIDERMONKEY_PATCHSET}
+	https://dev.gentoo.org/~{whissi,polynomial-c,axs}/mozilla/patchsets/${FIREFOX_PATCHSET}
+	https://dev.gentoo.org/~{whissi,polynomial-c,axs}/mozilla/patchsets/${SPIDERMONKEY_PATCHSET}
 )
 
 SRC_URI="${MOZ_SRC_BASE_URI}/source/${MOZ_P}.source.tar.xz -> ${MOZ_P_DISTFILES}.source.tar.xz
@@ -61,15 +61,15 @@ DESCRIPTION="SpiderMonkey is Mozilla's JavaScript engine written in C and C++"
 HOMEPAGE="https://spidermonkey.dev https://firefox-source-docs.mozilla.org/js/index.html "
 
 LICENSE="MPL-2.0"
-SLOT="91/8.0"
+SLOT="68/12.0"
 KEYWORDS="*"
 
 IUSE="clang cpu_flags_arm_neon debug +jit lto test"
 
-#RESTRICT="test"
 RESTRICT="!test? ( test )"
 
 BDEPEND="${PYTHON_DEPS}
+	dev-lang/python:2.7
 	>=virtual/rust-1.51.0
 	virtual/pkgconfig
 	test? (
@@ -172,6 +172,8 @@ pkg_setup() {
 				eerror "  - Manually switch rust version using 'eselect rust' to match used LLVM version"
 				eerror "  - Switch to dev-lang/rust[system-llvm] which will guarantee matching version"
 				eerror "  - Build ${CATEGORY}/${PN} without USE=lto"
+				eerror "  - Rebuild lld with llvm that was used to build rust (may need to rebuild the whole "
+				eerror "    llvm/clang/lld/rust chain depending on your @world updates)"
 				die "LLVM version used by Rust (${version_llvm_rust}) does not match with ld.lld version (${version_lld})!"
 			fi
 		fi
@@ -195,10 +197,12 @@ pkg_setup() {
 src_prepare() {
 	pushd ../.. &>/dev/null || die
 
-	use lto && rm -v "${WORKDIR}"/firefox-patches/*-LTO-Only-enable-LTO-*.patch
-
-	eapply "${WORKDIR}"/firefox-patches
+	rm "${WORKDIR}"/firefox/2013_avoid_noinline_on_GCC_with_skcms.patch
+	rm "${WORKDIR}"/firefox/2015_fix_cssparser.patch
+	rm "${WORKDIR}"/firefox/2016_set_CARGO_PROFILE_RELEASE_LTO.patch
+	eapply "${WORKDIR}"/firefox
 	eapply "${WORKDIR}"/spidermonkey-patches
+	eapply "${FILESDIR}"/spidermonkey-68.0-add-riscv-support.patch
 
 	default
 
@@ -263,6 +267,12 @@ src_configure() {
 	export HOST_CXX="$(tc-getBUILD_CXX)"
 	tc-export CC CXX LD AR NM OBJDUMP RANLIB PKG_CONFIG
 
+	# backup current active Python version
+	local PYTHON_OLD=${PYTHON}
+
+	# build system will require Python2.7
+	export PYTHON=python2.7
+
 	cd "${MOZJS_BUILDDIR}" || die
 
 	# ../python/mach/mach/mixin/process.py fails to detect SHELL
@@ -271,13 +281,10 @@ src_configure() {
 	local -a myeconfargs=(
 		--host="${CBUILD:-${CHOST}}"
 		--target="${CHOST}"
-		--disable-ctype
 		--disable-jemalloc
 		--disable-optimize
-		--disable-smoosh
 		--disable-strip
 		--enable-readline
-		--enable-release
 		--enable-shared-js
 		--with-intl-api
 		--with-system-icu
@@ -306,12 +313,12 @@ src_configure() {
 
 	# Tell build system that we want to use LTO
 	if use lto ; then
+		myeconfargs+=( --enable-lto )
+
 		if use clang ; then
 			myeconfargs+=( --enable-linker=lld )
-			myeconfargs+=( --enable-lto=cross )
 		else
-			myeconfargs+=( --enable-linker=bfd )
-			myeconfargs+=( --enable-lto )
+			myeconfargs+=( --enable-linker=gold )
 		fi
 	fi
 
@@ -340,6 +347,9 @@ src_configure() {
 		econf \
 		${myeconfargs[@]} \
 		XARGS="${EPREFIX}/usr/bin/xargs"
+
+	# restore PYTHON
+	export PYTHON=${PYTHON_OLD}
 }
 
 src_compile() {
@@ -349,78 +359,9 @@ src_compile() {
 
 src_test() {
 	if "${MOZJS_BUILDDIR}/js/src/js" -e 'print("Hello world!")'; then
-		einfo "Smoke-test successful, continuing with full test suite"
+		einfo "Smoke-test successful"
 	else
 		die "Smoke-test failed: did interpreter initialization fail?"
-	fi
-
-	cp "${FILESDIR}"/spidermonkey-91-known-test-failures.txt "${T}"/known_failures.list || die
-
-	# bgo #827960
-	if use ppc; then
-		echo "non262/TypedArray/map-and-filter.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/load/bigint/good-views.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/load/bigint/non-shared-bufferdata.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/add/bigint/good-views.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/add/bigint/non-shared-bufferdata.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/exchange/bigint/good-views.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/exchange/bigint/non-shared-bufferdata.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/store/bigint/good-views.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/store/bigint/non-shared-bufferdata.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/xor/bigint/good-views.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/xor/bigint/non-shared-bufferdata.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/sub/bigint/good-views.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/sub/bigint/non-shared-bufferdata.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/wait/bigint/no-spurious-wakeup-on-exchange.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/and/bigint/good-views.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/wait/bigint/no-spurious-wakeup-on-or.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/wait/bigint/false-for-timeout-agent.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/wait/bigint/no-spurious-wakeup-on-add.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/or/bigint/non-shared-bufferdata.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/wait/bigint/no-spurious-wakeup-on-sub.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/wait/bigint/no-spurious-wakeup-on-compareExchange.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/wait/bigint/negative-timeout-agent.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/wait/bigint/no-spurious-wakeup-on-xor.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/wait/bigint/value-not-equal.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/wait/bigint/no-spurious-wakeup-no-operation.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/wait/bigint/waiterlist-block-indexedposition-wake.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/wait/bigint/nan-for-timeout.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/wait/bigint/no-spurious-wakeup-on-and.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/wait/bigint/was-woken-before-timeout.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/wait/bigint/no-spurious-wakeup-on-store.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/wait/bigint/waiterlist-order-of-operations-is-fifo.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/compareExchange/bigint/non-shared-bufferdata.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/compareExchange/bigint/good-views.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/and/bigint/non-shared-bufferdata.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/or/bigint/good-views.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Atomics/notify/bigint/notify-all-on-loc.js" >> "${T}"/known_failures.list
-	fi
-
-	if use x86 ; then
-		echo "non262/Date/timeclip.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Number/prototype/toPrecision/return-values.js" >> "${T}"/known_failures.list
-		echo "test262/language/types/number/S8.5_A2.1.js" >> "${T}"/known_failures.list
-		echo "test262/language/types/number/S8.5_A2.2.js" >> "${T}"/known_failures.list
-	fi
-
-	if [[ $(tc-endian) == "big" ]] ; then
-		echo "non262/extensions/clone-errors.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/Date/UTC/fp-evaluation-order.js" >> "${T}"/known_failures.list
-		echo "test262/built-ins/TypedArray/prototype/set/typedarray-arg-set-values-same-buffer-other-type.js" >> "${T}"/known_failures.list
-	fi
-
-	${EPYTHON} \
-		"${S}"/tests/jstests.py -d -s -t 1800 --wpt=disabled --no-progress \
-		--exclude-file="${T}"/known_failures.list \
-		"${MOZJS_BUILDDIR}"/js/src/js \
-		|| die
-
-	if use jit ; then
-		${EPYTHON} \
-			"${S}"/tests/jstests.py -d -s -t 1800 --wpt=disabled --no-progress \
-			--exclude-file="${T}"/known_failures.list \
-			"${MOZJS_BUILDDIR}"/js/src/js basic \
-			|| die
 	fi
 }
 

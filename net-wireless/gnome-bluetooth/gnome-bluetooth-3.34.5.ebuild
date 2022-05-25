@@ -72,6 +72,7 @@ src_install() {
 }
 
 pkg_postinst() {
+	udev_reload
 	xdg_pkg_postinst
 	if ! has_version 'sys-auth/consolekit[acl]' && ! has_version 'sys-auth/elogind[acl]' && ! has_version 'sys-apps/systemd[acl]' ; then
 		elog "Don't forget to add yourself to the plugdev group "

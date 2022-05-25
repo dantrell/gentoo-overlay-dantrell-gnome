@@ -18,7 +18,7 @@ REQUIRED_USE="
 	?? ( caps suid )
 "
 
-# tests require root priviledge
+# tests require root privileges
 RESTRICT="test"
 
 RDEPEND="

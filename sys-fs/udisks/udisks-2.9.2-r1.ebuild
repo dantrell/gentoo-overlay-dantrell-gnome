@@ -121,6 +121,8 @@ pkg_preinst() {
 }
 
 pkg_postinst() {
+	udev_reload
+
 	mkdir -p "${EROOT}"/run #415987
 
 	# See pkg_postinst() of >=sys-apps/baselayout-2.1-r1. Keep in sync?

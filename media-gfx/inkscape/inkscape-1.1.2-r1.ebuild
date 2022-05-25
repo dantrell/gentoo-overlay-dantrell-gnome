@@ -26,6 +26,7 @@ BDEPEND="
 	>=dev-util/intltool-0.40
 	>=sys-devel/gettext-0.17
 	virtual/pkgconfig
+	test? ( virtual/imagemagick-tools )
 "
 COMMON_DEPEND="${PYTHON_DEPS}
 	<app-text/poppler-23.0
@@ -105,9 +106,12 @@ PATCHES=(
 )
 
 pkg_pretend() {
-	if [[ ${MERGE_TYPE} != binary ]] && use openmp; then
-		tc-has-openmp || die "Please switch to an openmp compatible compiler"
-	fi
+	[[ ${MERGE_TYPE} != binary ]] && use openmp && tc-check-openmp
+}
+
+pkg_setup() {
+	[[ ${MERGE_TYPE} != binary ]] && use openmp && tc-check-openmp
+	python-single-r1_pkg_setup
 }
 
 src_unpack() {
