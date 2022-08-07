@@ -2,7 +2,7 @@
 
 EAPI="7"
 
-PYTHON_COMPAT=( python{3_8,3_9,3_10} )
+PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 
 inherit meson-multilib optfeature python-any-r1 udev
 
@@ -14,7 +14,7 @@ LICENSE="MIT LGPL-2.1+ GPL-2"
 SLOT="0/0.3"
 KEYWORDS="*"
 
-IUSE="bluetooth doc extra gstreamer jack-client jack-sdk pipewire-alsa systemd test v4l"
+IUSE="bluetooth doc extra gstreamer jack-client jack-sdk pipewire-alsa systemd test udev v4l"
 
 # Once replacing system JACK libraries is possible, it's likely that
 # jack-client IUSE will need blocking to avoid users accidentally

@@ -2,7 +2,7 @@
 
 EAPI="8"
 
-PYTHON_COMPAT=( python{3_8,3_9,3_10} )
+PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 DISTUTILS_USE_PEP517=setuptools
 
 inherit bash-completion-r1 distutils-r1 toolchain-funcs
@@ -30,17 +30,18 @@ DEPEND="
 	)
 "
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-0.61.4-fix-gtk-update-icon-cache-check.patch
-)
-
 src_prepare() {
 	default
 
 	if use deprecated; then
 		# From Meson:
+		# 	https://github.com/mesonbuild/meson/commit/8b573d7dc65bf20fcb0377ce4c56841496ad0c69
+		eapply "${FILESDIR}"/${PN}-0.62.2-i18n-merge-file-do-not-disable-in-the-absence-of-gettext.patch
+
+		# From Meson:
 		# 	https://github.com/mesonbuild/meson/commit/2b01a14090748c4df2d174ea9832f212f5899491
 		eapply "${FILESDIR}"/${PN}-0.60.1-i18n-merge-file-deprecate-positional-arguments.patch
+		eapply "${FILESDIR}"/${PN}-0.62.2-i18n-itstool-join-deprecate-positional-arguments.patch
 	fi
 }
 

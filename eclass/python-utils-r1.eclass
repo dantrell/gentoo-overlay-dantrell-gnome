@@ -35,6 +35,7 @@ fi
 if [[ ! ${_PYTHON_UTILS_R1} ]]; then
 
 [[ ${EAPI} == [67] ]] && inherit eapi8-dosym
+[[ ${EAPI} == 6 ]] && inherit eqawarn
 inherit toolchain-funcs
 
 # @ECLASS_VARIABLE: _PYTHON_ALL_IMPLS
@@ -44,7 +45,7 @@ inherit toolchain-funcs
 _PYTHON_ALL_IMPLS=(
 	pypy3
 	python2_7
-	python3_{8..10}
+	python3_{8..11}
 )
 readonly _PYTHON_ALL_IMPLS
 
@@ -83,7 +84,11 @@ _python_verify_patterns() {
 
 	local impl pattern
 	for pattern; do
-		[[ ${pattern} == -[23] ]] && continue
+		case ${pattern} in
+			-[23]|3.[89]|3.1[01])
+				continue
+				;;
+		esac
 
 		for impl in "${_PYTHON_ALL_IMPLS[@]}" "${_PYTHON_HISTORICAL_IMPLS[@]}"
 		do
@@ -120,6 +125,8 @@ _python_set_impls() {
 	if [[ $(declare -p PYTHON_COMPAT) != "declare -a"* ]]; then
 		die 'PYTHON_COMPAT must be an array.'
 	fi
+
+	local obsolete=()
 	if [[ ! ${PYTHON_COMPAT_NO_STRICT} ]]; then
 		for i in "${PYTHON_COMPAT[@]}"; do
 			# check for incorrect implementations
@@ -127,7 +134,10 @@ _python_set_impls() {
 			# please keep them in sync with _PYTHON_ALL_IMPLS
 			# and _PYTHON_HISTORICAL_IMPLS
 			case ${i} in
-				jython2_7|pypy|pypy1_[89]|pypy2_0|pypy3|python2_[5-7]|python3_[1-9]|python3_10)
+				pypy3|python2_7|python3_[89]|python3_1[01])
+					;;
+				jython2_7|pypy|pypy1_[89]|pypy2_0|python2_[5-6]|python3_[1-7])
+					obsolete+=( "${i}" )
 					;;
 				*)
 					if has "${i}" "${_PYTHON_ALL_IMPLS[@]}" \
@@ -141,6 +151,17 @@ _python_set_impls() {
 		done
 	fi
 
+	if [[ -n ${obsolete[@]} && ${EBUILD_PHASE} == setup ]]; then
+		# complain if people don't clean up old impls while touching
+		# the ebuilds recently.  use the copyright year to infer last
+		# modification
+		# NB: this check doesn't have to work reliably
+		if [[ $(head -n 1 "${EBUILD}" 2>/dev/null) == *2022* ]]; then
+			eqawarn "Please clean PYTHON_COMPAT of obsolete implementations:"
+			eqawarn "  ${obsolete[*]}"
+		fi
+	fi
+
 	local supp=() unsupp=()
 
 	for i in "${_PYTHON_ALL_IMPLS[@]}"; do
@@ -152,7 +173,13 @@ _python_set_impls() {
 	done
 
 	if [[ ! ${supp[@]} ]]; then
-		die "No supported implementation in PYTHON_COMPAT."
+		# special-case python2_7 for python-any-r1
+		if [[ ${_PYTHON_ALLOW_PY27} ]] && has python2_7 "${PYTHON_COMPAT[@]}"
+		then
+			supp+=( python2_7 )
+		else
+			die "No supported implementation in PYTHON_COMPAT."
+		fi
 	fi
 
 	if [[ ${_PYTHON_SUPPORTED_IMPLS[@]} ]]; then
@@ -405,13 +432,13 @@ _python_export() {
 				local d
 				case ${impl} in
 					python2.7)
-						PYTHON_PKG_DEP='>=dev-lang/python-2.7.5-r2:2.7';;
+						PYTHON_PKG_DEP='>=dev-lang/python-2.7.10_p15:2.7';;
 					python*)
 						PYTHON_PKG_DEP="dev-lang/python:${impl#python}";;
 					pypy)
-						PYTHON_PKG_DEP='>=dev-python/pypy-7.3.0:0=';;
+						PYTHON_PKG_DEP='>=dev-python/pypy-7.3.9:0=';;
 					pypy3)
-						PYTHON_PKG_DEP='>=dev-python/pypy3-7.3.7-r1:0=';;
+						PYTHON_PKG_DEP='>=dev-python/pypy3-7.3.9_p1:0=';;
 					*)
 						die "Invalid implementation: ${impl}"
 				esac
@@ -1331,6 +1358,9 @@ epytest() {
 		-Wdefault
 		# override color output
 		"--color=${color}"
+		# count is more precise when we're dealing with a large number
+		# of tests
+		-o console_output_style=count
 		# disable the undesirable-dependency plugins by default to
 		# trigger missing argument strips.  strip options that require
 		# them from config files.  enable them explicitly via "-p ..."
@@ -1339,6 +1369,9 @@ epytest() {
 		-p no:flake8
 		-p no:flakes
 		-p no:pylint
+		# sterilize pytest-markdown as it runs code snippets from all
+		# *.md files found without any warning
+		-p no:markdown
 	)
 	local x
 	for x in "${EPYTEST_DESELECT[@]}"; do
@@ -1355,6 +1388,11 @@ epytest() {
 
 	# remove common temporary directories left over by pytest plugins
 	rm -rf .hypothesis .pytest_cache || die
+	# pytest plugins create additional .pyc files while testing
+	# see e.g. https://bugs.gentoo.org/847235
+	if [[ -n ${BUILD_DIR} && -d ${BUILD_DIR} ]]; then
+		find "${BUILD_DIR}" -name '*-pytest-*.pyc' -delete || die
+	fi
 
 	return ${ret}
 }

@@ -2,7 +2,7 @@
 
 EAPI="8"
 
-PYTHON_COMPAT=( python{3_8,3_9,3_10} )
+PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 
 inherit flag-o-matic meson-multilib optfeature prefix python-any-r1 systemd udev
 
@@ -13,9 +13,9 @@ SRC_URI="https://gitlab.freedesktop.org/${PN}/${PN}/-/archive/${PV}/${P}.tar.gz"
 LICENSE="MIT LGPL-2.1+ GPL-2"
 # ABI was broken in 0.3.42 for https://gitlab.freedesktop.org/pipewire/wireplumber/-/issues/49
 SLOT="0/0.4"
-KEYWORDS="~*"
+KEYWORDS="*"
 
-IUSE="bluetooth doc echo-cancel extra gstreamer jack-client jack-sdk lv2 pipewire-alsa ssl system-service systemd test v4l vanilla X zeroconf"
+IUSE="bluetooth doc echo-cancel extra gstreamer jack-client jack-sdk lv2 pipewire-alsa ssl system-service systemd test udev v4l vanilla X zeroconf"
 
 # Once replacing system JACK libraries is possible, it's likely that
 # jack-client IUSE will need blocking to avoid users accidentally
@@ -86,7 +86,7 @@ RDEPEND="
 	X? (
 		media-libs/libcanberra
 		x11-libs/libX11
-		x11-libs/libXfixes
+		>=x11-libs/libXfixes-6
 	)
 	zeroconf? ( net-dns/avahi )
 "
@@ -95,7 +95,7 @@ DEPEND="${RDEPEND}"
 
 # TODO: Consider use cases where pipewire is not used for driving audio
 # Doing so with WirePlumber currently involves editing Lua scripts
-PDEPEND="!vanilla? ( media-video/wireplumber )"
+PDEPEND="!vanilla? ( <media-video/wireplumber-0.4.11 )"
 
 # Present RDEPEND that are currently always disabled due to the PW
 # code using them being required to be disabled by Gentoo guidelines

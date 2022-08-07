@@ -1,0 +1,21 @@
+diff '--exclude=.git' -urN a/mesonbuild/modules/i18n.py b/mesonbuild/modules/i18n.py
+--- a/mesonbuild/modules/i18n.py	2022-06-02 11:17:06.000000000 -0500
++++ b/mesonbuild/modules/i18n.py	2022-07-26 08:58:51.156394878 -0500
+@@ -14,6 +14,7 @@
+ from __future__ import annotations
+ 
+ from os import path
++import shutil
+ import typing as T
+ 
+ from . import ExtensionModule, ModuleReturnValue
+@@ -162,6 +163,9 @@
+         KwargInfo('type', str, default='xml', validator=in_set_validator({'xml', 'desktop'})),
+     )
+     def merge_file(self, state: 'ModuleState', args: T.List['TYPE_var'], kwargs: 'MergeFile') -> ModuleReturnValue:
++        if not shutil.which('xgettext'):
++            self.nogettext_warning()
++            return ModuleReturnValue(None, [])
+         if self.tools['msgfmt'] is None or not self.tools['msgfmt'].found():
+             self.tools['msgfmt'] = state.find_program('msgfmt', for_machine=mesonlib.MachineChoice.BUILD)
+         podir = path.join(state.build_to_src, state.subdir, kwargs['po_dir'])

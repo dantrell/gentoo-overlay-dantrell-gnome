@@ -161,6 +161,7 @@ gnome-base/libgtop::gentoo
 gnome-base/librsvg::gentoo
 gnome-base/orbit::gentoo
 gnome-extra/california::gentoo
+gnome-extra/gnome-browser-connector::gentoo
 gnome-extra/gnome-characters::gentoo
 gnome-extra/gnome-color-manager::gentoo
 gnome-extra/gnome-contacts::gentoo
@@ -315,6 +316,7 @@ media-video/gnome-mplayer::gentoo
 media-video/gnome-video-effects::gentoo
 media-video/pipewire::gentoo
 media-video/totem::gentoo
+media-video/wireplumber::gentoo
 net-analyzer/gnome-nettool::gentoo
 net-im/dino::gentoo
 net-im/empathy::gentoo

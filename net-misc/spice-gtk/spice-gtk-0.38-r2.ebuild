@@ -4,7 +4,7 @@ EAPI="7"
 
 VALA_USE_DEPEND="vapigen"
 
-PYTHON_COMPAT=( python{3_8,3_9,3_10} )
+PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 
 inherit desktop meson python-any-r1 readme.gentoo-r1 vala xdg-utils
 

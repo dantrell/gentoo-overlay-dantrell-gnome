@@ -124,6 +124,7 @@
 >=gnome-extra/evolution-data-server-3.42.0
 >=gnome-extra/evolution-ews-3.42.0
 >=gnome-extra/gnome-boxes-41.0
+>=gnome-extra/gnome-browser-connector-42.0
 >=gnome-extra/gnome-calculator-41.0
 >=gnome-extra/gnome-calendar-41.0
 >=gnome-extra/gnome-characters-41.0

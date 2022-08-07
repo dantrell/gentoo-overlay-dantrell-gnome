@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python{3_8,3_9,3_10} )
+PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 
 inherit gnome.org meson python-single-r1 xdg
 
@@ -44,6 +44,10 @@ PATCHES=(
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/gnome-tweaks/-/merge_requests/60
 	"${FILESDIR}"/${PN}-3.34.0-port-to-libhandy-1.patch
+
+	# From Gentoo:
+	# 	https://bugs.gentoo.org/831928
+	"${FILESDIR}"/${PN}-40.0-meson-0.61.patch
 )
 
 src_install() {

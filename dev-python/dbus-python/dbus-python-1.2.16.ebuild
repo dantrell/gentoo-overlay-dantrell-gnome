@@ -2,7 +2,7 @@
 
 EAPI="7"
 
-PYTHON_COMPAT=( python{2_7,3_8,3_9,3_10} )
+PYTHON_COMPAT=( python{2_7,3_8,3_9,3_10,3_11} )
 PYTHON_REQ_USE="threads(+)"
 
 inherit autotools python-r1

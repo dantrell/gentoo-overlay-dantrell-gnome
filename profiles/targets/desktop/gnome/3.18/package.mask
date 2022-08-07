@@ -268,6 +268,7 @@
 >=gnome-extra/evolution-data-server-3.20.0
 >=gnome-extra/evolution-ews-3.20.0
 >=gnome-extra/gnome-boxes-3.20.0
+>=gnome-extra/gnome-browser-connector-42.0
 >=gnome-extra/gnome-calculator-3.20.0
 >=gnome-extra/gnome-calendar-3.20.0
 >=gnome-extra/gnome-characters-3.20.0
@@ -315,6 +316,7 @@
 >=media-sound/rhythmbox-3.4.3
 >=media-sound/sound-juicer-3.20.0
 >=media-video/cheese-3.20.0
+>=media-video/pipewire-0.3.48
 >=media-video/totem-3.20.0
 >=net-im/dino-0.0
 >=net-irc/polari-3.20.0

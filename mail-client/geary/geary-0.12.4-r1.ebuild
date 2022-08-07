@@ -4,7 +4,7 @@ EAPI="6"
 VALA_MIN_API_VERSION="0.38"
 VALA_MAX_API_VERSION="0.42"
 
-# Keep cmake-utils at the end
+# Keep cmake at the end
 inherit gnome2 vala cmake-utils
 
 DESCRIPTION="A lightweight, easy-to-use, feature-rich email client"

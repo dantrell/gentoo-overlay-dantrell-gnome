@@ -11,7 +11,6 @@ gnome-extra/gnome-utils::gentoo
 gnome-extra/nautilus-sendto::dantrell-gnome
 media-fonts/symbola::gentoo
 media-libs/gmtk::dantrell-gnome
-media-video/pipewire::dantrell-gnome
 net-misc/vinagre::dantrell-gnome
 net-misc/vino::dantrell-gnome
 sec-policy/selinux-consolekit

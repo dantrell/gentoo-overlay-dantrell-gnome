@@ -237,6 +237,7 @@
 >=gnome-extra/evolution-data-server-3.26.0
 >=gnome-extra/evolution-ews-3.26.0
 >=gnome-extra/gnome-boxes-3.26.0
+>=gnome-extra/gnome-browser-connector-42.0
 >=gnome-extra/gnome-calculator-3.25.0
 >=gnome-extra/gnome-calendar-3.26.0
 >=gnome-extra/gnome-characters-3.26.0
@@ -283,6 +284,7 @@
 >=media-sound/rhythmbox-3.6
 >=media-sound/sound-juicer-3.26.0
 >=media-video/cheese-3.26.0
+>=media-video/pipewire-0.3.48
 >=media-video/totem-3.26.0
 >=net-irc/polari-3.26.0
 >=net-libs/dleyna-connector-dbus-0.4.0

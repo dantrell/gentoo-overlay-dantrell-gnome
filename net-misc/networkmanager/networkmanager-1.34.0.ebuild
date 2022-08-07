@@ -3,7 +3,7 @@
 EAPI="8"
 GNOME_ORG_MODULE="NetworkManager"
 VALA_USE_DEPEND="vapigen"
-PYTHON_COMPAT=( python{3_8,3_9,3_10} )
+PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 
 inherit gnome.org linux-info meson-multilib python-any-r1 readme.gentoo-r1 systemd toolchain-funcs udev vala virtualx
 

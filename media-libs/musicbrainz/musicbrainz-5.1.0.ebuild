@@ -33,7 +33,7 @@ PATCHES=(
 )
 
 src_prepare() {
-	use test || cmake_comment_add_subdirectory tests
+	use test || cmake-utils_comment_add_subdirectory tests
 	cmake-utils_src_prepare
 }
 
