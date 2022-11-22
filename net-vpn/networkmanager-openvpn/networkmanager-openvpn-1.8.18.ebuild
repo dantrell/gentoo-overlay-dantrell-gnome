@@ -7,11 +7,11 @@ GNOME_ORG_MODULE="NetworkManager-${PN##*-}"
 inherit gnome2
 
 DESCRIPTION="NetworkManager OpenVPN plugin"
-HOMEPAGE="https://gitlab.gnome.org/GNOME/NetworkManager-openvpn https://gitlab.gnome.org/GNOME/NetworkManager-openvpn"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/NetworkManager-openvpn"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gtk gtk4 +legacy test"
 

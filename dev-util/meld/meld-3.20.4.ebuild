@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_REQ_USE="xml"
+PYTHON_REQ_USE="xml(+)"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 DISTUTILS_SINGLE_IMPL=1
 DISTUTILS_USE_SETUPTOOLS=no
@@ -13,7 +13,7 @@ HOMEPAGE="http://meldmerge.org/"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 
@@ -42,7 +42,7 @@ BDEPEND="
 distutils_enable_tests pytest
 
 python_check_deps() {
-	has_version -b "dev-python/distro[${PYTHON_USEDEP}]"
+	python_has_version "dev-python/distro[${PYTHON_USEDEP}]"
 }
 
 python_compile_all() {

@@ -1,10 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
-VALA_USE_DEPEND="vapigen"
+EAPI="8"
 
-inherit gnome2 python-r1 vala meson
+PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
+
+inherit gnome.org meson python-r1 vala
 
 DESCRIPTION="Git library for GLib"
 HOMEPAGE="https://wiki.gnome.org/Projects/Libgit2-glib"
@@ -13,42 +13,50 @@ LICENSE="LGPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="doc python +ssh +vala"
+IUSE="gtk-doc python +ssh +vala"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
-# Specify libgit2 dependency with subslot because libgit2 upstream has a habit
-# of changing their API in each release in ways that break libgit2-glib
+# libgit2-glib is now compatible with SOVERSION 26..28 of libgit2.
 RDEPEND="
 	>=dev-libs/gobject-introspection-0.10.1:=
 	>=dev-libs/glib-2.42.0:2
-	>=dev-libs/libgit2-0.26.0:0/26[ssh?]
-	doc? ( >=dev-util/gtk-doc-am-1.11 )
+	<dev-libs/libgit2-0.29:0=[ssh?]
+	>=dev-libs/libgit2-0.26.0:0
 	python? (
 		${PYTHON_DEPS}
-		dev-python/pygobject:3[${PYTHON_USEDEP}] )
+		dev-python/pygobject:3[${PYTHON_USEDEP}]
+	)
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	virtual/pkgconfig
-	vala? ( $(vala_depend) )
+	gtk-doc? (
+		>=dev-util/gtk-doc-am-1.11
+	)
+	vala? (
+		$(vala_depend)
+	)
 "
 
 src_prepare() {
+	default
+
 	# Lower the minimum required GLib version
 	sed -e 's/2.44.0/2.42.0/' \
 		-i meson.build || die
 
-	use vala && vala_src_prepare
-	gnome2_src_prepare
+	use vala && vala_setup
 }
 
 src_configure() {
 	local emesonargs=(
-		-D gtk_doc=$(usex doc true false)
-		-D introspection=true
-		-D python=true
-		-D ssh=$(usex ssh true false)
-		-D vapi=$(usex vala true false)
+		$(meson_use gtk-doc gtk_doc)
+		-Dintrospection=true
+		-Dpython=true
+		$(meson_use ssh)
+		$(meson_use vala vapi)
 	)
+
 	meson_src_configure
 }
 
@@ -56,10 +64,7 @@ src_install() {
 	meson_src_install
 
 	if use python ; then
-		install_gi_override() {
-			python_moduleinto "$(python_get_sitedir)/gi/overrides"
-			python_domodule "${S}"/${PN}/Ggit.py
-		}
-		python_foreach_impl install_gi_override
+		python_moduleinto gi.overrides
+		python_foreach_impl python_domodule libgit2-glib/Ggit.py
 	fi
 }

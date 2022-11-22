@@ -53,7 +53,7 @@ src_prepare() {
 
 src_configure() {
 	local emesonargs=(
-		-Dmemphis=false # TODO: What's the state of this vector renderer?
+		-Dmemphis=false
 		$(meson_use introspection)
 		$(meson_use vala vapi)
 		$(meson_use gtk widgetry)

@@ -5,7 +5,7 @@ EAPI="8"
 inherit linux-info systemd
 
 DESCRIPTION="Daemon for Advanced Configuration and Power Interface"
-HOMEPAGE="https://sourceforge.net/projects/acpid2"
+HOMEPAGE="https://sourceforge.net/projects/acpid2/"
 SRC_URI="mirror://sourceforge/${PN}2/${P}.tar.xz"
 
 LICENSE="GPL-2"
@@ -45,6 +45,8 @@ PATCHES=(
 	"${FILESDIR}"/patches/add-gsd-pms.patch
 )
 
+pkg_setup() { :; }
+
 src_install() {
 	emake DESTDIR="${D}" install
 
@@ -74,13 +76,5 @@ pkg_postinst() {
 		elog "which can be found online at:"
 		elog "https://wiki.gentoo.org/wiki/Power_management/Guide"
 		elog
-	fi
-
-	# files/systemd/acpid.socket -> ListenStream=/run/acpid.socket
-	mkdir -p "${ROOT%/}"/run
-
-	if ! grep -qs "^tmpfs.*/run " "${ROOT%/}"/proc/mounts ; then
-		echo
-		ewarn "You should reboot the system now to get /run mounted with tmpfs!"
 	fi
 }

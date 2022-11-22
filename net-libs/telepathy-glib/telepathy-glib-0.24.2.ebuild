@@ -2,9 +2,8 @@
 
 EAPI="7"
 
-PYTHON_REQ_USE="xml"
+PYTHON_REQ_USE="xml(+)"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
-VALA_USE_DEPEND="vapigen"
 
 inherit gnome2 python-any-r1 vala virtualx
 
@@ -14,7 +13,7 @@ SRC_URI="https://telepathy.freedesktop.org/releases/${PN}/${P}.tar.gz"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="debug +introspection +vala"
 REQUIRED_USE="vala? ( introspection )"

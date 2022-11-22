@@ -3,10 +3,7 @@
 EAPI="8"
 
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
-VALA_MIN_API_VERSION="0.34"
-VALA_MAX_API_VERSION="0.54"
-
-PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
+VALA_MIN_API_VERSION="0.54"
 
 inherit gnome.org gnome2-utils meson python-any-r1 vala xdg
 
@@ -15,7 +12,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Shotwell"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="opencv udev"
 
@@ -36,7 +33,7 @@ DEPEND="
 	>=media-libs/libraw-0.13.2:=
 	>=media-libs/libexif-0.6.16:=
 	dev-libs/libgdata:=
-	>=app-crypt/gcr-3:=[gtk]
+	>=app-crypt/gcr-3:0=[gtk]
 	x11-libs/cairo
 	opencv? ( >=media-libs/opencv-2.3.0:= )
 "
@@ -53,7 +50,7 @@ BDEPEND="
 	virtual/pkgconfig
 	net-libs/libsoup:2.4[vala]
 	media-libs/gexiv2[vala]
-	app-crypt/gcr[vala(+)]
+	app-crypt/gcr:0=[vala(+)]
 "
 
 PATCHES=(

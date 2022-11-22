@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="8"
 
 inherit gnome.org meson xdg
 
@@ -11,17 +11,16 @@ LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE=""
-
-RDEPEND="
+DEPEND="
 	>=dev-libs/glib-2.35.1:2
 	>=x11-libs/gtk+-3.20:3
-	>=media-libs/harfbuzz-0.9.9
+	>=media-libs/harfbuzz-0.9.9:=
 	media-libs/fontconfig:1.0
 	media-libs/freetype:2
 	gnome-base/gnome-desktop:3=
 "
-DEPEND="${RDEPEND}
+RDEPEND="${DEPEND}"
+BDEPEND="
 	dev-libs/appstream-glib
 	dev-libs/libxml2:2
 	>=sys-devel/gettext-0.19.8
@@ -29,6 +28,10 @@ DEPEND="${RDEPEND}
 "
 
 PATCHES=(
+	# From Gentoo:
+	# 	https://bugs.gentoo.org/831639
+	"${FILESDIR}"/${PN}-3.34.0-fix-meson-0.61-build.patch
+
 	# From GNOME:
 	# 	https://gitlab.gnome.org/GNOME/gnome-font-viewer/commit/8089d86f30cb56fe2f720b6b4cfd9435d5cc3d92
 	# 	https://gitlab.gnome.org/GNOME/gnome-font-viewer/commit/cbe443a8db3b7f09b2653d588c2ddd76d47fa496

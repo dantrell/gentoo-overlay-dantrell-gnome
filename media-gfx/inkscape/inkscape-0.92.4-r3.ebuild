@@ -3,14 +3,14 @@
 EAPI="7"
 
 PYTHON_COMPAT=( python2_7 )
-PYTHON_REQ_USE="xml"
+PYTHON_REQ_USE="xml(+)"
 
 inherit autotools flag-o-matic gnome2-utils xdg toolchain-funcs python-single-r1
 
 MY_P="${P/_/}"
 
 DESCRIPTION="SVG based generic vector-drawing program"
-HOMEPAGE="https://inkscape.org/"
+HOMEPAGE="https://inkscape.org/ https://gitlab.com/inkscape/inkscape/"
 SRC_URI="https://inkscape.global.ssl.fastly.net/media/resources/file/${P}.tar.bz2"
 
 LICENSE="GPL-2 LGPL-2.1"
@@ -35,7 +35,7 @@ COMMON_DEPEND="${PYTHON_DEPS}
 	>=dev-cpp/glibmm-2.28
 	>=dev-cpp/gtkmm-2.18.0:2.4
 	>=dev-libs/boehm-gc-7.1:=
-	>=dev-libs/boost-1.36:=
+	dev-libs/boost:=
 	>=dev-libs/glib-2.28
 	>=dev-libs/libsigc++-2.0.12
 	>=dev-libs/libxml2-2.6.20

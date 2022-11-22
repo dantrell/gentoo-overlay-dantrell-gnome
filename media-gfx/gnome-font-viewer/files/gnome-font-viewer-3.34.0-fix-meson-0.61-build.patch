@@ -1,0 +1,23 @@
+diff '--exclude=.git' -urN a/data/meson.build b/data/meson.build
+--- a/data/meson.build	2019-09-14 18:36:36.000000000 -0500
++++ b/data/meson.build	2022-11-21 15:44:42.020985403 -0600
+@@ -1,6 +1,6 @@
+ appdatadir = join_paths(datadir, 'metainfo')
+ appdata_file = 'org.gnome.font-viewer.appdata.xml'
+-i18n.merge_file(appdata_file,
++i18n.merge_file(
+   input: appdata_file + '.in',
+   output: appdata_file,
+   po_dir: '../po',
+diff '--exclude=.git' -urN a/src/meson.build b/src/meson.build
+--- a/src/meson.build	2019-09-14 18:36:36.000000000 -0500
++++ b/src/meson.build	2022-11-21 15:44:46.077970531 -0600
+@@ -37,7 +37,7 @@
+   install: true)
+ 
+ desktop_file = 'org.gnome.font-viewer.desktop'
+-i18n.merge_file(desktop_file,
++i18n.merge_file(
+   input: desktop_file + '.in',
+   output: desktop_file,
+   po_dir: '../po',

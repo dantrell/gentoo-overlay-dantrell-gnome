@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="8"
 
 inherit gnome2
 
@@ -24,14 +24,14 @@ RDEPEND="
 	>=net-libs/libzapojit-0.0.2
 	flickr? ( media-plugins/grilo-plugins:0.3[flickr] )
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	virtual/pkgconfig
 "
 
 src_configure() {
 	gnome2_src_configure \
 		$(use_enable flickr) \
-		--disable-static \
 		--enable-facebook \
 		--enable-google \
 		--enable-media-server \

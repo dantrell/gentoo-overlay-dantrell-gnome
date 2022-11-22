@@ -7,7 +7,7 @@ PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 inherit autotools bash-completion-r1 gnome2 linux-info python-any-r1 vala versionator virtualx
 
 DESCRIPTION="A tagging metadata database, search tool and indexer"
-HOMEPAGE="https://wiki.gnome.org/Projects/Tracker"
+HOMEPAGE="https://wiki.gnome.org/Projects/Tracker https://gitlab.gnome.org/GNOME/tracker"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0/100"

@@ -10,11 +10,9 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Brasero"
 
 LICENSE="GPL-2+ CC-BY-SA-3.0"
 SLOT="0/3.1" # subslot is 3.suffix of libbrasero-burn3
-KEYWORDS="~*"
+KEYWORDS="*"
 
-IUSE="+css +introspection +libburn mp3 nautilus playlist test tracker"
-
-RESTRICT="!test? ( test )"
+IUSE="+css +introspection +libburn mp3 nautilus playlist tracker"
 
 DEPEND="
 	>=dev-libs/glib-2.29.14:2
@@ -53,7 +51,6 @@ BDEPEND="
 	>=dev-util/gtk-doc-am-1.12
 	sys-devel/gettext
 	virtual/pkgconfig
-	test? ( app-text/docbook-xml-dtd:4.3 )
 "
 # eautoreconf deps
 #	app-text/yelp-tools

@@ -5,7 +5,7 @@ EAPI="6"
 inherit flag-o-matic gnome2-utils xdg-utils
 
 DESCRIPTION="A GTK+ interface to MPlayer"
-HOMEPAGE="https://code.google.com/p/gnome-mplayer/"
+HOMEPAGE="https://code.google.com/archive/p/gnome-mplayer/"
 SRC_URI="https://${PN}.googlecode.com/svn/packages/${P}.tar.gz"
 
 LICENSE="GPL-2"

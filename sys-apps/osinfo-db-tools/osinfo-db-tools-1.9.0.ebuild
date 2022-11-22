@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 
@@ -40,9 +40,8 @@ BDEPEND="
 "
 
 python_check_deps() {
-	use test && \
-		has_version "dev-python/pytest[${PYTHON_USEDEP}]" && \
-		has_version "dev-python/requests[${PYTHON_USEDEP}]"
+	python_has_version "dev-python/pytest[${PYTHON_USEDEP}]" && \
+	python_has_version "dev-python/requests[${PYTHON_USEDEP}]"
 }
 
 pkg_setup() {

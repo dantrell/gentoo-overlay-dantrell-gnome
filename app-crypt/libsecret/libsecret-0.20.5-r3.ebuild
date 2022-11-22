@@ -2,7 +2,6 @@
 
 EAPI="7"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
-VALA_USE_DEPEND=vapigen
 
 inherit bash-completion-r1 gnome2 meson-multilib python-any-r1 vala virtualx
 
@@ -70,7 +69,7 @@ dbus_run() {
 
 tpm2_run_with_emulator() {
 	export XDG_CONFIG_HOME=${T}/.config/swtpm
-	${BROOT}/usr/share/swtpm/swtpm-create-user-config-files || die
+	"${BROOT}"/usr/share/swtpm/swtpm-create-user-config-files || die
 
 	mkdir -p ${XDG_CONFIG_HOME}/mytpm1 || die
 	swtpm_setup_args=(
@@ -115,10 +114,10 @@ tpm2_run_with_emulator() {
 
 python_check_deps() {
 	if use introspection; then
-		has_version -b "dev-python/pygobject:3[${PYTHON_USEDEP}]" || return
+		python_has_version "dev-python/pygobject:3[${PYTHON_USEDEP}]" || return
 	fi
-	has_version -b "dev-python/mock[${PYTHON_USEDEP}]" &&
-	has_version -b "dev-python/dbus-python[${PYTHON_USEDEP}]"
+	python_has_version "dev-python/mock[${PYTHON_USEDEP}]" &&
+	python_has_version "dev-python/dbus-python[${PYTHON_USEDEP}]"
 }
 
 pkg_setup() {

@@ -24,7 +24,7 @@
 >=app-editors/gedit-40.0
 >=app-editors/gedit-plugins-40.0
 >=app-editors/ghex-40.0
->=app-editors/gnome-latex-40.0
+>=app-editors/gnome-latex-3.40.0
 >=app-editors/gnome-text-editor-41.0
 >=app-misc/bijiben-40.0
 >=app-misc/geoclue-2.6.0

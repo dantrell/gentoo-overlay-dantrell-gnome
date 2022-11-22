@@ -48,7 +48,7 @@ PATCHES=(
 )
 
 python_check_deps() {
-	has_version -b "dev-python/jinja[${PYTHON_USEDEP}]"
+	python_has_version "dev-python/jinja[${PYTHON_USEDEP}]"
 }
 
 S="${WORKDIR}/${PN}-${P}"

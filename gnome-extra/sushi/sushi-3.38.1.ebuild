@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
-inherit gnome.org meson xdg
+inherit gnome.org meson
 
 DESCRIPTION="A quick previewer for Nautilus, the GNOME file manager"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/sushi"
@@ -41,12 +41,12 @@ BDEPEND="
 "
 
 src_prepare() {
+	default
+
 	if ! use webkit; then
 		# From GNOME Without Systemd:
 		eapply "${FILESDIR}"/${PN}-3.38.1-make-webkit-optional.patch
 	fi
-
-	xdg_src_prepare
 }
 
 src_configure() {

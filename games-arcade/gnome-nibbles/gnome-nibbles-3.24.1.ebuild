@@ -1,10 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="8"
 VALA_MIN_API_VERSION="0.28"
 VALA_MAX_API_VERSION="0.48"
 
-inherit gnome2 vala
+inherit gnome2 vala xdg
 
 DESCRIPTION="Nibbles clone for GNOME"
 HOMEPAGE="https://wiki.gnome.org/Apps/Nibbles https://gitlab.gnome.org/GNOME/gnome-nibbles"
@@ -12,8 +12,6 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Nibbles https://gitlab.gnome.org/GNOME/gno
 LICENSE="GPL-3+ CC-BY-SA-3.0"
 SLOT="0"
 KEYWORDS="*"
-
-IUSE=""
 
 RDEPEND="
 	>=dev-libs/glib-2.40.0:2
@@ -24,7 +22,8 @@ RDEPEND="
 	>=media-libs/libcanberra-0.26[gtk3]
 	>=x11-libs/gtk+-3.18.0:3
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	$(vala_depend)
 	dev-libs/appstream-glib
 	>=dev-util/intltool-0.50.2
@@ -34,6 +33,17 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	vala_src_prepare
-	gnome2_src_prepare
+	default
+	vala_setup
+	xdg_environment_reset
+}
+
+pkg_postinst() {
+	xdg_pkg_postinst
+	gnome2_schemas_update
+}
+
+pkg_postrm() {
+	xdg_pkg_postrm
+	gnome2_schemas_update
 }

@@ -21,7 +21,7 @@ RDEPEND="
 	>=dev-libs/gjs-1.43.3
 	>=dev-libs/glib-2.32:2
 	>=dev-libs/gobject-introspection-1.35.9:=
-	>=dev-libs/libgweather-3.17.2:=
+	>=dev-libs/libgweather-3.17.2:2=
 	gnome-base/gsettings-desktop-schemas
 	>=x11-libs/gtk+-3.11.4:3
 "

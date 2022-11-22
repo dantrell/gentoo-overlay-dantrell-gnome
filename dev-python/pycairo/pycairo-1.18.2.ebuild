@@ -27,13 +27,13 @@ BDEPEND="
 	)
 "
 RDEPEND="
-	>=x11-libs/cairo-1.13.1[svg]
+	>=x11-libs/cairo-1.13.1[svg(+)]
 "
 DEPEND="${RDEPEND}"
 
 python_check_deps() {
 	use doc || return 0
-	has_version "dev-python/sphinx[${PYTHON_USEDEP}]"
+	python_has_version "dev-python/sphinx[${PYTHON_USEDEP}]"
 }
 
 python_compile_all() {

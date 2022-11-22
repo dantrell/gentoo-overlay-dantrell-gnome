@@ -11,7 +11,7 @@ LICENSE="GPL-2+ LGPL-2.1+ FDL-1.1+"
 SLOT="0" # does not provide a public libgdict-1.0.so anymore
 KEYWORDS="*"
 
-IUSE="ipv6"
+IUSE=""
 
 DEPEND="
 	>=dev-libs/glib-2.42:2
@@ -40,7 +40,7 @@ src_configure() {
 	append-cflags -DG_DISABLE_ASSERT -DG_DISABLE_CHECKS -DG_DISABLE_CAST_CHECKS
 
 	local emesonargs=(
-		$(meson_use ipv6 use_ipv6)
+		-Duse_ipv6=true
 		-Dbuild_man=true
 	)
 	meson_src_configure

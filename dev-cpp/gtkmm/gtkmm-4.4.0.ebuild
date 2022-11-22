@@ -13,25 +13,25 @@ LICENSE="LGPL-2.1+"
 SLOT="4.0"
 KEYWORDS="*"
 
-IUSE="doc test"
+IUSE="gtk-doc test"
 
 RESTRICT="!test? ( test )"
 
 RDEPEND="
-	>=dev-cpp/glibmm-2.68.0:2.68[doc?]
+	>=dev-cpp/glibmm-2.68.0:2.68[gtk-doc?]
 	>=gui-libs/gtk-4.4.0:4
-	>=dev-cpp/cairomm-1.15.4:1.16[doc?]
-	>=dev-cpp/pangomm-2.48.0:2.48[doc?]
+	>=dev-cpp/cairomm-1.15.4:1.16[gtk-doc?]
+	>=dev-cpp/pangomm-2.48.0:2.48[gtk-doc?]
 	>=x11-libs/gdk-pixbuf-2.35.5:2
 	>=media-libs/libepoxy-1.2
 "
 DEPEND="
 	${RDEPEND}
-	doc? ( dev-libs/libsigc++:3 )
+	gtk-doc? ( dev-libs/libsigc++:3 )
 "
 BDEPEND="
 	virtual/pkgconfig
-	doc? (
+	gtk-doc? (
 		app-doc/doxygen[dot]
 		dev-lang/perl
 		dev-libs/libxslt
@@ -42,7 +42,7 @@ BDEPEND="
 src_configure() {
 	local emesonargs=(
 		-Dbuild-demos=false
-		$(meson_use doc build-documentation)
+		$(meson_use gtk-doc build-documentation)
 		$(meson_use test build-tests)
 	)
 	meson_src_configure

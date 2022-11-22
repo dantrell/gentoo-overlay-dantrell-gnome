@@ -82,4 +82,6 @@ src_install() {
 	# 	https://www.freedesktop.org/software/appstream/docs/chap-Metadata.html#spec-component-location
 	# 	https://bugs.gentoo.org/709450
 	mv "${ED}"/usr/share/{appdata,metainfo} || die
+
+	find "${ED}" -type f -name "*.la" -delete || die
 }

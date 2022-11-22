@@ -7,7 +7,7 @@ VALA_MIN_API_VERSION="0.40"
 inherit bash-completion-r1 gnome.org gnome2-utils linux-info meson python-any-r1 systemd vala xdg
 
 DESCRIPTION="A tagging metadata database, search tool and indexer"
-HOMEPAGE="https://wiki.gnome.org/Projects/Tracker"
+HOMEPAGE="https://wiki.gnome.org/Projects/Tracker https://gitlab.gnome.org/GNOME/tracker"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0/2.0"

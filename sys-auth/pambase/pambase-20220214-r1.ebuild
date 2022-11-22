@@ -15,7 +15,6 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE="caps ck consolekit debug elogind gnome-keyring homed minimal mktemp +nullok pam_krb5 pam_ssh +passwdqc pwhistory pwquality securetty selinux +sha512 systemd yescrypt"
-
 REQUIRED_USE="
 	?? ( ck consolekit elogind systemd )
 	?? ( passwdqc pwquality )
@@ -60,7 +59,7 @@ PATCHES=(
 )
 
 python_check_deps() {
-	has_version -b "dev-python/jinja[${PYTHON_USEDEP}]"
+	python_has_version "dev-python/jinja[${PYTHON_USEDEP}]"
 }
 
 S="${WORKDIR}/${PN}-${P}"

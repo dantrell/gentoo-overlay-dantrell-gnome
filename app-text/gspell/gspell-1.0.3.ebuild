@@ -5,7 +5,7 @@ EAPI="8"
 inherit gnome2 vala virtualx
 
 DESCRIPTION="Spell check library for GTK+ applications"
-HOMEPAGE="https://wiki.gnome.org/Projects/gspell"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/gspell"
 
 LICENSE="LGPL-2.1+"
 SLOT="0/1" # subslot = libgspell-1 soname version

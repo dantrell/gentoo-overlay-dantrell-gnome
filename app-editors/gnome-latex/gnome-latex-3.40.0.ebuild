@@ -9,7 +9,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/GNOME-LaTeX https://gitlab.gnome.org/swilm
 
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+introspection +latexmk rubber"
 

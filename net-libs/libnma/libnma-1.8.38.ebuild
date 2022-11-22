@@ -5,7 +5,7 @@ EAPI="8"
 inherit gnome.org gnome2-utils meson xdg vala
 
 DESCRIPTION="NetworkManager GUI library"
-HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
+HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager https://gitlab.gnome.org/GNOME/libnma"
 
 LICENSE="GPL-2+"
 SLOT="0"
@@ -16,14 +16,14 @@ IUSE="gtk4 gtk-doc +introspection +pkcs11 vala"
 REQUIRED_USE="vala? ( introspection )"
 
 DEPEND="
+	gtk4? ( >=gui-libs/gtk-4.0:4 )
 	app-text/iso-codes
 	net-misc/mobile-broadband-provider-info
 	>=dev-libs/glib-2.38:2
 	>=x11-libs/gtk+-3.12:3[introspection?]
 	>=net-misc/networkmanager-1.7:=[introspection?]
-	pkcs11? ( >=app-crypt/gcr-3.14:= )
-	introspection? ( >=dev-libs/gobject-introspection-1.56:= )
-	gtk4? ( >=gui-libs/gtk-4.0:4 )
+	pkcs11? ( >=app-crypt/gcr-3.14:0=[gtk] )
+	introspection? ( >=dev-libs/gobject-introspection-1:= )
 "
 RDEPEND="${DEPEND}
 	!<gnome-extra/nm-applet-1.16.0" # gschema moved to here before nm-applet-1.16.0

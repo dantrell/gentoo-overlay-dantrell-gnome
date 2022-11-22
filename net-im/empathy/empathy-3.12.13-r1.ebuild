@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-GNOME2_LA_PUNT="yes"
+EAPI="8"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 
 inherit autotools gnome2 python-any-r1 virtualx
@@ -46,7 +45,7 @@ COMMON_DEPEND="
 	>=net-libs/telepathy-glib-0.23.2
 	>=net-im/telepathy-logger-0.8.0:=
 
-	app-crypt/gcr[gtk]
+	app-crypt/gcr:0=[gtk]
 	dev-libs/libxml2:2
 	gnome-base/gsettings-desktop-schemas
 	media-sound/pulseaudio[glib]
@@ -55,7 +54,7 @@ COMMON_DEPEND="
 
 	geolocation? (
 		>=app-misc/geoclue-2.1:2.0
-		>=sci-geosciences/geocode-glib-3.10 )
+		>=sci-geosciences/geocode-glib-3.10:0 )
 	gnome-online-accounts? ( >=net-libs/gnome-online-accounts-3.5.1:= )
 	map? (
 		>=media-libs/clutter-1.7.14:1.0
@@ -70,24 +69,24 @@ COMMON_DEPEND="
 		>=media-video/cheese-3.4:= )
 "
 
-# >=empathy-3.4 is incompatible with telepathy-rakia-0.6, bug #403861
 RDEPEND="${COMMON_DEPEND}
 	media-libs/gst-plugins-base:1.0
 	net-im/telepathy-connection-managers
-	!<net-voip/telepathy-rakia-0.7
 	x11-themes/adwaita-icon-theme
 	gnome? ( gnome-extra/gnome-contacts )
 "
 DEPEND="${COMMON_DEPEND}
+	test? (
+		sys-apps/grep
+		>=dev-libs/check-0.9.4 )
+"
+BDEPEND="
 	${PYTHON_DEPS}
 	dev-libs/libxml2:2
 	dev-libs/libxslt
 	>=dev-util/intltool-0.50.0
 	dev-util/itstool
 	virtual/pkgconfig
-	test? (
-		sys-apps/grep
-		>=dev-libs/check-0.9.4 )
 "
 PDEPEND=">=net-im/telepathy-mission-control-5.14"
 
@@ -123,5 +122,5 @@ src_configure() {
 }
 
 src_test() {
-	dbus-launch virtx emake check #504516
+	virtx dbus-run-session emake check
 }

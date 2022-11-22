@@ -7,7 +7,7 @@ PYTHON_COMPAT=( python2_7 )
 inherit gnome2 python-single-r1 versionator virtualx
 
 DESCRIPTION="A user interface designer for GTK+ and GNOME"
-HOMEPAGE="https://glade.gnome.org/"
+HOMEPAGE="https://glade.gnome.org https://gitlab.gnome.org/GNOME/glade"
 
 LICENSE="GPL-2+ FDL-1.1+"
 SLOT="3.10/6" # subslot = suffix of libgladeui-2.so

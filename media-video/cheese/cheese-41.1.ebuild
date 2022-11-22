@@ -61,6 +61,7 @@ BDEPEND="
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.38.0-buildfix.patch
+	"${FILESDIR}"/${PN}-41.1-thumb-view-update-for-new-gnome-desktop-API.patch
 )
 
 src_prepare() {

@@ -6,7 +6,7 @@ GNOME2_LA_PUNT="yes"
 inherit autotools flag-o-matic gnome2
 
 DESCRIPTION="A window navigation construction kit"
-HOMEPAGE="https://developer.gnome.org/libwnck/stable/"
+HOMEPAGE="https://developer-old.gnome.org/libwnck/stable/ https://gitlab.gnome.org/GNOME/libwnck"
 SRC_URI="https://gitlab.gnome.org/GNOME/${PN}/-/archive/${PV}/${P}.tar.bz2"
 
 LICENSE="LGPL-2+"

@@ -1,14 +1,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-GNOME2_LA_PUNT="yes"
-# Needed for tests and build #489466
+EAPI="8"
+PYTHON_REQ_USE="xml(+)"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 
 inherit autotools gnome2 python-any-r1
 
 DESCRIPTION="An account manager and channel dispatcher for the Telepathy framework"
-HOMEPAGE="https://cgit.freedesktop.org/telepathy/telepathy-mission-control/"
+HOMEPAGE="https://gitlab.freedesktop.org/telepathy/telepathy-mission-control"
 SRC_URI="https://telepathy.freedesktop.org/releases/${PN}/${P}.tar.gz"
 
 LICENSE="LGPL-2.1+"
@@ -36,7 +35,8 @@ RDEPEND="
 	elogind? ( sys-auth/elogind )
 	systemd? ( >=sys-apps/systemd-186:0= )
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	${PYTHON_DEPS}
 	dev-libs/libxslt
 	>=dev-util/gtk-doc-am-1.17
@@ -45,7 +45,7 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	# From Telepathy Mission Control:
-	# 	https://cgit.freedesktop.org/telepathy/telepathy-mission-control/commit/?id=d8dab08fe8db137c6bbd8bbdc3d9b01d98c48910
+	# 	https://gitlab.freedesktop.org/telepathy/telepathy-mission-control/-/commit/d8dab08fe8db137c6bbd8bbdc3d9b01d98c48910
 	eapply "${FILESDIR}"/${PN}-5.16.6-account-fix-property-name.patch
 
 	# From Funtoo:

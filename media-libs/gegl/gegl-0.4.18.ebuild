@@ -74,7 +74,7 @@ PATCHES=(
 
 python_check_deps() {
 	use test || return 0
-	has_version -b ">=dev-python/pygobject-3.2:3[${PYTHON_USEDEP}]"
+	python_has_version ">=dev-python/pygobject-3.2:3[${PYTHON_USEDEP}]"
 }
 
 src_prepare() {

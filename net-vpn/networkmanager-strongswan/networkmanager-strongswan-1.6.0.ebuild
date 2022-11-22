@@ -13,19 +13,21 @@ SRC_URI="https://download.strongswan.org/${MY_PN}/${MY_P}.tar.bz2"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
-IUSE="gtk4"
+IUSE="gtk gtk4 +legacy"
 
 RDEPEND="
 	app-crypt/libsecret
-	>=net-libs/libnma-1.1.0
+	legacy? ( gnome-extra/nm-applet[gtk] )
+	!legacy? ( >=net-libs/libnma-1.1.0 )
 	net-misc/networkmanager:=[resolvconf]
 	>=net-vpn/strongswan-5.8.3[networkmanager]
-	!gtk4? ( x11-libs/gtk+:3 )
+	gtk? (
+		>=x11-libs/gtk+-3.4:3
+	)
 	gtk4? (
-		net-libs/libnma
-		gui-libs/gtk:4
+		>=gui-libs/gtk-4.0:4
 	)
 "
 

@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-GNOME2_LA_PUNT="yes"
+EAPI="8"
 
 inherit autotools gnome2 virtualx
 
@@ -48,21 +47,26 @@ RDEPEND="
 		x11-libs/libXext
 		x11-libs/libXdamage
 		>=x11-libs/libXi-1.3
-		>=x11-libs/libXcomposite-0.4 )
+		>=x11-libs/libXcomposite-0.4
+	)
 	wayland? (
 		dev-libs/wayland
-		x11-libs/gdk-pixbuf:2 )
+		x11-libs/gdk-pixbuf:2
+	)
 "
 DEPEND="${RDEPEND}
+	X? ( x11-base/xorg-proto )
+	test? ( x11-libs/gdk-pixbuf )
+"
+BDEPEND="
 	>=dev-util/gtk-doc-am-1.20
 	>=sys-devel/gettext-0.17
 	virtual/pkgconfig
 	doc? (
 		>=dev-util/gtk-doc-1.20
 		>=app-text/docbook-sgml-utils-0.6.14[jadetex]
-		dev-libs/libxslt )
-	X? ( x11-base/xorg-proto )
-	test? ( x11-libs/gdk-pixbuf )
+		dev-libs/libxslt
+	)
 "
 
 src_prepare() {
@@ -98,8 +102,8 @@ src_configure() {
 		--disable-cex100-backend \
 		--disable-win32-backend \
 		--disable-tslib-input \
+		--enable-debug=$(usex debug yes minimum) \
 		$(use_enable aqua quartz-backend) \
-		$(usex debug --enable-debug=yes --enable-debug=minimum) \
 		$(use_enable doc docs) \
 		$(use_enable egl egl-backend) \
 		$(use_enable egl evdev-input) \

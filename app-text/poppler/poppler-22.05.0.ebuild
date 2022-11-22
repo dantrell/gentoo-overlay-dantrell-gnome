@@ -27,7 +27,7 @@ DEPEND="
 		introspection? ( dev-libs/gobject-introspection:= )
 	)
 	curl? ( net-misc/curl )
-	jpeg? ( media-libs/libjpeg-turbo:= )
+	jpeg? ( media-libs/libjpeg-turbo:0= )
 	jpeg2k? ( >=media-libs/openjpeg-2.3.0-r1:2= )
 	lcms? ( media-libs/lcms:2 )
 	nss? ( >=dev-libs/nss-3.19:0 )

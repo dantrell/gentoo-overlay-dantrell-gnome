@@ -20,7 +20,7 @@ COMMON_DEPEND="
 	>=dev-libs/libatasmart-0.19
 	>=dev-libs/libgudev-165:=
 	>=sys-auth/polkit-0.110
-	>=sys-libs/libblockdev-2.19[cryptsetup,lvm?,vdo?]
+	>=sys-libs/libblockdev-2.19[cryptsetup,lvm?,vdo(-)?]
 	virtual/udev
 	acl? ( virtual/acl )
 	elogind? ( >=sys-auth/elogind-219 )
@@ -117,4 +117,8 @@ pkg_postinst() {
 		echo
 		ewarn "You should reboot the system now to get /run mounted with tmpfs!"
 	fi
+}
+
+pkg_postrm() {
+	udev_reload
 }

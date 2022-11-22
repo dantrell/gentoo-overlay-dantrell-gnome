@@ -3,8 +3,12 @@
 <pkgmetadata>
   <maintainer type="project">
     <email>freedesktop-bugs@gentoo.org</email>
+    <name>Gentoo Freedesktop Project</name>
   </maintainer>
   <use>
     <flag name="ntp">Install support for <pkg>net-misc/ntp</pkg></flag>
   </use>
+  <upstream>
+    <remote-id type="freedesktop-gitlab">archived-projects/pm-utils</remote-id>
+  </upstream>
 </pkgmetadata>

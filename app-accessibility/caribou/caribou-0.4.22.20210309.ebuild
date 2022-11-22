@@ -2,8 +2,8 @@
 
 EAPI="7"
 
-PYTHON_COMPAT=( python{3_8,3_9} )
-PYTHON_REQ_USE="xml"
+PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
+PYTHON_REQ_USE="xml(+)"
 
 VALA_MIN_API_VERSION="0.40"
 VALA_MAX_API_VERSION="0.50"
@@ -60,16 +60,6 @@ BDEPEND="
 	>=dev-util/intltool-0.35.5
 	virtual/pkgconfig
 "
-
-#~PATCHES=(
-	#~"${FILESDIR}"/${PN}-fix-compilation-error.patch
-	#~"${FILESDIR}"/${PN}-fix-subkey-popmenu.patch
-	#~"${FILESDIR}"/${PN}-fix-xadapter-xkb-calls.patch
-	#~"${FILESDIR}"/${PN}-fix-antler-style-css.patch
-	#~"${FILESDIR}"/${PN}-fix-python-env.patch
-	#~"${FILESDIR}"/${PN}-change_autostart_cinnamon.patch
-	#~"${FILESDIR}"/${PN}-drop_gir_patch.patch
-#~)
 
 src_prepare() {
 	default

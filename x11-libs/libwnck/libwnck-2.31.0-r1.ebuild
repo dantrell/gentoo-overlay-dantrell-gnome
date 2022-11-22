@@ -5,7 +5,7 @@ EAPI="7"
 inherit flag-o-matic gnome2
 
 DESCRIPTION="A window navigation construction kit"
-HOMEPAGE="https://developer.gnome.org/libwnck/stable/"
+HOMEPAGE="https://developer-old.gnome.org/libwnck/stable/ https://gitlab.gnome.org/GNOME/libwnck"
 
 LICENSE="LGPL-2+"
 SLOT="1"

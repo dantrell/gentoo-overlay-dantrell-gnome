@@ -9,7 +9,7 @@ SRC_URI="https://github.com/AbiWord/enchant/releases/download/${PN}-${MY_PV}/${P
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="aspell +hunspell test"
 REQUIRED_USE="|| ( aspell hunspell )"
@@ -22,7 +22,7 @@ COMMON_DEPEND="
 	hunspell? ( >=app-text/hunspell-1.2.1:0= )
 "
 RDEPEND="${COMMON_DEPEND}
-	!<app-text/enchant-2.3.3-r1:2
+	!<app-text/enchant-2.3.3:2
 "
 DEPEND="${COMMON_DEPEND}
 	test? ( >=dev-libs/unittest++-2.0.0-r2 )

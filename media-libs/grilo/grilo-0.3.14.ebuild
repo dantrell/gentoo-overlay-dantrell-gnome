@@ -1,9 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 VALA_MIN_API_VERSION="0.28"
-VALA_USE_DEPEND="vapigen"
 
 inherit gnome.org meson python-any-r1 vala xdg
 
@@ -24,7 +23,7 @@ RDEPEND="
 	>=dev-libs/glib-2.58:2
 	dev-libs/libxml2:2
 	network? ( >=net-libs/libsoup-2.41.3:2.4[introspection?] )
-	playlist? ( >=dev-libs/totem-pl-parser-3.4.1 )
+	playlist? ( >=dev-libs/totem-pl-parser-3.4.1:= )
 	introspection? ( >=dev-libs/gobject-introspection-1.0:= )
 
 	gtk? (
@@ -56,8 +55,9 @@ src_prepare() {
 	# Don't build examples; they get embedded in gtk-doc, thus we don't install the sources with USE=examples either
 	sed -i -e "/subdir('examples')/d" meson.build || die
 
-	xdg_src_prepare
-	use vala && vala_src_prepare
+	default
+	xdg_environment_reset
+	use vala && vala_setup
 }
 
 src_configure() {

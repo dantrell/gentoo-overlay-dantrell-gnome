@@ -1,17 +1,18 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
+
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 
 inherit gnome.org vala meson python-any-r1 xdg
 
 DESCRIPTION="VNC viewer widget for GTK"
-HOMEPAGE="https://wiki.gnome.org/Projects/gtk-vnc"
+HOMEPAGE="https://wiki.gnome.org/Projects/gtk-vnc https://gitlab.gnome.org/GNOME/gtk-vnc"
 SRC_URI+=" https://dev.gentoo.org/~leio/distfiles/${P}-patchset.tar.xz"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+introspection pulseaudio sasl vala"
 REQUIRED_USE="vala? ( introspection )"
@@ -47,8 +48,10 @@ PATCHES=(
 )
 
 src_prepare() {
-	vala_src_prepare
-	xdg_src_prepare
+	default
+
+	use vala & vala_setup
+
 	# Don't add -O2 explicitly to CFLAGS
 	sed -i -e "/'-O2'/d" meson.build || die
 }

@@ -8,8 +8,7 @@ inherit gnome2 python-any-r1
 
 DESCRIPTION="A XMPP connection manager, handles single and multi user chats and voice calls"
 HOMEPAGE="https://telepathy.freedesktop.org/"
-SRC_URI="https://telepathy.freedesktop.org/releases/${PN}/${P}.tar.gz
-	https://src.fedoraproject.org/rpms/telepathy-gabble/raw/95adf4063c2456139dcc5d991ba6d012be850794/f/${P}-python3.patch"
+SRC_URI="https://telepathy.freedesktop.org/releases/${PN}/${P}.tar.gz"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
@@ -37,7 +36,7 @@ RDEPEND="
 
 	gnutls? ( >=net-libs/gnutls-2.10.2 )
 	!gnutls? (
-		>=dev-libs/openssl-0.9.8g:0=
+		>=dev-libs/openssl-0.9.8g:0=[-bindist(-)]
 	)
 	jingle? (
 		>=net-libs/libsoup-2.42:2.4
@@ -63,7 +62,7 @@ DEPEND="${RDEPEND}
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.18.4-build-fix-no-jingle.patch # build with USE=-jingle, bug #523230
 	"${FILESDIR}"/${PN}-0.18.4-openssl-1.1.patch # bug #658902
-	"${DISTDIR}"/${PN}-0.18.4-python3.patch
+	"${FILESDIR}"/${PN}-0.18.4-python3.patch
 )
 
 pkg_setup() {

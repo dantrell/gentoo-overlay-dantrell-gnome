@@ -12,7 +12,7 @@ SRC_URI="https://github.com/getting-things-gnome/gtg/archive/refs/tags/v${PV}.ta
 
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="test"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"

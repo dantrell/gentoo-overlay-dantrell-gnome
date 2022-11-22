@@ -7,6 +7,6 @@
 
 # Masked to freeze the state of GNOME
 >=dev-cpp/cairomm-1.15.0
->=dev-libs/libgit2-1.1.0
+>=dev-libs/libgit2-1.5.0
 >=dev-libs/libgit2-glib-1.1.0
 >=dev-libs/libsigc++-3.1.0

@@ -6,7 +6,7 @@ GNOME2_LA_PUNT="yes"
 inherit bash-completion-r1 gnome2
 
 DESCRIPTION="Provides GObjects and helper methods to read and write AppStream metadata"
-HOMEPAGE="https://people.freedesktop.org/~hughsient/appstream-glib/"
+HOMEPAGE="https://people.freedesktop.org/~hughsient/appstream-glib/ https://github.com/hughsie/appstream-glib"
 SRC_URI="https://people.freedesktop.org/~hughsient/${PN}/releases/${P}.tar.xz"
 
 LICENSE="LGPL-2.1+"

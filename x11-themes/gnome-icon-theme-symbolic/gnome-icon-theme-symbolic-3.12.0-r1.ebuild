@@ -9,7 +9,7 @@ HOMEPAGE="https://gitlab.gnome.org/Archive/gnome-icon-theme-symbolic"
 
 LICENSE="CC-BY-SA-3.0"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 # This ebuild does not install any binaries
 RESTRICT="binchecks strip"

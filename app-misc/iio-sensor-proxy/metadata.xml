@@ -2,9 +2,10 @@
 <!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
-    <email>radhermit@gentoo.org</email>
-    <name>Tim Harder</name>
+    <email>hadess@hadess.net</email>
+    <name>Bastien Nocera</name>
   </maintainer>
-  <use>
-  </use>
+  <upstream>
+    <remote-id type="freedesktop-gitlab">hadess/iio-sensor-proxy</remote-id>
+  </upstream>
 </pkgmetadata>

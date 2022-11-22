@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="8"
 
 inherit gnome2
 
@@ -20,10 +20,12 @@ RDEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-0.9.5:= )
 "
 DEPEND="${RDEPEND}
+	test? ( dev-libs/gjs )
+"
+BDEPEND="
 	>=dev-util/intltool-0.40
 	sys-devel/gettext
 	virtual/pkgconfig
-	test? ( dev-libs/gjs )
 "
 
 src_prepare() {
@@ -40,7 +42,5 @@ src_prepare() {
 src_configure() {
 	# Do NOT compile with --disable-debug/--enable-debug=no
 	# It disables api usage checks
-	gnome2_src_configure \
-		$(use_enable introspection) \
-		--disable-static
+	gnome2_src_configure $(use_enable introspection)
 }

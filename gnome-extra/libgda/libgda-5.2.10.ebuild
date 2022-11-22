@@ -12,7 +12,7 @@ HOMEPAGE="https://www.gnome-db.org/"
 
 LICENSE="GPL-2+ LGPL-2+"
 SLOT="5/4" # subslot = libgda-5.0 soname version
-KEYWORDS="*"
+KEYWORDS="~*"
 
 IUSE="berkdb canvas debug firebird gnome-keyring gtk graphviz http +introspection json ldap mdb mysql oci8 postgres sourceview ssl vala"
 REQUIRED_USE="
@@ -155,4 +155,6 @@ src_install() {
 		# 	https://bugs.gentoo.org/709450
 		mv "${ED}"/usr/share/{appdata,metainfo} || die
 	fi
+
+	find "${ED}" -type f -name "*.la" -delete || die
 }

@@ -5,7 +5,7 @@ EAPI="6"
 inherit gnome2
 
 DESCRIPTION="GNOME default icon theme"
-HOMEPAGE="https://www.gnome.org/ https://people.freedesktop.org/~jimmac/icons/#git"
+HOMEPAGE="https://www.gnome.org/"
 SRC_URI="${SRC_URI}
 	branding? ( https://www.mail-archive.com/tango-artists@lists.freedesktop.org/msg00043/tango-gentoo-v1.1.tar.gz )"
 

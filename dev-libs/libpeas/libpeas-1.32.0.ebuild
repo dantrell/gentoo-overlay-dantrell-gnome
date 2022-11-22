@@ -8,7 +8,7 @@ PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 inherit gnome.org lua-single meson python-single-r1 vala virtualx xdg
 
 DESCRIPTION="A GObject plugins library"
-HOMEPAGE="https://developer.gnome.org/libpeas/stable/"
+HOMEPAGE="https://wiki.gnome.org/Projects/Libpeas https://gitlab.gnome.org/GNOME/libpeas"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
@@ -39,6 +39,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 BDEPEND="
 	gtk-doc? ( >=dev-util/gtk-doc-1.11
+		>=dev-util/gi-docgen-2021.7
 		app-text/docbook-xml-dtd:4.3 )
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig

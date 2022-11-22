@@ -10,7 +10,7 @@ SRC_URI="https://gitlab.freedesktop.org/spice/usbredir/-/archive/${P}/${PN}-${P}
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 DEPEND=">=dev-libs/glib-2.44:2
 	virtual/libusb:1"

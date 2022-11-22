@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="8"
+
 GNOME2_LA_PUNT="yes"
 
 inherit gnome2
@@ -20,7 +21,8 @@ RDEPEND="
 	media-libs/cogl:1.0=[introspection?]
 	introspection? ( >=dev-libs/gobject-introspection-0.9.12:= )
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	>=dev-util/gtk-doc-am-1.14
 	>=sys-devel/gettext-0.18
 	virtual/pkgconfig
@@ -30,7 +32,7 @@ src_configure() {
 	gnome2_src_configure \
 		--disable-maintainer-flags \
 		--enable-deprecated \
-		$(usex debug --enable-debug=yes ' ') \
+		$(usev debug --enable-debug=yes) \
 		$(use_enable introspection)
 }
 

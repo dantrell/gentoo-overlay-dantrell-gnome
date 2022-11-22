@@ -18,7 +18,7 @@ KEYWORDS="*"
 IUSE=""
 
 RDEPEND="
-	>=app-crypt/gcr-3[gtk]
+	>=app-crypt/gcr-3:0=[gtk]
 	>=dev-db/sqlite-3.5.9:3
 	>=dev-libs/glib-2.40.0:2
 	>=dev-libs/json-glib-0.7.6

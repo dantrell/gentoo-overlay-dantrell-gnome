@@ -1,18 +1,18 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 PYTHON_REQ_USE="xml(+)"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 
 inherit autotools gnome2 python-any-r1
 
 DESCRIPTION="An account manager and channel dispatcher for the Telepathy framework"
-HOMEPAGE="https://cgit.freedesktop.org/telepathy/telepathy-mission-control/"
+HOMEPAGE="https://gitlab.freedesktop.org/telepathy/telepathy-mission-control"
 SRC_URI="https://telepathy.freedesktop.org/releases/${PN}/${P}.tar.gz"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="ck debug elogind networkmanager systemd"
 REQUIRED_USE="

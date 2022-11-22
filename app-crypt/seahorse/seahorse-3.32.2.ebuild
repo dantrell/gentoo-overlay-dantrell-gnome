@@ -15,7 +15,7 @@ IUSE="ldap zeroconf"
 
 RDEPEND="
 	>=dev-libs/glib-2.44:2
-	>=app-crypt/gcr-3.11.91:=
+	>=app-crypt/gcr-3.11.91:0=
 	>=app-crypt/gpgme-1.7.0
 	>=x11-libs/gtk+-3.22.0:3
 	>=app-crypt/gnupg-2.0.12
@@ -34,7 +34,7 @@ DEPEND="${RDEPEND}
 	dev-util/itstool
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
-	app-crypt/gcr[vala(+)]
+	app-crypt/gcr:0=[vala(+)]
 	app-crypt/libsecret[vala]
 "
 

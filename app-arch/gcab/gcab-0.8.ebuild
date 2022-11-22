@@ -6,7 +6,7 @@ VALA_USE_DEPEND="vapigen"
 inherit gnome2 vala
 
 DESCRIPTION="Library and tool for working with Microsoft Cabinet (CAB) files"
-HOMEPAGE="https://wiki.gnome.org/msitools"
+HOMEPAGE="https://wiki.gnome.org/msitools https://gitlab.gnome.org/GNOME/gcab"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"

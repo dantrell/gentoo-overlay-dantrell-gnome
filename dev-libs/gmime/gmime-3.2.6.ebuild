@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-VALA_USE_DEPEND="vapigen"
+EAPI="8"
 
 inherit flag-o-matic gnome2 vala
 
@@ -23,11 +22,14 @@ RDEPEND="
 	idn? ( net-dns/libidn2:= )
 	vala? (
 		$(vala_depend)
-		>=dev-libs/gobject-introspection-1.30.0:= )
+		>=dev-libs/gobject-introspection-1.30.0:=
+	)
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.8
 	virtual/libiconv
+"
+BDEPEND="
+	>=dev-util/gtk-doc-am-1.8
 	virtual/pkgconfig
 	doc? ( app-text/docbook-sgml-utils )
 	test? ( app-crypt/gnupg )
@@ -36,7 +38,7 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	gnome2_src_prepare
-	use vala && vala_src_prepare
+	use vala && vala_setup
 }
 
 src_configure() {

@@ -63,7 +63,7 @@ src_configure() {
 		--with-pdftops=pdftops
 		--with-rcdir=no
 		--without-php
-		--disable-static
+
 		$(use_enable dbus)
 		$(use_enable foomatic)
 		$(use_enable ldap)
@@ -77,28 +77,40 @@ src_configure() {
 	)
 
 	econf "${myeconfargs[@]}"
+
+	if use perl; then
+		pushd "${S}"/scripting/perl > /dev/null || die
+		perl-module_src_configure
+		popd > /dev/null || die
+	fi
 }
 
 src_compile() {
 	default
 
 	if use perl; then
-		pushd "${S}/scripting/perl" > /dev/null || die
-		perl-module_src_configure
+		pushd "${S}"/scripting/perl > /dev/null || die
 		perl-module_src_compile
 		popd > /dev/null || die
 	fi
 }
 
 src_test() {
-	emake check
+	# Avoid perl-module_src_test
+	default
+
+	if use perl; then
+		pushd "${S}/scripting/perl" > /dev/null || die
+		perl-module_src_test
+		popd > /dev/null || die
+	fi
 }
 
 src_install() {
 	default
 
 	if use perl; then
-		pushd "${S}/scripting/perl" > /dev/null || die
+		pushd "${S}"/scripting/perl > /dev/null || die
 		perl-module_src_install
 		perl_delete_localpod
 		popd > /dev/null || die

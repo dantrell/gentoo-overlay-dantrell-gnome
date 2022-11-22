@@ -22,4 +22,7 @@
     <flag name="thunderbird">Install email data miner plugin for <pkg>mail-client/thunderbird</pkg> and <pkg>mail-client/thunderbird-bin</pkg></flag>
     <flag name="xps">Add support for XPS file format through <pkg>app-text/libgxps</pkg>.</flag>
   </use>
+  <upstream>
+    <remote-id type="gnome-gitlab">GNOME/tracker</remote-id>
+  </upstream>
 </pkgmetadata>

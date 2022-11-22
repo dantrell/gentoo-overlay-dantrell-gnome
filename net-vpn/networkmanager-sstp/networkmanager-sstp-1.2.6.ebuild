@@ -36,13 +36,6 @@ BDEPEND="
 
 S="${WORKDIR}/${MY_P}"
 
-src_prepare() {
-	# Bug #741108
-	sed -i 's|/appdata|/metainfo|g' Makefile.{in,am} || die
-
-	default
-}
-
 src_configure() {
 	local PPPD_VERSION="$(echo $(best_version net-dialup/ppp) | sed -e 's:net-dialup/ppp-\(.*\):\1:' -e 's:-r.*$::')"
 	econf \
@@ -56,5 +49,11 @@ src_configure() {
 
 src_install() {
 	default
-	find "${ED}" -type f -name '*.la' -delete || die
+
+	# From AppStream (the /usr/share/appdata location is deprecated):
+	# 	https://www.freedesktop.org/software/appstream/docs/chap-Metadata.html#spec-component-location
+	# 	https://bugs.gentoo.org/709450
+	mv "${ED}"/usr/share/{appdata,metainfo} || die
+
+	find "${ED}" -type f -name "*.la" -delete || die
 }

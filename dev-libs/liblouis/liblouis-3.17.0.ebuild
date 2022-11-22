@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 DISTUTILS_OPTIONAL=1

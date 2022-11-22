@@ -7,8 +7,8 @@ inherit gnome.org meson xdg vala virtualx
 MY_P="${PN}-v${PV}"
 
 DESCRIPTION="Building blocks for modern adaptive GNOME apps"
-HOMEPAGE="https://source.puri.sm/Librem5/libhandy/"
-SRC_URI="https://source.puri.sm/Librem5/libhandy/-/archive/v${PV}/${MY_P}.tar.bz2"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/libhandy"
+SRC_URI="https://gitlab.gnome.org/GNOME/libhandy/-/archive/v${PV}/${PN}-v${PV}.tar.bz2"
 
 LICENSE="LGPL-2.1+"
 SLOT="0.0/0"

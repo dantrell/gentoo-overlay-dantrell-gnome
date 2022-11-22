@@ -15,7 +15,7 @@ S="${WORKDIR}"/${MY_P}
 
 LICENSE="GPL-2"
 SLOT="0/5.3.1" # copy ABI_VERSION because it seems upstream change it randomly
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 

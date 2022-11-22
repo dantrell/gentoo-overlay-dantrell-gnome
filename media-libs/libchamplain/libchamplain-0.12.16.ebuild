@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 VALA_USE_DEPEND="vapigen"
 
 inherit gnome2 vala

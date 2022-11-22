@@ -46,8 +46,8 @@ BDEPEND="${PYTHON_DEPS}
 	')"
 
 python_check_deps() {
-	has_version -b ">=dev-python/pyparsing-1.5.6-r2[${PYTHON_USEDEP}]"
-	has_version -b "dev-python/six[${PYTHON_USEDEP}]"
+	python_has_version ">=dev-python/pyparsing-1.5.6-r2[${PYTHON_USEDEP}]"
+	python_has_version "dev-python/six[${PYTHON_USEDEP}]"
 }
 
 PATCHES=(

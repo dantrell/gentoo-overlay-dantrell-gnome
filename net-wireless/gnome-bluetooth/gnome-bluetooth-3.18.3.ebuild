@@ -33,7 +33,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-util/gtk-doc-am-1.9
 	>=dev-util/intltool-0.40.0
 	dev-util/itstool
-	virtual/libudev
+	virtual/libudev:=
 	virtual/pkgconfig
 	x11-base/xorg-proto
 "
@@ -63,9 +63,14 @@ src_install() {
 }
 
 pkg_postinst() {
+	udev_reload
 	gnome2_pkg_postinst
-	if ! has_version sys-auth/consolekit[acl] && ! has_version sys-auth/elogind[acl] && ! has_version sys-apps/systemd[acl] ; then
+	if ! has_version 'sys-auth/consolekit[acl]' && ! has_version 'sys-auth/elogind[acl]' && ! has_version 'sys-apps/systemd[acl]' ; then
 		elog "Don't forget to add yourself to the plugdev group "
 		elog "if you want to be able to control bluetooth transmitter."
 	fi
+}
+
+pkg_postrm() {
+	udev_reload
 }

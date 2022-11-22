@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 inherit gnome.org meson
 
@@ -9,7 +9,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/GnomeVideoEffects"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 # This ebuild does not install any binaries
 RESTRICT="binchecks strip"

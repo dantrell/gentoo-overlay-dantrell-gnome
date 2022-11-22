@@ -6,20 +6,14 @@ LUA_COMPAT=( lua5-{3,4} )
 
 inherit lua-single meson systemd
 
-if [[ ${PV} == 9999 ]]; then
-	EGIT_REPO_URI="https://gitlab.freedesktop.org/pipewire/${PN}.git"
-	EGIT_BRANCH="master"
-	inherit git-r3
-else
-	SRC_URI="https://gitlab.freedesktop.org/pipewire/${PN}/-/archive/${PV}/${P}.tar.gz"
-	KEYWORDS="*"
-fi
-
 DESCRIPTION="Replacement for pipewire-media-session"
 HOMEPAGE="https://gitlab.freedesktop.org/pipewire/wireplumber"
+SRC_URI="https://gitlab.freedesktop.org/pipewire/${PN}/-/archive/${PV}/${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0/0.4"
+KEYWORDS="*"
+
 IUSE="elogind system-service systemd test"
 
 REQUIRED_USE="
@@ -34,7 +28,6 @@ RESTRICT="!test? ( test )"
 BDEPEND="
 	dev-libs/glib
 	dev-util/gdbus-codegen
-	dev-util/glib-utils
 	sys-devel/gettext
 "
 

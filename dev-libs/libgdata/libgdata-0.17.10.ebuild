@@ -28,7 +28,7 @@ RDEPEND="
 	>=net-libs/liboauth-0.9.4
 	>=net-libs/libsoup-2.42.0:2.4[introspection?]
 	gtk? ( x11-libs/gtk+:3 )
-	crypt? ( app-crypt/gcr:= )
+	crypt? ( app-crypt/gcr:0= )
 	gnome-online-accounts? ( >=net-libs/gnome-online-accounts-3.8:=[introspection?,vala?] )
 	introspection? ( >=dev-libs/gobject-introspection-0.9.7:= )
 "
@@ -39,7 +39,7 @@ DEPEND="${RDEPEND}
 	gtk-doc? ( dev-util/gtk-doc )
 	test? (
 		>=net-libs/libsoup-2.55.90:2.4[introspection?]
-		>=net-libs/uhttpmock-0.5
+		>=net-libs/uhttpmock-0.5.0:0
 		>=x11-libs/gdk-pixbuf-2.14:2
 	)
 	vala? ( $(vala_depend) )

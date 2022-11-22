@@ -1,11 +1,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 inherit gnome.org meson virtualx
 
 DESCRIPTION="GtkSourceView-based text editors and IDE helper library"
-HOMEPAGE="https://wiki.gnome.org/Projects/Tepl https://gitlab.gnome.org/swilmet/tepl"
+HOMEPAGE="https://gitlab.gnome.org/swilmet/tepl"
 
 LICENSE="LGPL-3+"
 SLOT="5"
@@ -25,7 +25,8 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	gtk-doc? ( >=dev-util/gtk-doc-1.25
+	gtk-doc? (
+		>=dev-util/gtk-doc-1.25
 		app-text/docbook-xml-dtd:4.3
 	)
 	>=sys-devel/gettext-0.19.6

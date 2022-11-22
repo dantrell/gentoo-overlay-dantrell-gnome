@@ -1,17 +1,17 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 VALA_MIN_API_VERSION="0.40"
 
 inherit bash-completion-r1 gnome.org gnome2-utils linux-info meson python-any-r1 systemd vala xdg
 
 DESCRIPTION="A tagging metadata database, search tool and indexer"
-HOMEPAGE="https://wiki.gnome.org/Projects/Tracker"
+HOMEPAGE="https://wiki.gnome.org/Projects/Tracker https://gitlab.gnome.org/GNOME/tracker"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="3/0" # libtracker-sparql-3.0 soname version
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gtk-doc +miners stemmer test"
 
@@ -67,20 +67,21 @@ function inotify_enabled() {
 }
 
 python_check_deps() {
-	use test || return 0
-	has_version -b "dev-python/tappy[${PYTHON_USEDEP}]"
+	python_has_version \
+		"dev-python/tappy[${PYTHON_USEDEP}]"
 }
 
 pkg_setup() {
 	linux-info_pkg_setup
 	inotify_enabled
 
-	python-any-r1_pkg_setup
+	use test && python-any-r1_pkg_setup
 }
 
 src_prepare() {
-	xdg_src_prepare
-	vala_src_prepare
+	default
+	vala_setup
+	xdg_environment_reset
 }
 
 src_configure() {

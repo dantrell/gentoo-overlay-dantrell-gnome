@@ -14,7 +14,7 @@ S="${WORKDIR}"/${MY_P}
 
 LICENSE="GPL-2"
 SLOT="0/5.3.1" # copy ABI_VERSION because it seems upstream change it randomly
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+automount debug doc examples exif gtk udisks vala"
 REQUIRED_USE="udisks? ( automount ) doc? ( gtk )"
@@ -44,7 +44,7 @@ BDEPEND="
 	vala? ( $(vala_depend) )
 "
 
-PATCHES=( "${FILESDIR}"/${P}-buildsystem.patch )
+PATCHES=( "${FILESDIR}"/${PN}-1.3.2-buildsystem.patch )
 
 src_prepare() {
 	xdg_src_prepare

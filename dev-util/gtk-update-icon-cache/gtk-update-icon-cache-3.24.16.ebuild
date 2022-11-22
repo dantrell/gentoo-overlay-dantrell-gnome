@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit meson
 
@@ -12,14 +12,13 @@ LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE=""
-
 RDEPEND="
 	>=dev-libs/glib-2.53.4:2
 	>=x11-libs/gdk-pixbuf-2.30:2
 	!<x11-libs/gtk+-3.22.0:3
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	app-text/docbook-xml-dtd:4.3
 	app-text/docbook-xsl-stylesheets
 	dev-libs/libxslt

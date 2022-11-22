@@ -39,7 +39,6 @@ PATCHES=(
 src_configure() {
 	gnome2_src_configure \
 		$(use_enable flickr) \
-		--disable-static \
 		--enable-facebook \
 		--enable-google \
 		--enable-media-server \

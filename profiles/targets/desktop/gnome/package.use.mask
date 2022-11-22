@@ -8,6 +8,7 @@ dev-python/pycairo doc
 dev-python/pycurl curl_ssl_gnutls
 dev-python/pycurl curl_ssl_libressl
 dev-python/pycurl curl_ssl_nss
+gnome-base/gnome-extra-apps -tracker
 media-libs/gegl:0 ffmpeg
 media-libs/gegl:0.3 ffmpeg
 net-libs/liboauth curl

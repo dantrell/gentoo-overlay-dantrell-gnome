@@ -21,7 +21,7 @@ DEPEND="
 	>=x11-libs/gtk+-3.12:3[introspection?]
 	media-libs/libcanberra[gtk3]
 	>=x11-libs/libnotify-0.7.0
-	virtual/libudev
+	virtual/libudev:=
 	introspection? ( >=dev-libs/gobject-introspection-0.9.5:= )
 "
 RDEPEND="${DEPEND}
@@ -48,8 +48,8 @@ PATCHES=(
 
 python_check_deps() {
 	if use test; then
-		has_version -b "dev-python/python-dbusmock[${PYTHON_USEDEP}]" &&
-		has_version -b "dev-python/dbus-python[${PYTHON_USEDEP}]"
+		python_has_version "dev-python/python-dbusmock[${PYTHON_USEDEP}]" &&
+		python_has_version "dev-python/dbus-python[${PYTHON_USEDEP}]"
 	fi
 }
 
@@ -78,4 +78,8 @@ pkg_postinst() {
 		elog "Don't forget to add yourself to the plugdev group "
 		elog "if you want to be able to control bluetooth transmitter."
 	fi
+}
+
+pkg_postrm() {
+	udev_reload
 }

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<maintainer type="project">
-	<email>gnome@gentoo.org</email>
-	<name>Gentoo GNOME Desktop</name>
-</maintainer>
-<longdescription lang="en">
-	GNOME DVB Daemon is a daemon written in Vala based on GStreamer to setup your 
-	DVB devices, record and watch TV shows and browse EPG.	It can be controlled 
-	by any application via its D-Bus interface.
-</longdescription>
+  <maintainer type="project">
+    <email>gnome@gentoo.org</email>
+    <name>Gentoo GNOME Desktop</name>
+  </maintainer>
+  <upstream>
+    <remote-id type="gnome-gitlab">Archive/gnome-dvb-daemon</remote-id>
+  </upstream>
 </pkgmetadata>

@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 inherit gnome.org flag-o-matic meson-multilib
 
@@ -12,12 +12,12 @@ LICENSE="LGPL-2.1+"
 SLOT="3/0"
 KEYWORDS="*"
 
-IUSE="doc examples test"
+IUSE="examples gtk-doc test"
 
 RESTRICT="!test? ( test )"
 
 BDEPEND="
-	doc? (
+	gtk-doc? (
 		app-doc/doxygen[dot]
 		dev-lang/perl
 		dev-libs/libxslt
@@ -37,7 +37,7 @@ multilib_src_configure() {
 
 	local emesonargs=(
 		-Dbuild-examples=false
-		$(meson_native_use_bool doc build-documentation)
+		$(meson_native_use_bool gtk-doc build-documentation)
 	)
 	meson_src_configure
 }

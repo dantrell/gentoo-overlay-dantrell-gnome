@@ -31,7 +31,7 @@ DEPEND="
 	)
 "
 RDEPEND="${DEPEND}
-	gnome-keyring? ( app-crypt/gcr )
+	gnome-keyring? ( app-crypt/gcr:0= )
 "
 BDEPEND="
 	sys-devel/gettext

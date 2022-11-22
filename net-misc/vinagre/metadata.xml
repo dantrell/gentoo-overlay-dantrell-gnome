@@ -13,4 +13,7 @@
     <flag name="telepathy">Enable access to remote desktop via a
       <pkg>net-libs/telepathy-glib</pkg> client</flag>
   </use>
+  <upstream>
+    <remote-id type="gnome-gitlab">Archive/vinagre</remote-id>
+  </upstream>
 </pkgmetadata>

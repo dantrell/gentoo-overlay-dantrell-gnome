@@ -14,6 +14,7 @@ dev-cpp/cairomm X
 dev-cpp/gtkmm X
 dev-libs/boehm-gc threads
 dev-libs/folks eds
+dev-libs/folks telepathy
 dev-libs/libdazzle vala
 dev-libs/libgdata vala
 dev-libs/libgit2 ssh

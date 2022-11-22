@@ -15,7 +15,6 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE="gtk-doc +introspection python test +vala"
-
 REQUIRED_USE="
 	python? ( introspection ${PYTHON_REQUIRED_USE} )
 	test? ( python introspection )

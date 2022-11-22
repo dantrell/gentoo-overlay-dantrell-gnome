@@ -1,9 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 VALA_MIN_API_VERSION="0.28"
-VALA_USE_DEPEND="vapigen"
 
 inherit gnome.org meson python-any-r1 vala xdg
 
@@ -29,7 +28,8 @@ RDEPEND="
 
 	gtk? (
 		net-libs/liboauth
-		>=x11-libs/gtk+-3.14:3 )
+		>=x11-libs/gtk+-3.14:3
+	)
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
@@ -37,7 +37,8 @@ BDEPEND="
 	virtual/pkgconfig
 	gtk-doc? (
 		>=dev-util/gtk-doc-1.10
-		app-text/docbook-xml-dtd:4.3 )
+		app-text/docbook-xml-dtd:4.3
+	)
 	${PYTHON_DEPS}
 	test? ( sys-apps/dbus )
 	vala? ( $(vala_depend) )
@@ -54,8 +55,9 @@ src_prepare() {
 	# Don't build examples; they get embedded in gtk-doc, thus we don't install the sources with USE=examples either
 	sed -i -e "/subdir('examples')/d" meson.build || die
 
-	xdg_src_prepare
-	use vala && vala_src_prepare
+	default
+	xdg_environment_reset
+	use vala && vala_setup
 }
 
 src_configure() {

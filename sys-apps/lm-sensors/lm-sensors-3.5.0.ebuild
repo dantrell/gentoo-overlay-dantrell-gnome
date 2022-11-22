@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 inherit linux-info systemd toolchain-funcs multilib-minimal
 
@@ -42,7 +42,10 @@ WARNING_HWMON="${PN} requires CONFIG_HWMON to be enabled for use."
 WARNING_I2C_CHARDEV="sensors-detect requires CONFIG_I2C_CHARDEV to be enabled."
 WARNING_I2C="${PN} requires CONFIG_I2C to be enabled for most sensors."
 
-PATCHES=( "${FILESDIR}"/${PN}-3.4.0-sensors-detect-gentoo.patch )
+PATCHES=(
+	"${FILESDIR}"/${PN}-3.4.0-sensors-detect-gentoo.patch
+	"${FILESDIR}"/${PN}-3.6.0-no-which.patch
+)
 
 DOCS=( doc/{donations,fancontrol.txt,fan-divisors,libsensors-API.txt,progs,temperature-sensors,vid} )
 
@@ -131,8 +134,14 @@ multilib_src_compile() {
 }
 
 multilib_src_install() {
+	# We need to set CC and friends again here to avoid recompilation for cross
+	# bug #799851
 	emake \
-		DESTDIR="${ED%/}" \
+		CC="$(tc-getCC)" \
+		CXX="$(tc-getCXX)" \
+		LD="$(tc-getLD)" \
+		AR="$(tc-getAR)" \
+		DESTDIR="${ED}" \
 		PREFIX="/usr" \
 		MANDIR="/usr/share/man" \
 		ETCDIR="/etc" \
@@ -207,7 +216,6 @@ pkg_postinst() {
 		elog "sure the sensors get initialized on the next startup."
 		elog ""
 		elog "Be warned, the probing of hardware in your system performed by"
-		elog "sensors-detect could freeze your system. Also make sure you read"
-		elog "the documentation before running ${PN} on IBM ThinkPads."
+		elog "sensors-detect could freeze your system."
 	fi
 }

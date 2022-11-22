@@ -10,7 +10,7 @@ SRC_URI="https://nice.freedesktop.org/releases/${P}.tar.gz"
 
 LICENSE="|| ( MPL-1.1 LGPL-2.1 )"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="+gnutls gtk-doc +introspection +upnp"
 
@@ -27,6 +27,13 @@ BDEPEND="
 	gtk-doc? ( dev-util/gtk-doc
 		app-text/docbook-xml-dtd:4.1.2 )
 "
+
+src_prepare() {
+	default
+
+	# Broken w/ network-sandbox on (bug #847844)
+	sed -i -e '/test-set-port-range/d' tests/meson.build || die
+}
 
 multilib_src_configure() {
 	# gstreamer plugin split off into media-plugins/gst-plugins-libnice

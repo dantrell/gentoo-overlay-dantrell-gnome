@@ -3,7 +3,7 @@
 EAPI="7"
 VALA_USE_DEPEND="vapigen"
 
-inherit bash-completion-r1 meson-multilib tmpfiles vala
+inherit bash-completion-r1 meson-multilib tmpfiles udev vala
 
 DESCRIPTION="System service to accurately color manage input and output devices"
 HOMEPAGE="https://www.freedesktop.org/software/colord/"
@@ -11,7 +11,7 @@ SRC_URI="https://www.freedesktop.org/software/colord/releases/${P}.tar.xz"
 
 LICENSE="GPL-2+"
 SLOT="0/2" # subslot = libcolord soname version
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gtk-doc argyllcms examples extra-print-profiles +introspection scanner selinux systemd test vala"
 REQUIRED_USE="vala? ( introspection )"
@@ -114,5 +114,10 @@ multilib_src_install_all() {
 }
 
 pkg_postinst() {
+	udev_reload
 	tmpfiles_process colord.conf
+}
+
+pkg_postrm() {
+	udev_reload
 }

@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="8"
 
 inherit gnome2
 
@@ -11,10 +11,7 @@ LICENSE="GPL-3"
 SLOT="3"
 KEYWORDS="*"
 
-IUSE=""
-
 RDEPEND=">=sys-devel/autoconf-archive-2015.02.04"
-DEPEND=""
 
 src_install() {
 	default

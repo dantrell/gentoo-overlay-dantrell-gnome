@@ -3,7 +3,6 @@
 EAPI="7"
 GNOME_ORG_MODULE="NetworkManager-${PN##*-}"
 GNOME2_LA_PUNT="yes"
-GNOME2_EAUTORECONF="yes"
 
 inherit gnome2
 
@@ -12,7 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="gtk +legacy"
 
@@ -22,7 +21,8 @@ RDEPEND="
 	gtk? (
 		>=app-crypt/libsecret-0.18
 		media-libs/harfbuzz
-		>=net-libs/libnma-1.2.0
+		legacy? ( >=gnome-extra/nm-applet-1.2.0[gtk] )
+		!legacy? ( >=net-libs/libnma-1.2.0 )
 		x11-libs/cairo
 		x11-libs/gdk-pixbuf
 		>=x11-libs/gtk+-3.4:3
@@ -30,7 +30,7 @@ RDEPEND="
 	)
 "
 DEPEND="${RDEPEND}
-	net-dialup/ppp
+	net-dialup/ppp:=
 	>=net-vpn/openfortivpn-1.2.0
 "
 BDEPEND="
@@ -39,13 +39,6 @@ BDEPEND="
 	virtual/pkgconfig
 "
 
-src_prepare() {
-	default
-
-	# Fix deprecated location, #709450
-	sed -i 's|/appdata|/metainfo|g' Makefile.{in,am} || die
-}
-
 src_configure() {
 	gnome2_src_configure \
 		--disable-static \
@@ -53,4 +46,15 @@ src_configure() {
 		--localstatedir=/var \
 		$(use_with gtk gnome) \
 		$(use_with legacy libnm-glib)
+}
+
+src_install() {
+	gnome2_src_install
+
+	# From AppStream (the /usr/share/appdata location is deprecated):
+	# 	https://www.freedesktop.org/software/appstream/docs/chap-Metadata.html#spec-component-location
+	# 	https://bugs.gentoo.org/709450
+	mv "${ED}"/usr/share/{appdata,metainfo} || die
+
+	find "${ED}" -type f -name "*.la" -delete || die
 }

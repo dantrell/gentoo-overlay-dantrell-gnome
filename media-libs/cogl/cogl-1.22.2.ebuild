@@ -1,9 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="8"
+
 GNOME2_EAUTORECONF="yes"
 
-inherit gnome2 multilib
+inherit gnome2
 
 DESCRIPTION="A library for using 3D graphics hardware to draw pretty pictures"
 HOMEPAGE="https://www.cogl3d.org/"
@@ -18,7 +19,7 @@ IUSE="doc debug examples gles2 gstreamer +introspection +pango wayland"
 # For some reason GL3 conformance test all fails again...
 RESTRICT="test"
 
-COMMON_DEPEND="
+DEPEND="
 	>=dev-libs/glib-2.32:2
 	x11-libs/cairo:=
 	>=x11-libs/gdk-pixbuf-2:2
@@ -32,7 +33,8 @@ COMMON_DEPEND="
 	gles2? ( media-libs/mesa[gles2] )
 	gstreamer? (
 		media-libs/gstreamer:1.0
-		media-libs/gst-plugins-base:1.0 )
+		media-libs/gst-plugins-base:1.0
+	)
 	introspection? ( >=dev-libs/gobject-introspection-1.34.2:= )
 	pango? ( >=x11-libs/pango-1.20.0[introspection?] )
 	wayland? (
@@ -41,11 +43,8 @@ COMMON_DEPEND="
 		x11-libs/libdrm:=
 	)
 "
-# before clutter-1.7, cogl was part of clutter
-RDEPEND="${COMMON_DEPEND}
-	!<media-libs/clutter-1.7
-"
-DEPEND="${COMMON_DEPEND}
+RDEPEND="${DEPEND}"
+BDEPEND="
 	>=dev-util/gtk-doc-am-1.13
 	>=sys-devel/gettext-0.19
 	virtual/pkgconfig
@@ -111,5 +110,5 @@ src_install() {
 	gnome2_src_install
 
 	# Remove silly examples-data directory
-	rm -rvf "${ED}/usr/share/cogl/examples-data/" || die
+	rm -rvf "${ED}"/usr/share/cogl/examples-data/ || die
 }

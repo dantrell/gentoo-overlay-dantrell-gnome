@@ -11,7 +11,7 @@ LICENSE="LGPL-2.1+"
 SLOT="2.4"
 KEYWORDS="*"
 
-IUSE="doc examples test"
+IUSE="gtk-doc examples test"
 
 RESTRICT="!test? ( test )"
 
@@ -27,7 +27,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
-	doc? (
+	gtk-doc? (
 		media-gfx/graphviz
 		dev-libs/libxslt
 		app-doc/doxygen )
@@ -56,7 +56,7 @@ multilib_src_configure() {
 	ECONF_SOURCE="${S}" \
 	gnome2_src_configure \
 		--enable-api-atkmm \
-		$(multilib_native_use_enable doc documentation)
+		$(multilib_native_use_enable gtk-doc documentation)
 }
 
 multilib_src_install() {

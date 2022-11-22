@@ -60,8 +60,8 @@ QA_MULTILIB_PATHS="usr/lib/${PN}/.*"
 S="${WORKDIR}/${PN}-0.99.3"
 
 python_check_deps() {
-	python_has_version -b "dev-python/dbus-python[${PYTHON_USEDEP}]" &&
-	python_has_version -b "dev-python/python-dbusmock[${PYTHON_USEDEP}]"
+	python_has_version "dev-python/dbus-python[${PYTHON_USEDEP}]" &&
+	python_has_version "dev-python/python-dbusmock[${PYTHON_USEDEP}]"
 }
 
 pkg_setup() {

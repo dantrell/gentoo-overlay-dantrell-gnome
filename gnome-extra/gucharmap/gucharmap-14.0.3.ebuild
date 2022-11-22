@@ -7,12 +7,12 @@ VALA_MIN_API_VERSION="0.26"
 inherit gnome2-utils meson python-any-r1 vala xdg
 
 DESCRIPTION="Unicode character map viewer and library"
-HOMEPAGE="https://wiki.gnome.org/Apps/Gucharmap https://gitlab.gnome.org/GNOME/gucharmap/"
+HOMEPAGE="https://wiki.gnome.org/Apps/Gucharmap https://gitlab.gnome.org/GNOME/gucharmap"
 SRC_URI="https://gitlab.gnome.org/GNOME/${PN}/-/archive/${PV}/${P}.tar.gz"
 
 LICENSE="GPL-3+"
 SLOT="2.90"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+introspection gtk-doc vala"
 REQUIRED_USE="vala? ( introspection )"

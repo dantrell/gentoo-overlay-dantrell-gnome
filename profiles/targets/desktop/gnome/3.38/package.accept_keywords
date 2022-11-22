@@ -1,3 +1,4 @@
+~dev-libs/libgweather-3.36.2::dantrell-gnome **
 app-emulation/libvirt-glib::dantrell-gnome **
 gnome-base/gdm::dantrell-gnome ~*
 gnome-extra/gnome-tweaks::dantrell-gnome **

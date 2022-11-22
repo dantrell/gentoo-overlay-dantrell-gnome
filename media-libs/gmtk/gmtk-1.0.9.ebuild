@@ -3,7 +3,7 @@
 EAPI="7"
 
 DESCRIPTION="GTK+ widget and function libraries for gnome-mplayer"
-HOMEPAGE="https://code.google.com/p/gmtk/"
+HOMEPAGE="https://code.google.com/archive/p/gmtk/"
 SRC_URI="https://${PN}.googlecode.com/svn/packages/${P}.tar.gz"
 
 LICENSE="GPL-2"

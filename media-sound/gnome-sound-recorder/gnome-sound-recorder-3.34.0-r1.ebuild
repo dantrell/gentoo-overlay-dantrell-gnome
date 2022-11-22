@@ -9,7 +9,7 @@ HOMEPAGE="https://wiki.gnome.org/Design/Apps/SoundRecorder"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 

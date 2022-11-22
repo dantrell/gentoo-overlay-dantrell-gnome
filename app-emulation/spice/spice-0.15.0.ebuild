@@ -39,6 +39,7 @@ DEPEND="${RDEPEND}
 	smartcard? ( app-emulation/qemu[smartcard] )
 	test? ( net-libs/glib-networking )"
 BDEPEND="${PYTHON_DEPS}
+	sys-devel/autoconf-archive
 	virtual/pkgconfig
 	$(python_gen_any_dep '
 		>=dev-python/pyparsing-1.5.6-r2[${PYTHON_USEDEP}]
@@ -50,8 +51,8 @@ PATCHES=(
 )
 
 python_check_deps() {
-	has_version -b ">=dev-python/pyparsing-1.5.6-r2[${PYTHON_USEDEP}]"
-	has_version -b "dev-python/six[${PYTHON_USEDEP}]"
+	python_has_version ">=dev-python/pyparsing-1.5.6-r2[${PYTHON_USEDEP}]"
+	python_has_version "dev-python/six[${PYTHON_USEDEP}]"
 }
 
 pkg_setup() {

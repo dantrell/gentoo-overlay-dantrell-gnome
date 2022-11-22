@@ -6,13 +6,13 @@ PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 inherit gnome.org meson-multilib python-any-r1
 
 DESCRIPTION="C++ interface for glib2"
-HOMEPAGE="https://www.gtkmm.org"
+HOMEPAGE="https://www.gtkmm.org https://gitlab.gnome.org/GNOME/glibmm"
 
 LICENSE="LGPL-2.1+"
 SLOT="2"
 KEYWORDS="*"
 
-IUSE="doc debug test"
+IUSE="debug gtk-doc test"
 
 RESTRICT="!test? ( test )"
 
@@ -26,7 +26,7 @@ DEPEND="${RDEPEND}"
 BDEPEND="
 	${PYTHON_DEPS}
 	virtual/pkgconfig
-	doc? (
+	gtk-doc? (
 		app-doc/doxygen[dot]
 		dev-lang/perl
 		dev-perl/XML-Parser
@@ -51,7 +51,7 @@ multilib_src_configure() {
 		-Dmaintainer-mode=true
 		-Dwarnings=min
 		-Dbuild-deprecated-api=true
-		$(meson_native_use_bool doc build-documentation)
+		$(meson_native_use_bool gtk-doc build-documentation)
 		$(meson_use debug debug-refcounting)
 		-Dbuild-examples=false
 	)

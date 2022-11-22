@@ -1,10 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
-PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
-VALA_USE_DEPEND="vapigen"
+EAPI="8"
 
-inherit gnome.org meson python-r1 vala xdg
+PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
+
+inherit gnome.org meson python-r1 vala
 
 DESCRIPTION="Git library for GLib"
 HOMEPAGE="https://wiki.gnome.org/Projects/Libgit2-glib"
@@ -24,23 +24,29 @@ RDEPEND="
 	>=dev-libs/libgit2-0.26.0:0
 	python? (
 		${PYTHON_DEPS}
-		dev-python/pygobject:3[${PYTHON_USEDEP}] )
+		dev-python/pygobject:3[${PYTHON_USEDEP}]
+	)
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
 	virtual/pkgconfig
-	gtk-doc? ( dev-util/gtk-doc
-		app-text/docbook-xml-dtd:4.1.2 )
-	vala? ( $(vala_depend) )
+	gtk-doc? (
+		dev-util/gtk-doc
+		app-text/docbook-xml-dtd:4.1.2
+	)
+	vala? (
+		$(vala_depend)
+	)
 "
 
 src_prepare() {
+	default
+
 	# Lower the minimum required GLib version
 	sed -e 's/2.44.0/2.42.0/' \
 		-i meson.build || die
 
-	xdg_src_prepare
-	use vala && vala_src_prepare
+	use vala && vala_setup
 }
 
 src_configure() {

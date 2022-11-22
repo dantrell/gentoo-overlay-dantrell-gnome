@@ -5,7 +5,7 @@ EAPI="6"
 inherit gnome2 virtualx
 
 DESCRIPTION="GtkSourceView-based text editors and IDE helper library"
-HOMEPAGE="https://wiki.gnome.org/Projects/Tepl https://gitlab.gnome.org/swilmet/tepl"
+HOMEPAGE="https://gitlab.gnome.org/swilmet/tepl"
 
 LICENSE="LGPL-2.1+"
 SLOT="4"

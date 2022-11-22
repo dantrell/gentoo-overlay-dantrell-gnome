@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
-inherit flag-o-matic meson pam toolchain-funcs
+inherit meson pam
 
 DESCRIPTION="OpenRC manages the services, startup and shutdown of a host"
 HOMEPAGE="https://github.com/openrc/openrc/"
@@ -19,13 +19,10 @@ COMMON_DEPEND="
 	pam? ( sys-libs/pam )
 	audit? ( sys-process/audit )
 	sys-process/psmisc
-	!<sys-process/procps-3.3.9-r2
 	selinux? (
 		sys-apps/policycoreutils
 		>=sys-libs/libselinux-2.6
-	)
-	!<sys-apps/baselayout-2.1-r1
-	!<sys-fs/udev-init-scripts-27"
+	)"
 DEPEND="${COMMON_DEPEND}
 	virtual/os-headers
 	ncurses? ( virtual/pkgconfig )"
@@ -36,15 +33,18 @@ RDEPEND="${COMMON_DEPEND}
 			!sys-apps/systemd[sysv-utils(-)]
 			!sys-apps/sysvinit
 		)
-		!sysv-utils? ( >=sys-apps/sysvinit-2.86-r6[selinux?] )
+		!sysv-utils? (
+			|| (
+				>=sys-apps/sysvinit-2.86-r6[selinux?]
+				sys-apps/s6-linux-init[sysv-utils(-)]
+			)
+		)
 		virtual/tmpfiles
 	)
 	selinux? (
 		>=sec-policy/selinux-base-policy-2.20170204-r4
 		>=sec-policy/selinux-openrc-2.20170204-r4
 	)
-	!<app-shells/gentoo-bashcomp-20180302
-	!<app-shells/gentoo-zsh-completions-20180228
 "
 
 PDEPEND="netifrc? ( net-misc/netifrc )"
@@ -125,7 +125,7 @@ src_install() {
 	fi
 
 	# install documentation
-	dodoc ChangeLog *.md
+	dodoc *.md
 }
 
 pkg_preinst() {

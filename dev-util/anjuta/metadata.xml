@@ -5,9 +5,18 @@
 		<email>chewi@gentoo.org</email>
 		<name>James Le Cuirot</name>
 	</maintainer>
+	<longdescription lang="en">
+		This package used to build the entire Anjuta IDE for GNOME with all its
+		plugins. The project is now largely defunct, so the package has been
+		reduced to the base library, allowing applications built on Anjuta to
+		still be run.
+	</longdescription>
 	<use>
 		<flag name="devhelp">Enable devhelp integration</flag>
 		<flag name="glade">Build glade plugin for anjuta</flag>
 		<flag name="terminal">Enable terminal plugin based on <pkg>x11-libs/vte</pkg></flag>
 	</use>
+  <upstream>
+    <remote-id type="gnome-gitlab">Archive/anjuta</remote-id>
+  </upstream>
 </pkgmetadata>

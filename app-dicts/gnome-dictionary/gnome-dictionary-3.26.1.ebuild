@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit gnome.org gnome2-utils meson xdg
 
@@ -11,16 +11,16 @@ LICENSE="GPL-2+ LGPL-2.1+ FDL-1.1+"
 SLOT="0" # does not provide a public libgdict-1.0.so anymore
 KEYWORDS="*"
 
-IUSE="ipv6"
+IUSE=""
 
-COMMON_DEPEND="
+DEPEND="
 	>=dev-libs/glib-2.42:2
 	>=x11-libs/gtk+-3.21.2:3
 "
-RDEPEND="${COMMON_DEPEND}
+RDEPEND="${DEPEND}
 	gnome-base/gsettings-desktop-schemas
 "
-DEPEND="${COMMON_DEPEND}
+BDEPEND="
 	app-text/docbook-xsl-stylesheets
 	app-text/docbook-xml-dtd:4.3
 	dev-libs/libxslt
@@ -29,9 +29,15 @@ DEPEND="${COMMON_DEPEND}
 	virtual/pkgconfig
 "
 
+PATCHES=(
+	# From Gentoo:
+	# 	https://bugs.gentoo.org/831555
+	"${FILESDIR}"/${PN}-3.26.1-meson-0.61.patch
+)
+
 src_configure() {
 	local emesonargs=(
-		$(meson_use ipv6 use_ipv6)
+		-Duse_ipv6=true
 		-Dbuild_man=true
 	)
 	meson_src_configure

@@ -12,7 +12,7 @@ LICENSE="LGPL-2.1+"
 SLOT="2/8"
 KEYWORDS="*"
 
-IUSE="doc static-libs test"
+IUSE="gtk-doc static-libs test"
 
 RESTRICT="!test? ( test )"
 
@@ -38,7 +38,7 @@ multilib_src_configure() {
 	filter-flags -fno-exceptions #84263
 
 	ECONF_SOURCE="${S}" gnome2_src_configure \
-		$(multilib_native_use_enable doc documentation) \
+		$(multilib_native_use_enable gtk-doc documentation) \
 		$(use_enable static-libs static)
 }
 
@@ -51,5 +51,5 @@ multilib_src_install_all() {
 
 	# Note: html docs are installed into /usr/share/doc/libsigc++-2.0
 	# We can't use /usr/share/doc/${PF} because of links from glibmm etc. docs
-	use doc && dodoc -r examples
+	use gtk-doc && dodoc -r examples
 }

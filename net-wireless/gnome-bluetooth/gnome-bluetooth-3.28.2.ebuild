@@ -17,7 +17,7 @@ COMMON_DEPEND="
 	>=x11-libs/gtk+-3.12:3[introspection?]
 	media-libs/libcanberra[gtk3]
 	>=x11-libs/libnotify-0.7.0
-	virtual/libudev
+	virtual/libudev:=
 	>=dev-libs/glib-2.38:2
 	introspection? ( >=dev-libs/gobject-introspection-0.9.5:= )
 "
@@ -49,9 +49,14 @@ src_install() {
 }
 
 pkg_postinst() {
-	xdg_pkg_postinst
-	if ! has_version sys-auth/consolekit[acl] && ! has_version sys-auth/elogind[acl] && ! has_version sys-apps/systemd[acl] ; then
+	udev_reload
+	gnome2_pkg_postinst
+	if ! has_version 'sys-auth/consolekit[acl]' && ! has_version 'sys-auth/elogind[acl]' && ! has_version 'sys-apps/systemd[acl]' ; then
 		elog "Don't forget to add yourself to the plugdev group "
 		elog "if you want to be able to control bluetooth transmitter."
 	fi
+}
+
+pkg_postrm() {
+	udev_reload
 }

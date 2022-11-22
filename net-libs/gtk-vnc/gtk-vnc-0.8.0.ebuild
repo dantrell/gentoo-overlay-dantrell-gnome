@@ -8,7 +8,7 @@ VALA_USE_DEPEND="vapigen"
 inherit vala gnome2 python-any-r1
 
 DESCRIPTION="VNC viewer widget for GTK"
-HOMEPAGE="https://wiki.gnome.org/Projects/gtk-vnc"
+HOMEPAGE="https://wiki.gnome.org/Projects/gtk-vnc https://gitlab.gnome.org/GNOME/gtk-vnc"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"

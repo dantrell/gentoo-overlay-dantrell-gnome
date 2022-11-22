@@ -3,7 +3,7 @@
 EAPI="7"
 
 DESCRIPTION="NetworkManager GUI library"
-HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
+HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager https://gitlab.gnome.org/GNOME/libnma"
 
 LICENSE="GPL-2+"
 SLOT="0"

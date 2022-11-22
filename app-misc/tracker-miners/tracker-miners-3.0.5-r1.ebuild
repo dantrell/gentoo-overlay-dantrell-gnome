@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 
 inherit gnome.org gnome2-utils meson python-any-r1 systemd xdg
@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Tracker"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="3"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="cue exif ffmpeg gif gsf +gstreamer iptc +iso +jpeg networkmanager +pdf +playlist raw +rss seccomp test +tiff upower +xml xmp xps"
 REQUIRED_USE="cue? ( gstreamer )" # cue is currently only supported via gstreamer, not ffmpeg
@@ -80,7 +80,8 @@ PATCHES=(
 )
 
 python_check_deps() {
-	has_version -b "dev-python/tappy[${PYTHON_USEDEP}]"
+	python_has_version \
+		"dev-python/tappy[${PYTHON_USEDEP}]"
 }
 
 pkg_setup() {
@@ -88,6 +89,8 @@ pkg_setup() {
 }
 
 src_prepare() {
+	default
+
 	# https://gitlab.gnome.org/GNOME/tracker-miners/-/merge_requests/323
 	sed -i -e 's:environtment:env:' tests/libtracker-extract/meson.build || die
 
@@ -97,7 +100,6 @@ src_prepare() {
 	else
 		sed -i -e 's:detect-h264-codec.sh:/bin/false:' tests/functional-tests/meson.build || die
 	fi
-	xdg_src_prepare
 	gnome2_environment_reset # sets gstreamer safety variables
 }
 

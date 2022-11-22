@@ -10,7 +10,7 @@ SRC_URI="https://github.com/flatpak/${PN}/releases/download/${PV}/${P}.tar.xz"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="test"
 
@@ -27,6 +27,14 @@ BDEPEND="
 	dev-libs/libxslt
 	virtual/pkgconfig
 "
+
+src_prepare() {
+	default
+
+	# Work around -Werror=incompatible-pointer-types (GCC 11 default)
+	sed -e '/Werror=incompatible-pointer-types/d' \
+		-i meson.build || die
+}
 
 src_configure() {
 	local emesonargs=(

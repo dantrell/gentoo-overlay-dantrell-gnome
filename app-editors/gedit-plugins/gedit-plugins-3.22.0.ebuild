@@ -3,13 +3,13 @@
 EAPI="6"
 GNOME2_LA_PUNT="yes" # plugins are dlopened
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
-PYTHON_REQ_USE="xml"
+PYTHON_REQ_USE="xml(+)"
 VALA_MIN_API_VERSION="0.28"
 
 inherit gnome2 multilib python-single-r1 vala
 
 DESCRIPTION="Official plugins for gedit"
-HOMEPAGE="https://wiki.gnome.org/Apps/Gedit/ShippedPlugins"
+HOMEPAGE="https://wiki.gnome.org/Apps/Gedit/ThirdPartyPlugins"
 
 LICENSE="GPL-2+"
 SLOT="0"

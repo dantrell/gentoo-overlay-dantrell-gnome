@@ -16,25 +16,25 @@ IUSE="X debug +introspection jpeg tiff test"
 
 RESTRICT="!test? ( test )"
 
-COMMON_DEPEND="
+DEPEND="
 	>=dev-libs/glib-2.37.6:2[${MULTILIB_USEDEP}]
 	>=media-libs/libpng-1.4:0=[${MULTILIB_USEDEP}]
-	introspection? ( >=dev-libs/gobject-introspection-0.9.3:= )
 	jpeg? ( media-libs/libjpeg-turbo:0=[${MULTILIB_USEDEP}] )
-	tiff? ( >=media-libs/tiff-3.9.2:0=[${MULTILIB_USEDEP}] )
+	tiff? ( >=media-libs/tiff-3.9.2:0[${MULTILIB_USEDEP}] )
 	X? ( x11-libs/libX11[${MULTILIB_USEDEP}] )
-"
-DEPEND="${COMMON_DEPEND}
-	>=dev-util/gtk-doc-am-1.20
-	>=sys-devel/gettext-0.19
-	virtual/pkgconfig
+	introspection? ( >=dev-libs/gobject-introspection-0.9.3:= )
 "
 # librsvg blocker is for the new pixbuf loader API, you lose icons otherwise
-RDEPEND="${COMMON_DEPEND}
+RDEPEND="${DEPEND}
 	!<gnome-base/gail-1000
 	!<gnome-base/librsvg-2.31.0
 	!<x11-libs/gtk+-2.21.3:2
 	!<x11-libs/gtk+-2.90.4:3
+"
+DEPEND="${DEPEND}
+	>=dev-util/gtk-doc-am-1.20
+	>=sys-devel/gettext-0.19
+	virtual/pkgconfig
 "
 
 MULTILIB_CHOST_TOOLS=(
@@ -42,7 +42,7 @@ MULTILIB_CHOST_TOOLS=(
 )
 
 src_prepare() {
-	# From GNOME:
+	# From GNOME (do not run lowmem test on uclibc):
 	# 	https://bugzilla.gnome.org/show_bug.cgi?id=756590
 	# 	https://bugzilla.gnome.org/show_bug.cgi?id=788770
 	eapply "${FILESDIR}"/${PN}-2.32.3-fix-lowmem-uclibc.patch

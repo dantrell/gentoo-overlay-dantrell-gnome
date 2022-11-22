@@ -52,7 +52,7 @@ BDEPEND="
 	x11-libs/gtk+:3[introspection]
 	net-libs/webkit-gtk:4[introspection]
 	dev-libs/gmime:3.0[vala]
-	app-crypt/gcr:0[introspection,vala]
+	app-crypt/gcr:0[introspection,vala(+)]
 	dev-libs/libgee:0.8[introspection]
 	app-text/gspell[vala]
 	gui-libs/libhandy:0.0[vala]

@@ -3,9 +3,7 @@
 EAPI="7"
 
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
-PYTHON_REQ_USE="xml"
-
-VALA_MAX_API_VERSION="0.50"
+PYTHON_REQ_USE="xml(+)"
 
 inherit autotools gnome.org gnome2-utils python-single-r1 vala
 
@@ -14,7 +12,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Caribou"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"

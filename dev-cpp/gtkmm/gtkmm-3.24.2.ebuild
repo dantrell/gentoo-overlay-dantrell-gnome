@@ -11,7 +11,7 @@ LICENSE="LGPL-2.1+"
 SLOT="3.0"
 KEYWORDS="*"
 
-IUSE="aqua doc test wayland X"
+IUSE="aqua gtk-doc test wayland X"
 REQUIRED_USE="|| ( aqua wayland X )"
 
 RESTRICT="!test? ( test )"
@@ -28,7 +28,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
-	doc? (
+	gtk-doc? (
 		media-gfx/graphviz
 		dev-libs/libxslt
 		app-doc/doxygen )
@@ -53,7 +53,7 @@ multilib_src_configure() {
 	ECONF_SOURCE="${S}" \
 	gnome2_src_configure \
 		--enable-api-atkmm \
-		$(multilib_native_use_enable doc documentation) \
+		$(multilib_native_use_enable gtk-doc documentation) \
 		$(use_enable aqua quartz-backend) \
 		$(use_enable wayland wayland-backend) \
 		$(use_enable X x11-backend)

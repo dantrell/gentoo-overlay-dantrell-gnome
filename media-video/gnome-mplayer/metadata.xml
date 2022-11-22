@@ -3,9 +3,13 @@
 <pkgmetadata>
   <maintainer type="project">
     <email>media-video@gentoo.org</email>
+    <name>Gentoo Video project</name>
   </maintainer>
   <use>
     <flag name="dconf">Enable support for <pkg>gnome-base/dconf</pkg></flag>
     <flag name="gda">Enable support for <pkg>gnome-extra/libgda</pkg></flag>
   </use>
+  <upstream>
+    <remote-id type="google-code">gnome-mplayer</remote-id>
+  </upstream>
 </pkgmetadata>

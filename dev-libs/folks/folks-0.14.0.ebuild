@@ -14,7 +14,7 @@ LICENSE="LGPL-2.1+"
 SLOT="0/25" # subslot = libfolks soname version
 KEYWORDS="*"
 
-IUSE="bluetooth eds +telepathy test tracker utils"
+IUSE="bluetooth eds telepathy test tracker utils"
 REQUIRED_USE="bluetooth? ( eds )"
 
 RESTRICT="!test? ( test )"
@@ -61,7 +61,7 @@ PATCHES=(
 
 python_check_deps() {
 	if use test && use bluetooth; then
-		has_version "dev-python/python-dbusmock[${PYTHON_USEDEP}]"
+		python_has_version "dev-python/python-dbusmock[${PYTHON_USEDEP}]"
 	fi
 }
 

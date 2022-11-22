@@ -12,7 +12,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="crypt debug gnome-keyring ipv6 jpeg ssl +telepathy zeroconf +zlib"
+IUSE="crypt debug gnome-keyring jpeg ssl +telepathy zeroconf +zlib"
 # bug #394611; tight encoding requires zlib encoding
 REQUIRED_USE="jpeg? ( zlib )"
 
@@ -63,7 +63,7 @@ PATCHES=(
 
 src_configure() {
 	gnome2_src_configure \
-		$(use_enable ipv6) \
+		--enable-ipv6 \
 		$(use_with crypt gcrypt) \
 		$(usex debug --enable-debug=yes ' ') \
 		$(use_with gnome-keyring secret) \

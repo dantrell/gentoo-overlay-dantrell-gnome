@@ -12,4 +12,7 @@
 		<flag name="gusb">Enable <pkg>dev-libs/libgusb</pkg> support, needed for
 			colorimeter drivers</flag>
 	</use>
+	<upstream>
+		<remote-id type="github">hughsie/colord</remote-id>
+	</upstream>
 </pkgmetadata>

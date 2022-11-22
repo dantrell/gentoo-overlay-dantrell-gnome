@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<maintainer type="project">
-	<email>gnome@gentoo.org</email>
-	<name>Gentoo GNOME Desktop</name>
-</maintainer>
-<use>
-	<flag name="X">Build and install the legacy gdk_pixbuf_xlib-2.0 library</flag>
-</use>
-<upstream>
-	<remote-id type="cpe">cpe:/a:gnome:gdk-pixbuf</remote-id>
-</upstream>
+  <maintainer type="project">
+    <email>gnome@gentoo.org</email>
+    <name>Gentoo GNOME Desktop</name>
+  </maintainer>
+  <use>
+    <flag name="X">Build and install the legacy gdk_pixbuf_xlib-2.0 library</flag>
+  </use>
+  <upstream>
+    <remote-id type="cpe">cpe:/a:gnome:gdk-pixbuf</remote-id>
+    <remote-id type="gnome-gitlab">GNOME/gdk-pixbuf</remote-id>
+  </upstream>
 </pkgmetadata>

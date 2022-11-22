@@ -12,7 +12,7 @@ GNOME2_EAUTORECONF="yes"
 inherit gnome2 flag-o-matic readme.gentoo-r1 python-single-r1 vala
 
 DESCRIPTION="A versatile IDE for GNOME"
-HOMEPAGE="https://wiki.gnome.org/Apps/Anjuta https://gitlab.gnome.org/GNOME/anjuta/"
+HOMEPAGE="https://wiki.gnome.org/Apps/Anjuta https://gitlab.gnome.org/GNOME/anjuta"
 
 LICENSE="GPL-2+"
 SLOT="0"

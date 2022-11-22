@@ -3,12 +3,12 @@
 EAPI="7"
 
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
-PYTHON_REQ_USE="xml"
+PYTHON_REQ_USE="xml(+)"
 
 inherit cmake flag-o-matic xdg toolchain-funcs python-single-r1
 
 DESCRIPTION="SVG based generic vector-drawing program"
-HOMEPAGE="https://inkscape.org/"
+HOMEPAGE="https://inkscape.org/ https://gitlab.com/inkscape/inkscape/"
 SRC_URI="https://media.inkscape.org/dl/resources/file/${P}.tar.xz"
 
 LICENSE="GPL-2 LGPL-2.1"
@@ -34,7 +34,7 @@ COMMON_DEPEND="${PYTHON_DEPS}
 	>=dev-cpp/gtkmm-3.24:3.0
 	>=dev-cpp/pangomm-2.40:1.4
 	>=dev-libs/boehm-gc-7.1:=
-	>=dev-libs/boost-1.65:=
+	dev-libs/boost:=
 	dev-libs/double-conversion:=
 	>=dev-libs/glib-2.41
 	>=dev-libs/libsigc++-2.8:2

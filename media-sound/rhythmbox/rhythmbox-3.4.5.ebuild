@@ -2,7 +2,7 @@
 
 EAPI="8"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
-PYTHON_REQ_USE="xml"
+PYTHON_REQ_USE="xml(+)"
 
 inherit gnome.org gnome2-utils python-single-r1 meson virtualx xdg
 
@@ -11,7 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Rhythmbox"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="cdr daap dbus gnome-keyring gtk-doc ipod libnotify lirc mtp +python test +udev upnp-av"
 REQUIRED_USE="

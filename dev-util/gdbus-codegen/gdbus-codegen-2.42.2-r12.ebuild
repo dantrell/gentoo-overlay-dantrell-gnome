@@ -1,9 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 GNOME_ORG_MODULE="glib"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
-PYTHON_REQ_USE="xml"
+PYTHON_REQ_USE="xml(+)"
 DISTUTILS_USE_SETUPTOOLS=no
 
 inherit gnome.org distutils-r1

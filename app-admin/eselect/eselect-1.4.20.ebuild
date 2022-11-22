@@ -29,7 +29,7 @@ PDEPEND="emacs? ( app-emacs/eselect-mode )
 src_prepare() {
 	default
 
-	# Necessary to support GNOME Without Systemd hidden profiles
+	# From GNOME Without Systemd:
 	# 	https://github.com/dantrell/gentoo-project-gnome-without-systemd#known-issues
 	if ! use vanilla-profile; then
 		eapply "${FILESDIR}"/${PN}-1.4.16-support-hidden-profiles.patch

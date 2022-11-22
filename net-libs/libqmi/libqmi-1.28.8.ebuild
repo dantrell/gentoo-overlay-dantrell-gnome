@@ -8,7 +8,7 @@ SRC_URI="https://www.freedesktop.org/software/libqmi/${P}.tar.xz"
 
 LICENSE="LGPL-2"
 SLOT="0/5.7"	# soname of libqmi-glib.so
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="gtk-doc +mbim"
 

@@ -8,11 +8,11 @@ inherit xdg-utils meson-multilib python-any-r1
 
 DESCRIPTION="A thin layer of types for graphic libraries"
 HOMEPAGE="https://ebassi.github.io/graphene/"
-SRC_URI="https://github.com/ebassi/graphene/releases/download/${PV}/${P}.tar.gz"
+SRC_URI="https://github.com/ebassi/graphene/archive/refs/tags/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="cpu_flags_arm_neon cpu_flags_x86_sse2 doc +introspection test"
 

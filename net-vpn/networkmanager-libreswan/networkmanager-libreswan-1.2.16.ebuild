@@ -12,7 +12,7 @@ SRC_URI="https://download.gnome.org/sources/${GNOME_ORG_MODULE}/1.2/${GNOME_ORG_
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gtk gtk4 +legacy"
 

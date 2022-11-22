@@ -11,7 +11,7 @@ SRC_URI="https://www.kernel.org/pub/linux/bluetooth/${P}.tar.xz"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0/3"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="btpclient cups doc debug deprecated extra-tools experimental +mesh midi +obex +readline selinux systemd test test-programs +udev user-session"
 # Since this release all remaining extra-tools need readline support, but this could
@@ -19,6 +19,7 @@ IUSE="btpclient cups doc debug deprecated extra-tools experimental +mesh midi +o
 # again in the future.
 # btpclient needs mesh, bug #790587
 REQUIRED_USE="
+	btpclient? ( mesh )
 	extra-tools? ( deprecated readline )
 	test? ( ${PYTHON_REQUIRED_USE} )
 	test-programs? ( ${PYTHON_REQUIRED_USE} )
@@ -250,7 +251,7 @@ multilib_src_install_all() {
 	# https://bugzilla.redhat.com/show_bug.cgi?id=1318441
 	# https://bugzilla.redhat.com/show_bug.cgi?id=1389347
 	if use user-session && use systemd; then
-		ln -s "${ED}"/usr/lib/systemd/user/obex.service "${ED}"/usr/lib/systemd/user/dbus-org.bluez.obex.service
+		dosym obex.service /usr/lib/systemd/user/dbus-org.bluez.obex.service
 	fi
 
 	find "${D}" -name '*.la' -type f -delete || die
@@ -290,4 +291,8 @@ pkg_postinst() {
 
 	has_version net-dialup/ppp || elog "To use dial up networking you must install net-dialup/ppp"
 	use mesh && readme.gentoo_print_elog
+}
+
+pkg_postrm() {
+	use udev && udev_reload
 }

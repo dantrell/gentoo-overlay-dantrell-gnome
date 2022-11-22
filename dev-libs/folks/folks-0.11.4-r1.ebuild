@@ -16,7 +16,7 @@ KEYWORDS="*"
 
 # TODO: --enable-profiling
 # Vala isn't really optional, https://bugzilla.gnome.org/show_bug.cgi?id=701099
-IUSE="bluetooth debug eds +telepathy test tracker utils"
+IUSE="bluetooth debug eds telepathy test tracker utils"
 REQUIRED_USE="bluetooth? ( eds )"
 
 RESTRICT="!test? ( test )"

@@ -1,7 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
-VALA_USE_DEPEND="vapigen"
+EAPI="8"
 
 inherit meson udev vala xdg
 
@@ -33,16 +32,19 @@ DEPEND="${RDEPEND}"
 # perl dep is for pod2man for automagic manpage building
 BDEPEND="
 	dev-lang/perl
-	gtk-doc? ( >=dev-util/gtk-doc-1.10
-		app-text/docbook-xml-dtd:4.3 )
+	gtk-doc? (
+		>=dev-util/gtk-doc-1.10
+		app-text/docbook-xml-dtd:4.3
+	)
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
 "
 
 src_prepare() {
-	xdg_src_prepare
-	use vala && vala_src_prepare
+	default
+	use vala && vala_setup
+	xdg_environment_reset
 }
 
 src_configure() {

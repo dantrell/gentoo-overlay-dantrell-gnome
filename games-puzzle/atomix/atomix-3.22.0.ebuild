@@ -1,11 +1,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit gnome2
 
-DESCRIPTION="Build molecules, from simple inorganic to extremely complex organic ones"
-HOMEPAGE="http://ftp.gnome.org/pub/GNOME/sources/atomix/"
+DESCRIPTION="Build molecules out of isolated atoms"
+HOMEPAGE="https://wiki.gnome.org/Apps/Atomix"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -14,11 +14,12 @@ KEYWORDS="*"
 IUSE=""
 
 RDEPEND="
-	>=dev-libs/glib-2.36:2
-	>=x11-libs/gdk-pixbuf-2.0.5:2
 	>=x11-libs/gtk+-3.10:3
+	>=x11-libs/gdk-pixbuf-2.0.5:2
+	>=dev-libs/glib-2.36.0:2
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	dev-libs/appstream-glib
 	>=dev-util/intltool-0.40
 	sys-devel/gettext

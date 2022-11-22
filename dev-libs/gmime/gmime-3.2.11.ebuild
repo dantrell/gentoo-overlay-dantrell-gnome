@@ -23,11 +23,14 @@ RDEPEND="
 	idn? ( net-dns/libidn2:= )
 	vala? (
 		$(vala_depend)
-		>=dev-libs/gobject-introspection-1.30.0:= )
+		>=dev-libs/gobject-introspection-1.30.0:=
+	)
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.8
 	virtual/libiconv
+"
+BDEPEND="
+	>=dev-util/gtk-doc-am-1.8
 	virtual/pkgconfig
 	doc? ( app-text/docbook-sgml-utils )
 	test? ( app-crypt/gnupg )

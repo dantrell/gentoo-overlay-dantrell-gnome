@@ -6,7 +6,7 @@ inherit meson
 
 DESCRIPTION="Flatpak portal library"
 HOMEPAGE="https://github.com/flatpak/libportal"
-SRC_URI="https://github.com/flatpak/${PN}/releases/download/${PV}/${P}.tar.xz"
+SRC_URI="https://github.com/flatpak/libportal/releases/download/${PV}/${P}.tar.xz"
 
 LICENSE="GPL-2+"
 SLOT="0"

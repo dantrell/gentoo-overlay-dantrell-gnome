@@ -2,7 +2,7 @@
 
 EAPI="8"
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 MY_PN="chrome-gnome-shell"
 MY_P="${MY_PN}-${PV}"
 
@@ -12,10 +12,11 @@ DESCRIPTION="GNOME Shell integration for Chrome/Chromium, Firefox, Vivaldi, Oper
 HOMEPAGE="https://wiki.gnome.org/Projects/GnomeShellIntegrationForChrome"
 SRC_URI="mirror://gnome/sources/${MY_PN}/${PV}/${MY_P}.tar.xz"
 
+S="${WORKDIR}/${MY_P}"
+
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS="~*"
-IUSE=""
+KEYWORDS="*"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
@@ -31,8 +32,6 @@ BDEPEND="
 	app-misc/jq
 	sys-apps/coreutils
 "
-
-S="${WORKDIR}/${MY_P}"
 
 src_configure() {
 	local mycmakeargs=( -DBUILD_EXTENSION=OFF )

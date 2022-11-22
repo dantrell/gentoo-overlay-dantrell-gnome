@@ -7,8 +7,8 @@ HOMEPAGE="https://abiword.github.io/enchant/"
 SRC_URI="https://github.com/AbiWord/enchant/releases/download/v${PV}/${P}.tar.gz"
 
 LICENSE="LGPL-2.1+"
-SLOT="2/3"
-KEYWORDS="~*"
+SLOT="2"
+KEYWORDS="*"
 
 IUSE="aspell +hunspell nuspell test voikko"
 REQUIRED_USE="|| ( aspell hunspell nuspell )"

@@ -4,7 +4,7 @@ EAPI="7"
 
 GNOME_ORG_MODULE="gtk+"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
-PYTHON_REQ_USE="xml"
+PYTHON_REQ_USE="xml(+)"
 
 inherit gnome.org python-single-r1
 
@@ -17,11 +17,7 @@ KEYWORDS="*"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-# gtk-builder-convert was part of gtk+ until 2.24.10-r1
-# man page transitioned in 2.24.31-r1
-RDEPEND="${PYTHON_DEPS}
-	!<x11-libs/gtk+-2.24.31-r1:2
-"
+RDEPEND="${PYTHON_DEPS}"
 BDEPEND="${PYTHON_DEPS}
 	app-text/docbook-xml-dtd:4.3
 	app-text/docbook-xsl-stylesheets

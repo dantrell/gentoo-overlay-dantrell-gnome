@@ -155,4 +155,6 @@ src_install() {
 		# 	https://bugs.gentoo.org/709450
 		mv "${ED}"/usr/share/{appdata,metainfo} || die
 	fi
+
+	find "${ED}" -type f -name "*.la" -delete || die
 }

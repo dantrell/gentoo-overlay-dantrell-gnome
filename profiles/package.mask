@@ -171,6 +171,7 @@ gnome-extra/gnome-getting-started-docs::gentoo
 gnome-extra/gnome-multi-writer::gentoo
 gnome-extra/gnome-power-manager::gentoo
 gnome-extra/gnome-recipes::gentoo
+gnome-extra/gnome-search-tool::gentoo
 gnome-extra/gnome-system-monitor::gentoo
 gnome-extra/gnome-tweaks::gentoo
 gnome-extra/gnome-user-share::gentoo
@@ -228,7 +229,6 @@ media-libs/gupnp-dlna::gentoo
 media-libs/libchamplain::gentoo
 media-libs/libdiscid::gentoo
 media-libs/libmediaart::gentoo
-media-libs/memphis::gentoo
 media-libs/musicbrainz::gentoo
 media-plugins/grilo-plugins::gentoo
 media-plugins/gst-plugins-a52dec::gentoo
@@ -355,6 +355,7 @@ net-misc/spice-gtk::gentoo
 net-misc/vinagre::gentoo
 net-misc/vino::gentoo
 net-print/cups-filters::gentoo
+net-print/cups-pk-helper::gentoo
 net-voip/telepathy-gabble::gentoo
 net-vpn/networkmanager-fortisslvpn::gentoo
 net-vpn/networkmanager-l2tp::gentoo

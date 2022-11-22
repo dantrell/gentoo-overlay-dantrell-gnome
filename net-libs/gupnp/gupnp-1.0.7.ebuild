@@ -3,7 +3,7 @@
 EAPI="6"
 VALA_USE_DEPEND="vapigen"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
-PYTHON_REQ_USE="xml"
+PYTHON_REQ_USE="xml(+)"
 
 inherit gnome2 multilib-minimal python-single-r1 vala
 
@@ -12,7 +12,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/GUPnP https://gitlab.gnome.org/GNOME/g
 
 LICENSE="LGPL-2"
 SLOT="0/4"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="connman +introspection networkmanager"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}

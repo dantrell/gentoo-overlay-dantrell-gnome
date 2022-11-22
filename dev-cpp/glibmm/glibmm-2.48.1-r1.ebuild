@@ -5,13 +5,13 @@ EAPI="6"
 inherit flag-o-matic gnome2 multilib-minimal
 
 DESCRIPTION="C++ interface for glib2"
-HOMEPAGE="https://www.gtkmm.org"
+HOMEPAGE="https://www.gtkmm.org https://gitlab.gnome.org/GNOME/glibmm"
 
 LICENSE="LGPL-2.1+ GPL-2+" # GPL-2+ applies only to the build system
 SLOT="2"
 KEYWORDS="*"
 
-IUSE="doc debug test"
+IUSE="debug gtk-doc test"
 
 RESTRICT="!test? ( test )"
 
@@ -22,7 +22,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
-	doc? ( app-doc/doxygen )
+	gtk-doc? ( app-doc/doxygen )
 "
 # dev-cpp/mm-common needed for eautoreconf
 
@@ -52,7 +52,7 @@ multilib_src_configure() {
 
 	ECONF_SOURCE="${S}" gnome2_src_configure \
 		$(use_enable debug debug-refcounting) \
-		$(multilib_native_use_enable doc documentation) \
+		$(multilib_native_use_enable gtk-doc documentation) \
 		--enable-deprecated-api
 }
 

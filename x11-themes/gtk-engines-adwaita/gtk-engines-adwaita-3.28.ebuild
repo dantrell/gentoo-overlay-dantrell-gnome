@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 GNOME_ORG_MODULE="gnome-themes-extra"
 
 inherit gnome.org multilib-minimal
@@ -12,15 +12,13 @@ LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE=""
-
-COMMON_DEPEND="
+DEPEND="
 	>=x11-libs/gtk+-2.24.15:2[${MULTILIB_USEDEP}]
 "
-RDEPEND="${COMMON_DEPEND}
+RDEPEND="${DEPEND}
 	!<x11-themes/gnome-themes-extra-${PV}
 "
-DEPEND="${COMMON_DEPEND}
+BDEPEND="
 	>=dev-util/intltool-0.40
 	sys-devel/gettext
 	virtual/pkgconfig
@@ -40,5 +38,9 @@ multilib_src_compile() {
 
 multilib_src_install() {
 	emake -C themes/Adwaita/gtk-2.0 DESTDIR="${D}" install-engineLTLIBRARIES
-	find "${D}" -name '*.la' -delete || die
+}
+
+multilib_src_install_all() {
+	einstalldocs
+	find "${ED}" -type f -name '*.la' -delete || die
 }

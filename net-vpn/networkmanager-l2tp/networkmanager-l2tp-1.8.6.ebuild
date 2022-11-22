@@ -13,7 +13,7 @@ SRC_URI="https://github.com/nm-l2tp/${MY_PN}/releases/download/${PV}/${MY_P}.tar
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gtk +legacy static-libs"
 
@@ -60,4 +60,9 @@ src_configure() {
 	)
 
 	econf "${myeconfargs[@]}"
+}
+
+src_install() {
+	default
+	find "${ED}" -name '*.la' -delete || die
 }

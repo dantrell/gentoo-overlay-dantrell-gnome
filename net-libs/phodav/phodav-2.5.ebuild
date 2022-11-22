@@ -9,7 +9,7 @@ HOMEPAGE="https://wiki.gnome.org/phodav"
 
 LICENSE="LGPL-2.1+"
 SLOT="2.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gtk-doc systemd test zeroconf"
 
@@ -24,9 +24,11 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 BDEPEND="
 	app-text/asciidoc
+	app-text/docbook-xml-dtd:4.5
 	app-text/xmlto
 	sys-devel/gettext
 	virtual/pkgconfig
+	gtk-doc? ( dev-util/gtk-doc )
 	test? ( gnome-base/dconf )
 "
 
@@ -59,4 +61,12 @@ src_install() {
 		newinitd "${FILESDIR}"/spice-webdavd.initd spice-webdavd
 		udev_dorules "${FILESDIR}"/70-spice-webdavd.rules
 	fi
+}
+
+pkg_postinst() {
+	udev_reload
+}
+
+pkg_postrm() {
+	udev_reload
 }

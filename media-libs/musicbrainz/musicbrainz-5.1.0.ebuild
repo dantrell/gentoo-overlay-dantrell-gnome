@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-inherit cmake-utils flag-o-matic
+inherit cmake
 
 DESCRIPTION="Client Library for accessing the latest XML based MusicBrainz web service"
 HOMEPAGE="https://musicbrainz.org/doc/libmusicbrainz"
@@ -33,19 +33,12 @@ PATCHES=(
 )
 
 src_prepare() {
-	use test || cmake-utils_comment_add_subdirectory tests
-	cmake-utils_src_prepare
-}
-
-src_configure() {
-	# bug 619668
-	append-cxxflags -std=c++14
-
-	cmake-utils_src_configure
+	use test || cmake_comment_add_subdirectory tests
+	cmake_src_prepare
 }
 
 src_install() {
-	cmake-utils_src_install
+	cmake_src_install
 
 	if use examples; then
 		docinto examples

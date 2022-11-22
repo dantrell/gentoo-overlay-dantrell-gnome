@@ -1,12 +1,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-VALA_USE_DEPEND="vapigen"
+EAPI="8"
 
-inherit gnome2 vala meson
+inherit gnome.org meson vala xdg
 
 DESCRIPTION="Library and tool for working with Microsoft Cabinet (CAB) files"
-HOMEPAGE="https://wiki.gnome.org/msitools"
+HOMEPAGE="https://wiki.gnome.org/msitools https://gitlab.gnome.org/GNOME/gcab"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
@@ -21,8 +20,11 @@ RDEPEND="
 	sys-libs/zlib
 	introspection? ( >=dev-libs/gobject-introspection-0.9.4:= )
 "
-DEPEND="${RDEPEND}
-	doc? ( >=dev-util/gtk-doc-am-1.14 )
+DEPEND="${RDEPEND}"
+BDEPEND="
+	doc? (
+		>=dev-util/gtk-doc-am-1.14
+	)
 	>=dev-util/intltool-0.40
 	sys-devel/gettext
 	virtual/pkgconfig
@@ -30,8 +32,9 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	vala_src_prepare
-	gnome2_src_prepare
+	default
+	xdg_environment_reset
+	vala_setup
 }
 
 src_configure() {

@@ -18,7 +18,7 @@ RESTRICT="test"
 
 # Replace gkd gpg-agent with pinentry[gnome-keyring] one, bug #547456
 RDEPEND="
-	>=app-crypt/gcr-3.5.3:=[gtk]
+	>=app-crypt/gcr-3.5.3:0=[gtk]
 	>=dev-libs/glib-2.38:2
 	app-misc/ca-certificates
 	>=dev-libs/libgcrypt-1.2.2:0=

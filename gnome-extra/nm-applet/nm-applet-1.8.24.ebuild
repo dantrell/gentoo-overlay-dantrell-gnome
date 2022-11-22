@@ -37,7 +37,7 @@ RDEPEND="
 	gtk? ( <net-misc/networkmanager-1.19:= )
 	introspection? ( >=dev-libs/gobject-introspection-0.9.6:= )
 	virtual/freedesktop-icon-theme
-	gcr? ( >=app-crypt/gcr-3.14:=[gtk] )
+	gcr? ( >=app-crypt/gcr-3.14:0=[gtk] )
 	modemmanager? ( net-misc/modemmanager )
 	selinux? ( sys-libs/libselinux )
 	teamd? ( >=dev-libs/jansson-2.7 )

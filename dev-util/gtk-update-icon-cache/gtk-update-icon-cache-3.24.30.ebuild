@@ -10,7 +10,7 @@ SRC_URI="https://gitlab.gnome.org/Community/gentoo/${PN}/-/archive/${PV}/${P}.ta
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 # man page was previously installed by gtk+:3 ebuild
 RDEPEND="

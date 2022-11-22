@@ -4,12 +4,12 @@ EAPI="7"
 
 inherit gnome.org meson xdg
 
-DESCRIPTION="Build molecules, from simple inorganic to extremely complex organic ones"
+DESCRIPTION="Build molecules out of isolated atoms"
 HOMEPAGE="https://wiki.gnome.org/Apps/Atomix"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 

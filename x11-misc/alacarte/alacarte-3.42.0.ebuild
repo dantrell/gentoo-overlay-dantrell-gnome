@@ -2,7 +2,7 @@
 
 EAPI="6"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
-PYTHON_REQ_USE="xml"
+PYTHON_REQ_USE="xml(+)"
 
 inherit gnome2 python-single-r1
 
@@ -11,7 +11,7 @@ HOMEPAGE="https://gitlab.gnome.org/GNOME/alacarte"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"

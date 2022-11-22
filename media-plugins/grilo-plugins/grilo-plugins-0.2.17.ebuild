@@ -66,7 +66,7 @@ DEPEND="${RDEPEND}
 "
 
 python_check_deps() {
-	use upnp-av && use test && has_version "dev-python/python-dbusmock[${PYTHON_USEDEP}]"
+	use upnp-av && use test && python_has_version -d "dev-python/python-dbusmock[${PYTHON_USEDEP}]"
 }
 
 pkg_setup() {

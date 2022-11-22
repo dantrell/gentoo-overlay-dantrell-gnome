@@ -23,7 +23,7 @@ RDEPEND="
 	gtk? (
 		x11-libs/gdk-pixbuf:2
 		virtual/imagemagick-tools
-		)
+	)
 	introspection? ( >=dev-libs/gobject-introspection-1:= )
 "
 DEPEND="${RDEPEND}

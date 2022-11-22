@@ -3,7 +3,7 @@
 EAPI="6"
 
 DESCRIPTION="A sub-package that provides common GNOME Shell files"
-HOMEPAGE="https://wiki.gnome.org/Projects/GnomeShell"
+HOMEPAGE="https://wiki.gnome.org/Projects/GnomeShell https://gitlab.gnome.org/GNOME/gnome-shell"
 
 LICENSE="GPL-2"
 SLOT="0"

@@ -13,7 +13,7 @@ LICENSE="LGPL-2.1+"
 SLOT="0/25" # subslot = libfolks soname version
 KEYWORDS="*"
 
-IUSE="bluetooth eds +telepathy test tracker utils"
+IUSE="bluetooth eds telepathy test tracker utils"
 REQUIRED_USE="bluetooth? ( eds )"
 
 RESTRICT="!test? ( test )"

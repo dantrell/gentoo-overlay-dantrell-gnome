@@ -1,11 +1,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="8"
 
 inherit linux-info systemd
 
 DESCRIPTION="Daemon for Advanced Configuration and Power Interface"
-HOMEPAGE="https://sourceforge.net/projects/acpid2"
+HOMEPAGE="https://sourceforge.net/projects/acpid2/"
 SRC_URI="mirror://sourceforge/${PN}2/${P}.tar.xz"
 
 LICENSE="GPL-2"
@@ -41,6 +41,8 @@ PATCHES=(
 	"${FILESDIR}"/patches/add-mate-pms.patch
 	"${FILESDIR}"/patches/add-kde5-pms.patch
 )
+
+pkg_setup() { :; }
 
 src_install() {
 	emake DESTDIR="${D}" install

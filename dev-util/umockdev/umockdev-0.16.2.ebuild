@@ -1,7 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
+VALA_MIN_API_VERSION="0.46"
 
 inherit meson-multilib python-any-r1 vala
 
@@ -44,7 +45,7 @@ src_prepare() {
 		"${FILESDIR}"/umockdev-0.16.1-Werror.patch
 	)
 	default
-	vala_src_prepare
+	vala_setup
 }
 
 multilib_src_configure() {

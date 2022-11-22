@@ -62,8 +62,6 @@ QA_MULTILIB_PATHS="
 
 src_prepare() {
 	local PATCHES=(
-		# musl
-		"${FILESDIR}"/${PN}-0.118-make-netgroup-support-optional.patch
 		# Pending upstream
 		"${FILESDIR}"/${PN}-0.120-meson.patch
 

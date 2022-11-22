@@ -46,10 +46,10 @@ BDEPEND="
 
 python_check_deps() {
 	if use introspection; then
-		has_version -b "dev-python/pygobject:3[${PYTHON_USEDEP}]" || return
+		python_has_version "dev-python/pygobject:3[${PYTHON_USEDEP}]" || return
 	fi
-	has_version -b "dev-python/mock[${PYTHON_USEDEP}]" &&
-	has_version -b "dev-python/dbus-python[${PYTHON_USEDEP}]"
+	python_has_version "dev-python/mock[${PYTHON_USEDEP}]" &&
+	python_has_version "dev-python/dbus-python[${PYTHON_USEDEP}]"
 }
 
 pkg_setup() {

@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="8"
+
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
-VALA_USE_DEPEND="vapigen"
 
 inherit gnome.org meson python-r1 vala
 
@@ -22,33 +22,41 @@ RDEPEND="
 	>=dev-libs/glib-2.42.0:2
 	<dev-libs/libgit2-0.29:0=[ssh?]
 	>=dev-libs/libgit2-0.26.0:0
-	gtk-doc? ( >=dev-util/gtk-doc-am-1.11 )
 	python? (
 		${PYTHON_DEPS}
-		dev-python/pygobject:3[${PYTHON_USEDEP}] )
+		dev-python/pygobject:3[${PYTHON_USEDEP}]
+	)
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	virtual/pkgconfig
-	vala? ( $(vala_depend) )
+	gtk-doc? (
+		>=dev-util/gtk-doc-am-1.11
+	)
+	vala? (
+		$(vala_depend)
+	)
 "
 
 src_prepare() {
+	default
+
 	# Lower the minimum required GLib version
 	sed -e 's/2.44.0/2.42.0/' \
 		-i meson.build || die
 
-	default
-	use vala && vala_src_prepare
+	use vala && vala_setup
 }
 
 src_configure() {
 	local emesonargs=(
-		-D gtk_doc=$(usex gtk-doc true false)
-		-D introspection=true
-		-D python=true
-		-D ssh=$(usex ssh true false)
-		-D vapi=$(usex vala true false)
+		$(meson_use gtk-doc gtk_doc)
+		-Dintrospection=true
+		-Dpython=true
+		$(meson_use ssh)
+		$(meson_use vala vapi)
 	)
+
 	meson_src_configure
 }
 

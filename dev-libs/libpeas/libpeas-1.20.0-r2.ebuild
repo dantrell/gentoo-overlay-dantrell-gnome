@@ -8,7 +8,7 @@ PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 inherit gnome2 multilib python-single-r1 virtualx
 
 DESCRIPTION="A GObject plugins library"
-HOMEPAGE="https://developer.gnome.org/libpeas/stable/"
+HOMEPAGE="https://wiki.gnome.org/Projects/Libpeas https://gitlab.gnome.org/GNOME/libpeas"
 
 LICENSE="LGPL-2+"
 SLOT="0"

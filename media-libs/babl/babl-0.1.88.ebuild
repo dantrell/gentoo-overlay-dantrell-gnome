@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 VALA_USE_DEPEND=vapigen
 
@@ -8,7 +8,7 @@ inherit meson gnome2-utils vala
 
 DESCRIPTION="A dynamic, any to any, pixel format conversion library"
 HOMEPAGE="https://gegl.org/babl/"
-SRC_URI="https://ftp.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.xz"
+SRC_URI="https://download.gimp.org/pub/${PN}/${PV:0:3}/${P}.tar.xz"
 
 LICENSE="LGPL-3"
 SLOT="0"
@@ -30,10 +30,11 @@ DEPEND="${RDEPEND}"
 src_prepare() {
 	default
 	gnome2_environment_reset
-	use vala && vala_src_prepare
 }
 
 src_configure() {
+	use vala && vala_setup
+
 	# Automagic rsvg support is just for website generation we do not call,
 	#     so we don't need to fix it
 	# w3m is used for dist target thus no issue for us that it is automagically

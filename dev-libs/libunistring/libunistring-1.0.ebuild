@@ -10,7 +10,7 @@ SRC_URI="mirror://gnu/${PN}/${P}.tar.xz"
 
 LICENSE="|| ( LGPL-3+ GPL-2+ ) || ( FDL-1.2 GPL-3+ )"
 SLOT="0/2"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="doc static-libs"
 
