@@ -17,7 +17,7 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="deprecated test"
+IUSE="deprecated-builddir-file-references deprecated-positional-arguments test"
 
 RESTRICT="!test? ( test )"
 
@@ -41,7 +41,7 @@ PATCHES=(
 src_prepare() {
 	default
 
-	if use deprecated; then
+	if use deprecated-positional-arguments; then
 		# From Meson:
 		# 	https://github.com/mesonbuild/meson/commit/8b573d7dc65bf20fcb0377ce4c56841496ad0c69
 		eapply "${FILESDIR}"/${PN}-0.62.2-i18n-merge-file-do-not-disable-in-the-absence-of-gettext.patch
@@ -50,6 +50,12 @@ src_prepare() {
 		# 	https://github.com/mesonbuild/meson/commit/2b01a14090748c4df2d174ea9832f212f5899491
 		eapply "${FILESDIR}"/${PN}-0.60.1-i18n-merge-file-deprecate-positional-arguments.patch
 		eapply "${FILESDIR}"/${PN}-0.62.2-i18n-itstool-join-deprecate-positional-arguments.patch
+	fi
+
+	if use deprecated-builddir-file-references; then
+		# From Meson:
+		# 	https://github.com/mesonbuild/meson/commit/ca40dda1467bd8dada7dc7d729c8136f13ccd579
+		eapply "${FILESDIR}"/${PN}-0.63.3-interpreter-deprecate-builddir-file-references.patch
 	fi
 }
 

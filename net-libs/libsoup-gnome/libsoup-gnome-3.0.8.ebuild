@@ -10,7 +10,7 @@ SRC_URI="${SRC_URI//-gnome}"
 
 LICENSE="LGPL-2+"
 SLOT="3.0"
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="+introspection"
 

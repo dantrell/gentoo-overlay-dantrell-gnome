@@ -14,7 +14,7 @@ SRC_URI="${DATA_URI}/${PN#*-}-sequences.txt -> ${PN}-sequences-${PV}.txt
 
 LICENSE="unicode"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 

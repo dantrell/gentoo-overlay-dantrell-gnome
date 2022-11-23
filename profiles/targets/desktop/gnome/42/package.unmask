@@ -12,7 +12,7 @@
 ~app-editors/gedit-42.2::dantrell-gnome-42
 ~app-editors/gedit-plugins-42.1::dantrell-gnome-42
 ~app-editors/ghex-42.3::dantrell-gnome-42
-~app-editors/gnome-latex-3.38.0::dantrell-gnome
+~app-editors/gnome-latex-3.42.0::dantrell-gnome-42
 ~app-editors/gnome-text-editor-42.2::dantrell-gnome-42
 ~app-misc/bijiben-40.1::dantrell-gnome
 ~app-misc/geoclue-2.5.7::dantrell-gnome
@@ -37,7 +37,7 @@
 ~dev-libs/glib-2.72.4::dantrell-gnome
 ~dev-libs/gmime-3.2.9::dantrell-gnome
 ~dev-libs/gobject-introspection-1.72.1::dantrell-gnome-42
-~dev-libs/gobject-introspection-common-1.72.0::dantrell-gnome-42
+~dev-libs/gobject-introspection-common-1.72.1::dantrell-gnome-42
 ~dev-libs/gom-0.4::dantrell-gnome
 ~dev-libs/jsonrpc-glib-3.42.0::dantrell-gnome-42
 ~dev-libs/json-glib-1.6.6::dantrell-gnome
@@ -159,6 +159,7 @@
 ~net-libs/gupnp-av-0.14.1::dantrell-gnome
 ~net-libs/gupnp-igd-1.2.0::dantrell-gnome
 ~net-libs/libnma-1.8.40::dantrell-gnome
+~net-libs/libsoup-3.0.8::dantrell-gnome
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/phodav-2.5::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome
@@ -179,8 +180,8 @@
 ~x11-libs/vte-0.68.0::dantrell-gnome-42
 ~x11-misc/gpaste-42.1::dantrell-gnome-42
 ~x11-terms/gnome-terminal-3.44.1::dantrell-gnome-42
+~x11-themes/adwaita-icon-theme-42.0_p2::dantrell-gnome-42
 ~x11-themes/gnome-backgrounds-42.0::dantrell-gnome-42
 ~x11-themes/gnome-themes-extra-3.28::dantrell-gnome
 ~x11-wm/metacity-3.44.0::dantrell-gnome-42
 ~x11-wm/mutter-42.6::dantrell-gnome-42
-~/x11-themes/adwaita-icon-theme/adwaita-icon-theme-42.0_p2.ebuild::dantrell-gnome-42

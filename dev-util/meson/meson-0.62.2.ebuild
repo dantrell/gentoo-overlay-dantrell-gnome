@@ -15,7 +15,7 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="deprecated test"
+IUSE="deprecated-positional-arguments test"
 
 RESTRICT="!test? ( test )"
 
@@ -33,7 +33,7 @@ DEPEND="
 src_prepare() {
 	default
 
-	if use deprecated; then
+	if use deprecated-positional-arguments; then
 		# From Meson:
 		# 	https://github.com/mesonbuild/meson/commit/8b573d7dc65bf20fcb0377ce4c56841496ad0c69
 		eapply "${FILESDIR}"/${PN}-0.62.2-i18n-merge-file-do-not-disable-in-the-absence-of-gettext.patch

@@ -1,4 +1,5 @@
 app-office/gnome-todo libecal2
+dev-util/meson deprecated-builddir-file-references
 gnome-base/gnome-shell vanilla-gc
 net-libs/glib-networking smartcard
 net-libs/gnutls pkcs11

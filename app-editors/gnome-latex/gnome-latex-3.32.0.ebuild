@@ -1,8 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="8"
 VALA_MIN_API_VERSION="0.34"
-VALA_USE_DEPEND="vapigen"
 
 inherit gnome2 vala
 
@@ -15,21 +14,21 @@ KEYWORDS="*"
 
 IUSE="+introspection +latexmk rubber"
 
-COMMON_DEPEND="
+DEPEND="
 	$(vala_depend)
 	>=app-text/enchant-2.1.3:2=
 	>=app-text/gspell-1.8:0=
 	>=dev-libs/glib-2.50:2[dbus]
 	>=dev-libs/libgee-0.10:0.8=
 	gnome-base/gsettings-desktop-schemas
-	>=gui-libs/tepl-4.2
 	>=x11-libs/gtk+-3.20:3
 	>=x11-libs/gtksourceview-3.24:3.0=
+	>=gui-libs/tepl-4.2:4
 	x11-libs/gdk-pixbuf:2
 	x11-libs/pango
 	introspection? ( >=dev-libs/gobject-introspection-1.30.0:= )
 "
-RDEPEND="${COMMON_DEPEND}
+RDEPEND="${DEPEND}
 	virtual/latex-base
 	x11-themes/hicolor-icon-theme
 	latexmk? ( dev-tex/latexmk )
@@ -37,7 +36,7 @@ RDEPEND="${COMMON_DEPEND}
 
 	!app-editors/latexila
 "
-DEPEND="${COMMON_DEPEND}
+BDEPEND="
 	app-text/yelp-tools
 	dev-util/gdbus-codegen
 	>=dev-util/gtk-doc-am-1.14
@@ -46,7 +45,7 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_prepare() {
-	vala_src_prepare
+	vala_setup
 	gnome2_src_prepare
 }
 

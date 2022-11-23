@@ -152,8 +152,9 @@
 >=gnome-extra/yelp-40.0
 >=gnome-extra/yelp-xsl-40.0
 >=gnome-extra/zenity-3.41.0
+>=gui-libs/gtk-4.0
 >=gui-libs/libhandy-1.5.0
->=gui-libs/tepl-7.0
+>=gui-libs/tepl-6.2
 >=mail-client/evolution-3.40.0
 >=mail-client/geary-40.0
 >=media-gfx/eog-40.0

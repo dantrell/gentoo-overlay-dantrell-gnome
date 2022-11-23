@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS=""
 
 IUSE="appindicator modemmanager selinux teamd"
 

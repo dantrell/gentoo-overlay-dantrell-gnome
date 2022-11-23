@@ -12,7 +12,7 @@
 ~app-editors/gedit-40.1::dantrell-gnome-40
 ~app-editors/gedit-plugins-40.1::dantrell-gnome-40
 ~app-editors/ghex-3.18.4::dantrell-gnome
-~app-editors/gnome-latex-3.38.0::dantrell-gnome
+~app-editors/gnome-latex-3.40.0::dantrell-gnome-40
 ~app-misc/bijiben-40.1::dantrell-gnome
 ~app-misc/geoclue-2.5.7::dantrell-gnome
 ~app-misc/gnote-40.3::dantrell-gnome-40
@@ -161,6 +161,7 @@
 ~net-libs/gupnp-igd-1.2.0::dantrell-gnome
 ~net-libs/libnma-1.8.40::dantrell-gnome
 ~net-libs/libsoup-2.72.0::dantrell-gnome
+~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-libs/phodav-2.5::dantrell-gnome
 ~net-libs/rest-0.8.1::dantrell-gnome
 ~net-libs/webkit-gtk-2.32.4::dantrell-gnome

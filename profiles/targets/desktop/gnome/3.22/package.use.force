@@ -1,1 +1,2 @@
-dev-util/meson deprecated
+dev-util/meson deprecated-builddir-file-references
+dev-util/meson deprecated-positional-arguments

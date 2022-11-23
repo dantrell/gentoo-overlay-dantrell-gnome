@@ -4,10 +4,18 @@
 ##amd64       default/linux/amd64/13.0/desktop/gnome+plasma/mainline      stable
 ##amd64       default/linux/amd64/17.0/desktop/gnome+plasma               stable
 ##amd64       default/linux/amd64/17.0/desktop/gnome+plasma/mainline      stable
-amd64       default/linux/amd64/17.1/desktop/gnome+plasma               stable
-amd64       default/linux/amd64/17.1/desktop/gnome+plasma/mainline      stable
+##amd64       default/linux/amd64/17.1/desktop/gnome+plasma               stable
+##amd64       default/linux/amd64/17.1/desktop/gnome+plasma/mainline      stable
+amd64       default/linux/amd64/17.1/desktop/plasma+gnome/3.38          stable
+amd64       default/linux/amd64/17.1/desktop/plasma+gnome/40            stable
+amd64       default/linux/amd64/17.1/desktop/plasma+gnome/41            stable
+amd64       default/linux/amd64/17.1/desktop/plasma+gnome/42            stable
 
 ##x86         default/linux/x86/13.0/desktop/gnome+plasma                 stable
 ##x86         default/linux/x86/13.0/desktop/gnome+plasma/mainline        stable
-x86         default/linux/x86/17.0/desktop/gnome+plasma                 stable
-x86         default/linux/x86/17.0/desktop/gnome+plasma/mainline        stable
+##x86         default/linux/x86/17.0/desktop/gnome+plasma                 stable
+##x86         default/linux/x86/17.0/desktop/gnome+plasma/mainline        stable
+x86         default/linux/x86/17.0/desktop/plasma+gnome/3.38            stable
+x86         default/linux/x86/17.0/desktop/plasma+gnome/40              stable
+x86         default/linux/x86/17.0/desktop/plasma+gnome/41              stable
+x86         default/linux/x86/17.0/desktop/plasma+gnome/42              stable

@@ -10,7 +10,7 @@ SRC_URI="https://nice.freedesktop.org/releases/${P}.tar.gz"
 
 LICENSE="|| ( MPL-1.1 LGPL-2.1 )"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+gnutls gtk-doc +introspection +upnp"
 

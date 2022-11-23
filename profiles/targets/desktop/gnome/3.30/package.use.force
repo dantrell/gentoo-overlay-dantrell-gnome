@@ -1,3 +1,4 @@
-dev-util/meson deprecated
+dev-util/meson deprecated-builddir-file-references
+dev-util/meson deprecated-positional-arguments
 net-libs/glib-networking smartcard
 net-libs/gnutls pkcs11

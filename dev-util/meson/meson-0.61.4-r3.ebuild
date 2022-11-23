@@ -15,7 +15,7 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="deprecated test"
+IUSE="deprecated-positional-arguments test"
 
 RESTRICT="!test? ( test )"
 
@@ -37,7 +37,7 @@ PATCHES=(
 src_prepare() {
 	default
 
-	if use deprecated; then
+	if use deprecated-positional-arguments; then
 		# From Meson:
 		# 	https://github.com/mesonbuild/meson/commit/2b01a14090748c4df2d174ea9832f212f5899491
 		eapply "${FILESDIR}"/${PN}-0.60.1-i18n-merge-file-deprecate-positional-arguments.patch

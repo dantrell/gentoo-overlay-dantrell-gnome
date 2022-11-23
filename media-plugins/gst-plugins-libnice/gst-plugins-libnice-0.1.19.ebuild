@@ -11,7 +11,7 @@ SRC_URI="https://nice.freedesktop.org/releases/${MY_P}.tar.gz"
 
 LICENSE="|| ( MPL-1.1 LGPL-2.1 )"
 SLOT="1.0"
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE=""
 

@@ -20,7 +20,7 @@ SRC_URI+=" mirror://gnupg/${PN}/${P}.tar.bz2.sig"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="common-lisp nls static-libs test"
 

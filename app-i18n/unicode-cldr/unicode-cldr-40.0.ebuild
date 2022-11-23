@@ -8,7 +8,7 @@ SRC_URI="https://unicode.org/Public/${PN#*-}/${PV%.0}/${PN#*-}-common-${PV}.zip 
 
 LICENSE="unicode"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE=""
 

@@ -9,7 +9,6 @@ inherit autotools flag-o-matic multilib-minimal toolchain-funcs verify-sig
 DESCRIPTION="General purpose crypto library based on the code used in GnuPG"
 HOMEPAGE="https://www.gnupg.org/"
 SRC_URI="mirror://gnupg/${PN}/${P}.tar.bz2"
-
 SRC_URI+=" verify-sig? ( mirror://gnupg/${PN}/${P}.tar.bz2.sig )"
 
 LICENSE="LGPL-2.1 MIT"

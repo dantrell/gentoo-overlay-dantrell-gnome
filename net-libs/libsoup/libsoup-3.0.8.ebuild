@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/libsoup"
 
 LICENSE="LGPL-2.1+"
 SLOT="3.0"
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="+brotli gssapi gtk-doc +introspection samba ssl sysprof test +vala"
 REQUIRED_USE="vala? ( introspection )"
