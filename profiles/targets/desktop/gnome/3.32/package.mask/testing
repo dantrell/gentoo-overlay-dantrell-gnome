@@ -1,0 +1,4 @@
+# Masked for testing
+>=gnome-base/librsvg-2.49.0
+>=net-libs/webkit-gtk-2.35.0
+>=x11-libs/pango-1.44.0

@@ -1,0 +1,4 @@
+# Requires GLib 2.43 (or greater)
+>=app-admin/abrt-2.10.9
+>=dev-libs/libreport-2.9.5
+>=net-im/corebird-1.1

@@ -17,6 +17,6 @@ RDEPEND=">=dev-libs/glib-2.4.0:2"
 DEPEND="${RDEPEND}"
 BDEPEND="
 	sys-devel/flex
-	virtual/yacc
+	app-alternatives/yacc
 	virtual/pkgconfig
 "

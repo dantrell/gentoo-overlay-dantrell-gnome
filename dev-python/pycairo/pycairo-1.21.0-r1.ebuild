@@ -13,7 +13,7 @@ SRC_URI="https://github.com/pygobject/${PN}/releases/download/v${PV}/${P}.tar.gz
 
 LICENSE="|| ( LGPL-2.1 MPL-1.1 )"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="examples"
 

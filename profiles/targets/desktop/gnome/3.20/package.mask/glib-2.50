@@ -1,0 +1,10 @@
+# Requires GLib 2.50 (or greater)
+>=app-text/zathura-0.4.1
+>=dev-libs/granite-5.2.5
+>=dev-util/lxqt-build-tools-0.4.0
+>=dev-util/meld-3.18.0
+>=sys-apps/bolt-0.4
+>=sys-apps/dbus-broker-4
+>=sys-fs/udisks-2.7.6
+>=x11-wm/page-1.9.9
+>=xfce-extra/xfce4-screensaver-0.1.0

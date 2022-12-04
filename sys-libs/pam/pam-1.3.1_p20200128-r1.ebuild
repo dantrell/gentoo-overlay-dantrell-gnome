@@ -24,7 +24,7 @@ BDEPEND="app-text/docbook-xml-dtd:4.1.2
 	sys-devel/flex
 	sys-devel/gettext
 	virtual/pkgconfig
-	virtual/yacc"
+	app-alternatives/yacc"
 
 DEPEND="
 	virtual/libcrypt:=[${MULTILIB_USEDEP}]

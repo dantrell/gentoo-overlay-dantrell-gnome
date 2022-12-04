@@ -1,0 +1,2 @@
+# Requires GLib 2.52 (or greater)
+>=net-libs/phodav-2.2

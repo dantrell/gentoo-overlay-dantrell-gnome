@@ -21,6 +21,6 @@ DEPEND="${RDEPEND}
 	>=dev-util/intltool-0.40
 	>=dev-util/itstool-1.2.0
 	sys-devel/gettext
-	virtual/awk
+	app-alternatives/awk
 	virtual/pkgconfig
 "

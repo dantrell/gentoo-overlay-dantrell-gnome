@@ -1,0 +1,5 @@
+# Requires GLib 2.54 (or greater)
+>=mail-client/geary-0.13.0
+>=media-gfx/gthumb-3.10.0
+>=media-gfx/inkscape-1.0
+>=net-vpn/networkmanager-wireguard-9999

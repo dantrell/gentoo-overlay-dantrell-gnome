@@ -20,13 +20,13 @@
 ~app-misc/tracker-miners-3.2.2::dantrell-gnome-41
 ~app-office/gnome-todo-41.0::dantrell-gnome
 ~app-text/evince-41.5::dantrell-gnome-41
-~app-text/gspell-1.9.1::dantrell-gnome
+~app-text/gspell-1.10.0::dantrell-gnome
 ~app-text/libgepub-0.7.0::dantrell-gnome
 ~app-text/libgxps-0.3.2::dantrell-gnome
 ~app-text/yelp-tools-41.0::dantrell-gnome-41
 ~dev-cpp/atkmm-2.36.2::dantrell-gnome
 ~dev-cpp/glibmm-2.66.5::dantrell-gnome
-~dev-cpp/mm-common-1.0.4::dantrell-gnome
+~dev-cpp/mm-common-1.0.5::dantrell-gnome
 ~dev-cpp/pangomm-2.50.1::dantrell-gnome
 ~dev-lang/vala-0.54.9::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.18::dantrell-gnome
@@ -42,10 +42,12 @@
 ~dev-libs/libdazzle-3.42.0::dantrell-gnome-41
 ~dev-libs/libgdata-0.18.1::dantrell-gnome
 ~dev-libs/libgee-0.20.6::dantrell-gnome
+~dev-libs/libgit2-glib-1.0.0.1::dantrell-gnome
 ~dev-libs/libgweather-40.0::dantrell-gnome
 ~dev-libs/libical-3.0.9::dantrell-gnome
 ~dev-libs/libpeas-1.32.0::dantrell-gnome
 ~dev-libs/libsigc++-2.10.8::dantrell-gnome
+~dev-libs/template-glib-3.34.1::dantrell-gnome
 ~dev-libs/totem-pl-parser-3.26.6::dantrell-gnome
 ~dev-libs/vala-common-0.54.9::dantrell-gnome
 ~dev-python/pyatspi-2.38.2::dantrell-gnome
@@ -74,6 +76,7 @@
 ~games-puzzle/quadrapassel-40.2::dantrell-gnome
 ~games-puzzle/swell-foop-41.1::dantrell-gnome
 ~gnome-base/dconf-0.40.0::dantrell-gnome
+~gnome-base/dconf-editor-3.38.3::dantrell-gnome
 ~gnome-base/gdm-41.3::dantrell-gnome-41
 ~gnome-base/gnome-41.0::dantrell-gnome-41
 ~gnome-base/gnome-applets-3.42.0::dantrell-gnome-41
@@ -118,6 +121,7 @@
 ~gnome-extra/libgsf-1.14.50::dantrell-gnome
 ~gnome-extra/mousetweaks-3.32.0::dantrell-gnome
 ~gnome-extra/nautilus-sendto-3.8.6::dantrell-gnome
+~gnome-extra/sushi-41.2::dantrell-gnome-41
 ~gnome-extra/yelp-41.2::dantrell-gnome-41
 ~gnome-extra/yelp-xsl-41.1::dantrell-gnome-41
 ~gnome-extra/zenity-3.41.0::dantrell-gnome-41
@@ -168,7 +172,7 @@
 ~www-client/epiphany-41.5::dantrell-gnome-41
 ~x11-libs/gdk-pixbuf-2.42.10::dantrell-gnome
 ~x11-libs/gtksourceview-4.8.4::dantrell-gnome
-~x11-libs/gtk+-3.24.34::dantrell-gnome
+~x11-libs/gtk+-3.24.35::dantrell-gnome
 ~x11-libs/libnotify-0.7.12::dantrell-gnome
 ~x11-libs/pango-1.48.11::dantrell-gnome
 ~x11-libs/vte-0.66.2::dantrell-gnome-41

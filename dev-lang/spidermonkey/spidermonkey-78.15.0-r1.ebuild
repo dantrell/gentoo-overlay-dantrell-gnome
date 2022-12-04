@@ -6,7 +6,7 @@ EAPI="8"
 FIREFOX_PATCHSET="firefox-78esr-patches-19.tar.xz"
 SPIDERMONKEY_PATCHSET="spidermonkey-78-patches-04.tar.xz"
 
-LLVM_MAX_SLOT=14
+LLVM_MAX_SLOT=15
 
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 PYTHON_REQ_USE="ssl,xml(+)"
@@ -69,33 +69,28 @@ IUSE="clang cpu_flags_arm_neon debug +jit lto test"
 RESTRICT="!test? ( test )"
 
 BDEPEND="${PYTHON_DEPS}
-	>=virtual/rust-1.51.0
+	|| (
+		(
+			sys-devel/clang:15
+			sys-devel/llvm:15
+			clang? (
+				virtual/rust:0/llvm-15
+				lto? ( sys-devel/lld:15 )
+			)
+		)
+		(
+			sys-devel/clang:14
+			sys-devel/llvm:14
+			clang? (
+				virtual/rust:0/llvm-14
+				lto? ( sys-devel/lld:14 )
+			)
+		)
+	)
+	!clang? ( virtual/rust )
 	virtual/pkgconfig
 	test? (
 		$(python_gen_any_dep 'dev-python/six[${PYTHON_USEDEP}]')
-	)
-	|| (
-		(
-			sys-devel/llvm:14
-			clang? (
-				sys-devel/clang:14
-				lto? ( =sys-devel/lld-14* )
-			)
-		)
-		(
-			sys-devel/llvm:13
-			clang? (
-				sys-devel/clang:13
-				lto? ( =sys-devel/lld-13* )
-			)
-		)
-		(
-			sys-devel/llvm:12
-			clang? (
-				sys-devel/clang:12
-				lto? ( =sys-devel/lld-12* )
-			)
-		)
 	)"
 DEPEND=">=dev-libs/icu-69.1:=
 	dev-libs/nspr
@@ -114,6 +109,11 @@ llvm_check_deps() {
 	if use clang ; then
 		if ! has_version -b "sys-devel/clang:${LLVM_SLOT}" ; then
 			einfo "sys-devel/clang:${LLVM_SLOT} is missing! Cannot use LLVM slot ${LLVM_SLOT} ..." >&2
+			return 1
+		fi
+
+		if ! has_version -b "virtual/rust:0/llvm-${LLVM_SLOT}" ; then
+			einfo "virtual/rust:0/llvm-${LLVM_SLOT} is missing! Cannot use LLVM slot ${LLVM_SLOT} ..." >&2
 			return 1
 		fi
 
@@ -264,7 +264,8 @@ src_configure() {
 	# Ensure we use correct toolchain
 	export HOST_CC="$(tc-getBUILD_CC)"
 	export HOST_CXX="$(tc-getBUILD_CXX)"
-	tc-export CC CXX LD AR NM OBJDUMP RANLIB PKG_CONFIG
+	export AS="$(tc-getCC) -c"
+	tc-export CC CXX LD AR AS NM OBJDUMP RANLIB PKG_CONFIG
 
 	cd "${MOZJS_BUILDDIR}" || die
 
@@ -274,25 +275,26 @@ src_configure() {
 	local -a myeconfargs=(
 		--host="${CBUILD:-${CHOST}}"
 		--target="${CHOST}"
+
 		--disable-jemalloc
 		--disable-optimize
 		--disable-strip
+
 		--enable-readline
 		--enable-shared-js
+
 		--with-intl-api
 		--with-system-icu
 		--with-system-nspr
 		--with-system-zlib
 		--with-toolchain-prefix="${CHOST}-"
+
 		$(use_enable debug)
 		$(use_enable jit)
 		$(use_enable test tests)
 	)
 
 	# Breaks with newer (1.63+) Rust.
-	# if ! use x86 && [[ ${CHOST} != armv*h* ]] ; then
-	#	myeconfargs+=( --enable-rust-simd )
-	#fi
 	myeconfargs+=( --disable-rust-simd )
 
 	# Modifications to better support ARM, bug 717344
@@ -327,6 +329,7 @@ src_configure() {
 		fi
 	fi
 
+	# Use system's Python environment
 	export MACH_USE_SYSTEM_PYTHON=1
 	export PIP_NO_CACHE_DIR=off
 

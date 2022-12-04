@@ -25,7 +25,7 @@ RESTRICT="test"
 # FIXME: introspection data is built against system installation of gtk+:3,
 # bug #????
 COMMON_DEPEND="
-	>=dev-libs/atk-2.15.1[introspection?,${MULTILIB_USEDEP}]
+	|| ( >=app-accessibility/at-spi2-core-2.46.0[introspection?,${MULTILIB_USEDEP}] >=dev-libs/atk-2.15.1[introspection?,${MULTILIB_USEDEP}] )
 	>=dev-libs/fribidi-0.19.7[${MULTILIB_USEDEP}]
 	>=dev-libs/glib-2.53.4:2[${MULTILIB_USEDEP}]
 	media-libs/fontconfig[${MULTILIB_USEDEP}]
@@ -51,8 +51,8 @@ COMMON_DEPEND="
 		>=x11-libs/libxkbcommon-0.2[${MULTILIB_USEDEP}]
 	)
 	X? (
-		>=app-accessibility/at-spi2-atk-2.5.3[${MULTILIB_USEDEP}]
-		media-libs/mesa[X(+),${MULTILIB_USEDEP}]
+		|| ( >=app-accessibility/at-spi2-core-2.46.0[${MULTILIB_USEDEP}] >=app-accessibility/at-spi2-atk-2.5.3[${MULTILIB_USEDEP}] )
+		|| ( media-libs/libglvnd[X(+),${MULTILIB_USEDEP}] media-libs/mesa[X(+),${MULTILIB_USEDEP}] )
 		x11-libs/libX11[${MULTILIB_USEDEP}]
 		x11-libs/libXcomposite[${MULTILIB_USEDEP}]
 		x11-libs/libXcursor[${MULTILIB_USEDEP}]

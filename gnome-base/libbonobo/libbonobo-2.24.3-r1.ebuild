@@ -31,7 +31,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 BDEPEND="
 	dev-util/gtk-doc-am
-	virtual/yacc
+	app-alternatives/yacc
 	sys-devel/flex
 	x11-apps/xrdb
 	virtual/pkgconfig

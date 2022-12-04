@@ -1,7 +1,4 @@
-~dev-libs/libgweather-3.14.4::dantrell-gnome-3-14
 ~media-gfx/gnome-photos-3.14.3::dantrell-gnome-3-14
 ~media-sound/gnome-music-3.14.3.1::dantrell-gnome-3-14
 ~net-libs/libzapojit-0.0.3::dantrell-gnome
 ~net-misc/gnome-online-miners-3.14.3::dantrell-gnome
-~x11-libs/gnome-pty-helper-0.38.4::dantrell-gnome-3-14
-~x11-libs/vte-0.38.4::dantrell-gnome-3-14

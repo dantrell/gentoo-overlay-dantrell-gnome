@@ -5,6 +5,9 @@ EAPI="7"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 PYTHON_REQ_USE="xml(+)"
 
+VALA_MIN_API_VERSION="0.40"
+VALA_MAX_API_VERSION="0.50"
+
 inherit autotools gnome.org gnome2-utils python-single-r1 vala
 
 DESCRIPTION="Input assistive technology intended for switch and pointer users"

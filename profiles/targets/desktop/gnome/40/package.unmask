@@ -11,7 +11,6 @@
 ~app-dicts/gnome-dictionary-40.0::dantrell-gnome
 ~app-editors/gedit-40.1::dantrell-gnome-40
 ~app-editors/gedit-plugins-40.1::dantrell-gnome-40
-~app-editors/ghex-3.18.4::dantrell-gnome
 ~app-editors/gnome-latex-3.40.0::dantrell-gnome-40
 ~app-misc/bijiben-40.1::dantrell-gnome
 ~app-misc/geoclue-2.5.7::dantrell-gnome
@@ -26,7 +25,7 @@
 ~app-text/yelp-tools-40.0::dantrell-gnome-40
 ~dev-cpp/atkmm-2.36.2::dantrell-gnome
 ~dev-cpp/glibmm-2.66.5::dantrell-gnome
-~dev-cpp/mm-common-1.0.4::dantrell-gnome
+~dev-cpp/mm-common-1.0.5::dantrell-gnome
 ~dev-cpp/pangomm-2.50.1::dantrell-gnome
 ~dev-lang/vala-0.52.11::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.18::dantrell-gnome
@@ -175,7 +174,7 @@
 ~www-client/epiphany-40.6::dantrell-gnome-40
 ~x11-libs/gdk-pixbuf-2.42.10::dantrell-gnome
 ~x11-libs/gtksourceview-4.8.4::dantrell-gnome
-~x11-libs/gtk+-3.24.34::dantrell-gnome
+~x11-libs/gtk+-3.24.35::dantrell-gnome
 ~x11-libs/libnotify-0.7.12::dantrell-gnome
 ~x11-libs/pango-1.48.11::dantrell-gnome
 ~x11-libs/vte-0.64.2::dantrell-gnome-40

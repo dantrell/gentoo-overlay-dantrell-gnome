@@ -1,0 +1,2 @@
+# Requires GLib 2.68 (or greater)
+>=dev-libs/gmime-3.2.11

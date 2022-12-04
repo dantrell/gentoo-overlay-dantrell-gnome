@@ -1,0 +1,3 @@
+# Requires GLib 2.66 (or greater)
+>=net-libs/gssdp-1.3.0
+>=net-libs/gupnp-1.2.6
