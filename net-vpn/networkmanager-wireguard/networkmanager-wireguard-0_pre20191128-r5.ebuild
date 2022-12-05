@@ -44,10 +44,16 @@ BDEPEND="
 
 S="${WORKDIR}/${MY_PN}-${EGIT_COMMIT}"
 
-PATCHES="${FILESDIR}"/${PN}-0_pre20191128-change-appdata-path.patch
+PATCHES=(
+	"${FILESDIR}"/${PN}-0_pre20191128-change-appdata-path.patch
+)
 
 src_prepare() {
 	default
+
+	if has_version '<dev-libs/glib-2.44.0'; then
+		eapply "${FILESDIR}"/${PN}-0_pre20191128-support-glib-2.42.patch
+	fi
 
 	eautoreconf
 }
@@ -64,4 +70,10 @@ src_configure() {
 	)
 
 	econf "${myeconfargs[@]}"
+}
+
+src_install() {
+	default
+
+	find "${ED}" -type f -name "*.la" -delete || die
 }

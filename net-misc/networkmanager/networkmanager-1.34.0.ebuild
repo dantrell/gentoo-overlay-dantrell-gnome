@@ -427,3 +427,7 @@ pkg_postinst() {
 		ewarn "value to '0'."
 	fi
 }
+
+pkg_postrm() {
+	udev_reload
+}

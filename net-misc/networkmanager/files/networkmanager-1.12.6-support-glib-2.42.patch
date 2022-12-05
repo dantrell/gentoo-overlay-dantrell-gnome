@@ -1,0 +1,28 @@
+diff '--exclude=.git' -urN a/shared/nm-utils/nm-glib.h b/shared/nm-utils/nm-glib.h
+--- a/shared/nm-utils/nm-glib.h	2018-12-01 01:12:32.000000000 -0600
++++ b/shared/nm-utils/nm-glib.h	2022-12-04 19:40:54.313389645 -0600
+@@ -67,24 +67,6 @@
+ 	               && glib_micro_version < micro));
+ }
+ 
+-#if !GLIB_CHECK_VERSION(2, 44, 0)
+-static inline gpointer
+-g_steal_pointer (gpointer pp)
+-{
+-	gpointer *ptr = (gpointer *) pp;
+-	gpointer ref;
+-
+-	ref = *ptr;
+-	*ptr = NULL;
+-
+-	return ref;
+-}
+-
+-/* type safety */
+-#define g_steal_pointer(pp) \
+-  (0 ? (*(pp)) : (g_steal_pointer) (pp))
+-#endif
+-
+ static inline gboolean
+ _nm_g_strv_contains (const gchar * const *strv,
+                      const gchar         *str)

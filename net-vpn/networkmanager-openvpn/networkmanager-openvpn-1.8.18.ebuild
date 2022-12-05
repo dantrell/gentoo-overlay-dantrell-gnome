@@ -43,6 +43,14 @@ BDEPEND="
 	virtual/pkgconfig
 "
 
+src_prepare() {
+	if has_version '<dev-libs/glib-2.44.0'; then
+		eapply "${FILESDIR}"/${PN}-1.10.2-support-glib-2.42.patch
+	fi
+
+	gnome2_src_prepare
+}
+
 src_configure() {
 	# --localstatedir=/var needed per bug #536248
 	gnome2_src_configure \

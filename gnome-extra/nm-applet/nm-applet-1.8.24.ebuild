@@ -54,6 +54,14 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-1.8.24-fix-bashisms.patch
 )
 
+src_prepare() {
+	if has_version '<dev-libs/glib-2.44.0'; then
+		eapply "${FILESDIR}"/${PN}-1.8.24-support-glib-2.42.patch
+	fi
+
+	gnome2_src_prepare
+}
+
 src_configure() {
 	local myconf=(
 		--with-appindicator=$(usex appindicator ubuntu no)

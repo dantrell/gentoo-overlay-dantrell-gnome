@@ -1,13 +1,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 GNOME_ORG_MODULE="NetworkManager"
-GNOME2_LA_PUNT="yes"
 GNOME2_EAUTORECONF="yes"
 VALA_USE_DEPEND="vapigen"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 
-inherit bash-completion-r1 gnome2 linux-info multilib python-any-r1 systemd readme.gentoo-r1 vala virtualx udev multilib-minimal
+inherit bash-completion-r1 flag-o-matic gnome2 linux-info multilib python-any-r1 systemd readme.gentoo-r1 vala virtualx udev multilib-minimal
 
 DESCRIPTION="A set of co-operative tools that make networking simple and straightforward"
 HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
@@ -16,10 +15,10 @@ LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0" # add subslot if libnm-util.so.2 or libnm-glib.so.4 bumps soname version
 KEYWORDS="*"
 
-IUSE="audit bluetooth ck connection-sharing consolekit +dhclient dhcpcd doc elogind gnutls +introspection iwd json kernel_linux +nss +modemmanager ncurses ofono ovs policykit +ppp resolvconf selinux systemd teamd test vala +vanilla +wext +wifi"
+IUSE="audit bluetooth ck connection-sharing consolekit +dhclient dhcpcd elogind gnutls gtk-doc +introspection iwd json kernel_linux +nss +modemmanager ncurses ofono ovs policykit +ppp resolvconf selinux systemd teamd test vala +vanilla +wext +wifi"
 REQUIRED_USE="
 	bluetooth? ( modemmanager )
-	doc? ( introspection )
+	gtk-doc? ( introspection )
 	iwd? ( wifi )
 	vala? ( introspection )
 	vanilla? ( !dhcpcd )
@@ -95,13 +94,15 @@ RDEPEND="${COMMON_DEPEND}
 	)
 "
 DEPEND="${COMMON_DEPEND}
+	>=sys-kernel/linux-headers-3.18
+"
+BDEPEND="
 	dev-util/gdbus-codegen
+	!gtk-doc? ( dev-util/gtk-doc-am )
+	gtk-doc? ( dev-util/gtk-doc )
 	>=dev-util/intltool-0.40
 	>=sys-devel/gettext-0.17
-	>=sys-kernel/linux-headers-3.18
 	virtual/pkgconfig
-	!doc? ( dev-util/gtk-doc-am )
-	doc? ( dev-util/gtk-doc )
 	introspection? (
 		$(python_gen_any_dep 'dev-python/pygobject:3[${PYTHON_USEDEP}]')
 		dev-lang/perl
@@ -153,15 +154,19 @@ pkg_pretend() {
 			ewarn "Please note that if CONFIG_SYSFS_DEPRECATED_V2 is set in your kernel .config, NetworkManager will not work correctly."
 			ewarn "See https://bugs.gentoo.org/333639 for more info."
 		fi
-
 	fi
 }
 
 pkg_setup() {
 	if use connection-sharing; then
-		CONFIG_CHECK="~NF_NAT ~NF_NAT_MASQUERADE"
+		if kernel_is lt 5 1; then
+			CONFIG_CHECK="~NF_NAT_IPV4 ~NF_NAT_MASQUERADE_IPV4"
+		else
+			CONFIG_CHECK="~NF_NAT ~NF_NAT_MASQUERADE"
+		fi
 		linux-info_pkg_setup
 	fi
+
 	if use introspection || use test; then
 		python-any-r1_pkg_setup
 	fi
@@ -171,11 +176,18 @@ src_prepare() {
 	DOC_CONTENTS="To modify system network connections without needing to enter the
 		root password, add your user account to the 'plugdev' group."
 
+	if has_version '<dev-libs/glib-2.44.0'; then
+		eapply "${FILESDIR}"/${PN}-1.16.4-support-glib-2.42.patch
+	fi
+
 	use vala && vala_src_prepare
 	gnome2_src_prepare
 }
 
 multilib_src_configure() {
+	# Work around -fno-common (GCC 10 default)
+	append-flags -fcommon
+
 	local myconf=(
 		--disable-more-warnings
 		--disable-static
@@ -202,7 +214,7 @@ multilib_src_configure() {
 		$(use_with dhclient)
 		$(use_with dhcpcd)
 		$(multilib_native_use_enable introspection)
-		$(multilib_native_use_enable doc gtk-doc)
+		$(multilib_native_use_enable gtk-doc)
 		$(use_enable json json-validation)
 		$(multilib_native_use_enable ppp)
 		--without-libpsl
@@ -328,14 +340,14 @@ multilib_src_install_all() {
 
 	if use iwd; then
 		# This goes to $nmlibdir/conf.d/ and $nmlibdir is '${prefix}'/lib/$PACKAGE, thus always lib, not get_libdir
-		cat <<-EOF > "${ED%/}"/usr/lib/NetworkManager/conf.d/iwd.conf
+		cat <<-EOF > "${ED}"/usr/lib/NetworkManager/conf.d/iwd.conf || die
 		[device]
 		wifi.backend=iwd
 		EOF
 	fi
 
 	# Empty
-	rmdir "${ED%/}"/var{/lib{/NetworkManager,},} || die
+	rmdir "${ED}"/var{/lib{/NetworkManager,},} || die
 }
 
 pkg_postinst() {
@@ -345,20 +357,20 @@ pkg_postinst() {
 	systemd_reenable NetworkManager.service
 	! use systemd && readme.gentoo_print_elog
 
-	if [[ -e "${EROOT}etc/NetworkManager/nm-system-settings.conf" ]]; then
+	if [[ -e "${EROOT}/etc/NetworkManager/nm-system-settings.conf" ]]; then
 		ewarn "The ${PN} system configuration file has moved to a new location."
 		ewarn "You must migrate your settings from ${EROOT}/etc/NetworkManager/nm-system-settings.conf"
-		ewarn "to ${EROOT}etc/NetworkManager/NetworkManager.conf"
+		ewarn "to ${EROOT}/etc/NetworkManager/NetworkManager.conf"
 		ewarn
-		ewarn "After doing so, you can remove ${EROOT}etc/NetworkManager/nm-system-settings.conf"
+		ewarn "After doing so, you can remove ${EROOT}/etc/NetworkManager/nm-system-settings.conf"
 	fi
 
 	# NM fallbacks to plugin specified at compile time (upstream bug #738611)
 	# but still show a warning to remember people to have cleaner config file
-	if [[ -e "${EROOT}etc/NetworkManager/NetworkManager.conf" ]]; then
-		if grep plugins "${EROOT}etc/NetworkManager/NetworkManager.conf" | grep -q ifnet; then
+	if [[ -e "${EROOT}/etc/NetworkManager/NetworkManager.conf" ]]; then
+		if grep plugins "${EROOT}/etc/NetworkManager/NetworkManager.conf" | grep -q ifnet; then
 			ewarn
-			ewarn "You seem to use 'ifnet' plugin in ${EROOT}etc/NetworkManager/NetworkManager.conf"
+			ewarn "You seem to use 'ifnet' plugin in ${EROOT}/etc/NetworkManager/NetworkManager.conf"
 			ewarn "Since it won't be used, you will need to stop setting ifnet plugin there."
 			ewarn
 		fi
@@ -370,4 +382,8 @@ pkg_postinst() {
 		ewarn "either reconfigure affected networks or, at least, set the flag"
 		ewarn "value to '0'."
 	fi
+}
+
+pkg_postrm() {
+	udev_reload
 }

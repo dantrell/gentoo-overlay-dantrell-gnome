@@ -1,0 +1,15 @@
+diff '--exclude=.git' -urN a/src/systemd/sd-adapt/nm-sd-adapt.h b/src/systemd/sd-adapt/nm-sd-adapt.h
+--- a/src/systemd/sd-adapt/nm-sd-adapt.h	2019-02-23 02:38:56.000000000 -0600
++++ b/src/systemd/sd-adapt/nm-sd-adapt.h	2022-12-04 20:41:08.212053043 -0600
+@@ -181,9 +181,10 @@
+ #include "async.h"
+ #include "util.h"
+ 
+-static inline pid_t gettid(void) {
++static inline pid_t _nm_gettid(void) {
+         return (pid_t) syscall(SYS_gettid);
+ }
++#define gettid() _nm_gettid ()
+ 
+ #endif /* (NETWORKMANAGER_COMPILATION) & NM_NETWORKMANAGER_COMPILATION_WITH_SYSTEMD */
+ 

@@ -1,0 +1,32 @@
+diff '--exclude=.git' -urN a/shared/nm-utils/nm-glib.h b/shared/nm-utils/nm-glib.h
+--- a/shared/nm-utils/nm-glib.h	2019-08-07 08:58:34.000000000 -0500
++++ b/shared/nm-utils/nm-glib.h	2022-12-04 19:43:51.426795847 -0600
+@@ -412,28 +412,6 @@
+ 
+ /*****************************************************************************/
+ 
+-#if !GLIB_CHECK_VERSION(2, 44, 0)
+-static inline gpointer
+-g_steal_pointer (gpointer pp)
+-{
+-	gpointer *ptr = (gpointer *) pp;
+-	gpointer ref;
+-
+-	ref = *ptr;
+-	*ptr = NULL;
+-
+-	return ref;
+-}
+-#endif
+-
+-#ifdef g_steal_pointer
+-#undef g_steal_pointer
+-#endif
+-#define g_steal_pointer(pp) \
+-	((typeof (*(pp))) g_steal_pointer (pp))
+-
+-/*****************************************************************************/
+-
+ static inline gboolean
+ _nm_g_strv_contains (const char * const *strv,
+                      const char          *str)
