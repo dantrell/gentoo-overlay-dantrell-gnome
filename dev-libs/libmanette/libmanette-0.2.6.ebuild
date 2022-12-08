@@ -2,7 +2,7 @@
 
 EAPI="7"
 
-inherit gnome.org gnome2-utils meson vala xdg
+inherit gnome.org meson vala xdg
 
 DESCRIPTION="Simple GObject game controller library"
 HOMEPAGE="https://gitlab.gnome.org/aplazas/libmanette"
@@ -24,6 +24,10 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
+	gtk-doc? (
+		dev-util/gtk-doc
+		app-text/docbook-xml-dtd:4.3
+	)
 	vala? ( $(vala_depend) )
 	virtual/pkgconfig
 "

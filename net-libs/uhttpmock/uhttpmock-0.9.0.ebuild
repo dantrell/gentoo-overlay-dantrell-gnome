@@ -22,8 +22,12 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	virtual/pkgconfig
+	gtk-doc? (
+		dev-util/gtk-doc
+		app-text/docbook-xml-dtd:4.3
+	)
 	vala? ( $(vala_depend) )
+	virtual/pkgconfig
 "
 
 src_prepare() {

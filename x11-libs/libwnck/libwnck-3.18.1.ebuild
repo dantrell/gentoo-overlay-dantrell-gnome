@@ -3,7 +3,7 @@
 EAPI="6"
 GNOME2_LA_PUNT="yes"
 
-inherit autotools flag-o-matic gnome2
+inherit autotools gnome2
 
 DESCRIPTION="A window navigation construction kit"
 HOMEPAGE="https://developer-old.gnome.org/libwnck/stable/ https://gitlab.gnome.org/GNOME/libwnck"

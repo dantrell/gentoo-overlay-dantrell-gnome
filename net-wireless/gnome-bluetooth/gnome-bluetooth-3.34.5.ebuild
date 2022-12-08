@@ -3,7 +3,7 @@
 EAPI="7"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 
-inherit gnome.org gnome2-utils meson python-any-r1 udev xdg
+inherit gnome.org meson python-any-r1 udev xdg
 
 DESCRIPTION="Bluetooth graphical utilities integrated with GNOME"
 HOMEPAGE="https://wiki.gnome.org/Projects/GnomeBluetooth"

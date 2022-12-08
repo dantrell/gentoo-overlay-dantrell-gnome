@@ -13,7 +13,7 @@ LICENSE="LGPL-2"
 KEYWORDS="*"
 
 # TODO: egl and gtk IUSE only for transition
-IUSE="X bzip2 +egl gles2 gtk +introspection +opengl +orc vnc wayland" # Keep default IUSE mirrored with gst-plugins-base where relevant
+IUSE="X bzip2 +egl gles2 gtk +introspection +opengl +orc vnc wayland qsv" # Keep default IUSE mirrored with gst-plugins-base where relevant
 
 # FIXME: gstharness.c:889:gst_harness_new_with_padnames: assertion failed: (element != NULL)
 RESTRICT="test"
@@ -36,6 +36,8 @@ RDEPEND="
 	)
 
 	orc? ( >=dev-lang/orc-0.4.17[${MULTILIB_USEDEP}] )
+
+	qsv? ( media-libs/oneVPL[wayland?,X?] )
 "
 
 DEPEND="${RDEPEND}"
@@ -55,7 +57,7 @@ src_prepare() {
 }
 
 multilib_src_configure() {
-	GST_PLUGINS_NOAUTO="shm ipcpipeline librfb hls"
+	GST_PLUGINS_NOAUTO="shm ipcpipeline librfb msdk hls"
 
 	local emesonargs=(
 		-Dshm=enabled
@@ -65,6 +67,16 @@ multilib_src_configure() {
 
 		$(meson_feature wayland)
 	)
+
+	# Quick Sync Video is amd64 native only
+	if use qsv && multilib_is_native_abi; then
+		emesonargs+=(
+			-Dmsdk=enabled
+			-Dmfx_api=oneVPL
+		)
+	else
+		emesonargs+=( -Dmsdk=disabled )
+	fi
 
 	if use opengl || use gles2; then
 		myconf+=( -Dgl=enabled )

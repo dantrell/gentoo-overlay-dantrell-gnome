@@ -8,15 +8,13 @@ inherit meson pam pax-utils python-any-r1 systemd xdg-utils
 
 DESCRIPTION="Policy framework for controlling privileges for system-wide services"
 HOMEPAGE="https://www.freedesktop.org/wiki/Software/polkit https://gitlab.freedesktop.org/polkit/polkit"
-SRC_URI="https://www.freedesktop.org/software/${PN}/releases/${P}.tar.gz"
-
-S="${WORKDIR}"/${PN}-v.${PV}
+SRC_URI="https://gitlab.freedesktop.org/polkit/polkit/-/archive/${PV}/${P}.tar.bz2"
 
 LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS=""
 
-IUSE="ck consolekit +duktape elogind examples gtk +introspection kde pam selinux systemd test"
+IUSE="ck consolekit +daemon +duktape elogind examples gtk +introspection kde pam selinux systemd test"
 REQUIRED_USE="?? ( ck consolekit elogind systemd )"
 
 # https://gitlab.freedesktop.org/polkit/polkit/-/issues/181 for test restriction
@@ -42,8 +40,10 @@ BDEPEND="
 DEPEND="
 	dev-libs/glib:2
 	dev-libs/expat
-	duktape? ( dev-lang/duktape:= )
-	!duktape? ( dev-lang/spidermonkey:91[-debug] )
+	daemon? (
+		duktape? ( dev-lang/duktape:= )
+		!duktape? ( dev-lang/spidermonkey:102[-debug] )
+	)
 	elogind? ( sys-auth/elogind )
 	pam? (
 		sys-auth/pambase
@@ -72,8 +72,7 @@ QA_MULTILIB_PATHS="
 "
 
 PATCHES=(
-	# musl
-	"${FILESDIR}"/${PN}-0.120_p20220509-make-netgroup-support-optional.patch
+	"${FILESDIR}"/${PN}-122-libs-only-postinstall.patch
 )
 
 python_check_deps() {
@@ -105,6 +104,7 @@ src_configure() {
 		-Dsession_tracking="$(usex systemd libsystemd-login $(usex elogind libelogind ConsoleKit))"
 		-Dsystemdsystemunitdir="$(systemd_get_systemunitdir)"
 		-Djs_engine=$(usex duktape duktape mozjs)
+		$(meson_use !daemon libs-only)
 		$(meson_use introspection)
 		$(meson_use test tests)
 		$(usex pam "-Dpam_module_dir=$(getpam_mod_dir)" '')

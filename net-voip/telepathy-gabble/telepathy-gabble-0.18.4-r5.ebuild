@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="8"
+
 # Python is used during build for some scripted source files generation (and twisted tests)
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 
@@ -45,7 +46,8 @@ RDEPEND="
 
 	!<net-im/telepathy-mission-control-5.5.0
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	${PYTHON_DEPS}
 	>=dev-util/gtk-doc-am-1.17
 	dev-libs/libxslt
@@ -64,10 +66,6 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-0.18.4-openssl-1.1.patch # bug #658902
 	"${FILESDIR}"/${PN}-0.18.4-python3.patch
 )
-
-pkg_setup() {
-	python-any-r1_pkg_setup
-}
 
 src_configure() {
 	gnome2_src_configure \

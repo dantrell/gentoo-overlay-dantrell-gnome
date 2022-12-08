@@ -3,7 +3,7 @@
 EAPI="7"
 VALA_USE_DEPEND="vapigen"
 
-inherit meson systemd vala user xdg
+inherit meson systemd vala xdg
 
 DESCRIPTION="A location information D-Bus service"
 HOMEPAGE="https://gitlab.freedesktop.org/geoclue/geoclue/wikis/home"
@@ -26,6 +26,7 @@ DEPEND="
 	x11-libs/libnotify
 "
 RDEPEND="${DEPEND}
+	acct-user/geoclue
 	sys-apps/dbus
 "
 BDEPEND="
@@ -67,9 +68,4 @@ src_configure() {
 		-Ddbus-srv-user=geoclue
 	)
 	meson_src_configure
-}
-
-pkg_preinst() {
-	enewgroup geoclue
-	enewuser geoclue -1 -1 /var/lib/geoclue geoclue
 }

@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome2 systemd user versionator
+inherit gnome2 systemd versionator
 
 MY_PV=$(get_version_component_range 1-2)
 
@@ -16,17 +16,19 @@ KEYWORDS="*"
 
 IUSE="+introspection modemmanager zeroconf"
 
-RDEPEND="
+DEPEND="
 	>=dev-libs/glib-2.34:2
 	>=dev-libs/json-glib-0.14
 	>=net-libs/libsoup-2.42:2.4
-	sys-apps/dbus
 	introspection? ( >=dev-libs/gobject-introspection-0.9.6:= )
 	modemmanager? ( >=net-misc/modemmanager-1.6 )
 	zeroconf? ( >=net-dns/avahi-0.6.10[dbus] )
-	!<sci-geosciences/geocode-glib-3.10.0:0
 "
-DEPEND="${RDEPEND}
+RDEPEND="${DEPEND}
+	acct-user/geoclue
+	sys-apps/dbus
+"
+BDEPEND="
 	dev-util/gdbus-codegen
 	>=dev-util/gtk-doc-am-1
 	>=dev-util/intltool-0.40
@@ -51,10 +53,4 @@ src_configure() {
 		$(use_enable modemmanager cdma-source) \
 		$(use_enable modemmanager modem-gps-source) \
 		$(use_enable zeroconf nmea-source)
-}
-
-pkg_preinst() {
-	enewgroup geoclue
-	enewuser geoclue -1 -1 /var/lib/geoclue geoclue
-	gnome2_pkg_preinst
 }

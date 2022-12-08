@@ -2,9 +2,9 @@
 
 EAPI="6"
 
-inherit autotools gnome2 systemd user
+inherit autotools gnome2 systemd
 
-DESCRIPTION="A geoinformation D-Bus service"
+DESCRIPTION="A location information D-Bus service"
 HOMEPAGE="https://gitlab.freedesktop.org/geoclue/geoclue/wikis/home"
 SRC_URI="https://gitlab.freedesktop.org/geoclue/${PN}/-/archive/${PV}/${P}.tar.bz2"
 
@@ -14,18 +14,20 @@ KEYWORDS="*"
 
 IUSE="+introspection modemmanager zeroconf"
 
-RDEPEND="
+DEPEND="
 	>=dev-libs/glib-2.34:2
 	>=dev-libs/json-glib-0.14
 	>=net-libs/libsoup-2.42:2.4
-	sys-apps/dbus
 	introspection? ( >=dev-libs/gobject-introspection-0.9.6:= )
 	modemmanager? ( >=net-misc/modemmanager-1.6 )
 	zeroconf? ( >=net-dns/avahi-0.6.10[dbus] )
-	!<sci-geosciences/geocode-glib-3.10.0:0
 	x11-libs/libnotify
 "
-DEPEND="${RDEPEND}
+RDEPEND="${DEPEND}
+	acct-user/geoclue
+	sys-apps/dbus
+"
+BDEPEND="
 	dev-util/gdbus-codegen
 	>=dev-util/gtk-doc-1
 	>=dev-util/intltool-0.40
@@ -55,10 +57,4 @@ src_configure() {
 		$(use_enable modemmanager cdma-source) \
 		$(use_enable modemmanager modem-gps-source) \
 		$(use_enable zeroconf nmea-source)
-}
-
-pkg_preinst() {
-	enewgroup geoclue
-	enewuser geoclue -1 -1 /var/lib/geoclue geoclue
-	gnome2_pkg_preinst
 }

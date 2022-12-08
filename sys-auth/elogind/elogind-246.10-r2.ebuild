@@ -46,6 +46,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-241.4-broken-test.patch # bug 699116
 	"${FILESDIR}"/${PN}-246.10-revert-polkit-automagic.patch
 	"${FILESDIR}"/${PN}-246.10-clang-undefined-symbol.patch
+	"${FILESDIR}"/${PN}-246.10-loong.patch
 )
 
 pkg_setup() {

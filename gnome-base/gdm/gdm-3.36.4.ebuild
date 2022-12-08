@@ -3,7 +3,7 @@
 EAPI="6"
 GNOME2_LA_PUNT="yes"
 
-inherit autotools gnome2 pam readme.gentoo-r1 systemd udev user
+inherit autotools gnome2 pam readme.gentoo-r1 systemd udev
 
 DESCRIPTION="GNOME Display Manager for managing graphical display servers and user logins"
 HOMEPAGE="https://wiki.gnome.org/Projects/GDM"
@@ -71,6 +71,8 @@ COMMON_DEPEND="
 # fprintd is used via dbus by gdm-fingerprint-extension
 # gnome-session-3.6 needed to avoid freezing with orca
 RDEPEND="${COMMON_DEPEND}
+	acct-group/gdm
+	acct-user/gdm
 	>=gnome-base/gnome-session-3.6
 	>=gnome-base/gnome-shell-3.1.90
 	x11-apps/xhost
@@ -108,23 +110,6 @@ DOC_CONTENTS="
 	You may need to install app-crypt/coolkey and sys-auth/pam_pkcs11
 	for smartcard support
 "
-
-pkg_setup() {
-	enewgroup gdm
-	enewgroup video # Just in case it hasn't been created yet
-	enewuser gdm -1 -1 /var/lib/gdm gdm,video
-
-	# For compatibility with certain versions of nvidia-drivers, etc., need to
-	# ensure that gdm user is in the video group
-	if ! egetent group video | grep -q gdm; then
-		# FIXME XXX: is this at all portable, ldap-safe, etc.?
-		# XXX: egetent does not have a 1-argument form, so we can't use it to
-		# get the list of gdm's groups
-		local g=$(groups gdm)
-		elog "Adding user gdm to video group"
-		usermod -G video,${g// /,} gdm || die "Adding user gdm to video group failed"
-	fi
-}
 
 src_prepare() {
 	# ssh-agent handling must be done at xinitrc.d, bug #220603
@@ -201,10 +186,6 @@ src_install() {
 	exeinto /etc/X11/xinit/xinitrc.d
 	newexe "${FILESDIR}"/49-keychain-r1 49-keychain
 	newexe "${FILESDIR}"/50-ssh-agent-r1 50-ssh-agent
-
-	# gdm user's home directory
-	keepdir /var/lib/gdm
-	fowners gdm:gdm /var/lib/gdm
 
 	if ! use bluetooth-sound ; then
 		# Workaround https://gitlab.freedesktop.org/pulseaudio/pulseaudio/merge_requests/10
