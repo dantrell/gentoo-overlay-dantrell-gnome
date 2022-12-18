@@ -9,7 +9,7 @@
 ~app-crypt/libsecret-0.20.5::dantrell-gnome
 ~app-crypt/seahorse-40.0::dantrell-gnome-40
 ~app-dicts/gnome-dictionary-40.0::dantrell-gnome
-~app-editors/gedit-40.1::dantrell-gnome-40
+~app-editors/gedit-40.2::dantrell-gnome-40
 ~app-editors/gedit-plugins-40.1::dantrell-gnome-40
 ~app-editors/gnome-latex-3.40.0::dantrell-gnome-40
 ~app-misc/bijiben-40.1::dantrell-gnome

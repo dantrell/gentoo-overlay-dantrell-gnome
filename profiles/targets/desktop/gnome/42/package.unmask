@@ -85,7 +85,7 @@
 ~gnome-base/gnome-control-center-42.4::dantrell-gnome-42
 ~gnome-base/gnome-core-apps-42.0::dantrell-gnome-42
 ~gnome-base/gnome-core-libs-42.0::dantrell-gnome-42
-~gnome-base/gnome-desktop-42.6::dantrell-gnome-42
+~gnome-base/gnome-desktop-42.7::dantrell-gnome-42
 ~gnome-base/gnome-extra-apps-42.0::dantrell-gnome-42
 ~gnome-base/gnome-flashback-3.44.0::dantrell-gnome-42
 ~gnome-base/gnome-keyring-42.1::dantrell-gnome-42
@@ -93,7 +93,7 @@
 ~gnome-base/gnome-panel-3.44.0::dantrell-gnome-42
 ~gnome-base/gnome-session-42.0::dantrell-gnome-42
 ~gnome-base/gnome-settings-daemon-42.2::dantrell-gnome-42
-~gnome-base/gnome-shell-42.6::dantrell-gnome-42
+~gnome-base/gnome-shell-42.7::dantrell-gnome-42
 ~gnome-base/gsettings-desktop-schemas-42.0::dantrell-gnome-42
 ~gnome-base/gvfs-1.50.2::dantrell-gnome-42
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
@@ -171,7 +171,7 @@
 ~net-misc/gnome-connections-42.1.2::dantrell-gnome-42
 ~net-misc/gnome-online-miners-3.34.0::dantrell-gnome
 ~net-misc/rygel-0.40.4::dantrell-gnome
-~net-wireless/gnome-bluetooth-42.4::dantrell-gnome-42
+~net-wireless/gnome-bluetooth-42.5::dantrell-gnome-42
 ~sci-geosciences/geocode-glib-3.26.4::dantrell-gnome
 ~sci-geosciences/gnome-maps-42.3::dantrell-gnome-42
 ~sys-apps/baobab-42.0::dantrell-gnome-42
@@ -188,4 +188,4 @@
 ~x11-themes/gnome-backgrounds-42.0::dantrell-gnome-42
 ~x11-themes/gnome-themes-extra-3.28::dantrell-gnome
 ~x11-wm/metacity-3.44.0::dantrell-gnome-42
-~x11-wm/mutter-42.6::dantrell-gnome-42
+~x11-wm/mutter-42.7::dantrell-gnome-42

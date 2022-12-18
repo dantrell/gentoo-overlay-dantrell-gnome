@@ -23,7 +23,7 @@ RDEPEND="
 	>=media-libs/lcms-2.2:2
 
 	media-libs/libexif
-	media-libs/tiff:0=
+	media-libs/tiff:=
 	>=x11-libs/colord-gtk-0.1.20
 	>=media-libs/libcanberra-0.10[gtk3]
 	>=x11-libs/vte-0.25.1:2.91

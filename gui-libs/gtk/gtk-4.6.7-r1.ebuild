@@ -27,15 +27,15 @@ COMMON_DEPEND="
 	>=x11-libs/cairo-1.14[aqua?,glib,svg(+),X?]
 	>=x11-libs/gdk-pixbuf-2.30:2[introspection?]
 	>=x11-libs/pango-1.50.0[introspection?]
-	media-libs/libpng:0=
-	media-libs/tiff:0=
+	media-libs/libpng:=
+	media-libs/tiff:=
 	media-libs/libjpeg-turbo:0=
 	>=media-libs/harfbuzz-2.1.0:=
 	x11-misc/shared-mime-info
 
 	colord? ( >=x11-misc/colord-0.1.9:0= )
 	cups? ( >=net-print/cups-2.0 )
-	ffmpeg? ( media-video/ffmpeg )
+	ffmpeg? ( media-video/ffmpeg:= )
 	gstreamer? (
 		>=media-libs/gst-plugins-bad-1.12.3
 		>=media-libs/gst-plugins-base-1.12.3[opengl]
@@ -49,7 +49,10 @@ COMMON_DEPEND="
 		>=x11-libs/libxkbcommon-0.2
 	)
 	X? (
-		>=app-accessibility/at-spi2-atk-2.5.3
+		|| (
+			>=app-accessibility/at-spi2-core-2.46.0
+			>=app-accessibility/at-spi2-atk-2.5.3
+		)
 		media-libs/fontconfig
 		media-libs/mesa[X(+)]
 		x11-libs/libX11

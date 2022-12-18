@@ -4,9 +4,9 @@
 >=dev-python/gst-python-1.18.0
 >=media-gfx/gimp-2.10.0
 >=media-libs/gegl-0.4.24
->=media-libs/gstreamer-1.20.0
+>=media-libs/gstreamer-1.18.0
 >=media-libs/gst-plugins-bad-1.18.0
->=media-libs/gst-plugins-base-1.20.0
+>=media-libs/gst-plugins-base-1.18.0
 >=media-libs/gst-plugins-good-1.18.0
 >=media-libs/gst-plugins-ugly-1.18.0
 >=media-libs/gst-rtsp-server-1.18.0

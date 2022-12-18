@@ -21,7 +21,7 @@ IUSE="cairo cpu_flags_x86_mmx cpu_flags_x86_sse debug ffmpeg +introspection jpeg
 RDEPEND="
 	>=dev-libs/glib-2.28:2
 	>=media-libs/babl-0.1.10[introspection?]
-	png? ( media-libs/libpng:0= )
+	png? ( media-libs/libpng:= )
 	>=x11-libs/gdk-pixbuf-2.18:2
 	sys-libs/zlib
 	jpeg? ( media-libs/libjpeg-turbo:0= )

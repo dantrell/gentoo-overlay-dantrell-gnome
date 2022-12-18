@@ -46,7 +46,7 @@ RDEPEND="
 	raw? ( >=media-libs/libraw-0.15.4:0= )
 	sdl? ( >=media-libs/libsdl-1.2.0 )
 	svg? ( >=gnome-base/librsvg-2.40.6:2 )
-	tiff? ( >=media-libs/tiff-4:0 )
+	tiff? ( >=media-libs/tiff-4:= )
 	umfpack? ( sci-libs/umfpack )
 	v4l? ( >=media-libs/libv4l-1.0.1 )
 	webp? ( >=media-libs/libwebp-0.5.0:= )

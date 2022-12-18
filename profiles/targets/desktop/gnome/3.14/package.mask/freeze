@@ -189,7 +189,7 @@
 >=sys-apps/gnome-disk-utility-3.16.0
 >=sys-process/gnome-usage-3.28.0
 >=www-client/epiphany-3.16.0
->=x11-base/xorg-proto-2020.0
+>=x11-base/xorg-proto-2023.0
 >=x11-libs/colord-gtk-0.3.0
 >=x11-libs/gdk-pixbuf-2.36.5
 >=x11-libs/gnome-pty-helper-0.40.0

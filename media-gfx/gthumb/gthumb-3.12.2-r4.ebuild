@@ -43,7 +43,7 @@ RDEPEND="
 	svg? ( >=gnome-base/librsvg-2.34:2 )
 	webp? ( >=media-libs/libwebp-0.2.0:= )
 	jpegxl? ( >=media-libs/libjxl-0.3.0 )
-	heif? ( >=media-libs/libheif-1.11:0= )
+	heif? ( >=media-libs/libheif-1.11:= )
 	lcms? ( >=media-libs/lcms-2.6:2 )
 	colord? (
 		>=x11-misc/colord-1.3

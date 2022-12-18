@@ -2,9 +2,9 @@
 >=app-arch/gnome-autoar-0.3.0
 >=app-text/poppler-21.04.0
 >=dev-python/gst-python-1.18.0
->=media-libs/gstreamer-1.20.0
+>=media-libs/gstreamer-1.18.0
 >=media-libs/gst-plugins-bad-1.18.0
->=media-libs/gst-plugins-base-1.20.0
+>=media-libs/gst-plugins-base-1.18.0
 >=media-libs/gst-plugins-good-1.18.0
 >=media-libs/gst-plugins-ugly-1.18.0
 >=media-libs/gst-rtsp-server-1.18.0

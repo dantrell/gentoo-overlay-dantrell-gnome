@@ -19,7 +19,7 @@ DEPEND="
 	x11-misc/shared-mime-info
 	>=media-libs/libpng-1.4:0=[${MULTILIB_USEDEP}]
 	jpeg? ( media-libs/libjpeg-turbo:0=[${MULTILIB_USEDEP}] )
-	tiff? ( >=media-libs/tiff-3.9.2:0[${MULTILIB_USEDEP}] )
+	tiff? ( >=media-libs/tiff-3.9.2:=[${MULTILIB_USEDEP}] )
 	X? ( x11-libs/libX11[${MULTILIB_USEDEP}] )
 	introspection? ( >=dev-libs/gobject-introspection-0.9.3:= )
 "

@@ -31,13 +31,13 @@ DEPEND="
 	jpeg2k? ( >=media-libs/openjpeg-2.3.0-r1:2= )
 	lcms? ( media-libs/lcms:2 )
 	nss? ( >=dev-libs/nss-3.19:0 )
-	png? ( media-libs/libpng:0= )
+	png? ( media-libs/libpng:= )
 	qt5? (
 		dev-qt/qtcore:5
 		dev-qt/qtgui:5
 		dev-qt/qtxml:5
 	)
-	tiff? ( media-libs/tiff:0 )
+	tiff? ( media-libs/tiff:= )
 "
 RDEPEND="${DEPEND}
 	cjk? ( app-text/poppler-data )

@@ -33,11 +33,11 @@ RDEPEND="
 	foomatic? ( !net-print/foomatic-filters )
 	jpeg? ( media-libs/libjpeg-turbo:0= )
 	ldap? ( net-nds/openldap:= )
-	pdf? ( app-text/mupdf )
+	pdf? ( app-text/mupdf:= )
 	perl? ( dev-lang/perl:= )
-	png? ( media-libs/libpng:0= )
+	png? ( media-libs/libpng:= )
 	postscript? ( >=app-text/ghostscript-gpl-9.09[cups] )
-	tiff? ( media-libs/tiff:0 )
+	tiff? ( media-libs/tiff:= )
 	zeroconf? ( net-dns/avahi[dbus] )
 "
 DEPEND="${RDEPEND}"
