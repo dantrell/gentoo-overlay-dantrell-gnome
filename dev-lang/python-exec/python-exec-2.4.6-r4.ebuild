@@ -5,8 +5,8 @@ EAPI="7"
 inherit python-utils-r1
 
 DESCRIPTION="Python script wrapper"
-HOMEPAGE="https://github.com/mgorny/python-exec/"
-SRC_URI="https://github.com/mgorny/python-exec/releases/download/v${PV}/${P}.tar.bz2"
+HOMEPAGE="https://github.com/projg2/python-exec/"
+SRC_URI="https://github.com/projg2/python-exec/releases/download/v${PV}/${P}.tar.bz2"
 
 LICENSE="BSD-2"
 SLOT="2"

@@ -9,7 +9,7 @@ inherit meson-multilib python-any-r1 vala
 
 DESCRIPTION="GObject wrapper for libusb"
 HOMEPAGE="https://github.com/hughsie/libgusb"
-SRC_URI="https://people.freedesktop.org/~hughsient/releases/${P}.tar.xz"
+SRC_URI="https://github.com/hughsie/libgusb/releases/download/${PV}/${P}.tar.xz"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"

@@ -1,5 +1,4 @@
 # Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-# Mask default-PIE on 13.0 profiles.
-sys-devel/gcc pie
+>=sys-devel/gcc-12.2 default-znow default-stack-clash-protection

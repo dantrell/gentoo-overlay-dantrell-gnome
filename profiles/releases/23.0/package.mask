@@ -1,5 +1,6 @@
 # Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-# Mask default-PIE on 13.0 profiles.
-sys-devel/gcc pie
+# DT_RELR needs glibc-2.36 or musl-1.2.4(?)
+<sys-libs/glibc-2.36
+<sys-libs/musl-1.2.4

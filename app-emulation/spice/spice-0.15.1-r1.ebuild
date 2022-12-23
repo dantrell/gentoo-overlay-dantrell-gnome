@@ -12,7 +12,7 @@ SRC_URI="https://www.spice-space.org/download/releases/spice-server/${P}.tar.bz2
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS=""
 
 IUSE="gstreamer lz4 sasl smartcard static-libs test"
 
@@ -34,10 +34,11 @@ RDEPEND="dev-lang/orc[static-libs(+)?]
 		media-libs/gst-plugins-base:1.0
 	)"
 DEPEND="${RDEPEND}
-	>=app-emulation/spice-protocol-0.14.0
+	>=app-emulation/spice-protocol-0.14.3
 	smartcard? ( app-emulation/qemu[smartcard] )
 	test? ( net-libs/glib-networking )"
 BDEPEND="${PYTHON_DEPS}
+	sys-devel/autoconf-archive
 	virtual/pkgconfig
 	$(python_gen_any_dep '
 		>=dev-python/pyparsing-1.5.6-r2[${PYTHON_USEDEP}]
@@ -48,13 +49,6 @@ python_check_deps() {
 	python_has_version ">=dev-python/pyparsing-1.5.6-r2[${PYTHON_USEDEP}]"
 	python_has_version "dev-python/six[${PYTHON_USEDEP}]"
 }
-
-PATCHES=(
-	"${FILESDIR}"/${P}-CVE-2020-14355-762e0aba.patch
-	"${FILESDIR}"/${P}-CVE-2020-14355-404d7478.patch
-	"${FILESDIR}"/${P}-CVE-2020-14355-ef1b6ff7.patch
-	"${FILESDIR}"/${P}-CVE-2020-14355-b24fe6b6.patch
-)
 
 pkg_setup() {
 	python-any-r1_pkg_setup

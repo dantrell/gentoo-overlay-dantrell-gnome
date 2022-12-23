@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
+
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 
 inherit autotools python-any-r1 readme.gentoo-r1 xdg-utils
@@ -13,17 +14,16 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="lz4 sasl smartcard static-libs gstreamer"
+IUSE="gstreamer lz4 sasl smartcard static-libs"
 
 # the libspice-server only uses the headers of libcacard
-RDEPEND="
-	dev-lang/orc[static-libs(+)?]
+RDEPEND="dev-lang/orc[static-libs(+)?]
 	>=dev-libs/glib-2.22:2[static-libs(+)?]
-	media-libs/opus[static-libs(+)?]
-	sys-libs/zlib[static-libs(+)?]
-	media-libs/libjpeg-turbo:0=[static-libs(+)?]
-	>=x11-libs/pixman-0.17.7[static-libs(+)?]
 	dev-libs/openssl:0=[static-libs(+)?]
+	media-libs/opus[static-libs(+)?]
+	media-libs/libjpeg-turbo:0=[static-libs(+)?]
+	sys-libs/zlib[static-libs(+)?]
+	>=x11-libs/pixman-0.17.7[static-libs(+)?]
 	lz4? ( app-arch/lz4:0=[static-libs(+)?] )
 	smartcard? ( >=app-emulation/libcacard-0.1.2 )
 	sasl? ( dev-libs/cyrus-sasl[static-libs(+)?] )
@@ -70,15 +70,16 @@ src_configure() {
 
 	xdg_environment_reset
 
-	local myconf="
+	local myconf=(
 		$(use_enable static-libs static)
 		$(use_enable lz4)
 		$(use_with sasl)
 		$(use_enable smartcard)
 		--enable-gstreamer=$(usex gstreamer "1.0" "no")
 		--disable-celt051
-		"
-	econf ${myconf}
+	)
+
+	econf "${myconf[@]}"
 }
 
 src_compile() {

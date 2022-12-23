@@ -69,6 +69,7 @@ BDEPEND="
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.12.2-link-with-x11.patch
+	"${FILESDIR}"/${PN}-3.12.2-libraw-0.21.patch
 )
 
 src_configure() {

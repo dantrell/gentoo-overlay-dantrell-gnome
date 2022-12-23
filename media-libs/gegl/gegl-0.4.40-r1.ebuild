@@ -66,6 +66,11 @@ BDEPEND="
 	vala? ( $(vala_depend) )
 "
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-0.4.40-strict-prototypes.patch
+	"${FILESDIR}"/${PN}-0.4.40-libraw-0.21.patch
+)
+
 pkg_pretend() {
 	[[ ${MERGE_TYPE} != binary ]] && use openmp && tc-check-openmp
 }

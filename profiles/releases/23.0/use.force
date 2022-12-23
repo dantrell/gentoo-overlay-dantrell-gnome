@@ -1,5 +1,6 @@
 # Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-# Mask default-PIE on 13.0 profiles.
-sys-devel/gcc pie
+# Mike Gilbert <floppym@gentoo.org> (2022-08-30)
+# Un-force split-usr.
+-split-usr
