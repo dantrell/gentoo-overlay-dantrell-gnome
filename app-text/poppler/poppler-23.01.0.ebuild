@@ -15,7 +15,7 @@ SRC_URI+=" verify-sig? ( https://poppler.freedesktop.org/${P}.tar.xz.sig )"
 
 LICENSE="GPL-2"
 SLOT="0/126"   # CHECK THIS WHEN BUMPING!!! SUBSLOT IS libpoppler.so SOVERSION
-KEYWORDS="~*"
+KEYWORDS=""
 
 IUSE="boost cairo cjk curl +cxx debug doc +introspection +jpeg +jpeg2k +lcms nss png qt5 tiff +utils"
 
@@ -23,12 +23,12 @@ IUSE="boost cairo cjk curl +cxx debug doc +introspection +jpeg +jpeg2k +lcms nss
 RESTRICT="test"
 
 COMMON_DEPEND="
-	media-libs/fontconfig
-	>=media-libs/freetype-2.8
+	>=media-libs/fontconfig-2.13
+	>=media-libs/freetype-2.10
 	sys-libs/zlib
 	cairo? (
-		dev-libs/glib:2
-		x11-libs/cairo
+		>=dev-libs/glib-2.64:2
+		>=x11-libs/cairo-1.16
 		introspection? ( dev-libs/gobject-introspection:= )
 	)
 	curl? ( net-misc/curl )
@@ -48,7 +48,7 @@ RDEPEND="${COMMON_DEPEND}
 	cjk? ( app-text/poppler-data )
 "
 DEPEND="${COMMON_DEPEND}
-	boost? ( dev-libs/boost:= )
+	boost? ( >=dev-libs/boost-1.71:= )
 "
 BDEPEND="
 	virtual/pkgconfig
