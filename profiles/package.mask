@@ -1,5 +1,6 @@
 app-accessibility/accerciser::gentoo
 app-accessibility/at-spi2-atk::gentoo
+app-accessibility/at-spi2-core::gentoo
 app-accessibility/caribou::gentoo
 app-admin/eselect::gentoo
 app-admin/gnome-system-log::gentoo

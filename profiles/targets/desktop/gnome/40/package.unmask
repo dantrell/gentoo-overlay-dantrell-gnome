@@ -1,6 +1,6 @@
 ~app-accessibility/accerciser-3.40.0::dantrell-gnome
 ~app-accessibility/at-spi2-atk-2.38.0::dantrell-gnome
-~app-accessibility/at-spi2-core-2.40.3::dantrell-gnome-40
+~app-accessibility/at-spi2-core-base-2.40.3::dantrell-gnome-40
 ~app-accessibility/orca-40.3::dantrell-gnome-40
 ~app-arch/file-roller-3.40.0::dantrell-gnome-40
 ~app-arch/gcab-1.4::dantrell-gnome

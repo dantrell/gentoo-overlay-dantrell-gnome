@@ -1,7 +1,7 @@
 # Masked to freeze the state of GNOME
 >=app-accessibility/accerciser-3.38.0
 >=app-accessibility/at-spi2-atk-2.38.0
->=app-accessibility/at-spi2-core-2.38.0
+>=app-accessibility/at-spi2-core-base-2.38.0
 >=app-accessibility/orca-3.38.0
 >=app-arch/file-roller-3.38.0
 >=app-arch/gcab-1.5

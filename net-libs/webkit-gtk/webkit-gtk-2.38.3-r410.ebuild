@@ -13,7 +13,7 @@ HOMEPAGE="https://www.webkitgtk.org"
 SRC_URI="https://www.webkitgtk.org/releases/${MY_P}.tar.xz"
 
 LICENSE="LGPL-2+ BSD"
-SLOT="4/37" # soname version of libwebkit2gtk-4.0
+SLOT="4.1/0" # soname version of libwebkit2gtk-4.1
 KEYWORDS="~*"
 
 IUSE="aqua avif +egl examples gamepad +geolocation gles2-only gnome-keyring +gstreamer +introspection pdf +jpeg2k +jumbo-build lcms +opengl seccomp spell systemd test wayland +X"
@@ -39,6 +39,7 @@ wpe_depend="
 	>=gui-libs/wpebackend-fdo-1.7.0:1.0
 "
 # TODO: gst-plugins-base[X] is only needed when build configuration ends up with GLX set, but that's a bit automagic too to fix
+# Softblocking webkit-gtk-2.38:4 as we going to use webkit-2.38:4.1's WebKitDriver binary
 RDEPEND="
 	>=x11-libs/cairo-1.14.0:=[X?]
 	>=media-libs/fontconfig-2.8.0:1.0
@@ -49,7 +50,7 @@ RDEPEND="
 	>=media-libs/harfbuzz-0.9.18:=[icu(+)]
 	>=dev-libs/icu-61.2:=
 	media-libs/libjpeg-turbo:0=
-	>=net-libs/libsoup-2.54:2.4[introspection?]
+	>=net-libs/libsoup-3.0.8:3.0[introspection?]
 	>=dev-libs/libxml2-2.8.0:2
 	>=media-libs/libpng-1.4:0=
 	dev-db/sqlite:3=
@@ -103,6 +104,7 @@ RDEPEND="
 
 	systemd? ( sys-apps/systemd:= )
 	gamepad? ( >=dev-libs/libmanette-0.2.4 )
+	!<net-libs/webkit-gtk-2.38:4
 "
 unset wpe_depend
 DEPEND="${RDEPEND}"
@@ -257,14 +259,14 @@ src_configure() {
 		-DUSE_ANGLE_WEBGL=OFF
 		-DUSE_AVIF=$(usex avif)
 		-DUSE_GTK4=OFF
-		-DENABLE_WEBDRIVER=OFF # Disable WebDriver for webkit2gtk-4.0 and use the webkit2gtk-4.1
+		-DENABLE_WEBDRIVER=ON
 		-DUSE_JPEGXL=OFF
 		-DUSE_LCMS=$(usex lcms)
 		-DUSE_LIBHYPHEN=ON
 		-DUSE_LIBSECRET=$(usex gnome-keyring)
 		-DUSE_OPENGL_OR_ES=${opengl_enabled}
 		-DUSE_OPENJPEG=$(usex jpeg2k)
-		-DUSE_SOUP2=ON
+		-DUSE_SOUP2=OFF
 		-DUSE_WOFF2=ON
 		-DUSE_WPE_RENDERER=${use_wpe_renderer} # WPE renderer is used to implement accelerated compositing under wayland
 		-DCMAKE_BUILD_TYPE=Release
@@ -276,4 +278,12 @@ src_configure() {
 	# CMake Error at /usr/share/cmake/Modules/FindPackageHandleStandardArgs.cmake:165 (message):
 	#   Could NOT find Threads (missing: Threads_FOUND)
 	WK_USE_CCACHE=NO cmake_src_configure
+}
+
+src_install() {
+	cmake_src_install
+
+	insinto /usr/share/gtk-doc/html
+	# This will install API docs specific to webkit2gtk-4.1
+	doins -r "${S}"/Documentation/{jsc-glib,webkit2gtk,webkit2gtk-web-extension}-${SLOT%/*}
 }
