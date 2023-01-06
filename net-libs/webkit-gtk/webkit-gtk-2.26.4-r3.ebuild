@@ -62,7 +62,7 @@ RDEPEND="
 	>=dev-libs/libxslt-1.1.7
 	media-libs/woff2
 	gnome-keyring? ( app-crypt/libsecret )
-	introspection? ( >=dev-libs/gobject-introspection-1.32.0:= )
+	introspection? ( >=dev-libs/gobject-introspection-1.0:= )
 	dev-libs/libtasn1:=
 	spell? ( >=app-text/enchant-0.22:2 )
 	gstreamer? (
