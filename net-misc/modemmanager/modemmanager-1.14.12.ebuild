@@ -11,7 +11,7 @@ SRC_URI="https://www.freedesktop.org/software/ModemManager/ModemManager-${PV}.ta
 
 LICENSE="GPL-2+"
 SLOT="0/1" # subslot = dbus interface version, i.e. N in org.freedesktop.ModemManager${N}
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="ck elogind +introspection mbim policykit +qmi systemd +udev vala"
 REQUIRED_USE="

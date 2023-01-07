@@ -1,0 +1,231 @@
+diff '--exclude=.git' -urN a/build/pymake/mkformat.py b/build/pymake/mkformat.py
+--- a/build/pymake/mkformat.py	2021-09-28 05:04:51.000000000 -0500
++++ b/build/pymake/mkformat.py	2023-01-07 15:08:59.111811203 -0600
+@@ -6,7 +6,7 @@
+ filename = sys.argv[1]
+ source = None
+ 
+-with open(filename, 'rU') as fh:
++with open(filename, 'r') as fh:
+     source = fh.read()
+ 
+ statements = pymake.parser.parsestring(source, filename)
+diff '--exclude=.git' -urN a/build/pymake/mkparse.py b/build/pymake/mkparse.py
+--- a/build/pymake/mkparse.py	2021-09-28 05:04:51.000000000 -0500
++++ b/build/pymake/mkparse.py	2023-01-07 15:08:59.111811203 -0600
+@@ -5,7 +5,7 @@
+ 
+ for f in sys.argv[1:]:
+     print "Parsing %s" % f
+-    fd = open(f, 'rU')
++    fd = open(f, 'r')
+     s = fd.read()
+     fd.close()
+     stmts = pymake.parser.parsestring(s, f)
+diff '--exclude=.git' -urN a/build/pymake/pymake/parser.py b/build/pymake/pymake/parser.py
+--- a/build/pymake/pymake/parser.py	2021-09-28 05:04:51.000000000 -0500
++++ b/build/pymake/pymake/parser.py	2023-01-07 15:08:59.112811199 -0600
+@@ -347,7 +347,7 @@
+ _varsettokens = (':=', '+=', '?=', '=')
+ 
+ def _parsefile(pathname):
+-    fd = open(pathname, "rU")
++    fd = open(pathname, "r")
+     stmts = parsestring(fd.read(), pathname)
+     stmts.mtime = os.fstat(fd.fileno()).st_mtime
+     fd.close()
+diff '--exclude=.git' -urN a/build/pymake/tests/formattingtests.py b/build/pymake/tests/formattingtests.py
+--- a/build/pymake/tests/formattingtests.py	2021-09-28 05:04:51.000000000 -0500
++++ b/build/pymake/tests/formattingtests.py	2023-01-07 15:08:59.113811196 -0600
+@@ -253,7 +253,7 @@
+                 continue
+ 
+             source = None
+-            with open(makefile, 'rU') as fh:
++            with open(makefile, 'r') as fh:
+                 source = fh.read()
+ 
+             try:
+diff '--exclude=.git' -urN a/dom/base/usecounters.py b/dom/base/usecounters.py
+--- a/dom/base/usecounters.py	2021-09-28 05:04:51.000000000 -0500
++++ b/dom/base/usecounters.py	2023-01-07 15:08:59.113811196 -0600
+@@ -10,7 +10,7 @@
+ 
+ def read_conf(conf_filename):
+     # Can't read/write from a single StringIO, so make a new one for reading.
+-    stream = open(conf_filename, 'rU')
++    stream = open(conf_filename, 'r')
+ 
+     def parse_counters(stream):
+         for line_num, line in enumerate(stream):
+diff '--exclude=.git' -urN a/media/webrtc/trunk/webrtc/build/gyp_helper.py b/media/webrtc/trunk/webrtc/build/gyp_helper.py
+--- a/media/webrtc/trunk/webrtc/build/gyp_helper.py	2021-09-28 05:04:57.000000000 -0500
++++ b/media/webrtc/trunk/webrtc/build/gyp_helper.py	2023-01-07 15:08:59.114811192 -0600
+@@ -15,7 +15,7 @@
+   """Reads in a *.gyp_env file and applies the valid keys to os.environ."""
+   if not os.path.exists(file_path):
+     return
+-  with open(file_path, 'rU') as f:
++  with open(file_path, 'r') as f:
+     file_contents = f.read()
+   try:
+     file_data = eval(file_contents, {'__builtins__': None}, None)
+diff '--exclude=.git' -urN a/python/mozbuild/mozbuild/action/process_define_files.py b/python/mozbuild/mozbuild/action/process_define_files.py
+--- a/python/mozbuild/mozbuild/action/process_define_files.py	2021-09-28 05:04:57.000000000 -0500
++++ b/python/mozbuild/mozbuild/action/process_define_files.py	2023-01-07 15:08:59.114811192 -0600
+@@ -36,7 +36,7 @@
+             not config.substs.get('JS_STANDALONE'):
+         config = PartialConfigEnvironment(mozpath.join(topobjdir, 'js', 'src'))
+ 
+-    with open(path, 'rU') as input:
++    with open(path, 'r') as input:
+         r = re.compile('^\s*#\s*(?P<cmd>[a-z]+)(?:\s+(?P<name>\S+)(?:\s+(?P<value>\S+))?)?', re.U)
+         for l in input:
+             m = r.match(l)
+diff '--exclude=.git' -urN a/python/mozbuild/mozbuild/backend/base.py b/python/mozbuild/mozbuild/backend/base.py
+--- a/python/mozbuild/mozbuild/backend/base.py	2021-09-28 05:04:57.000000000 -0500
++++ b/python/mozbuild/mozbuild/backend/base.py	2023-01-07 15:08:59.115811188 -0600
+@@ -265,7 +265,7 @@
+         return status
+ 
+     @contextmanager
+-    def _write_file(self, path=None, fh=None, readmode='rU'):
++    def _write_file(self, path=None, fh=None, readmode='r'):
+         """Context manager to write a file.
+ 
+         This is a glorified wrapper around FileAvoidWrite with integration to
+diff '--exclude=.git' -urN a/python/mozbuild/mozbuild/preprocessor.py b/python/mozbuild/mozbuild/preprocessor.py
+--- a/python/mozbuild/mozbuild/preprocessor.py	2021-09-28 05:04:57.000000000 -0500
++++ b/python/mozbuild/mozbuild/preprocessor.py	2023-01-07 15:08:59.116811185 -0600
+@@ -517,7 +517,7 @@
+ 
+         if args:
+             for f in args:
+-                with io.open(f, 'rU', encoding='utf-8') as input:
++                with io.open(f, 'r', encoding='utf-8') as input:
+                     self.processFile(input=input, output=out)
+             if depfile:
+                 mk = Makefile()
+@@ -807,7 +807,7 @@
+                     args = self.applyFilters(args)
+                 if not os.path.isabs(args):
+                     args = os.path.join(self.curdir, args)
+-                args = io.open(args, 'rU', encoding='utf-8')
++                args = io.open(args, 'r', encoding='utf-8')
+             except Preprocessor.Error:
+                 raise
+             except Exception:
+@@ -862,7 +862,7 @@
+     pp = Preprocessor(defines=defines,
+                       marker=marker)
+     for f in includes:
+-        with io.open(f, 'rU', encoding='utf-8') as input:
++        with io.open(f, 'r', encoding='utf-8') as input:
+             pp.processFile(input=input, output=output)
+     return pp.includes
+ 
+diff '--exclude=.git' -urN a/python/mozbuild/mozbuild/util.py b/python/mozbuild/mozbuild/util.py
+--- a/python/mozbuild/mozbuild/util.py	2021-09-28 05:04:57.000000000 -0500
++++ b/python/mozbuild/mozbuild/util.py	2023-01-07 15:08:59.117811181 -0600
+@@ -220,7 +220,7 @@
+     still occur, as well as diff capture if requested.
+     """
+ 
+-    def __init__(self, filename, capture_diff=False, dry_run=False, readmode='rU'):
++    def __init__(self, filename, capture_diff=False, dry_run=False, readmode='r'):
+         BytesIO.__init__(self)
+         self.name = filename
+         assert type(capture_diff) == bool
+diff '--exclude=.git' -urN a/python/mozbuild/mozbuild/virtualenv.py b/python/mozbuild/mozbuild/virtualenv.py
+--- a/python/mozbuild/mozbuild/virtualenv.py	2021-09-28 05:04:57.000000000 -0500
++++ b/python/mozbuild/mozbuild/virtualenv.py	2023-01-07 15:08:59.119811174 -0600
+@@ -257,7 +257,7 @@
+         return self.virtualenv_root
+ 
+     def packages(self):
+-        mode = 'rU' if PY2 else 'r'
++        mode = 'r' if PY2 else 'r'
+         with open(self.manifest_path, mode) as fh:
+             packages = [line.rstrip().split(':')
+                         for line in fh]
+diff '--exclude=.git' -urN a/python/mozbuild/mozpack/files.py b/python/mozbuild/mozpack/files.py
+--- a/python/mozbuild/mozpack/files.py	2021-09-28 05:04:57.000000000 -0500
++++ b/python/mozbuild/mozpack/files.py	2023-01-07 15:08:59.120811170 -0600
+@@ -558,7 +558,7 @@
+         pp = Preprocessor(defines=self.defines, marker=self.marker)
+         pp.setSilenceDirectiveWarnings(self.silence_missing_directive_warnings)
+ 
+-        with _open(self.path, 'rU') as input:
++        with _open(self.path, 'r') as input:
+             with _open(os.devnull, 'w') as output:
+                 pp.processFile(input=input, output=output)
+ 
+@@ -615,7 +615,7 @@
+         pp = Preprocessor(defines=self.defines, marker=self.marker)
+         pp.setSilenceDirectiveWarnings(self.silence_missing_directive_warnings)
+ 
+-        with _open(self.path, 'rU') as input:
++        with _open(self.path, 'r') as input:
+             pp.processFile(input=input, output=dest, depfile=deps_out)
+ 
+         dest.close()
+diff '--exclude=.git' -urN a/testing/web-platform/tests/conformance-checkers/tools/build-svg-tests.py b/testing/web-platform/tests/conformance-checkers/tools/build-svg-tests.py
+--- a/testing/web-platform/tests/conformance-checkers/tools/build-svg-tests.py	2021-09-28 05:04:58.000000000 -0500
++++ b/testing/web-platform/tests/conformance-checkers/tools/build-svg-tests.py	2023-01-07 15:08:59.121811167 -0600
+@@ -139,7 +139,7 @@
+     logging.debug(htmlpathname)
+ 
+     # read SVG data
+-    svgfile = open(svgpathname, "rU")
++    svgfile = open(svgpathname, "r")
+     svg = svgfile.read()
+     svgfile.close()
+ 
+diff '--exclude=.git' -urN a/testing/web-platform/tests/tools/third_party/py/py/_path/common.py b/testing/web-platform/tests/tools/third_party/py/py/_path/common.py
+--- a/testing/web-platform/tests/tools/third_party/py/py/_path/common.py	2021-09-28 05:05:00.000000000 -0500
++++ b/testing/web-platform/tests/tools/third_party/py/py/_path/common.py	2023-01-07 15:08:59.122811163 -0600
+@@ -174,7 +174,7 @@
+         """ read and return a list of lines from the path. if cr is False, the
+ newline will be removed from the end of each line. """
+         if sys.version_info < (3, ):
+-            mode = 'rU'
++            mode = 'r'
+         else:  # python 3 deprecates mode "U" in favor of "newline" option
+             mode = 'r'
+ 
+diff '--exclude=.git' -urN a/testing/web-platform/tests/tools/third_party/py/py/_path/svnurl.py b/testing/web-platform/tests/tools/third_party/py/py/_path/svnurl.py
+--- a/testing/web-platform/tests/tools/third_party/py/py/_path/svnurl.py	2021-09-28 05:05:00.000000000 -0500
++++ b/testing/web-platform/tests/tools/third_party/py/py/_path/svnurl.py	2023-01-07 15:08:59.123811160 -0600
+@@ -97,7 +97,7 @@
+ 
+     def open(self, mode='r'):
+         """ return an opened file with the given mode. """
+-        if mode not in ("r", "rU",):
++        if mode not in ("r", "r",):
+             raise ValueError("mode %r not supported" % (mode,))
+         assert self.check(file=1) # svn cat returns an empty file otherwise
+         if self.rev is None:
+diff '--exclude=.git' -urN a/third_party/python/py/py/_path/common.py b/third_party/python/py/py/_path/common.py
+--- a/third_party/python/py/py/_path/common.py	2021-09-28 05:05:01.000000000 -0500
++++ b/third_party/python/py/py/_path/common.py	2023-01-07 15:08:59.124811156 -0600
+@@ -174,7 +174,7 @@
+         """ read and return a list of lines from the path. if cr is False, the
+ newline will be removed from the end of each line. """
+         if sys.version_info < (3, ):
+-            mode = 'rU'
++            mode = 'r'
+         else:  # python 3 deprecates mode "U" in favor of "newline" option
+             mode = 'r'
+ 
+diff '--exclude=.git' -urN a/third_party/python/py/py/_path/svnurl.py b/third_party/python/py/py/_path/svnurl.py
+--- a/third_party/python/py/py/_path/svnurl.py	2021-09-28 05:05:01.000000000 -0500
++++ b/third_party/python/py/py/_path/svnurl.py	2023-01-07 15:08:59.125811152 -0600
+@@ -97,7 +97,7 @@
+ 
+     def open(self, mode='r'):
+         """ return an opened file with the given mode. """
+-        if mode not in ("r", "rU",):
++        if mode not in ("r", "r",):
+             raise ValueError("mode %r not supported" % (mode,))
+         assert self.check(file=1) # svn cat returns an empty file otherwise
+         if self.rev is None:

@@ -6,7 +6,7 @@ VALA_USE_DEPEND="vapigen"
 inherit autotools gnome2 multilib-minimal rust-toolchain vala
 
 DESCRIPTION="Scalable Vector Graphics (SVG) rendering library"
-HOMEPAGE="https://wiki.gnome.org/Projects/LibRsvg"
+HOMEPAGE="https://wiki.gnome.org/Projects/LibRsvg https://gitlab.gnome.org/GNOME/librsvg"
 
 LICENSE="LGPL-2+"
 SLOT="2"
@@ -116,7 +116,9 @@ multilib_src_install() {
 	gnome2_src_install
 
 	if ! use gtk-doc ; then
-		rm -r "${ED}"/usr/share/gtk-doc || die
+		if [[ -d "${ED}"/usr/share/gtk-doc ]] ; then
+			rm -r "${ED}"/usr/share/gtk-doc || die
+		fi
 	fi
 }
 

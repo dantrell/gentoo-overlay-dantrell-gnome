@@ -201,6 +201,8 @@ src_prepare() {
 	eapply "${WORKDIR}"/firefox-patches
 	eapply "${WORKDIR}"/spidermonkey-patches
 
+	eapply "${FILESDIR}"/${PN}-78.15.0-python-3.11-fix.patch
+
 	default
 
 	# Make cargo respect MAKEOPTS

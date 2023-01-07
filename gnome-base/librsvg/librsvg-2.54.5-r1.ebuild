@@ -7,11 +7,11 @@ VALA_MIN_API_VERSION="0.46"
 inherit autotools gnome2 multilib-minimal rust-toolchain vala
 
 DESCRIPTION="Scalable Vector Graphics (SVG) rendering library"
-HOMEPAGE="https://wiki.gnome.org/Projects/LibRsvg"
+HOMEPAGE="https://wiki.gnome.org/Projects/LibRsvg https://gitlab.gnome.org/GNOME/librsvg"
 
 LICENSE="LGPL-2+"
 SLOT="2"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="gtk-doc +introspection vala"
 REQUIRED_USE="vala? ( introspection )"
@@ -41,7 +41,7 @@ BDEPEND="
 	dev-libs/vala-common
 	>=dev-util/gtk-doc-am-1.13
 	virtual/pkgconfig
-	gtk-doc? ( >=dev-util/gtk-doc-1.13 )
+	gtk-doc? ( dev-util/gi-docgen )
 	x11-libs/gdk-pixbuf
 "
 # >=gtk-doc-am-1.13, gobject-introspection-common, vala-common needed by eautoreconf
@@ -78,9 +78,7 @@ multilib_src_configure() {
 	local myconf=(
 		--build=${CHOST_default}
 		--disable-static
-		--disable-tools  # only useful for librsvg developers
 		$(multilib_native_use_enable gtk-doc)
-		$(multilib_native_use_enable gtk-doc gtk-doc-html)
 		$(multilib_native_use_enable introspection)
 		$(multilib_native_use_enable vala)
 		--enable-pixbuf-loader
@@ -114,14 +112,15 @@ multilib_src_compile() {
 
 multilib_src_install() {
 	gnome2_src_install
-
-	if ! use gtk-doc ; then
-		rm -r "${ED}"/usr/share/gtk-doc || die
-	fi
 }
 
 multilib_src_install_all() {
 	find "${ED}" -name '*.la' -delete || die
+
+	if use gtk-doc; then
+		mkdir -p "${ED}"/usr/share/gtk-doc/html/ || die
+		mv "${ED}"/usr/share/doc/Rsvg-2.0 "${ED}"/usr/share/gtk-doc/html/ || die
+	fi
 }
 
 pkg_postinst() {

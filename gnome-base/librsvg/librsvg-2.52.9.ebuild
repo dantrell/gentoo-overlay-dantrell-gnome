@@ -7,11 +7,11 @@ VALA_MIN_API_VERSION="0.46"
 inherit autotools gnome2 multilib-minimal rust-toolchain vala
 
 DESCRIPTION="Scalable Vector Graphics (SVG) rendering library"
-HOMEPAGE="https://wiki.gnome.org/Projects/LibRsvg"
+HOMEPAGE="https://wiki.gnome.org/Projects/LibRsvg https://gitlab.gnome.org/GNOME/librsvg"
 
 LICENSE="LGPL-2+"
 SLOT="2"
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="gtk-doc +introspection vala"
 REQUIRED_USE="vala? ( introspection )"
@@ -78,7 +78,6 @@ multilib_src_configure() {
 	local myconf=(
 		--build=${CHOST_default}
 		--disable-static
-		--disable-tools  # only useful for librsvg developers
 		$(multilib_native_use_enable gtk-doc)
 		$(multilib_native_use_enable gtk-doc gtk-doc-html)
 		$(multilib_native_use_enable introspection)
@@ -116,7 +115,9 @@ multilib_src_install() {
 	gnome2_src_install
 
 	if ! use gtk-doc ; then
-		rm -r "${ED}"/usr/share/gtk-doc || die
+		if [[ -d "${ED}"/usr/share/gtk-doc ]] ; then
+			rm -r "${ED}"/usr/share/gtk-doc || die
+		fi
 	fi
 }
 

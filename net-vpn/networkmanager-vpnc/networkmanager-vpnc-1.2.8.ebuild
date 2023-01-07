@@ -8,7 +8,7 @@ inherit gnome2
 
 DESCRIPTION="NetworkManager VPNC plugin"
 HOMEPAGE="https://wiki.gnome.org/Projects/NetworkManager"
-SRC_URI="https://download.gnome.org/sources/${GNOME_ORG_MODULE}/1.2/${GNOME_ORG_MODULE}-${PV}.tar.xz"
+SRC_URI="mirror://gnome/sources/${GNOME_ORG_MODULE}/1.2/${GNOME_ORG_MODULE}-${PV}.tar.${GNOME_TARBALL_SUFFIX}"
 
 LICENSE="GPL-2+"
 SLOT="0"
