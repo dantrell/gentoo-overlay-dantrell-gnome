@@ -1,15 +1,15 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="8"
-
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
+
 MY_PN="chrome-gnome-shell"
 MY_P="${MY_PN}-${PV}"
 
 inherit cmake python-single-r1
 
-DESCRIPTION="GNOME Shell integration for Chrome/Chromium, Firefox, Vivaldi, Opera browsers"
-HOMEPAGE="https://wiki.gnome.org/Projects/GnomeShellIntegrationForChrome"
+DESCRIPTION="OS-native connector counterpart for GNOME Shell browser extension"
+HOMEPAGE="https://wiki.gnome.org/Projects/GnomeShellIntegration"
 SRC_URI="mirror://gnome/sources/${MY_PN}/${PV}/${MY_P}.tar.xz"
 
 S="${WORKDIR}/${MY_P}"
@@ -50,7 +50,7 @@ src_install() {
 }
 
 pkg_postinst() {
-	elog "Please note that this package provides native messaging connector only."
+	elog "Please note that this package provides OS-native connector only."
 	elog "You can install browser extension using link provided at"
 	elog "https://extensions.gnome.org website."
 }
