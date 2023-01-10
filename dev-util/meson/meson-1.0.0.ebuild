@@ -15,7 +15,7 @@ SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${MY_P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS=""
 
 IUSE="deprecated-builddir-file-references deprecated-positional-arguments test"
 
@@ -30,6 +30,9 @@ DEPEND="
 		sys-libs/zlib[static-libs(+)]
 		virtual/pkgconfig
 	)
+"
+RDEPEND="
+	virtual/pkgconfig
 "
 
 S=${WORKDIR}/${MY_P}

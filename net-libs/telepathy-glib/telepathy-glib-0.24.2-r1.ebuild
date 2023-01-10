@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 PYTHON_REQ_USE="xml(+)"
 PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
@@ -27,28 +27,23 @@ RDEPEND="
 	>=dev-libs/dbus-glib-0.90
 	introspection? ( >=dev-libs/gobject-introspection-1.30:= )
 "
-DEPEND="${RDEPEND}
-	vala? ( $(vala_depend) )
-"
+DEPEND="${RDEPEND}"
 BDEPEND="
 	${PYTHON_DEPS}
 	dev-libs/libxslt
 	dev-util/gtk-doc-am
 	virtual/pkgconfig
+	vala? ( $(vala_depend) )
 "
 # See bug 504744 for reference
 PDEPEND="
 	net-im/telepathy-mission-control
 "
 
-src_prepare() {
-	use vala && vala_src_prepare
-	gnome2_src_prepare
-}
-
 src_configure() {
+	use vala && vala_setup
+
 	gnome2_src_configure \
-		--disable-static \
 		--disable-installed-tests \
 		$(use_enable debug backtrace) \
 		$(use_enable debug debug-cache) \

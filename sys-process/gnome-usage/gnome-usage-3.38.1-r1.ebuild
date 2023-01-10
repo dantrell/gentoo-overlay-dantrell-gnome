@@ -1,8 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 VALA_MIN_API_VERSION="0.40"
-VALA_USE_DEPEND="vapigen"
 
 inherit gnome.org gnome2-utils meson vala xdg
 
@@ -13,8 +12,6 @@ LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE=""
-
 RDEPEND="
 	>=dev-libs/glib-2.38:2
 	>=x11-libs/gtk+-3.20.10:3
@@ -23,17 +20,14 @@ RDEPEND="
 	>=gui-libs/libhandy-1.0.0:1=
 	>=app-misc/tracker-3.0.3:3=
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	$(vala_depend)
 	>=sys-devel/gettext-0.19.8
 "
 
-src_prepare() {
-	vala_src_prepare
-	default
-}
-
 src_configure() {
+	vala_setup
 	meson_src_configure
 }
 

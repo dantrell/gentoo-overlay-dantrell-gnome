@@ -2,7 +2,7 @@
 
 EAPI="8"
 
-inherit flag-o-matic pam toolchain-funcs usr-ldscript
+inherit meson pam
 
 DESCRIPTION="OpenRC manages the services, startup and shutdown of a host"
 HOMEPAGE="https://github.com/openrc/openrc/"
@@ -10,31 +10,35 @@ SRC_URI="https://github.com/OpenRC/openrc/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD-2"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS=""
 
-IUSE="audit debug ncurses pam newnet prefix +netifrc selinux static-libs unicode +vanilla-loopback +vanilla-warnings"
+IUSE="audit bash debug ncurses pam newnet +netifrc selinux sysv-utils unicode +vanilla-loopback vanilla-shutdown +vanilla-warnings"
 
 COMMON_DEPEND="
 	ncurses? ( sys-libs/ncurses:0= )
-	pam? (
-		sys-auth/pambase
-		sys-libs/pam
-	)
+	pam? ( sys-libs/pam )
 	audit? ( sys-process/audit )
 	sys-process/psmisc
-	!<sys-process/procps-3.3.9-r2
 	selinux? (
 		sys-apps/policycoreutils
 		>=sys-libs/libselinux-2.6
-	)
-	!<sys-apps/baselayout-2.1-r1
-	!<sys-fs/udev-init-scripts-27"
+	)"
 DEPEND="${COMMON_DEPEND}
 	virtual/os-headers
 	ncurses? ( virtual/pkgconfig )"
 RDEPEND="${COMMON_DEPEND}
+	bash? ( app-shells/bash )
 	!prefix? (
-		>=sys-apps/sysvinit-2.86-r6[selinux?]
+		sysv-utils? (
+			!sys-apps/systemd[sysv-utils(-)]
+			!sys-apps/sysvinit
+		)
+		!sysv-utils? (
+			|| (
+				>=sys-apps/sysvinit-2.86-r6[selinux?]
+				sys-apps/s6-linux-init[sysv-utils(-)]
+			)
+		)
 		virtual/tmpfiles
 	)
 	selinux? (
@@ -48,36 +52,6 @@ PDEPEND="netifrc? ( net-misc/netifrc )"
 src_prepare() {
 	default
 
-	sed -i 's:0444:0644:' mk/sys.mk || die
-
-	# From OpenRC:
-	# 	https://github.com/OpenRC/openrc/commit/b1c3422f453921e838d419640fe39144dbf8d13d
-	# 	https://github.com/OpenRC/openrc/commit/db4a578273dbfa15b8b96686391bcc9ecc04b646
-	# 	https://github.com/OpenRC/openrc/commit/a7c99506d9de81b9a2a7547bd11715073de1ce95
-	# 	https://github.com/OpenRC/openrc/commit/cee3919908c2d715fd75a796873e3308209a4c2e
-	# 	https://github.com/OpenRC/openrc/commit/7cb8d943236fe651ac54c64f8167f7c4369f649c
-	eapply "${FILESDIR}"/${PN}-0.31.2-selinux-use-openrc-contexts-path-to-get-contexts.patch
-	eapply "${FILESDIR}"/${PN}-0.31.2-selinux-fix-const-qualifier-warning.patch
-	eapply "${FILESDIR}"/${PN}-0.35-fix-repeated-dependency-cache-rebuild-if-clock-skewed.patch
-	eapply "${FILESDIR}"/${PN}-0.35-clean-up-the-calls-to-group-add-service.patch
-	eapply "${FILESDIR}"/${PN}-0.39.1-stop-mounting-efivarfs-read-only.patch
-
-	# From OpenRC:
-	# 	https://github.com/OpenRC/openrc/commit/918d955fd2de1f594b83508f5ddd5271534e3591
-	# 	https://github.com/OpenRC/openrc/commit/4af5a80b0c516773286cc30e743dc90a2d19df23
-	# 	https://github.com/OpenRC/openrc/commit/87c98ebb01873120eecc1757e615b3a4c14a2f1f
-	# 	https://github.com/OpenRC/openrc/commit/1771bc2a83fe65bfe6ec3e93ea7632609e697a38
-	# 	https://github.com/OpenRC/openrc/commit/5dd1d39d20c118064d31ed65dc7ae2de75dd7908
-	# 	https://github.com/OpenRC/openrc/commit/7ddc281ab6fd11b63f41059818b0de4748e2821f
-	# 	https://github.com/OpenRC/openrc/commit/375ef42393f3dc6edbaa2cb70c79b2366072db38
-	eapply "${FILESDIR}"/${PN}-0.35-checkpath-use-lchown-instead-of-chown.patch
-	eapply "${FILESDIR}"/${PN}-0.35-rc-deptree-load-return-null-if-the-stat-call-is-not-successful.patch
-	eapply "${FILESDIR}"/${PN}-0.35-checkpath-fix-lchown-error-message.patch
-	eapply "${FILESDIR}"/${PN}-0.35-checkpath-use-fchown-and-fchmod-to-handle-ownership-and-mode-changes.patch
-	eapply "${FILESDIR}"/${PN}-0.35-typo-fix.patch
-	eapply "${FILESDIR}"/${PN}-0.42-fix-build-with-clang.patch
-	eapply "${FILESDIR}"/${PN}-9999-src-rc-rc-logger-h-fix-build-failure-against-gcc-10.patch
-
 	if ! use vanilla-warnings; then
 		# We shouldn't have to deal with deprecation warnings for runscript
 		eapply "${FILESDIR}"/${PN}-0.21-disable-deprecation-warnings-for-runscript.patch
@@ -87,30 +61,28 @@ src_prepare() {
 		# We shouldn't have to wait for a valid network connection before continuing with startup
 		eapply "${FILESDIR}"/${PN}-0.25-make-lookback-provide-net.patch
 	fi
+
+	if ! use vanilla-shutdown; then
+		# We shouldn't complicate the shutdown process
+		eapply "${FILESDIR}"/${PN}-0.41-simplify-cgroup-cleanup.patch
+	fi
 }
 
-src_compile() {
-	unset LIBDIR #266688
-
-	MAKE_ARGS="${MAKE_ARGS}
-		LIBNAME=$(get_libdir)
-		LIBEXECDIR=${EPREFIX}/lib/rc
-		MKNET=$(usex newnet)
-		MKSELINUX=$(usex selinux)
-		MKAUDIT=$(usex audit)
-		MKPAM=$(usev pam)
-		MKSTATICLIBS=$(usex static-libs)"
-
-	local brand="Unknown"
-	MAKE_ARGS="${MAKE_ARGS} OS=Linux"
-	brand="Linux"
-	export BRANDING="Gentoo ${brand}"
-	use prefix && MAKE_ARGS="${MAKE_ARGS} MKPREFIX=yes PREFIX=${EPREFIX}"
-	export DEBUG=$(usev debug)
-	export MKTERMCAP=$(usev ncurses)
-
-	tc-export CC AR RANLIB
-	emake ${MAKE_ARGS}
+src_configure() {
+	local emesonargs=(
+		$(meson_feature audit)
+		"-Dbranding=\"Gentoo Linux\""
+		$(meson_use newnet)
+		-Dos=Linux
+		$(meson_use pam)
+		$(meson_feature selinux)
+		-Drootprefix="${EPREFIX}"
+		-Dshell=$(usex bash /bin/bash /bin/sh)
+		$(meson_use sysv-utils sysvinit)
+		-Dtermcap=$(usev ncurses)
+	)
+	# export DEBUG=$(usev debug)
+	meson_src_configure
 }
 
 # set_config <file> <option name> <yes value> <no value> test
@@ -127,21 +99,9 @@ set_config_yes_no() {
 }
 
 src_install() {
-	emake ${MAKE_ARGS} DESTDIR="${D}" install
-
-	# move the shared libs back to /usr so ldscript can install
-	# more of a minimal set of files
-	# disabled for now due to #270646
-	#mv "${ED}"/$(get_libdir)/lib{einfo,rc}* "${ED}"/usr/$(get_libdir)/ || die
-	#gen_usr_ldscript -a einfo rc
-	gen_usr_ldscript libeinfo.so
-	gen_usr_ldscript librc.so
+	meson_install
 
 	keepdir /lib/rc/tmp
-
-	# Backup our default runlevels
-	dodir /usr/share/"${PN}"
-	cp -PR "${ED}"/etc/runlevels "${ED}"/usr/share/${PN} || die
 
 	# Setup unicode defaults for silly unicode users
 	set_config_yes_no /etc/rc.conf unicode use unicode
@@ -165,10 +125,7 @@ src_install() {
 	fi
 
 	# install documentation
-	dodoc ChangeLog *.md
-	if use newnet; then
-		dodoc README.newnet
-	fi
+	dodoc *.md
 }
 
 pkg_preinst() {
@@ -217,4 +174,15 @@ pkg_postinst() {
 		ewarn "satisfies the net virtual."
 		ewarn
 	fi
+
+	# added for 0.45 to handle seedrng/urandom switching (2022-06-07)
+	for v in ${REPLACING_VERSIONS}; do
+		[[ -x $(type rc-update) ]] || continue
+		if ver_test $v -lt 0.45; then
+			if rc-update show boot | grep -q urandom; then
+				rc-update del urandom boot
+				rc-update add seedrng boot
+		fi
+		fi
+	done
 }

@@ -38,7 +38,7 @@ BDEPEND="
 "
 
 PATCHES=(
-	"${FILESDIR}"/${PV}-nma-ws-leak-fix.patch
+	"${FILESDIR}"/${PN}-1.8.28-nma-ws-leak-fix.patch
 )
 
 src_prepare() {

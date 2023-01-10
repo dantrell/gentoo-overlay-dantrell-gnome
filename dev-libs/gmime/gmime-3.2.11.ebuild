@@ -10,7 +10,7 @@ SRC_URI="https://github.com/jstedfast/${PN}/releases/download/${PV}/${P}.tar.xz"
 
 LICENSE="LGPL-2.1+"
 SLOT="3.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="crypt doc idn test +vala"
 

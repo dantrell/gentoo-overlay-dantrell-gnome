@@ -67,7 +67,6 @@
 ~games-board/gnome-mahjongg-3.38.3::dantrell-gnome
 ~games-board/gnome-mines-40.1::dantrell-gnome
 ~games-board/iagno-3.38.1::dantrell-gnome
-~games-board/tali-40.8::dantrell-gnome
 ~games-puzzle/five-or-more-3.32.3::dantrell-gnome
 ~games-puzzle/gnome-klotski-3.38.2::dantrell-gnome
 ~games-puzzle/gnome-sudoku-42.0::dantrell-gnome-42
@@ -95,9 +94,10 @@
 ~gnome-base/gnome-settings-daemon-42.2::dantrell-gnome-42
 ~gnome-base/gnome-shell-42.7::dantrell-gnome-42
 ~gnome-base/gsettings-desktop-schemas-42.0::dantrell-gnome-42
-~gnome-base/gvfs-1.50.2::dantrell-gnome-42
+~gnome-base/gvfs-1.50.3::dantrell-gnome-42
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
 ~gnome-base/libgtop-2.40.0::dantrell-gnome
+~gnome-base/librsvg-2.54.5::dantrell-gnome
 ~gnome-base/nautilus-42.5::dantrell-gnome-42
 ~gnome-extra/evolution-data-server-3.44.4::dantrell-gnome-42
 ~gnome-extra/evolution-ews-3.44.4::dantrell-gnome-42
@@ -135,7 +135,7 @@
 ~mail-client/geary-40.0::dantrell-gnome
 ~media-fonts/cantarell-0.303.1::dantrell-gnome
 ~media-gfx/eog-42.3::dantrell-gnome-42
-~media-gfx/eog-plugins-42.2::dantrell-gnome-42
+~media-gfx/eog-plugins-42.3::dantrell-gnome-42
 ~media-gfx/gnome-font-viewer-42.0::dantrell-gnome-42
 ~media-gfx/gnome-photos-42.0::dantrell-gnome-42
 ~media-gfx/gnome-screenshot-41.0::dantrell-gnome
@@ -176,6 +176,7 @@
 ~sci-geosciences/gnome-maps-42.3::dantrell-gnome-42
 ~sys-apps/baobab-42.0::dantrell-gnome-42
 ~sys-apps/gnome-disk-utility-42.0::dantrell-gnome-42
+~sys-apps/xdg-desktop-portal-gnome-42.3::dantrell-gnome-42
 ~www-client/epiphany-42.4::dantrell-gnome-42
 ~x11-libs/gdk-pixbuf-2.42.10::dantrell-gnome
 ~x11-libs/gtk+-3.24.35::dantrell-gnome

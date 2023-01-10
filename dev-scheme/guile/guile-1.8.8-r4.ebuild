@@ -14,7 +14,7 @@ LICENSE="LGPL-2.1"
 # I'm slotting this in the same slot as guile-1.6* for now.
 SLOT="12/8"
 MAJOR="1.8"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="debug debug-freelist debug-malloc +deprecated discouraged emacs networking nls readline +regex +threads"
 

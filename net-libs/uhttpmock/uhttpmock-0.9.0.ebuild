@@ -22,20 +22,17 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
+	virtual/pkgconfig
 	gtk-doc? (
 		dev-util/gtk-doc
 		app-text/docbook-xml-dtd:4.3
 	)
 	vala? ( $(vala_depend) )
-	virtual/pkgconfig
 "
 
-src_prepare() {
-	default
-	use vala && vala_setup
-}
-
 src_configure() {
+	use vala && vala_setup
+
 	local emesonargs=(
 		$(meson_use introspection)
 		$(meson_feature vala vapi)

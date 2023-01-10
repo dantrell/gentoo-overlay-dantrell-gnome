@@ -14,7 +14,7 @@ SRC_URI="https://www.webkitgtk.org/releases/${MY_P}.tar.xz"
 
 LICENSE="LGPL-2+ BSD"
 SLOT="4.1/0" # soname version of libwebkit2gtk-4.1
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="aqua avif +egl examples gamepad +geolocation gles2-only gnome-keyring +gstreamer +introspection pdf +jpeg2k +jumbo-build lcms +opengl seccomp spell systemd test wayland +X"
 

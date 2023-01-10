@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
-inherit libtool vala xdg-utils
+inherit libtool vala
 
 DESCRIPTION="A library for the X Keyboard Extension (high-level API)"
 HOMEPAGE="https://www.freedesktop.org/wiki/Software/LibXklavier"
@@ -26,25 +26,24 @@ RDEPEND="
 	x11-libs/libxkbfile:=
 	>=x11-misc/xkeyboard-config-2.4.1-r3
 	introspection? ( >=dev-libs/gobject-introspection-1.30:= )
-	vala? ( $(vala_depend) )
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
 	>=dev-util/gtk-doc-am-1.4
 	sys-devel/gettext
 	virtual/pkgconfig
+	vala? ( $(vala_depend) )
 "
 
 src_prepare() {
 	default
 	elibtoolize
-	xdg_environment_reset
-	use vala && vala_src_prepare
 }
 
 src_configure() {
+	use vala && vala_setup
+
 	econf \
-		--disable-static \
 		--disable-gtk-doc \
 		$(use_enable introspection) \
 		$(use_enable vala) \
@@ -54,6 +53,5 @@ src_configure() {
 
 src_install() {
 	default
-	dodoc CREDITS
 	find "${ED}" -type f -name '*.la' -delete || die
 }

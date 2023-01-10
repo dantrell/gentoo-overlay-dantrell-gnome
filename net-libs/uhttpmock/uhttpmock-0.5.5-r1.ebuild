@@ -20,24 +20,20 @@ RDEPEND="
 	>=net-libs/libsoup-2.47.3:2.4
 	introspection? ( >=dev-libs/gobject-introspection-0.9.7:= )
 "
-DEPEND="${RDEPEND}
-	vala? ( $(vala_depend) )
-"
+DEPEND="${RDEPEND}"
 BDEPEND="
+	>=dev-util/gtk-doc-am-1.14
+	virtual/pkgconfig
 	gtk-doc? (
 		dev-util/gtk-doc
 		app-text/docbook-xml-dtd:4.3
 	)
-	>=dev-util/gtk-doc-am-1.14
-	virtual/pkgconfig
+	vala? ( $(vala_depend) )
 "
 
-src_prepare() {
-	default
-	use vala && vala_setup
-}
-
 src_configure() {
+	use vala && vala_setup
+
 	local emesonargs=(
 		$(meson_use introspection)
 		$(meson_feature vala vapi)

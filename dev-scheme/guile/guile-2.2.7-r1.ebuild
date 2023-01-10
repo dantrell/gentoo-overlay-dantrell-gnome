@@ -1,6 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
+
+inherit autotools
 
 DESCRIPTION="GNU Ubiquitous Intelligent Language for Extensions"
 HOMEPAGE="https://www.gnu.org/software/guile/"
@@ -8,7 +10,7 @@ SRC_URI="mirror://gnu/guile/${P}.tar.xz"
 
 LICENSE="LGPL-3+"
 SLOT="12/2.2-1" # libguile-2.2.so.1 => 2.2-1
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="debug debug-malloc +deprecated +networking +nls +regex +threads" # upstream recommended +networking +nls
 REQUIRED_USE="regex" # workaround for bug 596322
@@ -30,14 +32,22 @@ BDEPEND="
 	sys-devel/libtool
 	sys-devel/gettext"
 
+# guile generates ELF files without use of C or machine code
+# It's a false positive. bug #677600
+QA_PREBUILT='*[.]go'
+
 PATCHES=(
 	"${FILESDIR}"/${PN}-2.2.3-gentoo-sandbox.patch
 	"${FILESDIR}"/${PN}-2.2.7-stack-up.patch
+	"${FILESDIR}"/${PN}-3.0.6-configure-clang16.patch
 )
 
-# guile generates ELF files without use of C or machine code
-# It's a portage's false positive. bug #677600
-QA_PREBUILT='*[.]go'
+src_prepare() {
+	default
+
+	# Can drop once guile-3.0.8-configure-clang16.patch merged
+	eautoreconf
+}
 
 src_configure() {
 	# Seems to have issues with -Os, switch to -O2
@@ -88,5 +98,5 @@ src_install() {
 	# 	https://bugs.gentoo.org/206896
 	keepdir /usr/share/guile/site
 
-	find "${D}" -name '*.la' -delete || die
+	find "${ED}" -name '*.la' -delete || die
 }

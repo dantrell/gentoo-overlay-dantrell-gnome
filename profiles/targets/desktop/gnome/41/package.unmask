@@ -65,7 +65,6 @@
 ~games-board/gnome-mahjongg-3.38.3::dantrell-gnome
 ~games-board/gnome-mines-40.1::dantrell-gnome
 ~games-board/iagno-3.38.1::dantrell-gnome
-~games-board/tali-40.8::dantrell-gnome
 ~games-puzzle/five-or-more-3.32.3::dantrell-gnome
 ~games-puzzle/gnome-klotski-3.38.2::dantrell-gnome
 ~games-puzzle/gnome-sudoku-40.2::dantrell-gnome
@@ -95,6 +94,7 @@
 ~gnome-base/gvfs-1.48.2::dantrell-gnome
 ~gnome-base/libgnomekbd-3.26.1::dantrell-gnome
 ~gnome-base/libgtop-2.40.0::dantrell-gnome
+~gnome-base/librsvg-2.52.9::dantrell-gnome
 ~gnome-base/nautilus-41.5::dantrell-gnome-41
 ~gnome-extra/evolution-data-server-3.42.5::dantrell-gnome-41
 ~gnome-extra/evolution-ews-3.42.4::dantrell-gnome-41
@@ -125,7 +125,7 @@
 ~gnome-extra/yelp-41.2::dantrell-gnome-41
 ~gnome-extra/yelp-xsl-41.1::dantrell-gnome-41
 ~gnome-extra/zenity-3.41.0::dantrell-gnome-41
-~gui-libs/libadwaita-1.2.0::dantrell-gnome
+~gui-libs/libadwaita-1.2.1::dantrell-gnome
 ~gui-libs/libhandy-1.4.1::dantrell-gnome
 ~mail-client/evolution-3.42.4::dantrell-gnome-41
 ~mail-client/geary-40.0::dantrell-gnome
@@ -169,6 +169,7 @@
 ~sci-geosciences/gnome-maps-41.4::dantrell-gnome-41
 ~sys-apps/baobab-41.0::dantrell-gnome-41
 ~sys-apps/gnome-disk-utility-41.0::dantrell-gnome-41
+~sys-apps/xdg-desktop-portal-gnome-41.1::dantrell-gnome-41
 ~www-client/epiphany-41.5::dantrell-gnome-41
 ~x11-libs/gdk-pixbuf-2.42.10::dantrell-gnome
 ~x11-libs/gtksourceview-4.8.4::dantrell-gnome

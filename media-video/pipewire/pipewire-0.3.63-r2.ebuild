@@ -23,7 +23,7 @@ SRC_URI="https://gitlab.freedesktop.org/${PN}/${PN}/-/archive/${PV}/${P}.tar.bz2
 LICENSE="MIT LGPL-2.1+ GPL-2"
 # ABI was broken in 0.3.42 for https://gitlab.freedesktop.org/pipewire/wireplumber/-/issues/49
 SLOT="0/0.4"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="bluetooth dbus doc echo-cancel extra flatpak gstreamer gsettings jack-client jack-sdk lv2
 modemmanager pipewire-alsa readline sound-server ssl system-service systemd test udev v4l vanilla X zeroconf"
@@ -140,7 +140,10 @@ DOCS=( {README,INSTALL}.md NEWS )
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.3.25-enable-failed-mlock-warning.patch
+	"${FILESDIR}"/${PN}-0.3.63-alsa-node-target.patch
 	"${FILESDIR}"/${PN}-0.3.63-bluez-ldac_abr.patch
+	"${FILESDIR}"/${PN}-0.3.63-bluetooth-typo.patch
+	"${FILESDIR}"/${PN}-0.3.63-rate-update.patch
 )
 
 # limitsdfile related code taken from =sys-auth/realtime-base-0.1

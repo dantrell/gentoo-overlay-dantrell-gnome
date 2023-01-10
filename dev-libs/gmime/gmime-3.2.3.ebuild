@@ -5,7 +5,7 @@ EAPI="8"
 inherit flag-o-matic gnome2 vala
 
 DESCRIPTION="Library for creating and parsing MIME messages"
-HOMEPAGE="https://gitlab.gnome.org/GNOME/gmime http://spruce.sourceforge.net/gmime/"
+HOMEPAGE="https://github.com/jstedfast/gmime http://spruce.sourceforge.net/gmime/"
 
 LICENSE="LGPL-2.1+"
 SLOT="3.0"

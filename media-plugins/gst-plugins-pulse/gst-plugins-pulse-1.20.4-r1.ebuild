@@ -10,6 +10,6 @@ KEYWORDS="*"
 
 RDEPEND="
 	>=media-libs/gst-plugins-base-${PV}:${SLOT}[${MULTILIB_USEDEP}]
-	>=media-sound/pulseaudio-2.1-r1[${MULTILIB_USEDEP}]
+	>=media-libs/libpulse-2.1-r1[${MULTILIB_USEDEP}]
 "
 DEPEND="${RDEPEND}"

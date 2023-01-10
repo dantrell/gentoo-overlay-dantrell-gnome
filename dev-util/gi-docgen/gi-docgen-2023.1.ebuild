@@ -13,7 +13,7 @@ SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 
 LICENSE="|| ( Apache-2.0 GPL-3+ ) CC0-1.0 OFL-1.1 MIT"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
@@ -24,9 +24,14 @@ RDEPEND="
 		>=dev-python/markupsafe-1[${PYTHON_USEDEP}]
 		>=dev-python/pygments-2[${PYTHON_USEDEP}]
 		>=dev-python/jinja-2[${PYTHON_USEDEP}]
-		dev-python/toml[${PYTHON_USEDEP}]
 		>=dev-python/typogrify-2[${PYTHON_USEDEP}]
 	')
+	$(python_gen_cond_dep '
+		dev-python/toml[${PYTHON_USEDEP}]
+	' python3_{8..10})
+	$(python_gen_cond_dep '
+		dev-python/tomli[${PYTHON_USEDEP}]
+	' python3_11)
 "
 DEPEND="${RDEPEND}"
 
