@@ -45,6 +45,10 @@ RDEPEND="${COMMON_DEPEND}
 
 PDEPEND="netifrc? ( net-misc/netifrc )"
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-0.45.2-grep-3.8.patch
+)
+
 src_prepare() {
 	default
 

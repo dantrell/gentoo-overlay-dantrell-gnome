@@ -1,0 +1,2 @@
+# Requires GTK 3.22 (or greater)
+>=net-misc/spice-gtk-0.38

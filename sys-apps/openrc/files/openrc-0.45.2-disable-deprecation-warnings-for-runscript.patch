@@ -1,0 +1,12 @@
+diff '--exclude=.git' -urN a/src/openrc-run/openrc-run.c b/src/openrc-run/openrc-run.c
+--- a/src/openrc-run/openrc-run.c	2022-07-03 12:54:05.000000000 -0500
++++ b/src/openrc-run/openrc-run.c	2023-01-12 15:34:50.494558407 -0600
+@@ -1306,7 +1306,7 @@
+ 	rc_stringlist_add(applet_list, applet);
+ 
+ 	if (runscript)
+-		ewarn("%s uses runscript, please convert to openrc-run.", service);
++		ewarnv("%s uses runscript, please convert to openrc-run.", service);
+ 
+ 	/* Now run each option */
+ 	retval = EXIT_SUCCESS;

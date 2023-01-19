@@ -1,0 +1,61 @@
+From b5903d5ae36f022117fe9b0c5308525c39cf5dc2 Mon Sep 17 00:00:00 2001
+From: Sebastien Bacher <seb128@ubuntu.com>
+Date: Tue, 25 Jan 2022 16:44:12 +0100
+Subject: daemon: Don't try to add admin users to non existing groups
+
+The extra admin groups list is a build-time option, but there is no guarantee
+the groups are available on the installed system. Currently if an extra admin
+group is missing on the system, accountsservice's will fail to create users
+because the underlying useradd call will fail.
+
+This commit fixes the issue, by pre-validating the extra admin groups
+list.
+---
+ src/daemon.c | 24 +++++++++++++++++++-----
+ 1 file changed, 19 insertions(+), 5 deletions(-)
+
+diff --git a/src/daemon.c b/src/daemon.c
+index 1760ef2..c8b6320 100644
+--- a/src/daemon.c
++++ b/src/daemon.c
+@@ -27,6 +27,7 @@
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <fcntl.h>
++#include <grp.h>
+ #include <sys/wait.h>
+ #include <pwd.h>
+ #ifdef HAVE_SHADOW_H
+@@ -1106,11 +1107,24 @@ daemon_create_user_authorized_cb (Daemon                *daemon,
+         argv[2] = "-c";
+         argv[3] = cd->real_name;
+         if (cd->account_type == ACCOUNT_TYPE_ADMINISTRATOR) {
+-                if (EXTRA_ADMIN_GROUPS != NULL && EXTRA_ADMIN_GROUPS[0] != '\0')
+-                        admin_groups = g_strconcat (ADMIN_GROUP, ",",
+-                                                    EXTRA_ADMIN_GROUPS, NULL);
+-                else
+-                        admin_groups = g_strdup (ADMIN_GROUP);
++                g_auto(GStrv) admin_groups_array = NULL;
++                g_autoptr(GStrvBuilder) admin_groups_builder = g_strv_builder_new ();
++
++                g_strv_builder_add (admin_groups_builder, ADMIN_GROUP);
++
++                if (EXTRA_ADMIN_GROUPS != NULL && EXTRA_ADMIN_GROUPS[0] != '\0') {
++                        g_auto(GStrv) extra_admin_groups = NULL;
++                        extra_admin_groups = g_strsplit (EXTRA_ADMIN_GROUPS, ",", 0);
++
++                        for (gsize i = 0; extra_admin_groups[i] != NULL; i++) {
++                                if (getgrnam (extra_admin_groups[i]) != NULL)
++                                        g_strv_builder_add (admin_groups_builder, extra_admin_groups[i]);
++                                else
++                                        g_warning ("Extra admin group %s doesn’t exist: not adding the user to it", extra_admin_groups[i]);
++                        }
++                }
++                admin_groups_array = g_strv_builder_end (admin_groups_builder);
++                admin_groups = g_strjoinv (",", admin_groups_array);
+ 
+                 argv[4] = "-G";
+                 argv[5] = admin_groups;
+-- 
+cgit v1.2.1
+

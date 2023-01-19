@@ -5,7 +5,6 @@ mail-client/geary::dantrell-gnome ~*
 media-libs/grilo:0.3::dantrell-gnome ~*
 media-plugins/grilo-plugins:0.3::dantrell-gnome ~*
 net-misc/networkmanager::dantrell-gnome ~*
-sys-auth/elogind::dantrell-gnome ~*
 sys-auth/polkit::dantrell-gnome ~*
 <mail-client/geary-0.13.0::dantrell-gnome **
 >=net-misc/networkmanager-1.32.0::dantrell-gnome ~*

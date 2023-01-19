@@ -37,7 +37,7 @@ RDEPEND="
 	>=x11-libs/pixman-0.17.7
 	media-libs/opus
 	gtk3? ( x11-libs/gtk+:3[introspection?] )
-	>=dev-libs/glib-2.46:2
+	>=dev-libs/glib-2.42:2
 	>=x11-libs/cairo-1.2
 	media-libs/libjpeg-turbo:0=
 	sys-libs/zlib
@@ -61,6 +61,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	>=app-emulation/spice-protocol-0.12.14
+	<app-emulation/spice-protocol-14.0
 	dev-perl/Text-CSV
 	>=dev-util/gtk-doc-am-1.14
 	>=dev-util/intltool-0.40.0
@@ -79,6 +80,12 @@ src_prepare() {
 	echo GIT_CEILING_DIRECTORIES=${GIT_CEILING_DIRECTORIES}
 
 	default
+
+	# Lower the minimum required GLib version
+	sed -i configure.ac \
+		-e 's/2\.46/2\.42/' || die
+	sed -i configure.ac \
+		-e 's/2_46/2_42/' || die
 
 	eautoreconf
 

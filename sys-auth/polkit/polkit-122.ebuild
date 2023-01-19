@@ -12,7 +12,7 @@ SRC_URI="https://gitlab.freedesktop.org/polkit/polkit/-/archive/${PV}/${P}.tar.b
 
 LICENSE="LGPL-2"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="ck consolekit +daemon +duktape elogind examples gtk +introspection kde pam selinux systemd test"
 REQUIRED_USE="?? ( ck consolekit elogind systemd )"

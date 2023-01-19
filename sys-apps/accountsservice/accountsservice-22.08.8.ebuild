@@ -11,7 +11,7 @@ SRC_URI="https://www.freedesktop.org/software/${PN}/${P}.tar.xz"
 
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="doc elogind gtk-doc +introspection selinux systemd test"
 REQUIRED_USE="^^ ( elogind systemd )"
@@ -58,6 +58,15 @@ python_check_deps() {
 	if use test; then
 		python_has_version "dev-python/python-dbusmock[${PYTHON_USEDEP}]"
 	fi
+}
+
+src_prepare() {
+	default
+
+	# From AccountsService (remove unused codepath to lower GLib dependency):
+	# 	https://cgit.freedesktop.org/accountsservice/commit/?id=b5903d5ae36f022117fe9b0c5308525c39cf5dc2
+	# 	https://docs.gtk.org/glib/struct.StrvBuilder.html
+	eapply -R "${FILESDIR}"/${PN}-22.04.62-daemon-dont-try-to-add-admin-users-to-non-existing-groups.patch
 }
 
 src_configure() {

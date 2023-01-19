@@ -1,0 +1,12 @@
+diff '--exclude=.git' -urN a/subprojects/spice-common/meson.build b/subprojects/spice-common/meson.build
+--- a/subprojects/spice-common/meson.build	2020-03-16 07:39:30.000000000 -0500
++++ b/subprojects/spice-common/meson.build	2023-01-14 17:12:41.790507031 -0600
+@@ -126,7 +126,7 @@
+ if get_option('python-checks')
+   foreach module : ['six', 'pyparsing']
+     message('Checking for python module @0@'.format(module))
+-    cmd = run_command(python, '-m', module)
++    cmd = run_command(python, '-c', 'import @0@'.format(module))
+     if cmd.returncode() != 0
+       error('Python module @0@ not found'.format(module))
+     endif

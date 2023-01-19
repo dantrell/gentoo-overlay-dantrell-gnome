@@ -10,7 +10,7 @@ SRC_URI="https://github.com/OpenRC/openrc/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD-2"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="audit bash debug ncurses pam newnet prefix +netifrc selinux sysv-utils unicode +vanilla-loopback vanilla-shutdown +vanilla-warnings"
 
@@ -56,6 +56,7 @@ PDEPEND="netifrc? ( net-misc/netifrc )"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.44.6-fix-checkpath.patch
+	"${FILESDIR}"/${PN}-0.45.2-grep-3.8.patch
 )
 
 src_prepare() {

@@ -173,7 +173,6 @@
 >=net-misc/dleyna-server-0.7.0
 >=net-misc/gnome-online-miners-3.32.0
 >=net-misc/rygel-0.40.0
->=net-misc/spice-gtk-1.0
 >=net-misc/vinagre-3.24.0
 >=net-misc/vino-3.24.0
 >=net-wireless/gnome-bluetooth-3.32.0

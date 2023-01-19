@@ -31,7 +31,7 @@ RDEPEND="
 	media-libs/libjpeg-turbo:0=
 	>=x11-libs/cairo-1.2
 	>=x11-libs/pixman-0.17.7
-	gtk3? ( x11-libs/gtk+:3[introspection?] )
+	gtk3? ( >=x11-libs/gtk+-3.22:3[introspection?] )
 	introspection? ( dev-libs/gobject-introspection:= )
 	dev-libs/openssl:0=
 	lz4? ( app-arch/lz4 )

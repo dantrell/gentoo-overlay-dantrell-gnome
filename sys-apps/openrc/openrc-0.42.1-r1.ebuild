@@ -57,7 +57,10 @@ RDEPEND="${COMMON_DEPEND}
 
 PDEPEND="netifrc? ( net-misc/netifrc )"
 
-PATCHES=("${FILESDIR}"/${PN}-0.42.1-gcc-10.patch)
+PATCHES=(
+	"${FILESDIR}"/${PN}-0.42.1-gcc-10.patch
+	"${FILESDIR}"/${PN}-0.45.2-grep-3.8.patch
+)
 
 src_prepare() {
 	default

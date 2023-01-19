@@ -1,0 +1,2 @@
+# Requires GLib 2.63 (or greater)
+>=sys-apps/accountsservice-22.08.8

@@ -174,7 +174,6 @@
 >=net-misc/gnome-connections-43.0
 >=net-misc/gnome-online-miners-3.35.0
 >=net-misc/rygel-0.43.0
->=net-misc/spice-gtk-1.0
 >=net-misc/vinagre-3.24.0
 >=net-misc/vino-3.24.0
 >=net-wireless/gnome-bluetooth-43.0

@@ -1,0 +1,55 @@
+From 435624d5c14ba8d2042b63d63aaf923803456768 Mon Sep 17 00:00:00 2001
+From: Michael Catanzaro <mcatanzaro@gnome.org>
+Date: Wed, 4 Mar 2020 16:03:24 -0600
+Subject: Never delete the root filesystem when removing users
+
+Many, many user accounts use / as their home directory. If deleting
+these accounts with accountsservice, we should just ignore requests to
+delete the home dir, rather than trash the user's computer.
+
+Fixes #57
+---
+ src/daemon.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/src/daemon.c b/src/daemon.c
+index 9ccea49..4430fbd 100644
+--- a/src/daemon.c
++++ b/src/daemon.c
+@@ -47,6 +47,8 @@
+ #include "wtmp-helper.h"
+ #include "daemon.h"
+ #include "util.h"
++#include "user.h"
++#include "accounts-user-generated.h"
+ 
+ #define PATH_PASSWD "/etc/passwd"
+ #define PATH_SHADOW "/etc/shadow"
+@@ -1290,6 +1292,8 @@ daemon_delete_user_authorized_cb (Daemon                *daemon,
+         g_autoptr(GError) error = NULL;
+         struct passwd *pwent;
+         const gchar *argv[6];
++        const gchar *homedir;
++        gchar *resolved_homedir;
+         User *user;
+ 
+         pwent = getpwuid (ud->uid);
+@@ -1315,6 +1319,15 @@ daemon_delete_user_authorized_cb (Daemon                *daemon,
+ 
+         user_set_saved (user, FALSE);
+ 
++        /* Never delete the root filesystem. */
++        homedir = accounts_user_get_home_directory (ACCOUNTS_USER (user));
++        resolved_homedir = realpath (homedir, NULL);
++        if (resolved_homedir != NULL && g_strcmp0 (resolved_homedir, "/") == 0) {
++                sys_log (context, "Refusing to delete home directory of user '%s' because it is root filesystem", pwent->pw_name);
++                ud->remove_files = FALSE;
++        }
++        free (resolved_homedir);
++
+         argv[0] = "/usr/sbin/userdel";
+         if (ud->remove_files) {
+                 argv[1] = "-f";
+-- 
+cgit v1.2.1
+

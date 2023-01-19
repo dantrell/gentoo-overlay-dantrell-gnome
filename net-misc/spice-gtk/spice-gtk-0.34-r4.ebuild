@@ -62,6 +62,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	>=app-emulation/spice-protocol-0.12.13
+	<app-emulation/spice-protocol-14.0
 	dev-perl/Text-CSV
 	>=dev-util/gtk-doc-am-1.14
 	>=dev-util/intltool-0.40.0

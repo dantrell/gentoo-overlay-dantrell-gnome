@@ -21,7 +21,7 @@ IUSE="+gtk3 +introspection lz4 mjpeg policykit sasl smartcard usbredir vala wayl
 # * check if sys-freebsd/freebsd-lib (from virtual/acl) provides acl/libacl.h
 # * use external pnp.ids as soon as that means not pulling in gnome-desktop
 RDEPEND="
-	>=dev-libs/glib-2.46:2
+	>=dev-libs/glib-2.52:2
 	dev-libs/json-glib:0=
 	media-libs/gst-plugins-base:1.0
 	media-libs/gst-plugins-good:1.0
@@ -31,7 +31,7 @@ RDEPEND="
 	media-libs/libjpeg-turbo:0=
 	>=x11-libs/cairo-1.2
 	>=x11-libs/pixman-0.17.7
-	gtk3? ( x11-libs/gtk+:3[introspection?] )
+	gtk3? ( >=x11-libs/gtk+-3.22:3[introspection?] )
 	introspection? ( dev-libs/gobject-introspection:= )
 	dev-libs/openssl:0=
 	lz4? ( app-arch/lz4 )

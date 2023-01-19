@@ -10,7 +10,7 @@ SRC_URI="https://github.com/OpenRC/openrc/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD-2"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="audit bash debug ncurses pam newnet +netifrc selinux sysv-utils unicode +vanilla-loopback vanilla-shutdown +vanilla-warnings"
 
@@ -49,6 +49,10 @@ RDEPEND="${COMMON_DEPEND}
 
 PDEPEND="netifrc? ( net-misc/netifrc )"
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-0.45.2-grep-3.8.patch
+)
+
 src_prepare() {
 	default
 
@@ -64,14 +68,14 @@ src_prepare() {
 
 	if ! use vanilla-shutdown; then
 		# We shouldn't complicate the shutdown process
-		eapply "${FILESDIR}"/${PN}-0.41-simplify-cgroup-cleanup.patch
+		eapply "${FILESDIR}"/${PN}-0.43.5-simplify-cgroup-cleanup.patch
 	fi
 }
 
 src_configure() {
 	local emesonargs=(
-	$(meson_feature audit)
-	"-Dbranding=\"Gentoo Linux\""
+		$(meson_feature audit)
+		"-Dbranding=\"Gentoo Linux\""
 		$(meson_use newnet)
 		-Dos=Linux
 		$(meson_use pam)

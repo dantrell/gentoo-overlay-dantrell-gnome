@@ -46,6 +46,10 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-0.6.35-gentoo-system-users.patch
 	"${FILESDIR}"/${PN}-0.6.45-support-elogind.patch
 	"${FILESDIR}"/${PN}-0.6.46-daemon-dont-treat-explicitly-requested-users-as-cached.patch
+
+	# From AccountsService:
+	# 	https://cgit.freedesktop.org/accountsservice/commit/?id=435624d5c14ba8d2042b63d63aaf923803456768
+	"${FILESDIR}"/${PN}-22.04.62-never-delete-the-root-filesystem-when-removing-users.patch
 )
 
 src_configure() {

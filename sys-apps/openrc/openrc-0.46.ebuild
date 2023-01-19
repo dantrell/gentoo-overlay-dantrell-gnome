@@ -10,7 +10,7 @@ SRC_URI="https://github.com/OpenRC/openrc/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD-2"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~*"
 
 IUSE="audit bash debug ncurses pam newnet +netifrc selinux sysv-utils unicode +vanilla-loopback vanilla-shutdown +vanilla-warnings"
 
@@ -54,7 +54,7 @@ src_prepare() {
 
 	if ! use vanilla-warnings; then
 		# We shouldn't have to deal with deprecation warnings for runscript
-		eapply "${FILESDIR}"/${PN}-0.21-disable-deprecation-warnings-for-runscript.patch
+		eapply "${FILESDIR}"/${PN}-0.45.2-disable-deprecation-warnings-for-runscript.patch
 	fi
 
 	if ! use vanilla-loopback; then
@@ -64,7 +64,7 @@ src_prepare() {
 
 	if ! use vanilla-shutdown; then
 		# We shouldn't complicate the shutdown process
-		eapply "${FILESDIR}"/${PN}-0.41-simplify-cgroup-cleanup.patch
+		eapply "${FILESDIR}"/${PN}-0.43.5-simplify-cgroup-cleanup.patch
 	fi
 }
 
