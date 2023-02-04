@@ -23,7 +23,7 @@ S="${WORKDIR}/${MY_P}"
 
 LICENSE="BSD"
 SLOT="0/3" # libpcre2-posix.so version
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="bzip2 +jit libedit +pcre16 pcre32 +readline static-libs unicode zlib"
 REQUIRED_USE="?? ( libedit readline )"
@@ -86,7 +86,7 @@ multilib_src_install() {
 		DESTDIR="${D}" \
 		$(multilib_is_native_abi || echo "bin_PROGRAMS= dist_html_DATA=") \
 		install
-	multilib_is_native_abi && gen_usr_ldscript -a pcre2-posix
+	multilib_is_native_abi && gen_usr_ldscript -a pcre2-posix pcre2-8
 }
 
 multilib_src_install_all() {

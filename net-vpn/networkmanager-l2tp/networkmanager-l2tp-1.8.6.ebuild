@@ -8,7 +8,7 @@ MY_P="${MY_PN}-${PV}"
 inherit autotools gnome.org
 
 DESCRIPTION="NetworkManager L2TP plugin"
-HOMEPAGE="https://github.com/nm-l2tp/network-manager-l2tp"
+HOMEPAGE="https://github.com/nm-l2tp/NetworkManager-l2tp"
 SRC_URI="https://github.com/nm-l2tp/${MY_PN}/releases/download/${PV}/${MY_P}.tar.xz"
 
 LICENSE="GPL-2"

@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/libchamplain"
 
 LICENSE="LGPL-2.1+"
 SLOT="0.12"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+gtk gtk-doc +introspection vala"
 REQUIRED_USE="

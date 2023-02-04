@@ -130,7 +130,7 @@
 ~gui-apps/gnome-console-42.2::dantrell-gnome-42
 ~gui-libs/gtk-4.6.7::dantrell-gnome
 ~gui-libs/libadwaita-1.1.6::dantrell-gnome
-~gui-libs/libhandy-1.6.3::dantrell-gnome
+~gui-libs/libhandy-1.6.4::dantrell-gnome
 ~mail-client/evolution-3.44.4::dantrell-gnome-42
 ~mail-client/geary-40.0::dantrell-gnome
 ~media-fonts/cantarell-0.303.1::dantrell-gnome

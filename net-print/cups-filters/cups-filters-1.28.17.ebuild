@@ -8,13 +8,16 @@ inherit perl-module systemd flag-o-matic
 
 DESCRIPTION="Cups filters"
 HOMEPAGE="https://wiki.linuxfoundation.org/openprinting/cups-filters"
-SRC_URI="https://www.openprinting.org/download/${PN}/${P}.tar.xz"
+SRC_URI="
+	https://github.com/OpenPrinting/cups-filters/releases/download/${PV}/${P}.tar.xz
+	https://www.openprinting.org/download/${PN}/${P}.tar.xz
+"
 
 LICENSE="MIT GPL-2"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="dbus +foomatic jpeg ldap pclm pdf perl png +postscript test tiff zeroconf"
+IUSE="dbus exif +foomatic jpeg ldap pclm pdf perl png +postscript test tiff zeroconf"
 
 RESTRICT="!test? ( test )"
 
@@ -29,6 +32,7 @@ RDEPEND="
 	!<=net-print/cups-1.5.9999
 	sys-devel/bc
 	sys-libs/zlib
+	exif? ( media-libs/libexif )
 	dbus? ( sys-apps/dbus )
 	foomatic? ( !net-print/foomatic-filters )
 	jpeg? ( media-libs/libjpeg-turbo:0= )
@@ -64,6 +68,7 @@ src_configure() {
 		--with-rcdir=no
 		--without-php
 
+		$(use_enable exif)
 		$(use_enable dbus)
 		$(use_enable foomatic)
 		$(use_enable ldap)

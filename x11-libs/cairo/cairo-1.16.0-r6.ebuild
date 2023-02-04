@@ -13,6 +13,9 @@ SLOT="0"
 KEYWORDS="*"
 
 IUSE="X aqua debug gles2-only +glib opengl static-libs +svg utils valgrind"
+REQUIRED_USE="
+	gles2-only? ( !opengl )
+"
 
 # Test causes a circular depend on gtk+... since gtk+ needs cairo but test needs gtk+ so we need to block it
 RESTRICT="test"
@@ -40,10 +43,6 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	X? ( x11-base/xorg-proto )
-"
-
-REQUIRED_USE="
-	gles2-only? ( !opengl )
 "
 
 PATCHES=(

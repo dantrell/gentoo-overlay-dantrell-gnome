@@ -39,7 +39,7 @@ QA_PREBUILT='*[.]go'
 PATCHES=(
 	"${FILESDIR}"/${PN}-2.2.3-gentoo-sandbox.patch
 	"${FILESDIR}"/${PN}-2.2.7-stack-up.patch
-	"${FILESDIR}"/${PN}-3.0.6-configure-clang16.patch
+	"${FILESDIR}"/${PN}-3.0.8-configure-clang16.patch
 )
 
 src_prepare() {

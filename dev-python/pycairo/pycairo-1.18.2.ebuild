@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 PYTHON_COMPAT=( python{2_7,3_8,3_9,3_10,3_11} pypy{,3} )
 PYTHON_REQ_USE="threads(+)"
@@ -8,8 +8,14 @@ PYTHON_REQ_USE="threads(+)"
 inherit distutils-r1
 
 DESCRIPTION="Python bindings for the cairo library"
-HOMEPAGE="https://www.cairographics.org/pycairo/ https://github.com/pygobject/pycairo"
-SRC_URI="https://github.com/pygobject/${PN}/releases/download/v${PV}/${P}.tar.gz"
+HOMEPAGE="
+	https://www.cairographics.org/pycairo/
+	https://github.com/pygobject/pycairo/
+	https://pypi.org/project/pycairo/
+"
+SRC_URI="
+	https://github.com/pygobject/${PN}/releases/download/v${PV}/${P}.tar.gz
+"
 
 LICENSE="|| ( LGPL-2.1 MPL-1.1 )"
 SLOT="0"

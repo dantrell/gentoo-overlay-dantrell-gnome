@@ -61,7 +61,7 @@ DESCRIPTION="SpiderMonkey is Mozilla's JavaScript engine written in C and C++"
 HOMEPAGE="https://spidermonkey.dev https://firefox-source-docs.mozilla.org/js/index.html "
 
 LICENSE="MPL-2.0"
-SLOT="102/5.0"
+SLOT="102/7.0"
 KEYWORDS="*"
 
 IUSE="clang cpu_flags_arm_neon debug +jit lto test"

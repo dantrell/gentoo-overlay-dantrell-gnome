@@ -3,7 +3,7 @@
 EAPI="7"
 VALA_USE_DEPEND="vapigen"
 
-inherit gnome2 udev vala
+inherit gnome2 vala
 
 DESCRIPTION="GObject library for managing information about real and virtual OSes"
 HOMEPAGE="https://libosinfo.org/"

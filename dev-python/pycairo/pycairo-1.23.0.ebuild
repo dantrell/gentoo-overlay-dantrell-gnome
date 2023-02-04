@@ -19,11 +19,12 @@ SRC_URI="
 
 LICENSE="|| ( LGPL-2.1 MPL-1.1 )"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="examples"
 
 BDEPEND="
+	virtual/pkgconfig
 	test? (
 		dev-python/hypothesis[${PYTHON_USEDEP}]
 	)
@@ -31,7 +32,10 @@ BDEPEND="
 RDEPEND="
 	>=x11-libs/cairo-1.15.10[svg(+)]
 "
-DEPEND="${RDEPEND}"
+DEPEND="
+	${RDEPEND}
+	x11-base/xorg-proto
+"
 
 distutils_enable_sphinx docs \
 	dev-python/sphinx_rtd_theme

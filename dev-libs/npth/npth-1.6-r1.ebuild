@@ -2,7 +2,7 @@
 
 EAPI="7"
 
-inherit autotools
+inherit autotools flag-o-matic toolchain-funcs
 
 DESCRIPTION="New GNU Portable Threads Library"
 HOMEPAGE="https://git.gnupg.org/cgi-bin/gitweb.cgi?p=npth.git"
@@ -22,6 +22,13 @@ src_prepare() {
 }
 
 src_configure() {
+	# ideally we want !tc-ld-is-bfd for best future-proofing, but it needs
+	# https://github.com/gentoo/gentoo/pull/28355
+	# mold needs this too but right now tc-ld-is-mold is also not available
+	if tc-ld-is-lld; then
+		append-ldflags -Wl,--undefined-version
+	fi
+
 	econf \
 		--disable-static \
 		$(use_enable test tests)

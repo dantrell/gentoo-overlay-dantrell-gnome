@@ -5,6 +5,10 @@
     <email>gnome@gentoo.org</email>
     <name>Gentoo GNOME Desktop</name>
   </maintainer>
+  <longdescription>
+    Geoclue is a D-Bus geoinformation service. The goal of the Geoclue project is to make creating location-aware
+    applications as simple as possible.
+  </longdescription>
   <use>
     <flag name="geonames">Install geonames.org provider</flag>
     <flag name="gsmloc">Install GSM location provider</flag>
@@ -20,5 +24,7 @@
   </use>
   <upstream>
     <remote-id type="freedesktop-gitlab">geoclue/geoclue</remote-id>
+    <bugs-to>https://gitlab.freedesktop.org/geoclue/geoclue/-/issues</bugs-to>
+    <changelog>https://gitlab.freedesktop.org/geoclue/geoclue/-/blob/master/NEWS</changelog>
   </upstream>
 </pkgmetadata>

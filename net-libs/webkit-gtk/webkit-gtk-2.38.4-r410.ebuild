@@ -13,7 +13,7 @@ HOMEPAGE="https://www.webkitgtk.org"
 SRC_URI="https://www.webkitgtk.org/releases/${MY_P}.tar.xz"
 
 LICENSE="LGPL-2+ BSD"
-SLOT="5/0" # soname version of libwebkit2gtk-5.0
+SLOT="4.1/0" # soname version of libwebkit2gtk-4.1
 KEYWORDS="*"
 
 IUSE="aqua avif +egl examples gamepad +geolocation gles2-only gnome-keyring +gstreamer +introspection pdf +jpeg2k +jumbo-build lcms +opengl seccomp spell systemd test wayland +X"
@@ -47,7 +47,6 @@ RDEPEND="
 	>=dev-libs/libgcrypt-1.6.0:0=
 	x11-libs/gtk+:3=
 	>=x11-libs/gtk+-3.22.0:3[aqua?,introspection?,wayland?,X?]
-	gui-libs/gtk:4
 	>=media-libs/harfbuzz-0.9.18:=[icu(+)]
 	>=dev-libs/icu-61.2:=
 	media-libs/libjpeg-turbo:0=
@@ -57,7 +56,6 @@ RDEPEND="
 	dev-db/sqlite:3=
 	sys-libs/zlib:0
 	|| ( >=app-accessibility/at-spi2-core-2.46.0:2 >=dev-libs/atk-2.16.0 )
-
 	media-libs/libwebp:=
 
 	>=dev-libs/glib-2.56.4:2
@@ -174,7 +172,7 @@ src_prepare() {
 	cmake_src_prepare
 	gnome2_src_prepare
 
-	eapply "${FILESDIR}"/${PN}-2.38.2-GTK-Fix-build-failure-in-ClipboardGtk4.cpp.patch
+	eapply "${FILESDIR}"/${PN}-2.38.3-gcc-13.patch
 }
 
 src_configure() {
@@ -262,8 +260,8 @@ src_configure() {
 		-DENABLE_X11_TARGET=$(usex X)
 		-DUSE_ANGLE_WEBGL=OFF
 		-DUSE_AVIF=$(usex avif)
-		-DUSE_GTK4=ON # wbkit2gtk-5.0
-		-DENABLE_WEBDRIVER=OFF # Disable WebDriver for webkit2gtk-5.0 and use the webkit2gtk-4.1
+		-DUSE_GTK4=OFF
+		-DENABLE_WEBDRIVER=ON
 		-DUSE_JPEGXL=OFF
 		-DUSE_LCMS=$(usex lcms)
 		-DUSE_LIBHYPHEN=ON
@@ -282,4 +280,12 @@ src_configure() {
 	# CMake Error at /usr/share/cmake/Modules/FindPackageHandleStandardArgs.cmake:165 (message):
 	#   Could NOT find Threads (missing: Threads_FOUND)
 	WK_USE_CCACHE=NO cmake_src_configure
+}
+
+src_install() {
+	cmake_src_install
+
+	insinto /usr/share/gtk-doc/html
+	# This will install API docs specific to webkit2gtk-4.1
+	doins -r "${S}"/Documentation/{jsc-glib,webkit2gtk,webkit2gtk-web-extension}-${SLOT%/*}
 }
