@@ -29,7 +29,7 @@ BDEPEND="
 	virtual/pkgconfig
 	doc? ( $(python_gen_any_dep '
 			dev-python/sphinx[${PYTHON_USEDEP}]
-			dev-python/sphinx_rtd_theme[${PYTHON_USEDEP}]
+			dev-python/sphinx-rtd-theme[${PYTHON_USEDEP}]
 		') )
 	test? ( dev-python/pygobject:3[${PYTHON_USEDEP}]
 		dev-python/tappy[${PYTHON_USEDEP}] )
@@ -39,7 +39,7 @@ PATCHES=( "${FILESDIR}"/${PN}-1.2.16-py39.patch )
 
 python_check_deps() {
 	python_has_version "dev-python/sphinx[${PYTHON_USEDEP}]"
-	python_has_version "dev-python/sphinx_rtd_theme[${PYTHON_USEDEP}]"
+	python_has_version "dev-python/sphinx-rtd-theme[${PYTHON_USEDEP}]"
 }
 
 src_prepare() {

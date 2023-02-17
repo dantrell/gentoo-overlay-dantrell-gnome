@@ -1,0 +1,2 @@
+# Requires gtkmm 3.24 (or greater) and glibmm 2.60 (or greater)
+>=net-p2p/transmission-4.0.0

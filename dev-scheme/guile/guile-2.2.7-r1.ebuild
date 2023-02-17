@@ -13,7 +13,7 @@ SLOT="12/2.2-1" # libguile-2.2.so.1 => 2.2-1
 KEYWORDS="~*"
 
 IUSE="debug debug-malloc +deprecated +networking +nls +regex +threads" # upstream recommended +networking +nls
-REQUIRED_USE="regex" # workaround for bug 596322
+REQUIRED_USE="regex" # workaround for bug #596322
 
 RESTRICT="strip"
 
@@ -25,12 +25,14 @@ RDEPEND="
 	dev-libs/libunistring:0=
 	sys-libs/ncurses:0=
 	sys-libs/readline:0=
-	virtual/libcrypt:="
+	virtual/libcrypt:=
+"
 DEPEND="${RDEPEND}"
 BDEPEND="
 	virtual/pkgconfig
 	sys-devel/libtool
-	sys-devel/gettext"
+	sys-devel/gettext
+"
 
 # guile generates ELF files without use of C or machine code
 # It's a false positive. bug #677600
@@ -66,24 +68,26 @@ src_configure() {
 	# 	https://bugs.gentoo.org/676468
 	mv prebuilt/32-bit-big-endian{,.broken} || die
 
-	econf \
-		--disable-error-on-warning \
-		--disable-rpath \
-		--disable-static \
-		--enable-posix \
-		--without-libgmp-prefix \
-		--without-libiconv-prefix \
-		--without-libintl-prefix \
-		--without-libltdl-prefix \
-		--without-libreadline-prefix \
-		--without-libunistring-prefix \
-		$(use_enable debug guile-debug) \
-		$(use_enable debug-malloc) \
-		$(use_enable deprecated) \
-		$(use_enable networking) \
-		$(use_enable nls) \
-		$(use_enable regex) \
+	local -a myconf=(
+		--disable-error-on-warning
+		--disable-rpath
+		--disable-static
+		--enable-posix
+		--without-libgmp-prefix
+		--without-libiconv-prefix
+		--without-libintl-prefix
+		--without-libltdl-prefix
+		--without-libreadline-prefix
+		--without-libunistring-prefix
+		$(use_enable debug guile-debug)
+		$(use_enable debug-malloc)
+		$(use_enable deprecated)
+		$(use_enable networking)
+		$(use_enable nls)
+		$(use_enable regex)
 		$(use_with threads)
+	)
+	econf ${myconf[@]}
 }
 
 src_install() {
