@@ -50,7 +50,7 @@
 >=dev-libs/libical-4.0.0
 >=dev-libs/libpeas-1.34.0
 >=dev-libs/libsigc++-3.1.0
->=dev-libs/libunistring-0.10.0
+>=dev-libs/libunistring-2.0
 >=dev-libs/totem-pl-parser-3.28.0
 >=dev-python/pyatspi-2.46.0
 >=dev-python/pygobject-3.44.0

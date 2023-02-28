@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="8"
 
 inherit gnome2
 
@@ -11,16 +11,15 @@ LICENSE="CC-BY-SA-3.0"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE=""
-
 # This ebuild does not install any binaries
 RESTRICT="binchecks strip"
 
 RDEPEND=">=x11-themes/hicolor-icon-theme-0.10"
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	>=x11-misc/icon-naming-utils-0.8.7
-	virtual/pkgconfig
-"
+	virtual/pkgconfig"
+
 
 src_prepare() {
 	gnome2_src_prepare

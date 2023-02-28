@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
+PYTHON_COMPAT=( python{3_9,3_10,3_11} )
 
 inherit meson python-any-r1 systemd
 
@@ -52,6 +52,7 @@ RDEPEND="${CDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-22.04.62-gentoo-system-users.patch
+	"${FILESDIR}"/${PN}-22.08.8-configure-clang16.patch
 )
 
 python_check_deps() {

@@ -32,7 +32,7 @@ RDEPEND="
 	net-misc/mobile-broadband-provider-info
 
 	appindicator? (
-		dev-libs/libappindicator:3
+		dev-libs/libayatana-appindicator
 		>=dev-libs/libdbusmenu-16.04.0 )
 	gtk? ( <net-misc/networkmanager-1.19:= )
 	introspection? ( >=dev-libs/gobject-introspection-0.9.6:= )
@@ -64,7 +64,7 @@ src_prepare() {
 
 src_configure() {
 	local myconf=(
-		--with-appindicator=$(usex appindicator ubuntu no)
+		--with-appindicator=$(usex appindicator ayatana no)
 		$(use_with gtk libnm-gtk)
 		--without-libnma-gtk4
 		--disable-lto

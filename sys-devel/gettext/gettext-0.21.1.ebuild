@@ -6,7 +6,7 @@ EAPI="8"
 
 VERIFY_SIG_OPENPGP_KEY_PATH="${BROOT}"/usr/share/openpgp-keys/gettext.asc
 
-inherit java-pkg-opt-2 libtool multilib-minimal verify-sig
+inherit java-pkg-opt-2 libtool multilib-minimal verify-sig toolchain-funcs
 
 DESCRIPTION="GNU locale utilities"
 HOMEPAGE="https://www.gnu.org/software/gettext/"
@@ -17,9 +17,9 @@ SRC_URI+=" verify-sig? ( mirror://gnu/${PN}/${P}.tar.xz.sig )"
 # so put that license behind USE=cxx.
 LICENSE="GPL-3+ cxx? ( LGPL-2.1+ )"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
-IUSE="acl cvs +cxx doc emacs git java ncurses nls openmp static-libs"
+IUSE="acl +cxx doc emacs git java ncurses nls openmp static-libs"
 
 # only runtime goes multilib
 # Note: The version of libxml2 corresponds to the version bundled via gnulib.
@@ -36,11 +36,9 @@ DEPEND=">=virtual/libiconv-0-r1[${MULTILIB_USEDEP}]
 	ncurses? ( sys-libs/ncurses:0= )
 	java? ( virtual/jdk:1.8 )"
 RDEPEND="${DEPEND}
-	!git? ( cvs? ( dev-vcs/cvs ) )
 	git? ( dev-vcs/git )
 	java? ( virtual/jre:1.8 )"
 BDEPEND="
-	!git? ( cvs? ( dev-vcs/cvs ) )
 	git? ( dev-vcs/git )
 	verify-sig? ( sec-keys/openpgp-keys-gettext )"
 PDEPEND="emacs? ( app-emacs/po-mode )"
@@ -66,7 +64,12 @@ PATCHES=(
 
 QA_SONAME_NO_SYMLINK=".*/preloadable_libintl.so"
 
+pkg_pretend() {
+	[[ ${MERGE_TYPE} != binary ]] && use openmp && tc-check-openmp
+}
+
 pkg_setup() {
+	[[ ${MERGE_TYPE} != binary ]] && use openmp && tc-check-openmp
 	java-pkg-opt-2_pkg_setup
 }
 
@@ -85,7 +88,9 @@ src_prepare() {
 
 	elibtoolize
 
-	use elibc_musl && eapply "${FILESDIR}"/${PN}-0.21-musl-omit_setlocale_lock.patch
+	if use elibc_musl || use elibc_Darwin; then
+		eapply "${FILESDIR}"/${PN}-0.21-musl-omit_setlocale_lock.patch
+	fi
 }
 
 multilib_src_configure() {
@@ -110,12 +115,12 @@ multilib_src_configure() {
 		--without-included-libxml
 
 		--disable-csharp
+		--without-cvs
 
 		$(use_enable acl)
 		$(use_enable cxx c++)
 		$(use_enable cxx libasprintf)
 		$(use_with git)
-		$(usex git --without-cvs $(use_with cvs))
 		$(multilib_native_use_enable java)
 		$(use_enable ncurses curses)
 		$(use_enable nls)

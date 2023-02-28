@@ -2,9 +2,10 @@
 
 EAPI="8"
 
-PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
+DISTUTILS_USE_PEP517=no
+PYTHON_COMPAT=( python{3_9,3_10,3_11} pypy3 )
 
-inherit gnome.org meson python-r1 virtualx xdg
+inherit gnome.org meson virtualx xdg distutils-r1
 
 DESCRIPTION="Python bindings for GObject Introspection"
 HOMEPAGE="https://pygobject.readthedocs.io/"
@@ -14,11 +15,10 @@ SLOT="3"
 KEYWORDS="*"
 
 IUSE="+cairo examples test"
-REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RESTRICT="!test? ( test )"
 
-RDEPEND="${PYTHON_DEPS}
+RDEPEND="
 	>=dev-libs/glib-2.56:2
 	>=dev-libs/gobject-introspection-1.56:=
 	dev-libs/libffi:=
@@ -30,7 +30,7 @@ RDEPEND="${PYTHON_DEPS}
 DEPEND="
 	${RDEPEND}
 	test? (
-		dev-libs/atk[introspection]
+		>=app-accessibility/at-spi2-core-2.46.0[introspection]
 		dev-python/pytest[${PYTHON_USEDEP}]
 		x11-libs/gdk-pixbuf:2[introspection,jpeg]
 		x11-libs/gtk+:3[introspection]
@@ -41,37 +41,35 @@ BDEPEND="
 	virtual/pkgconfig
 "
 
-src_configure() {
-	configuring() {
-		meson_src_configure \
-			$(meson_feature cairo pycairo) \
-			$(meson_use test tests) \
-			-Dpython="${EPYTHON}"
-	}
-
-	python_foreach_impl configuring
+python_configure() {
+	meson_src_configure \
+		$(meson_feature cairo pycairo) \
+		$(meson_use test tests) \
+		-Dpython="${EPYTHON}"
 }
 
-src_compile() {
-	python_foreach_impl meson_src_compile
+python_compile() {
+	meson_src_compile
 }
 
 src_test() {
-	local -x GIO_USE_VFS="local" # prevents odd issues with deleting ${T}/.gvfs
-	local -x GIO_USE_VOLUME_MONITOR="unix" # prevent udisks-related failures in chroots, bug #449484
-
-	testing() {
-		local -x XDG_CACHE_HOME="${T}/${EPYTHON}"
-		meson_src_test --timeout-multiplier 3 || die "test failed for ${EPYTHON}"
-	}
-	virtx python_foreach_impl testing
+	virtx distutils-r1_src_test
 }
 
-src_install() {
-	installing() {
-		meson_src_install
-		python_optimize
-	}
-	python_foreach_impl installing
+python_test() {
+	local -x GIO_USE_VFS="local" # prevents odd issues with deleting ${T}/.gvfs
+	local -x GIO_USE_VOLUME_MONITOR="unix" # prevent udisks-related failures in chroots, bug #449484
+	local -x PYTEST_DISABLE_PLUGIN_AUTOLOAD=1
+	local -x XDG_CACHE_HOME="${T}/${EPYTHON}"
+	meson_src_test --timeout-multiplier 3 || die "test failed for ${EPYTHON}"
+}
+
+python_install() {
+	meson_src_install
+	python_optimize
+}
+
+python_install_all() {
+	distutils-r1_python_install_all
 	use examples && dodoc -r examples
 }

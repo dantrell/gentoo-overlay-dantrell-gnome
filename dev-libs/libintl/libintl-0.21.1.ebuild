@@ -18,7 +18,7 @@ S="${WORKDIR}/${MY_P}/gettext-runtime"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="static-libs +threads"
 

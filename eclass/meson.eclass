@@ -1,4 +1,4 @@
-# Copyright 2017-2021 Gentoo Authors
+# Copyright 2017-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: meson.eclass
@@ -47,8 +47,8 @@ inherit multiprocessing ninja-utils python-utils-r1 toolchain-funcs
 
 EXPORT_FUNCTIONS src_configure src_compile src_test src_install
 
-_MESON_DEPEND=">=dev-util/meson-0.47.2
-	>=dev-util/ninja-1.8.2
+BDEPEND=">=dev-util/meson-0.62.2
+	${NINJA_DEPEND}
 	dev-util/meson-format-array
 "
 
@@ -285,6 +285,8 @@ meson_feature() {
 meson_src_configure() {
 	debug-print-function ${FUNCNAME} "$@"
 
+	[[ -n "${NINJA_DEPEND}" ]] || ewarn "Unknown value '${NINJA}' for \${NINJA}"
+
 	local BUILD_CFLAGS=${BUILD_CFLAGS}
 	local BUILD_CPPFLAGS=${BUILD_CPPFLAGS}
 	local BUILD_CXXFLAGS=${BUILD_CXXFLAGS}
@@ -323,6 +325,16 @@ meson_src_configure() {
 		--build.pkg-config-path "${BUILD_PKG_CONFIG_PATH}${BUILD_PKG_CONFIG_PATH:+:}${EPREFIX}/usr/share/pkgconfig"
 		--pkg-config-path "${PKG_CONFIG_PATH}${PKG_CONFIG_PATH:+:}${EPREFIX}/usr/share/pkgconfig"
 		--native-file "$(_meson_create_native_file)"
+
+		# gcc[pch] is masked in profiles due to consistent bugginess
+		# without forcing this off, some packages may fail too (like gjs,
+		# bug #839549), but in any case, we don't want to bother attempting
+		# this.
+		-Db_pch=false
+
+		# It's Gentoo policy to not have builds die on blanket -Werror, as it's
+		# an upstream development matter. bug #754279.
+		-Dwerror=false
 	)
 
 	if [[ -n ${EMESON_BUILDTYPE} ]]; then
@@ -402,6 +414,7 @@ meson_src_test() {
 	debug-print-function ${FUNCNAME} "$@"
 
 	local mesontestargs=(
+		--print-errorlogs
 		-C "${BUILD_DIR}"
 		--num-processes "$(makeopts_jobs "${MAKEOPTS}")"
 		"$@"
@@ -422,6 +435,7 @@ meson_install() {
 	local mesoninstallargs=(
 		-C "${BUILD_DIR}"
 		--destdir "${D}"
+		--no-rebuild
 		"$@"
 	)
 

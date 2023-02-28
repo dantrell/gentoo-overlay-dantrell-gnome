@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: python-utils-r1.eclass
@@ -45,7 +45,7 @@ inherit toolchain-funcs
 _PYTHON_ALL_IMPLS=(
 	pypy3
 	python2_7
-	python3_{8..11}
+	python3_{9..11}
 )
 readonly _PYTHON_ALL_IMPLS
 
@@ -57,7 +57,7 @@ _PYTHON_HISTORICAL_IMPLS=(
 	jython2_7
 	pypy pypy1_{8,9} pypy2_0
 	python2_{5,6}
-	python3_{1..7}
+	python3_{1..8}
 )
 readonly _PYTHON_HISTORICAL_IMPLS
 
@@ -134,9 +134,9 @@ _python_set_impls() {
 			# please keep them in sync with _PYTHON_ALL_IMPLS
 			# and _PYTHON_HISTORICAL_IMPLS
 			case ${i} in
-				pypy3|python2_7|python3_[89]|python3_1[01])
+				pypy3|python2_7|python3_9|python3_1[01])
 					;;
-				jython2_7|pypy|pypy1_[89]|pypy2_0|python2_[5-6]|python3_[1-7])
+				jython2_7|pypy|pypy1_[89]|pypy2_0|python2_[5-6]|python3_[1-8])
 					obsolete+=( "${i}" )
 					;;
 				*)
@@ -1372,6 +1372,16 @@ epytest() {
 		# sterilize pytest-markdown as it runs code snippets from all
 		# *.md files found without any warning
 		-p no:markdown
+		# pytest-sugar undoes everything that's good about pytest output
+		# and makes it hard to read logs
+		-p no:sugar
+		# pytest-xvfb automatically spawns Xvfb for every test suite,
+		# effectively forcing it even when we'd prefer the tests
+		# not to have DISPLAY at all, causing crashes sometimes
+		# and causing us to miss missing virtualx usage
+		-p no:xvfb
+		# tavern is intrusive and breaks test suites of various packages
+		-p no:tavern
 	)
 	local x
 	for x in "${EPYTEST_DESELECT[@]}"; do

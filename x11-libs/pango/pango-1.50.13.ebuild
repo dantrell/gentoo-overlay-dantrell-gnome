@@ -40,10 +40,6 @@ BDEPEND="
 	test? ( media-fonts/cantarell )
 "
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-1.50.8-harfbuzz-4.patch
-)
-
 src_prepare() {
 	default
 	xdg_environment_reset

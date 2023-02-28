@@ -22,7 +22,7 @@ RDEPEND="
 	>=dev-libs/libgudev-147:=
 	>=net-misc/networkmanager-1.16:=[modemmanager?,teamd?]
 	appindicator? (
-		dev-libs/libappindicator:3
+		dev-libs/libayatana-appindicator
 		>=dev-libs/libdbusmenu-16.04.0
 	)
 	modemmanager? ( net-misc/modemmanager )
@@ -40,7 +40,7 @@ BDEPEND="
 
 src_configure() {
 	local emesonargs=(
-		-Dappindicator=$(usex appindicator ubuntu no)
+		-Dappindicator=$(usex appindicator ayatana no)
 		$(meson_use modemmanager wwan)
 		$(meson_use selinux)
 		$(meson_use teamd team)

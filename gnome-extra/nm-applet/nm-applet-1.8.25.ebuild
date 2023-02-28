@@ -25,7 +25,7 @@ DEPEND="
 	x11-libs/gtk+:3[introspection?]
 	x11-libs/libnotify
 	appindicator? (
-		dev-libs/libappindicator:3
+		dev-libs/libayatana-appindicator
 		dev-libs/libdbusmenu
 	)
 	gtk? ( <net-misc/networkmanager-1.19:= )

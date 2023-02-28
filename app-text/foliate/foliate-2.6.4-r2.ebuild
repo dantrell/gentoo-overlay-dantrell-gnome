@@ -2,7 +2,7 @@
 
 EAPI="8"
 PLOCALES="cs de es eu fr id ie it ko nb nl nn pt_BR ru sv tr uk zh_CN zh_TW"
-PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
+PYTHON_COMPAT=( python{3_9,3_10,3_11} )
 
 inherit meson python-any-r1 plocale xdg gnome2-utils
 

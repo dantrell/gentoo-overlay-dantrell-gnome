@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
+PYTHON_COMPAT=( python{3_9,3_10,3_11} )
 PYTHON_REQ_USE="threads(+)"
 
 inherit gnome.org gnome2-utils meson virtualx xdg python-single-r1

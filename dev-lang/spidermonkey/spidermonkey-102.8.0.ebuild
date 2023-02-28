@@ -3,12 +3,12 @@
 EAPI="8"
 
 # Patch version
-FIREFOX_PATCHSET="firefox-102esr-patches-07j.tar.xz"
+FIREFOX_PATCHSET="firefox-102esr-patches-09j.tar.xz"
 SPIDERMONKEY_PATCHSET="spidermonkey-102-patches-04j.tar.xz"
 
 LLVM_MAX_SLOT=15
 
-PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
+PYTHON_COMPAT=( python{3_9,3_10,3_11} )
 PYTHON_REQ_USE="ssl,xml(+)"
 
 WANT_AUTOCONF="2.1"
@@ -136,9 +136,9 @@ python_check_deps() {
 
 pkg_pretend() {
 	if use test ; then
-		CHECKREQS_DISK_BUILD="7600M"
+		CHECKREQS_DISK_BUILD="7000M"
 	else
-		CHECKREQS_DISK_BUILD="6400M"
+		CHECKREQS_DISK_BUILD="6000M"
 	fi
 
 	check-reqs_pkg_pretend
@@ -147,9 +147,9 @@ pkg_pretend() {
 pkg_setup() {
 	if [[ ${MERGE_TYPE} != binary ]] ; then
 		if use test ; then
-			CHECKREQS_DISK_BUILD="7600M"
+			CHECKREQS_DISK_BUILD="7000M"
 		else
-			CHECKREQS_DISK_BUILD="6400M"
+			CHECKREQS_DISK_BUILD="6000M"
 		fi
 
 		check-reqs_pkg_setup
@@ -278,7 +278,6 @@ src_configure() {
 
 		--disable-ctype
 		--disable-jemalloc
-		--disable-optimize
 		--disable-smoosh
 		--disable-strip
 
@@ -296,6 +295,12 @@ src_configure() {
 		$(use_enable jit)
 		$(use_enable test tests)
 	)
+
+	if use debug; then
+		myeconfargs+=( --disable-optimize )
+	else
+		myeconfargs+=( --enable-optimize )
+	fi
 
 	if ! use x86 && [[ ${CHOST} != armv*h* ]] ; then
 		myeconfargs+=( --enable-rust-simd )
@@ -325,13 +330,6 @@ src_configure() {
 
 	# LTO flag was handled via configure
 	filter-flags '-flto*'
-
-	if tc-is-gcc ; then
-		if ver_test $(gcc-fullversion) -ge 10 ; then
-			einfo "Forcing -fno-tree-loop-vectorize to workaround GCC bug, see bug 758446 ..."
-			append-cxxflags -fno-tree-loop-vectorize
-		fi
-	fi
 
 	# Use system's Python environment
 	export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE="none"

@@ -3,7 +3,7 @@
 EAPI="8"
 
 # Python is used during build for some scripted source files generation (and twisted tests)
-PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
+PYTHON_COMPAT=( python{3_9,3_10,3_11} )
 
 inherit gnome2 python-any-r1
 

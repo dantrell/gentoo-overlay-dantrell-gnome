@@ -7,6 +7,3 @@ net-libs/webkit-gtk opengl
 net-libs/webkit-gtk -seccomp
 net-misc/curl curl_ssl_openssl
 >gnome-base/nautilus-3.29 -seccomp
-
-dev-lang/python-exec python_targets_python2_7
-dev-lang/python-exec-conf python_targets_python2_7

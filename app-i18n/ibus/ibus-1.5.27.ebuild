@@ -2,7 +2,7 @@
 
 EAPI="7"
 
-PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
+PYTHON_COMPAT=( python{3_9,3_10,3_11} )
 
 inherit autotools bash-completion-r1 gnome2-utils python-r1 toolchain-funcs vala virtualx xdg-utils
 
@@ -77,7 +77,6 @@ BDEPEND="
 
 src_prepare() {
 	vala_src_prepare --ignore-use
-	sed -i "/UCD_DIR=/s/\$with_emoji_annotation_dir/\$with_ucd_dir/" configure.ac
 	if ! has_version 'x11-libs/gtk+:3[wayland]'; then
 		touch ui/gtk3/panelbinding.vala \
 			ui/gtk3/panel.vala \
@@ -101,7 +100,7 @@ src_prepare() {
 	# fix for parallel install
 	sed -i "/^if ENABLE_PYTHON2/,/^endif/d" bindings/pygobject/Makefile.am || die
 	# require user interaction
-	sed -i "/^TESTS += ibus-\(compose\|keypress\)/d" src/tests/Makefile.am || die
+	sed -i "/^TESTS_C += ibus-\(compose\|keypress\)/d" src/tests/Makefile.am || die
 
 	sed -i "/^bash_completion/d" tools/Makefile.am || die
 

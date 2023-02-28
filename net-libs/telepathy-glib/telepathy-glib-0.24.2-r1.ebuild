@@ -3,7 +3,7 @@
 EAPI="8"
 
 PYTHON_REQ_USE="xml(+)"
-PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
+PYTHON_COMPAT=( python{3_9,3_10,3_11} )
 
 inherit gnome2 python-any-r1 vala virtualx
 

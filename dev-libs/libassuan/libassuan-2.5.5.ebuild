@@ -13,7 +13,8 @@ SLOT="0"
 KEYWORDS="*"
 
 # Note: On each bump, update dep bounds on each version from configure.ac!
-RDEPEND=">=dev-libs/libgpg-error-1.17"
+# We need >= 1.28 for gpgrt_malloc
+RDEPEND=">=dev-libs/libgpg-error-1.28"
 DEPEND="${RDEPEND}"
 
 src_prepare() {

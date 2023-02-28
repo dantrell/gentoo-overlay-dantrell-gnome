@@ -2,7 +2,7 @@
 
 EAPI="8"
 PYTHON_REQ_USE="xml(+)"
-PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
+PYTHON_COMPAT=( python{3_9,3_10,3_11} )
 USE_RUBY="ruby27 ruby30 ruby31"
 
 inherit check-reqs flag-o-matic gnome2 python-any-r1 ruby-single toolchain-funcs cmake

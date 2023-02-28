@@ -50,7 +50,7 @@
 >=dev-libs/libical-4.0.0
 >=dev-libs/libpeas-1.30.0
 >=dev-libs/libsigc++-2.99.0
->=dev-libs/libunistring-0.10.0
+>=dev-libs/libunistring-2.0
 >=dev-libs/totem-pl-parser-3.28.0
 >=dev-python/pyatspi-2.46.0
 >=dev-python/pygobject-3.40.0
@@ -155,7 +155,7 @@
 >=media-libs/clutter-gtk-1.8.5
 >=media-libs/cogl-1.24.0
 >=media-libs/grilo-0.4.0
->=media-plugins/grilo-plugins-0.3.13
+>=media-plugins/grilo-plugins-0.3.14
 >=media-sound/gnome-music-40.0
 >=media-sound/gnome-sound-recorder-40.0
 >=media-sound/rhythmbox-3.6
