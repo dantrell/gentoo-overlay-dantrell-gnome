@@ -120,6 +120,10 @@ PATCHES=(
 	# From OpenEmbedded:
 	# 	https://github.com/openembedded/meta-openembedded/commit/575c14ded56e1e97582a6df0921d19b4da630961
 	"${FILESDIR}"/${PN}-1.14.6-do-not-create-settings-settings-property-documentation.patch
+
+	# From systemd:
+	# 	https://github.com/systemd/systemd/commit/b01f31954f1c7c4601925173ae2638b572224e9a
+	"${FILESDIR}"/${PN}-1.16.4-turn-mempool-enabled-into-a-weak-symbol.patch
 )
 
 python_check_deps() {

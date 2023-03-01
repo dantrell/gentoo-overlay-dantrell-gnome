@@ -1,0 +1,201 @@
+diff '--exclude=.git' -urN a/shared/systemd/src/basic/memory-util.c b/shared/systemd/src/basic/memory-util.c
+--- a/shared/systemd/src/basic/memory-util.c	1969-12-31 18:00:00.000000000 -0600
++++ b/shared/systemd/src/basic/memory-util.c	2020-09-24 05:07:25.000000000 -0500
+@@ -0,0 +1,59 @@
++#include "nm-sd-adapt-shared.h"
++
++#include <unistd.h>
++
++#include "memory-util.h"
++
++size_t page_size(void) {
++        static thread_local size_t pgsz = 0;
++        long r;
++
++        if (_likely_(pgsz > 0))
++                return pgsz;
++
++        r = sysconf(_SC_PAGESIZE);
++        assert(r > 0);
++
++        pgsz = (size_t) r;
++        return pgsz;
++}
++
++bool memeqzero(const void *data, size_t length) {
++        /* Does the buffer consist entirely of NULs?
++         * Copied from https://github.com/systemd/casync/, copied in turn from
++         * https://github.com/rustyrussell/ccan/blob/master/ccan/mem/mem.c#L92,
++         * which is licensed CC-0.
++         */
++
++        const uint8_t *p = data;
++        size_t i;
++
++        /* Check first 16 bytes manually */
++        for (i = 0; i < 16; i++, length--) {
++                if (length == 0)
++                        return true;
++                if (p[i])
++                        return false;
++        }
++
++        /* Now we know first 16 bytes are NUL, memcmp with self.  */
++        return memcmp(data, p + i, length) == 0;
++}
++
++#if !HAVE_EXPLICIT_BZERO
++/*
++ * The pointer to memset() is volatile so that compiler must de-reference the pointer and can't assume that
++ * it points to any function in particular (such as memset(), which it then might further "optimize"). This
++ * approach is inspired by openssl's crypto/mem_clr.c.
++ */
++typedef void *(*memset_t)(void *,int,size_t);
++
++static volatile memset_t memset_func = memset;
++
++void* explicit_bzero_safe(void *p, size_t l) {
++        if (l > 0)
++                memset_func(p, '\0', l);
++
++        return p;
++}
++#endif
+diff '--exclude=.git' -urN a/shared/systemd/src/basic/memory-util.h b/shared/systemd/src/basic/memory-util.h
+--- a/shared/systemd/src/basic/memory-util.h	1969-12-31 18:00:00.000000000 -0600
++++ b/shared/systemd/src/basic/memory-util.h	2020-09-29 11:25:19.000000000 -0500
+@@ -0,0 +1,84 @@
++/* SPDX-License-Identifier: LGPL-2.1+ */
++#pragma once
++
++#include <inttypes.h>
++#include <stdbool.h>
++#include <string.h>
++#include <sys/types.h>
++
++#include "macro.h"
++
++size_t page_size(void) _pure_;
++#define PAGE_ALIGN(l) ALIGN_TO((l), page_size())
++
++/* Normal memcpy requires src to be nonnull. We do nothing if n is 0. */
++static inline void memcpy_safe(void *dst, const void *src, size_t n) {
++        if (n == 0)
++                return;
++        assert(src);
++        memcpy(dst, src, n);
++}
++
++/* Normal memcmp requires s1 and s2 to be nonnull. We do nothing if n is 0. */
++static inline int memcmp_safe(const void *s1, const void *s2, size_t n) {
++        if (n == 0)
++                return 0;
++        assert(s1);
++        assert(s2);
++        return memcmp(s1, s2, n);
++}
++
++/* Compare s1 (length n1) with s2 (length n2) in lexicographic order. */
++static inline int memcmp_nn(const void *s1, size_t n1, const void *s2, size_t n2) {
++        return memcmp_safe(s1, s2, MIN(n1, n2))
++            ?: CMP(n1, n2);
++}
++
++#define memzero(x,l)                                            \
++        ({                                                      \
++                size_t _l_ = (l);                               \
++                void *_x_ = (x);                                \
++                _l_ == 0 ? _x_ : memset(_x_, 0, _l_);           \
++        })
++
++#define zero(x) (memzero(&(x), sizeof(x)))
++
++bool memeqzero(const void *data, size_t length);
++
++#define eqzero(x) memeqzero(x, sizeof(x))
++
++static inline void *mempset(void *s, int c, size_t n) {
++        memset(s, c, n);
++        return (uint8_t*)s + n;
++}
++
++/* Normal memmem() requires haystack to be nonnull, which is annoying for zero-length buffers */
++static inline void *memmem_safe(const void *haystack, size_t haystacklen, const void *needle, size_t needlelen) {
++
++        if (needlelen <= 0)
++                return (void*) haystack;
++
++        if (haystacklen < needlelen)
++                return NULL;
++
++        assert(haystack);
++        assert(needle);
++
++        return memmem(haystack, haystacklen, needle, needlelen);
++}
++
++#if HAVE_EXPLICIT_BZERO
++static inline void* explicit_bzero_safe(void *p, size_t l) {
++        if (l > 0)
++                explicit_bzero(p, l);
++
++        return p;
++}
++#else
++void *explicit_bzero_safe(void *p, size_t l);
++#endif
++
++/* Use with _cleanup_ to erase a single 'char' when leaving scope */
++static inline void erase_char(char *p) {
++        explicit_bzero_safe(p, sizeof(char));
++}
+diff '--exclude=.git' -urN a/shared/systemd/src/basic/mempool.c b/shared/systemd/src/basic/mempool.c
+--- a/shared/systemd/src/basic/mempool.c	2019-08-07 08:58:34.000000000 -0500
++++ b/shared/systemd/src/basic/mempool.c	2023-03-01 03:54:06.752099088 -0600
+@@ -5,11 +5,9 @@
+ #include <stdint.h>
+ #include <stdlib.h>
+ 
+-#include "env-util.h"
+ #include "macro.h"
++#include "memory-util.h"
+ #include "mempool.h"
+-#include "process-util.h"
+-#include "util.h"
+ 
+ struct pool {
+         struct pool *next;
+@@ -74,20 +72,6 @@
+         mp->freelist = p;
+ }
+ 
+-bool mempool_enabled(void) {
+-        static int b = -1;
+-
+-        if (!is_main_thread())
+-                return false;
+-
+-        if (!mempool_use_allowed)
+-                b = false;
+-        if (b < 0)
+-                b = getenv_bool("SYSTEMD_MEMPOOL") != 0;
+-
+-        return b;
+-}
+-
+ #if VALGRIND
+ void mempool_drop(struct mempool *mp) {
+         struct pool *p = mp->first_pool;
+diff '--exclude=.git' -urN a/shared/systemd/src/basic/mempool.h b/shared/systemd/src/basic/mempool.h
+--- a/shared/systemd/src/basic/mempool.h	2019-08-06 05:22:08.000000000 -0500
++++ b/shared/systemd/src/basic/mempool.h	2023-03-01 03:40:10.275081880 -0600
+@@ -23,8 +23,7 @@
+         .at_least = alloc_at_least, \
+ }
+ 
+-extern const bool mempool_use_allowed;
+-bool mempool_enabled(void);
++__attribute__((weak)) bool mempool_enabled(void);
+ 
+ #if VALGRIND
+ void mempool_drop(struct mempool *mp);

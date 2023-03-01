@@ -1,0 +1,50 @@
+diff '--exclude=.git' -urN a/shared/systemd/src/basic/mempool.c b/shared/systemd/src/basic/mempool.c
+--- a/shared/systemd/src/basic/mempool.c	2021-07-16 11:13:03.000000000 -0500
++++ b/shared/systemd/src/basic/mempool.c	2023-03-01 03:37:25.812856304 -0600
+@@ -5,12 +5,9 @@
+ #include <stdint.h>
+ #include <stdlib.h>
+ 
+-#include "env-util.h"
+ #include "macro.h"
+ #include "memory-util.h"
+ #include "mempool.h"
+-#include "process-util.h"
+-#include "util.h"
+ 
+ struct pool {
+         struct pool *next;
+@@ -75,20 +72,6 @@
+         mp->freelist = p;
+ }
+ 
+-bool mempool_enabled(void) {
+-        static int b = -1;
+-
+-        if (!is_main_thread())
+-                return false;
+-
+-        if (!mempool_use_allowed)
+-                b = false;
+-        if (b < 0)
+-                b = getenv_bool("SYSTEMD_MEMPOOL") != 0;
+-
+-        return b;
+-}
+-
+ #if VALGRIND
+ void mempool_drop(struct mempool *mp) {
+         struct pool *p = mp->first_pool;
+diff '--exclude=.git' -urN a/shared/systemd/src/basic/mempool.h b/shared/systemd/src/basic/mempool.h
+--- a/shared/systemd/src/basic/mempool.h	2021-07-16 11:13:03.000000000 -0500
++++ b/shared/systemd/src/basic/mempool.h	2023-03-01 03:37:33.028778381 -0600
+@@ -23,8 +23,7 @@
+         .at_least = alloc_at_least, \
+ }
+ 
+-extern const bool mempool_use_allowed;
+-bool mempool_enabled(void);
++__attribute__((weak)) bool mempool_enabled(void);
+ 
+ #if VALGRIND
+ void mempool_drop(struct mempool *mp);

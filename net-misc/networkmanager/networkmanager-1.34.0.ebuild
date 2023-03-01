@@ -122,6 +122,12 @@ BDEPEND="
 	)
 "
 
+PATCHES=(
+	# From systemd:
+	# 	https://github.com/systemd/systemd/commit/b01f31954f1c7c4601925173ae2638b572224e9a
+	"${FILESDIR}"/${PN}-1.38.6-turn-mempool-enabled-into-a-weak-symbol.patch
+)
+
 python_check_deps() {
 	if use introspection; then
 		python_has_version "dev-python/pygobject:3[${PYTHON_USEDEP}]" || return
