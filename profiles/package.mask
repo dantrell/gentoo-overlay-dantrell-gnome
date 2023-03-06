@@ -98,11 +98,13 @@ dev-libs/template-glib::gentoo
 dev-libs/totem-pl-parser::gentoo
 dev-libs/vala-common::gentoo
 dev-python/dbus-python::gentoo
+dev-python/freetype-py::gentoo
 dev-python/gst-python::gentoo
 dev-python/jedi::gentoo
 dev-python/pyatspi::gentoo
 dev-python/pycairo::gentoo
 dev-python/pycups::gentoo
+dev-python/pyglm::gentoo
 dev-python/pygobject::gentoo
 dev-python/pygtk::gentoo
 dev-scheme/guile::gentoo
@@ -145,6 +147,7 @@ games-puzzle/quadrapassel::gentoo
 games-puzzle/swell-foop::gentoo
 gnome-base/dconf-editor::gentoo
 gnome-base/dconf::gentoo
+gnome-base/gconf::gentoo
 gnome-base/gdm::gentoo
 gnome-base/gnome-common::gentoo
 gnome-base/gnome-keyring::gentoo
@@ -162,6 +165,8 @@ gnome-base/libgtop::gentoo
 gnome-base/librsvg::gentoo
 gnome-base/orbit::gentoo
 gnome-extra/california::gentoo
+gnome-extra/gconf-editor::gentoo
+gnome-extra/gnome-books::gentoo
 gnome-extra/gnome-browser-connector::gentoo
 gnome-extra/gnome-characters::gentoo
 gnome-extra/gnome-color-manager::gentoo
@@ -372,6 +377,7 @@ net-vpn/networkmanager-wireguard::gentoo
 net-wireless/bluez::gentoo
 net-wireless/gnome-bluetooth::gentoo
 sci-geosciences/geocode-glib::gentoo
+sci-visualization/plots::gentoo
 sys-apps/accountsservice::gentoo
 sys-apps/baobab::gentoo
 sys-apps/bubblewrap::gentoo

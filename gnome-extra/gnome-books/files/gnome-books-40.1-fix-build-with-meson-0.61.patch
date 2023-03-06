@@ -1,0 +1,19 @@
+diff '--exclude=.git' -urN a/data/meson.build b/data/meson.build
+--- a/data/meson.build	2019-09-06 04:14:42.000000000 -0500
++++ b/data/meson.build	2023-03-02 21:01:22.220718148 -0600
+@@ -54,7 +54,6 @@
+ appdata = 'org.gnome.Books.appdata.xml'
+ 
+ appdata_file = i18n.merge_file(
+-  appdata,
+   input: appdata + '.in',
+   output: appdata,
+   po_dir: po_dir,
+@@ -74,7 +73,6 @@
+ desktop = 'org.gnome.Books.desktop'
+ 
+ desktop_file = i18n.merge_file(
+-  desktop,
+   type: 'desktop',
+   input: desktop + '.in',
+   output: desktop,

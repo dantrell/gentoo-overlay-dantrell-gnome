@@ -12,7 +12,7 @@ LICENSE="GPL-3 LGPL-3 FDL-1.1"
 SLOT="0"
 KEYWORDS="~*"
 
-IUSE="debug doc extra gnome +sound"
+IUSE="debug doc extra gconf gnome +sound"
 
 COMMON_DEPEND="
 	>=dev-libs/glib-2.32:2
@@ -25,7 +25,7 @@ COMMON_DEPEND="
 		games-board/pysolfc
 		kde-base/libkdegames
 	)
-	gnome? ( >=gnome-base/gconf-2.0:2 )
+	gconf? ( >=gnome-base/gconf-2.0:2 )
 	sound? ( >=media-libs/libcanberra-0.26[gtk3] )
 "
 DEPEND="${COMMON_DEPEND}
@@ -39,19 +39,13 @@ DEPEND="${COMMON_DEPEND}
 	gnome? ( app-text/docbook-xml-dtd:4.3 )
 "
 
-PATCHES=(
-	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/aisleriot/-/commit/4bf6fcf5c8043adfcadd948e678cc68f150cc998
-	"${FILESDIR}"/${PN}-3.22.22-build-fix-build-with-meson-0-60.patch
-)
-
 src_configure() {
 	local emesonargs=(
 		-Dbinreloc=false
 		$(meson_use debug dbg)
 		$(meson_use debug dbgui)
 		$(meson_use doc docs)
-		$(meson_use gnome gconf)
+		$(meson_use gconf)
 		-Dguile="auto"
 		$(meson_use sound)
 	)

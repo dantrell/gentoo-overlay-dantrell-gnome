@@ -11,7 +11,7 @@ LICENSE="GPL-3 LGPL-3 FDL-1.1"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="debug extra gnome +sound"
+IUSE="debug extra gconf gnome +sound"
 
 COMMON_DEPEND="
 	>=dev-libs/glib-2.32:2
@@ -24,7 +24,7 @@ COMMON_DEPEND="
 		games-board/pysolfc
 		kde-base/libkdegames
 	)
-	gnome? ( >=gnome-base/gconf-2.0:2 )
+	gconf? ( >=gnome-base/gconf-2.0:2 )
 	sound? ( >=media-libs/libcanberra-0.26[gtk3] )
 "
 DEPEND="${COMMON_DEPEND}

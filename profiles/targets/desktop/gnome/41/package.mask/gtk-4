@@ -1,2 +1,4 @@
 # Requires GTK 4 (or greater)
+>=net-im/dino-0.4.0
 >=net-libs/gssdp-1.3.0
+>=sci-visualization/plots-0.8.0

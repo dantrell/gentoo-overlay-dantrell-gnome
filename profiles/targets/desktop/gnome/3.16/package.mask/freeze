@@ -112,6 +112,7 @@
 >=gnome-extra/california-0.5.0
 >=gnome-extra/evolution-data-server-3.18.0
 >=gnome-extra/evolution-ews-3.18.0
+>=gnome-extra/gnome-books-3.32.0
 >=gnome-extra/gnome-boxes-3.18.0
 >=gnome-extra/gnome-browser-connector-42.0
 >=gnome-extra/gnome-calculator-3.18.0
@@ -184,6 +185,7 @@
 >=net-wireless/gnome-bluetooth-3.18.0
 >=sci-geosciences/geocode-glib-3.18.0
 >=sci-geosciences/gnome-maps-3.18.0
+>=sci-visualization/plots-0.7.0
 >=sys-apps/baobab-3.18.0
 >=sys-apps/gnome-disk-utility-3.18.0
 >=sys-process/gnome-usage-3.28.0

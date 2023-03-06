@@ -10,9 +10,9 @@ SRC_URI="https://gitlab.gnome.org/GNOME/${PN}/-/archive/${PV}/${P}.tar.bz2"
 
 LICENSE="GPL-3 LGPL-3 FDL-1.1"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
-IUSE="debug doc extra gnome +sound"
+IUSE="debug doc extra gconf gnome +sound"
 
 COMMON_DEPEND="
 	>=dev-libs/glib-2.32:2
@@ -25,7 +25,7 @@ COMMON_DEPEND="
 		games-board/pysolfc
 		kde-base/libkdegames
 	)
-	gnome? ( >=gnome-base/gconf-2.0:2 )
+	gconf? ( >=gnome-base/gconf-2.0:2 )
 	sound? ( >=media-libs/libcanberra-0.26[gtk3] )
 "
 DEPEND="${COMMON_DEPEND}
@@ -45,7 +45,7 @@ src_configure() {
 		$(meson_use debug dbg)
 		$(meson_use debug dbgui)
 		$(meson_use doc docs)
-		$(meson_use gnome gconf)
+		$(meson_use gconf)
 		-Dguile="auto"
 		$(meson_use sound)
 	)

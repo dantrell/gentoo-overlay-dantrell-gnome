@@ -179,9 +179,9 @@
 ~sys-apps/xdg-desktop-portal-gnome-42.3::dantrell-gnome-42
 ~www-client/epiphany-42.5::dantrell-gnome-42
 ~x11-libs/gdk-pixbuf-2.42.10::dantrell-gnome
-~x11-libs/gtk+-3.24.36::dantrell-gnome
+~x11-libs/gtk+-3.24.37::dantrell-gnome
 ~x11-libs/libnotify-0.7.12::dantrell-gnome
-~x11-libs/pango-1.50.13::dantrell-gnome
+~x11-libs/pango-1.50.14::dantrell-gnome
 ~x11-libs/vte-0.68.0::dantrell-gnome-42
 ~x11-misc/gpaste-42.1::dantrell-gnome-42
 ~x11-terms/gnome-terminal-3.44.1::dantrell-gnome-42

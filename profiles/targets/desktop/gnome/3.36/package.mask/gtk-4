@@ -1,0 +1,2 @@
+# Requires GTK 4 (or greater)
+>=sci-visualization/plots-0.8.0

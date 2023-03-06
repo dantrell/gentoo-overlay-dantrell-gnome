@@ -110,6 +110,7 @@
 >=gnome-extra/california-0.5.0
 >=gnome-extra/evolution-data-server-3.36.0
 >=gnome-extra/evolution-ews-3.36.0
+>=gnome-extra/gnome-books-3.34.0
 >=gnome-extra/gnome-boxes-3.36.0
 >=gnome-extra/gnome-browser-connector-42.0
 >=gnome-extra/gnome-calculator-3.36.0

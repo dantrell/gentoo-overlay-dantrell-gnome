@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 DESCRIPTION="Client library to create MusicBrainz enabled tagging applications"
 HOMEPAGE="http://musicbrainz.org/doc/libdiscid"

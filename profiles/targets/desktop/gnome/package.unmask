@@ -5,7 +5,9 @@ dev-libs/libgames-support::dantrell-gnome
 dev-libs/vala-common::dantrell-gnome
 dev-python/pygtk::dantrell-gnome
 dev-util/appdata-tools::dantrell-gnome
+gnome-base/gconf::dantrell-gnome
 gnome-base/libgnome-keyring::dantrell-gnome
+gnome-extra/gconf-editor::dantrell-gnome
 gnome-extra/gnome-search-tool::gentoo
 gnome-extra/gnome-utils::gentoo
 gnome-extra/nautilus-sendto::dantrell-gnome

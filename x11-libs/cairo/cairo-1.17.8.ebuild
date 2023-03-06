@@ -36,10 +36,14 @@ BDEPEND="virtual/pkgconfig"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-respect-fontconfig.patch
+
+	# Upstream
+	"${FILESDIR}"/${PN}-1.17.8-tee-Fix-cairo-wrapper-functions.patch
 )
 
 multilib_src_configure() {
 	local emesonargs=(
+		-Ddwrite=disabled
 		-Dfontconfig=enabled
 		-Dfreetype=enabled
 		-Dpng=enabled

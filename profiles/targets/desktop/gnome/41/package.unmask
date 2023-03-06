@@ -13,6 +13,7 @@
 ~app-editors/gedit-plugins-41.0::dantrell-gnome-41
 ~app-editors/ghex-3.41.1::dantrell-gnome-41
 ~app-editors/gnome-latex-3.41.2::dantrell-gnome-41
+~app-editors/gnome-text-editor-41.1::dantrell-gnome-41
 ~app-misc/bijiben-40.1::dantrell-gnome
 ~app-misc/geoclue-2.5.7::dantrell-gnome
 ~app-misc/gnote-41.3::dantrell-gnome-41
@@ -125,7 +126,7 @@
 ~gnome-extra/yelp-41.2::dantrell-gnome-41
 ~gnome-extra/yelp-xsl-41.1::dantrell-gnome-41
 ~gnome-extra/zenity-3.41.0::dantrell-gnome-41
-~gui-libs/libadwaita-1.2.2::dantrell-gnome
+~gui-libs/libadwaita-1.2.3::dantrell-gnome
 ~gui-libs/libhandy-1.4.1::dantrell-gnome
 ~mail-client/evolution-3.42.4::dantrell-gnome-41
 ~mail-client/geary-40.0::dantrell-gnome
@@ -173,7 +174,7 @@
 ~www-client/epiphany-41.5::dantrell-gnome-41
 ~x11-libs/gdk-pixbuf-2.42.10::dantrell-gnome
 ~x11-libs/gtksourceview-4.8.4::dantrell-gnome
-~x11-libs/gtk+-3.24.36::dantrell-gnome
+~x11-libs/gtk+-3.24.37::dantrell-gnome
 ~x11-libs/libnotify-0.7.12::dantrell-gnome
 ~x11-libs/pango-1.48.11::dantrell-gnome
 ~x11-libs/vte-0.66.2::dantrell-gnome-41
