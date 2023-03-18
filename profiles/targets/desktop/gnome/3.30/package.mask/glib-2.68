@@ -1,2 +1,4 @@
 # Requires GLib 2.68 (or greater)
+>=app-crypt/gcr-4.0.0
 >=dev-libs/gmime-3.2.11
+>=media-libs/libshumate-1.0.3

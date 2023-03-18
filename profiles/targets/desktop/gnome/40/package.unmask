@@ -24,13 +24,13 @@
 ~app-text/libgxps-0.3.2::dantrell-gnome
 ~app-text/yelp-tools-40.0::dantrell-gnome-40
 ~dev-cpp/atkmm-2.36.2::dantrell-gnome
-~dev-cpp/glibmm-2.66.5::dantrell-gnome
+~dev-cpp/glibmm-2.66.6::dantrell-gnome
 ~dev-cpp/mm-common-1.0.5::dantrell-gnome
 ~dev-cpp/pangomm-2.50.1::dantrell-gnome
 ~dev-lang/vala-0.52.11::dantrell-gnome
 ~dev-libs/appstream-glib-0.7.18::dantrell-gnome
 ~dev-libs/atk-2.36.0::dantrell-gnome
-~dev-libs/folks-0.15.5::dantrell-gnome
+~dev-libs/folks-0.15.6::dantrell-gnome
 ~dev-libs/gjs-1.68.6::dantrell-gnome-40
 ~dev-libs/glib-2.68.4::dantrell-gnome
 ~dev-libs/gmime-3.2.9::dantrell-gnome

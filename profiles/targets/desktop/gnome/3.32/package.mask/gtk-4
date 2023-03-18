@@ -1,2 +1,3 @@
 # Requires GTK 4 (or greater)
+>=app-crypt/gcr-4.0.0
 >=sci-visualization/plots-0.8.0

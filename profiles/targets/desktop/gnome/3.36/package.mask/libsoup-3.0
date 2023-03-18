@@ -1,0 +1,2 @@
+# Requires libsoup 3.0 (or greater)
+>=net-libs/rest-0.9.1

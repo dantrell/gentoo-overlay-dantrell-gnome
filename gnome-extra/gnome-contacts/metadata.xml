@@ -6,6 +6,7 @@
     <name>Gentoo GNOME Desktop</name>
   </maintainer>
   <use>
+    <flag name="gnome-online-accounts">Enable <pkg>net-libs/gnome-online-accounts</pkg> based Google authentication support</flag>
     <flag name="telepathy">Start chat from contact details</flag>
   </use>
   <upstream>

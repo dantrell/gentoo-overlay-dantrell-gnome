@@ -73,6 +73,7 @@ dev-libs/jsonrpc-glib::gentoo
 dev-libs/libIDL::gentoo
 dev-libs/libassuan::gentoo
 dev-libs/libcroco::gentoo
+dev-libs/libdazzle::gentoo
 dev-libs/libgames-support::gentoo
 dev-libs/libgcrypt::gentoo
 dev-libs/libgdata::gentoo
@@ -235,6 +236,7 @@ media-libs/gupnp-dlna::gentoo
 media-libs/libchamplain::gentoo
 media-libs/libdiscid::gentoo
 media-libs/libmediaart::gentoo
+media-libs/libshumate::gentoo
 media-libs/musicbrainz::gentoo
 media-plugins/grilo-plugins::gentoo
 media-plugins/gst-plugins-a52dec::gentoo
@@ -314,6 +316,7 @@ media-plugins/gst-plugins-x264::gentoo
 media-plugins/gst-plugins-x265::gentoo
 media-plugins/gst-plugins-ximagesrc::gentoo
 media-plugins/gst-plugins-zbar::gentoo
+media-sound/gnome-music::gentoo
 media-sound/gnome-sound-recorder::gentoo
 media-sound/rhythmbox::gentoo
 media-sound/sound-juicer::gentoo

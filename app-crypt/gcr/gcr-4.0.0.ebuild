@@ -9,7 +9,7 @@ DESCRIPTION="Libraries for cryptographic UIs and accessing PKCS#11 modules"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/gcr"
 
 LICENSE="GPL-2+ LGPL-2+"
-SLOT="0/1" # subslot = suffix of libgcr-base-3 and co
+SLOT="4/gcr4.4-gck2.2" # subslot = soname and soversion of libgcr and libgck
 KEYWORDS="*"
 
 IUSE="gtk gtk-doc +introspection systemd test +vala"
@@ -21,14 +21,15 @@ REQUIRED_USE="
 RESTRICT="!test? ( test )"
 
 DEPEND="
-	>=dev-libs/glib-2.44.0:2
+	>=dev-libs/glib-2.68.0:2
 	>=dev-libs/libgcrypt-1.2.2:0=
 	>=app-crypt/p11-kit-0.19.0
 	>=app-crypt/libsecret-0.20
 	systemd? ( sys-apps/systemd:= )
-	gtk? ( >=x11-libs/gtk+-3.22:3[introspection?] )
+	gtk? ( gui-libs/gtk:4[introspection?] )
 	>=sys-apps/dbus-1
 	introspection? ( >=dev-libs/gobject-introspection-1.58:= )
+	!<app-crypt/gcr-3.41.1-r1
 "
 RDEPEND="${DEPEND}"
 PDEPEND="app-crypt/gnupg"
@@ -43,10 +44,6 @@ BDEPEND="
 	vala? ( $(vala_depend) )
 "
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-3.38.0-optional-vapi.patch
-)
-
 pkg_setup() {
 	python-any-r1_pkg_setup
 }
@@ -60,7 +57,7 @@ src_prepare() {
 src_configure() {
 	local emesonargs=(
 		$(meson_use introspection)
-		$(meson_use gtk)
+		$(meson_use gtk gtk4)
 		$(meson_use gtk-doc gtk_doc)
 		-Dgpg_path="${EPREFIX}"/usr/bin/gpg
 		-Dssh_agent=true
@@ -77,19 +74,9 @@ src_test() {
 src_install() {
 	meson_src_install
 
-	# These files are installed by gcr:4
-	local conflicts=(
-		"${ED}"/usr/libexec/gcr-ssh-agent
-	)
-	use systemd && conflicts+=(
-		"${ED}"/usr/lib/systemd/user/gcr-ssh-agent.{service,socket}
-	)
-	einfo "${conflicts[@]}"
-	rm "${conflicts[@]}" || die
-
 	if use gtk-doc; then
 		mkdir -p "${ED}"/usr/share/gtk-doc/html/ || die
-		mv "${ED}"/usr/share/doc/{gck-1,gcr-3,gcr-ui-3} "${ED}"/usr/share/gtk-doc/html/ || die
+		mv "${ED}"/usr/share/doc/{gck-2,gcr-4} "${ED}"/usr/share/gtk-doc/html/ || die
 	fi
 }
 

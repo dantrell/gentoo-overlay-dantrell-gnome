@@ -31,12 +31,12 @@ RDEPEND="
 		>=gui-libs/gtk-4.0:4
 	)
 "
-# libxml2 required for glib-compile-resources
-DEPEND="${RDEPEND}
-	sys-devel/gettext
-	dev-libs/libxml2:2
+DEPEND="${RDEPEND}"
+BDEPEND="
+	dev-libs/glib
 	dev-util/gdbus-codegen
 	dev-util/intltool
+	sys-devel/gettext
 	virtual/pkgconfig
 "
 

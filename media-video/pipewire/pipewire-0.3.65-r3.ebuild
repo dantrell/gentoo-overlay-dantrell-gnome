@@ -23,7 +23,7 @@ SRC_URI="https://gitlab.freedesktop.org/${PN}/${PN}/-/archive/${PV}/${P}.tar.bz2
 LICENSE="MIT LGPL-2.1+ GPL-2"
 # ABI was broken in 0.3.42 for https://gitlab.freedesktop.org/pipewire/wireplumber/-/issues/49
 SLOT="0/0.4"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="bluetooth dbus doc echo-cancel extra ffmpeg flatpak gstreamer gsettings jack-client jack-sdk lv2
 modemmanager pipewire-alsa readline sound-server ssl system-service systemd test v4l vanilla X zeroconf"
