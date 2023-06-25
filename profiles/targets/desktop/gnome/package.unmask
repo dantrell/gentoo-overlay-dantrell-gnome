@@ -1,4 +1,5 @@
 app-admin/gnome-system-log::dantrell-gnome
+app-portage/layman::dantrell-gnome
 app-text/enchant:2::dantrell-gnome
 dev-lang/spidermonkey:24::dantrell-gnome
 dev-libs/libgames-support::dantrell-gnome

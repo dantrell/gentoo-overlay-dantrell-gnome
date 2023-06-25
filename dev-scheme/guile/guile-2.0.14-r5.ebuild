@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="8"
 
 inherit autotools elisp-common flag-o-matic
 
@@ -13,28 +13,26 @@ SLOT="12/22" # subslot is soname version
 KEYWORDS="*"
 
 IUSE="debug debug-malloc +deprecated doc emacs +networking +nls +regex static-libs +threads" # upstream recommended +networking +nls
-REQUIRED_USE="regex"  # workaround for bug 596322
+REQUIRED_USE="regex" # workaround for bug #596322
 
-# emacs useflag removal not working
 RESTRICT="mirror strip"
 
 RDEPEND="
-	!dev-scheme/guile:2
-
 	>=dev-libs/boehm-gc-7.0:=[threads?]
-	>=dev-libs/gmp-4.2:0=
+	dev-libs/gmp:=
 	dev-libs/libffi:=
 	dev-libs/libltdl:=
-	>=dev-libs/libunistring-0.9.3
-	>=sys-devel/libtool-1.5.6
+	dev-libs/libunistring:0=
+	sys-libs/ncurses:0=
 	sys-libs/readline:0=
 	virtual/libcrypt:=
 "
-DEPEND="
-	${RDEPEND}
-	virtual/pkgconfig
+DEPEND="${RDEPEND}"
+BDEPEND="
 	doc? ( sys-apps/texinfo )
 	emacs? ( >=app-editors/emacs-23.1:* )
+	virtual/pkgconfig
+	sys-devel/libtool
 	sys-devel/gettext
 "
 
@@ -44,13 +42,15 @@ QA_PREBUILT='*[.]go'
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-2-snarf.patch
-	"${FILESDIR}"/${P}-darwin.patch
-	"${FILESDIR}"/${P}-ia64-fix-crash-thread-context-switch.patch
+	"${FILESDIR}"/${PN}-2.0.14-darwin.patch
+	"${FILESDIR}"/${PN}-2.0.14-ia64-fix-crash-thread-context-switch.patch
 	"${FILESDIR}"/${PN}-2.0.14-configure-clang16.patch
 )
 
 src_prepare() {
 	default
+
+	# Can drop once guile-2.0.14-configure-clang16.patch merged
 	eautoreconf
 }
 
@@ -67,26 +67,28 @@ src_configure() {
 	# 	https://bugs.gentoo.org/608190
 	replace-flags -ggdb[3-9] -ggdb2
 
-	econf \
-		--disable-error-on-warning \
-		--disable-rpath \
-		--disable-static \
-		--enable-posix \
-		--with-modules \
-		--without-libgmp-prefix \
-		--without-libiconv-prefix \
-		--without-libintl-prefix \
-		--without-libltdl-prefix \
-		--without-libreadline-prefix \
-		--without-libunistring-prefix \
-		$(use_enable debug guile-debug) \
-		$(use_enable debug-malloc) \
-		$(use_enable deprecated) \
-		$(use_enable networking) \
-		$(use_enable nls) \
-		$(use_enable regex) \
-		$(use_enable static-libs static) \
+	local -a myconf=(
+		--disable-error-on-warning
+		--disable-rpath
+		--disable-static
+		--enable-posix
+		--with-modules
+		--without-libgmp-prefix
+		--without-libiconv-prefix
+		--without-libintl-prefix
+		--without-libltdl-prefix
+		--without-libreadline-prefix
+		--without-libunistring-prefix
+		$(use_enable debug guile-debug)
+		$(use_enable debug-malloc)
+		$(use_enable deprecated)
+		$(use_enable networking)
+		$(use_enable nls)
+		$(use_enable regex)
+		$(use_enable static-libs static)
 		$(use_with threads)
+	)
+	econf ${myconf[@]}
 }
 
 src_install() {
@@ -108,7 +110,7 @@ src_install() {
 	# Necessary for some dependencies
 	dosym libguile-2.0.so /usr/$(get_libdir)/libguile.so
 
-	find "${D}" -name '*.la' -delete || die
+	find "${ED}" -name '*.la' -delete || die
 }
 
 pkg_postinst() {

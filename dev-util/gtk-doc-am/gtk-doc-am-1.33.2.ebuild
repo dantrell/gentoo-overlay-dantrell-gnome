@@ -15,7 +15,7 @@ KEYWORDS="*"
 # This ebuild doesn't even compile anything, causing tests to fail when updating (bug #316071)
 RESTRICT="test"
 
-RDEPEND="!<dev-util/gtk-doc-${GNOME_ORG_PVP}"
+RDEPEND="!<dev-util/gtk-doc-${GNOME_ORG_RELEASE}"
 PDEPEND="virtual/pkgconfig"
 
 src_configure() {
