@@ -116,6 +116,7 @@
 ~gui-libs/gtk-4.8.3::dantrell-gnome
 ~gui-libs/libadwaita-1.2.3::dantrell-gnome
 ~gui-libs/libhandy-1.8.2::dantrell-gnome
+~gui-libs/libpanel-1.0.2::dantrell-gnome
 ~mail-client/evolution-3.46.4::dantrell-gnome-43
 ~media-fonts/cantarell-0.303.1::dantrell-gnome
 ~media-gfx/eog-43.2::dantrell-gnome-43

@@ -11,7 +11,7 @@ LICENSE="metapackage"
 SLOT="1.0"
 KEYWORDS="*"
 
-IUSE="aac a52 alsa cdda dts dv dvb dvd ffmpeg flac http jack lame libass libvisual mms mp3 modplug mpeg ogg opus oss pulseaudio taglib theora v4l vaapi vcd vorbis vpx wavpack X x264"
+IUSE="aac a52 alsa cdda dts dv dvb dvd ffmpeg flac http jack lame libass libvisual mp3 modplug mpeg ogg opus oss pulseaudio taglib theora v4l vaapi vcd vorbis vpx wavpack X x264"
 REQUIRED_USE="opus? ( ogg ) theora? ( ogg ) vorbis? ( ogg )"
 
 RDEPEND="
@@ -41,7 +41,6 @@ RDEPEND="
 	lame? ( >=media-plugins/gst-plugins-lame-${PV}:1.0[${MULTILIB_USEDEP}] )
 	libass? ( >=media-plugins/gst-plugins-assrender-${PV}:1.0[${MULTILIB_USEDEP}] )
 	libvisual? ( >=media-plugins/gst-plugins-libvisual-${PV}:1.0[${MULTILIB_USEDEP}] )
-	mms? ( >=media-plugins/gst-plugins-libmms-${PV}:1.0[${MULTILIB_USEDEP}] )
 	modplug? ( >=media-plugins/gst-plugins-modplug-${PV}:1.0[${MULTILIB_USEDEP}] )
 	mp3? (
 		>=media-libs/gst-plugins-ugly-${PV}:1.0[${MULTILIB_USEDEP}]

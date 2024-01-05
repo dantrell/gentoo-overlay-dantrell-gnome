@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="8"
-PYTHON_COMPAT=( python{3_9,3_10,3_11} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12} )
 PYTHON_REQ_USE="xml(+)"
 
 inherit gnome.org gnome2-utils python-single-r1 meson virtualx xdg
@@ -61,7 +61,6 @@ DEPEND="
 "
 RDEPEND="${DEPEND}
 	media-plugins/gst-plugins-soup:1.0
-	media-plugins/gst-plugins-libmms:1.0
 	|| (
 		media-plugins/gst-plugins-cdparanoia:1.0
 		media-plugins/gst-plugins-cdio:1.0

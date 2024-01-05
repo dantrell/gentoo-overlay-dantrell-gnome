@@ -2,7 +2,7 @@
 
 EAPI="7"
 
-PYTHON_COMPAT=( python{3_9,3_10,3_11} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12} )
 PYTHON_REQ_USE="xml(+)"
 
 VALA_MIN_API_VERSION="0.40"

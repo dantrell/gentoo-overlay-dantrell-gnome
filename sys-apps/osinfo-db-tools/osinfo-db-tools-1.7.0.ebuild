@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-PYTHON_COMPAT=( python{3_9,3_10,3_11} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12} )
 
 inherit gnome2 meson python-any-r1
 

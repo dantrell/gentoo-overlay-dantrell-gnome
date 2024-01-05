@@ -37,6 +37,7 @@ app-misc/tracker-miners::gentoo
 app-misc/tracker::gentoo
 app-office/gnome-todo::gentoo
 app-office/gtg::gentoo
+app-portage/layman::gentoo
 app-text/enchant::gentoo
 app-text/foliate::gentoo
 app-text/gnome-doc-utils::gentoo
@@ -200,6 +201,7 @@ gui-libs/gtk::gentoo
 gui-libs/gtksourceview::gentoo
 gui-libs/libadwaita::gentoo
 gui-libs/libhandy::gentoo
+gui-libs/libpanel::gentoo
 gui-libs/tepl::gentoo
 mail-client/geary::gentoo
 media-fonts/cantarell::gentoo
@@ -270,7 +272,6 @@ media-plugins/gst-plugins-lame::gentoo
 media-plugins/gst-plugins-ldac::gentoo
 media-plugins/gst-plugins-libav::gentoo
 media-plugins/gst-plugins-libde265::gentoo
-media-plugins/gst-plugins-libmms::gentoo
 media-plugins/gst-plugins-libnice::gentoo
 media-plugins/gst-plugins-libpng::gentoo
 media-plugins/gst-plugins-libvisual::gentoo

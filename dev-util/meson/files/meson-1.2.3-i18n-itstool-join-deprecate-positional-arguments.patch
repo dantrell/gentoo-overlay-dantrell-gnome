@@ -1,0 +1,21 @@
+diff '--exclude=.git' -urN a/mesonbuild/modules/i18n.py b/mesonbuild/modules/i18n.py
+--- a/mesonbuild/modules/i18n.py	2023-10-31 11:00:28.704090000 -0500
++++ b/mesonbuild/modules/i18n.py	2023-10-31 11:00:46.451938000 -0500
+@@ -338,7 +338,6 @@
+         return ModuleReturnValue([gmotargets, pottarget, updatepotarget], targets)
+ 
+     @FeatureNew('i18n.itstool_join', '0.62.0')
+-    @noPosargs
+     @typed_kwargs(
+         'i18n.itstool_join',
+         CT_BUILD_BY_DEFAULT,
+@@ -352,6 +351,9 @@
+         KwargInfo('mo_targets', ContainerTypeInfo(list, build.CustomTarget), required=True),
+     )
+     def itstool_join(self, state: 'ModuleState', args: T.List['TYPE_var'], kwargs: 'ItsJoinFile') -> ModuleReturnValue:
++        if args:
++            mlog.deprecation('i18n.itstool_join does not take any positional arguments. '
++                             'This is a hard error in vanilla Meson releases.')
+         if self.tools['itstool'] is None:
+             self.tools['itstool'] = state.find_program('itstool', for_machine=mesonlib.MachineChoice.BUILD)
+         mo_targets = kwargs['mo_targets']

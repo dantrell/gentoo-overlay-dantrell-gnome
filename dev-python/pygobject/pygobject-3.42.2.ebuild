@@ -3,7 +3,7 @@
 EAPI="8"
 
 DISTUTILS_USE_PEP517=no
-PYTHON_COMPAT=( python{3_9,3_10,3_11} pypy3 )
+PYTHON_COMPAT=( python{3_10,3_11,3_12} pypy3 )
 
 inherit gnome.org meson virtualx xdg distutils-r1
 

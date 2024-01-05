@@ -3,7 +3,7 @@
 EAPI="8"
 
 GNOME_ORG_MODULE="GConf"
-PYTHON_COMPAT=( python{3_9,3_10,3_11} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12} )
 PYTHON_REQ_USE="xml(+)"
 
 inherit gnome2 multilib-minimal python-single-r1

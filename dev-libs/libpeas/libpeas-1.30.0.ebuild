@@ -3,7 +3,7 @@
 EAPI="7"
 
 LUA_COMPAT=( lua5-1 luajit )
-PYTHON_COMPAT=( python{3_9,3_10,3_11} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12} )
 
 inherit gnome.org lua-single meson python-single-r1 vala virtualx xdg
 

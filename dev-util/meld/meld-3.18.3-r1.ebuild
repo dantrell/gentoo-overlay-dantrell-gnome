@@ -2,7 +2,7 @@
 
 EAPI="6"
 PYTHON_REQ_USE="xml(+)"
-PYTHON_COMPAT=( python{3_9,3_10,3_11} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12} )
 DISTUTILS_SINGLE_IMPL=1
 
 inherit gnome2 distutils-r1

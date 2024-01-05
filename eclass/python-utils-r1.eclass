@@ -45,7 +45,7 @@ inherit toolchain-funcs
 _PYTHON_ALL_IMPLS=(
 	pypy3
 	python2_7
-	python3_{9..11}
+	python3_{10..12}
 )
 readonly _PYTHON_ALL_IMPLS
 
@@ -57,7 +57,7 @@ _PYTHON_HISTORICAL_IMPLS=(
 	jython2_7
 	pypy pypy1_{8,9} pypy2_0
 	python2_{5,6}
-	python3_{1..8}
+	python3_{1..9}
 )
 readonly _PYTHON_HISTORICAL_IMPLS
 
@@ -85,7 +85,7 @@ _python_verify_patterns() {
 	local impl pattern
 	for pattern; do
 		case ${pattern} in
-			-[23]|3.[89]|3.1[01])
+			-[23]|3.[89]|3.1[012])
 				continue
 				;;
 		esac
@@ -134,7 +134,7 @@ _python_set_impls() {
 			# please keep them in sync with _PYTHON_ALL_IMPLS
 			# and _PYTHON_HISTORICAL_IMPLS
 			case ${i} in
-				pypy3|python2_7|python3_9|python3_1[01])
+				pypy3|python2_7|python3_9|python3_1[0-2])
 					;;
 				jython2_7|pypy|pypy1_[89]|pypy2_0|python2_[5-6]|python3_[1-8])
 					obsolete+=( "${i}" )

@@ -8,7 +8,7 @@ SPIDERMONKEY_PATCHSET="spidermonkey-slot45-patches-01.tar.xz"
 
 LLVM_MAX_SLOT=15
 
-PYTHON_COMPAT=( python{3_9,3_10,3_11} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12} )
 PYTHON_REQ_USE="ssl,xml(+)"
 
 WANT_AUTOCONF="2.1"

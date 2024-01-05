@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python{3_9,3_10,3_11} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12} )
 PLOCALES="cs_CS de_DE es eu fr_FR id_ID ie it ko nb nl nn pt_BR ru_RU sv tr uk zh_CN zh_TW"
 
 inherit gnome2-utils meson plocale python-r1 xdg-utils
