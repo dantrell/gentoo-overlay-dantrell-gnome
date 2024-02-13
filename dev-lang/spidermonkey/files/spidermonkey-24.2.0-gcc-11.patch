@@ -1,0 +1,24 @@
+diff '--exclude=.git' -urN a/intl/icu/source/i18n/uspoof.cpp b/intl/icu/source/i18n/uspoof.cpp
+--- a/intl/icu/source/i18n/uspoof.cpp	2013-10-29 15:40:24.000000000 -0500
++++ b/intl/icu/source/i18n/uspoof.cpp	2024-02-10 15:03:57.250010589 -0600
+@@ -369,7 +369,7 @@
+         // u_strToUTF8() in preflight mode is an easy way to do it.
+         U_ASSERT(position16 <= len16);
+         u_strToUTF8(NULL, 0, position, text16, position16, status);
+-        if (position > 0) {
++        if (0 != position) {
+             // position is the required buffer length from u_strToUTF8, which includes
+             // space for a terminating NULL, which we don't want, hence the -1.
+             *position -= 1;
+diff '--exclude=.git' -urN a/js/src/jsopcode.cpp b/js/src/jsopcode.cpp
+--- a/js/src/jsopcode.cpp	2013-10-29 15:40:20.000000000 -0500
++++ b/js/src/jsopcode.cpp	2024-02-10 15:04:40.386613043 -0600
+@@ -1391,7 +1391,7 @@
+ bool
+ ExpressionDecompiler::quote(JSString *s, uint32_t quote)
+ {
+-    return QuoteString(&sprinter, s, quote) >= 0;
++    return 0 != QuoteString(&sprinter, s, quote);
+ }
+ 
+ JSAtom *

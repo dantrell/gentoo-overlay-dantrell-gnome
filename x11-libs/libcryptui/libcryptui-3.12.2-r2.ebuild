@@ -31,7 +31,7 @@ COMMON_DEPEND="
 "
 DEPEND="${COMMON_DEPEND}
 	app-text/rarian
-	>=dev-util/gtk-doc-am-1.9
+	>=dev-build/gtk-doc-am-1.9
 	>=dev-util/intltool-0.35
 	sys-devel/gettext
 	virtual/pkgconfig

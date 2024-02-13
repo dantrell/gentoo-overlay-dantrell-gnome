@@ -43,7 +43,7 @@ RDEPEND=">=app-crypt/gnupg-2
 	)
 	python? ( ${PYTHON_DEPS} )
 	qt5? ( dev-qt/qtcore:5 )"
-	#doc? ( app-doc/doxygen[dot] )
+	#doc? ( app-text/doxygen[dot] )
 DEPEND="${RDEPEND}
 	test? (
 		qt5? ( dev-qt/qttest:5 )

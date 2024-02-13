@@ -43,14 +43,14 @@ BDEPEND="
 
 PATCHES=(
 	# https://bugzilla.gnome.org/show_bug.cgi?id=796428
-	"${FILESDIR}"/${PN}-3.28-remove-unwvanted-check.patch
+	"${FILESDIR}"/${PN}-3.28-remove-unwanted-check.patch
 )
 
 src_prepare() {
 	xdg_src_prepare
 
 	# Fix hard-coded package name
-	# https://gitlab.gnome.org/GNOME/gnome-color-manager/issues/3
+	# https://gitlab.gnome.org/GNOME/gnome-color-manager/-/issues/3
 	sed 's:argyllcms:media-gfx/argyllcms:' -i src/gcm-utils.h || die
 }
 

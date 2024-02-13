@@ -6,7 +6,7 @@ EAPI="8"
 FIREFOX_PATCHSET="firefox-78esr-patches-19.tar.xz"
 SPIDERMONKEY_PATCHSET="spidermonkey-78-patches-05.tar.xz"
 
-LLVM_MAX_SLOT=15
+LLVM_MAX_SLOT=17
 
 PYTHON_COMPAT=( python{3_10,3_11,3_12} )
 PYTHON_REQ_USE="ssl,xml(+)"
@@ -71,19 +71,43 @@ RESTRICT="!test? ( test )"
 BDEPEND="${PYTHON_DEPS}
 	|| (
 		(
-			sys-devel/clang:15
-			sys-devel/llvm:15
+			sys-devel/llvm:19
 			clang? (
-				virtual/rust:0/llvm-15
-				lto? ( sys-devel/lld:15 )
+				sys-devel/clang:19
+				sys-devel/lld:19
+				virtual/rust:0/llvm-19
 			)
 		)
 		(
-			sys-devel/clang:14
-			sys-devel/llvm:14
+			sys-devel/llvm:18
 			clang? (
-				virtual/rust:0/llvm-14
-				lto? ( sys-devel/lld:14 )
+				sys-devel/clang:18
+				sys-devel/lld:18
+				virtual/rust:0/llvm-18
+			)
+		)
+		(
+			sys-devel/llvm:17
+			clang? (
+				sys-devel/clang:17
+				sys-devel/lld:17
+				virtual/rust:0/llvm-17
+			)
+		)
+		(
+			sys-devel/llvm:16
+			clang? (
+				sys-devel/clang:16
+				sys-devel/lld:16
+				virtual/rust:0/llvm-16
+			)
+		)
+		(
+			sys-devel/llvm:15
+			clang? (
+				sys-devel/clang:15
+				virtual/rust:0/llvm-15
+				lto? ( sys-devel/lld:15 )
 			)
 		)
 	)

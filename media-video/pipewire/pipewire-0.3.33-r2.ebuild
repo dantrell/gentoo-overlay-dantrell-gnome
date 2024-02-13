@@ -27,11 +27,11 @@ REQUIRED_USE="jack-sdk? ( !jack-client )"
 RESTRICT="!test? ( test )"
 
 BDEPEND="
-	app-doc/xmltoman
+	app-text/xmltoman
 	virtual/pkgconfig
 	${PYTHON_DEPS}
 	doc? (
-		app-doc/doxygen
+		app-text/doxygen
 		media-gfx/graphviz
 	)
 "

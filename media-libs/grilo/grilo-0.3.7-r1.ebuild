@@ -43,7 +43,7 @@ BDEPEND="
 
 PATCHES=(
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/grilo/commit/60d135ef64f16671bb0ab4079ecbc59bdc32cbc7
+	# 	https://gitlab.gnome.org/GNOME/grilo/-/commit/60d135ef64f16671bb0ab4079ecbc59bdc32cbc7
 	"${FILESDIR}"/${PN}-0.3.11-pls-support-totem-pl-parser-3-26-4.patch
 )
 

@@ -97,7 +97,7 @@ pkg_setup() {
 
 src_prepare() {
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/empathy/commit/ce10e4ed0f0677419167db1bc81f0b291644ce73
+	# 	https://gitlab.gnome.org/GNOME/empathy/-/commit/ce10e4ed0f0677419167db1bc81f0b291644ce73
 	eapply "${FILESDIR}"/${PN}-3.12.14-incomplete-port-to-webkit2.patch
 
 	eautoreconf

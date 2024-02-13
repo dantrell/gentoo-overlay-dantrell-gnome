@@ -34,7 +34,7 @@ DEPEND="${RDEPEND}"
 BDEPEND="
 	dev-lang/perl
 	dev-libs/gobject-introspection-common
-	>=dev-util/gtk-doc-am-1.10
+	>=dev-build/gtk-doc-am-1.10
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )

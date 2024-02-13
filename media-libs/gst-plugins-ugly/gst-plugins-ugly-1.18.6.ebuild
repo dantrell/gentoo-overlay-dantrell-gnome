@@ -20,7 +20,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 BDEPEND="
 	${PYTHON_DEPS}
-	>=dev-util/gtk-doc-am-1.12
+	>=dev-build/gtk-doc-am-1.12
 "
 
 DOCS="AUTHORS ChangeLog NEWS README RELEASE"

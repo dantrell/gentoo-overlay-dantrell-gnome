@@ -46,13 +46,13 @@ BDEPEND="
 	app-text/docbook-xsl-stylesheets
 	dev-libs/libxslt
 	>=dev-util/gdbus-codegen-2.32
-	>=dev-util/gtk-doc-am-1.3
+	>=dev-build/gtk-doc-am-1.3
 	virtual/pkgconfig
 	nls? ( dev-util/intltool )
 "
 # If adding a eautoreconf, then these might be needed at buildtime:
 # gnome-base/gnome-common:3
-# sys-devel/autoconf-archive
+# dev-build/autoconf-archive
 
 QA_MULTILIB_PATHS="usr/lib/udisks2/udisksd"
 

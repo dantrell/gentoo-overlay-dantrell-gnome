@@ -1,0 +1,2 @@
+move dev-util/meson dev-build/meson
+move dev-util/gtk-doc-am dev-build/gtk-doc-am

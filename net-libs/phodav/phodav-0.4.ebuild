@@ -21,7 +21,7 @@ RDEPEND="
 	zeroconf? ( net-dns/avahi[dbus] )
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.10
+	>=dev-build/gtk-doc-am-1.10
 	>=dev-util/intltool-0.40.0
 	sys-devel/gettext
 	virtual/pkgconfig

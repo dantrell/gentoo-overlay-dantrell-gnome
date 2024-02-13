@@ -42,7 +42,7 @@ src_prepare() {
 		eapply "${FILESDIR}"/${PN}-3.28.1-eds-port-to-libecal-2-0.patch
 	elif has_version '>=dev-libs/glib-2.59.0'; then
 		# From GNOME:
-		# 	https://gitlab.gnome.org/GNOME/gnome-todo/commit/6cdabc4dd0c6c804a093b94c269461ce376fed4f
+		# 	https://gitlab.gnome.org/GNOME/gnome-todo/-/commit/6cdabc4dd0c6c804a093b94c269461ce376fed4f
 		eapply "${FILESDIR}"/${PN}-9999-drop-the-autoptr-definition-for-esource.patch
 	fi
 

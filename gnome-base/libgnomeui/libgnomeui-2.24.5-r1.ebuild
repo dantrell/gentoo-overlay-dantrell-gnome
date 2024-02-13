@@ -40,7 +40,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	sys-devel/gettext
 	virtual/pkgconfig
 	>=dev-util/intltool-0.40
@@ -53,7 +53,7 @@ src_prepare() {
 	fi
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/libgnomeui/commit/30334c28794ef85d8973f4ed0779b5ceed6594f2
+	# 	https://gitlab.gnome.org/GNOME/libgnomeui/-/commit/30334c28794ef85d8973f4ed0779b5ceed6594f2
 	eapply "${FILESDIR}"/${PN}-2.24.5-gnome-scores-h-convert-to-utf-8.patch
 
 	gnome2_src_prepare

@@ -24,7 +24,7 @@ RDEPEND=">=dev-libs/glib-2.8.0:2[${MULTILIB_USEDEP}]
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	virtual/pkgconfig
 "
 

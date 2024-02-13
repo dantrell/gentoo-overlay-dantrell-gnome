@@ -27,12 +27,12 @@ REQUIRED_USE="jack-sdk? ( !jack-client )"
 RESTRICT="!test? ( test )"
 
 BDEPEND="
-	app-doc/xmltoman
-	>=dev-util/meson-0.59
+	app-text/xmltoman
+	>=dev-build/meson-0.59
 	virtual/pkgconfig
 	${PYTHON_DEPS}
 	doc? (
-		app-doc/doxygen
+		app-text/doxygen
 		media-gfx/graphviz
 	)
 "

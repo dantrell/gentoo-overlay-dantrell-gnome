@@ -35,8 +35,8 @@ BDEPEND="
 
 src_prepare() {
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/vala/commit/2b742fce82eb1326faaee3b2cc4ff993e701ef53
-	# 	https://gitlab.gnome.org/GNOME/vala/commit/c63247759dca09d1a81dce6bc2e2992746d7c996
+	# 	https://gitlab.gnome.org/GNOME/vala/-/commit/2b742fce82eb1326faaee3b2cc4ff993e701ef53
+	# 	https://gitlab.gnome.org/GNOME/vala/-/commit/c63247759dca09d1a81dce6bc2e2992746d7c996
 	eapply "${FILESDIR}"/${PN}-0.38.8-uncouple-valadoc.patch
 
 	eautoreconf

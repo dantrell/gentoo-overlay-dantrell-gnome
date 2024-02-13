@@ -43,6 +43,11 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-perl-defined-array-check.patch
 	"${WORKDIR}"/sm24/${PN}-17-fix_pointer_dereference.patch
 	"${FILESDIR}"/${PN}-24.2.0-update-common-python-code.patch
+
+	# From Boost:
+	# 	https://github.com/boostorg/coroutine/issues/23
+	# 	https://gcc.gnu.org/gcc-11/porting_to.html
+	"${FILESDIR}"/${PN}-24.2.0-gcc-11.patch
 )
 
 pkg_setup() {

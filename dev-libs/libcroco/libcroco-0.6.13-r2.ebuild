@@ -2,7 +2,7 @@
 
 EAPI="7"
 
-inherit gnome2 multilib-minimal
+inherit flag-o-matic gnome2 multilib-minimal
 
 DESCRIPTION="Generic Cascading Style Sheet (CSS) parsing and manipulation toolkit"
 HOMEPAGE="https://gitlab.gnome.org/Archive/libcroco"
@@ -21,12 +21,13 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	virtual/pkgconfig
 "
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.6.13-CVE-2020-12825.patch
+	"${FILESDIR}"/${PN}-0.6.13-gcc-13.patch
 )
 
 src_prepare() {
@@ -40,6 +41,11 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	# From GNOME:
+	# 	https://gitlab.gnome.org/Archive/libcroco/-/issues/6
+	# 	https://bugs.gentoo.org/855704
+	append-cflags -Wno-error=strict-aliasing
+
 	ECONF_SOURCE=${S} \
 	gnome2_src_configure \
 		--disable-static \

@@ -39,7 +39,7 @@ DEPEND="${RDEPEND}
 	)
 "
 BDEPEND="
-	~dev-util/gtk-doc-am-${PV}
+	~dev-build/gtk-doc-am-${PV}
 	dev-util/itstool
 	virtual/pkgconfig
 "

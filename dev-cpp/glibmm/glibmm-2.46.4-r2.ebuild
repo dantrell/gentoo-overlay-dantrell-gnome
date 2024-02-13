@@ -22,13 +22,13 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
-	gtk-doc? ( app-doc/doxygen )
+	gtk-doc? ( app-text/doxygen )
 "
 # dev-cpp/mm-common needed for eautoreconf
 
 PATCHES=(
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glibmm/commit/f6e46c68fd2b7289964e6e0d446b11658187b68d
+	# 	https://gitlab.gnome.org/GNOME/glibmm/-/commit/f6e46c68fd2b7289964e6e0d446b11658187b68d
 	"${FILESDIR}"/${PN}-2.47.6-glib-signalproxy-use-variadic-templates.patch
 	# Fix build with GCC-8
 	# https://bugs.gentoo.org/654776

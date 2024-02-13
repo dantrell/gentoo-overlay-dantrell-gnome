@@ -48,7 +48,7 @@ DEPEND="${COMMON_DEPEND}
 	$(vala_depend)
 	app-text/docbook-xml-dtd:4.1.2
 	app-text/yelp-tools
-	>=dev-util/gtk-doc-am-1
+	>=dev-build/gtk-doc-am-1
 	>=dev-util/intltool-0.50.1
 	>=sys-devel/gettext-0.18
 	virtual/pkgconfig

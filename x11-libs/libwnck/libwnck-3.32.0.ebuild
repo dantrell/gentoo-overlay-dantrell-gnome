@@ -25,8 +25,8 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	>=dev-util/meson-0.50.0
-	>=dev-util/gtk-doc-am-1.9
+	>=dev-build/meson-0.50.0
+	>=dev-build/gtk-doc-am-1.9
 	>=sys-devel/gettext-0.19.4
 	virtual/pkgconfig
 "

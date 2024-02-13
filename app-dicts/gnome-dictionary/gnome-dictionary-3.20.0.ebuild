@@ -26,7 +26,7 @@ RDEPEND="${COMMON_DEPEND}
 "
 # ${PN} was part of gnome-utils before 3.4
 DEPEND="${COMMON_DEPEND}
-	>=dev-util/gtk-doc-am-1.15
+	>=dev-build/gtk-doc-am-1.15
 	>=dev-util/intltool-0.40
 	dev-util/itstool
 	>=sys-devel/gettext-0.17

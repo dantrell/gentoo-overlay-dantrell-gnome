@@ -29,7 +29,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	>=dev-util/gtk-doc-am-1.14
+	>=dev-build/gtk-doc-am-1.14
 	>=sys-devel/gettext-0.17
 	>=dev-util/intltool-0.35
 	virtual/pkgconfig
@@ -39,10 +39,10 @@ BDEPEND="
 "
 # eautoreconf needs:
 #	dev-libs/gobject-introspection-common
-#	sys-devel/autoconf-archive
+#	dev-build/autoconf-archive
 BDEPEND="${BDEPEND}
 	dev-libs/gobject-introspection-common
-	sys-devel/autoconf-archive
+	dev-build/autoconf-archive
 "
 
 PATCHES=(

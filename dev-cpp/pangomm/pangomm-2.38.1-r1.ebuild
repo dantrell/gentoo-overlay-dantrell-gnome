@@ -26,14 +26,14 @@ BDEPEND="
 	gtk-doc? (
 		media-gfx/graphviz
 		dev-libs/libxslt
-		app-doc/doxygen
+		app-text/doxygen
 	)
 "
 
 src_prepare() {
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/pangomm/commit/62ec4693bbf3c16eb1566b2cb499650f996f898f
-	# 	https://gitlab.gnome.org/GNOME/pangomm/commit/52eb5216a89a0805a46cba39450d633b2c7ca4d4
+	# 	https://gitlab.gnome.org/GNOME/pangomm/-/commit/62ec4693bbf3c16eb1566b2cb499650f996f898f
+	# 	https://gitlab.gnome.org/GNOME/pangomm/-/commit/52eb5216a89a0805a46cba39450d633b2c7ca4d4
 	eapply "${FILESDIR}"/${PN}-2.38.1-reduce-the-cairomm-dependency-back-to-1.2.2.patch
 	eapply "${FILESDIR}"/${PN}-2.38.1-enable-warnings-fata-use-the-same-warnings-as-glibmm-and-gtkmm.patch
 

@@ -54,7 +54,7 @@ BDEPEND="
 	acct-group/colord
 	acct-user/colord
 	dev-libs/libxslt
-	>=dev-util/gtk-doc-am-1.9
+	>=dev-build/gtk-doc-am-1.9
 	>=dev-util/intltool-0.35
 	>=sys-devel/gettext-0.17
 	virtual/pkgconfig

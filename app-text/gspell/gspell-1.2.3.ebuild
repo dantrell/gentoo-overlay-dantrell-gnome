@@ -26,7 +26,7 @@ DEPEND="${RDEPEND}
 "
 BDEPEND="
 	dev-libs/libxml2:2
-	>=dev-util/gtk-doc-am-1.25
+	>=dev-build/gtk-doc-am-1.25
 	>=dev-util/intltool-0.35.0
 	>=sys-devel/gettext-0.19.4
 	virtual/pkgconfig

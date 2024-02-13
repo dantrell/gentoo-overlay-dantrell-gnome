@@ -55,9 +55,9 @@ COMMON_DEPEND="
 DEPEND="${COMMON_DEPEND}
 	dev-libs/libxslt
 	dev-libs/vala-common
-	>=dev-util/gtk-doc-am-1.11
+	>=dev-build/gtk-doc-am-1.11
 	>=dev-util/intltool-0.35.0
-	sys-devel/autoconf-archive
+	dev-build/autoconf-archive
 	sys-devel/gettext
 	virtual/pkgconfig
 	nsplugin? ( >=net-misc/npapi-sdk-0.27 )

@@ -28,7 +28,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 BDEPEND="
 	virtual/pkgconfig
-	sys-devel/libtool
+	dev-build/libtool
 	sys-devel/gettext
 "
 

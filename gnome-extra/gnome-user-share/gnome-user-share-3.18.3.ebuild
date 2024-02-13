@@ -41,7 +41,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-3.18.1-no-prefork.patch
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/vino/commit/1538798a89653b8921ca574aebb3f153543b4921
+	# 	https://gitlab.gnome.org/GNOME/vino/-/commit/1538798a89653b8921ca574aebb3f153543b4921
 	eapply "${FILESDIR}"/${PN}-3.18.2-allow-building-on-non-systemd-systems.patch
 
 	eautoreconf

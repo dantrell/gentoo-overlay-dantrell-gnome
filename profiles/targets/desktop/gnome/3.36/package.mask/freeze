@@ -163,6 +163,7 @@
 >=media-sound/sound-juicer-3.38.0
 >=media-video/cheese-3.38.0
 >=media-video/totem-3.38.0
+>=net-dialup/ppp-2.5.0
 >=net-irc/polari-3.38.0
 >=net-libs/dleyna-connector-dbus-0.4.0
 >=net-libs/dleyna-core-0.7.0

@@ -18,7 +18,7 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RESTRICT="!test? ( test )"
 
-# <glib-2.63.3 to avoid getting hit worse by https://gitlab.gnome.org/GNOME/gom/issues/24 - fixed in gom-0.4
+# <glib-2.63.3 to avoid getting hit worse by https://gitlab.gnome.org/GNOME/gom/-/issues/24 - fixed in gom-0.4
 RDEPEND="
 	>=dev-db/sqlite-3.7:3
 	>=dev-libs/glib-2.36:2

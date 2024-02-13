@@ -21,7 +21,7 @@ RDEPEND=">=dev-libs/glib-2.48:2
 DEPEND="${RDEPEND}"
 BDEPEND="
 	${PYTHON_DEPS}
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	virtual/pkgconfig
 "
 

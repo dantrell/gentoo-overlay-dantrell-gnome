@@ -23,7 +23,7 @@ RDEPEND="
 	>=gnome-base/libgtop-2.19
 	x11-libs/vte:2.91
 	>=dev-db/sqlite-3:3
-	sys-devel/gdb
+	dev-debug/gdb
 	dev-libs/boost:=
 	dynamiclayout? ( >=dev-cpp/gdlmm-3.0:3 )
 	memoryview? ( >=app-editors/ghex-2.90:2 )

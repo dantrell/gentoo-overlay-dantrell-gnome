@@ -29,7 +29,7 @@ CDEPEND="
 DEPEND="${CDEPEND}
 	dev-libs/libxslt
 	dev-util/gdbus-codegen
-	>=dev-util/gtk-doc-am-1.15
+	>=dev-build/gtk-doc-am-1.15
 	>=dev-util/intltool-0.40
 	sys-devel/gettext
 	virtual/pkgconfig

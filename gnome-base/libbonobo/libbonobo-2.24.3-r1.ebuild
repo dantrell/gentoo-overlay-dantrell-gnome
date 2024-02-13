@@ -30,7 +30,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	app-alternatives/yacc
 	sys-devel/flex
 	x11-apps/xrdb

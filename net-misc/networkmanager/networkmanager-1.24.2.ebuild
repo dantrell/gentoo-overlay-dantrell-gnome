@@ -66,7 +66,7 @@ COMMON_DEPEND="
 		dev-libs/jansson
 		net-misc/openvswitch
 	)
-	ppp? ( >=net-dialup/ppp-2.4.5:=[ipv6] )
+	ppp? ( >=net-dialup/ppp-2.4.5:=[ipv6(+)] )
 	resolvconf? ( virtual/resolvconf )
 	selinux? ( sys-libs/libselinux )
 	systemd? ( >=sys-apps/systemd-209:0= )
@@ -97,7 +97,7 @@ DEPEND="${COMMON_DEPEND}
 "
 BDEPEND="
 	dev-util/gdbus-codegen
-	!gtk-doc? ( dev-util/gtk-doc-am )
+	!gtk-doc? ( dev-build/gtk-doc-am )
 	gtk-doc? ( dev-util/gtk-doc )
 	>=dev-util/intltool-0.40
 	>=sys-devel/gettext-0.17

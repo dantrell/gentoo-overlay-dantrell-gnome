@@ -23,7 +23,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	>=dev-util/meson-0.50.0
+	>=dev-build/meson-0.50.0
 	gtk-doc? (
 		>=dev-util/gtk-doc-1.14
 		app-text/docbook-xml-dtd:4.3

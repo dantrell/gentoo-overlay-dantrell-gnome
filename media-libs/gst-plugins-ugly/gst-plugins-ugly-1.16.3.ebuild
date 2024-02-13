@@ -17,7 +17,7 @@ RDEPEND="
 	>=media-libs/gst-plugins-base-${PV}:${SLOT}[${MULTILIB_USEDEP}]
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.12
+	>=dev-build/gtk-doc-am-1.12
 "
 
 multilib_src_configure() {

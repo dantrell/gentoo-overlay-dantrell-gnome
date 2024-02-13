@@ -33,7 +33,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 BDEPEND="
 	sys-apps/texinfo
-	sys-devel/libtool
+	dev-build/libtool
 	emacs? ( >=app-editors/emacs-23.1:* )
 "
 

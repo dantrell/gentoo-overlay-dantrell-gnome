@@ -25,7 +25,7 @@ RDEPEND="
 	startup-notification? ( >=x11-libs/startup-notification-0.4 )
 "
 DEPEND="${RDEPEND}
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	>=dev-util/intltool-0.40.6
 	sys-devel/gettext
 	virtual/pkgconfig

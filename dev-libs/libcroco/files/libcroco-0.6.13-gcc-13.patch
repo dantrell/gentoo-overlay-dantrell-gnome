@@ -1,0 +1,11 @@
+diff '--exclude=.git' -urN a/csslint/csslint.c b/csslint/csslint.c
+--- a/csslint/csslint.c	2019-04-06 11:37:03.000000000 -0500
++++ b/csslint/csslint.c	2024-02-10 01:26:47.842163872 -0600
+@@ -28,6 +28,7 @@
+ 
+ #include <glib.h>
+ #include <string.h>
++#include <stdlib.h>
+ 
+ /**
+  *The options data structure.

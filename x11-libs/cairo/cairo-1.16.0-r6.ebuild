@@ -22,7 +22,7 @@ RESTRICT="test"
 
 BDEPEND="
 	virtual/pkgconfig
-	>=sys-devel/libtool-2"
+	>=dev-build/libtool-2"
 RDEPEND="
 	>=dev-libs/lzo-2.06-r1[${MULTILIB_USEDEP}]
 	>=media-libs/fontconfig-2.10.92[${MULTILIB_USEDEP}]

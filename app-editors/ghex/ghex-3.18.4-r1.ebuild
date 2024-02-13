@@ -14,7 +14,7 @@ KEYWORDS="*"
 IUSE=""
 
 # Requires unreleased appstream-glib-0.7.16 for tests to pass..
-RESTRICT="test" # https://gitlab.gnome.org/GNOME/ghex/issues/18
+RESTRICT="test" # https://gitlab.gnome.org/GNOME/ghex/-/issues/18
 
 RDEPEND="
 	>=dev-libs/atk-1.0.0

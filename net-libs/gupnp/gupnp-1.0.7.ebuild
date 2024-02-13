@@ -34,7 +34,7 @@ RDEPEND="${PYTHON_DEPS}
 	!net-libs/gupnp-vala
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.14
+	>=dev-build/gtk-doc-am-1.14
 	sys-devel/gettext
 	virtual/pkgconfig
 "

@@ -19,7 +19,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	>=dev-util/gtk-doc-am-1.4
+	>=dev-build/gtk-doc-am-1.4
 	>=sys-devel/gettext-0.19.4
 	virtual/pkgconfig
 "

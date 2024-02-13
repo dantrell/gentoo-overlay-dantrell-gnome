@@ -55,9 +55,9 @@ DEPEND="${RDEPEND}"
 BDEPEND="
 	${PYTHON_DEPS}
 	dev-lang/perl
-	>=dev-util/gtk-doc-am-1
+	>=dev-build/gtk-doc-am-1
 	>=sys-devel/gettext-0.19.8
-	>=sys-devel/libtool-2.2
+	>=dev-build/libtool-2.2
 	virtual/pkgconfig
 	test? ( $(python_gen_any_dep '>=dev-python/pygobject-3.2:3[${PYTHON_USEDEP}]') )
 	vala? ( $(vala_depend) )
@@ -93,7 +93,7 @@ src_prepare() {
 		-i tests/compositions/Makefile.am || die
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/geg/commit/0703b6b38f4e6cf8ecc623c09c05ef73c6424ee4
+	# 	https://gitlab.gnome.org/GNOME/geg/-/commit/0703b6b38f4e6cf8ecc623c09c05ef73c6424ee4
 	eapply "${FILESDIR}"/${PN}-0.4.16-tools-port-exp-combine-to-use-gexiv2-instead-of-exiv2-directly.patch
 
 	if use openexr && has_version '>=dev-libs/glib-2.67.3'; then

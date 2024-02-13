@@ -38,7 +38,7 @@ PATCHES=(
 
 # Tests have a lot of issues, starting with reliance on a system installation,
 # accessing the network and other intermittent failures with network-sandbox disabled
-# https://gitlab.gnome.org/GNOME/gnome-weather/issues/67 (and rest not filed)
+# https://gitlab.gnome.org/GNOME/gnome-weather/-/issues/67 (and rest not filed)
 # test dep: $(python_gen_any_dep 'dev-util/dogtail[${PYTHON_USEDEP}]')
 # With 3.34, this is now behind a dogtail option we can pass (and have data validation)
 src_configure() {

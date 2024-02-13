@@ -27,7 +27,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	dev-util/gtk-doc
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	>=dev-util/intltool-0.40.6
 	gnome-base/gnome-common
 	sys-devel/gettext

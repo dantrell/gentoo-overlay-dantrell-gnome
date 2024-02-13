@@ -33,7 +33,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	>=dev-util/meson-0.49.0
+	>=dev-build/meson-0.49.0
 	virtual/pkgconfig
 	gtk-doc? ( >=dev-util/gtk-doc-1.15 )
 	vala? ( $(vala_depend) )
@@ -43,7 +43,7 @@ src_prepare() {
 	xdg_src_prepare
 	use vala && vala_src_prepare
 	# Fix showing inside devhelp (gtkdocdir subdir and name of the module need to match)
-	sed -i -e 's:package_name:package_string:' docs/reference/meson.build || die # https://gitlab.gnome.org/GNOME/libchamplain/merge_requests/7
+	sed -i -e 's:package_name:package_string:' docs/reference/meson.build || die # https://gitlab.gnome.org/GNOME/libchamplain/-/merge_requests/7
 }
 
 src_configure() {

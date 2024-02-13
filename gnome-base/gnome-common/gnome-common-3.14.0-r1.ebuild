@@ -11,7 +11,7 @@ LICENSE="GPL-3"
 SLOT="3"
 KEYWORDS="*"
 
-RDEPEND=">=sys-devel/autoconf-archive-2015.02.04"
+RDEPEND=">=dev-build/autoconf-archive-2015.02.04"
 
 src_install() {
 	default

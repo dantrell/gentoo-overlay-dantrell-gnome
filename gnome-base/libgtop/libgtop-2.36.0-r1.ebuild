@@ -19,14 +19,14 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	>=dev-util/gtk-doc-am-1.4
+	>=dev-build/gtk-doc-am-1.4
 	>=sys-devel/gettext-0.19.4
 	virtual/pkgconfig
 "
 
 PATCHES=(
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/libgtop/commit/f5939dc69eac2929df8ff37c7babf03759cb94d5
+	# 	https://gitlab.gnome.org/GNOME/libgtop/-/commit/f5939dc69eac2929df8ff37c7babf03759cb94d5
 	"${FILESDIR}"/${PN}-2.37.92-rework-code-to-get-rid-of-assigment.patch
 )
 

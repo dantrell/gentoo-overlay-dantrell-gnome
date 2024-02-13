@@ -26,7 +26,7 @@ DEPEND="${DEPEND}
 "
 
 PATCHES=(
-	# https://gitlab.gnome.org/aplazas/libmanette/merge_requests/18
+	# https://gitlab.gnome.org/aplazas/libmanette/-/merge_requests/18
 	"${FILESDIR}"/${PN}-0.2.3-optional-introspection-vapi.patch
 )
 

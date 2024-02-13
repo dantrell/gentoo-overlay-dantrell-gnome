@@ -86,7 +86,7 @@ RDEPEND="
 	!<media-libs/gst-plugins-bad-1.15.0:1.0
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.12
+	>=dev-build/gtk-doc-am-1.12
 	X? ( x11-base/xorg-proto )
 "
 

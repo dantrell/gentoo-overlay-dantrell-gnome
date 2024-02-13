@@ -15,7 +15,7 @@ KEYWORDS="*"
 IUSE="gjs gtk-doc +introspection python webkit"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
-RESTRICT="test" # https://gitlab.gnome.org/GNOME/glade/issues/333
+RESTRICT="test" # https://gitlab.gnome.org/GNOME/glade/-/issues/333
 
 DEPEND="
 	dev-libs/atk[introspection?]

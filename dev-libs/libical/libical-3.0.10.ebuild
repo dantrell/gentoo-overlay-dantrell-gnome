@@ -35,7 +35,7 @@ BDEPEND="
 	dev-lang/perl
 	virtual/pkgconfig
 	doc? (
-		app-doc/doxygen
+		app-text/doxygen
 		introspection? ( dev-util/gtk-doc )
 	)
 	introspection? ( dev-libs/gobject-introspection:= )

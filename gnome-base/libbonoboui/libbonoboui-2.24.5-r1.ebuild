@@ -31,7 +31,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	x11-apps/xrdb
 	sys-devel/gettext
 	virtual/pkgconfig

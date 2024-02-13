@@ -16,7 +16,7 @@ KEYWORDS="*"
 IUSE="+introspection python webkit"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
-RESTRICT="test" # https://gitlab.gnome.org/GNOME/glade/issues/333
+RESTRICT="test" # https://gitlab.gnome.org/GNOME/glade/-/issues/333
 
 RDEPEND="
 	dev-libs/atk[introspection?]
@@ -39,7 +39,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	app-text/docbook-xml-dtd:4.1.2
 	dev-libs/libxslt
-	>=dev-util/gtk-doc-am-1.13
+	>=dev-build/gtk-doc-am-1.13
 	dev-util/itstool
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig

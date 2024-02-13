@@ -25,7 +25,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	>=dev-util/gtk-doc-am-1.13
+	>=dev-build/gtk-doc-am-1.13
 	>=dev-util/intltool-0.40
 	virtual/pkgconfig
 	test? ( sys-apps/dbus[${MULTILIB_USEDEP}] )

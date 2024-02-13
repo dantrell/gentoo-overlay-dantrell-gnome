@@ -35,7 +35,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-2.6.0-examples-python3.patch
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/pyatspi2/commit/63c8a0d6cce954bedae34a7f6ebc5807fbef0c14
+	# 	https://gitlab.gnome.org/GNOME/pyatspi2/-/commit/63c8a0d6cce954bedae34a7f6ebc5807fbef0c14
 	"${FILESDIR}"/${PN}-2.24.0-python-3-6-invalid-escape-sequence-deprecation-fix.patch
 )
 

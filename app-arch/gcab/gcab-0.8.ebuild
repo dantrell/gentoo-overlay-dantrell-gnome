@@ -21,7 +21,7 @@ RDEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-0.9.4:= )
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.14
+	>=dev-build/gtk-doc-am-1.14
 	>=dev-util/intltool-0.40
 	sys-devel/gettext
 	virtual/pkgconfig

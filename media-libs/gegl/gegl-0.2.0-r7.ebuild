@@ -41,7 +41,7 @@ DEPEND="${RDEPEND}"
 BDEPEND="
 	dev-lang/perl
 	>=dev-util/intltool-0.40.1
-	>=sys-devel/libtool-2.2
+	>=dev-build/libtool-2.2
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
 "

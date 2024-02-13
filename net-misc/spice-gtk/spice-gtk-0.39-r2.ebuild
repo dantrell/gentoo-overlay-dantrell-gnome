@@ -62,7 +62,7 @@ RDEPEND="${RDEPEND}
 DEPEND="${RDEPEND}
 	>=app-emulation/spice-protocol-0.14.3
 	dev-perl/Text-CSV
-	>=dev-util/gtk-doc-am-1.14
+	>=dev-build/gtk-doc-am-1.14
 	>=sys-devel/gettext-0.17
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )

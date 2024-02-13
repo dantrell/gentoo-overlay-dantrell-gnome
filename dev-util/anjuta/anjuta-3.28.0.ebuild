@@ -56,7 +56,7 @@ RDEPEND="${COMMON_DEPEND}
 "
 DEPEND="${COMMON_DEPEND}
 	>=dev-lang/perl-5
-	>=dev-util/gtk-doc-am-1.4
+	>=dev-build/gtk-doc-am-1.4
 	>=dev-util/intltool-0.40.1
 	sys-devel/bison
 	sys-devel/flex

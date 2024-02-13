@@ -26,7 +26,7 @@ DEPEND="${RDEPEND}
 	$(vala_depend)
 	dev-libs/libxslt
 	dev-util/gdbus-codegen
-	>=dev-util/gtk-doc-am-1.15
+	>=dev-build/gtk-doc-am-1.15
 	>=dev-util/intltool-0.50
 	sys-devel/gettext
 	virtual/pkgconfig

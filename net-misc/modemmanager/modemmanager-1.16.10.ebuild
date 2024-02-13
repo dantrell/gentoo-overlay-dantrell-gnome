@@ -34,7 +34,7 @@ RDEPEND="${DEPEND}
 "
 BDEPEND="
 	dev-util/gdbus-codegen
-	>=dev-util/gtk-doc-am-1
+	>=dev-build/gtk-doc-am-1
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )

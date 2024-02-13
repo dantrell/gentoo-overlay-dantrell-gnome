@@ -49,12 +49,12 @@ REQUIRED_USE="
 RESTRICT="!test? ( test )"
 
 BDEPEND="
-	>=dev-util/meson-0.59
+	>=dev-build/meson-0.59
 	virtual/pkgconfig
 	${PYTHON_DEPS}
 	$(python_gen_any_dep 'dev-python/docutils[${PYTHON_USEDEP}]')
 	doc? (
-		app-doc/doxygen
+		app-text/doxygen
 		media-gfx/graphviz
 	)
 "

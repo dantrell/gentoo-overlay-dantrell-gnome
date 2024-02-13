@@ -36,7 +36,7 @@ DEPEND="${RDEPEND}
 	app-text/docbook-xml-dtd:4.1.2
 	app-text/yelp-tools
 	dev-libs/libxslt
-	>=dev-util/gtk-doc-am-1.13
+	>=dev-build/gtk-doc-am-1.13
 	>=dev-util/intltool-0.41.0
 	dev-util/itstool
 	virtual/pkgconfig

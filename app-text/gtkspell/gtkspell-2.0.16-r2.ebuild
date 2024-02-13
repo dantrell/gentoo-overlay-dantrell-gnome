@@ -16,7 +16,7 @@ RDEPEND="
 	>=app-text/enchant-1.1.6:0="
 DEPEND="${RDEPEND}"
 BDEPEND="
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	>=dev-util/intltool-0.35.0
 	virtual/pkgconfig"
 

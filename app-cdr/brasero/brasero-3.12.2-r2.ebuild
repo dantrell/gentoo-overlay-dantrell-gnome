@@ -50,7 +50,7 @@ RDEPEND="${DEPEND}
 BDEPEND="
 	>=dev-util/intltool-0.50
 	dev-util/itstool
-	>=dev-util/gtk-doc-am-1.12
+	>=dev-build/gtk-doc-am-1.12
 	sys-devel/gettext
 	virtual/pkgconfig
 	test? ( app-text/docbook-xml-dtd:4.3 )

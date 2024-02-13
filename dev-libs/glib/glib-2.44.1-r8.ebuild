@@ -22,7 +22,7 @@ LICENSE="LGPL-2.1+"
 SLOT="2/44"
 KEYWORDS="*"
 
-IUSE="dbus debug fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
+IUSE="dbus debug +elf fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
 REQUIRED_USE="
 	utils? ( ${PYTHON_REQUIRED_USE} )
 	test? ( ${PYTHON_REQUIRED_USE} )
@@ -44,17 +44,17 @@ RDEPEND="
 	utils? (
 		${PYTHON_DEPS}
 		>=dev-util/gdbus-codegen-${PV}[${PYTHON_USEDEP}]
-		!kernel_Winnt? ( virtual/libelf:0= )
+		elf? ( virtual/libelf:0= )
 	)
 "
 DEPEND="${RDEPEND}
 	app-text/docbook-xml-dtd:4.1.2
 	>=dev-libs/libxslt-1.0
 	>=sys-devel/gettext-0.11
-	>=dev-util/gtk-doc-am-1.20
-	systemtap? ( >=dev-util/systemtap-1.3 )
+	>=dev-build/gtk-doc-am-1.20
+	systemtap? ( >=dev-debug/systemtap-1.3 )
 	test? (
-		sys-devel/gdb
+		dev-debug/gdb
 		${PYTHON_DEPS}
 		>=dev-util/gdbus-codegen-${PV}[${PYTHON_USEDEP}]
 		>=sys-apps/dbus-1.2.14 )
@@ -132,19 +132,19 @@ src_prepare() {
 	fi
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/d0219f25970c740ac1a8965754868d54bcd90eeb
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/7dd9ffbcfff3561d2d1bcd247c052e4c4399623f
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/d0219f25970c740ac1a8965754868d54bcd90eeb
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/7dd9ffbcfff3561d2d1bcd247c052e4c4399623f
 	eapply "${FILESDIR}"/${PN}-2.47.2-glib-add-bounds-checked-unsigned-int-arithmetic.patch
 	eapply "${FILESDIR}"/${PN}-2.47.2-tests-test-bounds-checked-int-arithmetic.patch
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/15c5e643c64b5f428fdbb515625dd6e939dcd40b
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/b36b4941a634af096d21f906caae25ef35161166
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/0bfbb0d257593b2fcfaaf9bf09c586057ecfac25
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/9834f79279574e2cddc4dcb6149da9bd782dd40d
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/db2367e8782d7a39fc3e93d13f6a16f10cad04c2
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/ba12fbf8f8861e634def9fc0fb5e9ea603269803
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/f2fb877ef796c543f8ca166c7e05a434f163faf7
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/15c5e643c64b5f428fdbb515625dd6e939dcd40b
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/b36b4941a634af096d21f906caae25ef35161166
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/0bfbb0d257593b2fcfaaf9bf09c586057ecfac25
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/9834f79279574e2cddc4dcb6149da9bd782dd40d
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/db2367e8782d7a39fc3e93d13f6a16f10cad04c2
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/ba12fbf8f8861e634def9fc0fb5e9ea603269803
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/f2fb877ef796c543f8ca166c7e05a434f163faf7
 	eapply "${FILESDIR}"/${PN}-2.45.1-gversionmacros-add-2-46-version-macros.patch
 	eapply "${FILESDIR}"/${PN}-2.47.1-glib-add-2-48-availibity-macros.patch
 	eapply "${FILESDIR}"/${PN}-2.47.2-gtrashstack-uninline-and-deprecate.patch
@@ -154,26 +154,26 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-2.47.4-glibconfig-h-win32-in-remove-g-can-inline.patch
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/ec6971b864a3faffadd0bf4a87c7c1b47697fc83
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/ec6971b864a3faffadd0bf4a87c7c1b47697fc83
 	eapply "${FILESDIR}"/${PN}-2.47.4-gtypes-h-move-g-static-assert-to-function-scope.patch
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/aead1c046dd39748cca449b55ec300ba5f025365
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/aead1c046dd39748cca449b55ec300ba5f025365
 	eapply "${FILESDIR}"/${PN}-2.47.92-gvariant-text-fix-scan-of-positional-parameters.patch
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/f9d9f9c056d96eccbb75dcbdef2b58f6d2a3edea
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/3624e70508d414ae734c0b51f81839f8b5b1c809
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/61136c2c7333a937adb20a4a43f32e66bf89c2f5
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/c7f46997351805e436803ac74a49a88aa1602579
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/ba18667bb467ef4734f5d8a9bbeabcad39be4ecc
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/1ff79690fbd57a1029918ff37b7890b1096854b6
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/0d1eecddd4a87f4fcf6273e0ca95f11019582778
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/4e1567a079c13036320802f49ee8f78f78d0273a
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/8e23a514b02c67104f03545dec58116f00087229
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/8e8f4e6486c1578ae15d63835acd06f237324a6d
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/c79c234c352ff748056a30da6d4a49de0d2f878d
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/359b27d441a4dd701260d041e633e7241c314627
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/f9d9f9c056d96eccbb75dcbdef2b58f6d2a3edea
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/3624e70508d414ae734c0b51f81839f8b5b1c809
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/61136c2c7333a937adb20a4a43f32e66bf89c2f5
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/c7f46997351805e436803ac74a49a88aa1602579
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/ba18667bb467ef4734f5d8a9bbeabcad39be4ecc
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/1ff79690fbd57a1029918ff37b7890b1096854b6
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/0d1eecddd4a87f4fcf6273e0ca95f11019582778
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/4e1567a079c13036320802f49ee8f78f78d0273a
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/8e23a514b02c67104f03545dec58116f00087229
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/8e8f4e6486c1578ae15d63835acd06f237324a6d
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/c79c234c352ff748056a30da6d4a49de0d2f878d
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/359b27d441a4dd701260d041e633e7241c314627
 	eapply "${FILESDIR}"/${PN}-2.47.1-update-to-unicode-8-0.patch
 	eapply "${FILESDIR}"/${PN}-2.47.1-update-unicode-test-data-for-unicode-8.patch
 	eapply "${FILESDIR}"/${PN}-2.47.4-trivial-doc-comment-fix.patch
@@ -188,7 +188,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-2.57.2-unicode-update-test-data-files-for-unicode-11-0-0.patch
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/merge_requests/411
+	# 	https://gitlab.gnome.org/GNOME/glib/-/merge_requests/411
 	# 	https://www.openwall.com/lists/oss-security/2018/10/23/5
 	eapply "${FILESDIR}"/${PN}-2.42.2-various-gvariant-gmarkup-and-gdbus-fuzzing-fixes.patch
 
@@ -196,7 +196,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-2.44.1-bionic-nameser.patch
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174 (CVE-2019-12450)
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174 (CVE-2019-12450)
 	eapply "${FILESDIR}"/${PN}-2.61.1-gfile-limit-access-to-files-when-copying.patch
 
 	# gdbus-codegen is a separate package

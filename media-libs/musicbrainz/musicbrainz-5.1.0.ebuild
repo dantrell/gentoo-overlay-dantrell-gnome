@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 
 inherit cmake
 
@@ -20,7 +20,8 @@ RDEPEND="
 	dev-libs/libxml2
 	net-libs/neon
 "
-DEPEND="${RDEPEND}
+DEPEND="
+	${RDEPEND}
 	test? ( dev-util/cppunit )
 "
 

@@ -31,7 +31,7 @@ DEPEND="${RDEPEND}
 	gtk-doc? (
 		media-gfx/graphviz
 		dev-libs/libxslt
-		app-doc/doxygen )
+		app-text/doxygen )
 "
 # eautoreconf needs mm-common
 

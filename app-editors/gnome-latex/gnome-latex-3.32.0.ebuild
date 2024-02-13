@@ -39,7 +39,7 @@ RDEPEND="${DEPEND}
 BDEPEND="
 	app-text/yelp-tools
 	dev-util/gdbus-codegen
-	>=dev-util/gtk-doc-am-1.14
+	>=dev-build/gtk-doc-am-1.14
 	>=dev-util/intltool-0.50.1
 	virtual/pkgconfig
 "

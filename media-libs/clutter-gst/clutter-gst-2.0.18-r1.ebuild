@@ -28,7 +28,7 @@ RDEPEND="${COMMON_DEPEND}
 	>=media-libs/gst-plugins-good-1.2.0:1.0
 "
 DEPEND="${COMMON_DEPEND}
-	>=dev-util/gtk-doc-am-1.8
+	>=dev-build/gtk-doc-am-1.8
 	virtual/pkgconfig
 "
 

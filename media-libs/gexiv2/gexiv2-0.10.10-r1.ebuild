@@ -41,7 +41,7 @@ BDEPEND="
 
 src_prepare() {
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/gexiv2/commit/abf4c28107327ce7fd18872ea045b259cda9436d
+	# 	https://gitlab.gnome.org/GNOME/gexiv2/-/commit/abf4c28107327ce7fd18872ea045b259cda9436d
 	eapply -R "${FILESDIR}"/${PN}-0.10.9-use-g-add-private.patch
 
 	xdg_environment_reset

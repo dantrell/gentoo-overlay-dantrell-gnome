@@ -30,7 +30,7 @@ RDEPEND="${DEPEND}
 	!udev? ( media-plugins/gst-plugins-v4l2 )
 "
 BDEPEND="
-	>=dev-util/gtk-doc-am-1.11
+	>=dev-build/gtk-doc-am-1.11
 	virtual/pkgconfig
 "
 

@@ -4,6 +4,7 @@ app-accessibility/at-spi2-core::gentoo
 app-accessibility/caribou::gentoo
 app-admin/eselect::gentoo
 app-admin/gnome-system-log::gentoo
+app-admin/openrc-settingsd::gentoo
 app-admin/packagekit-base::gentoo
 app-admin/system-config-printer::gentoo
 app-arch/file-roller::gentoo
@@ -47,6 +48,8 @@ app-text/libgepub::gentoo
 app-text/libgxps::gentoo
 app-text/poppler::gentoo
 app-text/yelp-tools::gentoo
+dev-build/gtk-doc-am::gentoo
+dev-build/meson::gentoo
 dev-cpp/atkmm::gentoo
 dev-cpp/cairomm::gentoo
 dev-cpp/gdlmm::gentoo
@@ -119,11 +122,9 @@ dev-util/glade::gentoo
 dev-util/glib-utils::gentoo
 dev-util/gnome-devel-docs::gentoo
 dev-util/gtk-builder-convert::gentoo
-dev-util/gtk-doc-am::gentoo
 dev-util/gtk-doc::gentoo
 dev-util/gtk-update-icon-cache::gentoo
 dev-util/meld::gentoo
-dev-util/meson::gentoo
 dev-util/nemiver::gentoo
 dev-util/umockdev::gentoo
 dev-util/valadoc::gentoo
@@ -344,6 +345,7 @@ net-libs/gupnp::gentoo
 net-libs/libmbim::gentoo
 net-libs/libnice::gentoo
 net-libs/libnma::gentoo
+net-libs/libproxy::gentoo
 net-libs/libpsl::gentoo
 net-libs/libqmi::gentoo
 net-libs/libsignal-protocol-c::gentoo

@@ -9,11 +9,11 @@
 # Michał Górny <mgorny@gentoo.org>
 # Mike Gilbert <floppym@gentoo.org>
 # @SUPPORTED_EAPIS: 5 6 7 8
-# @BLURB: common bits to run dev-util/ninja builder
+# @BLURB: common bits to run dev-build/ninja builder
 # @DESCRIPTION:
 # This eclass provides a single function -- eninja -- that can be used
 # to run the ninja builder alike emake. It does not define any
-# dependencies, you need to depend on dev-util/ninja yourself. Since
+# dependencies, you need to depend on dev-build/ninja yourself. Since
 # ninja is rarely used stand-alone, most of the time this eclass will
 # be used indirectly by the eclasses for other build systems (CMake,
 # Meson).
@@ -52,10 +52,10 @@ inherit multiprocessing
 
 case "${NINJA}" in
 	ninja)
-		NINJA_DEPEND=">=dev-util/ninja-1.8.2"
+		NINJA_DEPEND=">=dev-build/ninja-1.8.2"
 	;;
 	samu)
-		NINJA_DEPEND="dev-util/samurai"
+		NINJA_DEPEND="dev-build/samurai"
 	;;
 	*)
 		NINJA_DEPEND=""

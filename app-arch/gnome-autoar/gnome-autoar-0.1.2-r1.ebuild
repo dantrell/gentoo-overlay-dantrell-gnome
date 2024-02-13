@@ -29,9 +29,9 @@ BDEPEND="
 
 PATCHES=(
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/gnome-autoar/commit/88e21e8aa2841216fa1d7fba617a8692912af51e
-	# 	https://gitlab.gnome.org/GNOME/gnome-autoar/commit/c4b0b9c9b6522058dc43ee817b0e0bbd1f030617
-	# 	https://gitlab.gnome.org/GNOME/gnome-autoar/commit/8109c368c6cfdb593faaf698c2bf5da32bb1ace4
+	# 	https://gitlab.gnome.org/GNOME/gnome-autoar/-/commit/88e21e8aa2841216fa1d7fba617a8692912af51e
+	# 	https://gitlab.gnome.org/GNOME/gnome-autoar/-/commit/c4b0b9c9b6522058dc43ee817b0e0bbd1f030617
+	# 	https://gitlab.gnome.org/GNOME/gnome-autoar/-/commit/8109c368c6cfdb593faaf698c2bf5da32bb1ace4
 	"${FILESDIR}"/${PN}-0.3.1-extractor-detect-conflict-also-for-directories.patch
 	"${FILESDIR}"/${PN}-0.3.1-extractor-do-not-follow-symlinks-when-detecting-conflicts.patch
 	"${FILESDIR}"/${PN}-0.3.1-extractor-do-not-allow-symlink-in-parents.patch

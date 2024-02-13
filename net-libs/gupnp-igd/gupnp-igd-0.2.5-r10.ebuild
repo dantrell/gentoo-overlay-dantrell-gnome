@@ -23,13 +23,13 @@ RDEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-0.10:= )
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.10
+	>=dev-build/gtk-doc-am-1.10
 	sys-devel/gettext
 	virtual/pkgconfig
 "
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-0.2.5-gupnp-1.2.patch # needs eautoreconf, https://gitlab.gnome.org/GNOME/gupnp-igd/merge_requests/1
+	"${FILESDIR}"/${PN}-0.2.5-gupnp-1.2.patch # needs eautoreconf, https://gitlab.gnome.org/GNOME/gupnp-igd/-/merge_requests/1
 )
 
 src_prepare() {

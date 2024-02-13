@@ -52,9 +52,9 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 BDEPEND="
 	dev-lang/perl
-	>=dev-util/gtk-doc-am-1
+	>=dev-build/gtk-doc-am-1
 	>=dev-util/intltool-0.40.1
-	>=sys-devel/libtool-2.2
+	>=dev-build/libtool-2.2
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
 "
@@ -76,7 +76,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/${P}-implicit-declaration.patch
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/geg/commit/0703b6b38f4e6cf8ecc623c09c05ef73c6424ee4
+	# 	https://gitlab.gnome.org/GNOME/geg/-/commit/0703b6b38f4e6cf8ecc623c09c05ef73c6424ee4
 	eapply "${FILESDIR}"/${PN}-0.4.16-tools-port-exp-combine-to-use-gexiv2-instead-of-exiv2-directly.patch
 
 	if use openexr && has_version '>=dev-libs/glib-2.67.3'; then

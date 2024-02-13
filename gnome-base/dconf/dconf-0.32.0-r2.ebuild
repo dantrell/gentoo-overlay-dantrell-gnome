@@ -34,7 +34,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-0.30.1-bash-completion-dir.patch
 	"${FILESDIR}"/${PN}-0.32.0-drop-vapigen-dep.patch # .vapi/.deps are pregenerated, just install them without a vala dep
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/dconf/commit/cc32667c5d7d9ff95e65cc21f59905d8f9218394
+	# 	https://gitlab.gnome.org/GNOME/dconf/-/commit/cc32667c5d7d9ff95e65cc21f59905d8f9218394
 	"${FILESDIR}"/${PN}-0.35.1-build-update-use-of-link-whole-for-meson-0-52.patch
 )
 

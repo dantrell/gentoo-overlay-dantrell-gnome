@@ -12,7 +12,7 @@ LICENSE="LGPL-2.1+"
 SLOT="2/60"
 KEYWORDS="*"
 
-IUSE="dbus debug elibc_glibc fam gtk-doc kernel_linux +mime selinux static-libs systemtap test xattr"
+IUSE="dbus debug +elf elibc_glibc fam gtk-doc kernel_linux +mime selinux static-libs systemtap test xattr"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RESTRICT="!test? ( test )"
@@ -40,7 +40,7 @@ RDEPEND="
 	kernel_linux? ( >=sys-apps/util-linux-2.23[${MULTILIB_USEDEP}] )
 	selinux? ( >=sys-libs/libselinux-2.2.2-r5[${MULTILIB_USEDEP}] )
 	xattr? ( !elibc_glibc? ( >=sys-apps/attr-2.4.47-r1[${MULTILIB_USEDEP}] ) )
-	!kernel_Winnt? ( virtual/libelf:0= )
+	elf? ( virtual/libelf:0= )
 	fam? ( >=virtual/fam-0-r1[${MULTILIB_USEDEP}] )
 "
 DEPEND="${RDEPEND}"
@@ -52,7 +52,7 @@ BDEPEND="
 	gtk-doc? ( >=dev-util/gtk-doc-1.20
 		app-text/docbook-xml-dtd:4.2
 		app-text/docbook-xml-dtd:4.5 )
-	systemtap? ( >=dev-util/systemtap-1.3 )
+	systemtap? ( >=dev-debug/systemtap-1.3 )
 	${PYTHON_DEPS}
 	test? ( >=sys-apps/dbus-1.2.14 )
 	virtual/pkgconfig
@@ -85,8 +85,8 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-2.60.7-gdbus-fixes.patch #700538, included in 2.62.3+
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/cc3cf6b8b2ad12d54f3474113f0ccfa7dcf66b7b (CVE-2020-6750)
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/2722620e3291b930a3a228100d7c0e07b69534e3 (CVE-2020-6750)
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/cc3cf6b8b2ad12d54f3474113f0ccfa7dcf66b7b (CVE-2020-6750)
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/2722620e3291b930a3a228100d7c0e07b69534e3 (CVE-2020-6750)
 	eapply "${FILESDIR}"/${PN}-2.63.4-gsocketclient-run-timeout-source-on-the-tasks-main-context.patch
 	eapply "${FILESDIR}"/${PN}-2.63.6-refactor-g-socket-client-connect-async.patch
 
@@ -105,7 +105,7 @@ src_prepare() {
 		#if ! has_version x11-terms/xterm && ! has_version x11-terms/gnome-terminal ; then
 		#	ewarn "Some tests will be skipped due to missing terminal program"
 		# These tests seem to sometimes fail even with a terminal; skip for now and reevulate with meson
-		# Also try https://gitlab.gnome.org/GNOME/glib/issues/1601 once ready for backport (or in a bump) and file new issue if still fails
+		# Also try https://gitlab.gnome.org/GNOME/glib/-/issues/1601 once ready for backport (or in a bump) and file new issue if still fails
 		sed -i -e "/appinfo\/launch/d" gio/tests/appinfo.c || die
 		# desktop-app-info/launch* might fail similarly
 		sed -i -e "/desktop-app-info\/launch-as-manager/d" gio/tests/desktop-app-info.c || die
@@ -146,7 +146,7 @@ multilib_src_configure() {
 	if use debug; then
 		append-cflags -DG_ENABLE_DEBUG
 	else
-		append-cflags -DG_DISABLE_CAST_CHECKS # https://gitlab.gnome.org/GNOME/glib/issues/1833
+		append-cflags -DG_DISABLE_CAST_CHECKS # https://gitlab.gnome.org/GNOME/glib/-/issues/1833
 	fi
 
 	# TODO: figure a way to pass appropriate values for all cross properties that glib uses (search for get_cross_property)

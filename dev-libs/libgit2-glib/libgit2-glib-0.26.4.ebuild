@@ -31,7 +31,7 @@ DEPEND="${RDEPEND}"
 BDEPEND="
 	virtual/pkgconfig
 	gtk-doc? (
-		>=dev-util/gtk-doc-am-1.11
+		>=dev-build/gtk-doc-am-1.11
 	)
 	vala? (
 		$(vala_depend)

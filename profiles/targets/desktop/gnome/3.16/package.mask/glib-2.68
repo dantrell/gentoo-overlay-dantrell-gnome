@@ -1,4 +1,5 @@
 # Requires GLib 2.68 (or greater)
+>=app-admin/openrc-settingsd-1.3.0
 >=app-crypt/gcr-4.0.0
 >=dev-libs/gmime-3.2.11
 >=media-libs/libshumate-1.0.3

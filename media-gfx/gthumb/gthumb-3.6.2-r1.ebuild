@@ -63,9 +63,9 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-3.6.2-exiv2-0.27.patch
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/gthumb/commit/5bc151d4cf1b42cb42a846d946bd51ae32a510e0
-	# 	https://gitlab.gnome.org/GNOME/gthumb/commit/6e56da85c9ad12b3c24071db17377e6cdc11efe6
-	# 	https://gitlab.gnome.org/GNOME/gthumb/commit/4faa5ce2358812d23a1147953ee76f59631590ad
+	# 	https://gitlab.gnome.org/GNOME/gthumb/-/commit/5bc151d4cf1b42cb42a846d946bd51ae32a510e0
+	# 	https://gitlab.gnome.org/GNOME/gthumb/-/commit/6e56da85c9ad12b3c24071db17377e6cdc11efe6
+	# 	https://gitlab.gnome.org/GNOME/gthumb/-/commit/4faa5ce2358812d23a1147953ee76f59631590ad
 	"${FILESDIR}"/${PN}-3.9.1-jpeg-loader-crash-when-the-original-size-is-too-big-for-a-cairo-surface.patch
 	"${FILESDIR}"/${PN}-3.9.1-jpeg-loader-error-if-the-orientation-swaps-width-and-height.patch
 	"${FILESDIR}"/${PN}-3.9.1-jpeg-loader-do-not-scan-more-than-output-height-lines.patch

@@ -116,6 +116,9 @@ PATCHES=(
 	# From Inkscape:
 	# 	https://gitlab.com/inkscape/inkscape/commit/5724c21b9cb7b6176a7b36ca24068b148c817e82
 	"${FILESDIR}"/${PN}-1.1-poppler-21.11.0.patch
+	# From Inkscape:
+	# 	https://gitlab.com/inkscape/inkscape/commit/694d8ae43d06efff21adebf377ce614d660b24cd
+	"${FILESDIR}"/${PN}-0.92.4-libxml2-2.12.patch
 )
 
 S="${WORKDIR}/${MY_P}"

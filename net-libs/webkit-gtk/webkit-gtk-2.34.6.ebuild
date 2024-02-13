@@ -126,7 +126,7 @@ BDEPEND="
 
 	gtk-doc? ( >=dev-util/gtk-doc-1.32 )
 	geolocation? ( dev-util/gdbus-codegen )
-	>=dev-util/cmake-3.10
+	>=dev-build/cmake-3.10
 "
 #	test? (
 #		dev-python/pygobject:3[python_targets_python2_7]

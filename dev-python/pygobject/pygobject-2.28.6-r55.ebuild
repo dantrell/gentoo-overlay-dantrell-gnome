@@ -24,7 +24,7 @@ COMMON_DEPEND=">=dev-libs/glib-2.24.0:2
 	${PYTHON_DEPS}
 "
 DEPEND="${COMMON_DEPEND}
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	virtual/pkgconfig
 	test? (
 		media-fonts/font-cursor-misc

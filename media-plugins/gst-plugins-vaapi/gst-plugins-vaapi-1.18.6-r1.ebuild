@@ -67,7 +67,7 @@ RDEPEND="
 		x11-libs/libXrender[${MULTILIB_USEDEP}] )
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.12
+	>=dev-build/gtk-doc-am-1.12
 "
 BDEPEND="${PYTHON_DEPS}"
 

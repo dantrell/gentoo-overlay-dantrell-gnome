@@ -22,7 +22,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	>=dev-util/gtk-doc-am-1.14
+	>=dev-build/gtk-doc-am-1.14
 	virtual/pkgconfig
 	gtk-doc? (
 		dev-util/gtk-doc

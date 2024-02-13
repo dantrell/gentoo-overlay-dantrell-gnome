@@ -35,7 +35,7 @@ RDEPEND="${DEPEND}
 	telepathy? ( net-im/telepathy-mission-control )
 "
 BDEPEND="
-	>=dev-util/meson-0.51
+	>=dev-build/meson-0.51
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	bluetooth? ( dev-python/python-dbusmock )

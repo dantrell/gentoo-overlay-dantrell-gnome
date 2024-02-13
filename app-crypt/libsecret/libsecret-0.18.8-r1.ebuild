@@ -31,7 +31,7 @@ RDEPEND="${DEPEND}
 BDEPEND="
 	dev-libs/libxslt
 	dev-util/gdbus-codegen
-	>=dev-util/gtk-doc-am-1.9
+	>=dev-build/gtk-doc-am-1.9
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	test? (
@@ -58,7 +58,7 @@ pkg_setup() {
 
 src_prepare() {
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/libsecret/commit/80afd20c19389ffbae7a05f0e197dd1db50289ad
+	# 	https://gitlab.gnome.org/GNOME/libsecret/-/commit/80afd20c19389ffbae7a05f0e197dd1db50289ad
 	eapply -R "${FILESDIR}"/${PN}-0.18.8-require-glib-2-44.patch
 
 	eautoreconf

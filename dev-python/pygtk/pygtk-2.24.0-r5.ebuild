@@ -52,7 +52,7 @@ PATCHES=(
 	# Fix build on Darwin
 	"${FILESDIR}"/${PN}-2.24.0-quartz-objc.patch
 	# From GNOME:
-	# 	https://gitlab.gnome.org/Archive/pygtk/commit/4aaa48eb80c6802aec6d03e5695d2a0ff20e0fc2
+	# 	https://gitlab.gnome.org/Archive/pygtk/-/commit/4aaa48eb80c6802aec6d03e5695d2a0ff20e0fc2
 	"${FILESDIR}"/${PN}-2.24.1-drop-the-pangofont-find-shaper-virtual-method.patch
 )
 

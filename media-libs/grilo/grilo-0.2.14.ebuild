@@ -30,7 +30,7 @@ RDEPEND="
 	playlist? ( >=dev-libs/totem-pl-parser-3.4.1 )
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.10
+	>=dev-build/gtk-doc-am-1.10
 	>=dev-util/intltool-0.40
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )

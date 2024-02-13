@@ -26,7 +26,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	dev-libs/libxslt
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
 "

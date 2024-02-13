@@ -55,7 +55,7 @@ PATCHES=(
 src_prepare() {
 	use vala && vala_src_prepare
 	xdg_src_prepare
-	# https://gitlab.gnome.org/GNOME/libsoup/issues/159 - could work with libnss-myhostname
+	# https://gitlab.gnome.org/GNOME/libsoup/-/issues/159 - could work with libnss-myhostname
 	sed -e '/hsts/d' -i tests/meson.build || die
 }
 

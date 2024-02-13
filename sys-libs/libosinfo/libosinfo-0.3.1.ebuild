@@ -29,7 +29,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 BDEPEND="
 	dev-libs/gobject-introspection-common
-	>=dev-util/gtk-doc-am-1.10
+	>=dev-build/gtk-doc-am-1.10
 	virtual/pkgconfig
 	test? ( dev-libs/check )
 	vala? ( $(vala_depend) )

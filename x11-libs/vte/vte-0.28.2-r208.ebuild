@@ -31,7 +31,7 @@ RDEPEND="
 	)
 "
 DEPEND="${RDEPEND}
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	>=dev-util/intltool-0.35
 	virtual/pkgconfig
 	sys-devel/gettext

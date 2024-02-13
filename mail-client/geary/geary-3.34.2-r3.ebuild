@@ -63,7 +63,7 @@ BDEPEND="
 "
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-3.34.2-fix-ytnef-automagic.patch # https://gitlab.gnome.org/GNOME/geary/merge_requests/390
+	"${FILESDIR}"/${PN}-3.34.2-fix-ytnef-automagic.patch # https://gitlab.gnome.org/GNOME/geary/-/merge_requests/390
 )
 
 src_prepare() {

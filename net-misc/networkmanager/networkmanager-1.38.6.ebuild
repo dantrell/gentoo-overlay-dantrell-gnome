@@ -55,7 +55,7 @@ COMMON_DEPEND="
 	gnutls? (
 		>=net-libs/gnutls-2.12:=[${MULTILIB_USEDEP}]
 	)
-	ppp? ( >=net-dialup/ppp-2.4.5:=[ipv6] )
+	ppp? ( >=net-dialup/ppp-2.4.5:=[ipv6(+)] )
 	modemmanager? (
 		net-misc/mobile-broadband-provider-info
 		>=net-misc/modemmanager-0.7.991:0=
@@ -103,7 +103,7 @@ DEPEND="${COMMON_DEPEND}
 "
 BDEPEND="
 	dev-util/gdbus-codegen
-	!gtk-doc? ( dev-util/gtk-doc-am )
+	!gtk-doc? ( dev-build/gtk-doc-am )
 	gtk-doc? (
 		dev-util/gtk-doc
 		app-text/docbook-xml-dtd:4.1.2

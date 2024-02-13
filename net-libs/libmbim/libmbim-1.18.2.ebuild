@@ -18,7 +18,7 @@ RDEPEND=">=dev-libs/glib-2.36:2
 	udev? ( dev-libs/libgudev:= )"
 DEPEND="${RDEPEND}"
 BDEPEND="
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	virtual/pkgconfig
 "
 

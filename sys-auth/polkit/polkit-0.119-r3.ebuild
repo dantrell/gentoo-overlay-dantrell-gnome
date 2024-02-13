@@ -24,7 +24,7 @@ BDEPEND="
 	dev-libs/glib
 	dev-libs/gobject-introspection-common
 	dev-libs/libxslt
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	dev-util/intltool
 	sys-devel/gettext
 	virtual/pkgconfig

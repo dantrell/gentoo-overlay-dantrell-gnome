@@ -25,12 +25,12 @@ RDEPEND="
 	startup-notification? ( >=x11-libs/startup-notification-0.4 )
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.9
+	>=dev-build/gtk-doc-am-1.9
 	>=sys-devel/gettext-0.19.4
 	virtual/pkgconfig
 "
 # eautoreconf needs
-#	sys-devel/autoconf-archive
+#	dev-build/autoconf-archive
 
 src_configure() {
 	# Don't collide with SLOT=1

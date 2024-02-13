@@ -32,7 +32,7 @@ BDEPEND="
 	gtk-doc? (
 		${PYTHON_DEPS}
 		>=dev-cpp/mm-common-1.0.4
-		app-doc/doxygen[dot]
+		app-text/doxygen[dot]
 		dev-libs/libxslt
 	)
 "

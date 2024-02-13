@@ -21,7 +21,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	>=dev-util/gtk-doc-am-1.4
+	>=dev-build/gtk-doc-am-1.4
 	>=sys-devel/gettext-0.19.6
 	virtual/pkgconfig
 "
@@ -30,7 +30,7 @@ PATCHES=(
 	"${WORKDIR}"/patches # patches from master (not stable branch) that seem safe and fix potential eautoreconf problems
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/libgtop/issues/48
+	# 	https://gitlab.gnome.org/GNOME/libgtop/-/issues/48
 	"${FILESDIR}"/${PN}-2.40.0-sandbox-workaround.patch # requires suid handling in ebuild
 
 	"${FILESDIR}"/${PN}-2.40.0-clang.patch

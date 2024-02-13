@@ -36,7 +36,7 @@ RDEPEND="
 # libxml2 required for glib-compile-resources
 DEPEND="${RDEPEND}
 	dev-libs/libxml2:2
-	>=dev-util/gtk-doc-am-1.16
+	>=dev-build/gtk-doc-am-1.16
 	dev-util/itstool
 	>=sys-devel/gettext-0.19.7
 	virtual/pkgconfig

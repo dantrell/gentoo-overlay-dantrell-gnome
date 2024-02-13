@@ -25,7 +25,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="${PYTHON_DEPS}
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	sys-devel/gettext
 	virtual/pkgconfig
 	man? ( dev-libs/libxslt )

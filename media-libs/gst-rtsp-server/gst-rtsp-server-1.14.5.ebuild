@@ -26,7 +26,7 @@ RDEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-1.31.1:= )
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.12
+	>=dev-build/gtk-doc-am-1.12
 "
 
 # Due to gstreamer src_configure

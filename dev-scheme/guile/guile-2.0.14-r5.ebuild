@@ -32,7 +32,7 @@ BDEPEND="
 	doc? ( sys-apps/texinfo )
 	emacs? ( >=app-editors/emacs-23.1:* )
 	virtual/pkgconfig
-	sys-devel/libtool
+	dev-build/libtool
 	sys-devel/gettext
 "
 

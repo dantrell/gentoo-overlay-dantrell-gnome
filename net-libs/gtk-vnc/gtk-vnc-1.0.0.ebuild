@@ -42,7 +42,7 @@ BDEPEND="
 "
 
 PATCHES=(
-	# Few fixes from origin/master + optionality patches filed as https://gitlab.gnome.org/GNOME/gtk-vnc/merge_requests/6
+	# Few fixes from origin/master + optionality patches filed as https://gitlab.gnome.org/GNOME/gtk-vnc/-/merge_requests/6
 	"${FILESDIR}"/patches
 	"${FILESDIR}"/${PN}-1.0.0-honor-python-ver.patch
 )

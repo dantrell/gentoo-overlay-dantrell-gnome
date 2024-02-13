@@ -31,11 +31,11 @@ RDEPEND="
 	)
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.20
+	>=dev-build/gtk-doc-am-1.20
 	virtual/pkgconfig
 	test? ( media-fonts/cantarell )
 	X? ( x11-base/xorg-proto )
-	!<=sys-devel/autoconf-2.63:2.5
+	!<=dev-build/autoconf-2.63:2.5
 "
 
 PATCHES=(
@@ -46,7 +46,7 @@ PATCHES=(
 src_prepare() {
 	gnome2_src_prepare
 	# This should be updated if next release fails to pre-generate the manpage as well, or src_prepare removed if is properly generated
-	# https://gitlab.gnome.org/GNOME/pango/issues/270
+	# https://gitlab.gnome.org/GNOME/pango/-/issues/270
 	cp -v "${FILESDIR}"/1.42.4-pango-view.1.in "${S}/utils/pango-view.1.in" || die
 }
 

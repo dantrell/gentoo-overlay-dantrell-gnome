@@ -34,7 +34,7 @@ BDEPEND="
 
 src_prepare() {
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/vala/commit/06f4b599554773b5fbfe7cbab99eff8d94d2cb94
+	# 	https://gitlab.gnome.org/GNOME/vala/-/commit/06f4b599554773b5fbfe7cbab99eff8d94d2cb94
 	eapply "${FILESDIR}"/${PN}-0.26.2-girparser-skip-source-position-elements.patch
 
 	gnome2_src_prepare

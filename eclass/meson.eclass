@@ -47,9 +47,9 @@ inherit multiprocessing ninja-utils python-utils-r1 toolchain-funcs
 
 EXPORT_FUNCTIONS src_configure src_compile src_test src_install
 
-BDEPEND=">=dev-util/meson-0.62.2
+BDEPEND=">=dev-build/meson-0.62.2
 	${NINJA_DEPEND}
-	dev-util/meson-format-array
+	dev-build/meson-format-array
 "
 
 if [[ ${EAPI} == 6 ]]; then

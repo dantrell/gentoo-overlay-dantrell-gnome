@@ -39,7 +39,7 @@ RDEPEND="${DEPEND}
 	telepathy? ( net-im/telepathy-mission-control )
 "
 BDEPEND="
-	>=dev-util/meson-0.49
+	>=dev-build/meson-0.49
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	test? ( sys-apps/dbus
@@ -52,7 +52,7 @@ BDEPEND="
 PATCHES=(
 	"${FILESDIR}"/${PN}-0.12.1-conditional-tests.patch # Allow not building lots of test executables when tests are disabled
 	"${FILESDIR}"/${PN}-0.12.1-no-tracker-tests.patch # TODO: Tracker tests fail; this removes them for now
-	"${FILESDIR}"/${PN}-0.12.1-meson-0.53-compat.patch # https://gitlab.gnome.org/GNOME/folks/issues/119
+	"${FILESDIR}"/${PN}-0.12.1-meson-0.53-compat.patch # https://gitlab.gnome.org/GNOME/folks/-/issues/119
 	"${FILESDIR}"/${PN}-0.12.1-meson-0.53-compat2.patch # Don't require dbusmock if tests aren't built (with our downstream conditional-tests patch)
 )
 

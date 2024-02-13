@@ -22,7 +22,7 @@ LICENSE="LGPL-2.1+"
 SLOT="2/58"
 KEYWORDS="*"
 
-IUSE="dbus debug fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
+IUSE="dbus debug +elf fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
 REQUIRED_USE="
 	${PYTHON_REQUIRED_USE}
 	test? ( ${PYTHON_REQUIRED_USE} )
@@ -48,16 +48,16 @@ RDEPEND="
 	xattr? ( >=sys-apps/attr-2.4.47-r1[${MULTILIB_USEDEP}] )
 	fam? ( >=virtual/fam-0-r1[${MULTILIB_USEDEP}] )
 	${PYTHON_DEPS}
-	!kernel_Winnt? ( virtual/libelf:0= )
+	elf? ( virtual/libelf:0= )
 "
 DEPEND="${RDEPEND}
 	app-text/docbook-xml-dtd:4.1.2
 	>=dev-libs/libxslt-1.0
 	>=sys-devel/gettext-0.11
 	>=dev-util/gtk-doc-1.20
-	systemtap? ( >=dev-util/systemtap-1.3 )
+	systemtap? ( >=dev-debug/systemtap-1.3 )
 	test? (
-		sys-devel/gdb
+		dev-debug/gdb
 		${PYTHON_DEPS}
 		>=sys-apps/dbus-1.2.14 )
 	!<dev-util/gtk-doc-1.15-r2
@@ -118,7 +118,7 @@ src_prepare() {
 	fi
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174 (CVE-2019-12450)
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174 (CVE-2019-12450)
 	eapply "${FILESDIR}"/${PN}-2.61.1-gfile-limit-access-to-files-when-copying.patch
 
 	# Leave python shebang alone - handled by python_replicate_script

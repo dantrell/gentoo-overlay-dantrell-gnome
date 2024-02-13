@@ -40,7 +40,7 @@ BDEPEND="
 	dev-libs/gobject-introspection-common
 	dev-libs/vala-common
 	>=sys-devel/gettext-0.19.8
-	>=dev-util/gtk-doc-am-1.13
+	>=dev-build/gtk-doc-am-1.13
 	virtual/pkgconfig
 	gtk-doc? ( >=dev-util/gtk-doc-1.13 )
 	x11-libs/gdk-pixbuf

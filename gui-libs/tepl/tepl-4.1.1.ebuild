@@ -27,10 +27,10 @@ RDEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-1.42:= )
 "
 DEPEND="${RDEPEND}
-	test? ( dev-util/valgrind )
+	test? ( dev-debug/valgrind )
 	vala? ( $(vala_depend) )
 	>=sys-devel/gettext-0.19.4
-	>=dev-util/gtk-doc-am-1.25
+	>=dev-build/gtk-doc-am-1.25
 	virtual/pkgconfig
 "
 

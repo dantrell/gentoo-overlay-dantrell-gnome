@@ -63,7 +63,7 @@ DEPEND="${RDEPEND}
 	>=app-emulation/spice-protocol-0.12.14
 	<app-emulation/spice-protocol-14.0
 	dev-perl/Text-CSV
-	>=dev-util/gtk-doc-am-1.14
+	>=dev-build/gtk-doc-am-1.14
 	>=dev-util/intltool-0.40.0
 	>=sys-devel/gettext-0.17
 	virtual/pkgconfig

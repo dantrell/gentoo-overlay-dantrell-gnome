@@ -168,6 +168,7 @@
 >=media-video/cheese-3.16.0
 >=media-video/pipewire-0.3.48
 >=media-video/totem-3.16.0
+>=net-dialup/ppp-2.5.0
 >=net-im/dino-0.0
 >=net-irc/polari-3.16.0
 >=net-libs/dleyna-connector-dbus-0.3.0

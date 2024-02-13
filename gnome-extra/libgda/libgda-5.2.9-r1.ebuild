@@ -64,7 +64,7 @@ DEPEND="${RDEPEND}
 # java dep shouldn't rely on slots, bug #450004
 BDEPEND="
 	app-text/yelp-tools
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	>=dev-util/intltool-0.40.6
 	virtual/pkgconfig
 	java? ( >=virtual/jdk-1.6 )
@@ -124,7 +124,7 @@ src_configure() {
 
 	use vala && vala_setup
 
-	# Upstream broken configure handling for UI library introspection and vala bindings if passing a choice with use_enable - https://gitlab.gnome.org/GNOME/libgda/issues/158
+	# Upstream broken configure handling for UI library introspection and vala bindings if passing a choice with use_enable - https://gitlab.gnome.org/GNOME/libgda/-/issues/158
 	# But if we don't pass an explicit choice, it behaves as we need (only enable them if --enable-ui AND the appropriate --enable-introspection or --enable-vala)
 	gnome2_src_configure \
 		--with-help \

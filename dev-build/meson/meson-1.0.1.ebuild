@@ -5,17 +5,19 @@ EAPI="8"
 PYTHON_COMPAT=( python{3_10,3_11,3_12} )
 DISTUTILS_USE_PEP517=setuptools
 
+MY_P=${P/_/}
+
 inherit bash-completion-r1 distutils-r1 toolchain-funcs
 
 DESCRIPTION="Open source build system"
 HOMEPAGE="https://mesonbuild.com/"
-SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
+SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${MY_P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="deprecated-positional-arguments test"
+IUSE="deprecated-builddir-file-references deprecated-positional-arguments test"
 
 RESTRICT="!test? ( test )"
 
@@ -23,12 +25,21 @@ DEPEND="
 	test? (
 		dev-libs/glib:2
 		dev-libs/gobject-introspection:=
-		dev-util/ninja
+		app-alternatives/ninja
 		dev-vcs/git
 		sys-libs/zlib[static-libs(+)]
 		virtual/pkgconfig
 	)
 "
+RDEPEND="
+	virtual/pkgconfig
+"
+
+S=${WORKDIR}/${MY_P}
+
+PATCHES=(
+	"${FILESDIR}"/${PN}-0.63-xtools-support.patch
+)
 
 src_prepare() {
 	default
@@ -42,6 +53,12 @@ src_prepare() {
 		# 	https://github.com/mesonbuild/meson/commit/2b01a14090748c4df2d174ea9832f212f5899491
 		eapply "${FILESDIR}"/${PN}-0.60.1-i18n-merge-file-deprecate-positional-arguments.patch
 		eapply "${FILESDIR}"/${PN}-0.62.2-i18n-itstool-join-deprecate-positional-arguments.patch
+	fi
+
+	if use deprecated-builddir-file-references; then
+		# From Meson:
+		# 	https://github.com/mesonbuild/meson/commit/ca40dda1467bd8dada7dc7d729c8136f13ccd579
+		eapply "${FILESDIR}"/${PN}-0.63.3-interpreter-deprecate-builddir-file-references.patch
 	fi
 }
 

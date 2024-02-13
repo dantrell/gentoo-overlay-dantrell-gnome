@@ -25,7 +25,7 @@ DEPEND="${RDEPEND}"
 BDEPEND="
 	virtual/pkgconfig
 	gtk-doc? (
-		app-doc/doxygen
+		app-text/doxygen
 		dev-libs/libxslt
 		media-gfx/graphviz )
 "

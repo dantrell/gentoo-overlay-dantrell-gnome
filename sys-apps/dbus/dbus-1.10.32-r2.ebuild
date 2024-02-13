@@ -25,7 +25,7 @@ BDEPEND="
 	app-text/xmlto
 	app-text/docbook-xml-dtd:4.4
 	virtual/pkgconfig
-	doc? ( app-doc/doxygen )
+	doc? ( app-text/doxygen )
 "
 COMMON_DEPEND="
 	>=dev-libs/expat-2.1.0

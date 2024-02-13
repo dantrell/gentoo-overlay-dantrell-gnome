@@ -2,16 +2,26 @@
 
 EAPI="8"
 
-PYTHON_COMPAT=( python{3_10,3_11,3_12} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12} pypy3 )
 DISTUTILS_USE_PEP517=setuptools
 
+inherit verify-sig
+
+MY_PV=${PV/_/}
 MY_P=${P/_/}
+S=${WORKDIR}/${MY_P}
+
+BDEPEND="verify-sig? ( sec-keys/openpgp-keys-jpakkane )"
+VERIFY_SIG_OPENPGP_KEY_PATH=/usr/share/openpgp-keys/jpakkane.gpg
 
 inherit bash-completion-r1 distutils-r1 toolchain-funcs
 
 DESCRIPTION="Open source build system"
 HOMEPAGE="https://mesonbuild.com/"
-SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${MY_P}.tar.gz"
+SRC_URI="
+	https://github.com/mesonbuild/meson/releases/download/${MY_PV}/${MY_P}.tar.gz
+	verify-sig? ( https://github.com/mesonbuild/meson/releases/download/${MY_PV}/${MY_P}.tar.gz.asc )
+"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -25,7 +35,7 @@ DEPEND="
 	test? (
 		dev-libs/glib:2
 		dev-libs/gobject-introspection:=
-		dev-util/ninja
+		app-alternatives/ninja
 		dev-vcs/git
 		sys-libs/zlib[static-libs(+)]
 		virtual/pkgconfig
@@ -35,10 +45,17 @@ RDEPEND="
 	virtual/pkgconfig
 "
 
-S=${WORKDIR}/${MY_P}
-
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.2.1-python-path.patch
+
+	# backport fix for hiding compiler warnings (such as Modern C) in vala and cython
+	"${FILESDIR}"/0001-ninja-backend-don-t-hide-all-compiler-warnings-for-t.patch
+
+	# backport revert for broken rpath changes: https://github.com/mesonbuild/meson/pull/12672
+	"${FILESDIR}"/0001-Revert-clike-Deduplicate-rpath-linker-flags.patch
+
+	# backport macos Prefix fix: https://github.com/mesonbuild/meson/pull/12747
+	"${FILESDIR}"/meson-1.3.1-xtools-support.patch
 )
 
 src_prepare() {
@@ -47,7 +64,7 @@ src_prepare() {
 	if use deprecated-positional-arguments; then
 		# From Meson:
 		# 	https://github.com/mesonbuild/meson/commit/8b573d7dc65bf20fcb0377ce4c56841496ad0c69
-		eapply "${FILESDIR}"/${PN}-1.2.3-i18n-merge-file-do-not-disable-in-the-absence-of-gettext.patch
+		eapply "${FILESDIR}"/${PN}-1.3.1-i18n-merge-file-do-not-disable-in-the-absence-of-gettext.patch
 
 		# From Meson:
 		# 	https://github.com/mesonbuild/meson/commit/2b01a14090748c4df2d174ea9832f212f5899491
@@ -71,12 +88,6 @@ python_prepare_all() {
 		# ASAN is unsupported on some targets
 		# https://bugs.gentoo.org/692822
 		-e 's/test_pch_with_address_sanitizer/_&/'
-
-		# https://github.com/mesonbuild/meson/issues/7203
-		-e 's/test_templates/_&/'
-
-		# Broken due to python2 wrapper
-		-e 's/test_python_module/_&/'
 	)
 
 	sed -i "${disable_unittests[@]}" unittests/*.py || die
@@ -98,6 +109,11 @@ src_test() {
 
 python_test() {
 	(
+		# remove unwanted python_wrapper_setup contents
+		# We actually do want to non-error if python2 is installed and tested.
+		remove="${T}/${EPYTHON}/bin:"
+		PATH=${PATH/${remove}/}
+
 		# test_meson_installed
 		unset PYTHONDONTWRITEBYTECODE
 
@@ -117,8 +133,7 @@ python_test() {
 		# value in JAVA_HOME, and the tests should get skipped.
 		export JAVA_HOME=$(java-config -O 2>/dev/null)
 
-		# Call python3 instead of EPYTHON to satisfy test_meson_uninstalled.
-		python3 run_tests.py
+		${EPYTHON} -u run_tests.py
 	) || die "Testing failed with ${EPYTHON}"
 }
 

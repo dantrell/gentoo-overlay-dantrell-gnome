@@ -78,7 +78,7 @@ RDEPEND="${COMMON_DEPEND}
 		>=media-plugins/grilo-plugins-0.3:0.3[upnp-av] )
 "
 DEPEND="${COMMON_DEPEND}
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	>=dev-util/intltool-0.35
 	dev-util/itstool
 	virtual/pkgconfig

@@ -14,7 +14,7 @@ KEYWORDS="*"
 IUSE="+spell +archive +sound"
 
 DEPEND="
-	>=dev-util/meson-0.36
+	>=dev-build/meson-0.36
 	>=sys-devel/gettext-0.19.7
 	spell? ( app-text/gspell )
 	archive? ( app-arch/gnome-autoar )

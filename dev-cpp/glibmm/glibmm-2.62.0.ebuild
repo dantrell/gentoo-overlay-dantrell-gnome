@@ -22,7 +22,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
-	gtk-doc? ( app-doc/doxygen )
+	gtk-doc? ( app-text/doxygen )
 "
 # dev-cpp/mm-common needed for eautoreconf
 

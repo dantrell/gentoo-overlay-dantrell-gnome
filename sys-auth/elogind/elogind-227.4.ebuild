@@ -28,7 +28,7 @@ DEPEND="${COMMON_DEPEND}
 	app-text/docbook-xsl-stylesheets
 	dev-util/gperf
 	dev-util/intltool
-	sys-devel/libtool
+	dev-build/libtool
 	virtual/pkgconfig
 "
 RDEPEND="${COMMON_DEPEND}

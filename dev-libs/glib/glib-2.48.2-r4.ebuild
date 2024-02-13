@@ -22,7 +22,7 @@ LICENSE="LGPL-2.1+"
 SLOT="2/48"
 KEYWORDS="*"
 
-IUSE="dbus debug fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
+IUSE="dbus debug +elf fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
 REQUIRED_USE="
 	utils? ( ${PYTHON_REQUIRED_USE} )
 	test? ( ${PYTHON_REQUIRED_USE} )
@@ -46,17 +46,17 @@ RDEPEND="
 	utils? (
 		${PYTHON_DEPS}
 		>=dev-util/gdbus-codegen-${PV}[${PYTHON_USEDEP}]
-		!kernel_Winnt? ( virtual/libelf:0= )
+		elf? ( virtual/libelf:0= )
 	)
 "
 DEPEND="${RDEPEND}
 	app-text/docbook-xml-dtd:4.1.2
 	>=dev-libs/libxslt-1.0
 	>=sys-devel/gettext-0.11
-	>=dev-util/gtk-doc-am-1.20
-	systemtap? ( >=dev-util/systemtap-1.3 )
+	>=dev-build/gtk-doc-am-1.20
+	systemtap? ( >=dev-debug/systemtap-1.3 )
 	test? (
-		sys-devel/gdb
+		dev-debug/gdb
 		${PYTHON_DEPS}
 		>=dev-util/gdbus-codegen-${PV}[${PYTHON_USEDEP}]
 		>=sys-apps/dbus-1.2.14 )
@@ -117,15 +117,15 @@ src_prepare() {
 	fi
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/c7f46997351805e436803ac74a49a88aa1602579
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/ba18667bb467ef4734f5d8a9bbeabcad39be4ecc
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/1ff79690fbd57a1029918ff37b7890b1096854b6
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/0d1eecddd4a87f4fcf6273e0ca95f11019582778
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/4e1567a079c13036320802f49ee8f78f78d0273a
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/8e23a514b02c67104f03545dec58116f00087229
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/8e8f4e6486c1578ae15d63835acd06f237324a6d
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/c79c234c352ff748056a30da6d4a49de0d2f878d
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/359b27d441a4dd701260d041e633e7241c314627
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/c7f46997351805e436803ac74a49a88aa1602579
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/ba18667bb467ef4734f5d8a9bbeabcad39be4ecc
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/1ff79690fbd57a1029918ff37b7890b1096854b6
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/0d1eecddd4a87f4fcf6273e0ca95f11019582778
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/4e1567a079c13036320802f49ee8f78f78d0273a
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/8e23a514b02c67104f03545dec58116f00087229
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/8e8f4e6486c1578ae15d63835acd06f237324a6d
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/c79c234c352ff748056a30da6d4a49de0d2f878d
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/359b27d441a4dd701260d041e633e7241c314627
 	eapply "${FILESDIR}"/${PN}-2.50.1-unicode-update-break-mappings.patch
 	eapply "${FILESDIR}"/${PN}-2.50.1-unicode-update-to-unicode-9-0-0.patch
 	eapply "${FILESDIR}"/${PN}-2.50.1-unicode-update-test-data-files-for-unicode-9-0-0.patch
@@ -137,7 +137,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-2.57.2-unicode-update-test-data-files-for-unicode-11-0-0.patch
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/merge_requests/411
+	# 	https://gitlab.gnome.org/GNOME/glib/-/merge_requests/411
 	# 	https://www.openwall.com/lists/oss-security/2018/10/23/5
 	eapply "${FILESDIR}"/${PN}-2.46.2-various-gvariant-gmarkup-and-gdbus-fuzzing-fixes.patch
 
@@ -145,7 +145,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-2.50.3-fix-gdatetime-tests.patch
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174 (CVE-2019-12450)
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174 (CVE-2019-12450)
 	eapply "${FILESDIR}"/${PN}-2.61.1-gfile-limit-access-to-files-when-copying.patch
 
 	# gdbus-codegen is a separate package

@@ -49,7 +49,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 BDEPEND="
 	${PYTHON_DEPS}
-	>=dev-util/gtk-doc-am-1.17
+	>=dev-build/gtk-doc-am-1.17
 	dev-libs/libxslt
 	virtual/pkgconfig
 "

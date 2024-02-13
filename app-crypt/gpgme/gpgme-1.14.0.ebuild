@@ -24,7 +24,7 @@ RDEPEND=">=app-crypt/gnupg-2
 	>=dev-libs/libgpg-error-1.29:=
 	python? ( ${PYTHON_DEPS} )
 	qt5? ( dev-qt/qtcore:5 )"
-	#doc? ( app-doc/doxygen[dot] )
+	#doc? ( app-text/doxygen[dot] )
 DEPEND="${RDEPEND}
 	qt5? ( dev-qt/qttest:5 )"
 BDEPEND="python? ( dev-lang/swig )"

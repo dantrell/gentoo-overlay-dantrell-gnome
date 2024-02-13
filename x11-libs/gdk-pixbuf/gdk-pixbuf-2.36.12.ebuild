@@ -32,7 +32,7 @@ RDEPEND="${DEPEND}
 	!<x11-libs/gtk+-2.90.4:3
 "
 DEPEND="${DEPEND}
-	>=dev-util/gtk-doc-am-1.20
+	>=dev-build/gtk-doc-am-1.20
 	>=sys-devel/gettext-0.19
 	virtual/pkgconfig
 "

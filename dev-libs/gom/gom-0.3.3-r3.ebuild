@@ -23,7 +23,7 @@ RDEPEND="${PYTHON_DEPS}
 "
 DEPEND="${RDEPEND}
 	!doc? ( >=dev-util/gtk-doc-1.14 )
-	doc? ( >=dev-util/gtk-doc-am-1.14 )
+	doc? ( >=dev-build/gtk-doc-am-1.14 )
 	>=dev-util/intltool-0.40.0
 	sys-devel/gettext
 	virtual/pkgconfig
@@ -32,7 +32,7 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/gom/commit/e8b7c314ce61d459132cf03c9e455d2a01fdc6ea
+	# 	https://gitlab.gnome.org/GNOME/gom/-/commit/e8b7c314ce61d459132cf03c9e455d2a01fdc6ea
 	"${FILESDIR}"/${PN}-0.3.3-bindings-get-the-right-python-overrides-install-dir.patch
 )
 

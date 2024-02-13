@@ -27,7 +27,7 @@ DEPEND="${RDEPEND}"
 BDEPEND="
 	${PYTHON_DEPS}
 	vala? ( $(vala_depend) )
-	>=dev-util/meson-0.59.0
+	>=dev-build/meson-0.59.0
 	sys-devel/gettext
 	virtual/pkgconfig
 "

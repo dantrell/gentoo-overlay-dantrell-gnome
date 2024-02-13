@@ -20,7 +20,7 @@ RDEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-0.6.7:= )
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.4
+	>=dev-build/gtk-doc-am-1.4
 "
 BDEPEND="
 	>=dev-util/intltool-0.40.4

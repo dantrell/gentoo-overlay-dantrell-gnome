@@ -42,7 +42,7 @@ DEPEND="${RDEPEND}"
 
 BDEPEND="
 	${PYTHON_DEPS}
-	>=dev-util/gtk-doc-am-1.12
+	>=dev-build/gtk-doc-am-1.12
 "
 
 # Fixes backported to 1.18.x, to be removed in 1.18.7

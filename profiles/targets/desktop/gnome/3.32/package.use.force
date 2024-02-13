@@ -1,5 +1,5 @@
-dev-util/meson deprecated-builddir-file-references
-dev-util/meson deprecated-positional-arguments
+dev-build/meson deprecated-builddir-file-references
+dev-build/meson deprecated-positional-arguments
 gnome-base/gnome-shell vanilla-gc
 net-libs/glib-networking smartcard
 net-libs/gnutls pkcs11

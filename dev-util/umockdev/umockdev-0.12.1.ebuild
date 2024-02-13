@@ -28,7 +28,7 @@ DEPEND="${RDEPEND}
 	)
 	app-arch/xz-utils
 	dev-libs/libgudev[${MULTILIB_USEDEP}]
-	>=dev-util/gtk-doc-am-1.14
+	>=dev-build/gtk-doc-am-1.14
 	virtual/pkgconfig
 "
 

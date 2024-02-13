@@ -142,10 +142,10 @@ fi
 
 case ${CMAKE_MAKEFILE_GENERATOR} in
 	emake)
-		BDEPEND="sys-devel/make"
+		BDEPEND="dev-build/make"
 		;;
 	ninja)
-		BDEPEND="dev-util/ninja"
+		BDEPEND="dev-build/ninja"
 		;;
 	*)
 		eerror "Unknown value for \${CMAKE_MAKEFILE_GENERATOR}"
@@ -154,7 +154,7 @@ case ${CMAKE_MAKEFILE_GENERATOR} in
 esac
 
 if [[ ${PN} != cmake ]]; then
-	BDEPEND+=" >=dev-util/cmake-${CMAKE_MIN_VERSION}"
+	BDEPEND+=" >=dev-build/cmake-${CMAKE_MIN_VERSION}"
 fi
 
 case ${EAPI} in
@@ -257,13 +257,13 @@ _cmake_generator_to_use() {
 			# this could happen if ninja is manually enabled (eg. make.conf) but not installed
 			case ${EAPI} in
 				5|6)
-					if ! ROOT=/ has_version dev-util/ninja; then
-						die "CMAKE_MAKEFILE_GENERATOR is set to ninja, but ninja is not installed. Please install dev-util/ninja or unset CMAKE_MAKEFILE_GENERATOR."
+					if ! ROOT=/ has_version dev-build/ninja; then
+						die "CMAKE_MAKEFILE_GENERATOR is set to ninja, but ninja is not installed. Please install dev-build/ninja or unset CMAKE_MAKEFILE_GENERATOR."
 					fi
 				;;
 				*)
-					if ! has_version -b dev-util/ninja; then
-						die "CMAKE_MAKEFILE_GENERATOR is set to ninja, but ninja is not installed. Please install dev-util/ninja or unset CMAKE_MAKEFILE_GENERATOR."
+					if ! has_version -b dev-build/ninja; then
+						die "CMAKE_MAKEFILE_GENERATOR is set to ninja, but ninja is not installed. Please install dev-build/ninja or unset CMAKE_MAKEFILE_GENERATOR."
 					fi
 				;;
 			esac

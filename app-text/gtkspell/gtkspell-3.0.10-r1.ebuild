@@ -28,7 +28,7 @@ RDEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-1.30:= )"
 DEPEND="${RDEPEND}"
 BDEPEND="
-	>=dev-util/gtk-doc-am-1.17
+	>=dev-build/gtk-doc-am-1.17
 	>=dev-util/intltool-0.35.0
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )"

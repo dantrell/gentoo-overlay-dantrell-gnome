@@ -25,7 +25,7 @@ DEPEND="
 	test? (
 		dev-libs/glib:2
 		dev-libs/gobject-introspection:=
-		dev-util/ninja
+		app-alternatives/ninja
 		dev-vcs/git
 		sys-libs/zlib[static-libs(+)]
 		virtual/pkgconfig
@@ -38,7 +38,7 @@ RDEPEND="
 S=${WORKDIR}/${MY_P}
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-0.63-xtools-support.patch
+	"${FILESDIR}"/${PN}-1.2.1-python-path.patch
 )
 
 src_prepare() {
@@ -47,12 +47,12 @@ src_prepare() {
 	if use deprecated-positional-arguments; then
 		# From Meson:
 		# 	https://github.com/mesonbuild/meson/commit/8b573d7dc65bf20fcb0377ce4c56841496ad0c69
-		eapply "${FILESDIR}"/${PN}-0.62.2-i18n-merge-file-do-not-disable-in-the-absence-of-gettext.patch
+		eapply "${FILESDIR}"/${PN}-1.2.3-i18n-merge-file-do-not-disable-in-the-absence-of-gettext.patch
 
 		# From Meson:
 		# 	https://github.com/mesonbuild/meson/commit/2b01a14090748c4df2d174ea9832f212f5899491
-		eapply "${FILESDIR}"/${PN}-0.60.1-i18n-merge-file-deprecate-positional-arguments.patch
-		eapply "${FILESDIR}"/${PN}-0.62.2-i18n-itstool-join-deprecate-positional-arguments.patch
+		eapply "${FILESDIR}"/${PN}-1.2.3-i18n-merge-file-deprecate-positional-arguments.patch
+		eapply "${FILESDIR}"/${PN}-1.2.3-i18n-itstool-join-deprecate-positional-arguments.patch
 	fi
 
 	if use deprecated-builddir-file-references; then

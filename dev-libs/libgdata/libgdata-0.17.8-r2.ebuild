@@ -32,9 +32,9 @@ RDEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-0.9.7:= )
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.25
+	>=dev-build/gtk-doc-am-1.25
 	>=dev-util/intltool-0.40
-	sys-devel/autoconf-archive
+	dev-build/autoconf-archive
 	virtual/pkgconfig
 	test? (
 		>=net-libs/libsoup-2.55.90:2.4[introspection?]
@@ -47,8 +47,8 @@ DEPEND="${RDEPEND}
 src_prepare() {
 	if has_version "<net-libs/libsoup-2.55.90:2.4"; then
 		# From GNOME:
-		# 	https://gitlab.gnome.org/GNOME/libgdata/commit/b87141e748b108cd9e56a70635a6ade097d54ab5
-		# 	https://gitlab.gnome.org/GNOME/libgdata/commit/b1115818eb0aa8d8f171df06c7a2e9a6fbac073c
+		# 	https://gitlab.gnome.org/GNOME/libgdata/-/commit/b87141e748b108cd9e56a70635a6ade097d54ab5
+		# 	https://gitlab.gnome.org/GNOME/libgdata/-/commit/b1115818eb0aa8d8f171df06c7a2e9a6fbac073c
 		eapply -R "${FILESDIR}"/${PN}-0.17.8-use-the-correct-type-for-gtk-show-uri-for-window.patch
 		eapply -R "${FILESDIR}"/${PN}-0.17.8-demos-use-non-deprecated-api.patch
 	fi

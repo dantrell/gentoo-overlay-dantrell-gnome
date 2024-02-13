@@ -25,7 +25,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 # libxml2 required for glib-compile-resources
 BDEPEND="
-	>=dev-util/meson-0.49.0
+	>=dev-build/meson-0.49.0
 	vala? ( $(vala_depend) )
 	dev-libs/libxml2:2
 	>=sys-devel/gettext-0.19.8

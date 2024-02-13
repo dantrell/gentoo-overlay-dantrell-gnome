@@ -25,7 +25,7 @@ RDEPEND=">=dev-libs/dbus-glib-0.100
 	skyhook? ( net-libs/libsoup )"
 DEPEND="${RDEPEND}"
 BDEPEND="
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	virtual/pkgconfig"
 
 PATCHES=(

@@ -80,7 +80,7 @@ BDEPEND="
 	dev-libs/gobject-introspection-common
 	dev-libs/libxslt
 	>=dev-util/gdbus-codegen-2.48
-	>=dev-util/gtk-doc-am-1.20
+	>=dev-build/gtk-doc-am-1.20
 	wayland? ( dev-util/wayland-scanner )
 	>=sys-devel/gettext-0.19.7
 	virtual/pkgconfig
@@ -116,7 +116,7 @@ multilib_src_configure() {
 		-Dprint_backends=$(usex cups cups,file,lpr file,lpr)
 		-Dxinerama=$(usex xinerama yes no)
 		# Include backend immodules into gtk itself, to avoid problems like
-		# https://gitlab.gnome.org/GNOME/gnome-shell/issues/109 from a
+		# https://gitlab.gnome.org/GNOME/gnome-shell/-/issues/109 from a
 		# user overridden GTK_IM_MODULE envvar
 		-Dbuiltin_immodules=backend
 		-Dman=true

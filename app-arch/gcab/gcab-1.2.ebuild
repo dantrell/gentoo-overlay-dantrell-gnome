@@ -23,7 +23,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 BDEPEND="
 	doc? (
-		>=dev-util/gtk-doc-am-1.14
+		>=dev-build/gtk-doc-am-1.14
 	)
 	>=dev-util/intltool-0.40
 	sys-devel/gettext

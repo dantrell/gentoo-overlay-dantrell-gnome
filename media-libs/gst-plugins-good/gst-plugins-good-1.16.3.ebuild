@@ -22,7 +22,7 @@ RDEPEND="
 	orc? ( >=dev-lang/orc-0.4.17[${MULTILIB_USEDEP}] )
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.12
+	>=dev-build/gtk-doc-am-1.12
 "
 
 multilib_src_configure() {

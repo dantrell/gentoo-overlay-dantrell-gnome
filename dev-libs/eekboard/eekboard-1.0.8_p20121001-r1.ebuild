@@ -34,7 +34,7 @@ RDEPEND="app-accessibility/at-spi2-core
 DEPEND="${RDEPEND}"
 BDEPEND="${PYTHON_DEPS}
 	dev-util/gtk-doc
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	dev-util/intltool
 	sys-devel/gettext
 	virtual/pkgconfig"

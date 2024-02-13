@@ -24,7 +24,7 @@ RDEPEND="
 	!<net-libs/gupnp-vala-0.10.3
 "
 DEPEND="${RDEPEND}
-	>=dev-util/gtk-doc-am-1.14
+	>=dev-build/gtk-doc-am-1.14
 	sys-devel/gettext
 	virtual/pkgconfig
 "

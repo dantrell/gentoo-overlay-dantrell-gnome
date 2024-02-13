@@ -40,13 +40,13 @@ DEPEND="${COMMON_DEPEND}
 BDEPEND="
 	app-text/docbook-xsl-stylesheets
 	>=dev-util/gdbus-codegen-2.32
-	>=dev-util/gtk-doc-am-1.3
+	>=dev-build/gtk-doc-am-1.3
 	virtual/pkgconfig
 	nls? ( >=sys-devel/gettext-0.19.8 )
 "
 # If adding a eautoreconf, then these might be needed at buildtime:
 # dev-libs/gobject-introspection-common
-# sys-devel/autoconf-archive
+# dev-build/autoconf-archive
 
 pkg_setup() {
 	# Listing only major arch's here to avoid tracking kernel's defconfig

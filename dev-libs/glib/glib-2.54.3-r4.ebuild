@@ -22,7 +22,7 @@ LICENSE="LGPL-2.1+"
 SLOT="2/54"
 KEYWORDS="*"
 
-IUSE="dbus debug fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
+IUSE="dbus debug +elf fam kernel_linux +mime selinux static-libs systemtap test utils xattr"
 REQUIRED_USE="
 	${PYTHON_REQUIRED_USE}
 	test? ( ${PYTHON_REQUIRED_USE} )
@@ -48,16 +48,16 @@ RDEPEND="
 	xattr? ( >=sys-apps/attr-2.4.47-r1[${MULTILIB_USEDEP}] )
 	fam? ( >=virtual/fam-0-r1[${MULTILIB_USEDEP}] )
 	${PYTHON_DEPS}
-	!kernel_Winnt? ( virtual/libelf:0= )
+	elf? ( virtual/libelf:0= )
 "
 DEPEND="${RDEPEND}
 	app-text/docbook-xml-dtd:4.1.2
 	>=dev-libs/libxslt-1.0
 	>=sys-devel/gettext-0.11
-	>=dev-util/gtk-doc-am-1.20
-	systemtap? ( >=dev-util/systemtap-1.3 )
+	>=dev-build/gtk-doc-am-1.20
+	systemtap? ( >=dev-debug/systemtap-1.3 )
 	test? (
-		sys-devel/gdb
+		dev-debug/gdb
 		${PYTHON_DEPS}
 		>=sys-apps/dbus-1.2.14 )
 	!<dev-util/gtk-doc-1.15-r2
@@ -118,20 +118,20 @@ src_prepare() {
 	fi
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/8e8f4e6486c1578ae15d63835acd06f237324a6d
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/c79c234c352ff748056a30da6d4a49de0d2f878d
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/359b27d441a4dd701260d041e633e7241c314627
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/8e8f4e6486c1578ae15d63835acd06f237324a6d
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/c79c234c352ff748056a30da6d4a49de0d2f878d
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/359b27d441a4dd701260d041e633e7241c314627
 	eapply "${FILESDIR}"/${PN}-2.55.0-docs-fix-various-minor-syntax-errors-in-gtk-doc-comments.patch
 	eapply "${FILESDIR}"/${PN}-2.57.2-unicode-update-to-unicode-11-0-0.patch
 	eapply "${FILESDIR}"/${PN}-2.57.2-unicode-update-test-data-files-for-unicode-11-0-0.patch
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/merge_requests/411
+	# 	https://gitlab.gnome.org/GNOME/glib/-/merge_requests/411
 	# 	https://www.openwall.com/lists/oss-security/2018/10/23/5
 	eapply "${FILESDIR}"/${PN}-2.52.3-various-gvariant-gmarkup-and-gdbus-fuzzing-fixes.patch
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/glib/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174 (CVE-2019-12450)
+	# 	https://gitlab.gnome.org/GNOME/glib/-/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174 (CVE-2019-12450)
 	eapply "${FILESDIR}"/${PN}-2.61.1-gfile-limit-access-to-files-when-copying.patch
 
 	# Leave python shebang alone - handled by python_replicate_script

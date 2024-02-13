@@ -93,7 +93,7 @@ RDEPEND="${COMMON_DEPEND}
 "
 DEPEND="${COMMON_DEPEND}
 	app-text/yelp-tools
-	dev-util/gtk-doc-am
+	dev-build/gtk-doc-am
 	>=dev-util/intltool-0.35
 	>=app-text/gnome-doc-utils-0.9.1
 	virtual/pkgconfig
@@ -109,7 +109,7 @@ src_prepare() {
 	rm -v lib/rb-marshal.{c,h} || die
 
 	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/rhythmbox/commit/b182c6b9e1d09e601bac0b703cc5f8b159ebbc3a
+	# 	https://gitlab.gnome.org/GNOME/rhythmbox/-/commit/b182c6b9e1d09e601bac0b703cc5f8b159ebbc3a
 	#eapply "${FILESDIR}"/${PN}-3.4.3-fmradio-fix-build-with-gstreamer-master.patch
 	eapply "${FILESDIR}"/${PN}-3.4.2-gstreamer-1.14.patch
 

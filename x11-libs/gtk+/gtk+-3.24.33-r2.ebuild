@@ -90,7 +90,7 @@ BDEPEND="
 	dev-libs/gobject-introspection-common
 	dev-libs/libxslt
 	>=dev-util/gdbus-codegen-2.48
-	>=dev-util/gtk-doc-am-1.20
+	>=dev-build/gtk-doc-am-1.20
 	>=sys-devel/gettext-0.19.7
 	virtual/pkgconfig
 	x11-libs/gdk-pixbuf:2
@@ -180,7 +180,7 @@ multilib_src_configure() {
 	if use wayland; then
 		myconf+=(
 			# Include wayland immodule into gtk itself, to avoid problems like
-			# https://gitlab.gnome.org/GNOME/gnome-shell/issues/109 from a
+			# https://gitlab.gnome.org/GNOME/gnome-shell/-/issues/109 from a
 			# user overridden GTK_IM_MODULE envvar
 			--with-included-immodules=wayland
 		)

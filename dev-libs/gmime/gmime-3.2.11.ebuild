@@ -30,7 +30,7 @@ DEPEND="${RDEPEND}
 	virtual/libiconv
 "
 BDEPEND="
-	>=dev-util/gtk-doc-am-1.8
+	>=dev-build/gtk-doc-am-1.8
 	virtual/pkgconfig
 	doc? ( app-text/docbook-sgml-utils )
 	test? ( app-crypt/gnupg )
