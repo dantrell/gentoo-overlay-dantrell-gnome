@@ -164,7 +164,7 @@
 ~x11-libs/vte-0.70.3::dantrell-gnome-43
 ~x11-misc/gpaste-42.1::dantrell-gnome-43
 ~x11-terms/gnome-terminal-3.46.8::dantrell-gnome-43
-~x11-themes/adwaita-icon-theme-42.0_p2::dantrell-gnome-43
+~x11-themes/adwaita-icon-theme-43_p1::dantrell-gnome-43
 ~x11-themes/gnome-backgrounds-43.1::dantrell-gnome-43
 ~x11-themes/gnome-themes-extra-3.28::dantrell-gnome
 ~x11-wm/metacity-3.46.1::dantrell-gnome-43

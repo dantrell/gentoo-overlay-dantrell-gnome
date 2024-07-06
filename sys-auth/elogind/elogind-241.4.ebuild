@@ -81,7 +81,7 @@ src_configure() {
 		-Ddefault-hierarchy=${cgroupmode}
 		-Ddefault-kill-user-processes=false
 		-Dacl=$(usex acl true false)
-		--buildtype $(usex debug debug release)
+		-Dbuildtype=$(usex debug debug release)
 		-Dhtml=$(usex doc auto false)
 		-Dpam=$(usex pam true false)
 		-Dselinux=$(usex selinux true false)
