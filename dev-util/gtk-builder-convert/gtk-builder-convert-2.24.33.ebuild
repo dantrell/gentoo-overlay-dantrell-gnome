@@ -3,7 +3,7 @@
 EAPI="7"
 
 GNOME_ORG_MODULE="gtk+"
-PYTHON_COMPAT=( python{3_10,3_11,3_12} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12,3_13} )
 PYTHON_REQ_USE="xml(+)"
 
 inherit gnome.org python-single-r1

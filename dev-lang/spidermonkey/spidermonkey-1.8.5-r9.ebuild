@@ -50,9 +50,6 @@ PATCHES=(
 	"${WORKDIR}"/sm0/${PN}-1.8.5-perf_event-check.patch
 	# https://bugs.gentoo.org/439260
 	"${WORKDIR}"/sm0/${P}-symbol-versions.patch
-	# https://bugs.gentoo.org/441934
-	"${WORKDIR}"/sm0/${PN}-1.8.5-ia64-fix.patch
-	"${WORKDIR}"/sm0/${PN}-1.8.5-ia64-static-strings.patch
 	# https://bugs.gentoo.org/431560
 	"${WORKDIR}"/sm0/${PN}-1.8.5-isfinite.patch
 	# https://bugs.gentoo.org/552786

@@ -2,7 +2,7 @@
 
 EAPI="7"
 GST_ORG_MODULE="gst-plugins-bad"
-PYTHON_COMPAT=( python{3_10,3_11,3_12} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12,3_13} )
 
 inherit gstreamer-meson python-any-r1
 

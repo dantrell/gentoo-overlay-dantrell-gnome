@@ -21,7 +21,7 @@ KEYWORDS="*"
 
 IUSE="debug icu jit minimal static-libs +system-icu test"
 
-RESTRICT="!test? ( test ) ia64? ( test )"
+RESTRICT="!test? ( test )"
 
 RDEPEND=">=dev-libs/nspr-4.9.4
 	dev-libs/libffi:=

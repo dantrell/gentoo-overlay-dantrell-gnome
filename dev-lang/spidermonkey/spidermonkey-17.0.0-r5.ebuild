@@ -22,7 +22,7 @@ KEYWORDS="*"
 IUSE="debug jit minimal static-libs test"
 REQUIRED_USE="debug? ( jit )"
 
-RESTRICT="!test? ( test ) ia64? ( test )"
+RESTRICT="!test? ( test )"
 
 RDEPEND=">=dev-libs/nspr-4.9.4
 	dev-libs/libffi:=

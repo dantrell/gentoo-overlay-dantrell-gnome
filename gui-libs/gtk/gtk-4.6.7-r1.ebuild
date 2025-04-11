@@ -2,7 +2,7 @@
 
 EAPI="8"
 
-PYTHON_COMPAT=( python{3_10,3_11,3_12} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12,3_13} )
 
 inherit gnome.org gnome2-utils meson optfeature python-any-r1 virtualx xdg
 

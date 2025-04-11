@@ -2,7 +2,7 @@
 
 EAPI="7"
 PYTHON_REQ_USE="xml(+)"
-PYTHON_COMPAT=( python{3_10,3_11,3_12} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12,3_13} )
 USE_RUBY="ruby27 ruby30 ruby31 ruby32"
 
 inherit check-reqs cmake flag-o-matic gnome2 pax-utils python-any-r1 ruby-single toolchain-funcs virtualx
@@ -112,7 +112,7 @@ BDEPEND="
 	>=app-accessibility/at-spi2-core-2.5.3
 	>=dev-util/gperf-3.0.1
 	>=sys-devel/bison-2.4.3
-	|| ( >=sys-devel/gcc-7.5 >=sys-devel/clang-5 )
+	|| ( >=sys-devel/gcc-7.5 >=llvm-core/clang-5 )
 	sys-devel/gettext
 	virtual/pkgconfig
 
@@ -190,9 +190,6 @@ src_configure() {
 	# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=648761
 	use alpha && append-ldflags "-Wl,--no-relax"
 
-	# ld segfaults on ia64 with LDFLAGS --as-needed, bug #555504
-	use ia64 && append-ldflags "-Wl,--no-as-needed"
-
 	# Sigbuses on SPARC with mcpu and co., bug #???
 	use sparc && filter-flags "-mvis"
 
@@ -200,10 +197,7 @@ src_configure() {
 	use ppc64 && append-flags "-mminimal-toc"
 
 	# Try to use less memory, bug #469942 (see Fedora .spec for reference)
-	# --no-keep-memory doesn't work on ia64, bug #502492
-	if ! use ia64; then
-		append-ldflags "-Wl,--no-keep-memory"
-	fi
+	append-ldflags "-Wl,--no-keep-memory"
 
 	# Ruby situation is a bit complicated. See bug 513888
 	local rubyimpl

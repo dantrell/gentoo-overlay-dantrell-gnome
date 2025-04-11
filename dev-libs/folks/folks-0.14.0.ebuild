@@ -3,7 +3,7 @@
 EAPI="7"
 VALA_USE_DEPEND="vapigen"
 VALA_MAX_API_VERSION="0.48"
-PYTHON_COMPAT=( python{3_10,3_11,3_12} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12,3_13} )
 
 inherit gnome.org gnome2-utils meson python-any-r1 vala xdg
 

@@ -2,7 +2,7 @@
 
 EAPI="8"
 
-PYTHON_COMPAT=( python{3_10,3_11,3_12} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12,3_13} )
 PYTHON_REQ_USE="xml(+)"
 
 inherit meson-multilib python-any-r1 vala

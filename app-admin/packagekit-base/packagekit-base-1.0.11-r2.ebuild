@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-PYTHON_COMPAT=( python{3_10,3_11,3_12} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12,3_13} )
 VALA_USE_DEPEND="vapigen"
 
 inherit autotools bash-completion-r1 multilib nsplugins python-single-r1 systemd vala xdg

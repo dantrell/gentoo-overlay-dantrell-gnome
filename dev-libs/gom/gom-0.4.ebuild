@@ -2,7 +2,7 @@
 
 EAPI="7"
 GCONF_DEBUG="yes"
-PYTHON_COMPAT=( python{3_10,3_11,3_12} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12,3_13} )
 
 inherit gnome.org meson python-r1
 

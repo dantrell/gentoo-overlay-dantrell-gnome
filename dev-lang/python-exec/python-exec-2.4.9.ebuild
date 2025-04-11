@@ -2,7 +2,7 @@
 
 EAPI="7"
 
-PYTHON_COMPAT=( python{3_10,3_11,3_12} pypy3 )
+PYTHON_COMPAT=( python{3_10,3_11,3_12,3_13} pypy3 )
 
 inherit python-any-r1
 

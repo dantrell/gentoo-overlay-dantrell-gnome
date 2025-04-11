@@ -2,7 +2,7 @@
 
 EAPI="6"
 VALA_USE_DEPEND="vapigen"
-PYTHON_COMPAT=( python{3_10,3_11,3_12} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12,3_13} )
 
 inherit flag-o-matic gnome2 python-any-r1 vala virtualx
 

@@ -43,12 +43,6 @@ src_prepare() {
 }
 
 multilib_src_configure() {
-	# Bug 48839: pam fails to build on ia64
-	# The problem is that it attempts to link a shared object against
-	# libglib.a; this library needs to be built with -fPIC.  Since
-	# this package doesn't contain any significant binaries, build the
-	# whole thing with -fPIC (23 Apr 2004 agriffis)
-	append-flags -fPIC
 	append-cflags -std=gnu89
 
 	ECONF_SOURCE="${S}" \

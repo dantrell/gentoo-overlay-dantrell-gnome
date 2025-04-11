@@ -8,7 +8,7 @@ SPIDERMONKEY_PATCHSET="spidermonkey-78-patches-05.tar.xz"
 
 LLVM_MAX_SLOT=17
 
-PYTHON_COMPAT=( python{3_10,3_11,3_12} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12,3_13} )
 PYTHON_REQ_USE="ssl,xml(+)"
 
 WANT_AUTOCONF="2.1"
@@ -71,43 +71,43 @@ RESTRICT="!test? ( test )"
 BDEPEND="${PYTHON_DEPS}
 	|| (
 		(
-			sys-devel/llvm:19
+			llvm-core/llvm:19
 			clang? (
-				sys-devel/clang:19
-				sys-devel/lld:19
+				llvm-core/clang:19
+				llvm-core/lld:19
 				virtual/rust:0/llvm-19
 			)
 		)
 		(
-			sys-devel/llvm:18
+			llvm-core/llvm:18
 			clang? (
-				sys-devel/clang:18
-				sys-devel/lld:18
+				llvm-core/clang:18
+				llvm-core/lld:18
 				virtual/rust:0/llvm-18
 			)
 		)
 		(
-			sys-devel/llvm:17
+			llvm-core/llvm:17
 			clang? (
-				sys-devel/clang:17
-				sys-devel/lld:17
+				llvm-core/clang:17
+				llvm-core/lld:17
 				virtual/rust:0/llvm-17
 			)
 		)
 		(
-			sys-devel/llvm:16
+			llvm-core/llvm:16
 			clang? (
-				sys-devel/clang:16
-				sys-devel/lld:16
+				llvm-core/clang:16
+				llvm-core/lld:16
 				virtual/rust:0/llvm-16
 			)
 		)
 		(
-			sys-devel/llvm:15
+			llvm-core/llvm:15
 			clang? (
-				sys-devel/clang:15
+				llvm-core/clang:15
 				virtual/rust:0/llvm-15
-				lto? ( sys-devel/lld:15 )
+				lto? ( llvm-core/lld:15 )
 			)
 		)
 	)
@@ -125,14 +125,14 @@ RDEPEND="${DEPEND}"
 S="${WORKDIR}/firefox-${MY_PV}/js/src"
 
 llvm_check_deps() {
-	if ! has_version -b "sys-devel/llvm:${LLVM_SLOT}" ; then
-		einfo "sys-devel/llvm:${LLVM_SLOT} is missing! Cannot use LLVM slot ${LLVM_SLOT} ..." >&2
+	if ! has_version -b "llvm-core/llvm:${LLVM_SLOT}" ; then
+		einfo "llvm-core/llvm:${LLVM_SLOT} is missing! Cannot use LLVM slot ${LLVM_SLOT} ..." >&2
 		return 1
 	fi
 
 	if use clang ; then
-		if ! has_version -b "sys-devel/clang:${LLVM_SLOT}" ; then
-			einfo "sys-devel/clang:${LLVM_SLOT} is missing! Cannot use LLVM slot ${LLVM_SLOT} ..." >&2
+		if ! has_version -b "llvm-core/clang:${LLVM_SLOT}" ; then
+			einfo "llvm-core/clang:${LLVM_SLOT} is missing! Cannot use LLVM slot ${LLVM_SLOT} ..." >&2
 			return 1
 		fi
 
@@ -142,8 +142,8 @@ llvm_check_deps() {
 		fi
 
 		if use lto ; then
-			if ! has_version -b "sys-devel/lld:${LLVM_SLOT}" ; then
-				einfo "sys-devel/lld:${LLVM_SLOT} is missing! Cannot use LLVM slot ${LLVM_SLOT} ..." >&2
+			if ! has_version -b "llvm-core/lld:${LLVM_SLOT}" ; then
+				einfo "llvm-core/lld:${LLVM_SLOT} is missing! Cannot use LLVM slot ${LLVM_SLOT} ..." >&2
 				return 1
 			fi
 		fi

@@ -43,7 +43,6 @@ QA_PREBUILT='*[.]go'
 PATCHES=(
 	"${FILESDIR}"/${PN}-2-snarf.patch
 	"${FILESDIR}"/${PN}-2.0.14-darwin.patch
-	"${FILESDIR}"/${PN}-2.0.14-ia64-fix-crash-thread-context-switch.patch
 	"${FILESDIR}"/${PN}-2.0.14-configure-clang16.patch
 )
 

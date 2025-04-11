@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python{3_10,3_11,3_12} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12,3_13} )
 VALA_MIN_API_VERSION="0.40"
 
 inherit gnome.org gnome2-utils meson python-r1 vala xdg-utils
